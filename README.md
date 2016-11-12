@@ -38,7 +38,7 @@ The author of the Especia code is
 
 **Ralf Quast**
 
-affiliated with (1998 - 2006)
+affiliated (1998 - 2006) with
 
 *Universität Hamburg, Hamburger Sternwarte, 21029 Hamburg, Germany*
 
@@ -48,8 +48,9 @@ This project is licensed under [The MIT License (MIT)](http://opensource.org/lic
 
 ## Acknowledgements
 
-The use of this software in the works listed below (and a few others not listed) is gratefully
-acknowledged.
+This software has been developed as part of research funded by the Verbundforschung of the BMBF/DLR
+under Grant No. 50 OR9911 1. The use of this software in the works listed below (and a few others
+not listed) is gratefully acknowledged.
 
 1. Fine-structure diagnostics of neutral carbon toward  HE 0515-4414.
    R. Quast, R. Baade and D. Reimers.
