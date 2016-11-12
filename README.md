@@ -10,8 +10,8 @@ spectral decomposition without requiring any particular initialisation.
 
 The code is further explained in
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
-The provided example and test case uses an artificial spectrum synthesised on basis
-of data described and analysed by
+The provided example uses an artificial spectrum synthesised on basis of data
+described and analysed by
 [Quast et al. (2002)](http://dx.doi.org/10.1051/0004-6361:20020342).
 
 ## Getting Started
