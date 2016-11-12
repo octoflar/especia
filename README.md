@@ -35,7 +35,7 @@ example, version 2016.1 denotes the first release of the year 2016.
 
 The author of the Especia code is **Ralf Quast** affiliated (1998 - 2006) with
 *Universität Hamburg, Hamburger Sternwarte, 21029 Hamburg, Germany*. To acknowledge
-the use of Especia please cite:
+the use of this software please cite:
 
 Quast, Ralf (2016): *Evolutionary spectrum inversion and analysis (Especia).* figshare.
 [https://dx.doi.org/10.6084/m9.figshare.4167999](https://dx.doi.org/10.6084/m9.figshare.4167999).
