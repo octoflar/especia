@@ -16,7 +16,7 @@ of data described and analysed by
 
 ## Getting Started
 
-To build test and install the software type
+To build, test, and install the software type
 
     make
     make test
@@ -29,7 +29,7 @@ this software may be useful for you.
 
 Release versions YYYY.N are numbered by the year of the release follwowed by an
 single-digit number, which enumerates the release within the release year. For
-example, version 2016.1 denotes the first release within the year 2016.
+example, version 2016.1 denotes the first release of the year 2016.
 
 ## Authors
 
