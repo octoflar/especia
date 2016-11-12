@@ -41,7 +41,7 @@ clean :
 distclean : clean
 	rm -f ./rq-*
 test : example
-	diff src/test/resources/synth.html example.html
+	diff ./src/test/resources/synth.html ./example.html
 
 rq-edfit : edfit.o profiles.o readline.o section.o $(symeig).o
 	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o $(symeig).o
