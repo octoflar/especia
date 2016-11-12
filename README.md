@@ -43,7 +43,7 @@ affiliated (1998 - 2006) with
 
 ## License
 
-This project is licensed under [The MIT License (MIT)](http://opensource.org/licenses/MIT).
+Especia code is licensed under [The MIT License (MIT)](http://opensource.org/licenses/MIT).
 
 ## Acknowledgements
 
