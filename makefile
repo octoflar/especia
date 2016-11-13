@@ -50,28 +50,28 @@ mmfit.o : mmfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
 % : %.cxx
-	$(CXX) -o $@ $(CXXFLAGS) $<	
+	$(CXX) -o $@ $(CXXFLAGS) $<
 
 %.o : %.cxx %.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
 %.html : $(tstdir)/resources/%.in
-	$(tstdir)/bin/$(@:.html=.sh)	
+	$(tstdir)/bin/$(@:.html=.sh)
 
 
 .PHONY : all clean distclean install test
- 
+
 all : $(bin)
 
 install :
 	mv -f $(bin) $(bindir)
 
 clean :
-	rm -f *.o
-	rm -f *.html
+	$(RM) *.o
+	$(RM) *.html
 
 distclean : clean
-	rm -f $(bin)
+	$(RM) $(bin)
 
-test : example.html 
+test : example.html
 	diff $(tstdir)/resources/example.html ./example.html
