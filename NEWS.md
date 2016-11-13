@@ -1,6 +1,7 @@
 ## New in 2016.2
 
 Revised ancilary files. Comment lines in spectrum data files are permitted.
+Added utility methods.
 
 ## New in 2016.1
 

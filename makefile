@@ -22,42 +22,56 @@ SHELL    = /bin/sh
 
 -include build.properties
 
-common := ./src/main/cxx
 bindir := $(wildcard ~/bin)
-srcdir := ./src/main/cxx
-symeig := symeig
+srcdir := src/main
+tstdir := src/test
 
-VPATH = $(srcdir):$(common)
-.PHONY : all fit test clean install
+VPATH = $(srcdir)/cxx:$(tstdir)/cxx
 
-all : fit
-fit : edfit evfit mmfit
-example : edfit
-	./src/test/bin/example.sh
+bin := edfit
+bin += evfit
+bin += mmfit
+bin += xtractdat
+bin += xtractmsg
+bin += xtractlog
+
+edfit : edfit.o profiles.o readline.o section.o symeig.o
+	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o symeig.o
+evfit : evfit.o profiles.o readline.o section.o symeig.o
+	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o symeig.o
+mmfit : mmfit.o profiles.o readline.o section.o symeig.o
+	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o symeig.o
+
+edfit.o : edfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
+	$(CXX) -c $(CXXFLAGS) $< -o $@
+evfit.o : evfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
+	$(CXX) -c $(CXXFLAGS) $< -o $@
+mmfit.o : mmfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
+	$(CXX) -c $(CXXFLAGS) $< -o $@
+
+% : %.cxx
+	$(CXX) -o $@ $(CXXFLAGS) $<	
+
+%.o : %.cxx %.h
+	$(CXX) -c $(CXXFLAGS) $< -o $@
+
+%.html : $(tstdir)/resources/%.in
+	$(tstdir)/bin/$(@:.html=.sh)	
+
+
+.PHONY : all clean distclean install test
+ 
+all : $(bin)
+
 install :
-	mv -f ./??fit $(bindir)
+	mv -f $(bin) $(bindir)
+
 clean :
-	rm -f ./*.o ./*.html
+	rm -f *.o
+	rm -f *.html
+
 distclean : clean
-	rm -f ./??fit
-test : example
-	diff ./src/test/resources/example.html ./example.html
+	rm -f $(bin)
 
-edfit : edfit.o profiles.o readline.o section.o $(symeig).o
-	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o $(symeig).o
-evfit : evfit.o profiles.o readline.o section.o $(symeig).o
-	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o $(symeig).o
-mmfit : mmfit.o profiles.o readline.o section.o $(symeig).o
-	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o $(symeig).o
-
-edfit.o : model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h $(symeig).h
-evfit.o : model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h $(symeig).h
-mmfit.o : model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h $(symeig).h
-
-profiles.o : profiles.h
-readline.o : readline.h
-section.o : section.h
-$(symeig).o : $(symeig).h
-
-%.o : %.cxx
-	$(CXX) -I$(common) -c $(CXXFLAGS) $< -o $@
+test : example.html 
+	diff $(tstdir)/resources/example.html ./example.html
