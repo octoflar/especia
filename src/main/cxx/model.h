@@ -382,7 +382,7 @@ RQ::model<profile_function>::put(std::ostream& os) const
     os << "  <thead align=\"center\" valign=\"middle\">\n";
     os << "    <tr>\n";
     os << "      <td>Section</td>\n";
-    os << "      <td>Start<br>Wavelength<br>(&Aring)</td>\n";
+    os << "      <td>Start<br>Wavelength<br>(&Aring;)</td>\n";
     os << "      <td>End<br>Wavelength<br>(&Aring;)</td>\n";
     os << "      <td>Legendre<br>Polynomials</td>\n";
     os << "      <td>Resolution</td>\n";
