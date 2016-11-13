@@ -8,10 +8,14 @@ Due to the use of evolution strategies with covariance matrix adaption, the inve
 modelling procedure is highly competitive and capable of calculating the optimal
 spectral decomposition without requiring any particular initialisation.
 
-The code is further explained in
+Further highlights are the modelling and optimisation of the background continuum,
+and a very accurate semi-analytic convolution of the absorption term with the
+instrumental profile.
+
+The algorithms are explained in
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
-The provided example uses an artificial spectrum synthesised on basis of data
-described and analysed by
+A provided example case uses an artificial spectrum synthesised on basis of
+data described and analysed by
 [Quast et al. (2002)](http://dx.doi.org/10.1051/0004-6361:20020342).
 
 ## Getting Started
