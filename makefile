@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-SHELL    = /bin/sh
+DIFF    = diff
 
 -include build.properties
 
@@ -36,11 +36,11 @@ bin += xtractmes
 bin += xtractlog
 
 edfit : edfit.o profiles.o readline.o section.o symeig.o
-	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o symeig.o
+	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
 evfit : evfit.o profiles.o readline.o section.o symeig.o
-	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o symeig.o
+	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
 mmfit : mmfit.o profiles.o readline.o section.o symeig.o
-	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o symeig.o
+	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
 
 edfit.o : edfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
@@ -74,4 +74,4 @@ distclean : clean
 	$(RM) $(bin)
 
 test : example.html
-	diff $(tstdir)/resources/example.html ./example.html
+	$(DIFF) $(tstdir)/resources/example.html ./example.html
