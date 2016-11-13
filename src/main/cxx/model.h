@@ -385,7 +385,7 @@ RQ::model<profile_function>::put(std::ostream& os) const
     os << "      <td>Start<br>Wavelength<br>(&Aring)</td>\n";
     os << "      <td>End<br>Wavelength<br>(&Aring;)</td>\n";
     os << "      <td>Legendre<br>Polynomials</td>\n";
-    os << "      <td>Resolution<br>(km s<sup>-1</sup>)</td>\n";
+    os << "      <td>Resolution</td>\n";
     os << "      <td>Data Points</td>\n";
     os << "      <td>RSS</td>\n";
     os << "      <td>RSS per<br>Data Point</td>\n";
