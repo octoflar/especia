@@ -613,6 +613,11 @@ RQ::model<profile_function>::optimize(size_t parent_number,
 
     os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
     os << "<html>\n";
+    os << "<!--\n";
+    os << "  Created by\n";
+    os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
+    os << "  http://dx.doi.org/10.6084/m9.figshare.4167999\n";
+    os << "-->\n";
 
     if (trace > 0) {
         os << "<!--" << endl;
