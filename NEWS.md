@@ -1,6 +1,6 @@
 ## New in 2016.2
 
-Added documentation.
+Revised documentation. Comment lines in spectrum data files are permitted now.
 
 ## New in 2016.1
 

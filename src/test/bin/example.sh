@@ -27,4 +27,4 @@ accuracy=0.000001
 stop=2000
 trace=10
 
-./rq-edfit ${iniseed} 10 20 ${inistep} ${accuracy} ${stop} ${trace} < ./src/test/resources/example.in > example.html
+./edfit ${iniseed} 10 20 ${inistep} ${accuracy} ${stop} ${trace} < ./src/test/resources/example.in > example.html

@@ -31,23 +31,23 @@ VPATH = $(srcdir):$(common)
 .PHONY : all fit test clean install
 
 all : fit
-fit : rq-edfit rq-evfit rq-mmfit
-example : rq-edfit
+fit : edfit evfit mmfit
+example : edfit
 	./src/test/bin/example.sh
 install :
-	mv -f ./rq-* $(bindir)
+	mv -f ./??fit $(bindir)
 clean :
-	rm -f ./*.o
+	rm -f ./*.o ./*.html
 distclean : clean
-	rm -f ./rq-*
+	rm -f ./??fit
 test : example
-	diff ./src/test/resources/synth.html ./example.html
+	diff ./src/test/resources/example.html ./example.html
 
-rq-edfit : edfit.o profiles.o readline.o section.o $(symeig).o
+edfit : edfit.o profiles.o readline.o section.o $(symeig).o
 	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o $(symeig).o
-rq-evfit : evfit.o profiles.o readline.o section.o $(symeig).o
+evfit : evfit.o profiles.o readline.o section.o $(symeig).o
 	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o $(symeig).o
-rq-mmfit : mmfit.o profiles.o readline.o section.o $(symeig).o
+mmfit : mmfit.o profiles.o readline.o section.o $(symeig).o
 	$(CXX) $(LDFLAGS) $(VECLIB) -o $@ $< profiles.o readline.o section.o $(symeig).o
 
 edfit.o : model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h $(symeig).h

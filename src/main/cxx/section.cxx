@@ -256,10 +256,14 @@ RQ::section::get(std::istream& is, double a, double b)
     string line;
 
     while (getline(is, line) and !line.empty()) {
+        // Skip comments
+        if (line[0] == '#')
+          continue;
+      
         istringstream ist(line);
         bool tw;
         double tx, ty, tz;
-
+      
         if (ist >> tx >> ty) {
             if (a <= tx and tx <= b) {
                 x.push_back(tx);
