@@ -27,6 +27,6 @@ this software could be of interest to you.
 
 ## Versioning
 
-Release versions YYYY.N are numbered by the year of the release follwowed by an
+Release versions YYYY.N are numbered by the year of the release follwowed by a
 single-digit number, which enumerates the release within the release year. For
 example, version 2016.1 denotes the first release of the year 2016.
