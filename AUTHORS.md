@@ -9,5 +9,5 @@ Quast, Ralf (2016): *Evolutionary spectrum inversion and analysis (Especia).* fi
 [DOI: 10.6084/m9.figshare.4167999.v14](https://dx.doi.org/10.6084/m9.figshare.4167999.v14).
 
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
-Astronomy and Astrophysics 431 (3) 1167.  
+Astronomy and Astrophysics 431 (3) 1167.
 [DOI: 10.1051/0004-6361:20041601](http://dx.doi.org/10.1051/0004-6361:20041601).
