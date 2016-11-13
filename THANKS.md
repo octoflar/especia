@@ -8,7 +8,7 @@ not listed) is gratefully acknowledged.
 
 *The precision of line position measurements of unresolved quasar absorption lines and its influence on the search for variations of fundamental constants.*
 N. Prause and D. Reimers.
-Astronomy & Astrophysics 555 A88 (2013).
+Astronomy & Astrophysics 555 A88 (2013).  
 [DOI: 10.1051/0004-6361/201118373](http://dx.doi.org/10.1051/0004-6361/201118373).
 
 *Robust limit on a varying proton-to-electron mass ratio from a single H2 system.*
