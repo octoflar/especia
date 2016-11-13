@@ -32,8 +32,8 @@ bin := edfit
 bin += evfit
 bin += mmfit
 bin += xtractdat
-bin += xtractmes
 bin += xtractlog
+bin += xtractmes
 
 edfit : edfit.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
