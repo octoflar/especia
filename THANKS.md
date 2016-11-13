@@ -21,6 +21,11 @@ R. Quast, D. Reimers and R. Baade.
 Astronomy and Astrophysics 477 (2) 443 (2008).
 [DOI: 10.1051/0004-6361:20054773](http://dx.doi.org/10.1051/0004-6361:20054773).
 
+*Most precise single redshift bound to Δα/α*
+S. A. Levshakov, M. Centurión, P. Molaro, et al.
+Astronomy and Astrophysics 449 (3) 879 (2006).
+[DOI: 10.1051/0004-6361:20053827](http://dx.doi.org/10.1051/0004-6361:20053827).
+
 *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 R. Quast, R. Baade and D. Reimers.
 Astronomy and Astrophysics 431 (3) 1167 (2005).
