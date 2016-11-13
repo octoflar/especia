@@ -32,7 +32,7 @@ bin := edfit
 bin += evfit
 bin += mmfit
 bin += xtractdat
-bin += xtractmsg
+bin += xtractmes
 bin += xtractlog
 
 edfit : edfit.o profiles.o readline.o section.o symeig.o
