@@ -1,8 +1,8 @@
 ## General information
 
-The Evolutionary spectrum inversion and analysis (Especia) file set provides
-C++ code for the inverse modelling and analysis of intergalactic and interstellar
-absorption line regions in QSO spectra.
+The *Evolutionary spectrum inversion and analysis* file set provides
+C++ code for the inverse modelling and analysis of intergalactic and
+interstellar absorption line regions in QSO spectra.
 
 Due to the use of evolution strategies with covariance matrix adaption, the inverse
 modelling procedure is highly competitive and capable of calculating the optimal
@@ -27,7 +27,8 @@ To build, test, and install this software type
     make install
 
 Then study the example files and read the articles listed below to find out whether
-this software could be of interest to you.
+this software could be of interest to you. You may also want to consult the
+[especia wiki](https://github.com/octoflar/especia/wiki).
 
 ## Versioning
 
