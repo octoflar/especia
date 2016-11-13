@@ -35,12 +35,15 @@ bin += xtractdat
 bin += xtractlog
 bin += xtractmes
 
+
 edfit : edfit.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
 evfit : evfit.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
 mmfit : mmfit.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
+% : %.cxx
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
 edfit.o : edfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
@@ -48,10 +51,6 @@ evfit.o : evfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 mmfit.o : mmfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
-
-% : %.cxx
-	$(CXX) -o $@ $(CXXFLAGS) $<
-
 %.o : %.cxx %.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
