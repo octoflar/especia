@@ -1,4 +1,4 @@
-## Authors
+# Authors
 
 The author of this software is **Ralf Quast**, affiliated (1998 - 2006) with
 *Universität Hamburg, Hamburger Sternwarte, 21029 Hamburg, Germany.*

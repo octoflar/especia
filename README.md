@@ -1,4 +1,4 @@
-## General information
+# General information
 
 The Evolutionary spectrum inversion and analysis (Especia) file set
 provides C++ code for the inverse modelling and analysis of intergalactic and
@@ -18,7 +18,7 @@ A provided example case uses an artificial spectrum synthesised on basis of
 data described and analysed by
 [Quast et al. (2002)](http://dx.doi.org/10.1051/0004-6361:20020342).
 
-## Getting Started
+# Getting Started
 
 To build, test, and install this software type
 
@@ -30,13 +30,13 @@ Then study the example files and read the articles listed below to find out whet
 this software could be of interest to you. You may also want to consult the
 [especia wiki](https://github.com/octoflar/especia/wiki).
 
-## Versioning
+# Versioning
 
 Release versions YYYY.N are numbered by the year of the release follwowed by a
 single-digit number, which enumerates the release within the release year. For
 example, version 2016.1 denotes the first release of the year 2016.
 
-## Further reading
+# Further reading
 
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Astronomy and Astrophysics 431 (3) 1167.
