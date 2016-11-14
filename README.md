@@ -20,20 +20,22 @@ data described and analysed by
 
 # Getting Started
 
-This software depends on the [Linear Algebra Package](http://www.netlib.org/lapack/),
+This software uses the [Linear Algebra Package](http://www.netlib.org/lapack/),
 which may already be pre-installed on your system as a shared or static library. Consult
 your system documentation how to use the library.
 
-To build, test, and install this software type (properly substituting `<...>` with
-suitable expressions)
+To build, test, and install this software type
 
     make CXX=<compiler> CXXFLAGS=<compiler options> LDFLAGS=<libraries>
     make test
     make install
 
-Then study the example files and read the articles listed below to find out whether
-this software could be of interest to you. You may also want to consult the
-[especia wiki](https://github.com/octoflar/especia/wiki).
+You have to replace `<...>` with expressions suitable for your system. The build property
+files provide examples.
+
+Then read the articles listed below to find out whether this software could be of interest
+to you. Study the [example job definition file](src/test/resources/example.in) to find out
+what is possible. You may also want to consult the [especia wiki](https://github.com/octoflar/especia/wiki).
 
 # Versioning
 
