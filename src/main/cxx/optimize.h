@@ -24,6 +24,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <limits>
 #include <numeric>
 #include <valarray>
@@ -828,7 +829,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
         #ifdef _OPENMP
         #pragma omp parallel for
         #endif
-        for (int k = 0; k < population_size; ++k) {
+        for (size_t k = 0; k < population_size; ++k) {
             fitness[k] = (obj->*f)(&x[k][0], n);
             index[k] = k;
         }
@@ -1332,7 +1333,7 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
         #ifdef _OPENMP
         #pragma omp parallel for
         #endif
-        for (int g = 0; g < m; ++g) {
+        for (size_t g = 0; g < m; ++g) {
             valarray<double> q(x, n);
             for (size_t i = 0, j = g % n, ij = j; i < n; ++i, ij += n)
                 q[i] += s * z[g] * B[ij] * d[j];

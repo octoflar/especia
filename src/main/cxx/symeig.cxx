@@ -97,8 +97,9 @@ RQ::sym_eig_decomp_d::operator()(const double A[], double Z[], double w[], size_
     throw (runtime_error)
 {
     copy(&A[0], &A[m * m], Z);
-
-    if (m != n)
+  
+    const int k = m;
+    if (k != n)
         resize_workspace(m);
     
     F77NAME(dsyevd)(job, uplo, n, &Z[0], max(1, n), w, &work[0], lwork, &iwork[0], liwork, info);
@@ -138,8 +139,8 @@ RQ::sym_eig_decomp_d::resize_workspace(size_t m)
 void
 RQ::sym_eig_decomp_d::transpose(double A[]) const
 {
-    for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n)
-        for (size_t j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
+    for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
+        for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);
 }
 
@@ -163,7 +164,8 @@ RQ::sym_eig_decomp_r::operator()(const double A[], double Z[], double w[], size_
 {
     valarray<double> C(A, i * i);
 
-    if (i != n)
+    const int k = i;
+    if (k != n)
         resize_workspace(i);
     
     F77NAME(dsyevr)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
@@ -207,8 +209,8 @@ RQ::sym_eig_decomp_r::resize_workspace(size_t i)
 void
 RQ::sym_eig_decomp_r::transpose(double A[]) const
 {
-    for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n)
-        for (size_t j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
+    for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
+        for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);
 }
 
@@ -232,7 +234,8 @@ RQ::sym_eig_decomp_x::operator()(const double A[], double Z[], double w[], size_
 {
     valarray<double> C(A, i * i);
 
-    if (i != n)
+    const int k = i;
+    if (k != n)
         resize_workspace(i);
     
     F77NAME(dsyevx)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
@@ -274,8 +277,8 @@ RQ::sym_eig_decomp_x::resize_workspace(size_t i)
 void
 RQ::sym_eig_decomp_x::transpose(double A[]) const
 {
-    for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n)
-        for (size_t j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
+    for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
+        for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);
 }
 

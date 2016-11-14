@@ -23,6 +23,7 @@
 #define RQ_MODEL_H
 
 #include <algorithm>
+#include <cstddef>
 #include <functional>
 #include <iomanip>
 #include <iostream>

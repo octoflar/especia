@@ -23,6 +23,7 @@
 #define RQ_PROFILE_FUNCTIONS_H
 
 #include <cmath>
+#include <cstddef>
 #include <vector>
 
 namespace RQ {

@@ -23,6 +23,7 @@
 #define RQ_SECTION_H
 
 #include <cmath>
+#include <cstddef>
 #include <iostream>
 #include <limits>
 #include <stdexcept>

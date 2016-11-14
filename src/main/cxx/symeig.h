@@ -22,6 +22,7 @@
 #ifndef RQ_SYMEIG_H
 #define RQ_SYMEIG_H
 
+#include <cstddef>
 #include <stdexcept>
 #include <valarray>
 

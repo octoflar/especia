@@ -22,6 +22,7 @@
 #ifndef RQ_READLINE_H
 #define RQ_READLINE_H
 
+#include <cstddef>
 #include <iostream>
 #include <limits>
 #include <sstream>
