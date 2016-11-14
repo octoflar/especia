@@ -1,4 +1,4 @@
-# General information
+# Synopsis
 
 The Evolutionary spectrum inversion and analysis (Especia) file set
 provides C++ code for the inverse modelling and analysis of intergalactic and
