@@ -28,28 +28,28 @@ tstdir := src/test
 
 VPATH = $(srcdir)/cxx:$(tstdir)/cxx
 
-bin := edfit
-bin += evfit
-bin += mmfit
+bin := especid
+bin += especiv
+bin += especia
 bin += xtractdat
 bin += xtractlog
 bin += xtractmes
 
 
-edfit : edfit.o profiles.o readline.o section.o symeig.o
+especid : especid.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
-evfit : evfit.o profiles.o readline.o section.o symeig.o
+especiv : especiv.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
-mmfit : mmfit.o profiles.o readline.o section.o symeig.o
+especia : especia.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
 % : %.cxx
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
-edfit.o : edfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
+especid.o : especid.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
-evfit.o : evfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
+especiv.o : especiv.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
-mmfit.o : mmfit.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
+especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 %.o : %.cxx %.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@

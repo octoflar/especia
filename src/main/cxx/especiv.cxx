@@ -1,4 +1,4 @@
-// Especia (many multiplet version)
+// Especia: Voigt profile version
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,9 +23,7 @@
 #include <fstream>
 #include "mtwister.h"
 #include "randev.h"
-#define RQ_MANY_MULTIPLET_ANALYSIS 1
 #include "model.h"
-#undef RQ_MANY_MULTIPLET_ANALYSIS
 #include "symeig.h"
 
 using namespace RQ;
@@ -47,7 +45,7 @@ int main(int argc, char* argv[])
         const long   stop_generation = atol(argv[6]);
         const int    trace           = atoi(argv[7]);
 
-        model<gaumm_pf> m;
+        model<voigt_pf> m;
         m.get(cin);
 
         if (cin.eof() and !cin.fail()) {
