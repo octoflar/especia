@@ -30,7 +30,7 @@ To build, test, and install this software type
     make test
     make install
 
-You have to replace `<...>` with expressions suitable for your system. The build property
+You will have to replace `<...>` with expressions suitable for your system. The build property
 files provide examples.
 
 Then read the articles listed below to find out whether this software could be of interest
