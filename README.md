@@ -20,9 +20,12 @@ data described and analysed by
 
 # Getting Started
 
-To build, test, and install this software type (properly substituting `<...>`)
+This software depends on the [Linear Algebra Package](http://www.netlib.org/lapack/),
+which may already be pre-installed on your system as a library. Consult your system
+documentation how to use this library. To build, test, and install this software type
+(properly substituting `<...>` with suitable expressions)
 
-    make CXX=<compiler> CXXFLAGS=<compiler options> LDFLAGS=<lapack libraries>
+    make CXX=<compiler> CXXFLAGS=<compiler options> LDFLAGS=<libraries>
     make test
     make install
 
