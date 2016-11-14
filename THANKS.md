@@ -1,6 +1,6 @@
 # Acknowledgments
 
-This software has been developed as part of research funded by the Verbundforschung of the BMBF/DLR under Grant No. 50 OR9911 1. The use of this software in the work listed below (and anyone not listed) is gratefully acknowledged.
+This software has been developed as part of research funded by the Verbundforschung of the BMBF/DLR under Grant No. 50 OR9911 1. The use of this software in the work listed below (and any work not listed) is gratefully acknowledged.
 
 # Work having used this software
 
