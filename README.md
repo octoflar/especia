@@ -34,7 +34,7 @@ You have to replace `<...>` with expressions suitable for your system. The build
 files provide examples.
 
 Then read the articles listed below to find out whether this software could be of interest
-to you. Study the [example job definition file](src/test/resources/example.in) to find out
+to you. Study the [example model definition file](src/test/resources/example.in) to find out
 what is possible. You may also want to consult the [especia wiki](https://github.com/octoflar/especia/wiki).
 
 # Versioning
