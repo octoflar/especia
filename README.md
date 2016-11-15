@@ -20,7 +20,7 @@ data described and analysed by
 
 # Getting Started
 
-Read the articles listed below to find out whether this software could be of
+Read the two articles listed below to find out whether this software could be of
 interest to you. If you have some understanding, you may want to study the
 [example model definition file](src/test/resources/example.in) to find out what
 is feasible. Be sure to consult the [especia wiki](https://github.com/octoflar/especia/wiki).
