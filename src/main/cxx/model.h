@@ -45,7 +45,7 @@ namespace RQ {
 template<class profile_function>
 class RQ::model {
 public:
-    std::istream& get(std::istream& is, char comment_mark = '%', char begin_of_section = '{',
+    std::istream& get(std::istream& is, std::ostream& os = null, char comment_mark = '%', char begin_of_section = '{',
         char end_of_section = '}');
     std::ostream& put(std::ostream& os) const;
 
@@ -66,7 +66,7 @@ private:
         int precision, size_t parameter_index) const;
 
     std::vector<RQ::section> sec;
-
+  
     std::valarray<size_t> isc;
     std::valarray<size_t> nle;
     std::valarray<size_t> nli;
@@ -81,11 +81,16 @@ private:
 
     std::map<std::string, size_t> sim;
     std::map<std::string, size_t> pim;
+  
+  static std::ostringstream null;
 };
 
 template<class profile_function>
+std::ostringstream RQ::model<profile_function>::null(0);
+
+template<class profile_function>
 std::istream&
-RQ::model<profile_function>::get(std::istream& is, char cm, char bos, char eos)
+RQ::model<profile_function>::get(std::istream& is, std::ostream& os, char cm, char bos, char eos)
 {
     using namespace std;
 
@@ -118,17 +123,39 @@ RQ::model<profile_function>::get(std::istream& is, char cm, char bos, char eos)
 
     vector<string> ref;
 
+    stringstream ss;
     stringstream st;
     string s;
+  
+    os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
+    os << "<html>\n";
+    os << "<!--\n";
+    os << "  Created by\n";
+    os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
+    os << "  http://dx.doi.org/10.6084/m9.figshare.4167999\n";
+    os << "-->\n";
+    os << "<!--\n";
+    os << "<model>\n";
 
-    // Strip comments and empty lines, copy to a string stream
-    while (readline(is, s, cm))
+    // Strip empty lines. Write non-empty lines to standard output.
+    while (readline(is, s)) {
+      ss << s << '\n';
+      os << s << '\n';
+    }
+  
+    os << "</model>\n";
+    os << "-->\n";
+    os << "</html>\n";
+
+    // Now strip comments
+    while (readline(ss, s, cm)) {
         st << s << '\n';
-
+    }
+  
     size_t i = 0;
     size_t j = 0;
 
-    while(getline(st, s, eos))
+    while (getline(st, s, eos))
         if (!st.eof()) {
             j = s.find(bos);
 
