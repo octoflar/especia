@@ -20,9 +20,14 @@ data described and analysed by
 
 # Getting Started
 
-This software uses the [Linear Algebra Package](http://www.netlib.org/lapack/),
-which may already be pre-installed on your system as a shared or static library. Consult
-your system documentation how to use the linear algebra library.
+Read the articles listed below to find out whether this software could be of
+interest to you. If you have some understanding, you may want to study the
+[example model definition file](src/test/resources/example.in) to find out what
+is feasible. Be sure to consult the [especia wiki](https://github.com/octoflar/especia/wiki).
+
+This software uses the [Linear Algebra Package](http://www.netlib.org/lapack/), which
+may already be pre-installed on your system as a shared or static library. Consult your
+system documentation how to use the linear algebra library.
 
 To build, test, and install this software type
 
@@ -30,13 +35,8 @@ To build, test, and install this software type
     make test
     make install
 
-You will have to replace `<...>` with expressions suitable for your system. The build property
-files provide examples. Some compilers support [OpenMP](http://www.openmp.org) directives for
-parallel programming. If enabled, Especia will run in parallel on multiple processors. 
-
-Then read the articles listed below to find out whether this software could be of interest
-to you. Study the [example model definition file](src/test/resources/example.in) to find out
-what is possible. You may also want to consult the [especia wiki](https://github.com/octoflar/especia/wiki).
+You will have to replace the text in brackets with expressions suitable for your system.
+Look into the ancillary build property files for examples.
 
 # Versioning
 
