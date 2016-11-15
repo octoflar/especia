@@ -2,7 +2,8 @@
 
 Revised ancilary files. Comment lines in spectrum data files are permitted.
 Added utility methods. Renamed main programs and executable files. Command
-line and model definition are send to standard output.
+line and model definition are send to standard output and appear as comments
+in result HTML files.
 
 # New in 2016.1
 
