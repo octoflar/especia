@@ -25,18 +25,18 @@ interest to you. If you have some understanding, you may want to study the
 [example model definition file](src/test/resources/example.in) to find out what
 is feasible. Be sure to consult the [especia wiki](https://github.com/octoflar/especia/wiki).
 
-This software uses the [Linear Algebra Package](http://www.netlib.org/lapack/), which
-may already be pre-installed on your system as a shared or static library. Consult your
-system documentation how to use the linear algebra library.
-
 To build, test, and install this software type
 
-    make CXX=<compiler> CXXFLAGS=<compiler options> LDFLAGS=<libraries>
+    make CXX=g++ CXXFLAGS=-O3 LDFLAGS='-llapack -lblas'
     make test
     make install
 
-You will have to replace the text in brackets with expressions suitable for your system.
-Look into the ancillary build property files for examples.
+You may have to specify a different compiler or different flags, whatever is
+suitable for your system.
+
+This software uses the [Linear Algebra Package](http://www.netlib.org/lapack/), which
+may already be pre-installed on your system as a shared or static library. Consult your
+system documentation how to use the linear algebra library.
 
 # Versioning
 
