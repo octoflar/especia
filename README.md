@@ -22,7 +22,7 @@ data described and analysed by
 
 This software uses the [Linear Algebra Package](http://www.netlib.org/lapack/),
 which may already be pre-installed on your system as a shared or static library. Consult
-your system documentation how to use the library.
+your system documentation how to use the linear algebra library.
 
 To build, test, and install this software type
 
