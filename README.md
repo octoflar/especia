@@ -31,8 +31,8 @@ To build, test, and install this software type
     make test
     make install
 
-You may have to specify a different compiler or different flags, whatever is
-suitable for your system.
+You may have to specify a different compiler or different compiler and linker flags,
+whatever is suitable for your system.
 
 This software uses the [Linear Algebra Package](http://www.netlib.org/lapack/), which
 may already be pre-installed on your system as a shared or static library. Consult your
