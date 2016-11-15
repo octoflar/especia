@@ -1,6 +1,269 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <!--
+<command>
+./especid 27182 10 20 0.5 0.000001 2000 10 
+</command>
+-->
+</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!--
+<model>
+% Example model definition file
+% Copyright (c) 2016 Ralf Quast
+%
+% Permission is hereby granted, free of charge, to any person obtaining a copy
+% of this software and associated documentation files (the "Software"), to deal
+% in the Software without restriction, including without limitation the rights
+% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+% copies of the Software, and to permit persons to whom the Software is
+% furnished to do so, subject to the following conditions:
+%
+% The above copyright notice and this permission notice shall be included in all
+% copies or substantial portions of the Software.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+% IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+% FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+% AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+% LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+% SOFTWARE.
+{
+% section 1
+% id            source                                    begin       end         polynomials
+  C_I_1560      ./src/test/resources/data/synth1561.dat   3355.00     3359.00     3
+%
+% spectral resolution
+% initial       min         max         optimize    reference
+  49000         40000       60000       0
+%
+%   Doppler profiles are used here. The line parameters are:
+%
+%   1. laboratory wavelength (Angstrom)
+%   2. oscillator strength
+%   3. cosmological redshift
+%   4. radial velocity (kilometer per second)
+%   5. line broadening velocity (kilometer per second)
+%   6. particle column density (dex per square centimeter)
+%
+%   Voigt profiles would need an additional parameter:
+%
+%   7. damping constant (Hertz)
+%
+% absorption lines
+% id
+% initial       min         max         optimize    reference
+  C_I_3P0-3D1_1 % C I
+  1560.3092     0           0           0
+  0.0719        0           0           0
+  1.1508        1.150       1.152       1
+  0             -10.0       0.0         0
+  0             0.0         10.0        1
+  12.0          11.0        14.0        1
+  C_I_3P1-3D2_1 % C I*
+  1560.6822     0           0           0
+  0.0539        0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  12.0          11.0        14.0        1
+  C_I_3P1-3D1_1 % C I*
+  1560.7090     0           0           0
+  0.0180        0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P1-3D2_1
+  C_I_3P2-3D2_1 % C I**
+  1561.3402     0           0           0
+  0.0108        0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  12.0          11.0        14.0        1
+  C_I_3P2-3D1_1 % C I**
+  1561.3667     0           0           0
+  0.000716      0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P2-3D2_1
+  C_I_3P2-3D3_1 % C I**
+  1561.4384     0           0           0
+  0.0603        0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P2-3D2_1
+  C_I_3P0-3D1_2 % C I
+  1560.3092     0           0           0
+  0.0719        0           0           0
+  1.1508        1.150       1.152       1
+  0             -10.0       10.0        0
+  0             0.0         10.0        1
+  12.0          11.0        14.0        1
+  C_I_3P1-3D2_2 % C I*
+  1560.6822     0           0           0
+  0.0539        0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  12.0          11.0        14.0        1
+  C_I_3P1-3D1_2 % C I*
+  1560.7090     0           0           0
+  0.0180        0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P1-3D2_2
+  C_I_3P2-3D2_2 % C I**
+  1561.3402     0           0           0
+  0.0108        0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  12.0          11.0        14.0        1
+  C_I_3P2-3D1_2 % C I**
+  1561.3667     0           0           0
+  0.000716      0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P2-3D2_2
+  C_I_3P2-3D3_2 % C I**
+  1561.4384     0           0           0
+  0.0603        0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P2-3D2_2
+}
+{
+% section 2
+% id            source                                    begin       end         polynomials
+  C_I_1656      ./src/test/resources/data/synth1657.dat   3562.00     3567.00     3
+%
+% spectral resolution
+% initial       min         max         optimize    reference
+  0             0           0           0           C_I_1560
+%
+% absorption lines
+% id
+% initial       min         max         optimize    reference
+  C_I_3P1-3P2_1 % C I*
+  1656.2672     0           0           0
+  0.0589        0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P1-3D2_1
+  C_I_3P0-3P1_1 % C I
+  1656.9283     0           0           0
+  0.139         0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  C_I_3P2-3P2_1 % C I**
+  1657.0082     0           0           0
+  0.104         0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P2-3D2_1
+  C_I_3P1-3P1_1 % C I*
+  1657.3792     0           0           0
+  0.0356        0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P1-3D2_1
+  C_I_3P1-3P0_1 % C I*
+  1657.9068     0           0           0
+  0.0473        0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P1-3D2_1
+  C_I_3P2-3P1_1 % C I**
+  1658.1212     0           0           0
+  0.0356        0           0           0
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P0-3D1_1
+  0             0           0           0           C_I_3P2-3D2_1
+  C_I_3P1-3P2_2 % C I*
+  1656.2672     0           0           0
+  0.0589        0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P1-3D2_2
+  C_I_3P0-3P1_2 % C I
+  1656.9283     0           0           0
+  0.139         0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  C_I_3P2-3P2_2 % C I**
+  1657.0082     0           0           0
+  0.104         0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P2-3D2_2
+  C_I_3P1-3P1_2 % C I*
+  1657.3792     0           0           0
+  0.0356        0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P1-3D2_2
+  C_I_3P1-3P0_2 % C I*
+  1657.9068     0           0           0
+  0.0473        0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P1-3D2_2
+  C_I_3P2-3P1_2 % C I**
+  1658.1212     0           0           0
+  0.0356        0           0           0
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P0-3D1_2
+  0             0           0           0           C_I_3P2-3D2_2
+  G1 % generic
+  3564.10       3563.90     3564.20     1
+  1.0           0           0           0
+  0.0           0           0           0
+  0.0           0           0           0
+  7.0           4.0         10.0        1
+  12.0          10.0        14.0        1
+  G2 % generic
+  3564.30       3564.20     3564.40     1
+  1.0           0           0           0
+  0.0           0           0           0
+  0.0           0           0           0
+  0             0           0           0           G1
+  12.0          10.0        14.0        1
+  G3 % generic
+  3564.55       3564.40     3564.70     1
+  1.0           0           0           0
+  0.0           0           0           0
+  0.0           0           0           0
+  0             0           0           0           G1
+  12.0          10.0        14.0        1
+}
+</model>
+-->
+</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!--
   Created by
   Evolutionary spectrum inversion and analysis (Especia)
   http://dx.doi.org/10.6084/m9.figshare.4167999

@@ -45,6 +45,17 @@ int main(int argc, char* argv[])
         const long   stop_generation = atol(argv[6]);
         const int    trace           = atoi(argv[7]);
 
+        cout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
+        cout << "<html>\n";
+        cout << "<!--\n";
+        cout << "<command>\n";
+        for (int i = 0; i < argc; ++i)
+            cout << argv[i] << ' ';
+        cout << endl;
+        cout << "</command>\n";
+        cout << "-->\n";
+        cout << "</html>\n";
+      
         model<voigt_pf> m;
         m.get(cin, cout);
 

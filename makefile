@@ -34,6 +34,7 @@ bin += especia
 bin += xtractdat
 bin += xtractlog
 bin += xtractmes
+bin += xtractmod
 
 
 especid : especid.o profiles.o readline.o section.o symeig.o

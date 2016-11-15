@@ -130,11 +130,6 @@ RQ::model<profile_function>::get(std::istream& is, std::ostream& os, char cm, ch
     os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
     os << "<html>\n";
     os << "<!--\n";
-    os << "  Created by\n";
-    os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
-    os << "  http://dx.doi.org/10.6084/m9.figshare.4167999\n";
-    os << "-->\n";
-    os << "<!--\n";
     os << "<model>\n";
 
     // Strip empty lines. Write non-empty lines to standard output.
