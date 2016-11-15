@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
         const int    trace           = atoi(argv[7]);
 
         model<voigt_pf> m;
-        m.get(cin);
+        m.get(cin, cout);
 
         if (cin.eof() and !cin.fail()) {
             try {
