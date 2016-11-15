@@ -18,7 +18,7 @@ A provided example case uses an artificial spectrum synthesised on basis of
 data described and analysed by
 [Quast et al. (2002)](http://dx.doi.org/10.1051/0004-6361:20020342).
 
-# Getting Started
+# Getting started
 
 Read the two articles listed below to find out whether this software could be of
 interest to you. If you have some understanding, you may want to study the
