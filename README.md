@@ -27,7 +27,7 @@ is feasible. Be sure to consult the [especia wiki](https://github.com/octoflar/e
 
 To build, test, and install this software type
 
-    make CXX=g++ CXXFLAGS=-O3 LDFLAGS='-llapack -lblas'
+    make CXX=g++ CXXFLAGS='-std=c++14 -O3' LDFLAGS='-llapack -lblas'
     make test
     make install
 
