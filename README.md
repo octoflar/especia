@@ -31,7 +31,8 @@ To build, test, and install this software type
     make install
 
 You will have to replace `<...>` with expressions suitable for your system. The build property
-files provide examples.
+files provide examples. Some compilers support [OpenMP](http://www.openmp.org) directives for
+parallel programming. If enabled, Especia code will run in parallel on multiple processors. 
 
 Then read the articles listed below to find out whether this software could be of interest
 to you. Study the [example model definition file](src/test/resources/example.in) to find out
