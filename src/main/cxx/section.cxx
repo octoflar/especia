@@ -222,7 +222,7 @@ RQ::section::unmask(double a, double b)
 void
 RQ::section::integrals(double x, double fwhm, double& p, double& q) const
 {
-    using std::erf;
+    using std::erf; // since C++11
     using std::exp;
 
     const double c = 1.6651092223153955127063292897904020952612;
