@@ -18,8 +18,6 @@ A provided example case uses an artificial spectrum synthesised on basis of
 data described and analysed by
 [Quast et al. (2002)](http://dx.doi.org/10.1051/0004-6361:20020342).
 
-Though the name *Especia* clearly is a form of acronym, it even more clearly is
-the spanish word for *spice*.
 
 # Getting started
 
@@ -28,9 +26,13 @@ interest to you. If you have some understanding, you may want to study the
 [example model definition file](src/test/resources/example.in) to find out what
 is feasible. Be sure to consult the [especia wiki](https://github.com/octoflar/especia/wiki).
 
+Building this software requires a modern compiler that implements the ISO/IEC 14882:2011
+norm, also known as C++11. In particular, the `<cmath>` header must define the error
+function `std::erf`.
+
 To build, test, and install this software type
 
-    make all CXX=g++ CXXFLAGS='-std=c++14 -O3' LDFLAGS='-llapack -lblas'
+    make all CXX=g++ CXXFLAGS='-std=c++11 -O3' LDFLAGS='-llapack -lblas'
     make test
     make install
 
@@ -41,11 +43,13 @@ This software uses the [Linear Algebra Package](http://www.netlib.org/lapack/), 
 may already be pre-installed on your system as a shared or static library. Consult your
 system documentation how to use the linear algebra library.
 
+
 # Versioning
 
 Release versions YYYY.N are numbered by the year of the release follwowed by a
 single-digit number, which enumerates the release within the release year. For
 example, version 2016.1 denotes the first release of the year 2016.
+
 
 # Further reading
 
