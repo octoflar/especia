@@ -73,9 +73,9 @@ install :
 
 clean :
 	$(RM) *.o
-	$(RM) *.html
 
 distclean : clean
 	$(RM) $(bin)
+	$(RM) *.html
 
 test : example.diff
