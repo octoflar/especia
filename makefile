@@ -23,8 +23,8 @@ DIFF    = diff
 -include build.properties
 
 bindir := $(wildcard ~/bin)
-srcdir := src/main
-tstdir := src/test
+srcdir := ./src/main
+tstdir := ./src/test
 
 VPATH = $(srcdir)/cxx:$(tstdir)/cxx
 
@@ -37,6 +37,7 @@ bin += xtractlog
 bin += xtractmes
 bin += xtractmod
 
+htm := example.html
 
 especid : especid.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
@@ -76,6 +77,6 @@ clean :
 
 distclean : clean
 	$(RM) $(bin)
-	$(RM) *.html
+	$(RM) $(htm)
 
-test : example.diff
+test : $(htm:.html=.diff)
