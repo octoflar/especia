@@ -26,14 +26,18 @@
 #include "model.h"
 #include "symeig.h"
 
-using namespace RQ;
-using namespace std;
-
 const char usemsg[] = "Usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE";
 
 int main(int argc, char* argv[])
 {
+    using namespace RQ;
+    using std::cin;
+    using std::cout;
+    using std::cerr;
+    using std::endl;
+    using std::exception;
+  
     const char* pname = argv[0];
 
     if (argc == 8) {
