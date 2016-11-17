@@ -26,7 +26,7 @@ interest to you. If you have some understanding, you may want to study the
 [example model definition file](src/test/resources/example.in) to find out what
 is feasible. Be sure to consult the [especia wiki](https://github.com/octoflar/especia/wiki).
 
-Building this software requires a modern compiler that implements the ISO/IEC 14882:2011
+Building this software requires a compiler that implements the ISO/IEC 14882:2011
 norm, also known as C++11. In particular, the `<cmath>` header must define the error
 function `std::erf`.
 
