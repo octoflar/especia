@@ -31,6 +31,7 @@ VPATH = $(srcdir)/cxx:$(tstdir)/cxx
 bin := especid
 bin += especiv
 bin += especia
+bin += xtractcom
 bin += xtractdat
 bin += xtractlog
 bin += xtractmes
@@ -43,6 +44,7 @@ especiv : especiv.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
 especia : especia.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
+
 % : %.cxx
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
@@ -52,11 +54,14 @@ especiv.o : especiv.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
+
 %.o : %.cxx %.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
-%.html : $(tstdir)/resources/%.in
-	$(tstdir)/bin/$(@:.html=.sh)
+%.html : $(tstdir)/resources/%.html
+	./xtractmod < $< | `./xtractcom < $<` > $@
+%.diff : $(tstdir)/resources/%.html %.html
+	$(DIFF) $^
 
 
 .PHONY : all clean distclean install test
@@ -73,5 +78,4 @@ clean :
 distclean : clean
 	$(RM) $(bin)
 
-test : example.html
-	$(DIFF) $(tstdir)/resources/example.html ./example.html
+test : example.diff
