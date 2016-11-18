@@ -56,8 +56,8 @@ example, version 2016.1 denotes the first release of the year 2016.
 
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Astronomy and Astrophysics 431 (3) 1167.
-[DOI: 10.1051/0004-6361:20041601](http://dx.doi.org/10.1051/0004-6361:20041601).
+[doi: 10.1051/0004-6361:20041601](http://dx.doi.org/10.1051/0004-6361:20041601).
 
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2002): *Fine-structure diagnostics of neutral carbon toward HE 0515-4414.*
 Astronomy and Astrophysics 386 (3) 796.
-[DOI: 10.1051/0004-6361:20020342](http://dx.doi.org/10.1051/0004-6361:20020342).
+[doi: 10.1051/0004-6361:20020342](http://dx.doi.org/10.1051/0004-6361:20020342).
