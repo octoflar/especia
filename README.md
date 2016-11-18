@@ -25,7 +25,7 @@ This software enables you to analyse spectroscopic data. Though it has been deve
 for the analysis of astrophysical spectra, it is applicable to spectroscopy in general.
 Read the two articles listed below to find out whether this software could be of
 interest to you. If you have interest and some understanding, consult the
-[especia wiki](https://github.com/octoflar/especia/wiki).
+[especia wiki](https://github.com/octoflar/especia/wiki) for operating instructions.
 
 Building this software requires a compiler that implements the ISO/IEC 14882:2011
 norm, also known as C++11. In particular, the `<cmath>` header
