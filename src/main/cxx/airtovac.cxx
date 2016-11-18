@@ -1,4 +1,4 @@
-// Utility: convert spectroscopic data from wavelength in air to wavelength in vacuum
+// Utility: convert wavelength in spectroscopic data from air to vacuum
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -145,7 +145,7 @@ rtnewt(void f(double, double&, double&), double c, double x, double accuracy_goa
     } while (++i < 100 and abs(d) > accuracy_goal * x);
 
     if (i == 100)
-        throw runtime_error("rtnewt(): Error: Iteration stopped");
+        throw runtime_error("rtnewt(): Error: iteration stopped");
 
     return x;
 }
@@ -179,12 +179,23 @@ int main(int argc, char* argv[])
             put(cout, x, y, z);
         } else {
             cerr << pname << ": input failure" << endl;
-            return 0;
+            return 2;
         }
 
-        return 1;
+        return 0;
     }
     
     cerr << "Usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
-    return 0;
+    return 1;
 }
+
+// References
+//
+// B. Edlen (1966)
+//   The refractive index of air
+//   Metrologia, 2, 2, 71-80
+//   http://dx.doi.org/10.1088/0026-1394/2/2/002
+//
+// B. Edlen (1953)
+//   The dispersion of standard air
+//   Journal of the Optical Society of America, 43, 5, 339

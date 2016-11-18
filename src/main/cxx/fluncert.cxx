@@ -1,4 +1,5 @@
-// Utility: merge two spectral flux and uncertainty data files into a single file
+// Utility: merge separate spectral flux and uncertainty data files into a single
+// spectroscopic data file
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -123,12 +124,12 @@ int main(int argc, char* argv[])
             put(cout, x, y, z);
         else {
             cerr << pname << ": input failure" << endl;
-            return 0;
+            return 2;
         }
     } else {
-        cerr << "Usage: " << pname << " FLUXDATA ERRORDATA > OSTREAM" << endl;
-        return 0;
+        cerr << "Usage: " << pname << " FLUX UNCERTAINTY > OSTREAM" << endl;
+        return 1;
     }
     
-    return 1;
+    return 0;
 }

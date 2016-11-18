@@ -1,4 +1,4 @@
-// Utility: accumulate (weighted average) multiple spectra
+// Utility: accumulate multiple spectra (weighted average)
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -99,9 +99,9 @@ public:
 private:
     valarray<double> x; // wavelength data
     valarray<double> y; // flux data
-    valarray<double> z; // flux data error
+    valarray<double> z; // flux data uncertainty
     valarray<double> c; // flux cubic spline data
-    valarray<double> d; // error cubic spline data
+    valarray<double> d; // uncertainty cubic spline data
 
     mutable size_t i;
     mutable size_t j;
@@ -109,7 +109,6 @@ private:
 
     void spline();
     void splint(double x, double& y, double& z) const throw (runtime_error);
-
 };
 
 frame::frame()
@@ -170,7 +169,7 @@ frame::resize(size_t m)
 void
 frame::resample(double r)
 {
-    const double h = (r > 0.0) ? blu_end() / (2.0 * r) : length() / (n - 1);
+    const double h = (r > 0.0) ? center() / (2.0 * r) : length() / (n - 1);
     const size_t m = (r > 0.0) ? static_cast<size_t>(length() / h) + 1 : n;
 
     valarray<double> u(m);
@@ -240,7 +239,7 @@ frame::median() const
 
     nth_element(&index[n / 3], &index[n >> 1], &index[n / 3 << 1], indirect_comparation<double,
         less<double> >(y, less<double>()));
-    clog << "frame::median(): Message: Median is " << y[index[n >> 1]] << endl;
+    clog << "frame::median(): Message: median is " << y[index[n >> 1]] << endl;
 
     return y[index[n >> 1]];
 }
@@ -395,7 +394,7 @@ frame::splint(double u, double& v, double& w) const throw (runtime_error)
         w += ((a * a * a - a) * z[i] + (b * b * b - b) * z[j]) * (h * h) / 6.0;
             // cubic spline interpolation
     } else
-        throw runtime_error("frame::splint(): Error: Bad abscissa table");
+        throw runtime_error("frame::splint(): Error: bad abscissa table");
 }
 
 class stack : public vector<frame> {
@@ -454,7 +453,7 @@ stack::coadd(frame& f) const
 void
 stack::align()
 {
-    return;
+    return; // intentionally do nothing
 }
 
 void
@@ -477,7 +476,7 @@ stack::rescale()
             const double a = m[k] / m[i - begin()];
 
             i->scale(a);
-            clog << "stack::rescale(): Message: Frame rescaled by " << a << endl;
+            clog << "stack::rescale(): Message: frame rescaled by " << a << endl;
         }
 }
 
@@ -525,6 +524,20 @@ operator<<(ostream& os, const vector<frame>& f)
     return os;
 }
 
+//
+// The basic procedure is:
+//
+// 1. A stack of spectroscopic data frames is read from standard input. The frame
+//    separator is an empty line.
+// 2. All frames are rescaled to the same median flux level.
+// 3. All frames are resampled to the same wavelengths.
+// 4. The weighted average of all frames is computed.
+// 5. The weighted average frame is resampled to equidistant wavelengths.
+//
+// The current implementation interprets the spectroscopic data as a cubic spline,
+// therefore the third step is not performed. The resampling performed here might
+// be sufficient, but does not conserve flux.
+//
 int main(int argc, char* argv[])
 {
     const char* pname = argv[0];
@@ -553,12 +566,12 @@ int main(int argc, char* argv[])
             cout << f;
         } else {
             cerr << pname << ": input failure" << endl;
-            return 0;
+            return 2;
         }
 
-        return 1;
+        return 0;
     }
 
     cerr << "Usage: " << pname << " [RESOLUTION] < ISTREAM > OSTREAM" << endl;
-    return 0;
+    return 1;
 }

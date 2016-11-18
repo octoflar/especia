@@ -133,12 +133,12 @@ int main(int argc, char* argv[])
             put(cout, x, y, z);
         } else {
             cerr << pname << ": input failure" << endl;
-            return 0;
+            return 2;
         }
         
-        return 1;
+        return 0;
     }
     
-    cerr << "Usage: " << pname << " VELOCITY [SKIP] < ISTREAM > OSTREAM" << endl;
-    return 0;
+    cerr << "Usage: " << pname << " VELOCITY (km s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
+    return 1;
 }
