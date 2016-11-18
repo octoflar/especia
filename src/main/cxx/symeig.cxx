@@ -79,8 +79,8 @@ extern "C" {
 
 const double safe_minimum = F77NAME(dlamch)('s');
 
-const char RQ::sym_eig_decomp_d::int_err[] = "RQ::sym_eig_decomp_d(): Error: Internal error in LAPACK routine DSYEVD";
-const char RQ::sym_eig_decomp_d::ill_arg[] = "RQ::sym_eig_decomp_d(): Error: Illegal argument(s) in call to LAPACK routine DSYEVD";
+const char RQ::sym_eig_decomp_d::int_err[] = "RQ::sym_eig_decomp_d(): Error: internal error in LAPACK routine DSYEVD";
+const char RQ::sym_eig_decomp_d::ill_arg[] = "RQ::sym_eig_decomp_d(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
 
 RQ::sym_eig_decomp_d::sym_eig_decomp_d(size_t n)
     :   job('V'), uplo('U'), work(1), iwork(1)
@@ -145,8 +145,8 @@ RQ::sym_eig_decomp_d::transpose(double A[]) const
 }
 
 
-const char RQ::sym_eig_decomp_r::int_err[] = "RQ::sym_eig_decomp_r(): Error: Internal error in LAPACK routine DSYEVR";
-const char RQ::sym_eig_decomp_r::ill_arg[] = "RQ::sym_eig_decomp_r(): Error: Illegal argument(s) in call to LAPACK routine DSYEVR";
+const char RQ::sym_eig_decomp_r::int_err[] = "RQ::sym_eig_decomp_r(): Error: internal error in LAPACK routine DSYEVR";
+const char RQ::sym_eig_decomp_r::ill_arg[] = "RQ::sym_eig_decomp_r(): Error: illegal argument(s) in call to LAPACK routine DSYEVR";
 
 RQ::sym_eig_decomp_r::sym_eig_decomp_r(size_t n)
     :   job('V'), range('A'), uplo('U'), work(1), iwork(1)
@@ -215,8 +215,8 @@ RQ::sym_eig_decomp_r::transpose(double A[]) const
 }
 
 
-const char RQ::sym_eig_decomp_x::int_err[] = "RQ::sym_eig_decomp_x(): Error: Internal error in LAPACK routine DSYEVX";
-const char RQ::sym_eig_decomp_x::ill_arg[] = "RQ::sym_eig_decomp_x(): Error: Illegal argument(s) in call to LAPACK routine DSYEVX";
+const char RQ::sym_eig_decomp_x::int_err[] = "RQ::sym_eig_decomp_x(): Error: internal error in LAPACK routine DSYEVX";
+const char RQ::sym_eig_decomp_x::ill_arg[] = "RQ::sym_eig_decomp_x(): Error: illegal argument(s) in call to LAPACK routine DSYEVX";
 
 RQ::sym_eig_decomp_x::sym_eig_decomp_x(size_t n)
     :   job('V'), range('A'), uplo('U'), work(1), iwork(), ifail()

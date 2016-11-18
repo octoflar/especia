@@ -131,7 +131,7 @@ RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw (
                 else if (s > 0.0)
                     a[i][i] = sqrt(s);
                 else // the normal equations are (numerically) singular
-                    throw runtime_error("RQ::section::continuum(): Error: Normal equations are numerically singular");
+                    throw runtime_error("RQ::section::continuum(): Error: normal equations are numerically singular");
             }
         for (size_t i = 0; i < m; ++i) {
             double s = b[i];
@@ -336,7 +336,7 @@ RQ::section::put(std::ostream& os, double a, double b) const
             if (a <= wav[i] and wav[i] <= b) {
                 const double nfl = flx[i] / cfl[i];
                 const double ner = err[i] / cfl[i];
-                    // normalized observed flux and error
+                    // normalized observed flux and uncertainty
                     
                 os << setw(w) << wav[i];
                 os << setw(w) << flx[i];

@@ -81,7 +81,7 @@ private:
 
     std::valarray<double> wav; // wavelength data
     std::valarray<double> flx; // flux data
-    std::valarray<double> err; // flux data standard deviation
+    std::valarray<double> err; // flux data uncertainty
 
     std::valarray<bool> msk; // selection mask
 

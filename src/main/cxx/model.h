@@ -97,13 +97,13 @@ RQ::model<profile_function>::get(std::istream& is, std::ostream& os, char cm, ch
     typedef map<string, size_t>::const_iterator id_index_map_ci;
 
     const char errmsg[] = "RQ::model<>::get(): Error: ";
-    const char dlimsg[] = "Duplicate line identifier";
-    const char dsimsg[] = "Duplicate section identifier";
-    const char fnfmsg[] = "File not found";
-    const char infmsg[] = "Input failed";
-    const char srfmsg[] = "Self reference";
-    const char synmsg[] = "Syntax error";
-    const char rnfmsg[] = "Reference not found";
+    const char dlimsg[] = "duplicate line identifier";
+    const char dsimsg[] = "duplicate section identifier";
+    const char fnfmsg[] = "file not found";
+    const char infmsg[] = "input failed";
+    const char srfmsg[] = "self reference";
+    const char synmsg[] = "syntax error";
+    const char rnfmsg[] = "reference not found";
 
     vector<RQ::section> sec;
 
@@ -717,7 +717,7 @@ RQ::model<profile_function>::optimize(size_t parent_number,
     os << "-->" << endl;
     os << "</html>\n";
 
-    // Compute error bars
+    // Compute uncertainty
     RQ::scale_cm(this, &model<profile_function>::statistics, &x[0], n, step_size, &d[0], &B[0],
         z, 1.0, 0.68, max<unsigned>(100, n), ndev);
     for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1)
