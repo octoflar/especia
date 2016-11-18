@@ -23,8 +23,8 @@ data described and analysed by
 
 This software enables you to analyse spectroscopic data. Though it has been developed
 for the analysis of astrophysical spectra, it is applicable to spectroscopy in general.
-Read the two articles listed below to find out whether this software could be of
-interest to you. If you already have some understanding of the matters, consult the
+Read the two articles listed below to find out whether this software is of interest to
+you. If you already have some understanding of these matters, consult the
 [especia wiki](https://github.com/octoflar/especia/wiki) for operating instructions.
 
 Building this software requires a compiler that implements the ISO/IEC 14882:2011
