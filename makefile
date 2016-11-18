@@ -46,9 +46,6 @@ especiv : especiv.o profiles.o readline.o section.o symeig.o
 especia : especia.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
 
-% : %.cxx
-	$(CXX) $(CXXFLAGS) -o $@ $<
-
 especid.o : especid.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 especiv.o : especiv.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
@@ -56,9 +53,10 @@ especiv.o : especiv.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
+% : %.cxx
+	$(CXX) $(CXXFLAGS) -o $@ $<
 %.o : %.cxx %.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
-
 %.html : $(tstdir)/resources/%.html
 	./xtractmod < $< | `./xtractcom < $<` > $@
 %.diff : $(tstdir)/resources/%.html %.html
