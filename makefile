@@ -22,13 +22,11 @@ DIFF    = diff
 # include build properties, if present
 -include build.properties
 
-
 # directories
 bindir := $(wildcard ~/bin)
 srcdir := ./src/main
 tstdir := ./src/test
 VPATH   = $(srcdir)/cxx:$(tstdir)/cxx
-
 
 #  main programs
 bin := especid
@@ -48,7 +46,6 @@ bin += vactoair
 # examples
 htm := example.html
 
-
 # main targets
 especid : especid.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
@@ -56,15 +53,13 @@ especiv : especiv.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 especia : especia.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
-
-# some object files with dependencies
+# object files with dependencies
 especid.o : especid.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 especiv.o : especiv.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
-
 
 # rules
 % : %.cxx
@@ -75,7 +70,6 @@ especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 	./xtractmod < $< | `./xtractcom < $<` > $@
 %.diff : $(tstdir)/resources/%.html %.html
 	$(DIFF) $^
-
 
 # standard targets
 .PHONY : all clean distclean install test
