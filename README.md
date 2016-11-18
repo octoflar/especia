@@ -21,8 +21,10 @@ data described and analysed by
 
 # Getting started
 
+This software enables you to analyse spectroscopic data. Though it has been developed
+for the analysis of astrophysical spectra, it is applicable to spectroscopy in general.
 Read the two articles listed below to find out whether this software could be of
-interest to you. If you have some understanding, be sure to consult the
+interest to you. If you have interest and some understanding, consult the
 [especia wiki](https://github.com/octoflar/especia/wiki).
 
 Building this software requires a compiler that implements the ISO/IEC 14882:2011
@@ -37,11 +39,10 @@ To build, test, and install this software type
     make install
 
 You may have to specify a different compiler or different compiler and linker flags,
-whatever is suitable for your system.
-
-This software uses the [Linear Algebra Package](http://www.netlib.org/lapack/), which
-may already be pre-installed on your system as a shared or static library. Consult your
-system documentation how to use the linear algebra library.
+whatever is suitable for your system. In particular, this software uses the
+[Linear Algebra Package](http://www.netlib.org/lapack/), which may already be
+pre-installed on your system as a shared or static library. Consult your system
+documentation how to use the linear algebra library.
 
 
 # Versioning
