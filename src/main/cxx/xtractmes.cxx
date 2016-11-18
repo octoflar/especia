@@ -25,6 +25,7 @@
 
 using namespace std;
 
+// usage: xtractmes < ISTREAM > OSTREAM
 int main()
 {
     bool ismessage = false;

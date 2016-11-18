@@ -25,6 +25,7 @@
 
 using namespace std;
 
+// usage: xtractlog < ISTREAM > OSTREAM
 int main()
 {
     bool islog = false;

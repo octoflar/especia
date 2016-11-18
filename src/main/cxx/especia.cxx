@@ -30,7 +30,7 @@
 #include "symeig.h"
 
 const char usemsg[] = "Usage: ";
-const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE";
+const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
 
 int main(int argc, char* argv[])
 {

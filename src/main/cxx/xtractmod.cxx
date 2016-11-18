@@ -25,6 +25,7 @@
 
 using namespace std;
 
+// usage: xtractmod < ISTREAM > OSTREAM
 int main()
 {
     bool ismodel = false;
