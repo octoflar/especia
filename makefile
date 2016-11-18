@@ -28,6 +28,7 @@ tstdir := ./src/test
 
 VPATH = $(srcdir)/cxx:$(tstdir)/cxx
 
+#  main programs
 bin := especid
 bin += especiv
 bin += especia
@@ -36,9 +37,16 @@ bin += xtractdat
 bin += xtractlog
 bin += xtractmes
 bin += xtractmod
-
+# utilities
+bin += accumula
+bin += airtovac
+bin += fluncert
+bin += helicorr
+bin += vactoair
+# examples
 htm := example.html
 
+# targets
 especid : especid.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 especiv : especiv.o profiles.o readline.o section.o symeig.o
@@ -53,6 +61,7 @@ especiv.o : especiv.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
+# simple rules
 % : %.cxx
 	$(CXX) $(CXXFLAGS) -o $@ $<
 %.o : %.cxx %.h
@@ -63,18 +72,15 @@ especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 	$(DIFF) $^
 
 
+# standard targets
 .PHONY : all clean distclean install test
 
 all : $(bin)
-
 install :
 	mv -f $(bin) $(bindir)
-
 clean :
 	$(RM) *.o
-
 distclean : clean
 	$(RM) $(bin)
 	$(RM) $(htm)
-
 test : $(htm:.html=.diff)
