@@ -40,11 +40,11 @@ bin += xtractmod
 htm := example.html
 
 especid : especid.o profiles.o readline.o section.o symeig.o
-	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
+	$(CXX) $(LDFLAGS) -o $@ $^
 especiv : especiv.o profiles.o readline.o section.o symeig.o
-	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
+	$(CXX) $(LDFLAGS) -o $@ $^
 especia : especia.o profiles.o readline.o section.o symeig.o
-	$(CXX) $(LDFLAGS) -o $@ $< profiles.o readline.o section.o symeig.o
+	$(CXX) $(LDFLAGS) -o $@ $^
 
 especid.o : especid.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
