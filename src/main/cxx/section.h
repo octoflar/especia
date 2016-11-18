@@ -144,7 +144,7 @@ RQ::section::convolute(const optical_depth& t, double r, double opt[], double at
         const double h = length() / (n - 1);
             // sample spacing
         const size_t m = static_cast<size_t>(2.0 * (w / h)) + 1;
-
+            // cut the Gaussian profile at 2-FWHM (4.7 standard deviations) at the level of 10E-5
         valarray<double> p(m);
         valarray<double> q(m);
 
