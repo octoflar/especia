@@ -60,7 +60,6 @@ especiv.o : especiv.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
-
 # rules
 % : %.cxx
 	$(CXX) $(CXXFLAGS) -o $@ $<
