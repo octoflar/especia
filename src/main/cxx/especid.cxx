@@ -1,4 +1,4 @@
-// Especia: Doppler profile version
+// Especia: Doppler profile version for extragalactic lines
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy

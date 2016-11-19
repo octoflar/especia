@@ -41,6 +41,7 @@ VPATH   = $(srcdir)/cxx:$(tstdir)/cxx
 bin := especid
 bin += especiv
 bin += especia
+bin += especis
 bin += xtractcom
 bin += xtractdat
 bin += xtractlog
@@ -62,12 +63,16 @@ especiv : especiv.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 especia : especia.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
+especis : especis.o profiles.o readline.o section.o symeig.o
+	$(CXX) $(LDFLAGS) -o $@ $^
 # object files with dependencies
 especid.o : especid.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 especiv.o : especiv.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
+	$(CXX) -c $(CXXFLAGS) $< -o $@
+especis.o : especis.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 # rules
 % : %.cxx

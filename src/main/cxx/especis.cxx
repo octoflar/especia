@@ -1,5 +1,4 @@
-// Especia: many-multiplets version to infer the variation of the fine-structure
-// constant
+// Especia: Doppler profile version for interstellar lines
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,9 +23,7 @@
 #include <fstream>
 #include "mtwister.h"
 #include "randev.h"
-#define RQ_MANY_MULTIPLET_ANALYSIS 1
 #include "model.h"
-#undef RQ_MANY_MULTIPLET_ANALYSIS
 #include "symeig.h"
 
 const char usemsg[] = "Usage: ";
@@ -40,7 +37,7 @@ int main(int argc, char* argv[])
     using std::cerr;
     using std::endl;
     using std::exception;
-
+  
     const char* pname = argv[0];
 
     if (argc == 8) {
@@ -63,7 +60,7 @@ int main(int argc, char* argv[])
         cout << "-->\n";
         cout << "</html>\n";
 
-        model<doppler_mm_pf> m;
+        model<doppler_is_pf> m;
         m.get(cin, cout);
 
         if (cin.eof() and !cin.fail()) {
