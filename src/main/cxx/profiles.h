@@ -44,10 +44,10 @@ namespace RQ {
     double voigt(double x, double b, double d);
 
     // Function-like classes
-    class gaumm_pf;
-    class gauss_pf;
-    class test;
-    class voigt_pf;
+    class doppler_pf; // Doppler profile
+    class dopplmm_pf; // Doppler profile for many-multiplets analysis
+    class dopplis_pf; // Doppler profile for interstellar lines
+    class voigt_pf;   // Voigt profile
 
     // Funktion-like class templates
     template<class profile_function> class superposition;
@@ -76,21 +76,21 @@ RQ::pseudovoigt(double x, double b, double d, double z)
     return (1.0 - z) * gauss(x, b) + z * lorentz(x, d);
 }
 
-class RQ::gaumm_pf {
+class RQ::dopplmm_pf {
 public:
     static const size_t parameters = 8;
 
-    gaumm_pf();
-    gaumm_pf(const double a[]);
+    dopplmm_pf();
+    dopplmm_pf(const double a[]);
         // a[0] laboratory wavelength (Angstrom)
         // a[1] oscillator strength
         // a[2] cosmological redshift
-        // a[3] radial velocity (kilometer per second)
-        // a[4] line broadening velocity (kilometer per second)
-        // a[5] particle column density (dex per square centimeter)
+        // a[3] radial velocity (km s-1)
+        // a[4] line broadening velocity (km s-1)
+        // a[5] decadic logarithm of the particle column number density (cm-2)
         // a[6] relativistic correction coefficient
         // a[7] variability of the fine-structure constant (1.0e-05)
-    ~gaumm_pf();
+    ~dopplmm_pf();
 
     double operator()(double x) const;
     double center() const;
@@ -105,7 +105,7 @@ private:
 
 inline
 double
-RQ::gaumm_pf::operator()(double x) const
+RQ::dopplmm_pf::operator()(double x) const
 {
     using std::abs;
 
@@ -114,24 +114,24 @@ RQ::gaumm_pf::operator()(double x) const
 
 inline
 double
-RQ::gaumm_pf::center() const
+RQ::dopplmm_pf::center() const
 {
     return y;
 }
 
-class RQ::gauss_pf {
+class RQ::doppler_pf {
 public:
     static const size_t parameters = 6;
 
-    gauss_pf();
-    gauss_pf(const double a[]);
+    doppler_pf();
+    doppler_pf(const double a[]);
         // a[0] laboratory wavelength (Angstrom)
         // a[1] oscillator strength
         // a[2] cosmological redshift
-        // a[3] radial velocity (kilometer per second)
-        // a[4] line broadening velocity (kilometer per second)
-        // a[5] particle column density (dex per square centimeter)
-    ~gauss_pf();
+        // a[3] radial velocity (km s-1)
+        // a[4] line broadening velocity (km s-1)
+        // a[5] decadic logarithm of the particle column number density (cm-2)
+    ~doppler_pf();
 
     double operator()(double x) const;
     double center() const;
@@ -146,7 +146,7 @@ private:
 
 inline
 double
-RQ::gauss_pf::operator()(double x) const
+RQ::doppler_pf::operator()(double x) const
 {
     using std::abs;
 
@@ -155,23 +155,23 @@ RQ::gauss_pf::operator()(double x) const
 
 inline
 double
-RQ::gauss_pf::center() const
+RQ::doppler_pf::center() const
 {
     return y;
 }
 
-class RQ::test {
+class RQ::dopplis_pf {
 public:
     static const size_t parameters = 5;
 
-    test();
-    test(const double a[]);
+    dopplis_pf();
+    dopplis_pf(const double a[]);
         // a[0] laboratory wavelength (Angstrom)
         // a[1] oscillator strength
         // a[2] observed wavelength (Angstrom)
-        // a[3] line broadening velocity (kilometer per second)
-        // a[4] particle column density (dex per square centimeter)
-    ~test();
+        // a[3] line broadening velocity (km s-1)
+        // a[4] decadic logarithm of the particle column number density (cm-2)
+    ~dopplis_pf();
 
     double operator()(double x) const;
     double center() const;
@@ -186,7 +186,7 @@ private:
 
 inline
 double
-RQ::test::operator()(double x) const
+RQ::dopplis_pf::operator()(double x) const
 {
     using std::abs;
 
@@ -195,7 +195,7 @@ RQ::test::operator()(double x) const
 
 inline
 double
-RQ::test::center() const
+RQ::dopplis_pf::center() const
 {
     return y;
 }
@@ -209,10 +209,10 @@ public:
         // a[0] laboratory wavelength (Angstrom)
         // a[1] oscillator strength
         // a[2] cosmological redshift
-        // a[3] radial velocity (kilometer per second)
-        // a[4] line broadening velocity (kilometer per second)
-        // a[5] particle column density (dex per square centimeter)
-        // a[6] damping constant (Hertz)
+        // a[3] radial velocity (km s-1)
+        // a[4] line broadening velocity (km s-1)
+        // a[5] decadic logarithm of the particle column number density (cm-2)
+        // a[6] damping constant (s-1)
     ~voigt_pf();
 
     double operator()(double x) const;

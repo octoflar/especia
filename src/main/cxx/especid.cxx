@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
         cout << "-->\n";
         cout << "</html>\n";
 
-        model<gauss_pf> m;
+        model<doppler_pf> m;
         m.get(cin, cout);
 
         if (cin.eof() and !cin.fail()) {

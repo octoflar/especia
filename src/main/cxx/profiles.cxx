@@ -41,21 +41,21 @@ RQ::voigt(double x, double b, double d)
     return pseudovoigt(x, b, d, z);
 }
 
-RQ::gaumm_pf::gaumm_pf() : b(1.0), c(0.0), y(0.0)
+RQ::dopplmm_pf::dopplmm_pf() : b(1.0), c(0.0), y(0.0)
 {
 }
 
-RQ::gaumm_pf::gaumm_pf(const double a[])
+RQ::dopplmm_pf::dopplmm_pf(const double a[])
 {
     assign(a);
 }
 
-RQ::gaumm_pf::~gaumm_pf()
+RQ::dopplmm_pf::~dopplmm_pf()
 {
 }
 
 void
-RQ::gaumm_pf::assign(const double a[])
+RQ::dopplmm_pf::assign(const double a[])
 {
     const double u = 1.0e-05 * a[7];
     const double v = u * (u + 2.0);
@@ -66,42 +66,42 @@ RQ::gaumm_pf::assign(const double a[])
     c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (x * y);
 }
 
-RQ::gauss_pf::gauss_pf() : b(1.0), c(0.0), y(0.0)
+RQ::doppler_pf::doppler_pf() : b(1.0), c(0.0), y(0.0)
 {
 }
 
-RQ::gauss_pf::gauss_pf(const double a[])
+RQ::doppler_pf::doppler_pf(const double a[])
 {
     assign(a);
 }
 
-RQ::gauss_pf::~gauss_pf()
+RQ::doppler_pf::~doppler_pf()
 {
 }
 
 void
-RQ::gauss_pf::assign(const double a[])
+RQ::doppler_pf::assign(const double a[])
 {
     y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
     b = a[4] * y / speed_of_light;
     c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);
 }
 
-RQ::test::test() : b(1.0), c(0.0), y(0.0)
+RQ::dopplis_pf::dopplis_pf() : b(1.0), c(0.0), y(0.0)
 {
 }
 
-RQ::test::test(const double a[])
+RQ::dopplis_pf::dopplis_pf(const double a[])
 {
     assign(a);
 }
 
-RQ::test::~test()
+RQ::dopplis_pf::~dopplis_pf()
 {
 }
 
 void
-RQ::test::assign(const double a[])
+RQ::dopplis_pf::assign(const double a[])
 {
     y = a[2];
     b = a[3] * y / speed_of_light;

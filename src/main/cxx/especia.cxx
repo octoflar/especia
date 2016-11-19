@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
         cout << "-->\n";
         cout << "</html>\n";
 
-        model<gaumm_pf> m;
+        model<dopplmm_pf> m;
         m.get(cin, cout);
 
         if (cin.eof() and !cin.fail()) {
