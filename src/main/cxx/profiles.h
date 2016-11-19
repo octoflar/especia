@@ -45,11 +45,12 @@ namespace RQ {
 
     // Function-like classes
     class doppler_pf; // Doppler profile
-    class dopplmm_pf; // Doppler profile for many-multiplets analysis
-    class dopplis_pf; // Doppler profile for interstellar lines
+    class doppler_mm_pf; // Doppler profile for many-multiplets analysis
+    class doppler_is_pf; // Doppler profile for interstellar lines
     class voigt_pf;   // Voigt profile
 
     // Function-like class templates
+
     template<class profile_function> class superposition;
 }
 
@@ -76,12 +77,12 @@ RQ::pseudovoigt(double x, double b, double d, double z)
     return (1.0 - z) * gauss(x, b) + z * lorentz(x, d);
 }
 
-class RQ::dopplmm_pf {
+class RQ::doppler_mm_pf {
 public:
     static const size_t parameters = 8;
 
-    dopplmm_pf();
-    dopplmm_pf(const double a[]);
+    doppler_mm_pf();
+    doppler_mm_pf(const double a[]);
         // a[0] laboratory wavelength (Angstrom)
         // a[1] oscillator strength
         // a[2] cosmological redshift
@@ -90,7 +91,7 @@ public:
         // a[5] decadic logarithm of the particle column number density (cm-2)
         // a[6] relativistic correction coefficient
         // a[7] variability of the fine-structure constant (1.0e-05)
-    ~dopplmm_pf();
+    ~doppler_mm_pf();
 
     double operator()(double x) const;
     double center() const;
@@ -105,7 +106,7 @@ private:
 
 inline
 double
-RQ::dopplmm_pf::operator()(double x) const
+RQ::doppler_mm_pf::operator()(double x) const
 {
     using std::abs;
 
@@ -114,7 +115,7 @@ RQ::dopplmm_pf::operator()(double x) const
 
 inline
 double
-RQ::dopplmm_pf::center() const
+RQ::doppler_mm_pf::center() const
 {
     return y;
 }
@@ -160,18 +161,18 @@ RQ::doppler_pf::center() const
     return y;
 }
 
-class RQ::dopplis_pf {
+class RQ::doppler_is_pf {
 public:
     static const size_t parameters = 5;
 
-    dopplis_pf();
-    dopplis_pf(const double a[]);
+    doppler_is_pf();
+    doppler_is_pf(const double a[]);
         // a[0] laboratory wavelength (Angstrom)
         // a[1] oscillator strength
-        // a[2] observed wavelength (Angstrom)
+        // a[2] radial velocity (km s-1)
         // a[3] line broadening velocity (km s-1)
         // a[4] decadic logarithm of the particle column number density (cm-2)
-    ~dopplis_pf();
+    ~doppler_is_pf();
 
     double operator()(double x) const;
     double center() const;
@@ -186,7 +187,7 @@ private:
 
 inline
 double
-RQ::dopplis_pf::operator()(double x) const
+RQ::doppler_is_pf::operator()(double x) const
 {
     using std::abs;
 
@@ -195,7 +196,7 @@ RQ::dopplis_pf::operator()(double x) const
 
 inline
 double
-RQ::dopplis_pf::center() const
+RQ::doppler_is_pf::center() const
 {
     return y;
 }
@@ -291,7 +292,7 @@ template <class profile_function>
 void
 RQ::superposition<profile_function>::assign(size_t n, const double a[])
 {
-    this->resize(n);
+    p.resize(n);
 
     for (size_t i = 0; i < n; ++i, a += profile_function::parameters)
         p[i].assign(a);
