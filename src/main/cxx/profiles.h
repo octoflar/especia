@@ -49,7 +49,7 @@ namespace RQ {
     class dopplis_pf; // Doppler profile for interstellar lines
     class voigt_pf;   // Voigt profile
 
-    // Funktion-like class templates
+    // Function-like class templates
     template<class profile_function> class superposition;
 }
 
