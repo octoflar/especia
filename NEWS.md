@@ -2,7 +2,8 @@
 
 Version 2017.1 is a maintenance release. The main programs and executable
 files were renamed and some utility programs were added. Ancillary files
-were revised. A few anhancements and new features were implemented:
+were revised. Build properties for the GCC and Intel compilers were added.
+A few new features and enhancements were implemented:
 
 * Comment lines in spectrum data files are permitted. Comment lines must
 start with a hash mark `#` in the first column.
@@ -12,7 +13,7 @@ The command can be extracted from the result file with the `xtractcom`
 utility.
 * The model definition read is echoed to standard output. It appears in the
 result HTML file within a comment block. The model definition can be extracted
-from the result file with the Ã`xtractmod` utility.
+from the result file with the `xtractmod` utility.
 
 
 # New in 2016.1
