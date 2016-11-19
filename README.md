@@ -40,7 +40,8 @@ To build, test, and install this software type
 
 You might have to specify compiler and linker options, whatever is suitable for your system.
 In particular, this software uses the [Linear Algebra Package](http://www.netlib.org/lapack/),
-which may already be pre-installed on your system as a shared or static library. Consult
+which may already be pre-installed on your system as a shared or static library. Read the
+[build instructions](https://github.com/octoflar/especia/wiki/Build-instructions) and consult
 your system documentation how to use the linear algebra library.
 
 
