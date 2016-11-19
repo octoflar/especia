@@ -28,8 +28,9 @@ you. If you already have some understanding of these matters, consult the
 [especia wiki](https://github.com/octoflar/especia/wiki) for operating instructions.
 
 Building this software requires a compiler that implements the ISO/IEC 14882:2011
-norm, also known as C++11. In particular, the `<cmath>` header must declare the
-[error function `std::erf`](https://github.com/octoflar/especia/wiki/Troubleshooting#the-error-function-stderf).
+norm, also known as C++11. In particular, the `<cmath>` header must declare
+[the error function](https://github.com/octoflar/especia/wiki/Troubleshooting#the-error-function-stderf).
+`std::erf`.
 
 To build, test, and install this software type
 
