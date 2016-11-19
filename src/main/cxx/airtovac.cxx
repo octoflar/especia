@@ -145,7 +145,7 @@ findroot(void f(double, double&, double&), double c, double x, double accuracy_g
     } while (++i < 100 and abs(d) > accuracy_goal * x);
 
     if (i == 100)
-        throw runtime_error("rtnewt(): Error: iteration stopped");
+        throw runtime_error("findroot(): Error: iteration stopped");
 
     return x;
 }
