@@ -19,8 +19,17 @@
 # SOFTWARE.
 
 DIFF    = diff
+
 # include build properties, if present
 -include build.properties
+
+# default compiler options and linker flags
+ifeq ($(CXXFLAGS),)
+  CXXFLAGS = -std=c++11 -O3
+endif
+ifeq ($(LDFLAGS),)
+  LDFLAGS  = -llapack -lblas
+endif
 
 # directories
 bindir := $(wildcard ~/bin)

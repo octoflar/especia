@@ -34,15 +34,14 @@ declare the error function `std::erf`.
 
 To build, test, and install this software type
 
-    make all CXX=g++ CXXFLAGS='-std=c++11 -O3' LDFLAGS='-llapack -lblas'
+    make all
     make test
     make install
 
-You may have to specify a different compiler or different compiler and linker flags,
-whatever is suitable for your system. In particular, this software uses the
-[Linear Algebra Package](http://www.netlib.org/lapack/), which may already be
-pre-installed on your system as a shared or static library. Consult your system
-documentation how to use the linear algebra library.
+You might have to specify compiler and linker options, whatever is suitable for your system.
+In particular, this software uses the [Linear Algebra Package](http://www.netlib.org/lapack/),
+which may already be pre-installed on your system as a shared or static library. Consult
+your system documentation how to use the linear algebra library.
 
 
 # Versioning
