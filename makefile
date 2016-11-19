@@ -47,8 +47,8 @@ bin += xtractlog
 bin += xtractmes
 bin += xtractmod
 # utilities
-bin += accumula
 bin += airtovac
+bin += cumulate
 bin += fluncert
 bin += helicorr
 bin += vactoair

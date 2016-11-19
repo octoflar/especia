@@ -530,13 +530,15 @@ operator<<(ostream& os, const vector<frame>& f)
 // 1. A stack of spectroscopic data frames is read from standard input. The frame
 //    separator is an empty line.
 // 2. All frames are rescaled to the same median flux level.
-// 3. All frames are resampled to the same wavelengths.
-// 4. The weighted average of all frames is computed.
-// 5. The weighted average frame is resampled to equidistant wavelengths.
+// 3. The weighted average of all frames is computed.
+// 4. The weighted average frame is resampled to equidistant wavelengths.
 //
 // The current implementation interprets the spectroscopic data as a cubic spline,
-// therefore the third step is not performed. The resampling performed here might
-// be sufficient, but does not conserve flux.
+// therefore the frames need not be co-aligned. The final resampling step might be
+// sufficiently accurate, but does not necessarily conserve flux.
+//
+// A flux-conserving co-alignment of frames before averaging might be more accurate
+// than the procedure implemented here.
 //
 int main(int argc, char* argv[])
 {
