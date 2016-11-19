@@ -7,7 +7,7 @@ A few new features and enhancements were implemented:
 
 * Comment lines in spectrum data files are permitted. Comment lines must
 start with a hash mark `#` in the first column.
-* The command line typed to invoke `especi*` runs is echoed to the standard
+* The command line typed to invoke `especi*` is echoed to the standard
 output stream. It appears in the result HTML file within a comment block.
 The command line can be extracted from the result file with the `xtractcom`
 utility.
