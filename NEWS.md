@@ -18,5 +18,6 @@ from the result file by means of the `xtractmod` utility.
 
 # New in 2016.1
 
-Version 2016.1 is the initial public release. The source code from 2006 was
-adapted to C++11 standards and some compiler warnings were eleminated.
+Version 2016.1 is the initial public release. The original sources from 2006
+were adapted to C++11 coding standards and some compiler warnings eleminated.
+
