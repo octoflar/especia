@@ -9,7 +9,7 @@ A few new features and enhancements were implemented:
 start with a hash mark `#` in the first column.
 * The command line typed to invoke `especi*` runs is echoed to the standard
 output stream. It appears in the result HTML file within a comment block.
-The command can be extracted from the result file with the `xtractcom`
+The command line can be extracted from the result file with the `xtractcom`
 utility.
 * The model definition read is echoed to standard output. It appears in the
 result HTML file within a comment block. The model definition can be extracted
