@@ -133,7 +133,7 @@ vactoair(double x, double& y, double& z)
 }
 
 double
-rtnewt(void f(double, double&, double&), double c, double x, double accuracy_goal) throw (runtime_error)
+findroot(void f(double, double&, double&), double c, double x, double accuracy_goal) throw (runtime_error)
 {
     double d, y, z;
     unsigned i = 0;
@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
         if (get(cin, x, y, z, skip)) {
             try {
                 for (size_t i = 0; i < x.size(); ++i)
-                    x[i] = 10.0 / rtnewt(vactoair, 10.0 / x[i], 10.0 / x[i], accuracy_goal);
+                    x[i] = 10.0 / findroot(vactoair, 10.0 / x[i], 10.0 / x[i], accuracy_goal);
             }
             catch (exception& e) {
                 cerr << pname << ": " << e.what() << endl;
