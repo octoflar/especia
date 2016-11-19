@@ -5,11 +5,14 @@ files were renamed and some utility programs were added. Ancillary files
 were revised. A few anhancements and new features were implemented:
 
 * Comment lines in spectrum data files are permitted. Comment lines must
-start with a `#` in the first column.
+start with a hash mark `#` in the first column.
 * The command line typed to invoke `especi*` runs is echoed to the standard
 output stream. It appears in the result HTML file within a comment block.
-* The model definition read in a run is echoed to standard output. It appears
-in the result HTML file within a comment block.
+The command can be extracted from the result file with the `xtractcom`
+utility.
+* The model definition read is echoed to standard output. It appears in the
+result HTML file within a comment block. The model definition can be extracted
+from the result file with the Ã`xtractmod` utility.
 
 
 # New in 2016.1
