@@ -13,7 +13,7 @@ The command line can be extracted from the result file with the `xtractcom`
 utility.
 * The model definition read is echoed to standard output. It appears in the
 result HTML file within a comment block. The model definition can be extracted
-from the result file with the `xtractmod` utility.
+from the result file by means of the `xtractmod` utility.
 
 
 # New in 2016.1
