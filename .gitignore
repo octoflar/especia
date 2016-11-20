@@ -1,20 +1,17 @@
-# CMake files
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Makefile
-cmake_install.cmake
-install_manifest.txt
-
-# CLion files
+# CLion creates
 .idea/
 
-# Eclipse files
+# Eclipse creates 
 .cproject
 .project
 .settings/
 
-# built files
+# Xcode files by convention are in folder
+xcode/
+
+# build files by convention are in folder
 build/
+
+# make creates files with suffix
 *.html
 *.o
