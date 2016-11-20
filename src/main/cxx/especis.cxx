@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 
     if (argc == 8) {
         const long   seed            = atol(argv[1]);
-        const int    parent_number   = atol(argv[2]);
+        const int    parent_number   = atoi(argv[2]);
         const int    population_size = atoi(argv[3]);
         const double step_size       = atof(argv[4]);
         const double accuracy_goal   = atof(argv[5]);
