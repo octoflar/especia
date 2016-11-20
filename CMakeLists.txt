@@ -19,8 +19,8 @@ set(MAIN_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/test)
 
 configure_file (
-        ${TEST_SOURCE_DIR}/resources/example.html.in
-        ${TEST_SOURCE_DIR}/resources/example.html
+        ${TEST_SOURCE_DIR}/html/example.html.in
+        ${TEST_SOURCE_DIR}/html/example.html
 )
 
 set(COMMON_SOURCES
@@ -53,9 +53,9 @@ add_executable(xtractmod ${MAIN_SOURCE_DIR}/cxx/xtractmod.cxx)
 add_executable(xtractmes ${MAIN_SOURCE_DIR}/cxx/xtractmes.cxx)
 
 add_custom_target(example
-        ./xtractmod < ${TEST_SOURCE_DIR}/resources/example.html | `./xtractcom < ${TEST_SOURCE_DIR}/resources/example.html` > example.html)
+        ./xtractmod < ${TEST_SOURCE_DIR}/html/example.html | `./xtractcom < ${TEST_SOURCE_DIR}/html/example.html` > example.html)
 add_custom_target(check
-        diff ${TEST_SOURCE_DIR}/resources/example.html example.html)
+        diff ${TEST_SOURCE_DIR}/html/example.html example.html)
 add_dependencies(check example)
 
 install(TARGETS especia especid especis especiv xtractcom xtractdat xtractlog xtractmod xtractmes

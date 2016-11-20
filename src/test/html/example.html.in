@@ -32,8 +32,8 @@
 % SOFTWARE.
 {
 % section 1
-% id            source                                          begin       end         polynomials
-  C_I_1560      @TEST_SOURCE_DIR/resources/data/synth1561.dat   3355.00     3359.00     3
+% id            source                                      begin       end         polynomials
+  C_I_1560      @TEST_SOURCE_DIR@/resources/synth1561.dat   3355.00     3359.00     3
 %
 % spectral resolution
 % initial       min         max         optimize    reference
@@ -142,8 +142,8 @@
 }
 {
 % section 2
-% id            source                                          begin       end         polynomials
-  C_I_1656      @TEST_SOURCE_DIR/resources/data/synth1657.dat   3562.00     3567.00     3
+% id            source                                      begin       end         polynomials
+  C_I_1656      @TEST_SOURCE_DIR@/resources/synth1657.dat   3562.00     3567.00     3
 %
 % spectral resolution
 % initial       min         max         optimize    reference
