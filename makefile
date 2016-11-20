@@ -18,26 +18,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-DIFF    = diff
-
-# include build properties, if present
--include build.properties
-
-# default compiler options and linker flags
-ifeq ($(CXXFLAGS),)
-  CXXFLAGS = -std=c++11 -O3
-endif
-ifeq ($(LDFLAGS),)
-  LDFLAGS  = -llapack -lblas
-endif
-
 # directories
 bindir := $(wildcard ~/bin)
 srcdir := ./src/main
 tstdir := ./src/test
 VPATH   = $(srcdir)/cxx:$(srcdir)/cxx/util:$(tstdir)/cxx
 
-#  main programs
+
+# programs
 main := especid
 main += especiv
 main += especia
@@ -47,8 +35,10 @@ main += xtractdat
 main += xtractlog
 main += xtractmes
 main += xtractmod
+
 # examples
 html := example.html
+
 # utilities
 util := airtovac
 util += cumulate
@@ -56,8 +46,8 @@ util += helicorr
 util += threecol
 util += vactoair
 
+
 # main targets
-main : $(main)
 especid : especid.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 especiv : especiv.o profiles.o readline.o section.o symeig.o
@@ -66,7 +56,9 @@ especia : especia.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 especis : especis.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
-# object files with dependencies
+
+
+# main objects
 especid.o : especid.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 especiv.o : especiv.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
@@ -75,7 +67,7 @@ especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 especis.o : especis.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
-util : $(util)
+
 
 # rules
 % : %.cxx
@@ -87,15 +79,33 @@ util : $(util)
 %.diff : $(tstdir)/resources/%.html %.html
 	$(DIFF) $^
 
+
+# build properties
+CXXFLAGS  = -std=c++11 -O3
+DIFF      = diff
+MV        = mv -f
+
+-include build.properties
+
+ifeq ($(VECLIB),)
+VECLIB    = -llapack -lblas
+endif
+LDFLAGS  += $(VECLIB)
+
+
 # standard targets
 .PHONY : all clean distclean install test
 all : $(main)
-install :
-	mv -f $(main) $(util) $(bindir)
 clean :
 	$(RM) *.o
 distclean : clean
 	$(RM) $(main)
 	$(RM) $(html)
 	$(RM) $(util)
+install :
+	$(MV) $(main) $(util) $(bindir)
 test : $(html:.html=.diff)
+
+# custom aggregate targets
+main : $(main)
+util : $(util)
