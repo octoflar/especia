@@ -20,7 +20,7 @@
 
 cmake_minimum_required(VERSION 3.6)
 project(especia VERSION 2017.1 LANGUAGES CXX)
-
+set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
 
 find_package(LAPACK REQUIRED)
@@ -81,6 +81,8 @@ add_executable(xtractmes ${MAIN_SOURCE_DIR}/cxx/xtractmes.cxx)
 
 add_custom_target(example
         ./xtractmod < ${TEST_SOURCE_DIR}/html/example.html | `./xtractcom < ${TEST_SOURCE_DIR}/html/example.html` > example.html)
+add_dependencies(example especid xtractcom xtractmod)
+
 add_custom_target(check
         diff ${TEST_SOURCE_DIR}/html/example.html example.html)
 add_dependencies(check example)
