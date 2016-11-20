@@ -9,8 +9,8 @@
 # Xcode files by convention are in folder
 xcode/
 
-# build files by convention are in folder
-build/
+# make files by convention are in folder
+make/
 
 # make creates files with suffix
 *.html
