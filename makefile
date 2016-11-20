@@ -38,15 +38,15 @@ tstdir := ./src/test
 VPATH   = $(srcdir)/cxx:$(srcdir)/cxx/util:$(tstdir)/cxx
 
 #  main programs
-bin := especid
-bin += especiv
-bin += especia
-bin += especis
-bin += xtractcom
-bin += xtractdat
-bin += xtractlog
-bin += xtractmes
-bin += xtractmod
+main := especid
+main += especiv
+main += especia
+main += especis
+main += xtractcom
+main += xtractdat
+main += xtractlog
+main += xtractmes
+main += xtractmod
 # utilities
 util := airtovac
 util += cumulate
@@ -57,6 +57,8 @@ util += vactoair
 html := example.html
 
 # main targets
+main : $(main)
+util : $(util)
 especid : especid.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 especiv : especiv.o profiles.o readline.o section.o symeig.o
@@ -83,18 +85,16 @@ especis.o : especis.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 	./xtractmod < $< | `./xtractcom < $<` > $@
 %.diff : $(tstdir)/resources/%.html %.html
 	$(DIFF) $^
-# utilities
-util : $(util)
 
 # standard targets
 .PHONY : all clean distclean install test
-all : $(bin)
+all : $(main)
 install :
-	mv -f $(bin) $(util) $(bindir)
+	mv -f $(main) $(util) $(bindir)
 clean :
 	$(RM) *.o
 distclean : clean
-	$(RM) $(bin)
+	$(RM) $(main)
 	$(RM) $(html)
 	$(RM) $(util)
 test : $(html:.html=.diff)
