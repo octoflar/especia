@@ -27,22 +27,19 @@ Read the two articles listed below to find out whether this software is of inter
 you. If you already have some understanding of these matters, consult the
 [especia wiki](https://github.com/octoflar/especia/wiki) for operating instructions.
 
-Building this software requires a compiler that implements the ISO/IEC 14882:2011
-norm, also known as C++11. In particular, the `<cmath>` header must declare the
-[error function](https://github.com/octoflar/especia/wiki/Troubleshooting#the-error-function-stderf)
+Building this software requires [CMake](https://cmake.org) and a compiler that implements
+the ISO/IEC 14882:2011 norm, also known as C++11. In particular, the `<cmath>` header must
+declare the [error function](https://github.com/octoflar/especia/wiki/Troubleshooting#the-error-function-stderf)
 `std::erf`.
 
 To build, test, and install this software type
 
+    cmake .
     make all
-    make test
+    make check
     make install
 
-You might have to specify compiler and linker options, whatever is suitable for your system.
-In particular, this software uses the [Linear Algebra Package](http://www.netlib.org/lapack/),
-which may already be pre-installed on your system as a shared or static library. Read the
-[build instructions](https://github.com/octoflar/especia/wiki/Build-instructions) and consult
-your system documentation how to use the linear algebra library.
+In case of problems consult the [build instructions](https://github.com/octoflar/especia/wiki/Build-instructions).
 
 
 # Versioning

@@ -1,6 +1,6 @@
+.idea/
 .cproject
 .project
-.settings
+.settings/
 
 *.o
-build.properties
