@@ -86,7 +86,7 @@ private:
 };
 
 template<class profile_function>
-std::ostringstream RQ::model<profile_function>::null(0);
+std::ostringstream RQ::model<profile_function>::null;
 
 template<class profile_function>
 std::istream&
