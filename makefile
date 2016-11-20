@@ -69,6 +69,26 @@ especis.o : especis.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
 
+# custom aggregate targets
+main : $(main)
+html : $(html)
+util : $(util)
+
+
+# standard targets
+.PHONY : all clean distclean install test
+all : $(main)
+clean :
+	$(RM) *.o
+distclean : clean
+	$(RM) $(main)
+	$(RM) $(html)
+	$(RM) $(util)
+install :
+	$(MV) $(main) $(util) $(bindir)
+test : $(html:.html=.diff)
+
+
 # rules
 % : %.cxx
 	$(CXX) $(CXXFLAGS) -o $@ $<
@@ -93,19 +113,4 @@ endif
 LDFLAGS  += $(VECLIB)
 
 
-# standard targets
-.PHONY : all clean distclean install test
-all : $(main)
-clean :
-	$(RM) *.o
-distclean : clean
-	$(RM) $(main)
-	$(RM) $(html)
-	$(RM) $(util)
-install :
-	$(MV) $(main) $(util) $(bindir)
-test : $(html:.html=.diff)
 
-# custom aggregate targets
-main : $(main)
-util : $(util)
