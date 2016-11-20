@@ -14,6 +14,7 @@ utility.
 * The model definition read is echoed to standard output. It appears in the
 result HTML file within a comment block. The model definition can be extracted
 from the result file by means of the `xtractmod` utility.
+* The project uses CMake instead of make to build the executable files.
 
 
 # New in 2016.1
