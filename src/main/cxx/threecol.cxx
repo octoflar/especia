@@ -1,5 +1,4 @@
-// Utility: merge separate spectral flux and uncertainty data files into a single
-// spectroscopic data file
+// Utility: merge separate spectral flux and uncertainty data three-column format
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
