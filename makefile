@@ -35,7 +35,7 @@ endif
 bindir := $(wildcard ~/bin)
 srcdir := ./src/main
 tstdir := ./src/test
-VPATH   = $(srcdir)/cxx:$(tstdir)/cxx
+VPATH   = $(srcdir)/cxx:$(srcdir)/cxx/util:$(tstdir)/cxx
 
 #  main programs
 bin := especid
@@ -48,13 +48,13 @@ bin += xtractlog
 bin += xtractmes
 bin += xtractmod
 # utilities
-bin += airtovac
-bin += cumulate
-bin += fluncert
-bin += helicorr
-bin += vactoair
+util := airtovac
+util += cumulate
+util += helicorr
+util += threecol
+util += vactoair
 # examples
-htm := example.html
+html := example.html
 
 # main targets
 especid : especid.o profiles.o readline.o section.o symeig.o
@@ -83,15 +83,18 @@ especis.o : especis.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 	./xtractmod < $< | `./xtractcom < $<` > $@
 %.diff : $(tstdir)/resources/%.html %.html
 	$(DIFF) $^
+# utilities
+util : $(util)
 
 # standard targets
 .PHONY : all clean distclean install test
 all : $(bin)
 install :
-	mv -f $(bin) $(bindir)
+	mv -f $(bin) $(util) $(bindir)
 clean :
 	$(RM) *.o
 distclean : clean
 	$(RM) $(bin)
-	$(RM) $(htm)
-test : $(htm:.html=.diff)
+	$(RM) $(html)
+	$(RM) $(util)
+test : $(html:.html=.diff)
