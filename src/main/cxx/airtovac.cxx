@@ -31,7 +31,7 @@
 using namespace std;
 
 istream&
-get(istream& is, valarray<double>& x, valarray<double>& y, valarray<double>& z, unsigned skip = 0)
+get(istream& is, valarray<double>& x, valarray<double>& y, valarray<double>& z, int skip = 0)
 {
     const size_t room = 20000;
     
@@ -47,7 +47,7 @@ get(istream& is, valarray<double>& x, valarray<double>& y, valarray<double>& z, 
     string s;
 
     while (getline(is, s))
-        if (skip == 0) {
+        if (skip <= 0) {
             istringstream ist(s);
             double x, y, z;
 
@@ -153,7 +153,7 @@ findroot(void f(double, double&, double&), double c, double x, double accuracy_g
 int main(int argc, char* argv[])
 {
     const char* pname = argv[0];
-    unsigned skip = 0;
+    int skip = 0;
     double accuracy_goal = 1.0e-08;
     
     switch (argc) {
