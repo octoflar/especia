@@ -32,7 +32,7 @@ the ISO/IEC 14882:2011 norm, also known as C++11. In particular, the `<cmath>` h
 declare the [error function](https://github.com/octoflar/especia/wiki/Troubleshooting#the-error-function-stderf)
 `std::erf`.
 
-To build, test, and install this software `cd` to the project root directory and type
+To build, test, and install this software `cd` into the project root directory and type:
 
     mkdir build
     cd build
