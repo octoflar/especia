@@ -47,18 +47,17 @@ main += xtractdat
 main += xtractlog
 main += xtractmes
 main += xtractmod
+# examples
+html := example.html
 # utilities
 util := airtovac
 util += cumulate
 util += helicorr
 util += threecol
 util += vactoair
-# examples
-html := example.html
 
 # main targets
 main : $(main)
-util : $(util)
 especid : especid.o profiles.o readline.o section.o symeig.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 especiv : especiv.o profiles.o readline.o section.o symeig.o
@@ -76,6 +75,8 @@ especia.o : especia.cxx model.h mtwister.h optimize.h profiles.h randev.h readli
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 especis.o : especis.cxx model.h mtwister.h optimize.h profiles.h randev.h readline.h section.h symeig.h
 	$(CXX) -c $(CXXFLAGS) $< -o $@
+util : $(util)
+
 # rules
 % : %.cxx
 	$(CXX) $(CXXFLAGS) -o $@ $<
