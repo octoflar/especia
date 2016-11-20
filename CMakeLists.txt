@@ -19,7 +19,10 @@
 # SOFTWARE.
 
 cmake_minimum_required(VERSION 3.6)
-project(especia VERSION 2017.1 LANGUAGES CXX)
+project(especia LANGUAGES CXX)
+set(PROJECT_VERSION_MAJOR 2017)
+set(PROJECT_VERSION_MINOR 1)
+set(PROJECT_VERSION_AFFIX snapshot)
 set(CMAKE_CONFIGURATION_TYPES Release)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
 
@@ -79,13 +82,19 @@ add_executable(xtractlog ${MAIN_SOURCE_DIR}/cxx/xtractlog.cxx)
 add_executable(xtractmod ${MAIN_SOURCE_DIR}/cxx/xtractmod.cxx)
 add_executable(xtractmes ${MAIN_SOURCE_DIR}/cxx/xtractmes.cxx)
 
+add_custom_target(check)
+add_dependencies(check check_example)
+
 add_custom_target(example
         ./xtractmod < ${TEST_SOURCE_DIR}/html/example.html | `./xtractcom < ${TEST_SOURCE_DIR}/html/example.html` > example.html)
 add_dependencies(example especid xtractcom xtractmod)
 
-add_custom_target(check
+add_custom_target(check_example
         diff ${TEST_SOURCE_DIR}/html/example.html example.html)
-add_dependencies(check example)
+add_dependencies(check_example example)
+
+add_custom_target(clean_example
+        rm -f example.html)
 
 install(TARGETS especia especid especis especiv xtractcom xtractdat xtractlog xtractmod xtractmes
         RUNTIME DESTINATION ~/bin)
