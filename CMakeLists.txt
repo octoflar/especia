@@ -44,10 +44,17 @@ configure_file (
 )
 
 set(COMMON_SOURCES
+        ${MAIN_SOURCE_DIR}/cxx/model.h
+        ${MAIN_SOURCE_DIR}/cxx/mtwister.h
+        ${MAIN_SOURCE_DIR}/cxx/optimize.h
         ${MAIN_SOURCE_DIR}/cxx/profiles.cxx
+        ${MAIN_SOURCE_DIR}/cxx/profiles.h
         ${MAIN_SOURCE_DIR}/cxx/readline.cxx
+        ${MAIN_SOURCE_DIR}/cxx/readline.h
         ${MAIN_SOURCE_DIR}/cxx/section.cxx
-        ${MAIN_SOURCE_DIR}/cxx/symeig.cxx)
+        ${MAIN_SOURCE_DIR}/cxx/section.h
+        ${MAIN_SOURCE_DIR}/cxx/symeig.cxx
+        ${MAIN_SOURCE_DIR}/cxx/symeig.h)
 
 add_executable(especia ${MAIN_SOURCE_DIR}/cxx/especia.cxx
         ${COMMON_SOURCES})
