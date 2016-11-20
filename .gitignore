@@ -14,5 +14,6 @@ install_manifest.txt
 .project
 .settings/
 
+build/
 *.html
 *.o
