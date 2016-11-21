@@ -12,6 +12,9 @@ xcode/
 # make files by convention are in folder
 make/
 
-# make creates files with suffix
-*.html
+# cmake configures files
+config.h
+example.html
+
+# compiler creates files with suffix
 *.o

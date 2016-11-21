@@ -42,11 +42,15 @@ set(MAIN_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/test)
 
 configure_file (
+        ${MAIN_SOURCE_DIR}/cxx/config.h.in
+        ${MAIN_SOURCE_DIR}/cxx/config.h)
+
+configure_file (
         ${TEST_SOURCE_DIR}/html/example.html.in
-        ${TEST_SOURCE_DIR}/html/example.html
-)
+        ${TEST_SOURCE_DIR}/html/example.html)
 
 set(COMMON_SOURCES
+        ${MAIN_SOURCE_DIR}/cxx/config.h
         ${MAIN_SOURCE_DIR}/cxx/model.h
         ${MAIN_SOURCE_DIR}/cxx/mtwister.h
         ${MAIN_SOURCE_DIR}/cxx/optimize.h
