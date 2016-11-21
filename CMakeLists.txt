@@ -87,7 +87,7 @@ add_dependencies(example especid xtractcom xtractmod)
 
 add_custom_target(check_example
         diff ${TEST}/html/example.html example.html
-        COMMENT "Error statements issued by this target caused by small differences in numbers are normal.")
+        COMMENT "Error statements issued by this target and caused by small differences in numerics are normal.")
 add_dependencies(check_example example)
 
 add_custom_target(clean_example
