@@ -144,7 +144,7 @@ int main(int argc, char* argv[])
         return 0;
     }
     
-    cerr << "Usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
+    cout << "Usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
     return 1;
 }
 

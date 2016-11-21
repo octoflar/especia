@@ -24,6 +24,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <fstream>
 #include <functional>
 #include <iomanip>
 #include <iostream>

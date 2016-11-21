@@ -185,7 +185,7 @@ int main(int argc, char* argv[])
         return 0;
     }
     
-    cerr << "Usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
+    cout << "Usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
     return 1;
 }
 

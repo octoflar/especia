@@ -20,10 +20,12 @@
 // SOFTWARE.
 //
 #include <exception>
-#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include "config.h"
+#include "model.h"
 #include "mtwister.h"
 #include "randev.h"
-#include "model.h"
 #include "symeig.h"
 
 const char usemsg[] = "Usage: ";
@@ -84,7 +86,8 @@ int main(int argc, char* argv[])
             }
         }
     } else {
-        cerr << usemsg << pname << ": " << parmsg << endl;
+        cout << "Version " << VERSION << endl;
+        cout << usemsg << pname << ": " << parmsg << endl;
 
         return 1;
     }

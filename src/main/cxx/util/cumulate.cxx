@@ -574,6 +574,6 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    cerr << "Usage: " << pname << " [RESOLUTION] < ISTREAM > OSTREAM" << endl;
+    cout << "Usage: " << pname << " [RESOLUTION] < ISTREAM > OSTREAM" << endl;
     return 1;
 }

@@ -21,12 +21,14 @@
 // SOFTWARE.
 //
 #include <exception>
-#include <fstream>
-#include "mtwister.h"
-#include "randev.h"
+#include <iomanip>
+#include <iostream>
+#include "config.h"
 #define RQ_MANY_MULTIPLET_ANALYSIS 1
 #include "model.h"
 #undef RQ_MANY_MULTIPLET_ANALYSIS
+#include "mtwister.h"
+#include "randev.h"
 #include "symeig.h"
 
 const char usemsg[] = "Usage: ";
@@ -87,7 +89,8 @@ int main(int argc, char* argv[])
             }
         }
     } else {
-        cerr << usemsg << pname << ": " << parmsg << endl;
+        cout << "Version " << VERSION << endl;
+        cout << usemsg << pname << ": " << parmsg << endl;
 
         return 1;
     }

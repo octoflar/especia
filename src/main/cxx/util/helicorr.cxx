@@ -139,6 +139,6 @@ int main(int argc, char* argv[])
         return 0;
     }
     
-    cerr << "Usage: " << pname << " VELOCITY (km s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
+    cout << "Usage: " << pname << " VELOCITY (km s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
     return 1;
 }
