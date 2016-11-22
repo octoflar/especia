@@ -6,7 +6,7 @@ were revised. Build properties for the GCC and Intel compilers were added.
 A few new features and enhancements were implemented:
 
 * Replacement of the residual sum of squares (RSS) with the *cost function*,
-which is half the RSS. 
+as used in inverse problem theory. The cost function simply is half the RSS. 
 * More accurate and faster computation of parameter uncertainties and
 covariance matrix.
 * Comment lines in spectrum data files are permitted. Comment lines must
