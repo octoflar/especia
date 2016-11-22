@@ -719,7 +719,8 @@ RQ::model<profile_function>::optimize(size_t parent_number,
     os << "</html>\n";
 
     // Compute uncertainty
-    RQ::scale_cm(this, &model<profile_function>::statistics, &x[0], n, step_size, &d[0], &B[0], z, 1.0);
+    if (is_opt)
+        RQ::scale_cm(this, &model<profile_function>::statistics, &x[0], n, step_size, &d[0], &B[0], z, 1.0);
     for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1)
         d[i] = step_size * sqrt(C[ii]);
     for (size_t i = 0; i < msk.size(); ++i)

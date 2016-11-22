@@ -1316,7 +1316,6 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
     double a = 0.0;
     double b = 0.0;
     double y = 0.0;
-    int k = 0;
     
     // bracket the root in [a, b]
     while (a == 0.0 or b == 0.0) {
