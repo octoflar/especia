@@ -1094,7 +1094,7 @@ RQ::model<>::optimize(): Message: Optimization completed
       <td>3355.00</td>
       <td>3359.00</td>
       <td>3</td>
-      <td>52298.74 &plusmn; 571.41</td>
+      <td>52298.74 &plusmn; 730.65</td>
       <td>321</td>
       <td>319.54</td>
       <td>1.00</td>
@@ -1104,7 +1104,7 @@ RQ::model<>::optimize(): Message: Optimization completed
       <td>3562.01</td>
       <td>3567.00</td>
       <td>3</td>
-      <td>52298.74 &plusmn; 571.41</td>
+      <td>52298.74 &plusmn; 730.65</td>
       <td>400</td>
       <td>343.78</td>
       <td>0.86</td>
@@ -1128,273 +1128,273 @@ RQ::model<>::optimize(): Message: Optimization completed
   <tbody align="left">
     <tr>
       <td>C_I_3P0-3D1_1</td>
-      <td>3355.8815 &plusmn; 0.0004</td>
+      <td>3355.8815 &plusmn; 0.0005</td>
       <td>1560.3092</td>
       <td>7.190e-02</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>13.520 &plusmn; 0.022</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>13.520 &plusmn; 0.028</td>
     </tr>
     <tr>
       <td>C_I_3P0-3D1_2</td>
-      <td>3355.9817 &plusmn; 0.0006</td>
+      <td>3355.9817 &plusmn; 0.0008</td>
       <td>1560.3092</td>
       <td>7.190e-02</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>13.285 &plusmn; 0.005</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>13.285 &plusmn; 0.007</td>
     </tr>
     <tr>
       <td>C_I_3P0-3P1_1</td>
-      <td>3563.6879 &plusmn; 0.0004</td>
+      <td>3563.6879 &plusmn; 0.0005</td>
       <td>1656.9283</td>
       <td>1.390e-01</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>13.520 &plusmn; 0.022</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>13.520 &plusmn; 0.028</td>
     </tr>
     <tr>
       <td>C_I_3P0-3P1_2</td>
-      <td>3563.7943 &plusmn; 0.0006</td>
+      <td>3563.7943 &plusmn; 0.0008</td>
       <td>1656.9283</td>
       <td>1.390e-01</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>13.285 &plusmn; 0.005</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>13.285 &plusmn; 0.007</td>
     </tr>
     <tr>
       <td>C_I_3P1-3D1_1</td>
-      <td>3356.7414 &plusmn; 0.0004</td>
+      <td>3356.7414 &plusmn; 0.0005</td>
       <td>1560.7090</td>
       <td>1.800e-02</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>13.375 &plusmn; 0.008</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>13.375 &plusmn; 0.010</td>
     </tr>
     <tr>
       <td>C_I_3P1-3D1_2</td>
-      <td>3356.8416 &plusmn; 0.0006</td>
+      <td>3356.8416 &plusmn; 0.0008</td>
       <td>1560.7090</td>
       <td>1.800e-02</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>12.805 &plusmn; 0.013</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>12.805 &plusmn; 0.017</td>
     </tr>
     <tr>
       <td>C_I_3P1-3D2_1</td>
-      <td>3356.6837 &plusmn; 0.0004</td>
+      <td>3356.6837 &plusmn; 0.0005</td>
       <td>1560.6822</td>
       <td>5.390e-02</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>13.375 &plusmn; 0.008</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>13.375 &plusmn; 0.010</td>
     </tr>
     <tr>
       <td>C_I_3P1-3D2_2</td>
-      <td>3356.7840 &plusmn; 0.0006</td>
+      <td>3356.7840 &plusmn; 0.0008</td>
       <td>1560.6822</td>
       <td>5.390e-02</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>12.805 &plusmn; 0.013</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>12.805 &plusmn; 0.017</td>
     </tr>
     <tr>
       <td>C_I_3P1-3P0_1</td>
-      <td>3565.7924 &plusmn; 0.0004</td>
+      <td>3565.7924 &plusmn; 0.0005</td>
       <td>1657.9068</td>
       <td>4.730e-02</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>13.375 &plusmn; 0.008</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>13.375 &plusmn; 0.010</td>
     </tr>
     <tr>
       <td>C_I_3P1-3P0_2</td>
-      <td>3565.8989 &plusmn; 0.0006</td>
+      <td>3565.8989 &plusmn; 0.0008</td>
       <td>1657.9068</td>
       <td>4.730e-02</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>12.805 &plusmn; 0.013</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>12.805 &plusmn; 0.017</td>
     </tr>
     <tr>
       <td>C_I_3P1-3P1_1</td>
-      <td>3564.6577 &plusmn; 0.0004</td>
+      <td>3564.6577 &plusmn; 0.0005</td>
       <td>1657.3792</td>
       <td>3.560e-02</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>13.375 &plusmn; 0.008</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>13.375 &plusmn; 0.010</td>
     </tr>
     <tr>
       <td>C_I_3P1-3P1_2</td>
-      <td>3564.7642 &plusmn; 0.0006</td>
+      <td>3564.7642 &plusmn; 0.0008</td>
       <td>1657.3792</td>
       <td>3.560e-02</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>12.805 &plusmn; 0.013</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>12.805 &plusmn; 0.017</td>
     </tr>
     <tr>
       <td>C_I_3P1-3P2_1</td>
-      <td>3562.2660 &plusmn; 0.0004</td>
+      <td>3562.2660 &plusmn; 0.0005</td>
       <td>1656.2672</td>
       <td>5.890e-02</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>13.375 &plusmn; 0.008</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>13.375 &plusmn; 0.010</td>
     </tr>
     <tr>
       <td>C_I_3P1-3P2_2</td>
-      <td>3562.3724 &plusmn; 0.0006</td>
+      <td>3562.3724 &plusmn; 0.0008</td>
       <td>1656.2672</td>
       <td>5.890e-02</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>12.805 &plusmn; 0.013</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>12.805 &plusmn; 0.017</td>
     </tr>
     <tr>
       <td>C_I_3P2-3D1_1</td>
-      <td>3358.1559 &plusmn; 0.0004</td>
+      <td>3358.1559 &plusmn; 0.0005</td>
       <td>1561.3667</td>
       <td>7.160e-04</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>12.897 &plusmn; 0.013</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>12.897 &plusmn; 0.016</td>
     </tr>
     <tr>
       <td>C_I_3P2-3D1_2</td>
-      <td>3358.2562 &plusmn; 0.0006</td>
+      <td>3358.2562 &plusmn; 0.0008</td>
       <td>1561.3667</td>
       <td>7.160e-04</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>12.104 &plusmn; 0.047</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>12.104 &plusmn; 0.060</td>
     </tr>
     <tr>
       <td>C_I_3P2-3D2_1</td>
-      <td>3358.0989 &plusmn; 0.0004</td>
+      <td>3358.0989 &plusmn; 0.0005</td>
       <td>1561.3402</td>
       <td>1.080e-02</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>12.897 &plusmn; 0.013</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>12.897 &plusmn; 0.016</td>
     </tr>
     <tr>
       <td>C_I_3P2-3D2_2</td>
-      <td>3358.1993 &plusmn; 0.0006</td>
+      <td>3358.1993 &plusmn; 0.0008</td>
       <td>1561.3402</td>
       <td>1.080e-02</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>12.104 &plusmn; 0.047</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>12.104 &plusmn; 0.060</td>
     </tr>
     <tr>
       <td>C_I_3P2-3D3_1</td>
-      <td>3358.3101 &plusmn; 0.0004</td>
+      <td>3358.3101 &plusmn; 0.0005</td>
       <td>1561.4384</td>
       <td>6.030e-02</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>12.897 &plusmn; 0.013</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>12.897 &plusmn; 0.016</td>
     </tr>
     <tr>
       <td>C_I_3P2-3D3_2</td>
-      <td>3358.4105 &plusmn; 0.0006</td>
+      <td>3358.4105 &plusmn; 0.0008</td>
       <td>1561.4384</td>
       <td>6.030e-02</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>12.104 &plusmn; 0.047</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>12.104 &plusmn; 0.060</td>
     </tr>
     <tr>
       <td>C_I_3P2-3P1_1</td>
-      <td>3566.2536 &plusmn; 0.0004</td>
+      <td>3566.2536 &plusmn; 0.0005</td>
       <td>1658.1212</td>
       <td>3.560e-02</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>12.897 &plusmn; 0.013</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>12.897 &plusmn; 0.016</td>
     </tr>
     <tr>
       <td>C_I_3P2-3P1_2</td>
-      <td>3566.3601 &plusmn; 0.0006</td>
+      <td>3566.3601 &plusmn; 0.0008</td>
       <td>1658.1212</td>
       <td>3.560e-02</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>12.104 &plusmn; 0.047</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>12.104 &plusmn; 0.060</td>
     </tr>
     <tr>
       <td>C_I_3P2-3P2_1</td>
-      <td>3563.8597 &plusmn; 0.0004</td>
+      <td>3563.8597 &plusmn; 0.0005</td>
       <td>1657.0082</td>
       <td>1.040e-01</td>
       <td>1.1508000</td>
-      <td>-2.818 &plusmn; 0.032</td>
-      <td>1.931 &plusmn; 0.054</td>
-      <td>12.897 &plusmn; 0.013</td>
+      <td>-2.818 &plusmn; 0.040</td>
+      <td>1.931 &plusmn; 0.068</td>
+      <td>12.897 &plusmn; 0.016</td>
     </tr>
     <tr>
       <td>C_I_3P2-3P2_2</td>
-      <td>3563.9662 &plusmn; 0.0006</td>
+      <td>3563.9662 &plusmn; 0.0008</td>
       <td>1657.0082</td>
       <td>1.040e-01</td>
       <td>1.1508000</td>
-      <td>6.138 &plusmn; 0.053</td>
-      <td>3.399 &plusmn; 0.114</td>
-      <td>12.104 &plusmn; 0.047</td>
+      <td>6.138 &plusmn; 0.068</td>
+      <td>3.399 &plusmn; 0.145</td>
+      <td>12.104 &plusmn; 0.060</td>
     </tr>
     <tr>
       <td>G1</td>
       <td>3564.1168 &plusmn; 0.0000</td>
-      <td>3564.1168 &plusmn; 0.0174</td>
+      <td>3564.1168 &plusmn; 0.0223</td>
       <td>1.000e+00</td>
       <td>0.0000000</td>
       <td>0.000</td>
-      <td>8.555 &plusmn; 0.615</td>
-      <td>10.766 &plusmn; 0.073</td>
+      <td>8.555 &plusmn; 0.786</td>
+      <td>10.766 &plusmn; 0.093</td>
     </tr>
     <tr>
       <td>G2</td>
       <td>3564.3209 &plusmn; 0.0000</td>
-      <td>3564.3209 &plusmn; 0.0160</td>
+      <td>3564.3209 &plusmn; 0.0205</td>
       <td>1.000e+00</td>
       <td>0.0000000</td>
       <td>0.000</td>
-      <td>8.555 &plusmn; 0.615</td>
-      <td>10.799 &plusmn; 0.059</td>
+      <td>8.555 &plusmn; 0.786</td>
+      <td>10.799 &plusmn; 0.076</td>
     </tr>
     <tr>
       <td>G3</td>
       <td>3564.6003 &plusmn; 0.0000</td>
-      <td>3564.6003 &plusmn; 0.0069</td>
+      <td>3564.6003 &plusmn; 0.0088</td>
       <td>1.000e+00</td>
       <td>0.0000000</td>
       <td>0.000</td>
-      <td>8.555 &plusmn; 0.615</td>
-      <td>11.222 &plusmn; 0.035</td>
+      <td>8.555 &plusmn; 0.786</td>
+      <td>11.222 &plusmn; 0.045</td>
     </tr>
   </tbody>
 </table>

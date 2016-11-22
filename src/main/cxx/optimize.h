@@ -217,7 +217,7 @@ namespace RQ {
         normal_deviate& ndev, sym_eig_decomp& evd, comparation comp, unsigned update_modulus = 1);
 
     // Function template to calculate standard deviations
-    template<class objective_function, class normal_deviate>
+    template<class objective_function>
     void scale_cm(objective_function& f, const double x[], size_t n,
         double& step_size,
         const double diagonal_matrix[],
@@ -225,13 +225,10 @@ namespace RQ {
         const double rotation_matrix[],
             // orthogonal matrix (row-major)
         double optimum,
-        double distance,
-        double confidence_level,
-        unsigned simulation_runs,
-        normal_deviate& ndev);
+        double distance);
 
     // Function template to calculate standard deviations
-    template<class objectp, class functionp, class normal_deviate>
+    template<class objectp, class functionp>
     void scale_cm(objectp obj, functionp f, const double x[], size_t n,
         double& step_size,
         const double diagonal_matrix[],
@@ -239,10 +236,7 @@ namespace RQ {
         const double rotation_matrix[],
             // orthogonal matrix (row-major)
         double optimum,
-        double distance,
-        double confidence_level,
-        unsigned simulation_runs,
-        normal_deviate& ndev);
+        double distance);
 
     template<class number> number sqr(number x);
     template<class number, class comparation> class indirect_comparation;
@@ -1260,96 +1254,64 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint& reject
     optimum = (obj->*f)(xw, n);
 }
 
-template<class objective_function, class normal_deviate>
+template<class objective_function>
 void
 RQ::scale_cm(objective_function& f, const double x[], size_t n,
     double& s,
     const double d[],
     const double B[],
-    double optimum, double h, double c,
-    unsigned m,
-    normal_deviate& ndev)
+    double optimum,
+    double h)
 {
     using std::abs;
-    using std::exp;
     using std::valarray;
-
-    valarray<double> y(m);
-    valarray<double> z(m);
-
-    bool rescale = true;
-
-    while (rescale) {
-        unsigned k = 0;
-
-        for (size_t g = 0; g < m; ++g)
-            z[g] = ndev();
-        #ifdef _OPENMP
-        #pragma omp parallel for
-        #endif
-        for (size_t g = 0; g < m; ++g) {
-            valarray<double> q(x, n);
-            for (size_t i = 0, j = g % n, ij = j; i < n; ++i, ij += n)
-                q[i] += s * z[g] * B[ij] * d[j];
-
-            y[g] = f(&q[0], n);
+    
+    double a = 0.0;
+    double b = 0.0;
+    while (a == 0.0 or b == 0.0) {
+        valarray<double> q(x, n);
+        for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n)
+            q[i] += s * B[ij] * d[j];
+        if (abs(f(&q[0], n) - optimum) < h) {
+            a = s;
+            s = s * 2.0;
+        } else {
+            b = s;
+            s = s * 0.5;
         }
-        for (size_t g = 0; g < m; ++g)
-            if (abs(y[g] - optimum) < h)
-                ++k;
-                
-        const double t = 1.0 - k / (c * m);
-
-        rescale = (t < 0.0 or t > 0.1);
-        if (rescale)
-            s *= exp(-t);
     }
+    // todo: search
+    s = 0.5 * (a + b);
 }
 
-template<class objectp, class functionp, class normal_deviate>
+template<class objectp, class functionp>
 void
 RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
     double& s,
     const double d[],
     const double B[],
-    double optimum, double h, double c,
-    unsigned m,
-    normal_deviate& ndev)
+    double optimum,
+    double h)
 {
     using std::abs;
-    using std::exp;
     using std::valarray;
 
-    valarray<double> y(m);
-    valarray<double> z(m);
-
-    bool rescale = true;
-
-    while (rescale) {
-        unsigned k = 0;
-
-        for (size_t g = 0; g < m; ++g)
-            z[g] = ndev();
-        #ifdef _OPENMP
-        #pragma omp parallel for
-        #endif
-        for (size_t g = 0; g < m; ++g) {
-            valarray<double> q(x, n);
-            for (size_t i = 0, j = g % n, ij = j; i < n; ++i, ij += n)
-                q[i] += s * z[g] * B[ij] * d[j];
-
-            y[g] = (obj->*f)(&q[0], n);
+    double a = 0.0;
+    double b = 0.0;
+    while (a == 0.0 or b == 0.0) {
+        valarray<double> q(x, n);
+        for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n)
+            q[i] += s * B[ij] * d[j];
+        if (abs((obj->*f)(&q[0], n) - optimum) < h) {
+            a = s;
+            s = s * 2.0;
+        } else {
+            b = s;
+            s = s * 0.5;
         }
-        for (size_t g = 0; g < m; ++g)
-            if (abs(y[g] - optimum) < h)
-                ++k;
-                
-        const double t = 1.0 - k / (c * m);
-        
-        rescale = (t < 0.0 or t > 0.1);
-        if (rescale)
-            s *= exp(-t);
     }
+    // todo: search
+    s = 0.5 * (a + b);
 }
 
 template<class number>
