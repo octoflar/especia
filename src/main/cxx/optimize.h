@@ -311,7 +311,7 @@ RQ::optimize(objective_function& f, double xw[], size_t n,
         #ifdef _OPENMP
         #pragma omp parallel for
         #endif
-      for (size_t k = 0; k < population_size; ++k) {
+        for (size_t k = 0; k < population_size; ++k) {
             fitness[k] = f(&x[k][0], n);
             index[k] = k;
         }
