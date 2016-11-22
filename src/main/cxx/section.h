@@ -59,11 +59,10 @@ public:
     size_t size() const;
     size_t selection_size() const;
 
-    double rss() const;
-    double statistics() const;
+    double cost() const;
 
     template<class optical_depth>
-    double statistics(const optical_depth& t, size_t m, double r) const;
+    double cost(const optical_depth& t, size_t m, double r) const;
 
     void mask(double a, double b);
     void unmask(double a, double b);
@@ -177,7 +176,7 @@ RQ::section::convolute(const optical_depth& t, double r, double opt[], double at
 
 template<class optical_depth>
 double
-RQ::section::statistics(const optical_depth& t, size_t m, double r) const
+RQ::section::cost(const optical_depth& t, size_t m, double r) const
 {
     using std::abs;
     using std::valarray;

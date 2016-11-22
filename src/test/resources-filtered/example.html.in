@@ -1096,8 +1096,8 @@ RQ::model<>::optimize(): Message: Optimization completed
       <td>3</td>
       <td>52298.74 &plusmn; 660.27</td>
       <td>321</td>
-      <td>319.54</td>
-      <td>1.00</td>
+      <td>159.77</td>
+      <td>0.50</td>
     </tr>
     <tr>
       <td>C_I_1656</td>
@@ -1106,8 +1106,8 @@ RQ::model<>::optimize(): Message: Optimization completed
       <td>3</td>
       <td>52298.74 &plusmn; 660.27</td>
       <td>400</td>
-      <td>343.78</td>
-      <td>0.86</td>
+      <td>171.89</td>
+      <td>0.43</td>
     </tr>
   </tbody>
 </table>

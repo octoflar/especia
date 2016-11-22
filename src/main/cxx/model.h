@@ -422,7 +422,7 @@ RQ::model<profile_function>::put(std::ostream& os) const
 
         const string id = i->first;
         const size_t px = sec[j].selection_size();
-        const double st = sec[j].rss();
+        const double st = sec[j].cost();
 
         os.precision(2);
 
@@ -564,7 +564,7 @@ RQ::model<profile_function>::statistics(const double x[], size_t n) const
     double d = 0.0;
 
     for (size_t i = 0; i < sec.size(); ++i)
-        d += sec[i].statistics(RQ::superposition<profile_function>(nli[i], &y[isc[i] + 1]),
+        d += sec[i].cost(RQ::superposition<profile_function>(nli[i], &y[isc[i] + 1]),
             nle[i], y[isc[i]]);
 
     return d;

@@ -186,7 +186,7 @@ RQ::section::selection_size() const
 }
 
 double
-RQ::section::rss() const
+RQ::section::cost() const
 {
     double a = 0.0;
 
@@ -194,13 +194,7 @@ RQ::section::rss() const
         if (msk[i])
             a += res[i] * res[i];
 
-    return a;
-}
-
-double
-RQ::section::statistics() const
-{
-    return 0.5 * rss();
+    return 0.5 * a;
 }
 
 void
