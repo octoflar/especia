@@ -1279,10 +1279,10 @@ RQ::scale_cm(objective_function& f, const double x[], size_t n,
         y = abs(f(&q[0], n) - optimum) - h;
         if (y < 0.0) {
             a = s;
-            s = s * 2.0;
+            s = s * 10.0;
         } else {
             b = s;
-            s = s * 0.5;
+            s = s * 0.10;
         }
     }
     // find the root
@@ -1316,6 +1316,7 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
     double a = 0.0;
     double b = 0.0;
     double y = 0.0;
+    int k = 0;
     
     // bracket the root in [a, b]
     while (a == 0.0 or b == 0.0) {
@@ -1324,12 +1325,13 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
             q[i] += s * B[ij] * d[j];
                 // a step in direction of the principal axis
         y = abs((obj->*f)(&q[0], n) - optimum) - h;
+        k++;
         if (y < 0.0) {
             a = s;
-            s = s * 2.0;
+            s = s * 10.0;
         } else {
             b = s;
-            s = s * 0.5;
+            s = s * 0.10;
         }
     }
     // find the root
@@ -1340,6 +1342,7 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
             q[i] += s * B[ij] * d[j];
                 // a step in direction of the principal axis
         y = abs((obj->*f)(&q[0], n) - optimum) - h;
+        k++;
         if (y < 0.0) {
             a = s;
         } else {
