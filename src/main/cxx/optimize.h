@@ -216,25 +216,25 @@ namespace RQ {
         double& optimum,
         normal_deviate& ndev, sym_eig_decomp& evd, comparation comp, unsigned update_modulus = 1);
 
-    // Function template to calculate standard deviations
+    // Function template to calculate uncertainty and covariance
     template<class objective_function>
-    void scale_cm(objective_function& f, const double x[], size_t n,
+    void scale_step_size(objective_function& f, const double x[], size_t n,
         double& step_size,
         const double diagonal_matrix[],
             // diagonal matrix (packed)
-        const double rotation_matrix[],
+        const double rotation_matrix[]
             // orthogonal matrix (row-major)
-        double optimum);
+    );
 
-    // Function template to calculate standard deviations
+    // Function template to calculate uncertainty and covariance
     template<class objectp, class functionp>
-    void scale_cm(objectp obj, functionp f, const double x[], size_t n,
+    void scale_step_size(objectp obj, functionp f, const double x[], size_t n,
         double& step_size,
         const double diagonal_matrix[],
             // diagonal matrix (packed)
-        const double rotation_matrix[],
+        const double rotation_matrix[]
             // orthogonal matrix (row-major)
-        double optimum);
+    );
 
     template<class number> number sqr(number x);
     template<class number, class comparation> class indirect_comparation;
@@ -1248,11 +1248,10 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint& reject
 
 template<class objective_function>
 void
-RQ::scale_cm(objective_function& f, const double x[], size_t n,
+RQ::scale_stepsize(objective_function& f, const double x[], size_t n,
     double& s,
     const double d[],
-    const double B[],
-    double z)
+    const double B[])
 {
     using std::abs;
     using std::valarray;
@@ -1266,19 +1265,19 @@ RQ::scale_cm(objective_function& f, const double x[], size_t n,
         q[i] += a * B[ij] * d[n - 1];
     }
     
+    const double zx = f(&x[0], n);
     const double zp = f(&p[0], n);
     const double zq = f(&q[0], n);
-    s = a / sqrt(abs(2.0 * (zp - z) - (zp - zq)));
+    s = a / sqrt(abs(2.0 * (zp - zx) - (zp - zq)));
         // compute the covariance along the major principal axis by means of a parabola
 }
 
 template<class objectp, class functionp>
 void
-RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
+RQ::scale_step_size(objectp obj, functionp f, const double x[], size_t n,
     double& s,
     const double d[],
-    const double B[],
-    double z)
+    const double B[])
 {
     using std::abs;
     using std::valarray;
@@ -1292,9 +1291,10 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
         q[i] += a * B[ij] * d[j];
     }
     
+    const double zx = (obj->*f)(&x[0], n);
     const double zp = (obj->*f)(&p[0], n);
     const double zq = (obj->*f)(&q[0], n);
-    s = a / sqrt(abs(2.0 * (zp - z) - (zp - zq)));
+    s = a / sqrt(abs(2.0 * (zp - zx) - (zp - zq)));
         // compute the covariance along the major principal axis by means of a parabola
 }
 
