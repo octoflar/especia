@@ -5,8 +5,10 @@ files were renamed and some utility programs were added. Ancillary files
 were revised. Build properties for the GCC and Intel compilers were added.
 A few new features and enhancements were implemented:
 
-* More accurate and faster computation of parameter uncertainties and error
-covariance
+* Replacement of the residual sum of squares (RSS) with the *cost function*,
+which is half the RSS. 
+* More accurate and faster computation of parameter uncertainties and
+covariance matrix.
 * Comment lines in spectrum data files are permitted. Comment lines must
 start with a hash mark `#` in the first column.
 * The command line typed to invoke `especi*` is echoed to the standard
