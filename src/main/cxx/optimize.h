@@ -1248,7 +1248,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint& reject
 
 template<class objective_function>
 void
-RQ::scale_stepsize(objective_function& f, const double x[], size_t n,
+RQ::scale_step_size(objective_function& f, const double x[], size_t n,
     double& s,
     const double d[],
     const double B[])
