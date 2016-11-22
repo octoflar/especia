@@ -205,7 +205,7 @@ RQ::section::statistics(const optical_depth& t, size_t m, double r) const
 			a += res[i] * res[i];
     }
 
-    return a;
+    return 0.5 * a;
 }
 
 template<class optical_depth>

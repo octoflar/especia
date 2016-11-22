@@ -411,8 +411,8 @@ RQ::model<profile_function>::put(std::ostream& os) const
     os << "      <td>Legendre<br>Polynomials</td>\n";
     os << "      <td>Resolution</td>\n";
     os << "      <td>Data Points</td>\n";
-    os << "      <td>RSS</td>\n";
-    os << "      <td>RSS per<br>Data Point</td>\n";
+    os << "      <td>Cost</td>\n";
+    os << "      <td>Cost per<br>Data Point</td>\n";
     os << "    </tr>\n";
     os << "  </thead>\n";
     os << "  <tbody align=\"left\">\n";
@@ -720,7 +720,7 @@ RQ::model<profile_function>::optimize(size_t parent_number,
 
     // Compute uncertainty
     if (is_opt)
-        RQ::scale_cm(this, &model<profile_function>::statistics, &x[0], n, step_size, &d[0], &B[0], z, 1.0);
+        RQ::scale_cm(this, &model<profile_function>::statistics, &x[0], n, step_size, &d[0], &B[0], z);
     for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1)
         d[i] = step_size * sqrt(C[ii]);
     for (size_t i = 0; i < msk.size(); ++i)

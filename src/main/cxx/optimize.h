@@ -224,8 +224,7 @@ namespace RQ {
             // diagonal matrix (packed)
         const double rotation_matrix[],
             // orthogonal matrix (row-major)
-        double optimum,
-        double distance);
+        double optimum);
 
     // Function template to calculate standard deviations
     template<class objectp, class functionp>
@@ -235,8 +234,7 @@ namespace RQ {
             // diagonal matrix (packed)
         const double rotation_matrix[],
             // orthogonal matrix (row-major)
-        double optimum,
-        double distance);
+        double optimum);
 
     template<class number> number sqr(number x);
     template<class number, class comparation> class indirect_comparation;
@@ -317,12 +315,12 @@ RQ::optimize(objective_function& f, double xw[], size_t n,
             fitness[k] = f(&x[k][0], n);
             index[k] = k;
         }
-        partial_sort(&index[0], &index[population_size >> 1], &index[population_size],
+        partial_sort(&index[0], &index[parent_number], &index[population_size],
             indirect_comparation<double, comparation>(fitness, comp));
         ++g;
 
         // Check the mutation variance
-        is_ufl = (fitness[index[0]] == fitness[index[population_size >> 1]]);
+        is_ufl = (fitness[index[0]] == fitness[index[parent_number]]);
         if (!is_ufl)
             for (size_t i = 0, ij = g % n; i < n; ++i, ij += n) {
                 is_ufl = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
@@ -390,8 +388,7 @@ RQ::optimize(objective_function& f, double xw[], size_t n,
         
         // Check if the optimization is completed
         for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) +
-                1.0 / max_covariance_matrix_condition);
+            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
             if (!is_opt)
                 break;
         }
@@ -477,12 +474,12 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
             fitness[k] = (obj->*f)(&x[k][0], n);
             index[k] = k;
         }
-        partial_sort(&index[0], &index[population_size >> 1], &index[population_size],
+        partial_sort(&index[0], &index[parent_number], &index[population_size],
             indirect_comparation<double, comparation>(fitness, comp));
         ++g;
 
         // Check the mutation variance
-        is_ufl = (fitness[index[0]] == fitness[index[population_size >> 1]]);
+        is_ufl = (fitness[index[0]] == fitness[index[parent_number]]);
         if (!is_ufl)
             for (size_t i = 0, ij = g % n; i < n; ++i, ij += n) {
                 is_ufl = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
@@ -550,8 +547,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
         
         // Check if the optimization is completed
         for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) +
-                1.0 / max_covariance_matrix_condition);
+            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
             if (!is_opt)
                 break;
         }
@@ -652,12 +648,12 @@ RQ::optimize(objective_function& f, double xw[], size_t n,
             fitness[k] = f(&x[k][0], n);
             index[k] = k;
         }
-        partial_sort(&index[0], &index[population_size >> 1], &index[population_size],
+        partial_sort(&index[0], &index[parent_number], &index[population_size],
             indirect_comparation<double, comparation>(fitness, comp));
         ++g;
 
         // Check the mutation variance
-        is_ufl = (fitness[index[0]] == fitness[index[population_size >> 1]]);
+        is_ufl = (fitness[index[0]] == fitness[index[parent_number]]);
         if (!is_ufl)
             for (size_t i = 0, ij = g % n; i < n; ++i, ij += n) {
                 is_ufl = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
@@ -725,8 +721,7 @@ RQ::optimize(objective_function& f, double xw[], size_t n,
         
         // Check if the optimization is completed
         for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) +
-                1.0 / max_covariance_matrix_condition);
+            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
             if (!is_opt)
                 break;
         }
@@ -827,12 +822,12 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
             fitness[k] = (obj->*f)(&x[k][0], n);
             index[k] = k;
         }
-        partial_sort(&index[0], &index[population_size >> 1], &index[population_size],
+        partial_sort(&index[0], &index[parent_number], &index[population_size],
             indirect_comparation<double, comparation>(fitness, comp));
         ++g;
 
         // Check the mutation variance
-        is_ufl = (fitness[index[0]] == fitness[index[population_size >> 1]]);
+        is_ufl = (fitness[index[0]] == fitness[index[parent_number]]);
         if (!is_ufl)
             for (size_t i = 0, ij = g % n; i < n; ++i, ij += n) {
                 is_ufl = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
@@ -900,8 +895,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
         
         // Check if the optimization is completed
         for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) +
-                1.0 / max_covariance_matrix_condition);
+            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
             if (!is_opt)
                 break;
         }
@@ -998,12 +992,12 @@ RQ::optimize(objective_function& f, double xw[], size_t n, constraint& reject,
             fitness[k] = f(&x[k][0], n);
             index[k] = k;
         }
-        partial_sort(&index[0], &index[population_size >> 1], &index[population_size],
+        partial_sort(&index[0], &index[parent_number], &index[population_size],
             indirect_comparation<double, comparation>(fitness, comp));
         ++g;
 
         // Check the mutation variance
-        is_ufl = (fitness[index[0]] == fitness[index[population_size >> 1]]);
+        is_ufl = (fitness[index[0]] == fitness[index[parent_number]]);
         if (!is_ufl)
             for (size_t i = 0, ij = g % n; i < n; ++i, ij += n) {
                 is_ufl = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
@@ -1071,8 +1065,7 @@ RQ::optimize(objective_function& f, double xw[], size_t n, constraint& reject,
                     
         // Check if the optimization is completed
         for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) +
-                1.0 / max_covariance_matrix_condition);
+            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
             if (!is_opt)
                 break;
         }
@@ -1169,12 +1162,12 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint& reject
             fitness[k] = (obj->*f)(&x[k][0], n);
             index[k] = k;
         }
-        partial_sort(&index[0], &index[population_size >> 1], &index[population_size],
+        partial_sort(&index[0], &index[parent_number], &index[population_size],
             indirect_comparation<double, comparation>(fitness, comp));
         ++g;
 
         // Check the mutation variance
-        is_ufl = (fitness[index[0]] == fitness[index[population_size >> 1]]);
+        is_ufl = (fitness[index[0]] == fitness[index[parent_number]]);
         if (!is_ufl)
             for (size_t i = 0, ij = g % n; i < n; ++i, ij += n) {
                 is_ufl = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
@@ -1242,8 +1235,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint& reject
         
         // Check if the optimization is completed
         for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) +
-                1.0 / max_covariance_matrix_condition);
+            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
             if (!is_opt)
                 break;
         }
@@ -1260,45 +1252,24 @@ RQ::scale_cm(objective_function& f, const double x[], size_t n,
     double& s,
     const double d[],
     const double B[],
-    double optimum,
-    double h)
+    double z)
 {
     using std::abs;
     using std::valarray;
     
-    double a = 0.0;
-    double b = 0.0;
-    double y = 0.0;
+    const double a = 100.0 * s;
     
-    // bracket the root in [a, b]
-    while (a == 0.0 or b == 0.0) {
-        valarray<double> q(x, n);
-        for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n)
-            q[i] += s * B[ij] * d[j];
-                // a step in direction of the principal axis
-        y = abs(f(&q[0], n) - optimum) - h;
-        if (y < 0.0) {
-            a = s;
-            s = s * 10.0;
-        } else {
-            b = s;
-            s = s * 0.10;
-        }
+    valarray<double> p(x, n);
+    valarray<double> q(x, n);
+    for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n) {
+        p[i] += a * B[ij] * d[n - 1];
+        q[i] += a * B[ij] * d[n - 1];
     }
-    // find the root
-    do {
-        s = 0.5 * (a + b);
-        valarray<double> q(x, n);
-        for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n)
-            q[i] += s * B[ij] * d[j];
-                // a step in direction of the principal axis
-        y = abs(f(&q[0], n) - optimum) - h;
-        if (y < 0.0) {
-            a = s;
-        } else {
-            b = s;
-        }
-    } while (abs(y) > 0.01);
+    
+    const double zp = f(&p[0], n);
+    const double zq = f(&q[0], n);
+    s = a / sqrt(abs(2.0 * (zp - z) - (zp - zq)));
+        // compute the covariance along the major principal axis by means of a parabola
 }
 
 template<class objectp, class functionp>
@@ -1307,45 +1278,24 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
     double& s,
     const double d[],
     const double B[],
-    double optimum,
-    double h)
+    double z)
 {
     using std::abs;
     using std::valarray;
-
-    double a = 0.0;
-    double b = 0.0;
-    double y = 0.0;
     
-    // bracket the root in [a, b]
-    while (a == 0.0 or b == 0.0) {
-        valarray<double> q(x, n);
-        for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n)
-            q[i] += s * B[ij] * d[j];
-                // a step in direction of the principal axis
-        y = abs((obj->*f)(&q[0], n) - optimum) - h;
-        if (y < 0.0) {
-            a = s;
-            s = s * 10.0;
-        } else {
-            b = s;
-            s = s * 0.10;
-        }
+    const double a = 100.0 * s;
+    
+    valarray<double> p(x, n);
+    valarray<double> q(x, n);
+    for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n) {
+        p[i] += a * B[ij] * d[j];
+        q[i] += a * B[ij] * d[j];
     }
-    // find the root
-    do {
-        s = 0.5 * (a + b);
-        valarray<double> q(x, n);
-        for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n)
-            q[i] += s * B[ij] * d[j];
-                // a step in direction of the principal axis
-        y = abs((obj->*f)(&q[0], n) - optimum) - h;
-        if (y < 0.0) {
-            a = s;
-        } else {
-            b = s;
-        }
-    } while (abs(y) > 0.01);
+    
+    const double zp = (obj->*f)(&p[0], n);
+    const double zq = (obj->*f)(&q[0], n);
+    s = a / sqrt(abs(2.0 * (zp - z) - (zp - zq)));
+        // compute the covariance along the major principal axis by means of a parabola
 }
 
 template<class number>

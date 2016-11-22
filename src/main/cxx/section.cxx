@@ -200,7 +200,7 @@ RQ::section::rss() const
 double
 RQ::section::statistics() const
 {
-    return rss();
+    return 0.5 * rss();
 }
 
 void
