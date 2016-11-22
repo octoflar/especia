@@ -72,18 +72,18 @@ target_link_libraries(especis ${VECLIB})
 add_executable(especiv ${MAIN}/cxx/especiv.cxx ${COMMON_SOURCES})
 target_link_libraries(especiv ${VECLIB})
 
-add_executable(xtractcom ${MAIN}/cxx/xtractcom.cxx)
-add_executable(xtractdat ${MAIN}/cxx/xtractdat.cxx)
-add_executable(xtractlog ${MAIN}/cxx/xtractlog.cxx)
-add_executable(xtractmod ${MAIN}/cxx/xtractmod.cxx)
-add_executable(xtractmes ${MAIN}/cxx/xtractmes.cxx)
+add_executable(xcom ${MAIN}/cxx/xcom.cxx)
+add_executable(xdat ${MAIN}/cxx/xdat.cxx)
+add_executable(xlog ${MAIN}/cxx/xlog.cxx)
+add_executable(xmod ${MAIN}/cxx/xmod.cxx)
+add_executable(xmsg ${MAIN}/cxx/xmsg.cxx)
 
 add_custom_target(check)
 add_dependencies(check check_example)
 
 add_custom_target(example
-        ./xtractmod < reference/example.html | `./xtractcom < reference/example.html` > example.html)
-add_dependencies(example especid xtractcom xtractmod)
+        ./xmod < reference/example.html | `./xcom < reference/example.html` > example.html)
+add_dependencies(example especid xcom xmod)
 
 add_custom_target(check_example
         diff reference/example.html example.html
@@ -93,7 +93,7 @@ add_dependencies(check_example example)
 add_custom_target(clean_example
         rm -f example.html)
 
-install(TARGETS especia especid especis especiv xtractcom xtractdat xtractlog xtractmod xtractmes
+install(TARGETS especia especid especis especiv xcom xdat xlog xmod xmsg
         RUNTIME DESTINATION ~/bin)
 
 
