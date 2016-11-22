@@ -1324,7 +1324,6 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
             q[i] += s * B[ij] * d[j];
                 // a step in direction of the principal axis
         y = abs((obj->*f)(&q[0], n) - optimum) - h;
-        k++;
         if (y < 0.0) {
             a = s;
             s = s * 10.0;
@@ -1341,7 +1340,6 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
             q[i] += s * B[ij] * d[j];
                 // a step in direction of the principal axis
         y = abs((obj->*f)(&q[0], n) - optimum) - h;
-        k++;
         if (y < 0.0) {
             a = s;
         } else {
