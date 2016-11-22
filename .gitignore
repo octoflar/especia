@@ -14,7 +14,6 @@ make/
 
 # cmake configures files
 config.h
-example.html
 
 # compiler creates files with suffix
 *.o

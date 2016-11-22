@@ -46,8 +46,8 @@ configure_file (
         ${MAIN}/cxx/config.h)
 
 configure_file (
-        ${TEST}/html/example.html.in
-        ${TEST}/html/example.html)
+        ${TEST}/resources-filtered/example.html.in
+        reference/example.html)
 
 set(COMMON_SOURCES
         ${MAIN}/cxx/config.h
@@ -82,11 +82,11 @@ add_custom_target(check)
 add_dependencies(check check_example)
 
 add_custom_target(example
-        ./xtractmod < ${TEST}/html/example.html | `./xtractcom < ${TEST}/html/example.html` > example.html)
+        ./xtractmod < reference/example.html | `./xtractcom < reference/example.html` > example.html)
 add_dependencies(example especid xtractcom xtractmod)
 
 add_custom_target(check_example
-        diff ${TEST}/html/example.html example.html
+        diff reference/example.html example.html
         COMMENT "Error statements issued by this target and caused by small differences in numerics are normal.")
 add_dependencies(check_example example)
 
