@@ -1268,11 +1268,16 @@ RQ::scale_cm(objective_function& f, const double x[], size_t n,
     
     double a = 0.0;
     double b = 0.0;
+    double y = 0.0;
+    
+    // bracket the root in [a, b]
     while (a == 0.0 or b == 0.0) {
         valarray<double> q(x, n);
         for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n)
             q[i] += s * B[ij] * d[j];
-        if (abs(f(&q[0], n) - optimum) < h) {
+                // a step in direction of the principal axis
+        y = abs(f(&q[0], n) - optimum) - h;
+        if (y < 0.0) {
             a = s;
             s = s * 2.0;
         } else {
@@ -1280,8 +1285,20 @@ RQ::scale_cm(objective_function& f, const double x[], size_t n,
             s = s * 0.5;
         }
     }
-    // todo: search
-    s = 0.5 * (a + b);
+    // find the root
+    do {
+        s = 0.5 * (a + b);
+        valarray<double> q(x, n);
+        for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n)
+            q[i] += s * B[ij] * d[j];
+                // a step in direction of the principal axis
+        y = abs(f(&q[0], n) - optimum) - h;
+        if (y < 0.0) {
+            a = s;
+        } else {
+            b = s;
+        }
+    } while (abs(y) > 0.01);
 }
 
 template<class objectp, class functionp>
@@ -1298,11 +1315,16 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
 
     double a = 0.0;
     double b = 0.0;
+    double y = 0.0;
+    
+    // bracket the root in [a, b]
     while (a == 0.0 or b == 0.0) {
         valarray<double> q(x, n);
         for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n)
             q[i] += s * B[ij] * d[j];
-        if (abs((obj->*f)(&q[0], n) - optimum) < h) {
+                // a step in direction of the principal axis
+        y = abs((obj->*f)(&q[0], n) - optimum) - h;
+        if (y < 0.0) {
             a = s;
             s = s * 2.0;
         } else {
@@ -1310,8 +1332,20 @@ RQ::scale_cm(objectp obj, functionp f, const double x[], size_t n,
             s = s * 0.5;
         }
     }
-    // todo: search
-    s = 0.5 * (a + b);
+    // find the root
+    do {
+        s = 0.5 * (a + b);
+        valarray<double> q(x, n);
+        for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n)
+            q[i] += s * B[ij] * d[j];
+                // a step in direction of the principal axis
+        y = abs((obj->*f)(&q[0], n) - optimum) - h;
+        if (y < 0.0) {
+            a = s;
+        } else {
+            b = s;
+        }
+    } while (abs(y) > 0.01);
 }
 
 template<class number>
