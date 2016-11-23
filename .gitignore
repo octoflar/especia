@@ -1,5 +1,6 @@
 # CLion creates
 .idea/
+cmake-build-debug/
 
 # Eclipse creates 
 .cproject
