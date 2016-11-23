@@ -1,6 +1,5 @@
 # CLion creates
 .idea/
-cmake-build-debug/
 
 # Eclipse creates 
 .cproject
@@ -8,10 +7,12 @@ cmake-build-debug/
 .settings/
 
 # Xcode files by convention are in folder
-xcode/
+cmake-xcode/
 
-# make files by convention are in folder
-make/
+# build files by convention are in folders
+cmake-build/
+cmake-build-debug/
+cmake-build-release/
 
 # cmake configures files
 config.h

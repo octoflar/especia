@@ -31,8 +31,8 @@ Building this software requires [CMake](https://cmake.org) and a compiler that i
 the ISO/IEC 14882:2011 norm, also known as C++11. To build, test, and install this software
 `cd` into the project root directory and type:
 
-    mkdir make
-    cd make
+    mkdir cmake-build
+    cd cmake-build
     cmake ..
     make all
     make check
