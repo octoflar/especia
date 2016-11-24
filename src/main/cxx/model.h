@@ -40,34 +40,37 @@
 
 
 namespace RQ {
-    template<class profile_function> class model;
+    template<class profile_function>
+    class model;
 }
 
 template<class profile_function>
 class RQ::model {
 public:
-    std::istream& get(std::istream& is, std::ostream& os = null, char comment_mark = '%', char begin_of_section = '{',
-        char end_of_section = '}');
-    std::ostream& put(std::ostream& os) const;
+    std::istream &get(std::istream &is, std::ostream &os = null, char comment_mark = '%', char begin_of_section = '{',
+                      char end_of_section = '}');
+
+    std::ostream &put(std::ostream &os) const;
 
     void compute_model(const double x[], size_t n);
+
     double statistics(const double x[], size_t n) const;
 
     template<class normal_deviate, class sym_eig_decomp>
     bool optimize(size_t parent_number,
-        size_t population_size,
-        double step_size,
-        const double accuracy_goal,
-        unsigned long stop_generation,
-        unsigned trace,
-        normal_deviate& ndev, sym_eig_decomp& eig, std::ostream& os);
+                  size_t population_size,
+                  double step_size,
+                  const double accuracy_goal,
+                  unsigned long stop_generation,
+                  unsigned trace,
+                  normal_deviate &ndev, sym_eig_decomp &eig, std::ostream &os);
 
 private:
-    std::ostream& put_parameter(std::ostream& os, std::ios_base::fmtflags f,
-        int precision, size_t parameter_index) const;
+    std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f,
+                                int precision, size_t parameter_index) const;
 
     std::vector<RQ::section> sec;
-  
+
     std::valarray<size_t> isc;
     std::valarray<size_t> nle;
     std::valarray<size_t> nli;
@@ -82,17 +85,16 @@ private:
 
     std::map<std::string, size_t> sim;
     std::map<std::string, size_t> pim;
-  
-  static std::ostringstream null;
+
+    static std::ostringstream null;
 };
 
 template<class profile_function>
 std::ostringstream RQ::model<profile_function>::null;
 
 template<class profile_function>
-std::istream&
-RQ::model<profile_function>::get(std::istream& is, std::ostream& os, char cm, char bos, char eos)
-{
+std::istream &
+RQ::model<profile_function>::get(std::istream &is, std::ostream &os, char cm, char bos, char eos) {
     using namespace std;
 
     typedef map<string, size_t>::const_iterator id_index_map_ci;
@@ -127,7 +129,7 @@ RQ::model<profile_function>::get(std::istream& is, std::ostream& os, char cm, ch
     stringstream ss;
     stringstream st;
     string s;
-  
+
     os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
     os << "<html>\n";
     os << "<!--\n";
@@ -135,10 +137,10 @@ RQ::model<profile_function>::get(std::istream& is, std::ostream& os, char cm, ch
 
     // Strip empty lines. Write non-empty lines to standard output.
     while (readline(is, s)) {
-      ss << s << '\n';
-      os << s << '\n';
+        ss << s << '\n';
+        os << s << '\n';
     }
-  
+
     os << "</model>\n";
     os << "-->\n";
     os << "</html>\n";
@@ -147,7 +149,7 @@ RQ::model<profile_function>::get(std::istream& is, std::ostream& os, char cm, ch
     while (readline(ss, s, cm)) {
         st << s << '\n';
     }
-  
+
     size_t i = 0;
     size_t j = 0;
 
@@ -372,9 +374,8 @@ RQ::model<profile_function>::get(std::istream& is, std::ostream& os, char cm, ch
 }
 
 template<class profile_function>
-std::ostream&
-RQ::model<profile_function>::put(std::ostream& os) const
-{
+std::ostream &
+RQ::model<profile_function>::put(std::ostream &os) const {
     using namespace std;
 
     typedef map<string, size_t>::const_iterator id_index_map_ci;
@@ -454,9 +455,9 @@ RQ::model<profile_function>::put(std::ostream& os) const
     os << "      <td>Radial<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
     os << "      <td>Broadening<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
     os << "      <td>Log. Column<br>Density<br>(cm<sup>-2</sup>)</td>\n";
-    #if defined(RQ_MANY_MULTIPLET_ANALYSIS)
+#if defined(RQ_MANY_MULTIPLET_ANALYSIS)
     os << "      <td>&Delta;&alpha/&alpha;<br>(10<sup>-5</sup>)</td>\n";
-    #endif
+#endif
     os << "    </tr>\n";
     os << "  </thead>\n";
     os << "  <tbody align=\"left\">\n";
@@ -497,11 +498,11 @@ RQ::model<profile_function>::put(std::ostream& os) const
         os << "      <td>";
         put_parameter(os, ios_base::fixed, 3, j + 5);
         os << "</td>\n";
-        #if defined(RQ_MANY_MULTIPLET_ANALYSIS)
+#if defined(RQ_MANY_MULTIPLET_ANALYSIS)
         os << "      <td>";
         put_parameter(os, ios_base::fixed, 3, j + 7);
         os << "</td>\n";
-        #endif
+#endif
         os << "    </tr>\n";
     }
 
@@ -517,10 +518,9 @@ RQ::model<profile_function>::put(std::ostream& os) const
 }
 
 template<class profile_function>
-std::ostream&
-RQ::model<profile_function>::put_parameter(std::ostream& os, std::ios_base::fmtflags f,
-    int p, size_t i) const
-{
+std::ostream &
+RQ::model<profile_function>::put_parameter(std::ostream &os, std::ios_base::fmtflags f,
+                                           int p, size_t i) const {
     using namespace std;
 
     const ios_base::fmtflags fmt = os.flags();
@@ -539,21 +539,19 @@ RQ::model<profile_function>::put_parameter(std::ostream& os, std::ios_base::fmtf
 
 template<class profile_function>
 void
-RQ::model<profile_function>::compute_model(const double x[], size_t n)
-{
+RQ::model<profile_function>::compute_model(const double x[], size_t n) {
     for (size_t i = 0; i < val.size(); ++i)
         if (msk[i])
             val[i] = x[ind[i]];
 
     for (size_t i = 0; i < sec.size(); ++i)
         sec[i].compute_model(RQ::superposition<profile_function>(nli[i], &val[isc[i] + 1]),
-            nle[i], val[isc[i]]);
+                             nle[i], val[isc[i]]);
 }
 
 template<class profile_function>
 double
-RQ::model<profile_function>::statistics(const double x[], size_t n) const
-{
+RQ::model<profile_function>::statistics(const double x[], size_t n) const {
     using namespace std;
 
     valarray<double> y = val;
@@ -565,7 +563,7 @@ RQ::model<profile_function>::statistics(const double x[], size_t n) const
 
     for (size_t i = 0; i < sec.size(); ++i)
         d += sec[i].cost(RQ::superposition<profile_function>(nli[i], &y[isc[i] + 1]),
-            nle[i], y[isc[i]]);
+                         nle[i], y[isc[i]]);
 
     return d;
 }
@@ -574,13 +572,12 @@ template<class profile_function>
 template<class normal_deviate, class sym_eig_decomp>
 bool
 RQ::model<profile_function>::optimize(size_t parent_number,
-    size_t population_size,
-    double step_size,
-    const double accuracy_goal,
-    unsigned long stop_generation,
-    unsigned trace,
-    normal_deviate& ndev, sym_eig_decomp& eig, std::ostream& os)
-{
+                                      size_t population_size,
+                                      double step_size,
+                                      const double accuracy_goal,
+                                      unsigned long stop_generation,
+                                      unsigned trace,
+                                      normal_deviate &ndev, sym_eig_decomp &eig, std::ostream &os) {
     using namespace std;
 
     const char beglog[] = "<log>";
@@ -601,8 +598,10 @@ RQ::model<profile_function>::optimize(size_t parent_number,
     const double cc = 4.0 / (n + 4.0);
     const double acov = 1.0 / var_parent_number;
     const double ccov = acov * (2.0 / RQ::sqr(n + sqrt(2.0))) + (1.0 - acov) * min(1.0,
-        (2.0 * var_parent_number - 1.0) / (RQ::sqr(n + 2.0) + var_parent_number));
-    const double step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((var_parent_number - 1.0) / (n + 1.0)) - 1.0); 
+                                                                                   (2.0 * var_parent_number - 1.0) /
+                                                                                   (RQ::sqr(n + 2.0) +
+                                                                                    var_parent_number));
+    const double step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((var_parent_number - 1.0) / (n + 1.0)) - 1.0);
 
     valarray<double> pc(0.0, n);
     valarray<double> ps(0.0, n);
@@ -647,7 +646,7 @@ RQ::model<profile_function>::optimize(size_t parent_number,
         os << "<!--" << endl;
         os << beglog << endl;
     }
-    
+
     while (!is_opt and !is_ufl and g < stop_generation) {
         unsigned long stop = stop_generation;
 
@@ -655,28 +654,28 @@ RQ::model<profile_function>::optimize(size_t parent_number,
             stop = min(g + trace, stop_generation);
 
         RQ::optimize(this, &model<profile_function>::statistics, &x[0], n,
-            &a[0], &b[0],
-            parent_number,
-            population_size,
-            &w[0],
-            step_size,
-            step_size_damping,
-            cs,
-            cc,
-            ccov,
-            acov,
-            accuracy_goal,
-            stop,
-            &d[0],
-            &B[0],
-            &C[0],
-            &ps[0],
-            &pc[0],
-            g,
-            is_opt,
-            is_ufl,
-            z,
-            ndev, eig, less<double>());
+                     &a[0], &b[0],
+                     parent_number,
+                     population_size,
+                     &w[0],
+                     step_size,
+                     step_size_damping,
+                     cs,
+                     cc,
+                     ccov,
+                     acov,
+                     accuracy_goal,
+                     stop,
+                     &d[0],
+                     &B[0],
+                     &C[0],
+                     &ps[0],
+                     &pc[0],
+                     g,
+                     is_opt,
+                     is_ufl,
+                     z,
+                     ndev, eig, less<double>());
 
         if (trace > 0) {
             const ios_base::fmtflags fmt = os.flags();
@@ -706,7 +705,7 @@ RQ::model<profile_function>::optimize(size_t parent_number,
 
     os << "<!--" << endl;
     os << begmsg << endl;
-    
+
     if (is_opt)
         os << optmsg << endl;
     else if (is_ufl)
@@ -728,7 +727,7 @@ RQ::model<profile_function>::optimize(size_t parent_number,
             err[i] = d[ind[i]];
         else
             err[i] = 0.0;
-            
+
     compute_model(&x[0], n);
 
     return (is_opt or is_ufl or g >= stop_generation);

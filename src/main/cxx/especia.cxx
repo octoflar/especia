@@ -24,9 +24,13 @@
 #include <iomanip>
 #include <iostream>
 #include "config.h"
+
 #define RQ_MANY_MULTIPLET_ANALYSIS 1
+
 #include "model.h"
+
 #undef RQ_MANY_MULTIPLET_ANALYSIS
+
 #include "mtwister.h"
 #include "randev.h"
 #include "symeig.h"
@@ -34,8 +38,7 @@
 const char usemsg[] = "Usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     using namespace RQ;
     using std::cin;
     using std::cout;
@@ -43,16 +46,16 @@ int main(int argc, char* argv[])
     using std::endl;
     using std::exception;
 
-    const char* pname = argv[0];
+    const char *pname = argv[0];
 
     if (argc == 8) {
-        const long   seed            = atol(argv[1]);
-        const int    parent_number   = atoi(argv[2]);
-        const int    population_size = atoi(argv[3]);
-        const double step_size       = atof(argv[4]);
-        const double accuracy_goal   = atof(argv[5]);
-        const long   stop_generation = atol(argv[6]);
-        const int    trace           = atoi(argv[7]);
+        const long seed = atol(argv[1]);
+        const int parent_number = atoi(argv[2]);
+        const int population_size = atoi(argv[3]);
+        const double step_size = atof(argv[4]);
+        const double accuracy_goal = atof(argv[5]);
+        const long stop_generation = atol(argv[6]);
+        const int trace = atoi(argv[7]);
 
         cout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
         cout << "<html>\n";
@@ -74,15 +77,15 @@ int main(int argc, char* argv[])
                 sym_eig_decomp eig;
 
                 if (m.optimize(parent_number,
-                        population_size,
-                        step_size,
-                        accuracy_goal,
-                        stop_generation,
-                        trace,
-                        ndev, eig, cout))
+                               population_size,
+                               step_size,
+                               accuracy_goal,
+                               stop_generation,
+                               trace,
+                               ndev, eig, cout))
                     m.put(cout);
             }
-            catch (exception& e) {
+            catch (exception &e) {
                 cerr << e.what() << endl;
 
                 return 2;

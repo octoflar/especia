@@ -31,40 +31,39 @@
 
 namespace RQ {
     template<class A>
-    std::istream& read(std::istream& is, std::vector<A>& a, size_t n,
-        bool append = false);
+    std::istream &read(std::istream &is, std::vector<A> &a, size_t n,
+                       bool append = false);
 
     template<class A, class B>
-    std::istream& read(std::istream& is, std::vector<A>& a, std::vector<B>& b, size_t n,
-        bool append = false);
+    std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b, size_t n,
+                       bool append = false);
 
     template<class A, class B, class C>
-    std::istream& read(std::istream& is, std::vector<A>& a, std::vector<B>& b,
-        std::vector<C>& c, size_t n, bool append = false);
+    std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b,
+                       std::vector<C> &c, size_t n, bool append = false);
 
     template<class A, class B, class C, class D>
-    std::istream& read(std::istream& is, std::vector<A>& a, std::vector<B>& b,
-        std::vector<C>& c, std::vector<D>& d, size_t n, bool append = false);
+    std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b,
+                       std::vector<C> &c, std::vector<D> &d, size_t n, bool append = false);
 
     template<class A, class B, class C, class D, class E>
-    std::istream& read(std::istream& is, std::vector<A>& a, std::vector<B>& b,
-        std::vector<C>& c, std::vector<D>& d, std::vector<E>& e, size_t n,
-        bool append = false);
+    std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b,
+                       std::vector<C> &c, std::vector<D> &d, std::vector<E> &e, size_t n,
+                       bool append = false);
 
     template<class A, class B, class C, class D>
-    std::istream& read(std::istream& is, std::vector<A>& a, std::vector<B>& b,
-        std::vector<C>& c, std::vector<D>& d, std::vector<std::string>& s, size_t n,
-        char eol, bool append = false);
+    std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b,
+                       std::vector<C> &c, std::vector<D> &d, std::vector<std::string> &s, size_t n,
+                       char eol, bool append = false);
 
     // Read a line while skipping empty lines and stripping comments
-    std::istream& readline(std::istream& is, std::string& s,
-        char comment_mark = 0, char eol = '\n');
+    std::istream &readline(std::istream &is, std::string &s,
+                           char comment_mark = 0, char eol = '\n');
 }
 
 template<class A>
-std::istream&
-RQ::read(std::istream& is, std::vector<A>& a, size_t n, bool append)
-{
+std::istream &
+RQ::read(std::istream &is, std::vector<A> &a, size_t n, bool append) {
     using namespace std;
 
     vector<A> ta;
@@ -89,10 +88,9 @@ RQ::read(std::istream& is, std::vector<A>& a, size_t n, bool append)
 }
 
 template<class A, class B>
-std::istream&
-RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, size_t n,
-    bool append)
-{
+std::istream &
+RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, size_t n,
+         bool append) {
     using namespace std;
 
     vector<A> ta;
@@ -102,7 +100,8 @@ RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, size_t n,
     tb.reserve(n);
 
     for (size_t i = 0; i < n; ++i) {
-        A a; B b;
+        A a;
+        B b;
 
         if (is >> a >> b) {
             ta.push_back(a);
@@ -123,10 +122,9 @@ RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, size_t n,
 }
 
 template<class A, class B, class C>
-std::istream&
-RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>& c,
-    size_t n, bool append)
-{
+std::istream &
+RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c,
+         size_t n, bool append) {
     using namespace std;
 
     vector<A> ta;
@@ -136,9 +134,11 @@ RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>&
     ta.reserve(n);
     tb.reserve(n);
     tc.reserve(n);
-    
+
     for (size_t i = 0; i < n; ++i) {
-        A a; B b; C c;
+        A a;
+        B b;
+        C c;
 
         if (is >> a >> b >> c) {
             ta.push_back(a);
@@ -162,10 +162,9 @@ RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>&
 }
 
 template<class A, class B, class C, class D>
-std::istream&
-RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>& c,
-    std::vector<D>& d, size_t n, bool append)
-{
+std::istream &
+RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c,
+         std::vector<D> &d, size_t n, bool append) {
     using namespace std;
 
     vector<A> ta;
@@ -179,7 +178,10 @@ RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>&
     td.reserve(n);
 
     for (size_t i = 0; i < n; ++i) {
-        A a; B b; C c; D d;
+        A a;
+        B b;
+        C c;
+        D d;
 
         if (is >> a >> b >> c >> d) {
             ta.push_back(a);
@@ -206,10 +208,9 @@ RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>&
 }
 
 template<class A, class B, class C, class D, class E>
-std::istream&
-RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>& c,
-    std::vector<D>& d, std::vector<E>& e, size_t n, bool append)
-{
+std::istream &
+RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c,
+         std::vector<D> &d, std::vector<E> &e, size_t n, bool append) {
     using namespace std;
 
     vector<A> ta;
@@ -225,7 +226,11 @@ RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>&
     te.reserve(n);
 
     for (size_t i = 0; i < n; ++i) {
-        A a; B b; C c; D d; E e;
+        A a;
+        B b;
+        C c;
+        D d;
+        E e;
 
         if (is >> a >> b >> c >> d >> e) {
             ta.push_back(a);
@@ -255,11 +260,10 @@ RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>&
 }
 
 template<class A, class B, class C, class D>
-std::istream&
-RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>& c,
-    std::vector<D>& d, std::vector<std::string>& s, size_t n,
-    char eol, bool append)
-{
+std::istream &
+RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c,
+         std::vector<D> &d, std::vector<std::string> &s, size_t n,
+         char eol, bool append) {
     using namespace std;
 
     vector<A> ta;
@@ -275,7 +279,11 @@ RQ::read(std::istream& is, std::vector<A>& a, std::vector<B>& b, std::vector<C>&
     ts.reserve(n);
 
     for (size_t i = 0; i < n; ++i) {
-        A a; B b; C c; D d; string s;
+        A a;
+        B b;
+        C c;
+        D d;
+        string s;
 
         if (is >> a >> b >> c >> d and getline(is, s, eol)) {
             istringstream ist(s);

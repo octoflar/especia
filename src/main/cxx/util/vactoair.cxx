@@ -27,11 +27,10 @@
 
 using namespace std;
 
-istream&
-get(istream& is, valarray<double>& x, valarray<double>& y, valarray<double>& z, int skip = 0)
-{
+istream &
+get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip = 0) {
     const size_t room = 20000;
-    
+
     vector<double> u;
     vector<double> v;
     vector<double> w;
@@ -79,9 +78,8 @@ get(istream& is, valarray<double>& x, valarray<double>& y, valarray<double>& z, 
     return is;
 }
 
-ostream&
-put(ostream& os, const valarray<double>& x, const valarray<double>& y, const valarray<double>& z)
-{
+ostream &
+put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
     if (os) {
         const int p = 6;  // precision
         const int w = 14; // width
@@ -108,42 +106,40 @@ put(ostream& os, const valarray<double>& x, const valarray<double>& y, const val
 }
 
 double
-vactoair(double x)
-{
+vactoair(double x) {
 /*  const double a = 1.0000643280 + 2.5540e-10 / (0.0000410 - x * x) + 2.949810e-08 / (0.000146 - x * x);
         // Edlen (1953) */
     const double a = 1.0000834213 + 1.5997e-10 / (0.0000389 - x * x) + 2.406030e-08 / (0.000130 - x * x);
-        // Edlen (1966)
+    // Edlen (1966)
 
     return a * x;
 }
 
-int main(int argc, char* argv[])
-{
-    const char* pname = argv[0];
+int main(int argc, char *argv[]) {
+    const char *pname = argv[0];
     int skip = 0;
 
     switch (argc) {
-    case 2:
-        skip = atoi(argv[1]);
-    case 1:
-        valarray<double> x;
-        valarray<double> y;
-        valarray<double> z;
+        case 2:
+            skip = atoi(argv[1]);
+        case 1:
+            valarray<double> x;
+            valarray<double> y;
+            valarray<double> z;
 
-        if (get(cin, x, y, z, skip)) {
-            for (size_t i = 0; i < x.size(); ++i)
-                x[i] = 10.0 / vactoair(10.0 / x[i]);
+            if (get(cin, x, y, z, skip)) {
+                for (size_t i = 0; i < x.size(); ++i)
+                    x[i] = 10.0 / vactoair(10.0 / x[i]);
 
-            put(cout, x, y, z);
-        } else {
-            cerr << pname << ": input failure" << endl;
-            return 2;
-        }
-        
-        return 0;
+                put(cout, x, y, z);
+            } else {
+                cerr << pname << ": input failure" << endl;
+                return 2;
+            }
+
+            return 0;
     }
-    
+
     cout << "Usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
     return 1;
 }

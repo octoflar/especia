@@ -34,49 +34,63 @@ namespace RQ {
     // Class for modeling absorption line regions
     class section;
 
-    std::istream& operator>>(std::istream& is, section& s);
-    std::istream& operator>>(std::istream& is, std::vector<section>& s);
-    std::ostream& operator<<(std::ostream& os, const section& s);
-    std::ostream& operator<<(std::ostream& os, const std::vector<section>& s);
+    std::istream &operator>>(std::istream &is, section &s);
+
+    std::istream &operator>>(std::istream &is, std::vector<section> &s);
+
+    std::ostream &operator<<(std::ostream &os, const section &s);
+
+    std::ostream &operator<<(std::ostream &os, const std::vector<section> &s);
 }
 
 class RQ::section {
 public:
     section();
+
     section(size_t n);
+
     section(const double wav[], const double flx[], const double err[], size_t n);
+
     ~section();
 
-    std::istream& get(std::istream& is,
-        double a = 0.0, double b = std::numeric_limits<double>::max());
-    std::ostream& put(std::ostream& os,
-        double a = 0.0, double b = std::numeric_limits<double>::max()) const;
+    std::istream &get(std::istream &is,
+                      double a = 0.0, double b = std::numeric_limits<double>::max());
+
+    std::ostream &put(std::ostream &os,
+                      double a = 0.0, double b = std::numeric_limits<double>::max()) const;
 
     double begin() const;
+
     double center() const;
+
     double end() const;
+
     double length() const;
+
     size_t size() const;
+
     size_t selection_size() const;
 
     double cost() const;
 
     template<class optical_depth>
-    double cost(const optical_depth& t, size_t m, double r) const;
+    double cost(const optical_depth &t, size_t m, double r) const;
 
     void mask(double a, double b);
+
     void unmask(double a, double b);
 
     template<class optical_depth>
-    void compute_model(const optical_depth& t, size_t m, double r);
+    void compute_model(const optical_depth &t, size_t m, double r);
 
 private:
     template<class optical_depth>
-    void convolute(const optical_depth& t, double r, double opt[], double atm[], double cat[]) const;
-    
-    void integrals(double x, double fwhm, double& p, double& q) const;
-        // the indefinite integrals of P(x) and xP(x), where P(x) is the instrumental profile
-    void continuum(size_t m, const double cat[], double cfl[]) const throw (std::runtime_error);
+    void convolute(const optical_depth &t, double r, double opt[], double atm[], double cat[]) const;
+
+    void integrals(double x, double fwhm, double &p, double &q) const;
+
+    // the indefinite integrals of P(x) and xP(x), where P(x) is the instrumental profile
+    void continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error);
 
     std::valarray<double> wav; // wavelength data
     std::valarray<double> flx; // flux data
@@ -97,53 +111,47 @@ private:
 
 inline
 double
-RQ::section::begin() const
-{
+RQ::section::begin() const {
     return wav[0];
 }
 
 inline
 double
-RQ::section::center() const
-{
+RQ::section::center() const {
     return 0.5 * (begin() + end());
 }
 
 inline
 double
-RQ::section::end() const
-{
+RQ::section::end() const {
     return (n > 1) ? wav[n - 1] : wav[0];
 }
 
 inline
 double
-RQ::section::length() const
-{
+RQ::section::length() const {
     return end() - begin();
 }
 
 inline
 size_t
-RQ::section::size() const
-{
+RQ::section::size() const {
     return n;
 }
 
 template<class optical_depth>
 void
-RQ::section::convolute(const optical_depth& t, double r, double opt[], double atm[], double cat[]) const
-{
+RQ::section::convolute(const optical_depth &t, double r, double opt[], double atm[], double cat[]) const {
     using std::exp;
     using std::valarray;
 
     if (n > 2) {
         const double w = center() / r;
-            // FWHM of the instrumental profile
+        // FWHM of the instrumental profile
         const double h = length() / (n - 1);
-            // sample spacing
+        // sample spacing
         const size_t m = static_cast<size_t>(2.0 * (w / h)) + 1;
-            // cut the Gaussian profile at 4-HWHM (half width at half maximun) down to 10E-5
+        // cut the Gaussian profile at 4-HWHM (half width at half maximun) down to 10E-5
         valarray<double> p(m);
         valarray<double> q(m);
 
@@ -176,8 +184,7 @@ RQ::section::convolute(const optical_depth& t, double r, double opt[], double at
 
 template<class optical_depth>
 double
-RQ::section::cost(const optical_depth& t, size_t m, double r) const
-{
+RQ::section::cost(const optical_depth &t, size_t m, double r) const {
     using std::abs;
     using std::valarray;
 
@@ -201,7 +208,7 @@ RQ::section::cost(const optical_depth& t, size_t m, double r) const
         res[i] = (flx[i] - fit[i]) / err[i];
 
         if (msk[i])
-			a += res[i] * res[i];
+            a += res[i] * res[i];
     }
 
     return 0.5 * a;
@@ -209,8 +216,7 @@ RQ::section::cost(const optical_depth& t, size_t m, double r) const
 
 template<class optical_depth>
 void
-RQ::section::compute_model(const optical_depth& t, size_t m, double r)
-{
+RQ::section::compute_model(const optical_depth &t, size_t m, double r) {
     convolute(t, r, &opt[0], &atm[0], &cat[0]);
     continuum(m, &cat[0], &cfl[0]);
 
@@ -223,16 +229,14 @@ RQ::section::compute_model(const optical_depth& t, size_t m, double r)
 }
 
 inline
-std::istream&
-RQ::operator>>(std::istream& is, section& s)
-{
+std::istream &
+RQ::operator>>(std::istream &is, section &s) {
     return s.get(is);
 }
 
 inline
-std::ostream&
-RQ::operator<<(std::ostream& os, const section& s)
-{
+std::ostream &
+RQ::operator<<(std::ostream &os, const section &s) {
     return s.put(os);
 }
 

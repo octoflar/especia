@@ -1,5 +1,4 @@
-// Extract model definition from output HTML
-// Class for modeling absorption line regions
+// Extract fit data from output HTML
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,21 +20,19 @@
 // SOFTWARE.
 //
 #include <iostream>
-#include <string>
 
 using namespace std;
 
-// usage: xtractmod < ISTREAM > OSTREAM
-int main()
-{
-    bool ismodel = false;
+// usage: xtractdat < ISTREAM > OSTREAM
+int main() {
+    bool isdata = false;
     string s;
 
     while (getline(cin, s))
-        if (ismodel and !(s == "</model>" or s == "</job>" or s == "</input>"))
+        if (isdata and s != "</data>")
             cout << s << endl;
         else
-            ismodel = (s == "<model>" or s == "<job>" or s == "<input>");
+            isdata = (s == "<data>");
 
     return 0;
 }

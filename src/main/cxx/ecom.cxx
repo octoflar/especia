@@ -1,5 +1,4 @@
-// Extract log from output HTML
-// Class for modeling absorption line regions
+// Extract command from output HTML
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,21 +20,19 @@
 // SOFTWARE.
 //
 #include <iostream>
-#include <string>
 
 using namespace std;
 
-// usage: xtractlog < ISTREAM > OSTREAM
-int main()
-{
-    bool islog = false;
+// usage: xtractcom < ISTREAM > OSTREAM
+int main() {
+    bool ismessage = false;
     string s;
 
     while (getline(cin, s))
-        if (islog and s != "</log>")
+        if (ismessage and !(s == "</command>"))
             cout << s << endl;
         else
-            islog = (s == "<log>");
+            ismessage = (s == "<command>");
 
     return 0;
 }

@@ -34,47 +34,47 @@ using std::valarray;
 
 // Interface to LAPACK eigenvalue routines (version 3.0)
 extern "C" {
-    double F77NAME(dlamch)(const char& cmach);
-    
-    void F77NAME(dsyevd)(const char& job,
-        const char& uplo,
-        const int& n,
-        double A[], const int& lda,
-        double w[],
-        double work[], const int& lwork,
-        int iwork[], const int& liwork,
-        int& info);
+double F77NAME(dlamch)(const char &cmach);
 
-    void F77NAME(dsyevr)(const char& job,
-        const char& range,
-        const char& uplo,
-        const int& n,
-        double A[], const int& lda,
-        const double& vl, const double& vu,
-        const int& il, const int& iu,
-        const double& abstol,
-        int& m,
-        double w[],
-        double Z[], const int& ldz,
-        int isupp[],
-        double work[], const int& lwork,
-        int iwork[], const int& liwork,
-        int& info);
+void F77NAME(dsyevd)(const char &job,
+                     const char &uplo,
+                     const int &n,
+                     double A[], const int &lda,
+                     double w[],
+                     double work[], const int &lwork,
+                     int iwork[], const int &liwork,
+                     int &info);
 
-    void F77NAME(dsyevx)(const char& job,
-        const char& range,
-        const char& uplo,
-        const int& n,
-        double A[], const int& lda,
-        const double& vl, const double& vu,
-        const int& il, const int& iu,
-        const double& abstol,
-        int& m,
-        double w[],
-        double Z[], const int& ldz,
-        double work[], const int& lwork,
-        int iwork[],
-        int ifail[], int& info); 
+void F77NAME(dsyevr)(const char &job,
+                     const char &range,
+                     const char &uplo,
+                     const int &n,
+                     double A[], const int &lda,
+                     const double &vl, const double &vu,
+                     const int &il, const int &iu,
+                     const double &abstol,
+                     int &m,
+                     double w[],
+                     double Z[], const int &ldz,
+                     int isupp[],
+                     double work[], const int &lwork,
+                     int iwork[], const int &liwork,
+                     int &info);
+
+void F77NAME(dsyevx)(const char &job,
+                     const char &range,
+                     const char &uplo,
+                     const int &n,
+                     double A[], const int &lda,
+                     const double &vl, const double &vu,
+                     const int &il, const int &iu,
+                     const double &abstol,
+                     int &m,
+                     double w[],
+                     double Z[], const int &ldz,
+                     double work[], const int &lwork,
+                     int iwork[],
+                     int ifail[], int &info);
 }
 
 const double safe_minimum = F77NAME(dlamch)('s');
@@ -83,62 +83,55 @@ const char RQ::sym_eig_decomp_d::int_err[] = "RQ::sym_eig_decomp_d(): Error: int
 const char RQ::sym_eig_decomp_d::ill_arg[] = "RQ::sym_eig_decomp_d(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
 
 RQ::sym_eig_decomp_d::sym_eig_decomp_d(size_t n)
-    :   job('V'), uplo('U'), work(1), iwork(1)
-{
+        : job('V'), uplo('U'), work(1), iwork(1) {
     resize_workspace(n);
 }
 
-RQ::sym_eig_decomp_d::~sym_eig_decomp_d()
-{
+RQ::sym_eig_decomp_d::~sym_eig_decomp_d() {
 }
 
 void
 RQ::sym_eig_decomp_d::operator()(const double A[], double Z[], double w[], size_t m)
-    throw (runtime_error)
-{
+throw(runtime_error) {
     copy(&A[0], &A[m * m], Z);
-  
+
     const int k = m;
     if (k != n)
         resize_workspace(m);
-    
+
     F77NAME(dsyevd)(job, uplo, n, &Z[0], max(1, n), w, &work[0], lwork, &iwork[0], liwork, info);
-        // regular call
+    // regular call
 
     if (info == 0) {
         transpose(Z);
-            // transform from column-major into row-major layout
-    }
-    else if (info > 0)
+        // transform from column-major into row-major layout
+    } else if (info > 0)
         throw runtime_error(int_err);
     else
         throw runtime_error(ill_arg);
 }
 
 void
-RQ::sym_eig_decomp_d::resize_workspace(size_t m)
-{
+RQ::sym_eig_decomp_d::resize_workspace(size_t m) {
     n = m;
-    
+
     F77NAME(dsyevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
-        // workspace query
-        
+    // workspace query
+
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
         liwork = iwork[0];
 
         work.resize(lwork);
         iwork.resize(liwork);
-    }
-    else if (info > 0)
+    } else if (info > 0)
         throw runtime_error(int_err);
     else
         throw runtime_error(ill_arg);
 }
 
 void
-RQ::sym_eig_decomp_d::transpose(double A[]) const
-{
+RQ::sym_eig_decomp_d::transpose(double A[]) const {
     for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
         for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);
@@ -149,66 +142,59 @@ const char RQ::sym_eig_decomp_r::int_err[] = "RQ::sym_eig_decomp_r(): Error: int
 const char RQ::sym_eig_decomp_r::ill_arg[] = "RQ::sym_eig_decomp_r(): Error: illegal argument(s) in call to LAPACK routine DSYEVR";
 
 RQ::sym_eig_decomp_r::sym_eig_decomp_r(size_t n)
-    :   job('V'), range('A'), uplo('U'), work(1), iwork(1)
-{
+        : job('V'), range('A'), uplo('U'), work(1), iwork(1) {
     resize_workspace(n);
 }
 
-RQ::sym_eig_decomp_r::~sym_eig_decomp_r()
-{
+RQ::sym_eig_decomp_r::~sym_eig_decomp_r() {
 }
 
 void
 RQ::sym_eig_decomp_r::operator()(const double A[], double Z[], double w[], size_t i)
-    throw (runtime_error)
-{
+throw(runtime_error) {
     valarray<double> C(A, i * i);
 
     const int k = i;
     if (k != n)
         resize_workspace(i);
-    
+
     F77NAME(dsyevr)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
-        m, w, Z, max(1, n), &isupp[0], &work[0], lwork, &iwork[0], liwork, info);
-        // regular call
+                    m, w, Z, max(1, n), &isupp[0], &work[0], lwork, &iwork[0], liwork, info);
+    // regular call
 
     if (info == 0) {
         transpose(Z);
-            // transform from column-major into row-major layout
-    }
-    else if (info > 0)
+        // transform from column-major into row-major layout
+    } else if (info > 0)
         throw runtime_error(int_err);
     else
         throw runtime_error(ill_arg);
 }
 
 void
-RQ::sym_eig_decomp_r::resize_workspace(size_t i)
-{
+RQ::sym_eig_decomp_r::resize_workspace(size_t i) {
     n = i;
 
     F77NAME(dsyevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
-        m, 0, 0, max(1, n), &isupp[0], &work[0], -1, &iwork[0], -1, info);
-        // workspace query
-        
+                    m, 0, 0, max(1, n), &isupp[0], &work[0], -1, &iwork[0], -1, info);
+    // workspace query
+
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
         liwork = iwork[0];
 
         work.resize(lwork);
         iwork.resize(liwork);
-        
+
         isupp.resize(2 * max(1, n));
-    }
-    else if (info > 0)
+    } else if (info > 0)
         throw runtime_error(int_err);
     else
         throw runtime_error(ill_arg);
 }
 
 void
-RQ::sym_eig_decomp_r::transpose(double A[]) const
-{
+RQ::sym_eig_decomp_r::transpose(double A[]) const {
     for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
         for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);
@@ -219,64 +205,57 @@ const char RQ::sym_eig_decomp_x::int_err[] = "RQ::sym_eig_decomp_x(): Error: int
 const char RQ::sym_eig_decomp_x::ill_arg[] = "RQ::sym_eig_decomp_x(): Error: illegal argument(s) in call to LAPACK routine DSYEVX";
 
 RQ::sym_eig_decomp_x::sym_eig_decomp_x(size_t n)
-    :   job('V'), range('A'), uplo('U'), work(1), iwork(), ifail()
-{
+        : job('V'), range('A'), uplo('U'), work(1), iwork(), ifail() {
     resize_workspace(0);
 }
 
-RQ::sym_eig_decomp_x::~sym_eig_decomp_x()
-{
+RQ::sym_eig_decomp_x::~sym_eig_decomp_x() {
 }
 
 void
 RQ::sym_eig_decomp_x::operator()(const double A[], double Z[], double w[], size_t i)
-    throw (runtime_error)
-{
+throw(runtime_error) {
     valarray<double> C(A, i * i);
 
     const int k = i;
     if (k != n)
         resize_workspace(i);
-    
+
     F77NAME(dsyevx)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
-        m, w, Z, max(1, n), &work[0], lwork, &iwork[0], &ifail[0], info);
-        // regular call
+                    m, w, Z, max(1, n), &work[0], lwork, &iwork[0], &ifail[0], info);
+    // regular call
 
     if (info == 0) {
         transpose(Z);
-            // transform from column-major into row-major layout
-    }
-    else if (info > 0)
+        // transform from column-major into row-major layout
+    } else if (info > 0)
         throw runtime_error(int_err);
     else
         throw runtime_error(ill_arg);
 }
 
 void
-RQ::sym_eig_decomp_x::resize_workspace(size_t i)
-{
+RQ::sym_eig_decomp_x::resize_workspace(size_t i) {
     n = i;
 
     F77NAME(dsyevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
-        m, 0, 0, max(1, n), &work[0], -1, &iwork[0], &ifail[0], info);
-        // workspace query
-        
+                    m, 0, 0, max(1, n), &work[0], -1, &iwork[0], &ifail[0], info);
+    // workspace query
+
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
 
         work.resize(max(1, lwork));
         iwork.resize(5 * n);
         ifail.resize(n);
-    }
-    else if (info > 0)
+    } else if (info > 0)
         throw runtime_error(int_err);
     else
         throw runtime_error(ill_arg);
 }
 
 void
-RQ::sym_eig_decomp_x::transpose(double A[]) const
-{
+RQ::sym_eig_decomp_x::transpose(double A[]) const {
     for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
         for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);

@@ -26,60 +26,55 @@
 #include "section.h"
 
 RQ::section::section()
-    :   wav(),
-        flx(),
-        err(),
-        msk(),
-        opt(),
-        atm(),
-        cat(),
-        cfl(),
-        tfl(),
-        fit(),
-        res(),
-        n(0)
-{
+        : wav(),
+          flx(),
+          err(),
+          msk(),
+          opt(),
+          atm(),
+          cat(),
+          cfl(),
+          tfl(),
+          fit(),
+          res(),
+          n(0) {
 }
 
 RQ::section::section(size_t m)
-    :   wav(0.0, m),
-        flx(0.0, m),
-        err(0.0, m),
-        msk(1, m),
-        opt(0.0, m),
-        atm(0.0, m),
-        cat(0.0, m),
-        cfl(0.0, m),
-        tfl(0.0, m),
-        fit(0.0, m),
-        res(0.0, m),
-        n(m)
-{
+        : wav(0.0, m),
+          flx(0.0, m),
+          err(0.0, m),
+          msk(1, m),
+          opt(0.0, m),
+          atm(0.0, m),
+          cat(0.0, m),
+          cfl(0.0, m),
+          tfl(0.0, m),
+          fit(0.0, m),
+          res(0.0, m),
+          n(m) {
 }
 
 RQ::section::section(const double x[], const double y[], const double z[], size_t m)
-    :   wav(x, m),
-        flx(y, m),
-        err(z, m),
-        msk(1, m),
-        opt(0.0, m),
-        atm(0.0, m),
-        cat(0.0, m),
-        cfl(0.0, m),
-        tfl(0.0, m),
-        fit(0.0, m),
-        res(0.0, m),
-        n(m)
-{
+        : wav(x, m),
+          flx(y, m),
+          err(z, m),
+          msk(1, m),
+          opt(0.0, m),
+          atm(0.0, m),
+          cat(0.0, m),
+          cfl(0.0, m),
+          tfl(0.0, m),
+          fit(0.0, m),
+          res(0.0, m),
+          n(m) {
 }
 
-RQ::section::~section()
-{
+RQ::section::~section() {
 }
 
 void
-RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw (std::runtime_error)
-{
+RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error) {
     using std::fill;
     using std::sqrt;
     using std::runtime_error;
@@ -90,13 +85,13 @@ RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw (
         valarray<double> c(0.0, m);
         valarray<double> l(1.0, m);
 
-        valarray< valarray<double> > a(b, m);
+        valarray<valarray<double> > a(b, m);
 
         // Linear optimization problem, establish the normal equations
         for (size_t i = 0; i < n; ++i)
             if (msk[i]) {
                 const double x = 2.0 * (wav[i] - wav[0]) / length() - 1.0;
-                    // map wavelength domain onto the interval [-1, 1]
+                // map wavelength domain onto the interval [-1, 1]
 
                 double l1 = 1.0;
                 double l2 = 0.0;
@@ -153,7 +148,7 @@ RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw (
         // Compute the continuum flux
         for (size_t i = 0; i < n; ++i) {
             const double x = 2.0 * (wav[i] - wav[0]) / length() - 1.0;
-                // map wavelength domain onto the interval [-1, 1]
+            // map wavelength domain onto the interval [-1, 1]
 
             double l1 = 1.0;
             double l2 = 0.0;
@@ -174,8 +169,7 @@ RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw (
 }
 
 size_t
-RQ::section::selection_size() const
-{
+RQ::section::selection_size() const {
     size_t j = 0;
 
     for (size_t i = 0; i < n; ++i)
@@ -186,8 +180,7 @@ RQ::section::selection_size() const
 }
 
 double
-RQ::section::cost() const
-{
+RQ::section::cost() const {
     double a = 0.0;
 
     for (size_t i = 0; i < n; ++i)
@@ -198,24 +191,21 @@ RQ::section::cost() const
 }
 
 void
-RQ::section::mask(double a, double b)
-{
+RQ::section::mask(double a, double b) {
     for (size_t i = 0; i < n; ++i)
         if (a <= wav[i] and wav[i] <= b)
             msk[i] = 0;
 }
 
 void
-RQ::section::unmask(double a, double b)
-{
+RQ::section::unmask(double a, double b) {
     for (size_t i = 0; i < n; ++i)
         if (a <= wav[i] and wav[i] <= b)
             msk[i] = 1;
 }
 
 void
-RQ::section::integrals(double x, double fwhm, double& p, double& q) const
-{
+RQ::section::integrals(double x, double fwhm, double &p, double &q) const {
     using std::erf; // since C++11
     using std::exp;
 
@@ -229,9 +219,8 @@ RQ::section::integrals(double x, double fwhm, double& p, double& q) const
     q = -(b * exp(-x * x)) / d;
 }
 
-std::istream&
-RQ::section::get(std::istream& is, double a, double b)
-{
+std::istream &
+RQ::section::get(std::istream &is, double a, double b) {
     using namespace std;
 
     const size_t room = 20000;
@@ -252,12 +241,12 @@ RQ::section::get(std::istream& is, double a, double b)
     while (getline(is, line) and !line.empty()) {
         // Skip comments
         if (line[0] == '#')
-          continue;
-      
+            continue;
+
         istringstream ist(line);
         bool tw;
         double tx, ty, tz;
-      
+
         if (ist >> tx >> ty) {
             if (a <= tx and tx <= b) {
                 x.push_back(tx);
@@ -310,9 +299,8 @@ RQ::section::get(std::istream& is, double a, double b)
     return is;
 }
 
-std::ostream&
-RQ::section::put(std::ostream& os, double a, double b) const
-{
+std::ostream &
+RQ::section::put(std::ostream &os, double a, double b) const {
     using namespace std;
 
     if (os) {
@@ -320,7 +308,7 @@ RQ::section::put(std::ostream& os, double a, double b) const
         const int w = 16; // width
 
         const ios_base::fmtflags f = os.flags();
-        
+
         os.setf(ios_base::fmtflags());
         os.setf(ios_base::scientific, ios_base::floatfield);
         os.setf(ios_base::right, ios_base::adjustfield);
@@ -330,8 +318,8 @@ RQ::section::put(std::ostream& os, double a, double b) const
             if (a <= wav[i] and wav[i] <= b) {
                 const double nfl = flx[i] / cfl[i];
                 const double ner = err[i] / cfl[i];
-                    // normalized observed flux and uncertainty
-                    
+                // normalized observed flux and uncertainty
+
                 os << setw(w) << wav[i];
                 os << setw(w) << flx[i];
                 os << setw(w) << err[i];
@@ -356,9 +344,8 @@ RQ::section::put(std::ostream& os, double a, double b) const
     return os;
 }
 
-std::istream&
-RQ::operator>>(std::istream& is, std::vector<section>& s)
-{
+std::istream &
+RQ::operator>>(std::istream &is, std::vector<section> &s) {
     using namespace std;
 
     vector<section> tmp(1);
@@ -372,9 +359,8 @@ RQ::operator>>(std::istream& is, std::vector<section>& s)
     return is;
 }
 
-std::ostream&
-RQ::operator<<(std::ostream& os, const std::vector<section>& s)
-{
+std::ostream &
+RQ::operator<<(std::ostream &os, const std::vector<section> &s) {
     size_t i;
 
     for (i = 0; i + 1 < s.size(); ++i)

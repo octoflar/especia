@@ -1,5 +1,4 @@
 // Extract messages from output HTML
-// Class for modeling absorption line regions
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,13 +20,11 @@
 // SOFTWARE.
 //
 #include <iostream>
-#include <string>
 
 using namespace std;
 
 // usage: xtractmes < ISTREAM > OSTREAM
-int main()
-{
+int main() {
     bool ismessage = false;
     string s;
 

@@ -33,39 +33,41 @@
 
 using namespace std;
 
-template<class number, class comparation> class indirect_comparation;
+template<class number, class comparation>
+class indirect_comparation;
+
 class frame;
+
 class stack;
 
 template<class number, class comparation>
 class indirect_comparation {
 public:
-    indirect_comparation(const valarray<number>& x, const comparation& comp);
+    indirect_comparation(const valarray<number> &x, const comparation &comp);
+
     ~indirect_comparation();
+
     bool operator()(size_t i, size_t j);
-        // comparation operator
+    // comparation operator
 
 private:
-    const valarray<number>& x;
-    const comparation& comp;
+    const valarray<number> &x;
+    const comparation &comp;
 };
 
 template<class number, class comparation>
-indirect_comparation<number, comparation>::indirect_comparation(const valarray<number>& y,
-    const comparation& c) : x(y), comp(c)
-{
+indirect_comparation<number, comparation>::indirect_comparation(const valarray<number> &y,
+                                                                const comparation &c) : x(y), comp(c) {
 }
 
 template<class number, class comparation>
-indirect_comparation<number, comparation>::~indirect_comparation()
-{
+indirect_comparation<number, comparation>::~indirect_comparation() {
 }
 
 template<class number, class comparation>
 inline
 bool
-indirect_comparation<number, comparation>::operator()(size_t i, size_t j)
-{
+indirect_comparation<number, comparation>::operator()(size_t i, size_t j) {
     return comp(x[i], x[j]);
 }
 
@@ -74,27 +76,38 @@ public:
     friend class stack;
 
     frame();
+
     frame(size_t n);
+
     frame(const double x[], const double y[], const double z[], size_t n);
+
     ~frame();
 
     void resize(size_t m);
 
     void resample(double r = 0.0);
+
     void scale(double a);
-    void operator()(double x, double& y, double& z) const;
+
+    void operator()(double x, double &y, double &z) const;
 
     double blu_end() const;
+
     double red_end() const;
+
     double center() const;
+
     double length() const;
+
     double median() const;
+
     size_t size() const;
 
-    istream& get(istream& is,
-        double a = 0.0, double b = numeric_limits<double>::max());
-    ostream& put(ostream& os,
-        double a = 0.0, double b = numeric_limits<double>::max()) const;
+    istream &get(istream &is,
+                 double a = 0.0, double b = numeric_limits<double>::max());
+
+    ostream &put(ostream &os,
+                 double a = 0.0, double b = numeric_limits<double>::max()) const;
 
 private:
     valarray<double> x; // wavelength data
@@ -108,53 +121,49 @@ private:
     size_t n; // number of data points
 
     void spline();
-    void splint(double x, double& y, double& z) const throw (runtime_error);
+
+    void splint(double x, double &y, double &z) const throw(runtime_error);
 };
 
 frame::frame()
-    :   x(),
-        y(),
-        z(),
-        c(),
-        d(),
-        i(0),
-        j(0),
-        n(0)
-{
+        : x(),
+          y(),
+          z(),
+          c(),
+          d(),
+          i(0),
+          j(0),
+          n(0) {
 }
 
 frame::frame(size_t m)
-    :   x(0.0, m),
-        y(0.0, m),
-        z(0.0, m),
-        c(0.0, m),
-        d(0.0, m),
-        i(0),
-        j(m - 1),
-        n(m)
-{
+        : x(0.0, m),
+          y(0.0, m),
+          z(0.0, m),
+          c(0.0, m),
+          d(0.0, m),
+          i(0),
+          j(m - 1),
+          n(m) {
 }
 
 frame::frame(const double u[], const double v[], const double w[], size_t m)
-    :   x(u, m),
-        y(v, m),
-        z(w, m),
-        c(0.0, m),
-        d(0.0, m),
-        i(0),
-        j(m - 1),
-        n(m)
-{
+        : x(u, m),
+          y(v, m),
+          z(w, m),
+          c(0.0, m),
+          d(0.0, m),
+          i(0),
+          j(m - 1),
+          n(m) {
     spline();
 }
 
-frame::~frame()
-{
+frame::~frame() {
 }
 
 void
-frame::resize(size_t m)
-{
+frame::resize(size_t m) {
     x.resize(m, 0.0);
     y.resize(m, 0.0);
     z.resize(m, 0.0);
@@ -167,8 +176,7 @@ frame::resize(size_t m)
 }
 
 void
-frame::resample(double r)
-{
+frame::resample(double r) {
     const double h = (r > 0.0) ? center() / (2.0 * r) : length() / (n - 1);
     const size_t m = (r > 0.0) ? static_cast<size_t>(length() / h) + 1 : n;
 
@@ -188,8 +196,7 @@ frame::resample(double r)
 }
 
 void
-frame::scale(double a)
-{
+frame::scale(double a) {
     y *= a;
     z *= a;
     spline();
@@ -197,48 +204,42 @@ frame::scale(double a)
 
 inline
 void
-frame::operator()(double x, double& y, double& z) const
-{
+frame::operator()(double x, double &y, double &z) const {
     splint(x, y, z);
 }
 
 inline
 double
-frame::blu_end() const
-{
+frame::blu_end() const {
     return x[0];
 }
 
 inline
 double
-frame::red_end() const
-{
+frame::red_end() const {
     return (n > 1) ? x[n - 1] : x[0];
 }
 
 inline
 double
-frame::center() const
-{
+frame::center() const {
     return 0.5 * (blu_end() + red_end());
 }
 
 inline
 double
-frame::length() const
-{
+frame::length() const {
     return red_end() - blu_end();
 }
 
 double
-frame::median() const
-{
+frame::median() const {
     valarray<size_t> index(n);
     for (size_t i = 0; i < n; ++i)
         index[i] = i;
 
     nth_element(&index[n / 3], &index[n >> 1], &index[n / 3 << 1], indirect_comparation<double,
-        less<double> >(y, less<double>()));
+            less<double> >(y, less<double>()));
     clog << "frame::median(): Message: median is " << y[index[n >> 1]] << endl;
 
     return y[index[n >> 1]];
@@ -246,14 +247,12 @@ frame::median() const
 
 inline
 size_t
-frame::size() const
-{
+frame::size() const {
     return n;
 }
 
-istream&
-frame::get(istream& is, double a, double b)
-{
+istream &
+frame::get(istream &is, double a, double b) {
     const size_t room = 20000;
 
     vector<double> u;
@@ -310,15 +309,14 @@ frame::get(istream& is, double a, double b)
     return is;
 }
 
-ostream&
-frame::put(ostream& os, double a, double b) const
-{
+ostream &
+frame::put(ostream &os, double a, double b) const {
     if (os) {
         const int p = 6;  // precision
         const int w = 14; // width
 
         const ios_base::fmtflags f = os.flags();
-        
+
         os.setf(ios_base::fmtflags());
         os.setf(ios_base::right, ios_base::adjustfield);
         os.precision(p);
@@ -342,8 +340,7 @@ frame::put(ostream& os, double a, double b) const
 }
 
 void
-frame::spline()
-{
+frame::spline() {
     valarray<double> u(0.0, n);
     valarray<double> v(0.0, n);
 
@@ -367,8 +364,7 @@ frame::spline()
 }
 
 void
-frame::splint(double u, double& v, double& w) const throw (runtime_error)
-{
+frame::splint(double u, double &v, double &w) const throw(runtime_error) {
     if (i > 0 and x[--i] > u)
         i = 0;
     if (j + 1 < n and x[++j] < u)
@@ -389,10 +385,10 @@ frame::splint(double u, double& v, double& w) const throw (runtime_error)
 
         v = a * y[i] + b * y[j];
         w = a * z[i] + b * z[j];
-            // linear interpolation
+        // linear interpolation
         v += ((a * a * a - a) * y[i] + (b * b * b - b) * y[j]) * (h * h) / 6.0;
         w += ((a * a * a - a) * z[i] + (b * b * b - b) * z[j]) * (h * h) / 6.0;
-            // cubic spline interpolation
+        // cubic spline interpolation
     } else
         throw runtime_error("frame::splint(): Error: bad abscissa table");
 }
@@ -400,26 +396,25 @@ frame::splint(double u, double& v, double& w) const throw (runtime_error)
 class stack : public vector<frame> {
 public:
     stack();
+
     ~stack();
 
-    void coadd(frame& f) const;
+    void coadd(frame &f) const;
 
     void align();
+
     void rescale();
 };
 
 stack::stack()
-    :   vector<frame>()
-{
+        : vector<frame>() {
 }
 
-stack::~stack()
-{
+stack::~stack() {
 }
 
 void
-stack::coadd(frame& f) const
-{
+stack::coadd(frame &f) const {
     if (!empty()) {
         f.resize(front().size());
 
@@ -451,14 +446,12 @@ stack::coadd(frame& f) const
 }
 
 void
-stack::align()
-{
+stack::align() {
     return; // intentionally do nothing
 }
 
 void
-stack::rescale()
-{
+stack::rescale() {
     valarray<double> m(size());
     valarray<size_t> j(size());
 
@@ -467,7 +460,7 @@ stack::rescale()
         j[i - begin()] = i - begin();
     }
     nth_element(&j[0], &j[size() >> 1], &j[size()], indirect_comparation<double,
-        less<double> >(m, less<double>()));
+            less<double> >(m, less<double>()));
 
     const size_t k = j[size() >> 1];
 
@@ -481,22 +474,19 @@ stack::rescale()
 }
 
 inline
-istream&
-operator>>(istream& is, frame& f)
-{
+istream &
+operator>>(istream &is, frame &f) {
     return f.get(is);
 }
 
 inline
-ostream&
-operator<<(ostream& os, const frame& f)
-{
+ostream &
+operator<<(ostream &os, const frame &f) {
     return f.put(os);
 }
 
-istream&
-operator>>(istream& is, vector<frame>& f)
-{
+istream &
+operator>>(istream &is, vector<frame> &f) {
     using namespace std;
 
     vector<frame> g(1);
@@ -512,9 +502,8 @@ operator>>(istream& is, vector<frame>& f)
     return is;
 }
 
-ostream&
-operator<<(ostream& os, const vector<frame>& f)
-{
+ostream &
+operator<<(ostream &os, const vector<frame> &f) {
     size_t i;
 
     for (i = 0; i + 1 < f.size(); ++i)
@@ -540,38 +529,37 @@ operator<<(ostream& os, const vector<frame>& f)
 // A flux-conserving co-alignment of frames before averaging might be more accurate
 // than the procedure implemented here.
 //
-int main(int argc, char* argv[])
-{
-    const char* pname = argv[0];
+int main(int argc, char *argv[]) {
+    const char *pname = argv[0];
     double resolution = 0.0;
 
     switch (argc) {
-    case 2:
-        resolution = atof(argv[1]);
-    case 1:
-        stack s;
+        case 2:
+            resolution = atof(argv[1]);
+        case 1:
+            stack s;
 
-        if (cin >> s) {
-            frame f;
+            if (cin >> s) {
+                frame f;
 
-            try {
-                s.rescale();
-                s.align();
-                s.coadd(f);
-                f.resample(resolution);
+                try {
+                    s.rescale();
+                    s.align();
+                    s.coadd(f);
+                    f.resample(resolution);
+                }
+                catch (exception &e) {
+                    cerr << pname << ": " << e.what() << endl;
+                    return 0;
+                }
+
+                cout << f;
+            } else {
+                cerr << pname << ": input failure" << endl;
+                return 2;
             }
-            catch (exception& e) {
-                cerr << pname << ": " << e.what() << endl;
-                return 0;
-            }
 
-            cout << f;
-        } else {
-            cerr << pname << ": input failure" << endl;
-            return 2;
-        }
-
-        return 0;
+            return 0;
     }
 
     cout << "Usage: " << pname << " [RESOLUTION] < ISTREAM > OSTREAM" << endl;

@@ -37,12 +37,16 @@ template<class uniform_deviate>
 class RQ::normal_deviate {
 public:
     normal_deviate(unsigned long seed = 5489);
-    normal_deviate(uniform_deviate& udev);
+
+    normal_deviate(uniform_deviate &udev);
+
     ~normal_deviate();
 
     double operator()();
+
     void reset(unsigned long seed = 5489);
-    void reset(uniform_deviate& udev);
+
+    void reset(uniform_deviate &udev);
 
 private:
     uniform_deviate udev;
@@ -52,25 +56,21 @@ private:
 
 template<class uniform_deviate>
 RQ::normal_deviate<uniform_deviate>::normal_deviate(unsigned long seed)
-    :   udev(seed), gen_xy(false)
-{
+        :   udev(seed), gen_xy(false) {
 }
 
 template<class uniform_deviate>
-RQ::normal_deviate<uniform_deviate>::normal_deviate(uniform_deviate& u)
-    :   udev(u), gen_xy(false)
-{
+RQ::normal_deviate<uniform_deviate>::normal_deviate(uniform_deviate &u)
+        :   udev(u), gen_xy(false) {
 }
 
 template<class uniform_deviate>
-RQ::normal_deviate<uniform_deviate>::~normal_deviate()
-{
+RQ::normal_deviate<uniform_deviate>::~normal_deviate() {
 }
 
 template<class uniform_deviate>
 double
-RQ::normal_deviate<uniform_deviate>::operator()()
-{
+RQ::normal_deviate<uniform_deviate>::operator()() {
     using std::log;
     using std::sqrt;
 
@@ -96,16 +96,14 @@ RQ::normal_deviate<uniform_deviate>::operator()()
 
 template<class uniform_deviate>
 void
-RQ::normal_deviate<uniform_deviate>::reset(unsigned long seed)
-{
+RQ::normal_deviate<uniform_deviate>::reset(unsigned long seed) {
     udev.reset(seed);
     gen_xy = false;
 }
 
 template<class uniform_deviate>
 void
-RQ::normal_deviate<uniform_deviate>::reset(uniform_deviate& u)
-{
+RQ::normal_deviate<uniform_deviate>::reset(uniform_deviate &u) {
     udev = u;
     gen_xy = false;
 }

@@ -27,25 +27,25 @@ set(CMAKE_CONFIGURATION_TYPES Release)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
 
 find_package(LAPACK REQUIRED)
-if(LAPACK_FOUND)
+if (LAPACK_FOUND)
     set(VECLIB ${LAPACK_LIBRARIES})
-endif()
+endif ()
 
 find_package(OpenMP)
-if(OPENMP_FOUND)
+if (OPENMP_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-endif()
+endif ()
 
 set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 
-configure_file (
+configure_file(
         ${MAIN}/cxx/config.h.in
         ${MAIN}/cxx/config.h)
 
-configure_file (
+configure_file(
         ${TEST}/resources-filtered/example.html.in
         reference/example.html)
 
@@ -72,17 +72,17 @@ target_link_libraries(especis ${VECLIB})
 add_executable(especiv ${MAIN}/cxx/especiv.cxx ${COMMON_SOURCES})
 target_link_libraries(especiv ${VECLIB})
 
-add_executable(xcom ${MAIN}/cxx/xcom.cxx)
-add_executable(xdat ${MAIN}/cxx/xdat.cxx)
-add_executable(xlog ${MAIN}/cxx/xlog.cxx)
-add_executable(xmod ${MAIN}/cxx/xmod.cxx)
-add_executable(xmsg ${MAIN}/cxx/xmsg.cxx)
+add_executable(ecom ${MAIN}/cxx/ecom.cxx)
+add_executable(edat ${MAIN}/cxx/edat.cxx)
+add_executable(elog ${MAIN}/cxx/elog.cxx)
+add_executable(emod ${MAIN}/cxx/emod.cxx)
+add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
 add_custom_target(check)
 add_dependencies(check check_example)
 
 add_custom_target(example
-        ./xmod < reference/example.html | `./xcom < reference/example.html` > example.html)
+        ./emod < reference/example.html | `./ecom < reference/example.html` > example.html)
 add_dependencies(example especid xcom xmod)
 
 add_custom_target(check_example
@@ -93,12 +93,12 @@ add_dependencies(check_example example)
 add_custom_target(clean_example
         rm -f example.html)
 
-install(TARGETS especia especid especis especiv xcom xdat xlog xmod xmsg
+install(TARGETS especia especid especis especiv ecom edat elog emod emsg
         RUNTIME DESTINATION ~/bin)
 
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx)
+add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx)
 add_executable(cumulate EXCLUDE_FROM_ALL ${MAIN}/cxx/util/cumulate.cxx)
-add_executable(helicorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/helicorr.cxx)
 add_executable(threecol EXCLUDE_FROM_ALL ${MAIN}/cxx/util/threecol.cxx)
 add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx)

@@ -30,11 +30,10 @@
 
 using namespace std;
 
-istream&
-get(istream& is, valarray<double>& x, valarray<double>& y, valarray<double>& z, int skip = 0)
-{
+istream &
+get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip = 0) {
     const size_t room = 20000;
-    
+
     vector<double> u;
     vector<double> v;
     vector<double> w;
@@ -82,9 +81,8 @@ get(istream& is, valarray<double>& x, valarray<double>& y, valarray<double>& z, 
     return is;
 }
 
-ostream&
-put(ostream& os, const valarray<double>& x, const valarray<double>& y, const valarray<double>& z)
-{
+ostream &
+put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
     if (os) {
         const int p = 6;  // precision
         const int w = 14; // width
@@ -98,7 +96,7 @@ put(ostream& os, const valarray<double>& x, const valarray<double>& y, const val
             os.setf(ios_base::fixed, ios_base::floatfield);
             os << setw(w) << x[i];
             os.setf(ios_base::scientific, ios_base::floatfield);
-            os << setw(w) << y[i];            
+            os << setw(w) << y[i];
             if (z.size() > 0)
                 os << setw(w) << z[i];
             os << '\n';
@@ -112,29 +110,26 @@ put(ostream& os, const valarray<double>& x, const valarray<double>& y, const val
 }
 
 inline
-double sqr(double x)
-{
+double sqr(double x) {
     return (x * x);
 }
 
 void
-vactoair(double x, double& y, double& z)
-{
+vactoair(double x, double &y, double &z) {
 /*  const double a = 1.0000643280 + 2.5540e-10 / (0.0000410 - x * x) + 2.949810e-08 / (0.000146 - x * x);
         // Edlen (1953) */
     const double a = 1.0000834213 + 1.5997e-10 / (0.0000389 - x * x) + 2.406030e-08 / (0.000130 - x * x);
-        // Edlen (1966)
+    // Edlen (1966)
 
     y = a * x;
 /*  z = a + x * ((5.1080e-10 * x) / sqr(0.0000410 - x * x) + (5.89962e-08 * x) / sqr(0.000146 - x * x));
         // Edlen (1953), the first derivative of y with respect to x */
     z = a + x * ((3.1994e-10 * x) / sqr(0.0000389 - x * x) + (4.81206e-08 * x) / sqr(0.000130 - x * x));
-        // Edlen (1966), the first derivative of y with respect to x
+    // Edlen (1966), the first derivative of y with respect to x
 }
 
 double
-findroot(void f(double, double&, double&), double c, double x, double accuracy_goal) throw (runtime_error)
-{
+findroot(void f(double, double &, double &), double c, double x, double accuracy_goal) throw(runtime_error) {
     double d, y, z;
     unsigned i = 0;
 
@@ -150,41 +145,40 @@ findroot(void f(double, double&, double&), double c, double x, double accuracy_g
     return x;
 }
 
-int main(int argc, char* argv[])
-{
-    const char* pname = argv[0];
+int main(int argc, char *argv[]) {
+    const char *pname = argv[0];
     int skip = 0;
     double accuracy_goal = 1.0e-08;
-    
+
     switch (argc) {
-    case 3:
-        accuracy_goal = atof(argv[2]);
-    case 2:
-        skip = atoi(argv[1]);
-    case 1:
-        valarray<double> x;
-        valarray<double> y;
-        valarray<double> z;
+        case 3:
+            accuracy_goal = atof(argv[2]);
+        case 2:
+            skip = atoi(argv[1]);
+        case 1:
+            valarray<double> x;
+            valarray<double> y;
+            valarray<double> z;
 
-        if (get(cin, x, y, z, skip)) {
-            try {
-                for (size_t i = 0; i < x.size(); ++i)
-                    x[i] = 10.0 / findroot(vactoair, 10.0 / x[i], 10.0 / x[i], accuracy_goal);
+            if (get(cin, x, y, z, skip)) {
+                try {
+                    for (size_t i = 0; i < x.size(); ++i)
+                        x[i] = 10.0 / findroot(vactoair, 10.0 / x[i], 10.0 / x[i], accuracy_goal);
+                }
+                catch (exception &e) {
+                    cerr << pname << ": " << e.what() << endl;
+                    return 0;
+                }
+
+                put(cout, x, y, z);
+            } else {
+                cerr << pname << ": input failure" << endl;
+                return 2;
             }
-            catch (exception& e) {
-                cerr << pname << ": " << e.what() << endl;
-                return 0;
-            }
 
-            put(cout, x, y, z);
-        } else {
-            cerr << pname << ": input failure" << endl;
-            return 2;
-        }
-
-        return 0;
+            return 0;
     }
-    
+
     cout << "Usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
     return 1;
 }

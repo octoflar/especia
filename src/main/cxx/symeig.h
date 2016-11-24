@@ -26,7 +26,7 @@
 #include <stdexcept>
 #include <valarray>
 
-namespace RQ {    
+namespace RQ {
     // Function-like class for solving symmetric eigenproblems
     class sym_eig_decomp_d; // divide and conquer
     class sym_eig_decomp_r; // relatively robust representations
@@ -40,15 +40,17 @@ namespace RQ {
 class RQ::sym_eig_decomp_d {
 public:
     sym_eig_decomp_d(size_t n = 0);
+
     ~sym_eig_decomp_d();
 
     void operator()(const double A[], // symmetric matrix (row-major, lower triangular)
-        double Z[], // transformation matrix (row-major)
-        double w[], // diagonal elements
-        size_t n) throw (std::runtime_error);
+                    double Z[], // transformation matrix (row-major)
+                    double w[], // diagonal elements
+                    size_t n) throw(std::runtime_error);
 
 private:
     void resize_workspace(size_t n = 0);
+
     void transpose(double A[]) const;
 
     char job;
@@ -71,15 +73,17 @@ private:
 class RQ::sym_eig_decomp_r {
 public:
     sym_eig_decomp_r(size_t n = 0);
+
     ~sym_eig_decomp_r();
 
     void operator()(const double A[], // symmetric matrix (row-major, lower triangular)
-        double Z[], // transformation matrix (row-major)
-        double w[], // diagonal elements
-        size_t n) throw (std::runtime_error);
+                    double Z[], // transformation matrix (row-major)
+                    double w[], // diagonal elements
+                    size_t n) throw(std::runtime_error);
 
 private:
     void resize_workspace(size_t n = 0);
+
     void transpose(double A[]) const;
 
     char job;
@@ -96,7 +100,7 @@ private:
     int liwork;
     std::valarray<double> work;
     std::valarray<int> iwork;
-    
+
     static const char int_err[];
     static const char ill_arg[];
 };
@@ -106,15 +110,17 @@ private:
 class RQ::sym_eig_decomp_x {
 public:
     sym_eig_decomp_x(size_t n = 0);
+
     ~sym_eig_decomp_x();
 
     void operator()(const double A[], // symmetric matrix (row-major, lower triangular)
-        double Z[], // transformation matrix (row-major)
-        double w[], // diagonal elements
-        size_t n) throw (std::runtime_error);
+                    double Z[], // transformation matrix (row-major)
+                    double w[], // diagonal elements
+                    size_t n) throw(std::runtime_error);
 
 private:
     void resize_workspace(size_t n = 0);
+
     void transpose(double A[]) const;
 
     char job;

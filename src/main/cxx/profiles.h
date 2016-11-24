@@ -29,18 +29,21 @@
 namespace RQ {
     // Mathematical constants
     const double ln_of_2 =
-        0.6931471805599453094172321214581765680755; // +
+            0.6931471805599453094172321214581765680755; // +
     const double sqrt_of_ln_of_2 =
-        0.8325546111576977563531646448952010476306; // +
+            0.8325546111576977563531646448952010476306; // +
     const double pi =
-        3.1415926535897932384626433832795028841972; // -
+            3.1415926535897932384626433832795028841972; // -
     const double sqrt_of_pi =
-        1.7724538509055160272981674833411451827975; // +
+            1.7724538509055160272981674833411451827975; // +
 
     // Functions
     double gauss(double x, double b);
+
     double lorentz(double x, double d);
+
     double pseudovoigt(double x, double b, double d, double z);
+
     double voigt(double x, double b, double d);
 
     // Function-like classes
@@ -51,13 +54,13 @@ namespace RQ {
 
     // Function-like class templates
 
-    template<class profile_function> class superposition;
+    template<class profile_function>
+    class superposition;
 }
 
 inline
 double
-RQ::gauss(double x, double b)
-{
+RQ::gauss(double x, double b) {
     using std::exp;
 
     return (1.0 / (sqrt_of_pi * b)) * exp(-(x / b) * (x / b));
@@ -65,15 +68,13 @@ RQ::gauss(double x, double b)
 
 inline
 double
-RQ::lorentz(double x, double b)
-{
+RQ::lorentz(double x, double b) {
     return 1.0 / ((pi * b) * (1.0 + (x / b) * (x / b)));
 }
 
 inline
 double
-RQ::pseudovoigt(double x, double b, double d, double z)
-{
+RQ::pseudovoigt(double x, double b, double d, double z) {
     return (1.0 - z) * gauss(x, b) + z * lorentz(x, d);
 }
 
@@ -82,18 +83,21 @@ public:
     static const size_t parameters = 8;
 
     doppler_mm_pf();
+
     doppler_mm_pf(const double a[]);
-        // a[0] laboratory wavelength (Angstrom)
-        // a[1] oscillator strength
-        // a[2] cosmological redshift
-        // a[3] radial velocity (km s-1)
-        // a[4] line broadening velocity (km s-1)
-        // a[5] decadic logarithm of the particle column number density (cm-2)
-        // a[6] relativistic correction coefficient
-        // a[7] variability of the fine-structure constant (1.0e-05)
+
+    // a[0] laboratory wavelength (Angstrom)
+    // a[1] oscillator strength
+    // a[2] cosmological redshift
+    // a[3] radial velocity (km s-1)
+    // a[4] line broadening velocity (km s-1)
+    // a[5] decadic logarithm of the particle column number density (cm-2)
+    // a[6] relativistic correction coefficient
+    // a[7] variability of the fine-structure constant (1.0e-05)
     ~doppler_mm_pf();
 
     double operator()(double x) const;
+
     double center() const;
 
     void assign(const double a[]);
@@ -106,8 +110,7 @@ private:
 
 inline
 double
-RQ::doppler_mm_pf::operator()(double x) const
-{
+RQ::doppler_mm_pf::operator()(double x) const {
     using std::abs;
 
     return (abs(x - y) < 4.0 * b) ? c * gauss(x - y, b) : 0.0;
@@ -115,8 +118,7 @@ RQ::doppler_mm_pf::operator()(double x) const
 
 inline
 double
-RQ::doppler_mm_pf::center() const
-{
+RQ::doppler_mm_pf::center() const {
     return y;
 }
 
@@ -125,16 +127,19 @@ public:
     static const size_t parameters = 6;
 
     doppler_pf();
+
     doppler_pf(const double a[]);
-        // a[0] laboratory wavelength (Angstrom)
-        // a[1] oscillator strength
-        // a[2] cosmological redshift
-        // a[3] radial velocity (km s-1)
-        // a[4] line broadening velocity (km s-1)
-        // a[5] decadic logarithm of the particle column number density (cm-2)
+
+    // a[0] laboratory wavelength (Angstrom)
+    // a[1] oscillator strength
+    // a[2] cosmological redshift
+    // a[3] radial velocity (km s-1)
+    // a[4] line broadening velocity (km s-1)
+    // a[5] decadic logarithm of the particle column number density (cm-2)
     ~doppler_pf();
 
     double operator()(double x) const;
+
     double center() const;
 
     void assign(const double a[]);
@@ -147,8 +152,7 @@ private:
 
 inline
 double
-RQ::doppler_pf::operator()(double x) const
-{
+RQ::doppler_pf::operator()(double x) const {
     using std::abs;
 
     return (abs(x - y) < 4.0 * b) ? c * gauss(x - y, b) : 0.0;
@@ -156,8 +160,7 @@ RQ::doppler_pf::operator()(double x) const
 
 inline
 double
-RQ::doppler_pf::center() const
-{
+RQ::doppler_pf::center() const {
     return y;
 }
 
@@ -166,15 +169,18 @@ public:
     static const size_t parameters = 5;
 
     doppler_is_pf();
+
     doppler_is_pf(const double a[]);
-        // a[0] laboratory wavelength (Angstrom)
-        // a[1] oscillator strength
-        // a[2] radial velocity (km s-1)
-        // a[3] line broadening velocity (km s-1)
-        // a[4] decadic logarithm of the particle column number density (cm-2)
+
+    // a[0] laboratory wavelength (Angstrom)
+    // a[1] oscillator strength
+    // a[2] radial velocity (km s-1)
+    // a[3] line broadening velocity (km s-1)
+    // a[4] decadic logarithm of the particle column number density (cm-2)
     ~doppler_is_pf();
 
     double operator()(double x) const;
+
     double center() const;
 
     void assign(const double a[]);
@@ -187,8 +193,7 @@ private:
 
 inline
 double
-RQ::doppler_is_pf::operator()(double x) const
-{
+RQ::doppler_is_pf::operator()(double x) const {
     using std::abs;
 
     return (abs(x - y) < 4.0 * b) ? c * gauss(x - y, b) : 0.0;
@@ -196,8 +201,7 @@ RQ::doppler_is_pf::operator()(double x) const
 
 inline
 double
-RQ::doppler_is_pf::center() const
-{
+RQ::doppler_is_pf::center() const {
     return y;
 }
 
@@ -206,17 +210,20 @@ public:
     static const size_t parameters = 7;
 
     voigt_pf();
+
     voigt_pf(const double a[]);
-        // a[0] laboratory wavelength (Angstrom)
-        // a[1] oscillator strength
-        // a[2] cosmological redshift
-        // a[3] radial velocity (km s-1)
-        // a[4] line broadening velocity (km s-1)
-        // a[5] decadic logarithm of the particle column number density (cm-2)
-        // a[6] damping constant (s-1)
+
+    // a[0] laboratory wavelength (Angstrom)
+    // a[1] oscillator strength
+    // a[2] cosmological redshift
+    // a[3] radial velocity (km s-1)
+    // a[4] line broadening velocity (km s-1)
+    // a[5] decadic logarithm of the particle column number density (cm-2)
+    // a[6] damping constant (s-1)
     ~voigt_pf();
 
     double operator()(double x) const;
+
     double center() const;
 
     void assign(const double a[]);
@@ -231,15 +238,13 @@ private:
 
 inline
 double
-RQ::voigt_pf::operator()(double x) const
-{
+RQ::voigt_pf::operator()(double x) const {
     return c * pseudovoigt(x - y, b, d, z);
 }
 
 inline
 double
-RQ::voigt_pf::center() const
-{
+RQ::voigt_pf::center() const {
     return y;
 }
 
@@ -247,39 +252,38 @@ template<class profile_function>
 class RQ::superposition {
 public:
     superposition();
+
     superposition(size_t n, const double a[]);
+
     ~superposition();
 
     double operator()(double x) const;
+
     void assign(size_t n, const double a[]);
 
 private:
     std::vector<profile_function> p;
 };
 
-template <class profile_function>
+template<class profile_function>
 RQ::superposition<profile_function>::superposition()
-    :   p()
-{
+        :   p() {
 }
 
-template <class profile_function>
+template<class profile_function>
 RQ::superposition<profile_function>::superposition(size_t n, const double a[])
-    :   p(n)
-{
+        :   p(n) {
     for (size_t i = 0; i < n; ++i, a += profile_function::parameters)
         p[i].assign(a);
 }
 
-template <class profile_function>
-RQ::superposition<profile_function>::~superposition()
-{
+template<class profile_function>
+RQ::superposition<profile_function>::~superposition() {
 }
 
 template<class profile_function>
 double
-RQ::superposition<profile_function>::operator()(double x) const
-{
+RQ::superposition<profile_function>::operator()(double x) const {
     double d = 0.0;
 
     for (size_t i = 0; i < p.size(); ++i)
@@ -288,10 +292,9 @@ RQ::superposition<profile_function>::operator()(double x) const
     return d;
 }
 
-template <class profile_function>
+template<class profile_function>
 void
-RQ::superposition<profile_function>::assign(size_t n, const double a[])
-{
+RQ::superposition<profile_function>::assign(size_t n, const double a[]) {
     p.resize(n);
 
     for (size_t i = 0; i < n; ++i, a += profile_function::parameters)

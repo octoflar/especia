@@ -1,4 +1,4 @@
-// Utility: apply the heliocentric velocity correction to spectroscopic data
+// Utility: apply the barycentric velocity correction to spectroscopic data
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,11 +29,10 @@
 
 using namespace std;
 
-istream&
-get(istream& is, valarray<double>& x, valarray<double>& y, valarray<double>& z, int skip = 0)
-{
+istream &
+get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip = 0) {
     const size_t room = 20000;
-    
+
     vector<double> u;
     vector<double> v;
     vector<double> w;
@@ -48,13 +47,13 @@ get(istream& is, valarray<double>& x, valarray<double>& y, valarray<double>& z, 
     while (getline(is, s))
         if (skip <= 0) {
             istringstream ist(s);
-            double x, y, z;
+            double a, b, c;
 
-            if (ist >> x >> y) {
-                u.push_back(x);
-                v.push_back(y);
-                if (ist >> z)
-                    w.push_back(z);
+            if (ist >> a >> b) {
+                u.push_back(a);
+                v.push_back(b);
+                if (ist >> c)
+                    w.push_back(c);
 
                 ++n;
             } else {
@@ -81,9 +80,8 @@ get(istream& is, valarray<double>& x, valarray<double>& y, valarray<double>& z, 
     return is;
 }
 
-ostream&
-put(ostream& os, const valarray<double>& x, const valarray<double>& y, const valarray<double>& z)
-{
+ostream &
+put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
     if (os) {
         const int p = 6;  // precision
         const int w = 14; // width
@@ -109,36 +107,38 @@ put(ostream& os, const valarray<double>& x, const valarray<double>& y, const val
     return os;
 }
 
-int main(int argc, char* argv[])
-{
-    const char* pname = argv[0];
+int main(int argc, char *argv[]) {
+    const char *pname = argv[0];
     int skip = 0;
-    
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "missing_default_case"
     switch (argc) {
-    case 3:
-        skip = atoi(argv[2]);
-    case 2:
-        const double c = 299792.458;
-        const double v = atof(argv[1]);
+        case 3:
+            skip = atoi(argv[2]);
+        case 2:
+            const double c = 299792.458;
+            const double v = atof(argv[1]);
 
-        valarray<double> x;
-        valarray<double> y;
-        valarray<double> z;
+            valarray<double> x;
+            valarray<double> y;
+            valarray<double> z;
 
-        if (get(cin, x, y, z, skip)) {
-            if (v != 0.0)
-                x *= sqrt((1.0 + v / c) / (1.0 - v / c));
-                    // relativistic correction
+            if (get(cin, x, y, z, skip)) {
+                if (v != 0.0)
+                    x *= sqrt((1.0 + v / c) / (1.0 - v / c));
+                // relativistic correction
 
-            put(cout, x, y, z);
-        } else {
-            cerr << pname << ": input failure" << endl;
-            return 2;
-        }
-        
-        return 0;
+                put(cout, x, y, z);
+            } else {
+                cerr << pname << ": input failure" << endl;
+                return 2;
+            }
+
+            return 0;
     }
-    
+#pragma clang diagnostic pop
+
     cout << "Usage: " << pname << " VELOCITY (km s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
     return 1;
 }
