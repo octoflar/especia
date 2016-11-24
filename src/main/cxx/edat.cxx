@@ -23,7 +23,7 @@
 
 using namespace std;
 
-// usage: xtractdat < ISTREAM > OSTREAM
+// usage: edat < ISTREAM > OSTREAM
 int main() {
     bool isdata = false;
     string s;

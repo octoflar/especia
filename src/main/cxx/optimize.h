@@ -36,7 +36,7 @@ namespace RQ {
     void optimize(objective_function &f, double x[], size_t n,
                   size_t parent_number,
                   size_t population_size,
-            // twice the parent number, at least
+                        // twice the parent number, at least
                   const double weight[],
                   double &step_size,
                   double step_size_damping,
@@ -47,11 +47,11 @@ namespace RQ {
                   double accuracy_goal,
                   unsigned long stop_generation,
                   double diagonal_matrix[],
-            // diagonal matrix (packed)
+                        // diagonal matrix (packed)
                   double rotation_matrix[],
-            // orthogonal matrix (row-major)
+                        // orthogonal matrix (row-major)
                   double covariance_matrix[],
-            // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
+                        // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
                   double step_size_evolution_path[],
                   double distribution_evolution_path[],
                   unsigned long &generation_number,
@@ -67,7 +67,7 @@ namespace RQ {
     void optimize(objectp obj, functionp f, double x[], size_t n,
                   size_t parent_number,
                   size_t population_size,
-            // twice the parent number, at least
+                        // twice the parent number, at least
                   const double weight[],
                   double &step_size,
                   double step_size_damping,
@@ -78,11 +78,11 @@ namespace RQ {
                   double accuracy_goal,
                   unsigned long stop_generation,
                   double diagonal_matrix[],
-            // diagonal matrix (packed)
+                        // diagonal matrix (packed)
                   double rotation_matrix[],
-            // orthogonal matrix (row-major)
+                        // orthogonal matrix (row-major)
                   double covariance_matrix[],
-            // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
+                        // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
                   double step_size_evolution_path[],
                   double distribution_evolution_path[],
                   unsigned long &generation_number,
@@ -98,7 +98,7 @@ namespace RQ {
                   const double inf[], const double sup[],
                   size_t parent_number,
                   size_t population_size,
-            // twice the parent number, at least
+                        // twice the parent number, at least
                   const double weight[],
                   double &step_size,
                   double step_size_damping,
@@ -109,11 +109,11 @@ namespace RQ {
                   double accuracy_goal,
                   unsigned long stop_generation,
                   double diagonal_matrix[],
-            // diagonal matrix (packed)
+                        // diagonal matrix (packed)
                   double rotation_matrix[],
-            // orthogonal matrix (row-major)
+                        // orthogonal matrix (row-major)
                   double covariance_matrix[],
-            // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
+                        // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
                   double step_size_evolution_path[],
                   double distribution_evolution_path[],
                   unsigned long &generation_number,
@@ -130,7 +130,7 @@ namespace RQ {
                   const double inf[], const double sup[],
                   size_t parent_number,
                   size_t population_size,
-            // twice the parent number, at least
+                        // twice the parent number, at least
                   const double weight[],
                   double &step_size,
                   double step_size_damping,
@@ -141,11 +141,11 @@ namespace RQ {
                   double accuracy_goal,
                   unsigned long stop_generation,
                   double diagonal_matrix[],
-            // diagonal matrix (packed)
+                        // diagonal matrix (packed)
                   double rotation_matrix[],
-            // orthogonal matrix (row-major)
+                        // orthogonal matrix (row-major)
                   double covariance_matrix[],
-            // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
+                        // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
                   double step_size_evolution_path[],
                   double distribution_evolution_path[],
                   unsigned long &generation_number,
@@ -172,11 +172,11 @@ namespace RQ {
                   double accuracy_goal,
                   unsigned long stop_generation,
                   double diagonal_matrix[],
-            // diagonal matrix (packed)
+                        // diagonal matrix (packed)
                   double rotation_matrix[],
-            // orthogonal matrix (row-major)
+                        // orthogonal matrix (row-major)
                   double covariance_matrix[],
-            // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
+                        // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
                   double step_size_evolution_path[],
                   double distribution_evolution_path[],
                   unsigned long &generation_number,
@@ -192,7 +192,7 @@ namespace RQ {
     void optimize(objectp obj, functionp f, double x[], size_t n, constraint &reject,
                   size_t parent_number,
                   size_t population_size,
-            // twice the parent number, at least
+                        // twice the parent number, at least
                   const double weight[],
                   double &step_size,
                   double step_size_damping,
@@ -203,11 +203,11 @@ namespace RQ {
                   double accuracy_goal,
                   unsigned long stop_generation,
                   double diagonal_matrix[],
-            // diagonal matrix (packed)
+                        // diagonal matrix (packed)
                   double rotation_matrix[],
-            // orthogonal matrix (row-major)
+                        // orthogonal matrix (row-major)
                   double covariance_matrix[],
-            // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
+                        // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
                   double step_size_evolution_path[],
                   double distribution_evolution_path[],
                   unsigned long &generation_number,
@@ -221,9 +221,9 @@ namespace RQ {
     void scale_step_size(objective_function &f, const double x[], size_t n,
                          double &step_size,
                          const double diagonal_matrix[],
-            // diagonal matrix (packed)
+                                // diagonal matrix (packed)
                          const double rotation_matrix[]
-            // orthogonal matrix (row-major)
+                                // orthogonal matrix (row-major)
     );
 
     // Function template to calculate uncertainty and covariance
@@ -231,9 +231,9 @@ namespace RQ {
     void scale_step_size(objectp obj, functionp f, const double x[], size_t n,
                          double &step_size,
                          const double diagonal_matrix[],
-            // diagonal matrix (packed)
+                                // diagonal matrix (packed)
                          const double rotation_matrix[]
-            // orthogonal matrix (row-major)
+                                // orthogonal matrix (row-major)
     );
 
     template<class number>
@@ -307,7 +307,7 @@ RQ::optimize(objective_function &f, double xw[], size_t n,
             for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
                 u[k][i] = inner_product(&z[k][0], &z[k][n], &BD[i0], 0.0);
                 x[k][i] = xw[i] + step_size * u[k][i];
-                // Hansen and Ostermeier (2001), Eq. (13)
+                    // Hansen and Ostermeier (2001), Eq. (13)
             }
         }
 #ifdef _OPENMP
@@ -352,25 +352,24 @@ RQ::optimize(objective_function &f, double xw[], size_t n,
         // Hansen and Ostermeier (2001)
         for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
             pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i];
-            // ibd., Eq. (14)
+                // ibd., Eq. (14)
             if (ccov > 0.0) {
                 valarray<double> &Z = BD;
-                // BD is not used anymore, can be overwritten
+                    // BD is not used anymore, can be overwritten
                 for (size_t j = 0, ij = i0; j <= i; ++j, ++ij) {
                     Z[ij] = 0.0;
                     for (size_t k = 0; k < parent_number; ++k)
                         Z[ij] += w[k] * (u[index[k]][i] * u[index[k]][j]);
-                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) +
-                                                           (1.0 - acov) * Z[ij] / ws);
-                    // Hansen et al. (2003), Eq. (11)
+                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) + (1.0 - acov) * Z[ij] / ws);
+                        // Hansen et al. (2003), Eq. (11)
                 }
             }
             ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * inner_product(&zw[0], &zw[n], &B[i0], 0.0);
-            // ibd., Eq. (16)
+                // ibd., Eq. (16)
             s += ps[i] * ps[i];
         }
         step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0));
-        // ibd., Eq. (17)
+            // ibd., Eq. (17)
 
         if (ccov > 0.0 and g % um == 0) {
             // Decompose the covariance matrix and sort its eigenvalues in ascending
@@ -465,7 +464,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
             for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
                 u[k][i] = inner_product(&z[k][0], &z[k][n], &BD[i0], 0.0);
                 x[k][i] = xw[i] + step_size * u[k][i];
-                // Hansen and Ostermeier (2001), Eq. (13)
+                    // Hansen and Ostermeier (2001), Eq. (13)
             }
         }
 #ifdef _OPENMP
@@ -510,25 +509,24 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
         // Hansen and Ostermeier (2001)
         for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
             pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i];
-            // ibd., Eq. (14)
+                // ibd., Eq. (14)
             if (ccov > 0.0) {
                 valarray<double> &Z = BD;
-                // BD is not used anymore, can be overwritten
+                    // BD is not used anymore, can be overwritten
                 for (size_t j = 0, ij = i0; j <= i; ++j, ++ij) {
                     Z[ij] = 0.0;
                     for (size_t k = 0; k < parent_number; ++k)
                         Z[ij] += w[k] * (u[index[k]][i] * u[index[k]][j]);
-                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) +
-                                                           (1.0 - acov) * Z[ij] / ws);
-                    // Hansen et al. (2003), Eq. (11)
+                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) + (1.0 - acov) * Z[ij] / ws);
+                        // Hansen et al. (2003), Eq. (11)
                 }
             }
             ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * inner_product(&zw[0], &zw[n], &B[i0], 0.0);
-            // ibd., Eq. (16)
+                // ibd., Eq. (16)
             s += ps[i] * ps[i];
         }
         step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0));
-        // ibd., Eq. (17)
+            // ibd., Eq. (17)
 
         if (ccov > 0.0 and g % um == 0) {
             // Decompose the covariance matrix and sort its eigenvalues in ascending
@@ -620,8 +618,9 @@ RQ::optimize(objective_function &f, double xw[], size_t n,
         // sorted indirectly by fitness        
         for (size_t k = 0; k < population_size; ++k) {
             uw = vw = 0.0;
-            // buffer, initialization is essential
-            for (size_t j = 0, reject; j < n; ++j) {
+                // buffer, initialization is essential
+            for (size_t j = 0; j < n; ++j) {
+                bool reject = false;
                 do {
                     const double z = ndev();
 
@@ -683,25 +682,24 @@ RQ::optimize(objective_function &f, double xw[], size_t n,
         // Hansen and Ostermeier (2001)
         for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
             pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i];
-            // ibd., Eq. (14)
+                // ibd., Eq. (14)
             if (ccov > 0.0) {
                 valarray<double> &Z = BD;
-                // BD is not used anymore, can be overwritten
+                    // BD is not used anymore, can be overwritten
                 for (size_t j = 0, ij = i0; j <= i; ++j, ++ij) {
                     Z[ij] = 0.0;
                     for (size_t k = 0; k < parent_number; ++k)
                         Z[ij] += w[k] * (u[index[k]][i] * u[index[k]][j]);
-                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) +
-                                                           (1.0 - acov) * Z[ij] / ws);
-                    // Hansen et al. (2003), Eq. (11)
+                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) + (1.0 - acov) * Z[ij] / ws);
+                        // Hansen et al. (2003), Eq. (11)
                 }
             }
             ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i];
-            // ibd., Eq. (16)
+                // ibd., Eq. (16)
             s += ps[i] * ps[i];
         }
         step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0));
-        // ibd., Eq. (17)
+            // ibd., Eq. (17)
 
         if (ccov > 0.0 and g % um == 0) {
             // Decompose the covariance matrix and sort its eigenvalues in ascending
@@ -793,8 +791,9 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
         // sorted indirectly by fitness        
         for (size_t k = 0; k < population_size; ++k) {
             uw = vw = 0.0;
-            // buffer, initialization is essential
-            for (size_t j = 0, reject; j < n; ++j) {
+                // buffer, initialization is essential
+            for (size_t j = 0; j < n; ++j) {
+                bool reject = false;
                 do {
                     const double z = ndev();
 
@@ -802,7 +801,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
                         u[k][i] = uw[i] + z * BD[ij];
                         v[k][i] = vw[i] + z * B[ij];
                         x[k][i] = xw[i] + u[k][i] * step_size;
-                        // Hansen and Ostermeier (2001), Eq. (13)
+                            // Hansen and Ostermeier (2001), Eq. (13)
 
                         reject = (x[k][i] < inf[i] or x[k][i] > sup[i]);
                         if (reject)
@@ -856,25 +855,24 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
         // Hansen and Ostermeier (2001)
         for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
             pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i];
-            // ibd., Eq. (14)
+                // ibd., Eq. (14)
             if (ccov > 0.0) {
                 valarray<double> &Z = BD;
-                // BD is not used anymore, can be overwritten
+                    // BD is not used anymore, can be overwritten
                 for (size_t j = 0, ij = i0; j <= i; ++j, ++ij) {
                     Z[ij] = 0.0;
                     for (size_t k = 0; k < parent_number; ++k)
                         Z[ij] += w[k] * (u[index[k]][i] * u[index[k]][j]);
-                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) +
-                                                           (1.0 - acov) * Z[ij] / ws);
-                    // Hansen et al. (2003), Eq. (11)
+                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) + (1.0 - acov) * Z[ij] / ws);
+                        // Hansen et al. (2003), Eq. (11)
                 }
             }
             ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i];
-            // ibd., Eq. (16)
+                // ibd., Eq. (16)
             s += ps[i] * ps[i];
         }
         step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0));
-        // ibd., Eq. (17)
+            // ibd., Eq. (17)
 
         if (ccov > 0.0 and g % um == 0) {
             // Decompose the covariance matrix and sort its eigenvalues in ascending
@@ -966,7 +964,7 @@ RQ::optimize(objective_function &f, double xw[], size_t n, constraint &reject,
         // sorted indirectly by fitness        
         for (size_t k = 0; k < population_size; ++k) {
             uw = vw = 0.0;
-            // buffer, initialization is essential
+                // buffer, initialization is essential
             for (size_t j = 0; j < n; ++j) {
                 do {
                     const double z = ndev();
@@ -975,9 +973,9 @@ RQ::optimize(objective_function &f, double xw[], size_t n, constraint &reject,
                         u[k][i] = uw[i] + z * BD[ij];
                         v[k][i] = vw[i] + z * B[ij];
                         x[k][i] = xw[i] + u[k][i] * step_size;
-                        // Hansen and Ostermeier (2001), Eq. (13)
+                            // Hansen and Ostermeier (2001), Eq. (13)
                     }
-                } while (reject);
+                } while (reject(x[k]));
 
                 uw = u[k];
                 vw = v[k];
@@ -1025,25 +1023,24 @@ RQ::optimize(objective_function &f, double xw[], size_t n, constraint &reject,
         // Hansen and Ostermeier (2001)
         for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
             pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i];
-            // ibd., Eq. (14)
+                // ibd., Eq. (14)
             if (ccov > 0.0) {
                 valarray<double> &Z = BD;
-                // BD is not used anymore, can be overwritten
+                    // BD is not used anymore, can be overwritten
                 for (size_t j = 0, ij = i0; j <= i; ++j, ++ij) {
                     Z[ij] = 0.0;
                     for (size_t k = 0; k < parent_number; ++k)
                         Z[ij] += w[k] * (u[index[k]][i] * u[index[k]][j]);
-                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) +
-                                                           (1.0 - acov) * Z[ij] / ws);
-                    // Hansen et al. (2003), Eq. (11)
+                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) + (1.0 - acov) * Z[ij] / ws);
+                        // Hansen et al. (2003), Eq. (11)
                 }
             }
             ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i];
-            // ibd., Eq. (16)
+                // ibd., Eq. (16)
             s += ps[i] * ps[i];
         }
         step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0));
-        // ibd., Eq. (17)
+            // ibd., Eq. (17)
 
         if (ccov > 0.0 and g % um == 0) {
             // Decompose the covariance matrix and sort its eigenvalues in ascending
@@ -1135,7 +1132,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint &reject
         // sorted indirectly by fitness        
         for (size_t k = 0; k < population_size; ++k) {
             uw = vw = 0.0;
-            // buffer, initialization is essential
+                // buffer, initialization is essential
             for (size_t j = 0; j < n; ++j) {
                 do {
                     const double z = ndev();
@@ -1144,9 +1141,9 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint &reject
                         u[k][i] = uw[i] + z * BD[ij];
                         v[k][i] = vw[i] + z * B[ij];
                         x[k][i] = xw[i] + u[k][i] * step_size;
-                        // Hansen and Ostermeier (2001), Eq. (13)
+                            // Hansen and Ostermeier (2001), Eq. (13)
                     }
-                } while (reject);
+                } while (reject(x[k]));
 
                 uw = u[k];
                 vw = v[k];
@@ -1194,25 +1191,24 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint &reject
         // Hansen and Ostermeier (2001)
         for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
             pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i];
-            // ibd., Eq. (14)
+                // ibd., Eq. (14)
             if (ccov > 0.0) {
                 valarray<double> &Z = BD;
-                // BD is not used anymore, can be overwritten
+                    // BD is not used anymore, can be overwritten
                 for (size_t j = 0, ij = i0; j <= i; ++j, ++ij) {
                     Z[ij] = 0.0;
                     for (size_t k = 0; k < parent_number; ++k)
                         Z[ij] += w[k] * (u[index[k]][i] * u[index[k]][j]);
-                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) +
-                                                           (1.0 - acov) * Z[ij] / ws);
-                    // Hansen et al. (2003), Eq. (11)
+                    C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) + (1.0 - acov) * Z[ij] / ws);
+                        // Hansen et al. (2003), Eq. (11)
                 }
             }
             ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i];
-            // ibd., Eq. (16)
+                // ibd., Eq. (16)
             s += ps[i] * ps[i];
         }
         step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0));
-        // ibd., Eq. (17)
+            // ibd., Eq. (17)
 
         if (ccov > 0.0 and g % um == 0) {
             // Decompose the covariance matrix and sort its eigenvalues in ascending
@@ -1245,10 +1241,8 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint &reject
 
 template<class objective_function>
 void
-RQ::scale_step_size(objective_function &f, const double x[], size_t n,
-                    double &s,
-                    const double d[],
-                    const double B[]) {
+RQ::scale_step_size(objective_function &f,
+                    const double x[], size_t n, double &s, const double d[], const double B[]) {
     using std::abs;
     using std::valarray;
 
@@ -1265,15 +1259,13 @@ RQ::scale_step_size(objective_function &f, const double x[], size_t n,
     const double zp = f(&p[0], n);
     const double zq = f(&q[0], n);
     s = a / sqrt(abs(2.0 * (zp - zx) - (zp - zq)));
-    // compute the covariance along the major principal axis by means of a parabola
+        // compute the covariance along the major principal axis by means of a parabola
 }
 
 template<class objectp, class functionp>
 void
-RQ::scale_step_size(objectp obj, functionp f, const double x[], size_t n,
-                    double &s,
-                    const double d[],
-                    const double B[]) {
+RQ::scale_step_size(objectp obj, functionp f,
+                    const double x[], size_t n, double &s, const double d[], const double B[]) {
     using std::abs;
     using std::valarray;
 
@@ -1290,7 +1282,7 @@ RQ::scale_step_size(objectp obj, functionp f, const double x[], size_t n,
     const double zp = (obj->*f)(&p[0], n);
     const double zq = (obj->*f)(&q[0], n);
     s = a / sqrt(abs(2.0 * (zp - zx) - (zp - zq)));
-    // compute the covariance along the major principal axis by means of a parabola
+        // compute the covariance along the major principal axis by means of a parabola
 }
 
 template<class number>

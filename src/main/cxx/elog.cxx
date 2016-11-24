@@ -23,7 +23,7 @@
 
 using namespace std;
 
-// usage: xtractlog < ISTREAM > OSTREAM
+// usage: elog < ISTREAM > OSTREAM
 int main() {
     bool islog = false;
     string s;

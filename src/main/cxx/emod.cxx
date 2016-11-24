@@ -23,7 +23,7 @@
 
 using namespace std;
 
-// usage: xtractmod < ISTREAM > OSTREAM
+// usage: emod < ISTREAM > OSTREAM
 int main() {
     bool ismodel = false;
     string s;

@@ -48,7 +48,7 @@ public:
     ~indirect_comparation();
 
     bool operator()(size_t i, size_t j);
-    // comparation operator
+        // comparation operator
 
 private:
     const valarray<number> &x;

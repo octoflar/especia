@@ -95,16 +95,19 @@ RQ::sym_eig_decomp_d::operator()(const double A[], double Z[], double w[], size_
 throw(runtime_error) {
     copy(&A[0], &A[m * m], Z);
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
     const int k = m;
+#pragma clang diagnostic pop
     if (k != n)
         resize_workspace(m);
 
     F77NAME(dsyevd)(job, uplo, n, &Z[0], max(1, n), w, &work[0], lwork, &iwork[0], liwork, info);
-    // regular call
+        // regular call
 
     if (info == 0) {
         transpose(Z);
-        // transform from column-major into row-major layout
+            // transform from column-major into row-major layout
     } else if (info > 0)
         throw runtime_error(int_err);
     else
@@ -113,17 +116,26 @@ throw(runtime_error) {
 
 void
 RQ::sym_eig_decomp_d::resize_workspace(size_t m) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
     n = m;
+#pragma clang diagnostic pop
 
     F77NAME(dsyevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
-    // workspace query
+        // workspace query
 
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
         liwork = iwork[0];
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
         work.resize(lwork);
+#pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
         iwork.resize(liwork);
+#pragma clang diagnostic pop
     } else if (info > 0)
         throw runtime_error(int_err);
     else
@@ -154,17 +166,20 @@ RQ::sym_eig_decomp_r::operator()(const double A[], double Z[], double w[], size_
 throw(runtime_error) {
     valarray<double> C(A, i * i);
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
     const int k = i;
+#pragma clang diagnostic pop
     if (k != n)
         resize_workspace(i);
 
     F77NAME(dsyevr)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
                     m, w, Z, max(1, n), &isupp[0], &work[0], lwork, &iwork[0], liwork, info);
-    // regular call
+                    // regular call
 
     if (info == 0) {
         transpose(Z);
-        // transform from column-major into row-major layout
+            // transform from column-major into row-major layout
     } else if (info > 0)
         throw runtime_error(int_err);
     else
@@ -173,20 +188,32 @@ throw(runtime_error) {
 
 void
 RQ::sym_eig_decomp_r::resize_workspace(size_t i) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
     n = i;
+#pragma clang diagnostic pop
 
     F77NAME(dsyevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
                     m, 0, 0, max(1, n), &isupp[0], &work[0], -1, &iwork[0], -1, info);
-    // workspace query
+                    // workspace query
 
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
         liwork = iwork[0];
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
         work.resize(lwork);
+#pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
         iwork.resize(liwork);
+#pragma clang diagnostic pop
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
         isupp.resize(2 * max(1, n));
+#pragma clang diagnostic pop
     } else if (info > 0)
         throw runtime_error(int_err);
     else
@@ -217,17 +244,20 @@ RQ::sym_eig_decomp_x::operator()(const double A[], double Z[], double w[], size_
 throw(runtime_error) {
     valarray<double> C(A, i * i);
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
     const int k = i;
+#pragma clang diagnostic pop
     if (k != n)
         resize_workspace(i);
 
     F77NAME(dsyevx)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
                     m, w, Z, max(1, n), &work[0], lwork, &iwork[0], &ifail[0], info);
-    // regular call
+                    // regular call
 
     if (info == 0) {
         transpose(Z);
-        // transform from column-major into row-major layout
+            // transform from column-major into row-major layout
     } else if (info > 0)
         throw runtime_error(int_err);
     else
@@ -236,18 +266,30 @@ throw(runtime_error) {
 
 void
 RQ::sym_eig_decomp_x::resize_workspace(size_t i) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
     n = i;
+#pragma clang diagnostic pop
 
     F77NAME(dsyevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
                     m, 0, 0, max(1, n), &work[0], -1, &iwork[0], &ifail[0], info);
-    // workspace query
+                    // workspace query
 
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
         work.resize(max(1, lwork));
+#pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
         iwork.resize(5 * n);
+#pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
         ifail.resize(n);
+#pragma clang diagnostic pop
     } else if (info > 0)
         throw runtime_error(int_err);
     else

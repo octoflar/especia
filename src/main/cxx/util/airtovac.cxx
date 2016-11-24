@@ -119,13 +119,13 @@ vactoair(double x, double &y, double &z) {
 /*  const double a = 1.0000643280 + 2.5540e-10 / (0.0000410 - x * x) + 2.949810e-08 / (0.000146 - x * x);
         // Edlen (1953) */
     const double a = 1.0000834213 + 1.5997e-10 / (0.0000389 - x * x) + 2.406030e-08 / (0.000130 - x * x);
-    // Edlen (1966)
+        // Edlen (1966)
 
     y = a * x;
 /*  z = a + x * ((5.1080e-10 * x) / sqr(0.0000410 - x * x) + (5.89962e-08 * x) / sqr(0.000146 - x * x));
         // Edlen (1953), the first derivative of y with respect to x */
     z = a + x * ((3.1994e-10 * x) / sqr(0.0000389 - x * x) + (4.81206e-08 * x) / sqr(0.000130 - x * x));
-    // Edlen (1966), the first derivative of y with respect to x
+        // Edlen (1966), the first derivative of y with respect to x
 }
 
 double

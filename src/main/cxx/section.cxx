@@ -148,7 +148,7 @@ RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw(s
         // Compute the continuum flux
         for (size_t i = 0; i < n; ++i) {
             const double x = 2.0 * (wav[i] - wav[0]) / length() - 1.0;
-            // map wavelength domain onto the interval [-1, 1]
+                // map wavelength domain onto the interval [-1, 1]
 
             double l1 = 1.0;
             double l2 = 0.0;

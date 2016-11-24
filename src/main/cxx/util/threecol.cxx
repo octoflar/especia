@@ -44,11 +44,11 @@ get(istream &is, valarray<double> &x, valarray<double> &y) {
 
     while (getline(is, s)) {
         istringstream ist(s);
-        double x, y;
+        double a, b;
 
-        if (ist >> x >> y) {
-            u.push_back(x);
-            v.push_back(y);
+        if (ist >> a >> b) {
+            u.push_back(a);
+            v.push_back(b);
 
             ++n;
         } else {

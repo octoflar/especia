@@ -45,13 +45,13 @@ get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, 
     while (getline(is, s))
         if (skip <= 0) {
             istringstream ist(s);
-            double x, y, z;
+            double a, b, c;
 
-            if (ist >> x >> y) {
-                u.push_back(x);
-                v.push_back(y);
-                if (ist >> z)
-                    w.push_back(z);
+            if (ist >> a >> b) {
+                u.push_back(a);
+                v.push_back(b);
+                if (ist >> c)
+                    w.push_back(c);
 
                 ++n;
             } else {
@@ -110,7 +110,7 @@ vactoair(double x) {
 /*  const double a = 1.0000643280 + 2.5540e-10 / (0.0000410 - x * x) + 2.949810e-08 / (0.000146 - x * x);
         // Edlen (1953) */
     const double a = 1.0000834213 + 1.5997e-10 / (0.0000389 - x * x) + 2.406030e-08 / (0.000130 - x * x);
-    // Edlen (1966)
+        // Edlen (1966)
 
     return a * x;
 }

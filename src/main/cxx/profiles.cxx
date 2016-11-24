@@ -30,8 +30,7 @@ const double speed_of_light = 299792.458;
 double
 RQ::voigt(double x, double b, double d) {
     const double a = sqrt_of_ln_of_2 * (b / d);
-    const double c = pow(1.0 + a * (0.07842 + a * (4.47163 + a * (2.42843 +
-                                                                  a * (a + 2.69269)))), -0.2);
+    const double c = pow(1.0 + a * (0.07842 + a * (4.47163 + a * (2.42843 + a * (a + 2.69269)))), -0.2);
     const double z = a * (1.36603 - a * (0.47719 - a * 0.11116));
 
     d = d / c;

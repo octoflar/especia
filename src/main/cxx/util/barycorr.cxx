@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
             if (get(cin, x, y, z, skip)) {
                 if (v != 0.0)
                     x *= sqrt((1.0 + v / c) / (1.0 - v / c));
-                // relativistic correction
+                        // relativistic correction
 
                 put(cout, x, y, z);
             } else {

@@ -53,11 +53,9 @@ public:
 
     ~section();
 
-    std::istream &get(std::istream &is,
-                      double a = 0.0, double b = std::numeric_limits<double>::max());
+    std::istream &get(std::istream &is, double a = 0.0, double b = std::numeric_limits<double>::max());
 
-    std::ostream &put(std::ostream &os,
-                      double a = 0.0, double b = std::numeric_limits<double>::max()) const;
+    std::ostream &put(std::ostream &os, double a = 0.0, double b = std::numeric_limits<double>::max()) const;
 
     double begin() const;
 
@@ -88,8 +86,8 @@ private:
     void convolute(const optical_depth &t, double r, double opt[], double atm[], double cat[]) const;
 
     void integrals(double x, double fwhm, double &p, double &q) const;
+        // the indefinite integrals of P(x) and xP(x), where P(x) is the instrumental profile
 
-    // the indefinite integrals of P(x) and xP(x), where P(x) is the instrumental profile
     void continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error);
 
     std::valarray<double> wav; // wavelength data
@@ -147,11 +145,11 @@ RQ::section::convolute(const optical_depth &t, double r, double opt[], double at
 
     if (n > 2) {
         const double w = center() / r;
-        // FWHM of the instrumental profile
+            // FWHM of the instrumental profile
         const double h = length() / (n - 1);
-        // sample spacing
+            // sample spacing
         const size_t m = static_cast<size_t>(2.0 * (w / h)) + 1;
-        // cut the Gaussian profile at 4-HWHM (half width at half maximun) down to 10E-5
+            // cut the Gaussian profile at 4-HWHM (half width at half maximun) down to 10E-5
         valarray<double> p(m);
         valarray<double> q(m);
 

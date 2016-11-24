@@ -23,7 +23,7 @@
 
 using namespace std;
 
-// usage: xtractcom < ISTREAM > OSTREAM
+// usage: ecom < ISTREAM > OSTREAM
 int main() {
     bool ismessage = false;
     string s;
