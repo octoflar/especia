@@ -56,6 +56,7 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/optimize.h
         ${MAIN}/cxx/profiles.cxx
         ${MAIN}/cxx/profiles.h
+        ${MAIN}/cxx/randev.h
         ${MAIN}/cxx/readline.cxx
         ${MAIN}/cxx/readline.h
         ${MAIN}/cxx/section.cxx
@@ -83,7 +84,7 @@ add_dependencies(check check_example)
 
 add_custom_target(example
         ./emod < reference/example.html | `./ecom < reference/example.html` > example.html)
-add_dependencies(example especid xcom xmod)
+add_dependencies(example especid ecom emod)
 
 add_custom_target(check_example
         diff reference/example.html example.html
