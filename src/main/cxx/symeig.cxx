@@ -233,7 +233,7 @@ const char RQ::sym_eig_decomp_x::ill_arg[] = "RQ::sym_eig_decomp_x(): Error: ill
 
 RQ::sym_eig_decomp_x::sym_eig_decomp_x(size_t n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(), ifail() {
-    resize_workspace(0);
+    resize_workspace(n);
 }
 
 RQ::sym_eig_decomp_x::~sym_eig_decomp_x() {
