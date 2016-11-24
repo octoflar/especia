@@ -89,8 +89,7 @@ template<unsigned w, unsigned n, unsigned m, unsigned r,
         unsigned s, unsigned long b,
         unsigned t, unsigned long c,
         unsigned l>
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::mersenne_twister(unsigned long seed,
-                                                                        unsigned long multiplier)
+RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::mersenne_twister(unsigned long seed, unsigned long multiplier)
         :   x() {
     reset(seed, multiplier);
 }
@@ -101,8 +100,7 @@ template<unsigned w, unsigned n, unsigned m, unsigned r,
         unsigned s, unsigned long b,
         unsigned t, unsigned long c,
         unsigned l>
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::mersenne_twister(const unsigned long key[],
-                                                                        unsigned key_size)
+RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::mersenne_twister(const unsigned long key[], unsigned key_size)
         :   x() {
     reset(key, key_size);
 }
@@ -127,9 +125,8 @@ double
 RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::operator()() {
     using std::numeric_limits;
 
-    return rand() * (1.0 / double(numeric_limits<unsigned long>::max() >>
-                                                                       (numeric_limits<unsigned long>::digits - w)));
-    // division by 2^w - 1
+    return rand() * (1.0 / double(numeric_limits<unsigned long>::max() >> (numeric_limits<unsigned long>::digits - w)));
+        // division by 2^w - 1
 }
 
 template<unsigned w, unsigned n, unsigned m, unsigned r,
@@ -171,21 +168,14 @@ template<unsigned w, unsigned n, unsigned m, unsigned r,
         unsigned t, unsigned long c,
         unsigned l>
 void
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::reset(unsigned long seed,
-                                                             unsigned long multiplier) {
+RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::reset(unsigned long seed, unsigned long multiplier) {
+    using std::max;
     using std::numeric_limits;
 
-    x[0] = seed &
-           (numeric_limits < unsigned
-    long > ::max() >>
-                   (numeric_limits < unsigned
-    long > ::digits - w));
+    x[0] = seed & (numeric_limits<unsigned long>::max() >> (numeric_limits<unsigned long>::digits - w));
     for (unsigned k = 1; k < n; ++k) {
         x[k] = (multiplier * (x[k - 1] ^ (x[k - 1] >> (r - 1))) + k) &
-               (numeric_limits < unsigned
-        long > ::max() >>
-                       (numeric_limits < unsigned
-        long > ::digits - w));
+               (numeric_limits<unsigned long>::max() >> (numeric_limits<unsigned long>::digits - w));
     }
 
     i = n;
@@ -198,8 +188,7 @@ template<unsigned w, unsigned n, unsigned m, unsigned r,
         unsigned t, unsigned long c,
         unsigned l>
 void
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::reset(const unsigned long key[],
-                                                             unsigned key_size) {
+RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::reset(const unsigned long key[], unsigned key_size) {
     using std::max;
     using std::numeric_limits;
 
@@ -208,10 +197,7 @@ RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::reset(const unsigned long
 
     for (unsigned j = 0, k = max(n, key_size); k > 0; --k) {
         x[i] = ((x[i] ^ ((x[i - 1] ^ (x[i - 1] >> (r - 1))) * 1664525)) + key[j] + j) &
-               (numeric_limits < unsigned
-        long > ::max() >>
-                       (numeric_limits < unsigned
-        long > ::digits - w));
+               (numeric_limits<unsigned long>::max() >> (numeric_limits<unsigned long>::digits - w));
         if (++i >= n) {
             x[0] = x[n - 1];
             i = 1;
@@ -221,17 +207,14 @@ RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::reset(const unsigned long
     }
     for (unsigned k = n - 1; k > 0; --k) {
         x[i] = ((x[i] ^ ((x[i - 1] ^ (x[i - 1] >> (r - 1))) * 1566083941)) - i) &
-               (numeric_limits < unsigned
-        long > ::max() >>
-                       (numeric_limits < unsigned
-        long > ::digits - w));
+               (numeric_limits<unsigned long>::max() >> (numeric_limits<unsigned long>::digits - w));
         if (++i >= n) {
             x[0] = x[n - 1];
             i = 1;
         }
     }
     x[0] = (1ul << (w - 1));
-    // MSB is 1, assuring a non-zero initial array
+        // MSB is 1, assuring a non-zero initial array
 
     i = n;
 }
@@ -244,24 +227,18 @@ template<unsigned w, unsigned n, unsigned m, unsigned r,
         unsigned l>
 inline
 void
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::twist(unsigned i,
-                                                             unsigned j, unsigned k) {
+RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::twist(unsigned i, unsigned j, unsigned k) {
     using std::numeric_limits;
 
     x[j] = x[i] ^
-           (((x[j] &
-              ((numeric_limits < unsigned
-    long > ::max() <<
-                   (numeric_limits < unsigned
-    long > ::digits - w + r)) >>
-    (numeric_limits < unsigned
-    long > ::digits - w))) |
-    (x[k] &
-     (numeric_limits < unsigned
-    long > ::max() >>
-                   (numeric_limits < unsigned
-    long > ::digits - r)))) >>
-    1);
+        (((x[j] &
+        ((numeric_limits<unsigned long>::max() <<
+        (numeric_limits<unsigned long>::digits - w + r)) >>
+        (numeric_limits<unsigned long>::digits - w))) |
+        (x[k] &
+        (numeric_limits<unsigned long>::max() >>
+        (numeric_limits<unsigned long>::digits - r)))) >>
+        1);
     if ((x[k] & 1ul) == 1ul)
         x[j] ^= a;
 }
