@@ -251,55 +251,39 @@ RQ::voigt_pf::center() const {
 template<class profile_function>
 class RQ::superposition {
 public:
-    superposition();
+    superposition()
+            : p() {
+    }
 
-    superposition(size_t n, const double a[]);
+    superposition(size_t n, const double a[])
+            : p(n) {
+        for (size_t i = 0; i < n; ++i, a += profile_function::parameters)
+            p[i].assign(a);
+    }
 
-    ~superposition();
+    ~superposition() {
+    }
 
-    double operator()(double x) const;
+    double operator()(double x) const {
+        double d = 0.0;
 
-    void assign(size_t n, const double a[]);
+        for (size_t i = 0; i < p.size(); ++i)
+            d += p[i](x);
+
+        return d;
+    }
+
+    void assign(size_t n, const double a[]) {
+        p.resize(n);
+
+        for (size_t i = 0; i < n; ++i, a += profile_function::parameters)
+            p[i].assign(a);
+    }
+
 
 private:
     std::vector<profile_function> p;
 };
-
-template<class profile_function>
-RQ::superposition<profile_function>::superposition()
-        :   p() {
-}
-
-template<class profile_function>
-RQ::superposition<profile_function>::superposition(size_t n, const double a[])
-        :   p(n) {
-    for (size_t i = 0; i < n; ++i, a += profile_function::parameters)
-        p[i].assign(a);
-}
-
-template<class profile_function>
-RQ::superposition<profile_function>::~superposition() {
-}
-
-template<class profile_function>
-double
-RQ::superposition<profile_function>::operator()(double x) const {
-    double d = 0.0;
-
-    for (size_t i = 0; i < p.size(); ++i)
-        d += p[i](x);
-
-    return d;
-}
-
-template<class profile_function>
-void
-RQ::superposition<profile_function>::assign(size_t n, const double a[]) {
-    p.resize(n);
-
-    for (size_t i = 0; i < n; ++i, a += profile_function::parameters)
-        p[i].assign(a);
-}
 
 #endif // RQ_PROFILE_FUNCTIONS_H
 

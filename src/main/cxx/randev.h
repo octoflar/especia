@@ -36,77 +36,54 @@ namespace RQ {
 template<class uniform_deviate>
 class RQ::normal_deviate {
 public:
-    normal_deviate(unsigned long seed = 5489);
+    normal_deviate(unsigned long seed = 5489) : udev(seed), gen_xy(false) {
+    }
 
-    normal_deviate(uniform_deviate &udev);
+    normal_deviate(uniform_deviate &u) : udev(u), gen_xy(false) {
+    }
 
-    ~normal_deviate();
+    ~normal_deviate() {
+    }
 
-    double operator()();
+    double operator()() {
+        using std::log;
+        using std::sqrt;
 
-    void reset(unsigned long seed = 5489);
+        gen_xy = !gen_xy;
 
-    void reset(uniform_deviate &udev);
+        if (gen_xy) {
+            double t;
+
+            do {
+                x = 2.0 * udev() - 1.0;
+                y = 2.0 * udev() - 1.0;
+                t = x * x + y * y;
+            } while (t >= 1.0 or t == 0.0);
+
+            t = sqrt(-2.0 * (log(t) / t));
+            x *= t;
+            y *= t;
+
+            return x;
+        } else
+            return y;
+    }
+
+    void reset(unsigned long seed = 5489) {
+        udev.reset(seed);
+        gen_xy = false;
+    }
+
+    void reset(uniform_deviate &u) {
+        udev = u;
+        gen_xy = false;
+    }
 
 private:
     uniform_deviate udev;
     bool gen_xy;
     double x, y;
 };
-
-template<class uniform_deviate>
-RQ::normal_deviate<uniform_deviate>::normal_deviate(unsigned long seed)
-        :   udev(seed), gen_xy(false) {
-}
-
-template<class uniform_deviate>
-RQ::normal_deviate<uniform_deviate>::normal_deviate(uniform_deviate &u)
-        :   udev(u), gen_xy(false) {
-}
-
-template<class uniform_deviate>
-RQ::normal_deviate<uniform_deviate>::~normal_deviate() {
-}
-
-template<class uniform_deviate>
-double
-RQ::normal_deviate<uniform_deviate>::operator()() {
-    using std::log;
-    using std::sqrt;
-
-    gen_xy = !gen_xy;
-
-    if (gen_xy) {
-        double t;
-
-        do {
-            x = 2.0 * udev() - 1.0;
-            y = 2.0 * udev() - 1.0;
-            t = x * x + y * y;
-        } while (t >= 1.0 or t == 0.0);
-
-        t = sqrt(-2.0 * (log(t) / t));
-        x *= t;
-        y *= t;
-
-        return x;
-    } else
-        return y;
-}
-
-template<class uniform_deviate>
-void
-RQ::normal_deviate<uniform_deviate>::reset(unsigned long seed) {
-    udev.reset(seed);
-    gen_xy = false;
-}
-
-template<class uniform_deviate>
-void
-RQ::normal_deviate<uniform_deviate>::reset(uniform_deviate &u) {
-    udev = u;
-    gen_xy = false;
-}
 
 #endif // RQ_RANDEV_H
 
