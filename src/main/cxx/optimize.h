@@ -161,7 +161,7 @@ namespace RQ {
     void optimize(objective_function &f, double x[], size_t n, constraint &reject,
                   size_t parent_number,
                   size_t population_size,
-            // twice the parent number, at least
+                        // twice the parent number, at least
                   const double weight[],
                   double &step_size,
                   double step_size_damping,
@@ -1295,33 +1295,21 @@ RQ::sqr(number x) {
 template<class number, class comparation>
 class RQ::indirect_comparation {
 public:
-    indirect_comparation(const std::valarray<number> &fitness, const comparation &comp);
+    indirect_comparation(const std::valarray<number> &f, const comparation &c): fitness(f), comp(c) {
+    }
 
-    ~indirect_comparation();
+    ~indirect_comparation() {
+    }
 
-    bool operator()(size_t i, size_t j);
     // comparation operator
+    bool operator()(size_t i, size_t j){
+        return comp(fitness[i], fitness[j]);
+    }
 
 private:
     const std::valarray<number> &fitness;
     const comparation &comp;
 };
-
-template<class number, class comparation>
-RQ::indirect_comparation<number, comparation>::indirect_comparation(const std::valarray<number> &f,
-                                                                    const comparation &c) : fitness(f), comp(c) {
-}
-
-template<class number, class comparation>
-RQ::indirect_comparation<number, comparation>::~indirect_comparation() {
-}
-
-template<class number, class comparation>
-inline
-bool
-RQ::indirect_comparation<number, comparation>::operator()(size_t i, size_t j) {
-    return comp(fitness[i], fitness[j]);
-}
 
 #endif // RQ_OPTIMIZE_H
 
