@@ -19,9 +19,7 @@
 # SOFTWARE.
 
 cmake_minimum_required(VERSION 3.6)
-project(especia LANGUAGES CXX)
-set(PROJECT_VERSION_MAJOR 2017)
-set(PROJECT_VERSION_MINOR 1)
+project(especia VERSION 2017.1 LANGUAGES CXX)
 set(PROJECT_VERSION_AFFIX snapshot)
 
 set(CMAKE_CONFIGURATION_TYPES Release)
