@@ -25,7 +25,9 @@ set(PROJECT_VERSION_MINOR 1)
 set(PROJECT_VERSION_AFFIX snapshot)
 
 set(CMAKE_CONFIGURATION_TYPES Release)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 find_package(LAPACK REQUIRED)
 if (LAPACK_FOUND)
@@ -66,13 +68,13 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/symeig.h)
 
 add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
-target_link_libraries(especia ${VECLIB})
+    target_link_libraries(especia ${VECLIB})
 add_executable(especid ${MAIN}/cxx/especid.cxx ${COMMON_SOURCES})
-target_link_libraries(especid ${VECLIB})
+    target_link_libraries(especid ${VECLIB})
 add_executable(especis ${MAIN}/cxx/especis.cxx ${COMMON_SOURCES})
-target_link_libraries(especis ${VECLIB})
+    target_link_libraries(especis ${VECLIB})
 add_executable(especiv ${MAIN}/cxx/especiv.cxx ${COMMON_SOURCES})
-target_link_libraries(especiv ${VECLIB})
+    target_link_libraries(especiv ${VECLIB})
 
 add_executable(ecom ${MAIN}/cxx/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/edat.cxx)
@@ -85,19 +87,18 @@ add_dependencies(check check_example)
 
 add_custom_target(example
         ./emod < reference/example.html | `./ecom < reference/example.html` > example.html)
-add_dependencies(example especid ecom emod)
+    add_dependencies(example especid ecom emod)
 
 add_custom_target(check_example
         diff reference/example.html example.html
         COMMENT "Error statements issued by this target and caused by small differences in numerics are normal.")
-add_dependencies(check_example example)
+    add_dependencies(check_example example)
 
 add_custom_target(clean_example
         rm -f example.html)
 
 install(TARGETS especia especid especis especiv ecom edat elog emod emsg
-        RUNTIME DESTINATION ~/bin)
-
+        RUNTIME DESTINATION $ENV{HOME}/bin)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx)
 add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx)

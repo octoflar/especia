@@ -91,16 +91,12 @@ RQ::sym_eig_decomp_d::~sym_eig_decomp_d() {
 }
 
 void
-RQ::sym_eig_decomp_d::operator()(const double A[], double Z[], double w[], size_t m)
+RQ::sym_eig_decomp_d::operator()(const double A[], double Z[], double w[], size_t k)
 throw(runtime_error) {
-    copy(&A[0], &A[m * m], Z);
+    copy(&A[0], &A[k * k], Z);
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
-    const int k = m;
-#pragma clang diagnostic pop
     if (k != n)
-        resize_workspace(m);
+        resize_workspace(k);
 
     F77NAME(dsyevd)(job, uplo, n, &Z[0], max(1, n), w, &work[0], lwork, &iwork[0], liwork, info);
         // regular call
@@ -115,10 +111,10 @@ throw(runtime_error) {
 }
 
 void
-RQ::sym_eig_decomp_d::resize_workspace(size_t m) {
+RQ::sym_eig_decomp_d::resize_workspace(size_t k) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
-    n = m;
+    n = k;
 #pragma clang diagnostic pop
 
     F77NAME(dsyevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
@@ -162,16 +158,12 @@ RQ::sym_eig_decomp_r::~sym_eig_decomp_r() {
 }
 
 void
-RQ::sym_eig_decomp_r::operator()(const double A[], double Z[], double w[], size_t i)
+RQ::sym_eig_decomp_r::operator()(const double A[], double Z[], double w[], size_t k)
 throw(runtime_error) {
-    valarray<double> C(A, i * i);
+    valarray<double> C(A, k * k);
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
-    const int k = i;
-#pragma clang diagnostic pop
     if (k != n)
-        resize_workspace(i);
+        resize_workspace(k);
 
     F77NAME(dsyevr)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
                     m, w, Z, max(1, n), &isupp[0], &work[0], lwork, &iwork[0], liwork, info);
@@ -187,10 +179,10 @@ throw(runtime_error) {
 }
 
 void
-RQ::sym_eig_decomp_r::resize_workspace(size_t i) {
+RQ::sym_eig_decomp_r::resize_workspace(size_t k) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
-    n = i;
+    n = k;
 #pragma clang diagnostic pop
 
     F77NAME(dsyevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
@@ -240,16 +232,12 @@ RQ::sym_eig_decomp_x::~sym_eig_decomp_x() {
 }
 
 void
-RQ::sym_eig_decomp_x::operator()(const double A[], double Z[], double w[], size_t i)
+RQ::sym_eig_decomp_x::operator()(const double A[], double Z[], double w[], size_t k)
 throw(runtime_error) {
-    valarray<double> C(A, i * i);
+    valarray<double> C(A, k * k);
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
-    const int k = i;
-#pragma clang diagnostic pop
     if (k != n)
-        resize_workspace(i);
+        resize_workspace(k);
 
     F77NAME(dsyevx)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
                     m, w, Z, max(1, n), &work[0], lwork, &iwork[0], &ifail[0], info);
@@ -265,10 +253,10 @@ throw(runtime_error) {
 }
 
 void
-RQ::sym_eig_decomp_x::resize_workspace(size_t i) {
+RQ::sym_eig_decomp_x::resize_workspace(size_t k) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
-    n = i;
+    n = k;
 #pragma clang diagnostic pop
 
     F77NAME(dsyevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
