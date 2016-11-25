@@ -66,13 +66,13 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/symeig.h)
 
 add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
-    target_link_libraries(especia ${VECLIB})
+target_link_libraries(especia ${VECLIB})
 add_executable(especid ${MAIN}/cxx/especid.cxx ${COMMON_SOURCES})
-    target_link_libraries(especid ${VECLIB})
+target_link_libraries(especid ${VECLIB})
 add_executable(especis ${MAIN}/cxx/especis.cxx ${COMMON_SOURCES})
-    target_link_libraries(especis ${VECLIB})
+target_link_libraries(especis ${VECLIB})
 add_executable(especiv ${MAIN}/cxx/especiv.cxx ${COMMON_SOURCES})
-    target_link_libraries(especiv ${VECLIB})
+target_link_libraries(especiv ${VECLIB})
 
 add_executable(ecom ${MAIN}/cxx/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/edat.cxx)
@@ -85,12 +85,12 @@ add_dependencies(check check_example)
 
 add_custom_target(example
         ./emod < reference/example.html | `./ecom < reference/example.html` > example.html)
-    add_dependencies(example especid ecom emod)
+add_dependencies(example especid ecom emod)
 
 add_custom_target(check_example
         diff reference/example.html example.html
         COMMENT "Error statements issued by this target and caused by small differences in numerics are normal.")
-    add_dependencies(check_example example)
+add_dependencies(check_example example)
 
 add_custom_target(clean_example
         rm -f example.html)
