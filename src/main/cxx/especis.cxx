@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
             }
         }
     } else {
-        cout << "Version " << VERSION << endl;
+        cout << PROJECT_NAME_LONG << endl;
         cout << usemsg << pname << ": " << parmsg << endl;
 
         return 1;

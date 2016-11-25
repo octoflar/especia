@@ -24,7 +24,9 @@
 
 #include <string>
 
-// Version number
-const std::string VERSION = "@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@-@PROJECT_VERSION_AFFIX@";
+namespace RQ {
+    //  Project name
+    const std::string PROJECT_NAME_LONG = "@PROJECT_NAME@-@PROJECT_VERSION@-@PROJECT_VERSION_AFFIX@";
+}
 
 #endif // RQ_CONFIG_H
