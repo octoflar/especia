@@ -47,7 +47,7 @@ namespace RQ {
 template<class profile_function>
 class RQ::model {
 public:
-    std::istream &get(std::istream &is, std::ostream &os = null, char comment_mark = '%', char begin_of_section = '{',
+    std::istream &get(std::istream &is, std::ostream &os, char comment_mark = '%', char begin_of_section = '{',
                       char end_of_section = '}');
 
     std::ostream &put(std::ostream &os) const;
@@ -85,12 +85,8 @@ private:
 
     std::map<std::string, size_t> sim;
     std::map<std::string, size_t> pim;
-
-    static std::ostringstream null;
 };
 
-template<class profile_function>
-std::ostringstream RQ::model<profile_function>::null;
 
 template<class profile_function>
 std::istream &
