@@ -27,14 +27,12 @@
 #include <valarray>
 
 namespace RQ {
-    typedef unsigned long word;
-
     // Mersenne Twister (MT) function-like class template
     template<unsigned w, unsigned n, unsigned m, unsigned r,
-            word a,
+            unsigned long a,
             unsigned u,
-            unsigned s, word b,
-            unsigned t, word c,
+            unsigned s, unsigned long b,
+            unsigned t, unsigned long c,
             unsigned l>
     class mersenne_twister;
 
@@ -55,196 +53,121 @@ namespace RQ {
 // The notation of the template parameters follows Matsumoto
 // and Nishimura (1998,Table 2).
 template<unsigned w, unsigned n, unsigned m, unsigned r,
-        RQ::word a,
+        unsigned long a,
         unsigned u,
-        unsigned s, RQ::word b,
-        unsigned t, RQ::word c,
+        unsigned s, unsigned long b,
+        unsigned t, unsigned long c,
         unsigned l>
 class RQ::mersenne_twister {
 public:
     // Initialize the MT using an LCG with modulus 2^w. Knuth (1998,
     // Sec. 3.3.4, Table 1) gives some reasonably good ones.
-    mersenne_twister(RQ::word seed = 5489, RQ::word multiplier = 1812433253);
+    mersenne_twister(unsigned long seed = 5489, unsigned long multiplier = 1812433253)
+            : x(n) {
+        reset(seed, multiplier);
+    }
 
     // Initialize the MT using an array of seed values
-    mersenne_twister(const RQ::word key[], unsigned key_size);
-
-    ~mersenne_twister();
-
-    double operator()();
-
-    void reset(RQ::word seed = 5489, RQ::word multiplier = 1812433253);
-
-    void reset(const RQ::word key[], unsigned key_size);
-
-private:
-    RQ::word rand();
-
-    void twist(unsigned i, unsigned j, unsigned k);
-
-    std::valarray<RQ::word> x;
-    unsigned i;
-};
-
-template<unsigned w, unsigned n, unsigned m, unsigned r,
-        RQ::word a,
-        unsigned u,
-        unsigned s, RQ::word b,
-        unsigned t, RQ::word c,
-        unsigned l>
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::mersenne_twister(RQ::word seed, RQ::word multiplier)
-        :   x() {
-    reset(seed, multiplier);
-}
-
-template<unsigned w, unsigned n, unsigned m, unsigned r,
-        RQ::word a,
-        unsigned u,
-        unsigned s, RQ::word b,
-        unsigned t, RQ::word c,
-        unsigned l>
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::mersenne_twister(const RQ::word key[], unsigned key_size)
-        :   x() {
-    reset(key, key_size);
-}
-
-template<unsigned w, unsigned n, unsigned m, unsigned r,
-        RQ::word a,
-        unsigned u,
-        unsigned s, RQ::word b,
-        unsigned t, RQ::word c,
-        unsigned l>
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::~mersenne_twister() {
-}
-
-template<unsigned w, unsigned n, unsigned m, unsigned r,
-        RQ::word a,
-        unsigned u,
-        unsigned s, RQ::word b,
-        unsigned t, RQ::word c,
-        unsigned l>
-inline
-double
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::operator()() {
-    using std::numeric_limits;
-
-    return rand() * (1.0 / double(numeric_limits<RQ::word>::max() >> (numeric_limits<RQ::word>::digits - w)));
-        // division by 2^w - 1
-}
-
-template<unsigned w, unsigned n, unsigned m, unsigned r,
-        RQ::word a,
-        unsigned u,
-        unsigned s, RQ::word b,
-        unsigned t, RQ::word c,
-        unsigned l>
-RQ::word
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::rand() {
-    if (i == n) {
-        for (unsigned k = 0; k < n - m; ++k)
-            twist(k + m, k, k + 1);
-
-        for (unsigned k = n - m; k < n - 1; ++k)
-            twist(k + m - n, k, k + 1);
-
-        twist(m - 1, n - 1, 0);
-        i = 0;
+    mersenne_twister(const unsigned long key[], unsigned key_size)
+            : x(n) {
+        reset(key, key_size);
     }
 
-    RQ::word y = x[i];
-    ++i;
+    ~mersenne_twister() {
+    };
 
-    if (u > 0)
-        y ^= (y >> u);
+    double operator()() {
+        using std::numeric_limits;
 
-    y ^= (y << s) & b;
-    y ^= (y << t) & c;
-    y ^= (y >> l);
-
-    return y;
-}
-
-template<unsigned w, unsigned n, unsigned m, unsigned r,
-        RQ::word a,
-        unsigned u,
-        unsigned s, RQ::word b,
-        unsigned t, RQ::word c,
-        unsigned l>
-void
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::reset(RQ::word seed, RQ::word multiplier) {
-    using std::max;
-    using std::numeric_limits;
-
-    x[0] = seed & (numeric_limits<RQ::word>::max() >> (numeric_limits<RQ::word>::digits - w));
-    for (unsigned k = 1; k < n; ++k) {
-        x[k] = (multiplier * (x[k - 1] ^ (x[k - 1] >> (r - 1))) + k) &
-               (numeric_limits<RQ::word>::max() >> (numeric_limits<RQ::word>::digits - w));
+        return rand() * (1.0 / double(numeric_limits<word>::max() >> (numeric_limits<word>::digits - w)));
+            // division by 2^w - 1
     }
 
-    i = n;
-}
+    void reset(unsigned long seed = 5489, unsigned long multiplier = 1812433253) {
+        using std::max;
+        using std::numeric_limits;
 
-template<unsigned w, unsigned n, unsigned m, unsigned r,
-        RQ::word a,
-        unsigned u,
-        unsigned s, RQ::word b,
-        unsigned t, RQ::word c,
-        unsigned l>
-void
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::reset(const RQ::word key[], unsigned key_size) {
-    using std::max;
-    using std::numeric_limits;
-
-    reset(19650218);
-    i = 1;
-
-    for (unsigned j = 0, k = max(n, key_size); k > 0; --k) {
-        x[i] = ((x[i] ^ ((x[i - 1] ^ (x[i - 1] >> (r - 1))) * 1664525)) + key[j] + j) &
-               (numeric_limits<RQ::word>::max() >> (numeric_limits<RQ::word>::digits - w));
-        if (++i >= n) {
-            x[0] = x[n - 1];
-            i = 1;
+        x[0] = seed & (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
+        for (unsigned k = 1; k < n; ++k) {
+            x[k] = (multiplier * (x[k - 1] ^ (x[k - 1] >> (r - 1))) + k) &
+                   (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
         }
-        if (++j >= key_size)
-            j = 0;
+
+        i = n;
     }
-    for (unsigned k = n - 1; k > 0; --k) {
-        x[i] = ((x[i] ^ ((x[i - 1] ^ (x[i - 1] >> (r - 1))) * 1566083941)) - i) &
-               (numeric_limits<RQ::word>::max() >> (numeric_limits<RQ::word>::digits - w));
-        if (++i >= n) {
-            x[0] = x[n - 1];
-            i = 1;
+
+    void reset(const unsigned long key[], unsigned key_size) {
+        using std::max;
+        using std::numeric_limits;
+
+        reset(19650218);
+        i = 1;
+
+        for (unsigned j = 0, k = max(n, key_size); k > 0; --k) {
+            x[i] = ((x[i] ^ ((x[i - 1] ^ (x[i - 1] >> (r - 1))) * 1664525)) + key[j] + j) &
+                   (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
+            if (++i >= n) {
+                x[0] = x[n - 1];
+                i = 1;
+            }
+            if (++j >= key_size)
+                j = 0;
         }
-    }
-    x[0] = (1ul << (w - 1));
+        for (unsigned k = n - 1; k > 0; --k) {
+            x[i] = ((x[i] ^ ((x[i - 1] ^ (x[i - 1] >> (r - 1))) * 1566083941)) - i) &
+                   (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
+            if (++i >= n) {
+                x[0] = x[n - 1];
+                i = 1;
+            }
+        }
+        x[0] = (1ul << (w - 1));
         // MSB is 1, assuring a non-zero initial array
 
-    i = n;
-}
+        i = n;
+    }
 
-template<unsigned w, unsigned n, unsigned m, unsigned r,
-        RQ::word a,
-        unsigned u,
-        unsigned s, RQ::word b,
-        unsigned t, RQ::word c,
-        unsigned l>
-inline
-void
-RQ::mersenne_twister<w, n, m, r, a, u, s, b, t, c, l>::twist(unsigned i, unsigned j, unsigned k) {
-    using std::numeric_limits;
+private:
+    typedef unsigned long word;
 
-    x[j] = x[i] ^
-        (((x[j] &
-        ((numeric_limits<RQ::word>::max() <<
-        (numeric_limits<RQ::word>::digits - w + r)) >>
-        (numeric_limits<RQ::word>::digits - w))) |
-        (x[k] &
-        (numeric_limits<RQ::word>::max() >>
-        (numeric_limits<RQ::word>::digits - r)))) >>
-        1);
-    if ((x[k] & 1ul) == 1ul)
-        x[j] ^= a;
-}
+    unsigned long rand() {
+        if (i == n) {
+            for (unsigned k = 0; k < n - m; ++k)
+                twist(k + m, k, k + 1);
+
+            for (unsigned k = n - m; k < n - 1; ++k)
+                twist(k + m - n, k, k + 1);
+
+            twist(m - 1, n - 1, 0);
+            i = 0;
+        }
+
+        unsigned long y = x[i];
+        ++i;
+
+        if (u > 0)
+            y ^= (y >> u);
+
+        y ^= (y << s) & b;
+        y ^= (y << t) & c;
+        y ^= (y >> l);
+
+        return y;
+    }
+
+    void twist(unsigned i, unsigned j, unsigned k) {
+        using std::numeric_limits;
+
+        x[j] = x[i] ^ (((x[j] & ((numeric_limits<word>::max() << (numeric_limits<word>::digits - w + r))
+                >> (numeric_limits<word>::digits - w))) |
+                        (x[k] & (numeric_limits<word>::max() >> (numeric_limits<word>::digits - r)))) >> 1);
+        if ((x[k] & 1ul) == 1ul)
+            x[j] ^= a;
+    }
+
+    std::valarray<unsigned long> x;
+    unsigned i;
+};
 
 #endif // RQ_MTWISTER_H
 
