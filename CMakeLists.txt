@@ -59,7 +59,9 @@ endif ()
 set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 
-configure_file(${MAIN}/cxx-filtered/config.h.in ${MAIN}/cxx/config.h
+configure_file(${MAIN}/resources-filtered/config.h.in ${MAIN}/cxx/config.h
+        @ONLY)
+configure_file(${MAIN}/resources-filtered/synth.html.in resources/synth.html
         @ONLY)
 configure_file(${MAIN}/resources/synth.md resources/synth.md
         COPYONLY)
@@ -67,8 +69,6 @@ configure_file(${MAIN}/resources/synth1561.dat resources/synth1561.dat
         COPYONLY)
 configure_file(${MAIN}/resources/synth1657.dat resources/synth1657.dat
         COPYONLY)
-configure_file(${MAIN}/resources-filtered/synth.html.in resources/synth.html
-        @ONLY)
 
 set(COMMON_SOURCES
         ${MAIN}/cxx/config.h
