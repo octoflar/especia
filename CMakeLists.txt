@@ -37,7 +37,7 @@ function(set_project_version_tag TAG)
 endfunction()
 
 set_project_version_tag(snapshot)
-set(PROJECT_URL https://dx.doi.org/10.6084/m9.figshare.4167999)
+set(PROJECT_DOI https://dx.doi.org/10.6084/m9.figshare.4167999.v14)
 
 set(CMAKE_CONFIGURATION_TYPES Release)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

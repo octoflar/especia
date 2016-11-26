@@ -344,7 +344,7 @@ public:
         os << "<!--\n";
         os << "  Created by\n";
         os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
-        os << "  " << PROJECT_ID << " " << PROJECT_URL << "\n";
+        os << "  " << PROJECT_LONG_NAME << " " << DOI << "\n";
         os << "-->\n";
         os << "<!--\n";
         os << "<data>\n";
@@ -563,7 +563,7 @@ public:
         os << "<!--\n";
         os << "  Created by\n";
         os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
-        os << "  " << PROJECT_ID << " " << PROJECT_URL << "\n";
+        os << "  " << PROJECT_LONG_NAME << " " << DOI << "\n";
         os << "-->\n";
 
         if (trace > 0) {

@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
             }
         }
     } else {
-        cout << PROJECT_ID << " " << PROJECT_URL << endl;
+        cout << PROJECT_LONG_NAME << " " << DOI << endl;
         cout << usemsg << pname << ": " << parmsg << endl;
 
         return 1;

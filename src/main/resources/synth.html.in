@@ -282,7 +282,7 @@ Quast, Ralf; Baade, Robert; Reimers, Dieter (2002): *Fine-structure diagnostics 
 <!--
   Created by
   Evolutionary spectrum inversion and analysis (Especia)
-  @PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@ @PROJECT_URL@
+  @PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@ @PROJECT_DOI@
 -->
 <!--
 <log>
@@ -359,7 +359,7 @@ RQ::model<>::optimize(): Message: Optimization completed
 <!--
   Created by
   Evolutionary spectrum inversion and analysis (Especia)
-  @PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@ @PROJECT_URL@
+  @PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@ @PROJECT_DOI@
 -->
 <!--
 <data>

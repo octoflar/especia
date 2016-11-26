@@ -26,9 +26,9 @@
 
 namespace RQ {
     // Identifier
-    const std::string PROJECT_ID = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@";
+    const std::string PROJECT_LONG_NAME = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@";
     // URL
-    const std::string PROJECT_URL = "@PROJECT_URL@";
+    const std::string DOI = "@PROJECT_DOI@";
 }
 
 #endif // RQ_CONFIG_H
