@@ -24,14 +24,12 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-#include <stdexcept>
 #include <valarray>
 #include <vector>
 
 using namespace std;
 
-istream &
-get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip = 0) {
+istream &get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip = 0) {
     const size_t room = 20000;
 
     vector<double> u;
@@ -48,13 +46,13 @@ get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, 
     while (getline(is, s))
         if (skip <= 0) {
             istringstream ist(s);
-            double x, y, z;
+            double a, b, c;
 
-            if (ist >> x >> y) {
-                u.push_back(x);
-                v.push_back(y);
-                if (ist >> z)
-                    w.push_back(z);
+            if (ist >> a >> b) {
+                u.push_back(a);
+                v.push_back(b);
+                if (ist >> c)
+                    w.push_back(c);
 
                 ++n;
             } else {
@@ -81,8 +79,7 @@ get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, 
     return is;
 }
 
-ostream &
-put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
+ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
     if (os) {
         const int p = 6;  // precision
         const int w = 14; // width
@@ -114,8 +111,7 @@ double sqr(double x) {
     return (x * x);
 }
 
-void
-vactoair(double x, double &y, double &z) {
+void vactoair(double x, double &y, double &z) {
 /*  const double a = 1.0000643280 + 2.5540e-10 / (0.0000410 - x * x) + 2.949810e-08 / (0.000146 - x * x);
         // Edlen (1953) */
     const double a = 1.0000834213 + 1.5997e-10 / (0.0000389 - x * x) + 2.406030e-08 / (0.000130 - x * x);
@@ -128,8 +124,7 @@ vactoair(double x, double &y, double &z) {
         // Edlen (1966), the first derivative of y with respect to x
 }
 
-double
-findroot(void f(double, double &, double &), double c, double x, double accuracy_goal) throw(runtime_error) {
+double findroot(void f(double, double &, double &), double c, double x, double accuracy_goal) throw(runtime_error) {
     double d, y, z;
     unsigned i = 0;
 
@@ -182,7 +177,7 @@ int main(int argc, char *argv[]) {
     }
 #pragma clang diagnostic pop
 
-    cout << "Usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
+    cout << "usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
     return 1;
 }
 

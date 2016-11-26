@@ -27,8 +27,7 @@
 
 using namespace std;
 
-istream &
-get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip = 0) {
+istream &get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip = 0) {
     const size_t room = 20000;
 
     vector<double> u;
@@ -78,8 +77,7 @@ get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, 
     return is;
 }
 
-ostream &
-put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
+ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
     if (os) {
         const int p = 6;  // precision
         const int w = 14; // width
@@ -143,7 +141,7 @@ int main(int argc, char *argv[]) {
     }
 #pragma clang diagnostic pop
 
-    cout << "Usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
+    cout << "usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
     return 1;
 }
 

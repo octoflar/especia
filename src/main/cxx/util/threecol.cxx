@@ -29,8 +29,7 @@
 
 using namespace std;
 
-istream &
-get(istream &is, valarray<double> &x, valarray<double> &y) {
+istream &get(istream &is, valarray<double> &x, valarray<double> &y) {
     const size_t room = 20000;
 
     vector<double> u;
@@ -72,8 +71,7 @@ get(istream &is, valarray<double> &x, valarray<double> &y) {
     return is;
 }
 
-ostream &
-put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
+ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
     if (os) {
         const int p = 6;  // precision
         const int w = 14; // width
@@ -122,10 +120,10 @@ int main(int argc, char *argv[]) {
             cerr << pname << ": input failure" << endl;
             return 2;
         }
-    } else {
-        cout << "Usage: " << pname << " FLUX UNCERTAINTY > OSTREAM" << endl;
-        return 1;
+
+        return 0;
     }
 
-    return 0;
+    cout << "usage: " << pname << " FLUX UNCERTAINTY > OSTREAM" << endl;
+    return 1;
 }
