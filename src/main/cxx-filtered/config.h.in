@@ -25,8 +25,8 @@
 #include <string>
 
 namespace RQ {
-    //  Project name
-    const std::string PROJECT_NAME_LONG = "@PROJECT_NAME@-@PROJECT_VERSION@-@PROJECT_VERSION_AFFIX@";
+    //  Identifier
+    const std::string PRG_ID = "@PROJECT_NAME@-@PROJECT_VERSION@-@PROJECT_VERSION_AFFIX@";
 }
 
 #endif // RQ_CONFIG_H

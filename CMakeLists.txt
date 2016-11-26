@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 cmake_minimum_required(VERSION 3.6)
-project(especia VERSION 2017.1 LANGUAGES CXX)
+project(especia VERSION 2017.1 LANGUAGES C CXX)
 set(PROJECT_VERSION_AFFIX snapshot)
 
 set(CMAKE_CONFIGURATION_TYPES Release)
@@ -42,7 +42,7 @@ endif ()
 set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 
-configure_file(${MAIN}/cxx/config.h.in ${MAIN}/cxx/config.h
+configure_file(${MAIN}/cxx-filtered/config.h.in ${MAIN}/cxx/config.h
         @ONLY)
 configure_file(${MAIN}/resources/synth.md resources/synth.md
         COPYONLY)
@@ -91,10 +91,16 @@ add_dependencies(check ecom emod especid)
 add_custom_target(checkclean rm -f check.html)
 
 install(TARGETS especia especid especis especiv ecom edat elog emod emsg
-        RUNTIME DESTINATION $ENV{HOME}/bin)
+        RUNTIME
+        DESTINATION $ENV{HOME}/bin
+        CONFIGURATIONS Release)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx)
 add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx)
 add_executable(cumulate EXCLUDE_FROM_ALL ${MAIN}/cxx/util/cumulate.cxx)
 add_executable(threecol EXCLUDE_FROM_ALL ${MAIN}/cxx/util/threecol.cxx)
 add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx)
+
+add_custom_target(util)
+add_dependencies(util airtovac barycorr cumulate threecol vactoair)
+add_custom_target(utilclean rm -f airtovac barycorr cumulate threecol vactoair)

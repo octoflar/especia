@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
             }
         }
     } else {
-        cout << PROJECT_NAME_LONG << endl;
+        cout << PRG_ID << endl;
         cout << usemsg << pname << ": " << parmsg << endl;
 
         return 1;
