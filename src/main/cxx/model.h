@@ -89,17 +89,17 @@ public:
         os << "<!--\n";
         os << "<model>\n";
 
-        // Strip empty lines. Write non-empty lines to standard output.
-        while (readline(is, line)) {
-            ss << line << '\n';
-            os << line << '\n';
+        // Read all lines and write them to standard output.
+        while (readline(is, line, 0, '\n', false)) {
+            ss << line << endl;
+            os << line << endl;
         }
 
         os << "</model>\n";
         os << "-->\n";
         os << "</html>\n";
 
-        // Now strip comments
+        // Now strip empty lines and comments
         while (readline(ss, line, comment_mark)) {
             st << line << '\n';
         }

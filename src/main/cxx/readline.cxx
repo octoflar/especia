@@ -25,10 +25,10 @@
 using namespace std;
 
 istream &
-RQ::readline(istream &is, string &s, char cm, char eol) {
+RQ::readline(istream &is, string &s, char cm, char eol, bool eat_empty) {
     bool isempty = true;
 
-    while (isempty and getline(is, s, eol)) {
+    while (isempty and getline(is, s, eol) and eat_empty) {
         size_t i = 0;
 
         while (i < s.length() and (cm == 0 or s[i] != cm))

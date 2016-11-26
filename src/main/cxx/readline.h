@@ -54,8 +54,9 @@ namespace RQ {
                        std::vector<C> &c, std::vector<D> &d, std::vector<std::string> &s, size_t n,
                        char eol, bool append = false);
 
-    // Read a line while skipping empty lines and stripping comments
-    std::istream &readline(std::istream &is, std::string &s, char comment_mark = 0, char eol = '\n');
+    // Read a line, stripping empty lines and comments
+    std::istream &readline(std::istream &is, std::string &s, char comment_mark = 0, char eol = '\n',
+                           bool eat_empty = true);
 }
 
 template<class A>
