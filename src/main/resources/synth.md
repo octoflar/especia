@@ -31,7 +31,7 @@ Doppler profiles are used here. The line parameters are:
 5. line broadening velocity (km s-1)
 6. decadic logarithm of the particle column number density (cm-2)
 
-The spectroscopic data are simulated, but based to actual observations.
+The spectroscopic data are simulated, but based on actual observations.
 
 ``````
 {
