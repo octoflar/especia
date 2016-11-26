@@ -67,8 +67,8 @@ configure_file(${MAIN}/resources/synth1561.dat resources/synth1561.dat
         COPYONLY)
 configure_file(${MAIN}/resources/synth1657.dat resources/synth1657.dat
         COPYONLY)
-configure_file(${MAIN}/resources/synth.html resources/synth.html
-        COPYONLY)
+configure_file(${MAIN}/resources-filtered/synth.html.in resources/synth.html
+        @ONLY)
 
 set(COMMON_SOURCES
         ${MAIN}/cxx/config.h

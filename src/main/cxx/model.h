@@ -33,6 +33,7 @@
 #include <string>
 #include <valarray>
 #include <vector>
+#include "config.h"
 #include "optimize.h"
 #include "profiles.h"
 #include "readline.h"
@@ -343,7 +344,7 @@ public:
         os << "<!--\n";
         os << "  Created by\n";
         os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
-        os << "  http://dx.doi.org/10.6084/m9.figshare.4167999\n";
+        os << "  " << PROJECT_ID << " " << PROJECT_URL << "\n";
         os << "-->\n";
         os << "<!--\n";
         os << "<data>\n";
@@ -562,7 +563,7 @@ public:
         os << "<!--\n";
         os << "  Created by\n";
         os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
-        os << "  http://dx.doi.org/10.6084/m9.figshare.4167999\n";
+        os << "  " << PROJECT_ID << " " << PROJECT_URL << "\n";
         os << "-->\n";
 
         if (trace > 0) {
