@@ -43,11 +43,13 @@ Doppler profiles are used here. The line parameters are:
 5. line broadening velocity (km s-1)
 6. decadic logarithm of the particle column number density (cm-2)
 
+The spectroscopic data are simulated, but based to actual observations.
+
 ``````
 {
 % section 1
-% id            source                           begin       end         polynomials
-  C_I_1560      @TEST@/resources/synth1561.dat   3355.00     3359.00     3
+% id            source                  begin       end         polynomials
+  C_I_1560      resources/synth1561.dat 3355.00     3359.00     3
 %
 % spectral resolution
 % initial       min         max         optimize    reference
@@ -145,11 +147,14 @@ Doppler profiles are used here. The line parameters are:
 
 ## HE-0515-4414: fine-structure multiplet of CI 1656 at z = 1.15
 
+This section exhibits three unidentified lines. These generic lines might
+affect the modelling of the background continuum, if not considered.
+
 ``````
 {
 % section 2
-% id            source                           begin       end         polynomials
-  C_I_1656      @TEST@/resources/synth1657.dat   3562.00     3567.00     3
+% id            source                  begin       end         polynomials
+  C_I_1656      resources/synth1657.dat 3562.00     3567.00     3
 %
 % spectral resolution
 % initial       min         max         optimize    reference
@@ -265,6 +270,10 @@ Doppler profiles are used here. The line parameters are:
   12.0          10.0        14.0        1
 }
 ``````
+
+## References
+
+Quast, Ralf; Baade, Robert; Reimers, Dieter (2002): *Fine-structure diagnostics of neutral carbon toward HE 0515-4414.* Astronomy and Astrophysics 386 (3) 796. doi: [10.1051/0004-6361:20020342](http://dx.doi.org/10.1051/0004-6361:20020342).
 </model>
 -->
 </html>

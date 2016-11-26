@@ -42,13 +42,16 @@ endif ()
 set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 
-configure_file(
-        ${MAIN}/cxx/config.h.in
-        ${MAIN}/cxx/config.h)
-
-configure_file(
-        ${TEST}/resources-filtered/example.html.in
-        reference/example.html)
+configure_file(${MAIN}/cxx/config.h.in ${MAIN}/cxx/config.h
+        @ONLY)
+configure_file(${MAIN}/resources/synth.md resources/synth.md
+        COPYONLY)
+configure_file(${MAIN}/resources/synth1561.dat resources/synth1561.dat
+        COPYONLY)
+configure_file(${MAIN}/resources/synth1657.dat resources/synth1657.dat
+        COPYONLY)
+configure_file(${MAIN}/resources/synth.html resources/synth.html
+        COPYONLY)
 
 set(COMMON_SOURCES
         ${MAIN}/cxx/config.h
@@ -80,20 +83,12 @@ add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
-add_custom_target(check)
-add_dependencies(check check_example)
-
-add_custom_target(example
-        ./emod < reference/example.html | `./ecom < reference/example.html` > example.html)
-add_dependencies(example especid ecom emod)
-
-add_custom_target(check_example
-        diff reference/example.html example.html
+add_custom_target(check ./emod < resources/synth.html | `./ecom < resources/synth.html` > check.html
+        BYPRODUCTS check.html
+        COMMAND diff resources/synth.html check.html
         COMMENT "Error statements issued by this target and caused by small differences in numerics are normal.")
-add_dependencies(check_example example)
-
-add_custom_target(clean_example
-        rm -f example.html)
+add_dependencies(check ecom emod especid)
+add_custom_target(checkclean rm -f check.html)
 
 install(TARGETS especia especid especis especiv ecom edat elog emod emsg
         RUNTIME DESTINATION $ENV{HOME}/bin)
