@@ -38,7 +38,7 @@ the ISO/IEC 14882:2011 norm, also known as C++11. To build, test, and install th
     make check
     make install
 
-The executable files will be installed into your `~/bin` directory. In case of problems consult
+The executable files will be installed into your `$HOME/bin` directory. In case of problems consult
 the [build instructions](https://github.com/octoflar/especia/wiki/Build-instructions).
 
 
