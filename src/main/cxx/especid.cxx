@@ -28,7 +28,7 @@
 #include "randev.h"
 #include "symeig.h"
 
-const char usemsg[] = "Usage: ";
+const char usemsg[] = "usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
 
 int main(int argc, char *argv[]) {
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
             }
         }
     } else {
-        cout << PRG_ID << endl;
+        cout << PRG_ID << " " << DOI << endl;
         cout << usemsg << pname << ": " << parmsg << endl;
 
         return 1;
