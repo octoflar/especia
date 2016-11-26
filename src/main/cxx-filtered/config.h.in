@@ -26,9 +26,9 @@
 
 namespace RQ {
     // Identifier
-    const std::string PRG_ID = "@PROJECT_NAME@-@PROJECT_VERSION@-@PROJECT_VERSION_AFFIX@";
-    // DOI
-    const std::string DOI = "https://dx.doi.org/10.6084/m9.figshare.4167999";
+    const std::string PROJECT_ID = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@";
+    // URL
+    const std::string PROJECT_URL = "@PROJECT_URL@";
 }
 
 #endif // RQ_CONFIG_H

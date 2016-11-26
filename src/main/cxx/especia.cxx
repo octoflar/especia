@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
             }
         }
     } else {
-        cout << PRG_ID << " " << DOI << endl;
+        cout << PROJECT_ID << " " << PROJECT_URL << endl;
         cout << usemsg << pname << ": " << parmsg << endl;
 
         return 1;

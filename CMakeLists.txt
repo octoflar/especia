@@ -20,7 +20,24 @@
 
 cmake_minimum_required(VERSION 3.6)
 project(especia VERSION 2017.1 LANGUAGES C CXX)
-set(PROJECT_VERSION_AFFIX snapshot)
+
+function(set_project_version_tag TAG)
+    if (${TAG} STREQUAL snapshot)
+    execute_process(COMMAND git rev-parse --short HEAD
+            OUTPUT_VARIABLE GIT
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            RESULT_VARIABLE STATUS
+            ERROR_QUIET)
+    if (${STATUS} EQUAL 0)
+        set(PROJECT_VERSION_TAG ${GIT} PARENT_SCOPE)
+    endif()
+        else()
+        set(PROJECT_VERSION_TAG ${TAG} PARENT_SCOPE)
+    endif ()
+endfunction()
+
+set_project_version_tag(snapshot)
+set(PROJECT_URL https://dx.doi.org/10.6084/m9.figshare.4167999)
 
 set(CMAKE_CONFIGURATION_TYPES Release)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
