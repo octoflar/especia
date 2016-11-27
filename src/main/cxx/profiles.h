@@ -269,7 +269,6 @@ public:
             p[i].assign(a);
     }
 
-
 private:
     std::vector<profile_function> p;
 };
