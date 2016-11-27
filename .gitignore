@@ -7,7 +7,7 @@
 .settings/
 
 # Xcode files by convention are in folder
-cmake-xcode/
+xcode-build/
 
 # build files by convention are in folders
 cmake-build/
