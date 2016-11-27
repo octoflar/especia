@@ -20,13 +20,16 @@
 
 function(project_version_tag TAG)
     if (${TAG} STREQUAL snapshot)
-        execute_process(COMMAND git rev-parse --short HEAD
-                OUTPUT_VARIABLE ID
-                OUTPUT_STRIP_TRAILING_WHITESPACE
-                RESULT_VARIABLE STATUS
-                ERROR_QUIET)
-        if (${STATUS} EQUAL 0)
-            set(PROJECT_VERSION_TAG ${ID} PARENT_SCOPE)
+        find_program(GIT git)
+        if (GIT)
+            execute_process(COMMAND ${GIT} rev-parse --short HEAD
+                    OUTPUT_VARIABLE ID
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                    RESULT_VARIABLE STATUS
+                    ERROR_QUIET)
+            if (${STATUS} EQUAL 0)
+                set(PROJECT_VERSION_TAG ${ID} PARENT_SCOPE)
+            endif ()
         endif ()
     else ()
         set(PROJECT_VERSION_TAG ${TAG} PARENT_SCOPE)

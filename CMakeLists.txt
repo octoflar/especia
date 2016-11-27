@@ -73,7 +73,8 @@ add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
-add_custom_target(check ./emod < resources/synth.html | `./ecom < resources/synth.html` > check.html
+add_custom_target(check
+        COMMAND ./emod < resources/synth.html | `./ecom < resources/synth.html` > check.html
         COMMAND diff resources/synth.html check.html
         BYPRODUCTS check.html
         COMMENT "Error statements issued by this check and caused by small differences in numerics are normal.")
