@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-macro(find_veclib)
+macro(veclib_required)
     find_package(LAPACK REQUIRED)
     if (LAPACK_FOUND)
         set(VECLIB ${LAPACK_LIBRARIES})

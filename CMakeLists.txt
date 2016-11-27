@@ -20,8 +20,8 @@
 
 cmake_minimum_required(VERSION 3.6)
 include(src/main/cmake/project_version_tag.cmake)
-include(src/main/cmake/veclib.cmake)
-include(src/main/cmake/openmp.cmake)
+include(src/main/cmake/veclib_required.cmake)
+include(src/main/cmake/openmp_optional.cmake)
 
 project(especia VERSION 2017.1 LANGUAGES C CXX)
 project_version_tag(snapshot)
@@ -31,6 +31,9 @@ set(CMAKE_CONFIGURATION_TYPES Release)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
+
+veclib_required()
+openmp_optional()
 
 set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
@@ -55,9 +58,6 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/section.h
         ${MAIN}/cxx/symeig.cxx
         ${MAIN}/cxx/symeig.h)
-
-find_veclib()
-find_openmp()
 
 add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
 target_link_libraries(especia ${VECLIB})
