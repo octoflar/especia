@@ -63,7 +63,7 @@ public:
 
     double end() const;
 
-    double length() const;
+    double width() const;
 
     size_t size() const;
 
@@ -83,7 +83,7 @@ public:
 
 private:
     template<class optical_depth>
-    void convolute(const optical_depth &t, double r, double opt[], double atm[], double cat[]) const;
+    void convolve(const optical_depth &t, double r, double *opt, double *atm, double *cat) const;
 
     void integrals(double x, double fwhm, double &p, double &q) const;
         // the indefinite integrals of P(x) and xP(x), where P(x) is the instrumental profile
@@ -123,7 +123,7 @@ double RQ::section::end() const {
 }
 
 inline
-double RQ::section::length() const {
+double RQ::section::width() const {
     return end() - begin();
 }
 
@@ -133,29 +133,29 @@ size_t RQ::section::size() const {
 }
 
 template<class optical_depth>
-void RQ::section::convolute(const optical_depth &t, double r, double opt[], double atm[], double cat[]) const {
+void RQ::section::convolve(const optical_depth &t, double r, double *opt, double *atm, double *cat) const {
     using std::exp;
     using std::valarray;
 
     if (n > 2) {
-        const double w = center() / r;
-            // FWHM of the instrumental profile
-        const double h = length() / (n - 1);
+        const double hwhm = 0.5 * center() / r;
+            // HWHM (half width at half maximun) of the instrumental profile
+        const double h = width() / (n - 1);
             // sample spacing
-        const size_t m = static_cast<size_t>(2.0 * (w / h)) + 1;
-            // cut the Gaussian profile at 4-HWHM (half width at half maximun) down to 10E-5
+        const size_t m = static_cast<size_t>(4.0 * (hwhm / h)) + 1;
+            // cut the Gaussian profile at 4-HWHM where it is 10E-5
         valarray<double> p(m);
         valarray<double> q(m);
 
         for (size_t i = 0; i < m; ++i)
-            integrals(i * h, w, p[i], q[i]);
+            integrals(i * h, hwhm, p[i], q[i]);
 
         for (size_t i = 0; i < n; ++i) {
             opt[i] = t(wav[i]);
             atm[i] = exp(-opt[i]);
         }
 
-        // Convolute the true flux with the instrumental profile
+        // Convolve the true flux with the instrumental profile
         for (size_t i = 0; i < n; ++i) {
             double a = 0.0;
             double b = 0.0;
@@ -187,7 +187,7 @@ double RQ::section::cost(const optical_depth &t, size_t m, double r) const {
     valarray<double> fit(n);
     valarray<double> res(n);
 
-    convolute(t, r, &opt[0], &atm[0], &cat[0]);
+    convolve(t, r, &opt[0], &atm[0], &cat[0]);
     continuum(m, &cat[0], &cfl[0]);
 
     double a = 0.0;
@@ -207,7 +207,7 @@ double RQ::section::cost(const optical_depth &t, size_t m, double r) const {
 
 template<class optical_depth>
 void RQ::section::compute_model(const optical_depth &t, size_t m, double r) {
-    convolute(t, r, &opt[0], &atm[0], &cat[0]);
+    convolve(t, r, &opt[0], &atm[0], &cat[0]);
     continuum(m, &cat[0], &cfl[0]);
 
     for (size_t i = 0; i < n; ++i) {

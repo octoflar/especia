@@ -89,7 +89,7 @@ void RQ::section::continuum(size_t m, const double cat[], double cfl[]) const th
         // Linear optimization problem, establish the normal equations
         for (size_t i = 0; i < n; ++i)
             if (msk[i]) {
-                const double x = 2.0 * (wav[i] - wav[0]) / length() - 1.0;
+                const double x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
                 // map wavelength domain onto the interval [-1, 1]
 
                 double l1 = 1.0;
@@ -146,7 +146,7 @@ void RQ::section::continuum(size_t m, const double cat[], double cfl[]) const th
 
         // Compute the continuum flux
         for (size_t i = 0; i < n; ++i) {
-            const double x = 2.0 * (wav[i] - wav[0]) / length() - 1.0;
+            const double x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
                 // map wavelength domain onto the interval [-1, 1]
 
             double l1 = 1.0;
@@ -199,13 +199,13 @@ void RQ::section::unmask(double a, double b) {
             msk[i] = 1;
 }
 
-void RQ::section::integrals(double x, double fwhm, double &p, double &q) const {
+void RQ::section::integrals(double x, double hwhm, double &p, double &q) const {
     using std::erf; // since C++11
     using std::exp;
 
     const double c = 1.6651092223153955127063292897904020952612;
     const double d = 3.5449077018110320545963349666822903655951;
-    const double b = fwhm / c;
+    const double b = 2.0 * hwhm / c;
 
     x /= b;
 
