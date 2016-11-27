@@ -2,7 +2,7 @@
 
 This software has been developed as part of research funded by the Verbundforschung of the BMBF/DLR under Grant No. 50 OR9911 1. The use of this software in the work listed below (and any work not listed) is gratefully acknowledged.
 
-# Work having used this software
+## Work having used this software
 
 *The precision of line position measurements of unresolved quasar absorption lines and its influence on the search for variations of fundamental constants.*
 N. Prause and D. Reimers.
