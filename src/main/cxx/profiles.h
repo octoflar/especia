@@ -59,22 +59,19 @@ namespace RQ {
 }
 
 inline
-double
-RQ::gauss(double x, double b) {
+double RQ::gauss(double x, double b) {
     using std::exp;
 
     return (1.0 / (sqrt_of_pi * b)) * exp(-(x / b) * (x / b));
 }
 
 inline
-double
-RQ::lorentz(double x, double b) {
+double RQ::lorentz(double x, double b) {
     return 1.0 / ((pi * b) * (1.0 + (x / b) * (x / b)));
 }
 
 inline
-double
-RQ::pseudovoigt(double x, double b, double d, double z) {
+double RQ::pseudovoigt(double x, double b, double d, double z) {
     return (1.0 - z) * gauss(x, b) + z * lorentz(x, d);
 }
 
@@ -109,16 +106,14 @@ private:
 };
 
 inline
-double
-RQ::doppler_mm_pf::operator()(double x) const {
+double RQ::doppler_mm_pf::operator()(double x) const {
     using std::abs;
 
     return (abs(x - y) < 4.0 * b) ? c * gauss(x - y, b) : 0.0;
 }
 
 inline
-double
-RQ::doppler_mm_pf::center() const {
+double RQ::doppler_mm_pf::center() const {
     return y;
 }
 
@@ -151,16 +146,14 @@ private:
 };
 
 inline
-double
-RQ::doppler_pf::operator()(double x) const {
+double RQ::doppler_pf::operator()(double x) const {
     using std::abs;
 
     return (abs(x - y) < 4.0 * b) ? c * gauss(x - y, b) : 0.0;
 }
 
 inline
-double
-RQ::doppler_pf::center() const {
+double RQ::doppler_pf::center() const {
     return y;
 }
 
@@ -192,16 +185,14 @@ private:
 };
 
 inline
-double
-RQ::doppler_is_pf::operator()(double x) const {
+double RQ::doppler_is_pf::operator()(double x) const {
     using std::abs;
 
     return (abs(x - y) < 4.0 * b) ? c * gauss(x - y, b) : 0.0;
 }
 
 inline
-double
-RQ::doppler_is_pf::center() const {
+double RQ::doppler_is_pf::center() const {
     return y;
 }
 
@@ -237,14 +228,12 @@ private:
 };
 
 inline
-double
-RQ::voigt_pf::operator()(double x) const {
+double RQ::voigt_pf::operator()(double x) const {
     return c * pseudovoigt(x - y, b, d, z);
 }
 
 inline
-double
-RQ::voigt_pf::center() const {
+double RQ::voigt_pf::center() const {
     return y;
 }
 
