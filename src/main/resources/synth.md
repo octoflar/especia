@@ -20,7 +20,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-## HE-0515-4414: fine-structure multiplet of CI 1550 at z = 1.15
+To run this model definition file type
+
+    especid 27182 10 20 0.5 0.000001 2000 10 < synth.md
+    
+The spectroscopic data used here are simulated, but based on actual observations.
+    
+## Section: fine-structure multiplet of CI 1560
 
 Doppler profiles are used here. The line parameters are:
 
@@ -30,8 +36,6 @@ Doppler profiles are used here. The line parameters are:
 4. radial velocity (km s-1)
 5. line broadening velocity (km s-1)
 6. decadic logarithm of the particle column number density (cm-2)
-
-The spectroscopic data are simulated, but based on actual observations.
 
 ``````
 {
@@ -144,10 +148,11 @@ The spectroscopic data are simulated, but based on actual observations.
 }
 ``````
 
-## HE-0515-4414: fine-structure multiplet of CI 1656 at z = 1.15
+## Section: fine-structure multiplet of CI 1656
 
 This section exhibits three unidentified lines. These generic lines might
-affect the modelling of the background continuum, if not considered.
+affect the modelling of the background continuum, if not considered. All
+parameters of the CI 1656 lines are tied to those of CI 1560.
 
 ``````
 {
