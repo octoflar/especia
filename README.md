@@ -36,7 +36,7 @@ the ISO/IEC 14882:2011 norm, also known as C++11. To build and test this softwar
     cmake ..
     make check
 
-Typing `make install` will build all software and move the executable files into your
+Typing `make install` will complete the build and move all executable files into your
 `$HOME/bin` directory. In case of problems consult the
 [build instructions](https://github.com/octoflar/especia/wiki/Build-instructions).
 
