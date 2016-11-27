@@ -244,8 +244,7 @@ namespace RQ {
 }
 
 template<class objective_function, class normal_deviate, class sym_eig_decomp, class comparation>
-void
-RQ::optimize(objective_function &f, double xw[], size_t n,
+void RQ::optimize(objective_function &f, double xw[], size_t n,
              size_t parent_number,
              size_t population_size,
              const double w[],
@@ -401,8 +400,7 @@ RQ::optimize(objective_function &f, double xw[], size_t n,
 }
 
 template<class objectp, class functionp, class normal_deviate, class sym_eig_decomp, class comparation>
-void
-RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
+void RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
              size_t parent_number,
              size_t population_size,
              const double w[],
@@ -558,8 +556,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
 }
 
 template<class objective_function, class normal_deviate, class sym_eig_decomp, class comparation>
-void
-RQ::optimize(objective_function &f, double xw[], size_t n,
+void RQ::optimize(objective_function &f, double xw[], size_t n,
              const double inf[], const double sup[],
              size_t parent_number,
              size_t population_size,
@@ -731,8 +728,7 @@ RQ::optimize(objective_function &f, double xw[], size_t n,
 }
 
 template<class objectp, class functionp, class normal_deviate, class sym_eig_decomp, class comparation>
-void
-RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
+void RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
              const double inf[], const double sup[],
              size_t parent_number,
              size_t population_size,
@@ -905,8 +901,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
 
 template<class objective_function, class constraint, class normal_deviate,
         class sym_eig_decomp, class comparation>
-void
-RQ::optimize(objective_function &f, double xw[], size_t n, constraint &reject,
+void RQ::optimize(objective_function &f, double xw[], size_t n, constraint &reject,
              size_t parent_number,
              size_t population_size,
              const double w[],
@@ -1073,8 +1068,7 @@ RQ::optimize(objective_function &f, double xw[], size_t n, constraint &reject,
 
 template<class objectp, class functionp, class constraint, class normal_deviate,
         class sym_eig_decomp, class comparation>
-void
-RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint &reject,
+void RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint &reject,
              size_t parent_number,
              size_t population_size,
              const double w[],
@@ -1240,8 +1234,7 @@ RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint &reject
 }
 
 template<class objective_function>
-void
-RQ::scale_step_size(objective_function &f,
+void RQ::scale_step_size(objective_function &f,
                     const double x[], size_t n, double &s, const double d[], const double B[]) {
     using std::abs;
     using std::valarray;
@@ -1263,8 +1256,7 @@ RQ::scale_step_size(objective_function &f,
 }
 
 template<class objectp, class functionp>
-void
-RQ::scale_step_size(objectp obj, functionp f,
+void RQ::scale_step_size(objectp obj, functionp f,
                     const double x[], size_t n, double &s, const double d[], const double B[]) {
     using std::abs;
     using std::valarray;
@@ -1287,8 +1279,7 @@ RQ::scale_step_size(objectp obj, functionp f,
 
 template<class number>
 inline
-number
-RQ::sqr(number x) {
+number RQ::sqr(number x) {
     return (x == number(0)) ? number(0) : x * x;
 }
 

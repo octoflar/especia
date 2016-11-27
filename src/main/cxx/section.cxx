@@ -73,8 +73,7 @@ RQ::section::section(const double x[], const double y[], const double z[], size_
 RQ::section::~section() {
 }
 
-void
-RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error) {
+void RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error) {
     using std::fill;
     using std::sqrt;
     using std::runtime_error;
@@ -168,8 +167,7 @@ RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw(s
         fill(&cfl[0], &cfl[n], 1.0);
 }
 
-size_t
-RQ::section::selection_size() const {
+size_t RQ::section::selection_size() const {
     size_t j = 0;
 
     for (size_t i = 0; i < n; ++i)
@@ -179,8 +177,7 @@ RQ::section::selection_size() const {
     return j;
 }
 
-double
-RQ::section::cost() const {
+double RQ::section::cost() const {
     double a = 0.0;
 
     for (size_t i = 0; i < n; ++i)
@@ -190,22 +187,19 @@ RQ::section::cost() const {
     return 0.5 * a;
 }
 
-void
-RQ::section::mask(double a, double b) {
+void RQ::section::mask(double a, double b) {
     for (size_t i = 0; i < n; ++i)
         if (a <= wav[i] and wav[i] <= b)
             msk[i] = 0;
 }
 
-void
-RQ::section::unmask(double a, double b) {
+void RQ::section::unmask(double a, double b) {
     for (size_t i = 0; i < n; ++i)
         if (a <= wav[i] and wav[i] <= b)
             msk[i] = 1;
 }
 
-void
-RQ::section::integrals(double x, double fwhm, double &p, double &q) const {
+void RQ::section::integrals(double x, double fwhm, double &p, double &q) const {
     using std::erf; // since C++11
     using std::exp;
 
@@ -219,8 +213,7 @@ RQ::section::integrals(double x, double fwhm, double &p, double &q) const {
     q = -(b * exp(-x * x)) / d;
 }
 
-std::istream &
-RQ::section::get(std::istream &is, double a, double b) {
+std::istream &RQ::section::get(std::istream &is, double a, double b) {
     using namespace std;
 
     const size_t room = 20000;
@@ -299,8 +292,7 @@ RQ::section::get(std::istream &is, double a, double b) {
     return is;
 }
 
-std::ostream &
-RQ::section::put(std::ostream &os, double a, double b) const {
+std::ostream &RQ::section::put(std::ostream &os, double a, double b) const {
     using namespace std;
 
     if (os) {
@@ -344,8 +336,7 @@ RQ::section::put(std::ostream &os, double a, double b) const {
     return os;
 }
 
-std::istream &
-RQ::operator>>(std::istream &is, std::vector<section> &s) {
+std::istream &RQ::operator>>(std::istream &is, std::vector<section> &s) {
     using namespace std;
 
     vector<section> tmp(1);
@@ -359,8 +350,7 @@ RQ::operator>>(std::istream &is, std::vector<section> &s) {
     return is;
 }
 
-std::ostream &
-RQ::operator<<(std::ostream &os, const std::vector<section> &s) {
+std::ostream &RQ::operator<<(std::ostream &os, const std::vector<section> &s) {
     size_t i;
 
     for (i = 0; i + 1 < s.size(); ++i)

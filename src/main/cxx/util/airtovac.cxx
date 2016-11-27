@@ -145,8 +145,6 @@ int main(int argc, char *argv[]) {
     int skip = 0;
     double accuracy_goal = 1.0e-08;
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "missing_default_case"
     switch (argc) {
         case 3:
             accuracy_goal = atof(argv[2]);
@@ -174,11 +172,10 @@ int main(int argc, char *argv[]) {
             }
 
             return 0;
+        default:
+            cout << "usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
+            return 1;
     }
-#pragma clang diagnostic pop
-
-    cout << "usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
-    return 1;
 }
 
 // References

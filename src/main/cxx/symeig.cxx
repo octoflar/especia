@@ -90,9 +90,7 @@ RQ::sym_eig_decomp_d::sym_eig_decomp_d(size_t n)
 RQ::sym_eig_decomp_d::~sym_eig_decomp_d() {
 }
 
-void
-RQ::sym_eig_decomp_d::operator()(const double A[], double Z[], double w[], size_t k)
-throw(runtime_error) {
+void RQ::sym_eig_decomp_d::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
     copy(&A[0], &A[k * k], Z);
 
     if (k != n)
@@ -110,8 +108,7 @@ throw(runtime_error) {
         throw runtime_error(ill_arg);
 }
 
-void
-RQ::sym_eig_decomp_d::resize_workspace(size_t k) {
+void RQ::sym_eig_decomp_d::resize_workspace(size_t k) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
     n = k;
@@ -138,8 +135,7 @@ RQ::sym_eig_decomp_d::resize_workspace(size_t k) {
         throw runtime_error(ill_arg);
 }
 
-void
-RQ::sym_eig_decomp_d::transpose(double A[]) const {
+void RQ::sym_eig_decomp_d::transpose(double A[]) const {
     for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
         for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);
@@ -157,9 +153,7 @@ RQ::sym_eig_decomp_r::sym_eig_decomp_r(size_t n)
 RQ::sym_eig_decomp_r::~sym_eig_decomp_r() {
 }
 
-void
-RQ::sym_eig_decomp_r::operator()(const double A[], double Z[], double w[], size_t k)
-throw(runtime_error) {
+void RQ::sym_eig_decomp_r::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
     valarray<double> C(A, k * k);
 
     if (k != n)
@@ -178,8 +172,7 @@ throw(runtime_error) {
         throw runtime_error(ill_arg);
 }
 
-void
-RQ::sym_eig_decomp_r::resize_workspace(size_t k) {
+void RQ::sym_eig_decomp_r::resize_workspace(size_t k) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
     n = k;
@@ -212,8 +205,7 @@ RQ::sym_eig_decomp_r::resize_workspace(size_t k) {
         throw runtime_error(ill_arg);
 }
 
-void
-RQ::sym_eig_decomp_r::transpose(double A[]) const {
+void RQ::sym_eig_decomp_r::transpose(double A[]) const {
     for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
         for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);
@@ -231,9 +223,7 @@ RQ::sym_eig_decomp_x::sym_eig_decomp_x(size_t n)
 RQ::sym_eig_decomp_x::~sym_eig_decomp_x() {
 }
 
-void
-RQ::sym_eig_decomp_x::operator()(const double A[], double Z[], double w[], size_t k)
-throw(runtime_error) {
+void RQ::sym_eig_decomp_x::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
     valarray<double> C(A, k * k);
 
     if (k != n)
@@ -252,8 +242,7 @@ throw(runtime_error) {
         throw runtime_error(ill_arg);
 }
 
-void
-RQ::sym_eig_decomp_x::resize_workspace(size_t k) {
+void RQ::sym_eig_decomp_x::resize_workspace(size_t k) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
     n = k;
@@ -284,8 +273,7 @@ RQ::sym_eig_decomp_x::resize_workspace(size_t k) {
         throw runtime_error(ill_arg);
 }
 
-void
-RQ::sym_eig_decomp_x::transpose(double A[]) const {
+void RQ::sym_eig_decomp_x::transpose(double A[]) const {
     for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
         for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);

@@ -476,8 +476,7 @@ public:
                 val[i] = x[ind[i]];
 
         for (size_t i = 0; i < sec.size(); ++i)
-            sec[i].compute_model(RQ::superposition<profile_function>(nli[i], &val[isc[i] + 1]),
-                                 nle[i], val[isc[i]]);
+            sec[i].compute_model(RQ::superposition<profile_function>(nli[i], &val[isc[i] + 1]), nle[i], val[isc[i]]);
     }
 
     double statistics(const double x[], size_t n) const {
@@ -658,8 +657,7 @@ public:
     }
 
 private:
-    std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f,
-                                int p, size_t parameter_index) const {
+    std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, int p, size_t parameter_index) const {
         using namespace std;
 
         const ios_base::fmtflags fmt = os.flags();

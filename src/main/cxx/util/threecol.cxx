@@ -122,8 +122,8 @@ int main(int argc, char *argv[]) {
         }
 
         return 0;
+    } else {
+        cout << "usage: " << pname << " FLUX UNCERTAINTY > OSTREAM" << endl;
+        return 1;
     }
-
-    cout << "usage: " << pname << " FLUX UNCERTAINTY > OSTREAM" << endl;
-    return 1;
 }

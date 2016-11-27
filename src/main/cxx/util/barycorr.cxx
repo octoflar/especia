@@ -109,8 +109,6 @@ int main(int argc, char *argv[]) {
     const char *pname = argv[0];
     int skip = 0;
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "missing_default_case"
     switch (argc) {
         case 3:
             skip = atoi(argv[2]);
@@ -134,9 +132,8 @@ int main(int argc, char *argv[]) {
             }
 
             return 0;
+        default:
+            cout << "usage: " << pname << " VELOCITY (km s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
+            return 1;
     }
-#pragma clang diagnostic pop
-
-    cout << "usage: " << pname << " VELOCITY (km s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
-    return 1;
 }

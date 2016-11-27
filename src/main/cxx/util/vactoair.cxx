@@ -138,11 +138,10 @@ int main(int argc, char *argv[]) {
             }
 
             return 0;
+        default:
+            cout << "usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
+            return 1;
     }
-#pragma clang diagnostic pop
-
-    cout << "usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
-    return 1;
 }
 
 // References

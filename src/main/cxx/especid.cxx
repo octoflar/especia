@@ -77,8 +77,7 @@ int main(int argc, char *argv[]) {
                                trace,
                                ndev, eig, cout))
                     m.put(cout);
-            }
-            catch (exception &e) {
+            } catch (exception &e) {
                 cerr << e.what() << endl;
 
                 return 2;

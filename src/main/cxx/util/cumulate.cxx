@@ -504,8 +504,6 @@ int main(int argc, char *argv[]) {
     const char *pname = argv[0];
     double resolution = 0.0;
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "missing_default_case"
     switch (argc) {
         case 2:
             resolution = atof(argv[1]);
@@ -533,9 +531,8 @@ int main(int argc, char *argv[]) {
             }
 
             return 0;
+        default:
+            cout << "usage: " << pname << " [RESOLUTION] < ISTREAM > OSTREAM" << endl;
+            return 1;
     }
-#pragma clang diagnostic pop
-
-    cout << "usage: " << pname << " [RESOLUTION] < ISTREAM > OSTREAM" << endl;
-    return 1;
 }

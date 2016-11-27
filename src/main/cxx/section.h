@@ -108,38 +108,32 @@ private:
 };
 
 inline
-double
-RQ::section::begin() const {
+double RQ::section::begin() const {
     return wav[0];
 }
 
 inline
-double
-RQ::section::center() const {
+double RQ::section::center() const {
     return 0.5 * (begin() + end());
 }
 
 inline
-double
-RQ::section::end() const {
+double RQ::section::end() const {
     return (n > 1) ? wav[n - 1] : wav[0];
 }
 
 inline
-double
-RQ::section::length() const {
+double RQ::section::length() const {
     return end() - begin();
 }
 
 inline
-size_t
-RQ::section::size() const {
+size_t RQ::section::size() const {
     return n;
 }
 
 template<class optical_depth>
-void
-RQ::section::convolute(const optical_depth &t, double r, double opt[], double atm[], double cat[]) const {
+void RQ::section::convolute(const optical_depth &t, double r, double opt[], double atm[], double cat[]) const {
     using std::exp;
     using std::valarray;
 
@@ -181,8 +175,7 @@ RQ::section::convolute(const optical_depth &t, double r, double opt[], double at
 }
 
 template<class optical_depth>
-double
-RQ::section::cost(const optical_depth &t, size_t m, double r) const {
+double RQ::section::cost(const optical_depth &t, size_t m, double r) const {
     using std::abs;
     using std::valarray;
 
@@ -213,8 +206,7 @@ RQ::section::cost(const optical_depth &t, size_t m, double r) const {
 }
 
 template<class optical_depth>
-void
-RQ::section::compute_model(const optical_depth &t, size_t m, double r) {
+void RQ::section::compute_model(const optical_depth &t, size_t m, double r) {
     convolute(t, r, &opt[0], &atm[0], &cat[0]);
     continuum(m, &cat[0], &cfl[0]);
 
@@ -227,14 +219,12 @@ RQ::section::compute_model(const optical_depth &t, size_t m, double r) {
 }
 
 inline
-std::istream &
-RQ::operator>>(std::istream &is, section &s) {
+std::istream &RQ::operator>>(std::istream &is, section &s) {
     return s.get(is);
 }
 
 inline
-std::ostream &
-RQ::operator<<(std::ostream &os, const section &s) {
+std::ostream &RQ::operator<<(std::ostream &os, const section &s) {
     return s.put(os);
 }
 
