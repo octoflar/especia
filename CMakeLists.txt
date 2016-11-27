@@ -19,24 +19,12 @@
 # SOFTWARE.
 
 cmake_minimum_required(VERSION 3.6)
+include(src/main/cmake/project_version_tag.cmake)
+include(src/main/cmake/veclib.cmake)
+include(src/main/cmake/openmp.cmake)
+
 project(especia VERSION 2017.1 LANGUAGES C CXX)
-
-function(set_project_version_tag TAG)
-    if (${TAG} STREQUAL snapshot)
-        execute_process(COMMAND git rev-parse --short HEAD
-                OUTPUT_VARIABLE GIT
-                OUTPUT_STRIP_TRAILING_WHITESPACE
-                RESULT_VARIABLE STATUS
-                ERROR_QUIET)
-        if (${STATUS} EQUAL 0)
-            set(PROJECT_VERSION_TAG ${GIT} PARENT_SCOPE)
-        endif ()
-    else ()
-        set(PROJECT_VERSION_TAG ${TAG} PARENT_SCOPE)
-    endif ()
-endfunction()
-
-set_project_version_tag(snapshot)
+project_version_tag(snapshot)
 set(PROJECT_DOI https://dx.doi.org/10.6084/m9.figshare.4167999.v14)
 
 set(CMAKE_CONFIGURATION_TYPES Release)
@@ -44,20 +32,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
 
-find_package(LAPACK REQUIRED)
-if (LAPACK_FOUND)
-    set(VECLIB ${LAPACK_LIBRARIES})
-endif ()
-
-find_package(OpenMP)
-if (OPENMP_FOUND)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-endif ()
-
-set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
-set(TEST ${CMAKE_SOURCE_DIR}/src/test)
+set(MAIN src/main)
+set(TEST src/test)
 
 configure_file(${MAIN}/cxx/config.h.in ${MAIN}/cxx/config.h
         @ONLY)
@@ -85,6 +61,9 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/symeig.cxx
         ${MAIN}/cxx/symeig.h)
 
+find_veclib()
+find_openmp()
+
 add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
 target_link_libraries(especia ${VECLIB})
 add_executable(especid ${MAIN}/cxx/especid.cxx ${COMMON_SOURCES})
@@ -93,7 +72,6 @@ add_executable(especis ${MAIN}/cxx/especis.cxx ${COMMON_SOURCES})
 target_link_libraries(especis ${VECLIB})
 add_executable(especiv ${MAIN}/cxx/especiv.cxx ${COMMON_SOURCES})
 target_link_libraries(especiv ${VECLIB})
-
 add_executable(ecom ${MAIN}/cxx/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/edat.cxx)
 add_executable(elog ${MAIN}/cxx/elog.cxx)
@@ -101,11 +79,10 @@ add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
 add_custom_target(check ./emod < resources/synth.html | `./ecom < resources/synth.html` > check.html
-        BYPRODUCTS check.html
         COMMAND diff resources/synth.html check.html
+        BYPRODUCTS check.html
         COMMENT "Error statements issued by this target and caused by small differences in numerics are normal.")
 add_dependencies(check ecom emod especid)
-add_custom_target(checkclean rm -f check.html)
 
 install(TARGETS especia especid especis especiv ecom edat elog emod emsg
         RUNTIME
@@ -117,7 +94,3 @@ add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx)
 add_executable(cumulate EXCLUDE_FROM_ALL ${MAIN}/cxx/util/cumulate.cxx)
 add_executable(threecol EXCLUDE_FROM_ALL ${MAIN}/cxx/util/threecol.cxx)
 add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx)
-
-add_custom_target(util)
-add_dependencies(util airtovac barycorr cumulate threecol vactoair)
-add_custom_target(utilclean rm -f airtovac barycorr cumulate threecol vactoair)
