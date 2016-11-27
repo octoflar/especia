@@ -20,7 +20,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-To run this model definition file type
+## About
+
+To optimize this model type, for instance:
 
     especid 27182 10 20 0.5 0.000001 2000 10 < synth.md
     
