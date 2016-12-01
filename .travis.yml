@@ -23,13 +23,10 @@ compiler:
   - clang
 os:
   - osx
-before_script:
+script:
   - mkdir cmake-build
   - cd cmake-build
-script:
   - cmake ..
-  - make all
-after_success:
-  - make check
+  - make all check
 after_script:
   - make clean
