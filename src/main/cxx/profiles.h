@@ -27,15 +27,16 @@
 #include <vector>
 
 namespace RQ {
-    // Mathematical constants
-    const double ln_of_2 =
+    // Mathematical and physical constants
+    const double LN_OF_2 =
             0.6931471805599453094172321214581765680755; // +
-    const double sqrt_of_ln_of_2 =
+    const double SQRT_OF_LN_OF_2 =
             0.8325546111576977563531646448952010476306; // +
-    const double pi =
+    const double PI =
             3.1415926535897932384626433832795028841972; // -
-    const double sqrt_of_pi =
+    const double SQRT_OF_PI =
             1.7724538509055160272981674833411451827975; // +
+    const double SPEED_OF_LIGHT_IN_VACUUM = 299792.458; // km s-1
 
     // Functions
     double gauss(double x, double b);
@@ -62,12 +63,12 @@ inline
 double RQ::gauss(double x, double b) {
     using std::exp;
 
-    return (1.0 / (sqrt_of_pi * b)) * exp(-(x / b) * (x / b));
+    return (1.0 / (SQRT_OF_PI * b)) * exp(-(x / b) * (x / b));
 }
 
 inline
 double RQ::lorentz(double x, double b) {
-    return 1.0 / ((pi * b) * (1.0 + (x / b) * (x / b)));
+    return 1.0 / ((PI * b) * (1.0 + (x / b) * (x / b)));
 }
 
 inline

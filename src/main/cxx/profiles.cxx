@@ -25,15 +25,13 @@ using std::abs;
 using std::exp;
 using std::pow;
 
-const double speed_of_light = 299792.458;
-
 double RQ::voigt(double x, double b, double d) {
-    const double a = sqrt_of_ln_of_2 * (b / d);
+    const double a = SQRT_OF_LN_OF_2 * (b / d);
     const double c = pow(1.0 + a * (0.07842 + a * (4.47163 + a * (2.42843 + a * (a + 2.69269)))), -0.2);
     const double z = a * (1.36603 - a * (0.47719 - a * 0.11116));
 
     d = d / c;
-    b = d / sqrt_of_ln_of_2;
+    b = d / SQRT_OF_LN_OF_2;
 
     return pseudovoigt(x, b, d, z);
 }
@@ -53,8 +51,8 @@ void RQ::doppler_mm_pf::assign(const double a[]) {
     const double v = u * (u + 2.0);
     const double x = 1.0e+08 / (1.0e+08 / a[0] + a[6] * v);
 
-    y = x * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
-    b = a[4] * y / speed_of_light;
+    y = x * (1.0 + a[2]) * (1.0 + a[3] / SPEED_OF_LIGHT_IN_VACUUM);
+    b = a[4] * y / SPEED_OF_LIGHT_IN_VACUUM;
     c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (x * y);
 }
 
@@ -69,8 +67,8 @@ RQ::doppler_pf::~doppler_pf() {
 }
 
 void RQ::doppler_pf::assign(const double a[]) {
-    y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
-    b = a[4] * y / speed_of_light;
+    y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / SPEED_OF_LIGHT_IN_VACUUM);
+    b = a[4] * y / SPEED_OF_LIGHT_IN_VACUUM;
     c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);
 }
 
@@ -85,8 +83,8 @@ RQ::doppler_is_pf::~doppler_is_pf() {
 }
 
 void RQ::doppler_is_pf::assign(const double a[]) {
-    y = a[0] * (1.0 + a[2] / speed_of_light);
-    b = a[3] * y / speed_of_light;
+    y = a[0] * (1.0 + a[2] / SPEED_OF_LIGHT_IN_VACUUM);
+    b = a[3] * y / SPEED_OF_LIGHT_IN_VACUUM;
     c = 8.85280e-21 * a[1] * pow(10.0, a[4]) * a[0];
 }
 
@@ -101,16 +99,16 @@ RQ::voigt_pf::~voigt_pf() {
 }
 
 void RQ::voigt_pf::assign(const double a[]) {
-    y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
-    b = a[4] * y / speed_of_light;
+    y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / SPEED_OF_LIGHT_IN_VACUUM);
+    b = a[4] * y / SPEED_OF_LIGHT_IN_VACUUM;
     c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);
     d = 2.65442e-20 * a[6] * (a[0] * y);
 
-    z = sqrt_of_ln_of_2 * (b / d);
+    z = SQRT_OF_LN_OF_2 * (b / d);
     z = pow(1.0 + z * (0.07842 + z * (4.47163 + z * (2.42843 + z * (z + 2.69269)))), -0.2);
 
     d = d / z;
-    b = d / sqrt_of_ln_of_2;
+    b = d / SQRT_OF_LN_OF_2;
 
     z = z * (1.36603 - z * (0.47719 - z * 0.11116));
 }

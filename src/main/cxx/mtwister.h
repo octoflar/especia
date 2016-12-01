@@ -39,9 +39,9 @@ namespace RQ {
     // Provide the MTs tabulated in Matsumoto and Nishimura (1998, Table 2) as
     // predefined types
     typedef mersenne_twister<32, 351, 175, 19, 0xe4bd75f5, 11, 7, 0x655e5280,
-            15, 0xffd58000, 17> mt11213a;
+            15, 0xffd58000, 17> mt11213_a;
     typedef mersenne_twister<32, 351, 175, 19, 0xccab8ee7, 11, 7, 0x31b6ab00,
-            15, 0xffe50000, 17> mt11213b;
+            15, 0xffe50000, 17> mt11213_b;
     typedef mersenne_twister<32, 624, 397, 31, 0x9908b0df, 11, 7, 0x9d2c5680,
             15, 0xefc60000, 18> mt19937;
 }

@@ -117,8 +117,6 @@ int main(int argc, char *argv[]) {
     const char *pname = argv[0];
     int skip = 0;
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "missing_default_case"
     switch (argc) {
         case 2:
             skip = atoi(argv[1]);
