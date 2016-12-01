@@ -1,0 +1,11 @@
+# Enable C++ support
+language: cpp
+# Compiler selection
+compiler:
+  - clang
+# Build steps
+script:
+  - mkdir cmake-build
+  - cd cmake-build
+  - cmake .. && make all
+
