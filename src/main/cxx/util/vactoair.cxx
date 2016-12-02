@@ -115,16 +115,17 @@ vactoair(double x) {
 
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
+
+    valarray<double> x;
+    valarray<double> y;
+    valarray<double> z;
+
     int skip = 0;
 
     switch (argc) {
         case 2:
             skip = atoi(argv[1]);
         case 1:
-            valarray<double> x;
-            valarray<double> y;
-            valarray<double> z;
-
             if (get(cin, x, y, z, skip)) {
                 for (size_t i = 0; i < x.size(); ++i)
                     x[i] = 10.0 / vactoair(10.0 / x[i]);

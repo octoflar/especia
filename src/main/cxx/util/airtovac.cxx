@@ -142,6 +142,11 @@ double findroot(void f(double, double &, double &), double c, double x, double a
 
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
+
+    valarray<double> x;
+    valarray<double> y;
+    valarray<double> z;
+
     int skip = 0;
     double accuracy_goal = 1.0e-08;
 
@@ -151,10 +156,6 @@ int main(int argc, char *argv[]) {
         case 2:
             skip = atoi(argv[1]);
         case 1:
-            valarray<double> x;
-            valarray<double> y;
-            valarray<double> z;
-
             if (get(cin, x, y, z, skip)) {
                 try {
                     for (size_t i = 0; i < x.size(); ++i)

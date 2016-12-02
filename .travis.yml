@@ -30,8 +30,7 @@ script:
   - mkdir cmake-build
   - cd cmake-build
   - cmake ..
-  - make airtovac barycorr cumulate threecol vactoair
-  - all check
+  - make all util check
 
 #compiler: clang
 #os: osx

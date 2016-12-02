@@ -107,6 +107,11 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
 
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
+
+    valarray<double> x;
+    valarray<double> y;
+    valarray<double> z;
+
     int skip = 0;
 
     switch (argc) {
@@ -115,10 +120,6 @@ int main(int argc, char *argv[]) {
         case 2:
             const double c = 299792.458;
             const double v = atof(argv[1]);
-
-            valarray<double> x;
-            valarray<double> y;
-            valarray<double> z;
 
             if (get(cin, x, y, z, skip)) {
                 if (v != 0.0)
