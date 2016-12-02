@@ -13,11 +13,11 @@ covariance matrix.
 start with a hash mark `#` in the first column.
 * The command line typed to invoke `especi*` is echoed to the standard
 output stream. It appears in the result HTML file within a comment block.
-The command line can be extracted from the result file with the `xtractcom`
+The command line can be extracted from the result file with the `ecom`
 utility.
 * The model definition put in is echoed to standard output. It appears in the
 result HTML file within a comment block. The model definition can be extracted
-from the result file by means of the `xtractmod` utility.
+from the result file by means of the `emod` utility.
 * The project uses [CMake](https://cmake.org) instead of
 [make](https://www.gnu.org/software/make/) to configure and manage the build
 processes.
