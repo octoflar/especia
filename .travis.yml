@@ -22,6 +22,9 @@ language: cpp
 compiler: clang
 os: osx
 osx_image: xcode8.1
+before_install:
+  - brew update
+  - brew outdated cmake || brew upgrade cmake
 script:
   - mkdir cmake-build
   - cd cmake-build
