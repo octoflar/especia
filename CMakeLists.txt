@@ -75,7 +75,7 @@ add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
 add_custom_target(check
         COMMAND ./emod < resources/synth.html | `./ecom < resources/synth.html` > check.html
-        COMMAND diff resources/synth.html check.html
+        COMMAND diff --side-by-side resources/synth.html check.html
         BYPRODUCTS check.html
         COMMENT "Error statements issued by this check and caused by small differences in numerics are normal.")
 add_dependencies(check ecom emod especid)
