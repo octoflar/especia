@@ -502,14 +502,15 @@ ostream &operator<<(ostream &os, const stack &s) {
 //
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
+
+    stack s;
+
     double resolution = 0.0;
 
     switch (argc) {
         case 2:
             resolution = atof(argv[1]);
         case 1:
-            stack s;
-
             if (cin >> s) {
                 frame f;
 
