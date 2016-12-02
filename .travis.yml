@@ -19,23 +19,20 @@
 # SOFTWARE.
 
 language: cpp
-os:
-  - linux
-  - osx
-addons:
-  apt:
-    packages:
-      - liblapack-dev
 script:
   - mkdir cmake-build
   - cd cmake-build
   - cmake ..
-  - make check all util
+  - make all util check
 matrix:
   include:
     - os: linux
       compiler: gcc
       dist: trusty
       sudo: required
+        addons:
+          apt:
+            packages:
+              - liblapack-dev
     - os: osx
       compiler: clang
