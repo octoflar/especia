@@ -31,8 +31,11 @@ script:
 matrix:
   include:
     - os: linux
-      compiler: gcc
+      compiler:
+        - clang
+        - gcc
       dist: trusty
       sudo: required
     - os: osx
-      compiler: clang
+      compiler:
+        - clang
