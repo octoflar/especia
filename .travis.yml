@@ -19,6 +19,10 @@
 # SOFTWARE.
 
 language: cpp
+addons:
+  apt:
+    packages:
+      - liblapack-dev
 script:
   - mkdir cmake-build
   - cd cmake-build
@@ -30,9 +34,5 @@ matrix:
       compiler: gcc
       dist: trusty
       sudo: required
-        addons:
-          apt:
-            packages:
-              - liblapack-dev
     - os: osx
       compiler: clang
