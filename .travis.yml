@@ -20,13 +20,23 @@
 
 language: cpp
 compiler: clang
-os: osx
-osx_image: xcode8.1
-before_install:
-  - brew update
-  - brew install cmake
+os: linux
+dist: trusty
+sudo: required
 script:
   - mkdir cmake-build
   - cd cmake-build
   - cmake ..
   - make all util check
+
+#compiler: clang
+#os: osx
+#osx_image: xcode8.1
+#before_install:
+#  - brew update
+#  - brew install cmake
+#script:
+#  - mkdir cmake-build
+#  - cd cmake-build
+#  - cmake ..
+#  - make all util check
