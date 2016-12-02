@@ -19,12 +19,11 @@
 # SOFTWARE.
 
 language: cpp
-compiler:
-  - clang
-os:
-  - osx
+compiler: clang
+os: osx
+osx_image: xcode8.1
 script:
   - mkdir cmake-build
   - cd cmake-build
   - cmake ..
-  - make all check
+  - make all util check
