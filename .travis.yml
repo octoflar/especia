@@ -24,7 +24,7 @@ os: osx
 osx_image: xcode8.1
 before_install:
   - brew update
-  - brew outdated cmake || brew upgrade cmake
+  - brew install cmake
 script:
   - mkdir cmake-build
   - cd cmake-build
