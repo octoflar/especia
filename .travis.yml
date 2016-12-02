@@ -28,5 +28,3 @@ script:
   - cd cmake-build
   - cmake ..
   - make all check
-after_script:
-  - make clean
