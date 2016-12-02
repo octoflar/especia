@@ -162,7 +162,7 @@ int main(int argc, char *argv[]) {
                 }
                 catch (exception &e) {
                     cerr << pname << ": " << e.what() << endl;
-                    return 0;
+                    return 3;
                 }
 
                 put(cout, x, y, z);
