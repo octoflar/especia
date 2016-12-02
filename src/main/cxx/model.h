@@ -389,7 +389,7 @@ public:
             put_parameter(os, ios_base::fixed, 2, isc[j]);
             os << "</td>\n";
             os << "      <td>" << px << "</td>\n";
-            os << "      <td>" << st << "</td>\n";
+            os << "      <td><strong>" << st << "</strong></td>\n";
             os << "      <td>" << st / px << "</td>\n";
             os << "    </tr>\n";
         }

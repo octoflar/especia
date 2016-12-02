@@ -75,8 +75,8 @@ add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
 add_custom_target(check
         COMMAND ./emod < resources/synth.html | `./ecom < resources/synth.html` > check.html
-        COMMAND grep --count --fixed-strings '<td>159.77</td>' check.html
-        COMMAND grep --count --fixed-strings '<td>171.89</td>' check.html
+        COMMAND grep --count --fixed-strings '<td><strong>159.77</strong></td>' check.html
+        COMMAND grep --count --fixed-strings '<td><strong>171.89</strong></td>' check.html
         BYPRODUCTS check.html
         COMMENT "The check is passed, if the next two lines issue the number 1.")
 add_dependencies(check ecom emod especid)
