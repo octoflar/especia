@@ -38,3 +38,8 @@ matrix:
         - gcc
       dist: trusty
       sudo: required
+    - os: linux
+      compiler:
+        - clang
+      dist: trusty
+      sudo: required
