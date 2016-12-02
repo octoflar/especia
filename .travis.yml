@@ -23,6 +23,8 @@ compiler: gcc
 os: linux
 dist: trusty
 sudo: required
+before_install:
+  - sudo apt-get update && sudo apt-get install lapack
 script:
   - mkdir cmake-build
   - cd cmake-build
