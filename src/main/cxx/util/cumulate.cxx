@@ -503,37 +503,37 @@ ostream &operator<<(ostream &os, const stack &s) {
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
 
-    stack s;
-
     double resolution = 0.0;
 
-    switch (argc) {
-        case 2:
-            resolution = atof(argv[1]);
-        case 1:
-            if (cin >> s) {
-                frame f;
+    if (argc == 2) {
+        resolution = atof(argv[1]);
+    }
+    if (argc == 2 or argc == 1) {
+        stack s;
 
-                try {
-                    s.rescale();
-                    s.align();
-                    s.coadd(f);
-                    f.resample(resolution);
-                }
-                catch (exception &e) {
-                    cerr << pname << ": " << e.what() << endl;
-                    return 0;
-                }
+        if (cin >> s) {
+            frame f;
 
-                cout << f;
-            } else {
-                cerr << pname << ": input failure" << endl;
-                return 2;
+            try {
+                s.rescale();
+                s.align();
+                s.coadd(f);
+                f.resample(resolution);
+            }
+            catch (exception &e) {
+                cerr << pname << ": " << e.what() << endl;
+                return 0;
             }
 
-            return 0;
-        default:
-            cout << "usage: " << pname << " [RESOLUTION] < ISTREAM > OSTREAM" << endl;
-            return 1;
+            cout << f;
+        } else {
+            cerr << pname << ": input failure" << endl;
+            return 2;
+        }
+
+        return 0;
+    } else {
+        cout << "usage: " << pname << " [RESOLUTION] < ISTREAM > OSTREAM" << endl;
+        return 1;
     }
 }

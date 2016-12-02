@@ -143,39 +143,40 @@ double findroot(void f(double, double &, double &), double c, double x, double a
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
 
-    valarray<double> x;
-    valarray<double> y;
-    valarray<double> z;
-
     int skip = 0;
     double accuracy_goal = 1.0e-08;
 
-    switch (argc) {
-        case 3:
-            accuracy_goal = atof(argv[2]);
-        case 2:
-            skip = atoi(argv[1]);
-        case 1:
-            if (get(cin, x, y, z, skip)) {
-                try {
-                    for (size_t i = 0; i < x.size(); ++i)
-                        x[i] = 10.0 / findroot(vactoair, 10.0 / x[i], 10.0 / x[i], accuracy_goal);
-                }
-                catch (exception &e) {
-                    cerr << pname << ": " << e.what() << endl;
-                    return 3;
-                }
+    if (argc == 3) {
+        accuracy_goal = atof(argv[2]);
+    }
+    if (argc == 3 || argc == 2) {
+        skip = atoi(argv[1]);
+    }
+    if (argc == 3 || argc == 2 || argc == 1) {
+        valarray<double> x;
+        valarray<double> y;
+        valarray<double> z;
 
-                put(cout, x, y, z);
-            } else {
-                cerr << pname << ": input failure" << endl;
-                return 2;
+        if (get(cin, x, y, z, skip)) {
+            try {
+                for (size_t i = 0; i < x.size(); ++i)
+                    x[i] = 10.0 / findroot(vactoair, 10.0 / x[i], 10.0 / x[i], accuracy_goal);
+            }
+            catch (exception &e) {
+                cerr << pname << ": " << e.what() << endl;
+                return 3;
             }
 
-            return 0;
-        default:
-            cout << "usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
-            return 1;
+            put(cout, x, y, z);
+        } else {
+            cerr << pname << ": input failure" << endl;
+            return 2;
+        }
+
+        return 0;
+    } else {
+        cout << "usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
+        return 1;
     }
 }
 

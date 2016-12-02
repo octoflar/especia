@@ -108,33 +108,33 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
 
-    valarray<double> x;
-    valarray<double> y;
-    valarray<double> z;
-
     int skip = 0;
 
-    switch (argc) {
-        case 3:
-            skip = atoi(argv[2]);
-        case 2:
-            const double c = 299792.458;
-            const double v = atof(argv[1]);
+    if (argc == 3) {
+        skip = atoi(argv[2]);
+    }
+    if (argc == 3 || argc == 2) {
+        const double c = 299792.458;
+        const double v = atof(argv[1]);
 
-            if (get(cin, x, y, z, skip)) {
-                if (v != 0.0)
-                    x *= sqrt((1.0 + v / c) / (1.0 - v / c));
-                        // relativistic correction
+        valarray<double> x;
+        valarray<double> y;
+        valarray<double> z;
 
-                put(cout, x, y, z);
-            } else {
-                cerr << pname << ": input failure" << endl;
-                return 2;
-            }
+        if (get(cin, x, y, z, skip)) {
+            if (v != 0.0)
+                x *= sqrt((1.0 + v / c) / (1.0 - v / c));
+            // relativistic correction
 
-            return 0;
-        default:
-            cout << "usage: " << pname << " VELOCITY (km s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
-            return 1;
+            put(cout, x, y, z);
+        } else {
+            cerr << pname << ": input failure" << endl;
+            return 2;
+        }
+
+        return 0;
+    } else {
+        cout << "usage: " << pname << " VELOCITY (km s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
+        return 1;
     }
 }

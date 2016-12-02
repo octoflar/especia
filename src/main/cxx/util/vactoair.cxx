@@ -116,30 +116,30 @@ vactoair(double x) {
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
 
-    valarray<double> x;
-    valarray<double> y;
-    valarray<double> z;
-
     int skip = 0;
 
-    switch (argc) {
-        case 2:
-            skip = atoi(argv[1]);
-        case 1:
-            if (get(cin, x, y, z, skip)) {
-                for (size_t i = 0; i < x.size(); ++i)
-                    x[i] = 10.0 / vactoair(10.0 / x[i]);
+    if (argc == 2) {
+        skip = atoi(argv[1]);
+    }
+    if (argc == 2 || argc == 1) {
+        valarray<double> x;
+        valarray<double> y;
+        valarray<double> z;
 
-                put(cout, x, y, z);
-            } else {
-                cerr << pname << ": input failure" << endl;
-                return 2;
-            }
+        if (get(cin, x, y, z, skip)) {
+            for (size_t i = 0; i < x.size(); ++i)
+                x[i] = 10.0 / vactoair(10.0 / x[i]);
 
-            return 0;
-        default:
-            cout << "usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
-            return 1;
+            put(cout, x, y, z);
+        } else {
+            cerr << pname << ": input failure" << endl;
+            return 2;
+        }
+
+        return 0;
+    } else {
+        cout << "usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
+        return 1;
     }
 }
 

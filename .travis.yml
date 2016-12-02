@@ -23,9 +23,13 @@ compiler: gcc
 os: linux
 dist: trusty
 sudo: required
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y liblapack-dev
+addons:
+  apt:
+    packages:
+      - liblapack-dev
+#before_install:
+#  - sudo apt-get -qq update
+#  - sudo apt-get install -y liblapack-dev
 script:
   - mkdir cmake-build
   - cd cmake-build
