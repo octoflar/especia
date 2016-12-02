@@ -75,10 +75,12 @@ add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
 add_custom_target(check
         COMMAND ./emod < resources/synth.html | `./ecom < resources/synth.html` > check.html
-        COMMAND diff --side-by-side resources/synth.html check.html
-        BYPRODUCTS check.html
-        COMMENT "Error statements issued by this check and caused by small differences in numerics are normal.")
+        BYPRODUCTS check.html)
 add_dependencies(check ecom emod especid)
+add_custom_target(diff
+        COMMAND diff --side-by-side resources/synth.html check.html
+        COMMENT "Error statements issued by this check and caused by small differences in numerics are normal.")
+add_dependencies(diff check)
 
 install(TARGETS especia especid especis especiv ecom edat elog emod emsg
         RUNTIME

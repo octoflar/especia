@@ -38,7 +38,7 @@ script:
   - mkdir cmake-build
   - cd cmake-build
   - cmake ..
-  - make all util
+  - make all check util
 matrix:
   include:
     - os: linux
