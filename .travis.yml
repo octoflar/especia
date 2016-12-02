@@ -30,12 +30,11 @@ script:
   - make all util check
 matrix:
   include:
-    - os: linux
-      compiler:
-        - clang
-        - gcc
-      dist: trusty
-      sudo: required
     - os: osx
       compiler:
         - clang
+    - os: linux
+      compiler:
+        - gcc
+      dist: trusty
+      sudo: required
