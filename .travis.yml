@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 language: cpp
-compiler: clang
+compiler: gcc
 os: linux
 dist: trusty
 sudo: required
