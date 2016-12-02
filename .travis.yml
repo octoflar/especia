@@ -19,22 +19,33 @@
 # SOFTWARE.
 
 language: cpp
-compiler: gcc
-os: linux
+compiler:
+  - gcc
+  - clang
+os:
+  - linux
+  - osx
 dist: trusty
 sudo: required
 addons:
   apt:
     packages:
       - liblapack-dev
-#before_install:
-#  - sudo apt-get -qq update
-#  - sudo apt-get install -y liblapack-dev
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update       ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install cmake; fi
 script:
   - mkdir cmake-build
   - cd cmake-build
   - cmake ..
-  - make all util check
+  - make all util
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+    - os: osx
+      osx_image: xcode8.1
 
 #compiler: clang
 #os: osx
