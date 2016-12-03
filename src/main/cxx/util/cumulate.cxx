@@ -30,30 +30,29 @@
 
 using namespace std;
 
-template<class number, class comparation>
-class indirect_comparation;
+template<class number, class comparator>
+class indirect_comparator;
 
 class frame;
 
 class stack;
 
-template<class number, class comparation>
-class indirect_comparation {
+template<class number, class comparator>
+class indirect_comparator {
 public:
-    indirect_comparation(const valarray<number> &y, const comparation &c): x(y), comp(c) {
+    indirect_comparator(const valarray<number> &y, const comparator &c): x(y), comp(c) {
     }
 
-    ~indirect_comparation() {
+    ~indirect_comparator() {
     }
 
-    // comparation operator
     bool operator()(size_t i, size_t j) {
         return comp(x[i], x[j]);
     }
 
 private:
     const valarray<number> &x;
-    const comparation &comp;
+    const comparator &comp;
 };
 
 
@@ -215,7 +214,7 @@ double frame::median() const {
     for (size_t i = 0; i < n; ++i)
         index[i] = i;
 
-    nth_element(&index[n / 3], &index[n >> 1], &index[n / 3 << 1], indirect_comparation<double,
+    nth_element(&index[n / 3], &index[n >> 1], &index[n / 3 << 1], indirect_comparator<double,
             less<double> >(y, less<double>()));
     clog << "frame::median(): Message: median is " << y[index[n >> 1]] << endl;
 
@@ -432,7 +431,7 @@ void stack::rescale() {
         m[i] = frames[i].median();
         j[i] = i;
     }
-    nth_element(&j[0], &j[size() >> 1], &j[size()], indirect_comparation<double, less<double> >(m, less<double>()));
+    nth_element(&j[0], &j[size() >> 1], &j[size()], indirect_comparator<double, less<double> >(m, less<double>()));
 
     const size_t k = j[size() >> 1];
 
@@ -464,12 +463,15 @@ istream &operator>>(istream &is, stack &s) {
     using namespace std;
 
     frame f;
+    vector<frame> g;
 
     while (is >> f)
-        s.frames.push_back(f);
+        g.push_back(f);
 
-    if (!is.bad() and s.size() > 1)
+    if (!is.bad() and g.size() > 0) {
+        s.frames.assign(g.begin(), g.end());
         is.clear(is.rdstate() & ~ios_base::failbit);
+    }
 
     return is;
 }
@@ -484,22 +486,6 @@ ostream &operator<<(ostream &os, const stack &s) {
     return os;
 }
 
-//
-// The basic procedure is:
-//
-// 1. A stack of spectroscopic data frames is read from standard input. The frame
-//    separator is an empty line.
-// 2. All frames are rescaled to the same median flux level.
-// 3. The weighted average of all frames is computed.
-// 4. The weighted average frame is resampled to equidistant wavelengths.
-//
-// The current implementation interprets the spectroscopic data as a cubic spline,
-// therefore the frames need not be co-aligned. The final resampling step might be
-// sufficiently accurate, but does not necessarily conserve flux.
-//
-// A flux-conserving co-alignment of frames before averaging might be more accurate
-// than the procedure implemented here.
-//
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
 
@@ -511,6 +497,18 @@ int main(int argc, char *argv[]) {
     if (argc == 2 or argc == 1) {
         stack s;
 
+        // 1. a stack of spectroscopic data frames is read from standard input. The frame
+        //    separator is an empty line
+        // 2. all frames are rescaled to the same median flux level
+        // 3. the weighted average of all frames is computed
+        // 4. the weighted average frame is resampled to equidistant wavelengths
+        //
+        // The current implementation interprets the spectroscopic data as a cubic spline,
+        // therefore the frames need not be co-aligned. The final resampling step might be
+        // sufficiently accurate, but does not necessarily conserve flux
+        //
+        // A flux-conserving co-alignment of frames before averaging might be more accurate
+        // than the procedure implemented here
         if (cin >> s) {
             frame f;
 

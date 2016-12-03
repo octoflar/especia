@@ -27,6 +27,8 @@
 #include <valarray>
 #include <vector>
 
+#include "../base.h"
+
 using namespace std;
 
 istream &get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip = 0) {
@@ -106,6 +108,8 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
 }
 
 int main(int argc, char *argv[]) {
+    using especia::SPEED_OF_LIGHT;
+
     const char *pname = argv[0];
 
     int skip = 0;
@@ -114,7 +118,7 @@ int main(int argc, char *argv[]) {
         skip = atoi(argv[2]);
     }
     if (argc == 3 || argc == 2) {
-        const double c = 299792.458;
+        const double c = SPEED_OF_LIGHT;
         const double v = atof(argv[1]);
 
         valarray<double> x;

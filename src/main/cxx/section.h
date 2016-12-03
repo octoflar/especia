@@ -19,8 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#ifndef RQ_SECTION_H
-#define RQ_SECTION_H
+#ifndef ESPECIA_SECTION_H
+#define ESPECIA_SECTION_H
 
 #include <cmath>
 #include <cstddef>
@@ -30,7 +30,7 @@
 #include <valarray>
 #include <vector>
 
-namespace RQ {
+namespace especia {
     // Class for modeling absorption line regions
     class section;
 
@@ -43,7 +43,7 @@ namespace RQ {
     std::ostream &operator<<(std::ostream &os, const std::vector<section> &s);
 }
 
-class RQ::section {
+class especia::section {
 public:
     section();
 
@@ -108,32 +108,32 @@ private:
 };
 
 inline
-double RQ::section::begin() const {
+double especia::section::begin() const {
     return wav[0];
 }
 
 inline
-double RQ::section::center() const {
+double especia::section::center() const {
     return 0.5 * (begin() + end());
 }
 
 inline
-double RQ::section::end() const {
+double especia::section::end() const {
     return (n > 1) ? wav[n - 1] : wav[0];
 }
 
 inline
-double RQ::section::width() const {
+double especia::section::width() const {
     return end() - begin();
 }
 
 inline
-size_t RQ::section::size() const {
+size_t especia::section::size() const {
     return n;
 }
 
 template<class optical_depth>
-void RQ::section::convolve(const optical_depth &t, double r, double *opt, double *atm, double *cat) const {
+void especia::section::convolve(const optical_depth &t, double r, double *opt, double *atm, double *cat) const {
     using std::exp;
     using std::valarray;
 
@@ -143,7 +143,7 @@ void RQ::section::convolve(const optical_depth &t, double r, double *opt, double
         const double h = width() / (n - 1);
             // sample spacing
         const size_t m = static_cast<size_t>(4.0 * (hwhm / h)) + 1;
-            // cut the Gaussian profile at 4-HWHM where it is 10E-5
+            // cut the Gaussian profile at 4 HWHM where it is 10E-5
         valarray<double> p(m);
         valarray<double> q(m);
 
@@ -175,7 +175,7 @@ void RQ::section::convolve(const optical_depth &t, double r, double *opt, double
 }
 
 template<class optical_depth>
-double RQ::section::cost(const optical_depth &t, size_t m, double r) const {
+double especia::section::cost(const optical_depth &t, size_t m, double r) const {
     using std::abs;
     using std::valarray;
 
@@ -206,7 +206,7 @@ double RQ::section::cost(const optical_depth &t, size_t m, double r) const {
 }
 
 template<class optical_depth>
-void RQ::section::compute_model(const optical_depth &t, size_t m, double r) {
+void especia::section::compute_model(const optical_depth &t, size_t m, double r) {
     convolve(t, r, &opt[0], &atm[0], &cat[0]);
     continuum(m, &cat[0], &cfl[0]);
 
@@ -219,13 +219,13 @@ void RQ::section::compute_model(const optical_depth &t, size_t m, double r) {
 }
 
 inline
-std::istream &RQ::operator>>(std::istream &is, section &s) {
+std::istream &especia::operator>>(std::istream &is, section &s) {
     return s.get(is);
 }
 
 inline
-std::ostream &RQ::operator<<(std::ostream &os, const section &s) {
+std::ostream &especia::operator<<(std::ostream &os, const section &s) {
     return s.put(os);
 }
 
-#endif // RQ_SECTION_H
+#endif // ESPECIA_SECTION_H

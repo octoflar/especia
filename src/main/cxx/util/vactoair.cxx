@@ -103,8 +103,7 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
     return os;
 }
 
-double
-vactoair(double x) {
+double vactoair(double x) {
 /*  const double a = 1.0000643280 + 2.5540e-10 / (0.0000410 - x * x) + 2.949810e-08 / (0.000146 - x * x);
         // Edlen (1953) */
     const double a = 1.0000834213 + 1.5997e-10 / (0.0000389 - x * x) + 2.406030e-08 / (0.000130 - x * x);

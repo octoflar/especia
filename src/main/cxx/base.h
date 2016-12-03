@@ -1,4 +1,4 @@
-// Extract the command from Especia result HTML
+// Configuration constants
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,25 +19,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#include <iostream>
+#ifndef ESPECIA_BASE_H
+#define ESPECIA_BASE_H
 
-using namespace std;
+namespace especia {
+    /**
+     * The natural logarithm of 2.
+     */
+    const double LN_OF_2 = 0.6931471805599453094172321214581765680755; // +
+    /**
+     * The square root of the natural logarithm of 2.
+     */
+    const double SQRT_OF_LN_OF_2 = 0.8325546111576977563531646448952010476306; // +
+    /**
+     * Pi.
+     */
+    const double PI = 3.1415926535897932384626433832795028841972; // -
+    /**
+     * The square root of Pi.
+     */
+    const double SQRT_OF_PI = 1.7724538509055160272981674833411451827975; // +
+    /**
+     * The speed of light in vacuum (km s-1).
+     */
+    const double SPEED_OF_LIGHT = 299792.458;
 
-/**
- * Extracts the command from Especia result HTML. Reads from standard
- * input and writes to standard output.
- *
- * @return an exit code.
- */
-int main() {
-    bool ismessage = false;
-    string s;
-
-    while (getline(cin, s))
-        if (ismessage and !(s == "</command>"))
-            cout << s << endl;
-        else
-            ismessage = (s == "<command>");
-
-    return 0;
+    /**
+     * Returns the square of a number.
+     *
+     * @tparam number The number type.
+     * @param x The number.
+     * @return  The square of the number.
+     */
+    template<class number>
+    number sqr(const number &x);
 }
+
+template<class number>
+inline
+number especia::sqr(const number &x) {
+    return (x == number(0)) ? number(0) : x * x;
+}
+
+#endif //ESPECIA_BASE_H
+

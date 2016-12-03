@@ -24,7 +24,7 @@
 
 using namespace std;
 
-istream & RQ::readline(istream &is, string &s, char cm, char eol, bool eat_empty) {
+istream & especia::readline(istream &is, string &s, char cm, char eol, bool eat_empty) {
     bool isempty = true;
 
     while (isempty and getline(is, s, eol) and eat_empty) {

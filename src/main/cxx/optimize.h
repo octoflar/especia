@@ -28,8 +28,9 @@
 #include <limits>
 #include <numeric>
 #include <valarray>
+#include "base.h"
 
-namespace RQ {
+namespace especia {
     // CMA-ES function template for parametric nonlinear function optimization,
     // based on Hansen and Ostermeier (2001).
     template<class objective_function, class normal_deviate, class sym_eig_decomp, class comparation>
@@ -236,15 +237,12 @@ namespace RQ {
                                 // orthogonal matrix (row-major)
     );
 
-    template<class number>
-    number sqr(number x);
-
     template<class number, class comparation>
     class indirect_comparation;
 }
 
 template<class objective_function, class normal_deviate, class sym_eig_decomp, class comparation>
-void RQ::optimize(objective_function &f, double xw[], size_t n,
+void especia::optimize(objective_function &f, double xw[], size_t n,
              size_t parent_number,
              size_t population_size,
              const double w[],
@@ -400,7 +398,7 @@ void RQ::optimize(objective_function &f, double xw[], size_t n,
 }
 
 template<class objectp, class functionp, class normal_deviate, class sym_eig_decomp, class comparation>
-void RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
+void especia::optimize(objectp obj, functionp f, double xw[], size_t n,
              size_t parent_number,
              size_t population_size,
              const double w[],
@@ -556,7 +554,7 @@ void RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
 }
 
 template<class objective_function, class normal_deviate, class sym_eig_decomp, class comparation>
-void RQ::optimize(objective_function &f, double xw[], size_t n,
+void especia::optimize(objective_function &f, double xw[], size_t n,
              const double inf[], const double sup[],
              size_t parent_number,
              size_t population_size,
@@ -728,7 +726,7 @@ void RQ::optimize(objective_function &f, double xw[], size_t n,
 }
 
 template<class objectp, class functionp, class normal_deviate, class sym_eig_decomp, class comparation>
-void RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
+void especia::optimize(objectp obj, functionp f, double xw[], size_t n,
              const double inf[], const double sup[],
              size_t parent_number,
              size_t population_size,
@@ -901,7 +899,7 @@ void RQ::optimize(objectp obj, functionp f, double xw[], size_t n,
 
 template<class objective_function, class constraint, class normal_deviate,
         class sym_eig_decomp, class comparation>
-void RQ::optimize(objective_function &f, double xw[], size_t n, constraint &reject,
+void especia::optimize(objective_function &f, double xw[], size_t n, constraint &reject,
              size_t parent_number,
              size_t population_size,
              const double w[],
@@ -1068,7 +1066,7 @@ void RQ::optimize(objective_function &f, double xw[], size_t n, constraint &reje
 
 template<class objectp, class functionp, class constraint, class normal_deviate,
         class sym_eig_decomp, class comparation>
-void RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint &reject,
+void especia::optimize(objectp obj, functionp f, double xw[], size_t n, constraint &reject,
              size_t parent_number,
              size_t population_size,
              const double w[],
@@ -1234,7 +1232,7 @@ void RQ::optimize(objectp obj, functionp f, double xw[], size_t n, constraint &r
 }
 
 template<class objective_function>
-void RQ::scale_step_size(objective_function &f,
+void especia::scale_step_size(objective_function &f,
                     const double x[], size_t n, double &s, const double d[], const double B[]) {
     using std::abs;
     using std::valarray;
@@ -1256,7 +1254,7 @@ void RQ::scale_step_size(objective_function &f,
 }
 
 template<class objectp, class functionp>
-void RQ::scale_step_size(objectp obj, functionp f,
+void especia::scale_step_size(objectp obj, functionp f,
                     const double x[], size_t n, double &s, const double d[], const double B[]) {
     using std::abs;
     using std::valarray;
@@ -1277,14 +1275,8 @@ void RQ::scale_step_size(objectp obj, functionp f,
         // compute the covariance along the major principal axis by means of a parabola
 }
 
-template<class number>
-inline
-number RQ::sqr(number x) {
-    return (x == number(0)) ? number(0) : x * x;
-}
-
 template<class number, class comparation>
-class RQ::indirect_comparation {
+class especia::indirect_comparation {
 public:
     indirect_comparation(const std::valarray<number> &f, const comparation &c): fitness(f), comp(c) {
     }
@@ -1306,7 +1298,7 @@ private:
 
 // References
 //
-// N. Hansen, S. D. M"uller, P. Koumoutsakos (2003)
+// N. Hansen, S. D. Müller, P. Koumoutsakos (2003)
 //   Reducing the Increasing the Time Complexity of the Derandomized Evolution
 //     Strategy with Covariance Matrix Adaption (CMA-ES)
 //   Evolutionary Computation, 11, 1, ISSN 1063-6560

@@ -31,8 +31,15 @@
 const char usemsg[] = "usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
 
+/**
+ * Pseudo-Voigt profile flavor of Especia to analyse extragalactic lines.
+ *
+ * @param argc The number of command line arguments supplied.
+ * @param argv The command line arguments.
+ * @return an exit code.
+ */
 int main(int argc, char *argv[]) {
-    using namespace RQ;
+    using namespace especia;
     using std::cin;
     using std::cout;
     using std::cerr;
@@ -61,7 +68,7 @@ int main(int argc, char *argv[]) {
         cout << "-->\n";
         cout << "</html>\n";
 
-        model<voigt_pf> m;
+        model<voigt_ig> m;
         m.get(cin, cout);
 
         if (cin.eof() and !cin.fail()) {

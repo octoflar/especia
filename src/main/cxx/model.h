@@ -19,8 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#ifndef RQ_MODEL_H
-#define RQ_MODEL_H
+#ifndef ESPECIA_MODEL_H
+#define ESPECIA_MODEL_H
 
 #include <algorithm>
 #include <cstddef>
@@ -40,13 +40,13 @@
 #include "section.h"
 
 
-namespace RQ {
+namespace especia {
     template<class profile_function>
     class model;
 }
 
 template<class profile_function>
-class RQ::model {
+class especia::model {
 public:
     std::istream &get(std::istream &is, std::ostream &os, char comment_mark = '%', char begin_of_section = '{',
                       char end_of_section = '}') {
@@ -63,7 +63,7 @@ public:
         const char synmsg[] = "syntax error";
         const char rnfmsg[] = "reference not found";
 
-        vector<RQ::section> sec;
+        vector<especia::section> sec;
 
         vector<size_t> isc;
         vector<size_t> nle;
@@ -127,7 +127,7 @@ public:
                             ifstream ifs(fn.c_str());
 
                             if (ifs) {
-                                RQ::section s;
+                                especia::section s;
 
                                 if (s.get(ifs, a, b)) {
                                     istringstream is2(s2);
@@ -408,7 +408,7 @@ public:
         os << "      <td>Radial<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
         os << "      <td>Broadening<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
         os << "      <td>Log. Column<br>Density<br>(cm<sup>-2</sup>)</td>\n";
-#if defined(RQ_MANY_MULTIPLET_ANALYSIS)
+#if defined(ESPECIA_MANY_MULTIPLET_ANALYSIS)
         os << "      <td>&Delta;&alpha/&alpha;<br>(10<sup>-5</sup>)</td>\n";
 #endif
         os << "    </tr>\n";
@@ -423,10 +423,10 @@ public:
             const double x = val[j];
             const double z = val[j + 2];
             const double v = val[j + 3];
-            const double w = x * (1.0 + z) * (1.0 + v / 299792.458);
+            const double w = x * (1.0 + z) * (1.0 + v / SPEED_OF_LIGHT);
             const double dz = err[j + 2];
             const double dv = err[j + 3];
-            const double dw = x * sqrt(RQ::sqr((1.0 + v / 299792.458) * dz) + RQ::sqr((1.0 + z) * dv / 299792.458));
+            const double dw = x * sqrt(sqr((1.0 + v / SPEED_OF_LIGHT) * dz) + sqr((1.0 + z) * dv / SPEED_OF_LIGHT));
 
             os.precision(4);
 
@@ -451,7 +451,7 @@ public:
             os << "      <td>";
             put_parameter(os, ios_base::fixed, 3, j + 5);
             os << "</td>\n";
-#if defined(RQ_MANY_MULTIPLET_ANALYSIS)
+#if defined(ESPECIA_MANY_MULTIPLET_ANALYSIS)
             os << "      <td>";
             put_parameter(os, ios_base::fixed, 3, j + 7);
             os << "</td>\n";
@@ -476,7 +476,7 @@ public:
                 val[i] = x[ind[i]];
 
         for (size_t i = 0; i < sec.size(); ++i)
-            sec[i].compute_model(RQ::superposition<profile_function>(nli[i], &val[isc[i] + 1]), nle[i], val[isc[i]]);
+            sec[i].compute_model(especia::superposition<profile_function>(nli[i], &val[isc[i] + 1]), nle[i], val[isc[i]]);
     }
 
     double statistics(const double x[], size_t n) const {
@@ -490,7 +490,7 @@ public:
         double d = 0.0;
 
         for (size_t i = 0; i < sec.size(); ++i)
-            d += sec[i].cost(RQ::superposition<profile_function>(nli[i], &y[isc[i] + 1]), nle[i], y[isc[i]]);
+            d += sec[i].cost(especia::superposition<profile_function>(nli[i], &y[isc[i] + 1]), nle[i], y[isc[i]]);
 
         return d;
     }
@@ -518,19 +518,19 @@ public:
             w[i] = log((parent_number + 1.0) / (i + 1));
 
         const size_t n = ind.max() + 1;
-        const double var_parent_number = RQ::sqr(w.sum()) / w.apply(RQ::sqr).sum();
+        const double var_parent_number = sqr(w.sum()) / w.apply(sqr).sum();
         const double cs = (var_parent_number + 2.0) / (var_parent_number + n + 3.0);
         const double cc = 4.0 / (n + 4.0);
         const double acov = 1.0 / var_parent_number;
-        const double ccov = acov * (2.0 / RQ::sqr(n + sqrt(2.0))) + (1.0 -
-                acov) * min(1.0, (2.0 * var_parent_number - 1.0) / (RQ::sqr(n + 2.0) + var_parent_number));
+        const double ccov = acov * (2.0 / sqr(n + sqrt(2.0))) + (1.0 -
+                acov) * min(1.0, (2.0 * var_parent_number - 1.0) / (sqr(n + 2.0) + var_parent_number));
         const double step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((var_parent_number - 1.0) / (n + 1.0)) - 1.0);
 
         valarray<double> pc(0.0, n);
         valarray<double> ps(0.0, n);
 
         valarray<double> d(0.0, n);
-        valarray<double> B(0.0, RQ::sqr(n));
+        valarray<double> B(0.0, sqr(n));
         valarray<double> C = B;
 
         valarray<double> x(n);
@@ -576,7 +576,7 @@ public:
             if (trace > 0)
                 stop = min(g + trace, stop_generation);
 
-            RQ::optimize(this, &model<profile_function>::statistics, &x[0], n,
+            especia::optimize(this, &model<profile_function>::statistics, &x[0], n,
                          &a[0], &b[0],
                          parent_number,
                          population_size,
@@ -642,7 +642,7 @@ public:
 
         // Compute uncertainty
         if (is_opt)
-            RQ::scale_step_size(this, &model<profile_function>::statistics, &x[0], n, step_size, &d[0], &B[0]);
+            especia::scale_step_size(this, &model<profile_function>::statistics, &x[0], n, step_size, &d[0], &B[0]);
         for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1)
             d[i] = step_size * sqrt(C[ii]);
         for (size_t i = 0; i < msk.size(); ++i)
@@ -674,7 +674,7 @@ private:
         return os;
     }
 
-    std::vector<RQ::section> sec;
+    std::vector<especia::section> sec;
 
     std::valarray<size_t> isc;
     std::valarray<size_t> nle;
@@ -692,4 +692,4 @@ private:
     std::map<std::string, size_t> pim;
 };
 
-#endif // RQ_MODEL_H
+#endif // ESPECIA_MODEL_H

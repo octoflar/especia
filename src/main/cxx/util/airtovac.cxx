@@ -27,6 +27,8 @@
 #include <valarray>
 #include <vector>
 
+#include "../base.h"
+
 using namespace std;
 
 istream &get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip = 0) {
@@ -106,12 +108,9 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
     return os;
 }
 
-inline
-double sqr(double x) {
-    return (x * x);
-}
-
 void vactoair(double x, double &y, double &z) {
+    using especia::sqr;
+
 /*  const double a = 1.0000643280 + 2.5540e-10 / (0.0000410 - x * x) + 2.949810e-08 / (0.000146 - x * x);
         // Edlen (1953) */
     const double a = 1.0000834213 + 1.5997e-10 / (0.0000389 - x * x) + 2.406030e-08 / (0.000130 - x * x);
@@ -124,7 +123,7 @@ void vactoair(double x, double &y, double &z) {
         // Edlen (1966), the first derivative of y with respect to x
 }
 
-double findroot(void f(double, double &, double &), double c, double x, double accuracy_goal) throw(runtime_error) {
+double find_root(void f(double, double &, double &), double c, double x, double accuracy_goal) throw(runtime_error) {
     double d, y, z;
     unsigned i = 0;
 
@@ -135,7 +134,7 @@ double findroot(void f(double, double &, double &), double c, double x, double a
     } while (++i < 100 and abs(d) > accuracy_goal * x);
 
     if (i == 100)
-        throw runtime_error("findroot(): Error: iteration stopped");
+        throw runtime_error("find_root(): Error: iteration stopped");
 
     return x;
 }
@@ -160,7 +159,7 @@ int main(int argc, char *argv[]) {
         if (get(cin, x, y, z, skip)) {
             try {
                 for (size_t i = 0; i < x.size(); ++i)
-                    x[i] = 10.0 / findroot(vactoair, 10.0 / x[i], 10.0 / x[i], accuracy_goal);
+                    x[i] = 10.0 / find_root(vactoair, 10.0 / x[i], 10.0 / x[i], accuracy_goal);
             }
             catch (exception &e) {
                 cerr << pname << ": " << e.what() << endl;

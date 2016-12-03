@@ -19,14 +19,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#ifndef RQ_SYMEIG_H
-#define RQ_SYMEIG_H
+#ifndef ESPECIA_SYMEIG_H
+#define ESPECIA_SYMEIG_H
 
 #include <cstddef>
 #include <stdexcept>
 #include <valarray>
 
-namespace RQ {
+namespace especia {
     // Function-like class for solving symmetric eigenproblems
     class sym_eig_decomp_d; // divide and conquer
     class sym_eig_decomp_r; // relatively robust representations
@@ -37,7 +37,7 @@ namespace RQ {
 
 // Function-like class for solving symmetric eigenproblems. Calls the
 // LAPACK driver routine DSYEVD (divide and conquer).
-class RQ::sym_eig_decomp_d {
+class especia::sym_eig_decomp_d {
 public:
     sym_eig_decomp_d(size_t n = 0);
 
@@ -70,7 +70,7 @@ private:
 
 // Function-like class for solving symmetric eigenproblems. Calls the
 // LAPACK driver routine DSYEVR (relatively robust representations).
-class RQ::sym_eig_decomp_r {
+class especia::sym_eig_decomp_r {
 public:
     sym_eig_decomp_r(size_t n = 0);
 
@@ -107,7 +107,7 @@ private:
 
 // Function-like class for solving symmetric eigenproblems. Calls the
 // LAPACK driver routine DSYEVX (inverse iteration).
-class RQ::sym_eig_decomp_x {
+class especia::sym_eig_decomp_x {
 public:
     sym_eig_decomp_x(size_t n = 0);
 
@@ -140,4 +140,4 @@ private:
     static const char ill_arg[];
 };
 
-#endif // RQ_SYMEIG_H
+#endif // ESPECIA_SYMEIG_H

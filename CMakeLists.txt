@@ -45,6 +45,7 @@ configure_file(${MAIN}/resources/synth1561.dat resources/synth1561.dat COPYONLY)
 configure_file(${MAIN}/resources/synth1657.dat resources/synth1657.dat COPYONLY)
 
 set(COMMON_SOURCES
+        ${MAIN}/cxx/base.h
         ${MAIN}/cxx/config.h
         ${MAIN}/cxx/model.h
         ${MAIN}/cxx/mtwister.h
@@ -86,8 +87,8 @@ install(TARGETS especia especid especis especiv ecom edat elog emod emsg
         DESTINATION $ENV{HOME}/bin
         CONFIGURATIONS Release)
 
-add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx)
-add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx)
+add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/base.h)
+add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/base.h)
 add_executable(cumulate EXCLUDE_FROM_ALL ${MAIN}/cxx/util/cumulate.cxx)
 add_executable(threecol EXCLUDE_FROM_ALL ${MAIN}/cxx/util/threecol.cxx)
 add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx)

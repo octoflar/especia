@@ -1,4 +1,4 @@
-// Extract log from output HTML
+// Extract the log data from Especia result HTML
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,7 +23,12 @@
 
 using namespace std;
 
-// usage: elog < ISTREAM > OSTREAM
+/**
+ * Extracts the log data from Especia result HTML. Reads from standard
+ * input and writes to standard output.
+ *
+ * @return an exit code.
+ */
 int main() {
     bool islog = false;
     string s;

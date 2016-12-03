@@ -79,18 +79,18 @@ void F77NAME(dsyevx)(const char &job,
 
 const double safe_minimum = F77NAME(dlamch)('s');
 
-const char RQ::sym_eig_decomp_d::int_err[] = "RQ::sym_eig_decomp_d(): Error: internal error in LAPACK routine DSYEVD";
-const char RQ::sym_eig_decomp_d::ill_arg[] = "RQ::sym_eig_decomp_d(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
+const char especia::sym_eig_decomp_d::int_err[] = "RQ::sym_eig_decomp_d(): Error: internal error in LAPACK routine DSYEVD";
+const char especia::sym_eig_decomp_d::ill_arg[] = "RQ::sym_eig_decomp_d(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
 
-RQ::sym_eig_decomp_d::sym_eig_decomp_d(size_t n)
+especia::sym_eig_decomp_d::sym_eig_decomp_d(size_t n)
         : job('V'), uplo('U'), work(1), iwork(1) {
     resize_workspace(n);
 }
 
-RQ::sym_eig_decomp_d::~sym_eig_decomp_d() {
+especia::sym_eig_decomp_d::~sym_eig_decomp_d() {
 }
 
-void RQ::sym_eig_decomp_d::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
+void especia::sym_eig_decomp_d::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
     copy(&A[0], &A[k * k], Z);
 
     if (k != n)
@@ -108,7 +108,7 @@ void RQ::sym_eig_decomp_d::operator()(const double A[], double Z[], double w[], 
         throw runtime_error(ill_arg);
 }
 
-void RQ::sym_eig_decomp_d::resize_workspace(size_t k) {
+void especia::sym_eig_decomp_d::resize_workspace(size_t k) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
     n = k;
@@ -135,25 +135,25 @@ void RQ::sym_eig_decomp_d::resize_workspace(size_t k) {
         throw runtime_error(ill_arg);
 }
 
-void RQ::sym_eig_decomp_d::transpose(double A[]) const {
+void especia::sym_eig_decomp_d::transpose(double A[]) const {
     for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
         for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);
 }
 
 
-const char RQ::sym_eig_decomp_r::int_err[] = "RQ::sym_eig_decomp_r(): Error: internal error in LAPACK routine DSYEVR";
-const char RQ::sym_eig_decomp_r::ill_arg[] = "RQ::sym_eig_decomp_r(): Error: illegal argument(s) in call to LAPACK routine DSYEVR";
+const char especia::sym_eig_decomp_r::int_err[] = "RQ::sym_eig_decomp_r(): Error: internal error in LAPACK routine DSYEVR";
+const char especia::sym_eig_decomp_r::ill_arg[] = "RQ::sym_eig_decomp_r(): Error: illegal argument(s) in call to LAPACK routine DSYEVR";
 
-RQ::sym_eig_decomp_r::sym_eig_decomp_r(size_t n)
+especia::sym_eig_decomp_r::sym_eig_decomp_r(size_t n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(1) {
     resize_workspace(n);
 }
 
-RQ::sym_eig_decomp_r::~sym_eig_decomp_r() {
+especia::sym_eig_decomp_r::~sym_eig_decomp_r() {
 }
 
-void RQ::sym_eig_decomp_r::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
+void especia::sym_eig_decomp_r::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
     valarray<double> C(A, k * k);
 
     if (k != n)
@@ -172,7 +172,7 @@ void RQ::sym_eig_decomp_r::operator()(const double A[], double Z[], double w[], 
         throw runtime_error(ill_arg);
 }
 
-void RQ::sym_eig_decomp_r::resize_workspace(size_t k) {
+void especia::sym_eig_decomp_r::resize_workspace(size_t k) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
     n = k;
@@ -205,25 +205,25 @@ void RQ::sym_eig_decomp_r::resize_workspace(size_t k) {
         throw runtime_error(ill_arg);
 }
 
-void RQ::sym_eig_decomp_r::transpose(double A[]) const {
+void especia::sym_eig_decomp_r::transpose(double A[]) const {
     for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
         for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);
 }
 
 
-const char RQ::sym_eig_decomp_x::int_err[] = "RQ::sym_eig_decomp_x(): Error: internal error in LAPACK routine DSYEVX";
-const char RQ::sym_eig_decomp_x::ill_arg[] = "RQ::sym_eig_decomp_x(): Error: illegal argument(s) in call to LAPACK routine DSYEVX";
+const char especia::sym_eig_decomp_x::int_err[] = "RQ::sym_eig_decomp_x(): Error: internal error in LAPACK routine DSYEVX";
+const char especia::sym_eig_decomp_x::ill_arg[] = "RQ::sym_eig_decomp_x(): Error: illegal argument(s) in call to LAPACK routine DSYEVX";
 
-RQ::sym_eig_decomp_x::sym_eig_decomp_x(size_t n)
+especia::sym_eig_decomp_x::sym_eig_decomp_x(size_t n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(), ifail() {
     resize_workspace(n);
 }
 
-RQ::sym_eig_decomp_x::~sym_eig_decomp_x() {
+especia::sym_eig_decomp_x::~sym_eig_decomp_x() {
 }
 
-void RQ::sym_eig_decomp_x::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
+void especia::sym_eig_decomp_x::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
     valarray<double> C(A, k * k);
 
     if (k != n)
@@ -242,7 +242,7 @@ void RQ::sym_eig_decomp_x::operator()(const double A[], double Z[], double w[], 
         throw runtime_error(ill_arg);
 }
 
-void RQ::sym_eig_decomp_x::resize_workspace(size_t k) {
+void especia::sym_eig_decomp_x::resize_workspace(size_t k) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wconversion"
     n = k;
@@ -273,7 +273,7 @@ void RQ::sym_eig_decomp_x::resize_workspace(size_t k) {
         throw runtime_error(ill_arg);
 }
 
-void RQ::sym_eig_decomp_x::transpose(double A[]) const {
+void especia::sym_eig_decomp_x::transpose(double A[]) const {
     for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
         for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
             swap(A[ij], A[ji]);

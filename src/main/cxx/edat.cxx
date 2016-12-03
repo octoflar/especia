@@ -1,4 +1,4 @@
-// Extract fit data from output HTML
+// Extract the spectroscopic data from Especia result HTML
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,7 +23,12 @@
 
 using namespace std;
 
-// usage: edat < ISTREAM > OSTREAM
+/**
+ * Extracts the spectroscopic data from Especia result HTML. Reads from standard
+ * input and writes to standard output.
+ *
+ * @return an exit code.
+ */
 int main() {
     bool isdata = false;
     string s;

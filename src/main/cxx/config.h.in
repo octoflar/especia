@@ -19,16 +19,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#ifndef RQ_CONFIG_H
-#define RQ_CONFIG_H
+#ifndef ESPECIA_CONFIG_H
+#define ESPECIA_CONFIG_H
 
 #include <string>
 
-namespace RQ {
-    // Identifier
+namespace especia {
+    /**
+     * The project name and version identifier.
+     */
     const std::string PROJECT_LONG_NAME = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@";
-    // URL
+    /**
+     * The project DOI.
+     */
     const std::string DOI = "@PROJECT_DOI@";
 }
 
-#endif // RQ_CONFIG_H
+#endif // ESPECIA_CONFIG_H

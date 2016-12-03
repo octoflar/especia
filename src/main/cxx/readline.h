@@ -19,8 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#ifndef RQ_READLINE_H
-#define RQ_READLINE_H
+#ifndef ESPECIA_READLINE_H
+#define ESPECIA_READLINE_H
 
 #include <cstddef>
 #include <iostream>
@@ -29,7 +29,7 @@
 #include <string>
 #include <vector>
 
-namespace RQ {
+namespace especia {
     template<class A>
     std::istream &read(std::istream &is, std::vector<A> &a, size_t n, bool append = false);
 
@@ -60,7 +60,7 @@ namespace RQ {
 }
 
 template<class A>
-std::istream &RQ::read(std::istream &is, std::vector<A> &a, size_t n, bool append) {
+std::istream &especia::read(std::istream &is, std::vector<A> &a, size_t n, bool append) {
     using namespace std;
 
     vector<A> ta;
@@ -85,7 +85,7 @@ std::istream &RQ::read(std::istream &is, std::vector<A> &a, size_t n, bool appen
 }
 
 template<class A, class B>
-std::istream &RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, size_t n, bool append) {
+std::istream &especia::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, size_t n, bool append) {
     using namespace std;
 
     vector<A> ta;
@@ -117,7 +117,7 @@ std::istream &RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, s
 }
 
 template<class A, class B, class C>
-std::istream &RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, size_t n, bool append) {
+std::istream &especia::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, size_t n, bool append) {
     using namespace std;
 
     vector<A> ta;
@@ -155,7 +155,7 @@ std::istream &RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, s
 }
 
 template<class A, class B, class C, class D>
-std::istream &RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c,
+std::istream &especia::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c,
          std::vector<D> &d, size_t n, bool append) {
     using namespace std;
 
@@ -200,7 +200,7 @@ std::istream &RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, s
 }
 
 template<class A, class B, class C, class D, class E>
-std::istream &RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, std::vector<D> &d,
+std::istream &especia::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, std::vector<D> &d,
          std::vector<E> &e, size_t n, bool append) {
     using namespace std;
 
@@ -251,7 +251,7 @@ std::istream &RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, s
 }
 
 template<class A, class B, class C, class D>
-std::istream &RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, std::vector<D> &d,
+std::istream &especia::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, std::vector<D> &d,
          std::vector<std::string> &s, size_t n,
          char eol, bool append) {
     using namespace std;
@@ -308,4 +308,4 @@ std::istream &RQ::read(std::istream &is, std::vector<A> &a, std::vector<B> &b, s
     return is;
 }
 
-#endif // RQ_READLINE_H
+#endif // ESPECIA_READLINE_H

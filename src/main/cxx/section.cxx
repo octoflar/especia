@@ -25,7 +25,7 @@
 #include <sstream>
 #include "section.h"
 
-RQ::section::section()
+especia::section::section()
         : wav(),
           flx(),
           err(),
@@ -40,7 +40,7 @@ RQ::section::section()
           n(0) {
 }
 
-RQ::section::section(size_t m)
+especia::section::section(size_t m)
         : wav(0.0, m),
           flx(0.0, m),
           err(0.0, m),
@@ -55,7 +55,7 @@ RQ::section::section(size_t m)
           n(m) {
 }
 
-RQ::section::section(const double x[], const double y[], const double z[], size_t m)
+especia::section::section(const double x[], const double y[], const double z[], size_t m)
         : wav(x, m),
           flx(y, m),
           err(z, m),
@@ -70,10 +70,10 @@ RQ::section::section(const double x[], const double y[], const double z[], size_
           n(m) {
 }
 
-RQ::section::~section() {
+especia::section::~section() {
 }
 
-void RQ::section::continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error) {
+void especia::section::continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error) {
     using std::fill;
     using std::sqrt;
     using std::runtime_error;
@@ -167,7 +167,7 @@ void RQ::section::continuum(size_t m, const double cat[], double cfl[]) const th
         fill(&cfl[0], &cfl[n], 1.0);
 }
 
-size_t RQ::section::selection_size() const {
+size_t especia::section::selection_size() const {
     size_t j = 0;
 
     for (size_t i = 0; i < n; ++i)
@@ -177,7 +177,7 @@ size_t RQ::section::selection_size() const {
     return j;
 }
 
-double RQ::section::cost() const {
+double especia::section::cost() const {
     double a = 0.0;
 
     for (size_t i = 0; i < n; ++i)
@@ -187,19 +187,19 @@ double RQ::section::cost() const {
     return 0.5 * a;
 }
 
-void RQ::section::mask(double a, double b) {
+void especia::section::mask(double a, double b) {
     for (size_t i = 0; i < n; ++i)
         if (a <= wav[i] and wav[i] <= b)
             msk[i] = 0;
 }
 
-void RQ::section::unmask(double a, double b) {
+void especia::section::unmask(double a, double b) {
     for (size_t i = 0; i < n; ++i)
         if (a <= wav[i] and wav[i] <= b)
             msk[i] = 1;
 }
 
-void RQ::section::integrals(double x, double hwhm, double &p, double &q) const {
+void especia::section::integrals(double x, double hwhm, double &p, double &q) const {
     using std::erf; // since C++11
     using std::exp;
 
@@ -213,7 +213,7 @@ void RQ::section::integrals(double x, double hwhm, double &p, double &q) const {
     q = -(b * exp(-x * x)) / d;
 }
 
-std::istream &RQ::section::get(std::istream &is, double a, double b) {
+std::istream &especia::section::get(std::istream &is, double a, double b) {
     using namespace std;
 
     const size_t room = 20000;
@@ -292,7 +292,7 @@ std::istream &RQ::section::get(std::istream &is, double a, double b) {
     return is;
 }
 
-std::ostream &RQ::section::put(std::ostream &os, double a, double b) const {
+std::ostream &especia::section::put(std::ostream &os, double a, double b) const {
     using namespace std;
 
     if (os) {
@@ -336,21 +336,22 @@ std::ostream &RQ::section::put(std::ostream &os, double a, double b) const {
     return os;
 }
 
-std::istream &RQ::operator>>(std::istream &is, std::vector<section> &s) {
+std::istream &especia::operator>>(std::istream &is, std::vector<section> &s) {
     using namespace std;
 
-    vector<section> tmp(1);
+    section r;
+    vector<section> t;
 
-    while (is >> tmp[0])
-        tmp.push_back(tmp[0]);
+    while (is >> r)
+        t.push_back(r);
 
-    if (!is.bad() and tmp.size() > 1)
-        s.assign(tmp.begin() + 1, tmp.end());
+    if (!is.bad() and t.size() > 1)
+        s.assign(t.begin(), t.end());
 
     return is;
 }
 
-std::ostream &RQ::operator<<(std::ostream &os, const std::vector<section> &s) {
+std::ostream &especia::operator<<(std::ostream &os, const std::vector<section> &s) {
     size_t i;
 
     for (i = 0; i + 1 < s.size(); ++i)
@@ -365,3 +366,4 @@ std::ostream &RQ::operator<<(std::ostream &os, const std::vector<section> &s) {
 // W. H. Press, S. A. Teukolsky, W. T. Vetterling, B. P. Flannery (2002)
 //   Numerical Recipes in C: The Art of Scientific Computing
 //   Cambridge University Press, ISBN 0-521-75033-4
+
