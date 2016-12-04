@@ -68,8 +68,6 @@ add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
 target_link_libraries(especia ${VECLIB})
 add_executable(especid ${MAIN}/cxx/especid.cxx ${COMMON_SOURCES})
 target_link_libraries(especid ${VECLIB})
-add_executable(especis ${MAIN}/cxx/especis.cxx ${COMMON_SOURCES})
-target_link_libraries(especis ${VECLIB})
 add_executable(especiv ${MAIN}/cxx/especiv.cxx ${COMMON_SOURCES})
 target_link_libraries(especiv ${VECLIB})
 add_executable(especix ${MAIN}/cxx/especix.cxx ${COMMON_SOURCES})
@@ -104,7 +102,7 @@ add_custom_target(check)
 add_dependencies(check checkd checkv checkx)
 
 
-install(TARGETS especia especid especis especiv ecom edat elog emod emsg
+install(TARGETS especia especid especiv especix ecom edat elog emod emsg
         RUNTIME
         DESTINATION $ENV{HOME}/bin
         CONFIGURATIONS Release)

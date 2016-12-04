@@ -28,19 +28,18 @@ using std::log;
 using std::pow;
 using std::sqrt;
 
-using especia::PI;
+using especia::pi;
 using especia::sqr;
-using especia::SPEED_OF_LIGHT;
-using especia::SQRT_OF_PI;
+using especia::sqrt_of_pi;
 
 inline
 double f_g(const double &x, const double &gamma) {
-    return (1.0 / (SQRT_OF_PI * gamma)) * exp(-sqr(x / gamma));
+    return (1.0 / (sqrt_of_pi * gamma)) * exp(-sqr(x / gamma));
 }
 
 inline
 double f_l(const double &x, const double &gamma) {
-    return 1.0 / ((PI * gamma) * (1.0 + sqr(x / gamma)));
+    return 1.0 / ((pi * gamma) * (1.0 + sqr(x / gamma)));
 }
 
 inline
@@ -170,8 +169,8 @@ void especia::doppler_mm::assign(const double a[]) {
     const double v = u * (u + 2.0);
     const double w = 1.0e+08 / (1.0e+08 / a[0] + a[6] * v);
 
-    y = w * (1.0 + a[2]) * (1.0 + a[3] / SPEED_OF_LIGHT);
-    b = a[4] * y / SPEED_OF_LIGHT;
+    y = w * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
+    b = a[4] * y / speed_of_light;
     c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (w * y);
 }
 
@@ -192,31 +191,9 @@ double especia::doppler_ig::operator()(double x) const {
 }
 
 void especia::doppler_ig::assign(const double a[]) {
-    y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / SPEED_OF_LIGHT);
-    b = a[4] * y / SPEED_OF_LIGHT;
+    y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
+    b = a[4] * y / speed_of_light;
     c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);
-}
-
-especia::doppler_is::doppler_is() : y(0.0), b(1.0), c(0.0) {
-}
-
-especia::doppler_is::doppler_is(const double a[]) {
-    assign(a);
-}
-
-especia::doppler_is::~doppler_is() {
-}
-
-double especia::doppler_is::operator()(double x) const {
-    using std::abs;
-
-    return (abs(x - y) < 4.0 * b) ? c * f_g(x - y, b) : 0.0;
-}
-
-void especia::doppler_is::assign(const double a[]) {
-    y = a[0] * (1.0 + a[2] / SPEED_OF_LIGHT);
-    b = a[3] * y / SPEED_OF_LIGHT;
-    c = 8.85280e-21 * a[1] * pow(10.0, a[4]) * a[0];
 }
 
 // References

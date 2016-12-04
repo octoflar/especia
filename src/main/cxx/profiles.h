@@ -25,6 +25,7 @@
 #include <cmath>
 #include <cstddef>
 #include <vector>
+
 #include "base.h"
 
 namespace especia {
@@ -145,32 +146,6 @@ private:
 };
 
 
-class especia::doppler_is {
-public:
-    static const size_t parameters = 5;
-
-    doppler_is();
-
-    doppler_is(const double a[]);
-
-    // a[0] laboratory wavelength (Angstrom)
-    // a[1] oscillator strength
-    // a[2] radial velocity (km s-1)
-    // a[3] line broadening velocity (km s-1)
-    // a[4] decadic logarithm of the particle column number density (cm-2)
-    ~doppler_is();
-
-    double operator()(double x) const;;
-
-    void assign(const double a[]);
-
-private:
-    double y; // central wavelength (Angstrom)
-    double b; // Doppler width (Angstrom)
-    double c; // amplitude
-};
-
-
 template<class approximation>
 class especia::voigt_ig {
 public:
@@ -198,10 +173,10 @@ public:
     };
 
     void assign(const double a[]) {
-        y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / SPEED_OF_LIGHT);
+        y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
         c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);
 
-        const double b = a[4] * y / SPEED_OF_LIGHT;
+        const double b = a[4] * y / speed_of_light;
         const double d = 2.65442e-20 * a[6] * (a[0] * y);
 
         f = approximation(b, d);

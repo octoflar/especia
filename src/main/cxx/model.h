@@ -423,10 +423,10 @@ public:
             const double x = val[j];
             const double z = val[j + 2];
             const double v = val[j + 3];
-            const double w = x * (1.0 + z) * (1.0 + v / SPEED_OF_LIGHT);
+            const double w = x * (1.0 + z) * (1.0 + v / speed_of_light);
             const double dz = err[j + 2];
             const double dv = err[j + 3];
-            const double dw = x * sqrt(sqr((1.0 + v / SPEED_OF_LIGHT) * dz) + sqr((1.0 + z) * dv / SPEED_OF_LIGHT));
+            const double dw = x * sqrt(sqr((1.0 + v / speed_of_light) * dz) + sqr((1.0 + z) * dv / speed_of_light));
 
             os.precision(4);
 
