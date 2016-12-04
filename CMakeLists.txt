@@ -38,13 +38,14 @@ openmp_optional()
 set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 
-configure_file(${MAIN}/cxx/config.h.in ${MAIN}/cxx/config.h)
+configure_file(${MAIN}/cxx/config.h.in         ${MAIN}/cxx/config.h)
+
 configure_file(${MAIN}/resources/stisv.html.in resources/stisv.html)
 configure_file(${MAIN}/resources/stisx.html.in resources/stisx.html)
-configure_file(${MAIN}/resources/stis1216.md resources/stis1216.md COPYONLY)
-configure_file(${MAIN}/resources/stis1216.dat resources/stis1216.dat COPYONLY)
+configure_file(${MAIN}/resources/stis1216.md   resources/stis1216.md COPYONLY)
+configure_file(${MAIN}/resources/stis1216.dat  resources/stis1216.dat COPYONLY)
 configure_file(${MAIN}/resources/synth.html.in resources/synth.html)
-configure_file(${MAIN}/resources/synth.md resources/synth.md COPYONLY)
+configure_file(${MAIN}/resources/synth.md      resources/synth.md COPYONLY)
 configure_file(${MAIN}/resources/synth1561.dat resources/synth1561.dat COPYONLY)
 configure_file(${MAIN}/resources/synth1657.dat resources/synth1657.dat COPYONLY)
 
