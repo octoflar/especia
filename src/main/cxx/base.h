@@ -26,25 +26,38 @@ namespace especia {
     /**
      * Pi.
      */
-    const double PI = 3.1415926535897932384626433832795028841972; // -
+    const double pi = 3.1415926535897932384626433832795028841972; // -
     /**
      * The square root of Pi.
      */
-    const double SQRT_OF_PI = 1.7724538509055160272981674833411451827975; // +
+    const double sqrt_of_pi = 1.7724538509055160272981674833411451827975; // +
     /**
      * The speed of light in vacuum (km s-1).
      */
-    const double SPEED_OF_LIGHT = 299792.458;
+    const double speed_of_light = 299792.458;
+
+    /**
+     * Returns the redshift due the relativistic Doppler effect.
+     *
+     * @param v The relative radial velocity between emitter and observer (km s-1)
+     * @return the Doppler redshift.
+     */
+    double relativistic_doppler_z(const double &v);
 
     /**
      * Returns the square of a number.
      *
      * @tparam number The number type.
      * @param x The number.
-     * @return  The square of the number.
+     * @return the square of the number.
      */
     template<class number>
     number sqr(const number &x);
+}
+
+inline
+double especia::relativistic_doppler_z(const double &v) {
+    return sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light)) - 1.0;
 }
 
 template<class number>
@@ -54,4 +67,3 @@ number especia::sqr(const number &x) {
 }
 
 #endif //ESPECIA_BASE_H
-
