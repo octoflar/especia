@@ -28,7 +28,7 @@ namespace especia {
     /**
      * A functor to generate random normal deviates.
      *
-     * @tparam uniform_deviate A functor to generate random normal deviates.
+     * @tparam uniform_deviate A functor to generate random uniform deviates.
      */
     template<class uniform_deviate>
     class normal_deviate;
@@ -41,7 +41,13 @@ namespace especia {
  * Sec. 3.4.1, Algorithm P) to generate standard normally distributed random
  * deviates.
  *
- * @tparam uniform_deviate A functor to generate random normal deviates.
+ * Further reading:
+ *
+ * D. Knuth (1998)
+ *   The art of computer programming 2. Seminumerical algorithms
+ *   Addison Wesley Longman, ISBN 0-201-89684-2
+ *
+ * @tparam uniform_deviate A functor to generate random uniform deviates.
  */
 template<class uniform_deviate>
 class especia::normal_deviate {
@@ -124,9 +130,3 @@ private:
 };
 
 #endif // ESPECIA_RANDEV_H
-
-// References
-//
-// D. Knuth (1998)
-//   The art of computer programming 2. Seminumerical algorithms
-//   Addison Wesley Longman, ISBN 0-201-89684-2
