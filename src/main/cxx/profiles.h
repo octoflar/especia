@@ -29,10 +29,15 @@
 
 namespace especia {
 
+    class pseudo_voigt;
+    class extended_pseudo_voigt;
+
     // Function-like classes
     class doppler_ig; // Doppler profile
     class doppler_mm; // Doppler profile for many-multiplets analysis
     class doppler_is; // Doppler profile for interstellar lines
+
+    template <class approximation>
     class voigt_ig;   // Voigt profile
 
     // Function-like class templates
@@ -40,6 +45,48 @@ namespace especia {
     template<class profile_function>
     class superposition;
 }
+
+
+class especia::pseudo_voigt {
+public:
+    pseudo_voigt(double b = 1.0, double d = 1.0);
+
+    ~pseudo_voigt();
+
+    double operator()(const double &x) const;
+
+private:
+    double gamma_g;
+    double gamma_l;
+    double eta;
+
+    static const double c_g;
+    static const double c_l;
+};
+
+
+class especia::extended_pseudo_voigt {
+public:
+    extended_pseudo_voigt(double b = 1.0, double d = 1.0);
+
+    ~extended_pseudo_voigt();
+
+    double operator()(const double &x) const;
+
+private:
+    double gamma_g;
+    double gamma_l;
+    double gamma_i;
+    double gamma_p;
+    double eta_l;
+    double eta_i;
+    double eta_p;
+
+    static const double c_g;
+    static const double c_l;
+    static const double c_i;
+    static const double c_p;
+};
 
 
 class especia::doppler_mm {
@@ -60,22 +107,16 @@ public:
     // a[7] variability of the fine-structure constant (1.0e-05)
     ~doppler_mm();
 
-    double operator()(double x) const;
-
-    double center() const;
+    double operator()(double x) const;;
 
     void assign(const double a[]);
 
 private:
+    double y; // central wavelength (Angstrom)
     double b; // Doppler width (Angstrom)
     double c; // amplitude
-    double y; // central wavelength (Angstrom)
 };
 
-inline
-double especia::doppler_mm::center() const {
-    return y;
-}
 
 class especia::doppler_ig {
 public:
@@ -93,22 +134,16 @@ public:
     // a[5] decadic logarithm of the particle column number density (cm-2)
     ~doppler_ig();
 
-    double operator()(double x) const;
-
-    double center() const;
+    double operator()(double x) const;;
 
     void assign(const double a[]);
 
 private:
+    double y; // central wavelength (Angstrom)
     double b; // Doppler width (Angstrom)
     double c; // amplitude
-    double y; // central wavelength (Angstrom)
 };
 
-inline
-double especia::doppler_ig::center() const {
-    return y;
-}
 
 class especia::doppler_is {
 public:
@@ -125,30 +160,24 @@ public:
     // a[4] decadic logarithm of the particle column number density (cm-2)
     ~doppler_is();
 
-    double operator()(double x) const;
-
-    double center() const;
+    double operator()(double x) const;;
 
     void assign(const double a[]);
 
 private:
+    double y; // central wavelength (Angstrom)
     double b; // Doppler width (Angstrom)
     double c; // amplitude
-    double y; // central wavelength (Angstrom)
 };
 
-inline
-double especia::doppler_is::center() const {
-    return y;
-}
 
+template<class approximation>
 class especia::voigt_ig {
 public:
     static const size_t parameters = 7;
 
-    voigt_ig();
-
-    voigt_ig(const double a[]);
+    voigt_ig() : c(0.0), y(0.0), f(1.0, 1.0) {
+    };
 
     // a[0] laboratory wavelength (Angstrom)
     // a[1] oscillator strength
@@ -157,28 +186,35 @@ public:
     // a[4] line broadening velocity (km s-1)
     // a[5] decadic logarithm of the particle column number density (cm-2)
     // a[6] damping constant (s-1)
-    ~voigt_ig();
+    voigt_ig(const double a[]){
+        assign(a);
+    }
 
-    double operator()(double x) const;
+    ~voigt_ig(){
+    }
 
-    double center() const;
+    double operator()(double x) const {
+        return c * f(x - y);
+    };
 
-    void assign(const double a[]);
+    void assign(const double a[]) {
+        y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / SPEED_OF_LIGHT);
+        c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);
+
+        const double b = a[4] * y / SPEED_OF_LIGHT;
+        const double d = 2.65442e-20 * a[6] * (a[0] * y);
+
+        f = approximation(b, d);
+    }
 
 private:
-    double b; // Doppler width (Angstrom)
-    double c; // amplitude
-    double d; // Lorentzian width (Angstrom)
     double y; // central wavelength (Angstrom)
-    double z; // pseudo-voigt function mixing parameter
+    double c; // amplitude
+    approximation f;
 };
 
-inline
-double especia::voigt_ig::center() const {
-    return y;
-}
 
-template<class profile_function>
+template<class profile>
 class especia::superposition {
 public:
     superposition()
@@ -187,7 +223,7 @@ public:
 
     superposition(size_t n, const double a[])
             : p(n) {
-        for (size_t i = 0; i < n; ++i, a += profile_function::parameters)
+        for (size_t i = 0; i < n; ++i, a += profile::parameters)
             p[i].assign(a);
     }
 
@@ -206,12 +242,12 @@ public:
     void assign(size_t n, const double a[]) {
         p.resize(n);
 
-        for (size_t i = 0; i < n; ++i, a += profile_function::parameters)
+        for (size_t i = 0; i < n; ++i, a += profile::parameters)
             p[i].assign(a);
     }
 
 private:
-    std::vector<profile_function> p;
+    std::vector<profile> p;
 };
 
 #endif // ESPECIA_PROFILES_H

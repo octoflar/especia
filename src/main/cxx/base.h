@@ -24,14 +24,6 @@
 
 namespace especia {
     /**
-     * The natural logarithm of 2.
-     */
-    const double LN_OF_2 = 0.6931471805599453094172321214581765680755; // +
-    /**
-     * The square root of the natural logarithm of 2.
-     */
-    const double SQRT_OF_LN_OF_2 = 0.8325546111576977563531646448952010476306; // +
-    /**
      * Pi.
      */
     const double PI = 3.1415926535897932384626433832795028841972; // -

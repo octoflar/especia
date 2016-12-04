@@ -39,6 +39,10 @@ set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 
 configure_file(${MAIN}/cxx/config.h.in ${MAIN}/cxx/config.h)
+configure_file(${MAIN}/resources/stisv.html.in resources/stisv.html)
+configure_file(${MAIN}/resources/stisx.html.in resources/stisx.html)
+configure_file(${MAIN}/resources/stis1216.md resources/stis1216.md COPYONLY)
+configure_file(${MAIN}/resources/stis1216.dat resources/stis1216.dat COPYONLY)
 configure_file(${MAIN}/resources/synth.html.in resources/synth.html)
 configure_file(${MAIN}/resources/synth.md resources/synth.md COPYONLY)
 configure_file(${MAIN}/resources/synth1561.dat resources/synth1561.dat COPYONLY)
@@ -68,19 +72,37 @@ add_executable(especis ${MAIN}/cxx/especis.cxx ${COMMON_SOURCES})
 target_link_libraries(especis ${VECLIB})
 add_executable(especiv ${MAIN}/cxx/especiv.cxx ${COMMON_SOURCES})
 target_link_libraries(especiv ${VECLIB})
+add_executable(especix ${MAIN}/cxx/especix.cxx ${COMMON_SOURCES})
+target_link_libraries(especix ${VECLIB})
 add_executable(ecom ${MAIN}/cxx/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/edat.cxx)
 add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
-add_custom_target(check
-        COMMAND ./emod < resources/synth.html | `./ecom < resources/synth.html` > check.html
-        COMMAND grep --count --fixed-strings '<td><strong>159.77</strong></td>' check.html
-        COMMAND grep --count --fixed-strings '<td><strong>171.89</strong></td>' check.html
-        BYPRODUCTS check.html
+add_custom_target(checkd
+        COMMAND ./emod < resources/synth.html | `./ecom < resources/synth.html` > checkd.html
+        COMMAND grep --count --fixed-strings '<td><strong>159.77</strong></td>' checkd.html
+        COMMAND grep --count --fixed-strings '<td><strong>171.89</strong></td>' checkd.html
+        BYPRODUCTS checkd.html
         COMMENT "The check is passed, if the next two lines issue the number 1.")
-add_dependencies(check ecom emod especid)
+add_dependencies(checkd ecom emod especid)
+add_custom_target(checkv
+        COMMAND ./emod < resources/stisv.html | `./ecom < resources/stisv.html` > checkv.html
+        COMMAND grep --count --fixed-strings '<td><strong>251.04</strong></td>' checkv.html
+        BYPRODUCTS checkv.html
+        COMMENT "The check may take a minute. It is passed, if the next line issues the number 1.")
+add_dependencies(checkv ecom emod especiv)
+add_custom_target(checkx
+        COMMAND ./emod < resources/stisx.html | `./ecom < resources/stisx.html` > checkx.html
+        COMMAND grep --count --fixed-strings '<td><strong>251.46</strong></td>' checkx.html
+        BYPRODUCTS checkx.html
+        COMMENT "The check may take a minute. It is passed, if the next line issues the number 1.")
+add_dependencies(checkx ecom emod especix)
+
+add_custom_target(check)
+add_dependencies(check checkd checkv checkx)
+
 
 install(TARGETS especia especid especis especiv ecom edat elog emod emsg
         RUNTIME

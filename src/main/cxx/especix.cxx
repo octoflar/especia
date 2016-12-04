@@ -1,5 +1,5 @@
-// Especia: Voigt profile version for extragalactic lines using the pseudo-Voigt
-// approximation
+// Especia: Voigt profile version for extragalactic lines using the extended
+// pseudo-Voigt approximation
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
         cout << "-->\n";
         cout << "</html>\n";
 
-        model<voigt_ig<pseudo_voigt>> m;
+        model<voigt_ig<extended_pseudo_voigt>> m;
         m.get(cin, cout);
 
         if (cin.eof() and !cin.fail()) {
