@@ -29,31 +29,75 @@
 #include "base.h"
 
 namespace especia {
-
+    /**
+     * The pseudo-Voigt approximation.
+     */
     class pseudo_voigt;
+
+    /**
+     * The extended pseudo_Voigt approximation.
+     */
     class extended_pseudo_voigt;
 
-    // Function-like classes
-    class doppler_ig; // Doppler profile
-    class doppler_mm; // Doppler profile for many-multiplets analysis
-    class doppler_is; // Doppler profile for interstellar lines
+    /**
+     * The Doppler profile to model intergalactic absorption lines.
+     */
+    class doppler_ig;
 
+    /**
+     * The Doppler profile to infer the variation of the fine-structure
+     * constant by means of a many-multiplet analysis.
+     */
+    class doppler_mm;
+
+    /**
+     * The Voigt profile to model intergalactic spectral lines.
+     *
+     * @tparam approximation The approximation to the Voigt function.
+     */
     template <class approximation>
-    class voigt_ig;   // Voigt profile
+    class voigt_ig;
 
-    // Function-like class templates
-
-    template<class profile_function>
+    /**
+     * The superposition of many profiles.
+     *
+     * @tparam profile The profile type.
+     */
+    template<class profile>
     class superposition;
 }
 
-
+/**
+ * The pseudo-Voigt approximation to the Voigt function. The Voigt function is
+ * defined as the convolution of a Gaussian and a Lorentzian function.
+ *
+ * Further reading:
+ *
+ * T. Ida, M. Ando, H. Toraya (2000)
+ * Extended pseudo-Voigt function for approximating the Voigt profile,
+ * J. Appl. Chryst., 33, 1311, ISSN 0021-8898
+ */
 class especia::pseudo_voigt {
 public:
+    /**
+     * Creates a new pseudo-Voigt approximation to the Voigt function.
+     *
+     * @param b The width of the Gaussian.
+     * @param d The width of the Lorentzian.
+     */
     pseudo_voigt(double b = 1.0, double d = 1.0);
 
+    /**
+     * Destructor.
+     */
     ~pseudo_voigt();
 
+    /**
+     * Returns the value of the pseudo-Voigt approximation at a given abscissa value.
+     *
+     * @param x The abscissa value.
+     * @return the value of the pseudo-Voigt approximation at @code x.
+     */
     double operator()(const double &x) const;
 
 private:
@@ -66,12 +110,37 @@ private:
 };
 
 
+/**
+ * The extended pseudo-Voigt approximation to the Voigt function. The Voigt function
+ * is defined as the convolution of a Gaussian and a Lorentzian function.
+ *
+ * Further reading:
+ *
+ * T. Ida, M. Ando, H. Toraya (2000)
+ * Extended pseudo-Voigt function for approximating the Voigt profile,
+ * J. Appl. Chryst., 33, 1311, ISSN 0021-8898
+ */
 class especia::extended_pseudo_voigt {
 public:
+    /**
+     * Creates a new extended pseudo-Voigt approximation to the Voigt function.
+     *
+     * @param b The width of the Gaussian.
+     * @param d The width of the Lorentzian.
+     */
     extended_pseudo_voigt(double b = 1.0, double d = 1.0);
 
+    /**
+     * Destructor.
+     */
     ~extended_pseudo_voigt();
 
+    /**
+     * Returns the value of the extended pseudo-Voigt approximation at a given abscissa value.
+     *
+     * @param x The abscissa value.
+     * @return the value of the extended pseudo-Voigt approximation at @code x.
+     */
     double operator()(const double &x) const;
 
 private:
@@ -89,27 +158,60 @@ private:
     static const double c_p;
 };
 
-
+/**
+ * The Doppler profile to infer the variation of the fine-structure constant.
+ */
 class especia::doppler_mm {
 public:
-    static const size_t parameters = 8;
+    /**
+     * The number of parameters.
+     */
+    static const size_t parameter_count = 8;
 
+    /**
+     * Default constructor.
+     */
     doppler_mm();
 
+    /**
+     * Creates a new Doppler profile with the parameter values specified.
+     *
+     * @param a[0] The laboratory wavelength (Angstrom)
+     * @param a[1] The oscillator strength
+     * @param a[2] The cosmological redshift
+     * @param a[3] The radial velocity (km s-1)
+     * @param a[4] The line broadening velocity (km s-1)
+     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
+     * @param a[6] The relativistic correction coefficient
+     * @param a[7] The variation of the fine-structure constant (1.0e-05)
+     */
     doppler_mm(const double a[]);
 
-    // a[0] laboratory wavelength (Angstrom)
-    // a[1] oscillator strength
-    // a[2] cosmological redshift
-    // a[3] radial velocity (km s-1)
-    // a[4] line broadening velocity (km s-1)
-    // a[5] decadic logarithm of the particle column number density (cm-2)
-    // a[6] relativistic correction coefficient
-    // a[7] variability of the fine-structure constant (1.0e-05)
+    /**
+     * Destructor.
+     */
     ~doppler_mm();
 
+    /**
+     * Returns the value of the Doppler profile at a given wavelength.
+     *
+     * @param x The wavelength (Angstrom)
+     * @return The value of the Doppler profile at @code x.
+     */
     double operator()(double x) const;;
 
+    /**
+     * Assigns a new set of parameter values to this Doppler profile.
+     *
+     * @param a[0] The laboratory wavelength (Angstrom)
+     * @param a[1] The oscillator strength
+     * @param a[2] The cosmological redshift
+     * @param a[3] The radial velocity (km s-1)
+     * @param a[4] The line broadening velocity (km s-1)
+     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
+     * @param a[6] The relativistic correction coefficient
+     * @param a[7] The variation of the fine-structure constant (1.0e-05)
+     */
     void assign(const double a[]);
 
 private:
@@ -119,24 +221,56 @@ private:
 };
 
 
+/**
+ * The Doppler profile to model intergalactic absorption lines.
+ */
 class especia::doppler_ig {
 public:
-    static const size_t parameters = 6;
+    /**
+     * The number of parameters.
+     */
+    static const size_t parameter_count = 6;
 
+    /**
+     * Default constructor.
+     */
     doppler_ig();
 
+    /**
+     * Creates a new Doppler profile with the parameter values specified.
+     *
+     * @param a[0] The laboratory wavelength (Angstrom)
+     * @param a[1] The oscillator strength
+     * @param a[2] The cosmological redshift
+     * @param a[3] The radial velocity (km s-1)
+     * @param a[4] The line broadening velocity (km s-1)
+     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
+     */
     doppler_ig(const double a[]);
 
-    // a[0] laboratory wavelength (Angstrom)
-    // a[1] oscillator strength
-    // a[2] cosmological redshift
-    // a[3] radial velocity (km s-1)
-    // a[4] line broadening velocity (km s-1)
-    // a[5] decadic logarithm of the particle column number density (cm-2)
+    /**
+     * Destructor.
+     */
     ~doppler_ig();
 
+    /**
+     * Returns the value of the Doppler profile at a given wavelength.
+     *
+     * @param x The wavelength (Angstrom)
+     * @return The value of the Doppler profile at @code x.
+     */
     double operator()(double x) const;;
 
+    /**
+     * Assigns a new set of parameter values to this Doppler profile.
+     *
+     * @param a[0] The laboratory wavelength (Angstrom)
+     * @param a[1] The oscillator strength
+     * @param a[2] The cosmological redshift
+     * @param a[3] The radial velocity (km s-1)
+     * @param a[4] The line broadening velocity (km s-1)
+     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
+     */
     void assign(const double a[]);
 
 private:
@@ -146,32 +280,67 @@ private:
 };
 
 
+/**
+ * The Voigt profile to model intergalactic spectral lines.
+ *
+ * @tparam approximation The approximation to the Voigt function.
+ */
 template<class approximation>
 class especia::voigt_ig {
 public:
-    static const size_t parameters = 7;
+    /**
+     * The number of parameters.
+     */
+    static const size_t parameter_count = 7;
 
+    /**
+     * Default constructor.
+     */
     voigt_ig() : c(0.0), y(0.0), f(1.0, 1.0) {
     };
 
-    // a[0] laboratory wavelength (Angstrom)
-    // a[1] oscillator strength
-    // a[2] cosmological redshift
-    // a[3] radial velocity (km s-1)
-    // a[4] line broadening velocity (km s-1)
-    // a[5] decadic logarithm of the particle column number density (cm-2)
-    // a[6] damping constant (s-1)
+    /**
+     * Creates a new Voigt profile with the parameter values specified.
+     *
+     * @param a[0] The laboratory wavelength (Angstrom)
+     * @param a[1] The oscillator strength
+     * @param a[2] The cosmological redshift
+     * @param a[3] The radial velocity (km s-1)
+     * @param a[4] The line broadening velocity (km s-1)
+     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
+     * @param a[6] The damping constant (s-1)
+     */
     voigt_ig(const double a[]){
         assign(a);
     }
 
+    /**
+     * Destructor.
+     */
     ~voigt_ig(){
     }
 
+    /**
+     * Returns the value of the Voigt profile at a given wavelength.
+     *
+     * @param x The wavelength (Angstrom)
+     * @return The value of the Voigt profile at @code x.
+     */
     double operator()(double x) const {
         return c * f(x - y);
     };
 
+    /**
+     * Assigns a new set of parameter values to this Voigt profile.
+     *
+     * @param a[0] The laboratory wavelength (Angstrom)
+     * @param a[1] The oscillator strength
+     * @param a[2] The cosmological redshift
+     * @param a[3] The radial velocity (km s-1)
+     * @param a[4] The line broadening velocity (km s-1)
+     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
+     * @param a[6] The damping constant (s-1)
+     */
     void assign(const double a[]) {
         y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
         c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);
@@ -189,22 +358,46 @@ private:
 };
 
 
+/**
+ * The superposition of many profiles.
+ *
+ * @tparam profile The profile type.
+ */
 template<class profile>
 class especia::superposition {
 public:
+    /**
+     * Default constructor.
+     */
     superposition()
             : p() {
     }
 
+    /**
+     * Constructs a new superposition of profiles with the parameter values specified.
+     *
+     * @param n The number of profiles.
+     * @param a The parameter values. The semantics of values and the number of parameters
+     *          per component is defined by the profile type.
+     */
     superposition(size_t n, const double a[])
             : p(n) {
-        for (size_t i = 0; i < n; ++i, a += profile::parameters)
+        for (size_t i = 0; i < n; ++i, a += profile::parameter_count)
             p[i].assign(a);
     }
 
+    /**
+     * Destructor.
+     */
     ~superposition() {
     }
 
+    /**
+     * Returns the value of the profile superpositon at a given wavelength.
+     *
+     * @param x The wavelength (Angstrom)
+     * @return The value of the profile superposition at @code x.
+     */
     double operator()(double x) const {
         double d = 0.0;
 
@@ -214,10 +407,17 @@ public:
         return d;
     }
 
+    /**
+     * Assigns a new set of parameter values to this superposition.
+     *
+     * @param n The number of profiles.
+     * @param a The parameter values. The semantics of values and the number of parameters
+     *          per component is defined by the profile type.
+     */
     void assign(size_t n, const double a[]) {
         p.resize(n);
 
-        for (size_t i = 0; i < n; ++i, a += profile::parameters)
+        for (size_t i = 0; i < n; ++i, a += profile::parameter_count)
             p[i].assign(a);
     }
 
@@ -226,9 +426,3 @@ private:
 };
 
 #endif // ESPECIA_PROFILES_H
-
-// References
-//
-// T. Ida, M. Ando, H. Toraya (2000)
-//   Extended pseudo-Voigt function for approximating the Voigt profile,
-//   J. Appl. Chryst., 33, 1311, ISSN 0021-8898

@@ -41,11 +41,11 @@
 
 
 namespace especia {
-    template<class profile_function>
+    template<class profile>
     class model;
 }
 
-template<class profile_function>
+template<class profile>
 class especia::model {
 public:
     std::istream &get(std::istream &is, std::ostream &os, char comment_mark = '%', char begin_of_section = '{',
@@ -179,8 +179,8 @@ public:
                         if (pim.find(pid) == pim.end()) {
                             pim[pid] = i;
 
-                            if (read(ist, val, lo, up, msk, ref, profile_function::parameters, '\n', true)) {
-                                i += profile_function::parameters;
+                            if (read(ist, val, lo, up, msk, ref, profile::parameter_count, '\n', true)) {
+                                i += profile::parameter_count;
                                 k += 1;
                             } else {
                                 is.setstate(ios_base::badbit | ios_base::failbit);
@@ -255,7 +255,7 @@ public:
 
             // Dereference line parameter references
             for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i)
-                for (size_t j = 0; j < profile_function::parameters; ++j) {
+                for (size_t j = 0; j < profile::parameter_count; ++j) {
                     const size_t k = i->second + j;
 
                     while (!ref[k].empty()) {
@@ -476,7 +476,7 @@ public:
                 val[i] = x[ind[i]];
 
         for (size_t i = 0; i < sec.size(); ++i)
-            sec[i].compute_model(especia::superposition<profile_function>(nli[i], &val[isc[i] + 1]), nle[i], val[isc[i]]);
+            sec[i].compute_model(especia::superposition<profile>(nli[i], &val[isc[i] + 1]), nle[i], val[isc[i]]);
     }
 
     double statistics(const double x[], size_t n) const {
@@ -490,7 +490,7 @@ public:
         double d = 0.0;
 
         for (size_t i = 0; i < sec.size(); ++i)
-            d += sec[i].cost(especia::superposition<profile_function>(nli[i], &y[isc[i] + 1]), nle[i], y[isc[i]]);
+            d += sec[i].cost(especia::superposition<profile>(nli[i], &y[isc[i] + 1]), nle[i], y[isc[i]]);
 
         return d;
     }
@@ -576,7 +576,7 @@ public:
             if (trace > 0)
                 stop = min(g + trace, stop_generation);
 
-            especia::optimize(this, &model<profile_function>::statistics, &x[0], n,
+            especia::optimize(this, &model<profile>::statistics, &x[0], n,
                          &a[0], &b[0],
                          parent_number,
                          population_size,
@@ -642,7 +642,7 @@ public:
 
         // Compute uncertainty
         if (is_opt)
-            especia::scale_step_size(this, &model<profile_function>::statistics, &x[0], n, step_size, &d[0], &B[0]);
+            especia::scale_step_size(this, &model<profile>::statistics, &x[0], n, step_size, &d[0], &B[0]);
         for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1)
             d[i] = step_size * sqrt(C[ii]);
         for (size_t i = 0; i < msk.size(); ++i)

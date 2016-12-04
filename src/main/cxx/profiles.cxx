@@ -32,28 +32,69 @@ using especia::pi;
 using especia::sqr;
 using especia::sqrt_of_pi;
 
+/**
+ * The Gaussian.
+ *
+ * @param x The abscissa value.
+ * @param gamma The width.
+ * @return the value of the Gaussian at @code x.
+ */
 inline
 double f_g(const double &x, const double &gamma) {
     return (1.0 / (sqrt_of_pi * gamma)) * exp(-sqr(x / gamma));
 }
 
+/**
+ * The Lorentzian.
+ *
+ * @param x The abscissa value.
+ * @param gamma The width.
+ * @return the value of the Lorentzian at @code x.
+ */
 inline
 double f_l(const double &x, const double &gamma) {
     return 1.0 / ((pi * gamma) * (1.0 + sqr(x / gamma)));
 }
 
+/**
+ * The irrational function used in the extended pseudo Voigt approximation.
+ *
+ * @param x The abscissa value.
+ * @param gamma The width.
+ * @return the value of the function at @code x.
+ */
 inline
 double f_i(const double &x, const double &gamma) {
     return 1.0 / ((2.0 * gamma) * pow(1.0 + sqr(x / gamma), 1.5));
 }
 
+/**
+ * The squared hyperbolic secant function used in the extended pseudo Voigt approximation.
+ *
+ * @param x The abscissa value.
+ * @param gamma The width.
+ * @return the value of the function at @code x.
+ */
 inline
 double f_p(const double &x, const double &gamma) {
     return 1.0 / (2.0 * gamma * sqr(cosh(x / gamma)));
 }
 
+/**
+ * An univariate polynomial of degree 6.
+ *
+ * @param x The abscissa value.
+ * @param h0 The coefficient for the monomial of degree 0.
+ * @param h1 The coefficient for the monomial of degree 1.
+ * @param h2 The coefficient for the monomial of degree 2.
+ * @param h3 The coefficient for the monomial of degree 3.
+ * @param h4 The coefficient for the monomial of degree 4.
+ * @param h5 The coefficient for the monomial of degree 5.
+ * @param h6 The coefficient for the monomial of degree 6.
+ * @return the value of the polynomial at @code rho.
+ */
 inline
-double poly(const double &rho,
+double poly(const double &x,
             const double &h0,
             const double &h1,
             const double &h2,
@@ -61,7 +102,7 @@ double poly(const double &rho,
             const double &h4,
             const double &h5,
             const double &h6) {
-    return h0 + rho * (h1 + rho * (h2 + rho * (h3 + rho * (h4 + rho * (h5 + rho * h6)))));
+    return h0 + x * (h1 + x * (h2 + x * (h3 + x * (h4 + x * (h5 + x * h6)))));
 }
 
 inline
@@ -195,9 +236,3 @@ void especia::doppler_ig::assign(const double a[]) {
     b = a[4] * y / speed_of_light;
     c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);
 }
-
-// References
-//
-// T. Ida, M. Ando, H. Toraya (2000)
-//   Extended pseudo-Voigt function for approximating the Voigt profile,
-//   J. Appl. Chryst., 33, 1311, ISSN 0021-8898

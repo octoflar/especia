@@ -31,12 +31,6 @@ namespace especia {
      * The Mersenne twister algorithm to generate [0,1] uniformly distributed
      * random deviates.
      *
-     * The functor template generates is based on the 2002/01/26 version coded
-     * by Takuji Nishimura and Makoto Matsumoto(Matsumoto and Nishimura, 1998).
-     *
-     * The notation of template parameters follows Matsumoto and
-     * Nishimura (1998, Table 2).
-     *
      * @tparam w The number of bits in a word.
      * @tparam n A template parameter.
      * @tparam m A template parameter.
@@ -74,6 +68,39 @@ namespace especia {
             15, 0xefc60000, 18> mt19937;
 }
 
+/**
+ * The Mersenne twister algorithm to generate [0,1] uniformly distributed
+ * random deviates.
+ *
+ * The functor template generates is based on the 2002/01/26 version coded
+ * by Takuji Nishimura and Makoto Matsumoto(Matsumoto and Nishimura, 1998).
+ *
+ * The notation of template parameters follows Matsumoto and
+ * Nishimura (1998, Table 2).
+ *
+ * Further reading:
+ *
+ * D. Knuth (1998)
+ *   The art of computer programming 2. Seminumerical algorithms
+ *   Addison Wesley Longman, ISBN 0-201-89684-2
+ *
+ * M. Matsumoto, T. Nishimura (1998)
+ *   Mersenne Twister: A 623-dimensionally equidistributed uniform
+ *   pseudorandom number generator
+ *   ACM Transactions on Modeling and Computer Simulation, 8, 3, ISSN 1049-3301
+ *
+ * @tparam w The number of bits in a word.
+ * @tparam n A template parameter.
+ * @tparam m A template parameter.
+ * @tparam r A template parameter.
+ * @tparam a A template parameter.
+ * @tparam u A template parameter.
+ * @tparam s A template parameter.
+ * @tparam b A template parameter.
+ * @tparam t A template parameter.
+ * @tparam c A template parameter.
+ * @tparam l A template parameter.
+ */
 template<unsigned w, unsigned n, unsigned m, unsigned r,
         unsigned long a,
         unsigned u,
@@ -111,7 +138,7 @@ public:
     };
 
     /**
-     * Returns a random number.
+     * Returns a new random number.
      *
      * @return a random number in [0, 1].
      */
