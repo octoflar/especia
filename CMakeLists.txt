@@ -111,9 +111,8 @@ install(TARGETS especia especid especis especiv ecom edat elog emod emsg
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/base.h)
 add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/base.h)
-add_executable(cumulate EXCLUDE_FROM_ALL ${MAIN}/cxx/util/cumulate.cxx)
 add_executable(threecol EXCLUDE_FROM_ALL ${MAIN}/cxx/util/threecol.cxx)
 add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx)
 
 add_custom_target(util)
-add_dependencies(util airtovac barycorr cumulate threecol vactoair)
+add_dependencies(util airtovac barycorr threecol vactoair)
