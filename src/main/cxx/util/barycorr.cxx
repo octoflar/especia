@@ -108,7 +108,7 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
 }
 
 int main(int argc, char *argv[]) {
-    using especia::SPEED_OF_LIGHT;
+    using especia::relativistic_doppler_z;
 
     const char *pname = argv[0];
 
@@ -118,7 +118,6 @@ int main(int argc, char *argv[]) {
         skip = atoi(argv[2]);
     }
     if (argc == 3 || argc == 2) {
-        const double c = SPEED_OF_LIGHT;
         const double v = atof(argv[1]);
 
         valarray<double> x;
@@ -127,8 +126,7 @@ int main(int argc, char *argv[]) {
 
         if (get(cin, x, y, z, skip)) {
             if (v != 0.0)
-                x *= sqrt((1.0 + v / c) / (1.0 - v / c));
-            // relativistic correction
+                x *= relativistic_doppler_z(v);
 
             put(cout, x, y, z);
         } else {
