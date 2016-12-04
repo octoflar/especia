@@ -1,4 +1,4 @@
-// Especia: Voigt profile version for extragalactic lines using the pseudo-Voigt
+// Especia: Voigt profile version for intergalactic lines using the pseudo-Voigt
 // approximation
 // Copyright (c) 2016 Ralf Quast
 //
@@ -33,7 +33,7 @@ const char usemsg[] = "usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
 
 /**
- * Pseudo-Voigt profile flavor of Especia to analyse extragalactic lines.
+ * Pseudo-Voigt profile flavor of Especia to analyse intergalactic lines.
  *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments.

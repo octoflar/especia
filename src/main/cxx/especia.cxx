@@ -1,4 +1,4 @@
-// Especia: many-multiplets version to infer the variation of the fine-structure
+// Especia: many-multiplet version to infer the variation of the fine-structure
 // constant
 // Copyright (c) 2016 Ralf Quast
 //
@@ -39,7 +39,7 @@ const char usemsg[] = "usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
 
 /**
- * Many-multiplets flavor of Especia to infer the variation of the fine-structure
+ * Many-multiplet flavor of Especia to infer the variation of the fine-structure
  * constant.
  *
  * @param argc The number of command line arguments supplied.
