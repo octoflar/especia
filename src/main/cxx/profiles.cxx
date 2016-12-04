@@ -215,6 +215,7 @@ void especia::doppler_mm::assign(const double a[]) {
     c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (w * y);
 }
 
+
 especia::doppler_ig::doppler_ig() : y(0.0), b(1.0), c(0.0) {
 }
 
