@@ -74,8 +74,8 @@ namespace especia {
  * Further reading:
  *
  * T. Ida, M. Ando, H. Toraya (2000)
- * Extended pseudo-Voigt function for approximating the Voigt profile,
- * J. Appl. Chryst., 33, 1311, ISSN 0021-8898
+ *   Extended pseudo-Voigt function for approximating the Voigt profile,
+ *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898
  */
 class especia::pseudo_voigt {
 public:
