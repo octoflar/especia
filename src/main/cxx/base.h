@@ -66,4 +66,4 @@ number especia::sqr(const number &x) {
     return (x == number(0)) ? number(0) : x * x;
 }
 
-#endif //ESPECIA_BASE_H
+#endif // ESPECIA_BASE_H
