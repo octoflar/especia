@@ -378,7 +378,7 @@ public:
      *
      * @param n The number of profiles.
      * @param a The parameter values. The semantics of values and the number of parameters
-     *          per component is defined by the profile type.
+     *          per component are defined by the profile type.
      */
     superposition(size_t n, const double a[])
             : p(n) {
@@ -412,7 +412,7 @@ public:
      *
      * @param n The number of profiles.
      * @param a The parameter values. The semantics of values and the number of parameters
-     *          per component is defined by the profile type.
+     *          per component are defined by the profile type.
      */
     void assign(size_t n, const double a[]) {
         p.resize(n);

@@ -57,7 +57,7 @@ double f_l(const double &x, const double &gamma) {
 }
 
 /**
- * The irrational function used in the extended pseudo Voigt approximation.
+ * The irrational function used in the extended pseudo-Voigt approximation.
  *
  * @param x The abscissa value.
  * @param gamma The width.
@@ -69,7 +69,7 @@ double f_i(const double &x, const double &gamma) {
 }
 
 /**
- * The squared hyperbolic secant function used in the extended pseudo Voigt approximation.
+ * The squared hyperbolic secant function used in the extended pseudo-Voigt approximation.
  *
  * @param x The abscissa value.
  * @param gamma The width.
@@ -91,7 +91,7 @@ double f_p(const double &x, const double &gamma) {
  * @param h4 The coefficient for the monomial of degree 4.
  * @param h5 The coefficient for the monomial of degree 5.
  * @param h6 The coefficient for the monomial of degree 6.
- * @return the value of the polynomial at @code rho.
+ * @return the value of the polynomial at @code x.
  */
 inline
 double poly(const double &x,
