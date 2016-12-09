@@ -159,7 +159,15 @@ private:
 };
 
 /**
- * The Doppler profile to infer the variation of the fine-structure constant.
+ * The Doppler profile to infer the variation of the fine-structure constant
+ * by means of a many-multiplet analysis.
+ *
+ * Further reading:
+ *
+ * R. Quast, D. Reimers and S. A. Levshakov (2004)
+ *   Probing the variability of the fine-structure constant with the VLT/UVES
+ *   Astronomy and Astrophysics, 415, L7
+ *   doi: http://dx.doi.org/10.1051/0004-6361:20040013
  */
 class especia::doppler_mm {
 public:
