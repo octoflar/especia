@@ -75,8 +75,8 @@ namespace especia {
  * The Mersenne twister algorithm to generate [0,1] uniformly distributed
  * random deviates.
  *
- * The functor template generates is based on the 2002/01/26 version coded
- * by Takuji Nishimura and Makoto Matsumoto(Matsumoto and Nishimura, 1998).
+ * This functor template is based on the 2002/01/26 version coded by Takuji
+ * Nishimura and Makoto Matsumoto(Matsumoto and Nishimura, 1998).
  *
  * The notation of template parameters follows Matsumoto and
  * Nishimura (1998, Table 2).
