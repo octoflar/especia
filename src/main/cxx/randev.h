@@ -26,16 +26,14 @@
 
 namespace especia {
     /**
-     * A functor to generate random normal deviates.
-     *
-     * @tparam uniform_deviate A functor to generate random uniform deviates.
+     * A functor template to generate random normal deviates.
      */
     template<class uniform_deviate>
     class normal_deviate;
 }
 
 /**
- * A functor to generate random normal deviates.
+ * A functor template to generate random normal deviates.
  *
  * The algorithm uses the polar method (e.g. Knuth, 1998,
  * Sec. 3.4.1, Algorithm P) to generate standard normally distributed random
@@ -43,9 +41,9 @@ namespace especia {
  *
  * Further reading:
  *
- * D. Knuth (1998)
- *   The art of computer programming 2. Seminumerical algorithms
- *   Addison Wesley Longman, ISBN 0-201-89684-2
+ * D. Knuth (1998).
+ *   *The art of computer programming 2. Seminumerical algorithms.*
+ *   Addison Wesley Longman, ISBN 0-201-89684-2.
  *
  * @tparam uniform_deviate A functor to generate random uniform deviates.
  */
@@ -55,7 +53,7 @@ public:
     /**
      * Constructs a new instance of this functor from a seed.
      *
-     * @param seed The seed.
+     * @param[in] seed The seed.
      */
     normal_deviate(unsigned long seed = 5489) : udev(seed), gen_xy(false) {
     }
@@ -63,9 +61,9 @@ public:
     /**
      * Copy constructor.
      *
-     * @param u The instance of this functor to be copied.
+     * @param[in] u The instance of this functor to be copied.
      */
-    normal_deviate(uniform_deviate &u) : udev(u), gen_xy(false) {
+    normal_deviate(const uniform_deviate &u) : udev(u), gen_xy(false) {
     }
 
     /**
@@ -106,7 +104,7 @@ public:
     /**
      * Resets this functor with a seed.
      *
-     * @param seed The seed.
+     * @param[in] seed The seed.
      */
     void reset(unsigned long seed = 5489) {
         udev.reset(seed);
@@ -116,9 +114,9 @@ public:
     /**
      * Resets this functor with another instance.
      *
-     * @param u The other instance.
+     * @param[in] u The other instance.
      */
-    void reset(uniform_deviate &u) {
+    void reset(const uniform_deviate &u) {
         udev = u;
         gen_xy = false;
     }
