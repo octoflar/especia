@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especiv 27182 40 80 0.5 0.000001 2000 10 < stisx.md
+    especix 27182 40 80 0.5 0.000001 2000 10 < stisx.md
     
 The spectroscopic data used here were acquired by the Space Telescope
 Imaging Spectrograph (STIS) aboard the Hubble Space Telescope.
