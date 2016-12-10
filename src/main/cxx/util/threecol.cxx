@@ -1,4 +1,4 @@
-// Utility: merge separate spectral flux and uncertainty data three-column format
+// Utility: merge separate spectral flux and uncertainty data to three-column format
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -97,6 +97,21 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
     return os;
 }
 
+/**
+ * Utility to merge separate spectral flux and uncertainty data to
+ * three-column format.
+ *
+ * @param argc The number of command line arguments supplied.
+ * @param argv The command line arguments:
+ * @parblock
+ * @c argv[0] The program name
+ *
+ * @c argv[1] The path name of the flux data file.
+ *
+ * @c argv[2] The path name of the flux uncertainty data file
+ * @endparblock
+ * @return an exit code.
+ */
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
 

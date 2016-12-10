@@ -107,6 +107,21 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
     return os;
 }
 
+/**
+ * Utility to apply the barycentric velocity correction to spectroscopic
+ * data.
+ *
+ * @param argc The number of command line arguments supplied.
+ * @param argv The command line arguments:
+ * @parblock
+ * @c argv[0] The program name
+ *
+ * @c argv[1] The velocity of the barycenter (km s-1)
+ *
+ * @c argv[2] The number of lines to skip (optional, default = 0)
+ * @endparblock
+ * @return an exit code.
+ */
 int main(int argc, char *argv[]) {
     using especia::relativistic_doppler_z;
 

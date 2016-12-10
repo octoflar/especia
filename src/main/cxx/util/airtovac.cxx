@@ -139,6 +139,32 @@ double find_root(void f(double, double &, double &), double c, double x, double 
     return x;
 }
 
+/**
+ * Utility to convert wavelength in spectroscopic data from air
+ * to vacuum.
+ *
+ * Further reading:
+ *
+ * B. Edlen (1966).
+ *   *The refractive index of air.*
+ *   Metrologia, 2, 2, 71-80.
+ *   http://dx.doi.org/10.1088/0026-1394/2/2/002
+ *
+ * B. Edlen (1953).
+ *   *The dispersion of standard air.*
+ *   Journal of the Optical Society of America, 43, 5, 339.
+ *
+ * @param argc The number of command line arguments supplied.
+ * @param argv The command line arguments:
+ * @parblock
+ * @c argv[0] The program name
+ *
+ * @c argv[1] The number of lines to skip (optional, default = 0)
+ *
+ * @c argv[2] The accuracy goal (optional, dafault = 1.0E-8)
+ * @endparblock
+ * @return an exit code.
+ */
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
 
