@@ -75,6 +75,108 @@ namespace especia {
 
 
     /**
+     * A bound constraint.
+     *
+     * @tparam number The number type.
+     */
+    template<class number>
+    class bound_constraint {
+    public:
+        /**
+         * Constructs a new strict-bound prior constraint.
+         *
+         * @param lower_bounds The lower bounds.
+         * @param upper_bounds The upper bounds.
+         * @param n The number of bounds.
+         */
+        bound_constraint(const number lower_bounds[], const number upper_bounds[], size_t n)
+                : a(lower_bounds, n), b(upper_bounds, n) {
+        }
+
+        /**
+         * Destructor.
+         */
+        ~bound_constraint() {
+        }
+
+        /**
+         * Tests if a given parameter vector violates the constraint.
+         *
+         * @param x The parameter vector.
+         * @param n The number of parameters to test.
+         * @return @c true, if the parameter vector violates the constraint.
+         */
+        bool test(const number *x, size_t n) const {
+            for (size_t i = 0; i < n; ++i) {
+                if (x[i] < a[i] || x[i] > b[i]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Computes the cost associated with the constraint.
+         *
+         * @param x The parameter vector.
+         * @param n The number of parameters to take account of.
+         * @return always zero.
+         */
+        number cost(const number x[], size_t n) const {
+            return number(0);
+        }
+
+    private:
+        const std::valarray<number> a;
+        const std::valarray<number> b;
+    };
+
+
+    /**
+     * No constraint.
+     *
+     * @tparam number The number type.
+     */
+    template<class number>
+    class no_constraint {
+    public:
+        /**
+         * Constructor.
+         */
+        no_constraint() {
+        }
+
+        /**
+         * Destructor.
+         */
+        ~no_constraint() {
+        }
+
+        /**
+         * Tests if a given parameter vector violates the constraint.
+         *
+         * @param x The parameter vector.
+         * @param n The number of parameters to test.
+         * @return always @c false.
+         */
+        bool test(const number *x, size_t n) const {
+            return false;
+        }
+
+        /**
+         * Computes the cost associated with the constraint.
+         *
+         * @param x The parameter vector.
+         * @param n The number of parameters to take account of.
+         * @return always zero.
+         */
+        number cost(const number x[], size_t n) const {
+            return number(0);
+        }
+    };
+
+
+    /**
      * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear
      * function optimization. Based on Hansen and Ostermeier (2001).
      *
@@ -90,13 +192,13 @@ namespace especia {
      *    Evolutionary Computation, 9, 159, ISSN 1063-6560.
      *
      * @tparam function  The function type.
-     * @tparam validator The validator type.
+     * @tparam prior The prior constraint type.
      * @tparam generator The strategy to generate random normal deviates.
      * @tparam decomposer The strategy to perform the symmetric eigenvalue decomposition.
      * @tparam comparator The strategy to compare fitness values.
      *
      * @param[in] f The objective function.
-     * @param[in] constraint The prior constraints.
+     * @param[in] constraint The prior constraint on the parameter values.
      * @param[in] n The number of parameters.
      * @param[in] parent_number The number of parents per generation.
      * @param[in] population_size The number of individuals per generation. Twice the parent number, at least
@@ -117,16 +219,16 @@ namespace especia {
      * @param[in,out] C The covariance matrix.
      * @param[in,out] ps The step size cumulation path.
      * @param[in,out] pc The distribution cumulation path.
-     * @param[out] yw The value of the objective function at @c xw.
+     * @param[out] yw The value of the objective function (plus the constraint cost) at @c xw.
      * @param[out] optimized Set to @c true when the optimization has converged.
      * @param[out] underflow Set to @c true when the mutation variance is too small.
      * @param[in] random The random number generator.
      * @param[in] decomp The eigenvalue decomposition.
      * @param[in] comp The comparator to compare fitness values.
      */
-    template<class function, class validator, class generator, class decomposer, class comparator>
+    template<class function, class prior, class generator, class decomposer, class comparator>
     void optimize(const function &f,
-                  const validator &constraint,
+                  const prior &constraint,
                   size_t n,
                   unsigned parent_number,
                   unsigned population_size,
@@ -195,7 +297,7 @@ namespace especia {
                             v[k][i] = vw[i] + z * B[ij];
                             x[k][i] = xw[i] + u[k][i] * step_size; // Hansen and Ostermeier (2001), Eq. (13)
                         }
-                    } while (constraint.reject(&x[k][0], n));
+                    } while (constraint.test(&x[k][0], n));
                     uw = u[k];
                     vw = v[k];
                 }
@@ -204,7 +306,7 @@ namespace especia {
 #pragma omp parallel for
 #endif
             for (size_t k = 0; k < population_size; ++k) {
-                fitness[k] = f(&x[k][0], n);
+                fitness[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
                 index[k] = k;
             }
             partial_sort(&index[0], &index[parent_number], &index[population_size],
@@ -286,7 +388,7 @@ namespace especia {
                 break;
         }
 
-        yw = f(xw, n);
+        yw = f(xw, n) + constraint.cost(xw, n);
     }
 
 
@@ -297,16 +399,19 @@ namespace especia {
      * parabola through three point around the minimum.
      *
      * @tparam function The function type.
+     * @tparam prior The prior constraint type.
      *
      * @param[in] f The objective function.
+     * @param[in] constraint The prior constraint on the parameter values.
      * @param[in] x The parameter values.
      * @param[in] n The number of parameter values.
      * @param[in] d The local step sizes
      * @param[in] B The rotation matrix.
      * @param[in,out] s The global step size.
      */
-    template<class function>
-    void scale_step_size(const function &f, const double x[], size_t n, const double d[], const double B[], double &s) {
+    template<class function, class prior>
+    void scale_step_size(const function &f, const prior &constraint, const double x[], size_t n, const double d[],
+                         const double B[], double &s) {
         using std::abs;
         using std::valarray;
 
@@ -319,92 +424,12 @@ namespace especia {
             q[i] += a * B[ij] * d[j];
         }
 
-        const double zx = f(&x[0], n);
-        const double zp = f(&p[0], n);
-        const double zq = f(&q[0], n);
-        // compute the covariance along the major principal axis by means of a parabola
+        const double zx = f(&x[0], n) + constraint.cost(&x[0], n);
+        const double zp = f(&p[0], n) + constraint.cost(&p[0], n);
+        const double zq = f(&q[0], n) + constraint.cost(&q[0], n);
+
         s = a / sqrt(abs(2.0 * (zp - zx) - (zp - zq)));
     }
-
-
-    /**
-     * A strict bound constraint.
-     *
-     * @tparam number The number type.
-     */
-    template<class number>
-    class bound_constraint {
-    public:
-        /**
-         * Constructs a new bound constraint.
-         *
-         * @param lower_bounds The lower bounds.
-         * @param upper_bounds The upper bounds.
-         * @param n The number of bounds.
-         */
-        bound_constraint(const number lower_bounds[], const number upper_bounds[], size_t n)
-                : a(lower_bounds, n), b(upper_bounds, n) {
-        }
-
-        /**
-         * Destructor.
-         */
-        ~bound_constraint() {
-        }
-
-        /**
-         * Tests if a given parameter vector violates the bound constraint.
-         *
-         * @param x The parameter vector.
-         * @param n The number of parameters to test.
-         * @return @c true, if the parameter vector violates the bound constraint.
-         */
-        bool reject(const number x[], size_t n) const {
-            for (size_t i = 0; i < n; ++i) {
-                if (x[i] < a[i] || x[i] > b[i]) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-    private:
-        const std::valarray<number> a;
-        const std::valarray<number> b;
-    };
-
-
-    /**
-     * No constraint.
-     *
-     * @tparam number The number type.
-     */
-    template<class number>
-    class no_constraint {
-    public:
-        /**
-         * Constructor.
-         */
-        no_constraint() {
-        }
-
-        /**
-         * Destructor.
-         */
-        ~no_constraint() {
-        }
-
-        /**
-         * Tests if a given parameter vector violates the constraint.
-         *
-         * @param x The parameter vector.
-         * @param n The number of parameters to test.
-         * @return always @c false.
-         */
-        bool reject(const number x[], size_t n) const {
-            return false;
-        }
-    };
 
 }
 

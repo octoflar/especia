@@ -521,7 +521,6 @@ namespace especia {
             const char uflmsg[] = "RQ::model<>::optimize(): Warning: Mutation variance underflow";
 
             const size_t n = ind.max() + 1;
-            const unsigned update_modulus = 1;
 
             valarray<double> x(n);
             valarray<double> a(n);
@@ -545,11 +544,6 @@ namespace especia {
                 C[ii] = d[i] * d[i];
             }
 
-            unsigned long g = 0;
-            double y = 0.0;
-            bool optimized = false;
-            bool underflow = false;
-
             os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
             os << "<html>\n";
             os << "<!--\n";
@@ -563,7 +557,15 @@ namespace especia {
                 os << beglog << endl;
             }
 
-            optimize(a, b, 
+            const bound_constraint<double> constraint(&a[0], &b[0], n);
+            const unsigned update_modulus = 1;
+
+            unsigned long g = 0;
+            double y = 0.0;
+            bool optimized = false;
+            bool underflow = false;
+
+            optimize(constraint,
                      parent_number, 
                      population_size, 
                      update_modulus, 
@@ -603,7 +605,7 @@ namespace especia {
 
             // Compute uncertainty
             if (optimized)
-                scale_step_size(*this, &x[0], n, &d[0], &B[0], step_size);
+                scale_step_size(*this, constraint, &x[0], n, &d[0], &B[0], step_size);
             for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1)
                 d[i] = step_size * sqrt(C[ii]);
             for (size_t i = 0; i < msk.size(); ++i)
@@ -618,9 +620,8 @@ namespace especia {
         }
 
     private:
-        template<class generator, class decomposer>
-        void optimize(const std::valarray<double> &a,
-                      const std::valarray<double> &b,
+        template<class generator, class prior, class decomposer>
+        void optimize(const prior &constraint,
                       unsigned parent_number,
                       unsigned population_size,
                       unsigned update_modulus,
@@ -660,7 +661,6 @@ namespace especia {
                                 (1.0 - acov) * min(1.0, (2.0 * wv - 1.0) / (sqr(n + 2.0) + wv));
             const double step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
 
-            const bound_constraint<double> constraint(&a[0], &b[0], n);
             const less<double> comp = less<double>();
 
             valarray<double> pc(0.0, n);
@@ -675,8 +675,7 @@ namespace especia {
                     stop = stop_generation;
                 }
 
-                especia::optimize(*this,
-                                  constraint,
+                especia::optimize(*this, constraint,
                                   n,
                                   parent_number,
                                   population_size,
