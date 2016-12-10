@@ -94,6 +94,7 @@ namespace especia {
      * @tparam generator The strategy to generate random normal deviates.
      * @tparam decomposer The strategy to perform the symmetric eigenvalue decomposition.
      * @tparam comparator The strategy to compare fitness values.
+     *
      * @param[in] f The objective function.
      * @param[in] constraint The prior constraints.
      * @param[in] n The number of parameters.
@@ -296,6 +297,7 @@ namespace especia {
      * parabola through three point around the minimum.
      *
      * @tparam function The function type.
+     *
      * @param[in] f The objective function.
      * @param[in] x The parameter values.
      * @param[in] n The number of parameter values.

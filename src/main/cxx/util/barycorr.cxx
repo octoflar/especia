@@ -116,14 +116,14 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
  * @parblock
  * @c argv[0] The program name
  *
- * @c argv[1] The velocity of the barycenter (km s-1)
+ * @c argv[1] The velocity of the observer relative to the barycenter of the solar system (km s-1)
  *
  * @c argv[2] The number of lines to skip (optional, default = 0)
  * @endparblock
  * @return an exit code.
  */
 int main(int argc, char *argv[]) {
-    using especia::relativistic_doppler_z;
+    using especia::doppler_factor;
 
     const char *pname = argv[0];
 
@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
 
         if (get(cin, x, y, z, skip)) {
             if (v != 0.0)
-                x *= relativistic_doppler_z(v);
+                x *= doppler_factor(v);
 
             put(cout, x, y, z);
         } else {
