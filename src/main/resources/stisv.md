@@ -1,4 +1,4 @@
-# Model definition file
+# Example model definition file
  
 Copyright (c) 2016 Ralf Quast
 
@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especiv 27182 40 80 0.5 0.000001 2000 10 < stis.md
+    especiv 27182 40 80 0.5 0.000001 2000 10 < stisv.md
     
 The spectroscopic data used here were acquired by the Space Telescope
 Imaging Spectrograph (STIS) aboard the Hubble Space Telescope.
