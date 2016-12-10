@@ -25,14 +25,17 @@
 #include <string>
 
 namespace especia {
+
     /**
      * The project name and version identifier.
      */
     const std::string PROJECT_LONG_NAME = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@";
+
     /**
      * The project DOI.
      */
     const std::string DOI = "@PROJECT_DOI@";
+
 }
 
 #endif // ESPECIA_CONFIG_H
