@@ -52,16 +52,12 @@ namespace especia {
 
     /**
      * The Voigt profile to model intergalactic spectral lines.
-     *
-     * @tparam approximation The approximation to the Voigt function.
      */
     template <class approximation>
     class voigt_ig;
 
     /**
      * The superposition of many profiles.
-     *
-     * @tparam profile The profile type.
      */
     template<class profile>
     class superposition;
@@ -73,17 +69,17 @@ namespace especia {
  *
  * Further reading:
  *
- * T. Ida, M. Ando, H. Toraya (2000)
- *   Extended pseudo-Voigt function for approximating the Voigt profile,
- *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898
+ * T. Ida, M. Ando, H. Toraya (2000).
+ *   *Extended pseudo-Voigt function for approximating the Voigt profile.*
+ *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898.
  */
 class especia::pseudo_voigt {
 public:
     /**
      * Creates a new pseudo-Voigt approximation to the Voigt function.
      *
-     * @param b The width of the Gaussian.
-     * @param d The width of the Lorentzian.
+     * @param[in] b The width of the Gaussian.
+     * @param[in] d The width of the Lorentzian.
      */
     pseudo_voigt(double b = 1.0, double d = 1.0);
 
@@ -95,8 +91,8 @@ public:
     /**
      * Returns the value of the pseudo-Voigt approximation at a given abscissa value.
      *
-     * @param x The abscissa value.
-     * @return the value of the pseudo-Voigt approximation at @code x.
+     * @param[in] x The abscissa value.
+     * @return the value of the pseudo-Voigt approximation at @c x.
      */
     double operator()(const double &x) const;
 
@@ -117,16 +113,16 @@ private:
  * Further reading:
  *
  * T. Ida, M. Ando, H. Toraya (2000)
- *   Extended pseudo-Voigt function for approximating the Voigt profile,
- *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898
+ *   *Extended pseudo-Voigt function for approximating the Voigt profile.*
+ *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898.
  */
 class especia::extended_pseudo_voigt {
 public:
     /**
      * Creates a new extended pseudo-Voigt approximation to the Voigt function.
      *
-     * @param b The width of the Gaussian.
-     * @param d The width of the Lorentzian.
+     * @param[in] b The width of the Gaussian.
+     * @param[in] d The width of the Lorentzian.
      */
     extended_pseudo_voigt(double b = 1.0, double d = 1.0);
 
@@ -138,8 +134,8 @@ public:
     /**
      * Returns the value of the extended pseudo-Voigt approximation at a given abscissa value.
      *
-     * @param x The abscissa value.
-     * @return the value of the extended pseudo-Voigt approximation at @code x.
+     * @param[in] x The abscissa value.
+     * @return the value of the extended pseudo-Voigt approximation at @c x.
      */
     double operator()(const double &x) const;
 
@@ -164,9 +160,9 @@ private:
  *
  * Further reading:
  *
- * R. Quast, D. Reimers and S. A. Levshakov (2004)
- *   Probing the variability of the fine-structure constant with the VLT/UVES
- *   Astronomy and Astrophysics, 415, L7
+ * R. Quast, D. Reimers and S. A. Levshakov (2004).
+ *   *Probing the variability of the fine-structure constant with the VLT/UVES.*
+ *   Astronomy and Astrophysics, 415, L7.
  *   doi: http://dx.doi.org/10.1051/0004-6361:20040013
  */
 class especia::doppler_mm {
@@ -184,14 +180,26 @@ public:
     /**
      * Creates a new Doppler profile with the parameter values specified.
      *
-     * @param a[0] The laboratory wavelength (Angstrom)
-     * @param a[1] The oscillator strength
-     * @param a[2] The cosmological redshift
-     * @param a[3] The radial velocity (km s-1)
-     * @param a[4] The line broadening velocity (km s-1)
-     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
-     * @param a[6] The relativistic correction coefficient
-     * @param a[7] The variation of the fine-structure constant (1.0e-05)
+     * @param[in] a
+     * @parblock
+     * The vector of parameter values. Its components are:
+     *
+     * @c a[0] The laboratory wavelength (Angstrom)
+     *
+     * @c a[1] The oscillator strength
+     *
+     * @c a[2] The cosmological redshift
+     *
+     * @c a[3] The radial velocity (km s-1)
+     *
+     * @c a[4] The line broadening velocity (km s-1)
+     *
+     * @c a[5] The decadic logarithm of the particle column number density (cm-2)
+     *
+     * @c a[6] The relativistic correction coefficient
+     *
+     * @c a[7] The variation of the fine-structure constant (1.0e-05)
+     * @endparblock
      */
     doppler_mm(const double a[]);
 
@@ -203,22 +211,34 @@ public:
     /**
      * Returns the value of the Doppler profile at a given wavelength.
      *
-     * @param x The wavelength (Angstrom)
-     * @return The value of the Doppler profile at @code x.
+     * @param[in] x The wavelength (Angstrom)
+     * @return The value of the Doppler profile at @c x.
      */
     double operator()(double x) const;;
 
     /**
      * Assigns a new set of parameter values to this Doppler profile.
      *
-     * @param a[0] The laboratory wavelength (Angstrom)
-     * @param a[1] The oscillator strength
-     * @param a[2] The cosmological redshift
-     * @param a[3] The radial velocity (km s-1)
-     * @param a[4] The line broadening velocity (km s-1)
-     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
-     * @param a[6] The relativistic correction coefficient
-     * @param a[7] The variation of the fine-structure constant (1.0e-05)
+     * @param[in] a
+     * @parblock
+     * The vector of parameter values. Its components are:
+     *
+     * @c a[0] The laboratory wavelength (Angstrom)
+     *
+     * @c a[1] The oscillator strength
+     *
+     * @c a[2] The cosmological redshift
+     *
+     * @c a[3] The radial velocity (km s-1)
+     *
+     * @c a[4] The line broadening velocity (km s-1)
+     *
+     * @c a[5] The decadic logarithm of the particle column number density (cm-2)
+     *
+     * @c a[6] The relativistic correction coefficient
+     *
+     * @c a[7] The variation of the fine-structure constant (1.0e-05)
+     * @endparblock
      */
     void assign(const double a[]);
 
@@ -247,12 +267,22 @@ public:
     /**
      * Creates a new Doppler profile with the parameter values specified.
      *
-     * @param a[0] The laboratory wavelength (Angstrom)
-     * @param a[1] The oscillator strength
-     * @param a[2] The cosmological redshift
-     * @param a[3] The radial velocity (km s-1)
-     * @param a[4] The line broadening velocity (km s-1)
-     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
+     * @param[in] a
+     * @parblock
+     * The vector of parameter values. Its components are:
+     *
+     * @c a[0] The laboratory wavelength (Angstrom)
+     *
+     * @c a[1] The oscillator strength
+     *
+     * @c a[2] The cosmological redshift
+     *
+     * @c a[3] The radial velocity (km s-1)
+     *
+     * @c a[4] The line broadening velocity (km s-1)
+     *
+     * @c a[5] The decadic logarithm of the particle column number density (cm-2)
+     * @endparblock
      */
     doppler_ig(const double a[]);
 
@@ -264,20 +294,30 @@ public:
     /**
      * Returns the value of the Doppler profile at a given wavelength.
      *
-     * @param x The wavelength (Angstrom)
-     * @return The value of the Doppler profile at @code x.
+     * @param[in] x The wavelength (Angstrom)
+     * @return The value of the Doppler profile at @c x.
      */
     double operator()(double x) const;;
 
     /**
      * Assigns a new set of parameter values to this Doppler profile.
      *
-     * @param a[0] The laboratory wavelength (Angstrom)
-     * @param a[1] The oscillator strength
-     * @param a[2] The cosmological redshift
-     * @param a[3] The radial velocity (km s-1)
-     * @param a[4] The line broadening velocity (km s-1)
-     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
+     * @param[in] a
+     * @parblock
+     * The vector of parameter values. Its components are:
+     *
+     * @c a[0] The laboratory wavelength (Angstrom)
+     *
+     * @c a[1] The oscillator strength
+     *
+     * @c a[2] The cosmological redshift
+     *
+     * @c a[3] The radial velocity (km s-1)
+     *
+     * @c a[4] The line broadening velocity (km s-1)
+     *
+     * @c a[5] The decadic logarithm of the particle column number density (cm-2)
+     * @endparblock
      */
     void assign(const double a[]);
 
@@ -310,13 +350,24 @@ public:
     /**
      * Creates a new Voigt profile with the parameter values specified.
      *
-     * @param a[0] The laboratory wavelength (Angstrom)
-     * @param a[1] The oscillator strength
-     * @param a[2] The cosmological redshift
-     * @param a[3] The radial velocity (km s-1)
-     * @param a[4] The line broadening velocity (km s-1)
-     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
-     * @param a[6] The damping constant (s-1)
+     * @param[in] a
+     * @parblock
+     * The vector of parameter values. Its components are:
+     *
+     * @c a[0] The laboratory wavelength (Angstrom)
+     *
+     * @c a[1] The oscillator strength
+     *
+     * @c a[2] The cosmological redshift
+     *
+     * @c a[3] The radial velocity (km s-1)
+     *
+     * @c a[4] The line broadening velocity (km s-1)
+     *
+     * @c a[5] The decadic logarithm of the particle column number density (cm-2)
+     *
+     * @c a[6] The damping constant (s-1)
+     * @endparblock
      */
     voigt_ig(const double a[]){
         assign(a);
@@ -331,8 +382,8 @@ public:
     /**
      * Returns the value of the Voigt profile at a given wavelength.
      *
-     * @param x The wavelength (Angstrom)
-     * @return The value of the Voigt profile at @code x.
+     * @param[in] x The wavelength (Angstrom)
+     * @return The value of the Voigt profile at @c x.
      */
     double operator()(double x) const {
         return c * f(x - y);
@@ -341,13 +392,24 @@ public:
     /**
      * Assigns a new set of parameter values to this Voigt profile.
      *
-     * @param a[0] The laboratory wavelength (Angstrom)
-     * @param a[1] The oscillator strength
-     * @param a[2] The cosmological redshift
-     * @param a[3] The radial velocity (km s-1)
-     * @param a[4] The line broadening velocity (km s-1)
-     * @param a[5] The decadic logarithm of the particle column number density (cm-2)
-     * @param a[6] The damping constant (s-1)
+     * @param[in] a
+     * @parblock
+     * The vector of parameter values. Its components are:
+     *
+     * @c a[0] The laboratory wavelength (Angstrom)
+     *
+     * @c a[1] The oscillator strength
+     *
+     * @c a[2] The cosmological redshift
+     *
+     * @c a[3] The radial velocity (km s-1)
+     *
+     * @c a[4] The line broadening velocity (km s-1)
+     *
+     * @c a[5] The decadic logarithm of the particle column number density (cm-2)
+     *
+     * @c a[6] The damping constant (s-1)
+     * @endparblock
      */
     void assign(const double a[]) {
         y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
@@ -384,9 +446,9 @@ public:
     /**
      * Constructs a new superposition of profiles with the parameter values specified.
      *
-     * @param n The number of profiles.
-     * @param a The parameter values. The semantics of values and the number of parameters
-     *          per component are defined by the profile type.
+     * @param[in] n The number of profiles.
+     * @param[in] a The vector of parameter values. The semantics of parameter values and the
+     *              number of parameters per component are defined by the profile type.
      */
     superposition(size_t n, const double a[])
             : p(n) {
@@ -403,8 +465,8 @@ public:
     /**
      * Returns the value of the profile superpositon at a given wavelength.
      *
-     * @param x The wavelength (Angstrom)
-     * @return The value of the profile superposition at @code x.
+     * @param[in] x The wavelength (Angstrom)
+     * @return The value of the profile superposition at @c x.
      */
     double operator()(double x) const {
         double d = 0.0;
@@ -418,9 +480,9 @@ public:
     /**
      * Assigns a new set of parameter values to this superposition.
      *
-     * @param n The number of profiles.
-     * @param a The parameter values. The semantics of values and the number of parameters
-     *          per component are defined by the profile type.
+     * @param[in] n The number of profiles.
+     * @param[in] a The vector of parameter values. The semantics of parameter values and the
+     *              number of parameters per component are defined by the profile type.
      */
     void assign(size_t n, const double a[]) {
         p.resize(n);

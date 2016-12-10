@@ -19,8 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#ifndef RQ_OPTIMIZE_H
-#define RQ_OPTIMIZE_H
+#ifndef ESPECIA_OPTIMIZE_H
+#define ESPECIA_OPTIMIZE_H
 
 #include <algorithm>
 #include <cmath>
@@ -28,38 +28,83 @@
 #include <limits>
 #include <numeric>
 #include <valarray>
+
 #include "base.h"
 
 namespace especia {
-    // CMA-ES function template for parametric nonlinear function optimization,
-    // based on Hansen and Ostermeier (2001).
-    template<class objective_function, class normal_deviate, class sym_eig_decomp, class comparation>
-    void optimize(objective_function &f, double x[], size_t n,
+    /**
+     * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear
+     * function optimization. Based on Hansen and Ostermeier (2001).
+     *
+     *
+     * Further reading:
+     *
+     * N. Hansen, S. D. Müller, P. Koumoutsakos (2003)
+     *   Reducing the Increasing the Time Complexity of the Derandomized Evolution
+     *     Strategy with Covariance Matrix Adaption (CMA-ES)
+     *   Evolutionary Computation, 11, 1, ISSN 1063-6560
+     *
+     *   N. Hansen, A. Ostermeier (2001)
+     *     Completely Derandomized Self-Adaption in Evolution Strategies
+     *     Evolutionary Computation, 9, 159, ISSN 1063-6560
+     *
+     * @tparam function
+     * @tparam generator
+     * @tparam decomposer
+     * @tparam comparator
+     * @param f
+     * @param xw
+     * @param n
+     * @param parent_number
+     * @param population_size
+     * @param weight
+     * @param step_size
+     * @param step_size_damping
+     * @param step_size_cumulation
+     * @param distribution_cumulation
+     * @param covariance_matrix_adaption_rate
+     * @param covariance_matrix_adaption_mixing
+     * @param accuracy_goal
+     * @param stop_generation
+     * @param diagonal_matrix
+     * @param rotation_matrix
+     * @param covariance_matrix
+     * @param step_size_evolution_path
+     * @param distribution_evolution_path
+     * @param generation_number
+     * @param optimized
+     * @param underflow
+     * @param yw
+     * @param ndev
+     * @param decompose
+     * @param comp
+     * @param update_modulus
+     */
+    template<class function, class generator, class decomposer, class comparator>
+    void optimize(function &f,
+                  size_t n,
+                  double xw[],
                   size_t parent_number,
                   size_t population_size,
-                        // twice the parent number, at least
                   const double weight[],
-                  double &step_size,
                   double step_size_damping,
                   double step_size_cumulation,
                   double distribution_cumulation,
                   double covariance_matrix_adaption_rate,
                   double covariance_matrix_adaption_mixing,
+                  unsigned int update_modulus,
                   double accuracy_goal,
                   unsigned long stop_generation,
+                  double &step_size,
                   double diagonal_matrix[],
-                        // diagonal matrix (packed)
                   double rotation_matrix[],
-                        // orthogonal matrix (row-major)
                   double covariance_matrix[],
-                        // symmetric matrix (row-major, lower triangular = column-major, upper triangular)
                   double step_size_evolution_path[],
                   double distribution_evolution_path[],
                   unsigned long &generation_number,
-                  bool &is_optimized,
-                  bool &mutation_variance_underflow,
-                  double &optimum,
-                  normal_deviate &ndev, sym_eig_decomp &evd, comparation comp, unsigned update_modulus = 1);
+                  double &yw,
+                  bool &optimized,
+                  bool &underflow, generator &ndev, decomposer &decompose, comparator comp);
 
     // CMA-ES function template for parametric nonlinear function optimization,
     // based on Hansen and Ostermeier (2001).
@@ -241,29 +286,32 @@ namespace especia {
     class indirect_comparation;
 }
 
-template<class objective_function, class normal_deviate, class sym_eig_decomp, class comparation>
-void especia::optimize(objective_function &f, double xw[], size_t n,
-             size_t parent_number,
-             size_t population_size,
-             const double w[],
-             double &step_size,
-             double step_size_damping,
-             double cs,
-             double cc,
-             double ccov,
-             double acov,
-             double accuracy_goal,
-             unsigned long stop_generation,
-             double d[],
-             double B[],
-             double C[],
-             double ps[],
-             double pc[],
-             unsigned long &g,
-             bool &is_opt,
-             bool &is_ufl,
-             double &optimum,
-             normal_deviate &ndev, sym_eig_decomp &evd, comparation comp, unsigned um) {
+template<class function, class generator, class decomposer, class comparator>
+void especia::optimize(function &f,
+                       size_t n,
+                       double xw[],
+                       size_t parent_number,
+                       size_t population_size,
+                       const double w[],
+                       double step_size_damping,
+                       double cs,
+                       double cc,
+                       double ccov,
+                       double acov,
+                       unsigned int um,
+                       double accuracy_goal,
+                       unsigned long stop_generation,
+                       double &step_size,
+                       double d[],
+                       double B[],
+                       double C[],
+                       double ps[],
+                       double pc[],
+                       unsigned long &g,
+                       double &yw,
+                       bool &optimized,
+                       bool &underflow,
+                       generator &ndev, decomposer &decompose, comparator comp) {
     using std::accumulate;
     using std::exp;
     using std::inner_product;
@@ -315,18 +363,18 @@ void especia::optimize(objective_function &f, double xw[], size_t n,
             index[k] = k;
         }
         partial_sort(&index[0], &index[parent_number], &index[population_size],
-                     indirect_comparation<double, comparation>(fitness, comp));
+                     indirect_comparation<double, comparator>(fitness, comp));
         ++g;
 
         // Check the mutation variance
-        is_ufl = (fitness[index[0]] == fitness[index[parent_number]]);
-        if (!is_ufl)
+        underflow = (fitness[index[0]] == fitness[index[parent_number]]);
+        if (!underflow)
             for (size_t i = 0, ij = g % n; i < n; ++i, ij += n) {
-                is_ufl = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
-                if (!is_ufl)
+                underflow = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
+                if (!underflow)
                     break;
             }
-        if (is_ufl)
+        if (underflow)
             break;
 
         // Recombine the best individuals
@@ -371,7 +419,7 @@ void especia::optimize(objective_function &f, double xw[], size_t n,
         if (ccov > 0.0 and g % um == 0) {
             // Decompose the covariance matrix and sort its eigenvalues in ascending
             // order, along with eigenvectors
-            evd(C, B, d, n);
+            decompose(C, B, d, n);
 
             // Adjust the condition of the covariance matrix and compute the
             // square roots of its eigenvalues
@@ -386,15 +434,15 @@ void especia::optimize(objective_function &f, double xw[], size_t n,
 
         // Check if the optimization is completed
         for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-            is_opt = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
-            if (!is_opt)
+            optimized = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
+            if (!optimized)
                 break;
         }
-        if (is_opt)
+        if (optimized)
             break;
     }
 
-    optimum = f(xw, n);
+    yw = f(xw, n);
 }
 
 template<class objectp, class functionp, class normal_deviate, class sym_eig_decomp, class comparation>
@@ -1294,15 +1342,4 @@ private:
     const comparation &comp;
 };
 
-#endif // RQ_OPTIMIZE_H
-
-// References
-//
-// N. Hansen, S. D. Müller, P. Koumoutsakos (2003)
-//   Reducing the Increasing the Time Complexity of the Derandomized Evolution
-//     Strategy with Covariance Matrix Adaption (CMA-ES)
-//   Evolutionary Computation, 11, 1, ISSN 1063-6560
-//
-// N. Hansen, A. Ostermeier (2001)
-//   Completely Derandomized Self-Adaption in Evolution Strategies
-//   Evolutionary Computation, 9, 159, ISSN 1063-6560
+#endif // ESPECIA_OPTIMIZE_H

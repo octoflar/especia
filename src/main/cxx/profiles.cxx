@@ -35,9 +35,9 @@ using especia::sqrt_of_pi;
 /**
  * The Gaussian.
  *
- * @param x The abscissa value.
- * @param gamma The width.
- * @return the value of the Gaussian at @code x.
+ * @param[in] x The abscissa value.
+ * @param[in] gamma The width.
+ * @return the value of the Gaussian at @c x.
  */
 inline
 double f_g(const double &x, const double &gamma) {
@@ -47,9 +47,9 @@ double f_g(const double &x, const double &gamma) {
 /**
  * The Lorentzian.
  *
- * @param x The abscissa value.
- * @param gamma The width.
- * @return the value of the Lorentzian at @code x.
+ * @param[in] x The abscissa value.
+ * @param[in] gamma The width.
+ * @return the value of the Lorentzian at @c x.
  */
 inline
 double f_l(const double &x, const double &gamma) {
@@ -59,9 +59,9 @@ double f_l(const double &x, const double &gamma) {
 /**
  * The irrational function used in the extended pseudo-Voigt approximation.
  *
- * @param x The abscissa value.
- * @param gamma The width.
- * @return the value of the function at @code x.
+ * @param[in] x The abscissa value.
+ * @param[in] gamma The width.
+ * @return the value of the function at @c x.
  */
 inline
 double f_i(const double &x, const double &gamma) {
@@ -71,9 +71,9 @@ double f_i(const double &x, const double &gamma) {
 /**
  * The squared hyperbolic secant function used in the extended pseudo-Voigt approximation.
  *
- * @param x The abscissa value.
- * @param gamma The width.
- * @return the value of the function at @code x.
+ * @param[in] x The abscissa value.
+ * @param[in] gamma The width.
+ * @return the value of the function at @c x.
  */
 inline
 double f_p(const double &x, const double &gamma) {
@@ -83,15 +83,15 @@ double f_p(const double &x, const double &gamma) {
 /**
  * An univariate polynomial of degree 6.
  *
- * @param x The abscissa value.
- * @param h0 The coefficient for the monomial of degree 0.
- * @param h1 The coefficient for the monomial of degree 1.
- * @param h2 The coefficient for the monomial of degree 2.
- * @param h3 The coefficient for the monomial of degree 3.
- * @param h4 The coefficient for the monomial of degree 4.
- * @param h5 The coefficient for the monomial of degree 5.
- * @param h6 The coefficient for the monomial of degree 6.
- * @return the value of the polynomial at @code x.
+ * @param[in] x The abscissa value.
+ * @param[in] h0 The coefficient for the monomial of degree 0.
+ * @param[in] h1 The coefficient for the monomial of degree 1.
+ * @param[in] h2 The coefficient for the monomial of degree 2.
+ * @param[in] h3 The coefficient for the monomial of degree 3.
+ * @param[in] h4 The coefficient for the monomial of degree 4.
+ * @param[in] h5 The coefficient for the monomial of degree 5.
+ * @param[in] h6 The coefficient for the monomial of degree 6.
+ * @return the value of the polynomial at @c x.
  */
 inline
 double poly(const double &x,

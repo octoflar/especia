@@ -30,21 +30,6 @@ namespace especia {
     /**
      * The Mersenne twister algorithm to generate [0,1] uniformly distributed
      * random deviates.
-     *
-     * The notation of template parameters follows Matsumoto and
-     * Nishimura (1998, Table 2).
-     *
-     * @tparam w The number of bits in a word.
-     * @tparam n The parameter n.
-     * @tparam m The parameter m.
-     * @tparam r The parameter r.
-     * @tparam a The parameter a.
-     * @tparam u The parameter u.
-     * @tparam s The parameter s.
-     * @tparam b The parameter b.
-     * @tparam t The parameter t.
-     * @tparam c The parameter c.
-     * @tparam l The parameter l.
      */
     template<unsigned w, unsigned n, unsigned m, unsigned r,
             unsigned long a,
@@ -83,14 +68,13 @@ namespace especia {
  *
  * Further reading:
  *
- * M. Matsumoto, T. Nishimura (1998)
- *   Mersenne Twister: A 623-dimensionally equidistributed uniform
- *   pseudorandom number generator
- *   ACM Transactions on Modeling and Computer Simulation, 8, 3, ISSN 1049-3301
+ * M. Matsumoto, T. Nishimura (1998).
+ *   *Mersenne Twister: A 623-dimensionally equidistributed uniform pseudorandom number generator.*
+ *   ACM Transactions on Modeling and Computer Simulation, 8, 3, ISSN 1049-3301.
  *
- * D. Knuth (1998)
- *   The art of computer programming 2. Seminumerical algorithms
- *   Addison Wesley Longman, ISBN 0-201-89684-2
+ * D. Knuth (1998).
+ *   *The art of computer programming 2. Seminumerical algorithms*.
+ *   Addison Wesley Longman, ISBN 0-201-89684-2.
  *
  * @tparam w The number of bits in a word.
  * @tparam n The parameter n.
@@ -115,8 +99,8 @@ public:
     /**
      * Constructs a new instance of this functor from a single seed.
      *
-     * @param seed The seed.
-     * @param multiplier A multiplier used by the seeding.
+     * @param[in] seed The seed.
+     * @param[in] multiplier A multiplier used by the seeding.
      */
     mersenne_twister(unsigned long seed = 5489, unsigned long multiplier = 1812433253)
             : words(n) {
@@ -126,8 +110,8 @@ public:
     /**
      * Constructs a new instance of this functor from many seeds.
      *
-     * @param seed_count The number of seeds.
-     * @param seeds The seeds.
+     * @param[in] seed_count The number of seeds.
+     * @param[in] seeds The seeds.
      */
     mersenne_twister(unsigned seed_count, const unsigned long seeds[])
             : words(n) {
@@ -135,7 +119,7 @@ public:
     }
 
     /**
-     * The destructor.
+     * Destructor.
      */
     ~mersenne_twister() {
     };
@@ -155,8 +139,8 @@ public:
     /**
      * Resets this algorithm with a single seed.
      *
-     * @param seed The seed.
-     * @param multiplier A multiplier used by the seeding.
+     * @param[in] seed The seed.
+     * @param[in] multiplier A multiplier used by the seeding.
      */
     void reset(unsigned long seed = 5489, unsigned long multiplier = 1812433253) {
         using std::max;
@@ -174,8 +158,8 @@ public:
     /**
      * Resets this algorithm with many seeds.
      *
-     * @param seeds The seeds.
-     * @param seed_count The number of seeds.
+     * @param[in] seed_count The number of seeds.
+     * @param[in] seeds The seeds.
      */
     void reset(unsigned seed_count, const unsigned long seeds[]) {
         using std::max;
