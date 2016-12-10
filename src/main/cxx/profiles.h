@@ -214,7 +214,7 @@ public:
      * @param[in] x The wavelength (Angstrom)
      * @return The value of the Doppler profile at @c x.
      */
-    double operator()(double x) const;;
+    double operator()(double x) const;
 
     /**
      * Assigns a new set of parameter values to this Doppler profile.
@@ -297,7 +297,7 @@ public:
      * @param[in] x The wavelength (Angstrom)
      * @return The value of the Doppler profile at @c x.
      */
-    double operator()(double x) const;;
+    double operator()(double x) const;
 
     /**
      * Assigns a new set of parameter values to this Doppler profile.
