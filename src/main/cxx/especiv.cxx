@@ -36,7 +36,24 @@ const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < 
  * Pseudo-Voigt profile flavor of Especia to analyse intergalactic lines.
  *
  * @param argc The number of command line arguments supplied.
- * @param argv The command line arguments.
+ * @param argv The command line arguments:
+ * @parblock
+ * @c argv[0] The program name
+ *
+ * @c argv[1] The random seed
+ *
+ * @c argv[2] The parent number
+ *
+ * @c argv[3] The population size
+ *
+ * @c argv[4] The initial global step size
+ *
+ * @c argv[5] The accuracy goal
+ *
+ * @c argv[6] The stop generation number
+ *
+ * @c argv[7] The trace interval
+ * @endparblock
  * @return an exit code.
  */
 int main(int argc, char *argv[]) {
@@ -50,13 +67,13 @@ int main(int argc, char *argv[]) {
     const char *pname = argv[0];
 
     if (argc == 8) {
-        const long seed = atol(argv[1]);
-        const int parent_number = atoi(argv[2]);
-        const int population_size = atoi(argv[3]);
+        const unsigned long seed = (unsigned long) atol(argv[1]);
+        const unsigned parent_number = (unsigned) atoi(argv[2]);
+        const unsigned population_size = (unsigned) atoi(argv[3]);
         const double step_size = atof(argv[4]);
         const double accuracy_goal = atof(argv[5]);
-        const long stop_generation = atol(argv[6]);
-        const int trace = atoi(argv[7]);
+        const unsigned long stop_generation = (unsigned long) atol(argv[6]);
+        const unsigned trace = (unsigned) atoi(argv[7]);
 
         cout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
         cout << "<html>\n";
@@ -69,22 +86,22 @@ int main(int argc, char *argv[]) {
         cout << "-->\n";
         cout << "</html>\n";
 
-        model<voigt_ig<pseudo_voigt>> m;
-        m.get(cin, cout);
+        model<voigt_ig<pseudo_voigt>> model;
+        model.get(cin, cout);
 
         if (cin.eof() and !cin.fail()) {
             try {
-                normal_deviate<mt19937> ndev(seed);
-                sym_eig_decomp eig;
+                normal_deviate<mt19937> random(seed);
+                sym_eig_decomp decomp;
 
-                if (m.optimize(parent_number,
+                if (model.optimize(parent_number,
                                population_size,
                                step_size,
                                accuracy_goal,
                                stop_generation,
                                trace,
-                               ndev, eig, cout))
-                    m.put(cout);
+                               random, decomp, cout))
+                    model.put(cout);
             } catch (exception &e) {
                 cerr << e.what() << endl;
 
