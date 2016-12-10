@@ -22,7 +22,7 @@ macro(doxygen_optional)
     find_package(Doxygen)
     if (DOXYGEN_FOUND)
         add_custom_target(html
-                ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/src/main/doxygen/doxygen-html.properties
+                ${DOXYGEN_EXECUTABLE} resources/doxygen-html.properties
                 WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                 COMMENT "Generating HTML documentation files")
     endif (DOXYGEN_FOUND)
