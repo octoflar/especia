@@ -204,14 +204,3 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 }
-
-// References
-//
-// B. Edlen (1966)
-//   The refractive index of air
-//   Metrologia, 2, 2, 71-80
-//   http://dx.doi.org/10.1088/0026-1394/2/2/002
-//
-// B. Edlen (1953)
-//   The dispersion of standard air
-//   Journal of the Optical Society of America, 43, 5, 339
