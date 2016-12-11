@@ -573,6 +573,7 @@ namespace especia {
     void scale_step_size(const F &f, const Constraint &constraint, const double x[], size_t n, const double d[],
                          const double B[], double &s) {
         using std::abs;
+        using std::sqrt;
         using std::valarray;
 
         const double a = 100.0 * s;
