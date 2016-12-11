@@ -22,8 +22,9 @@
 #include <exception>
 #include <iomanip>
 #include <iostream>
+
 #include "config.h"
-#include "Model.h"
+#include "model.h"
 #include "mtwister.h"
 #include "randev.h"
 #include "decompose.h"

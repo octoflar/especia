@@ -23,14 +23,11 @@
 #include <exception>
 #include <iomanip>
 #include <iostream>
+
 #include "config.h"
-
 #define ESPECIA_MANY_MULTIPLET_ANALYSIS 1
-
-#include "Model.h"
-
+#include "model.h"
 #undef ESPECIA_MANY_MULTIPLET_ANALYSIS
-
 #include "mtwister.h"
 #include "randev.h"
 #include "decompose.h"

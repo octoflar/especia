@@ -38,7 +38,7 @@
 #include "optimize.h"
 #include "profiles.h"
 #include "readline.h"
-#include "Section.h"
+#include "section.h"
 
 
 namespace especia {

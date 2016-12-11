@@ -23,7 +23,8 @@
 #include <cctype>
 #include <iomanip>
 #include <sstream>
-#include "Section.h"
+
+#include "section.h"
 
 especia::Section::Section()
         : wav(),
