@@ -25,8 +25,6 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <iomanip>
-#include <iostream>
 #include <limits>
 #include <numeric>
 #include <valarray>
@@ -179,62 +177,45 @@ namespace especia {
     };
 
 
-    template<class T>
-    class Default_Tracer {
-    public:
-        Default_Tracer(std::ostream &output_stream, unsigned int modulus) : os(output_stream), m(modulus) {
-        }
-
-        ~Default_Tracer() {
-        }
-
-        bool on(const unsigned long &g) const {
-            return m > 0 and g % m == 0;
-        }
-
-        void trace(const unsigned long &g, const T &y, const T &min_step, const T &max_step) const {
-            using std::endl;
-            using std::ios_base;
-            using std::setw;
-
-            const ios_base::fmtflags fmt = os.flags();
-
-            const int p = 4;
-            const int width = 12;
-
-            os.setf(ios_base::fmtflags());
-            os.setf(ios_base::scientific, ios_base::floatfield);
-            os.setf(ios_base::right, ios_base::adjustfield);
-            os.precision(p);
-
-            os << setw(8) << g;
-            os << setw(width) << y;
-            os << setw(width) << min_step;
-            os << setw(width) << max_step;
-            os << endl;
-
-            os.flags(fmt);
-        }
-
-    private:
-        std::ostream &os;
-        const unsigned int m;
-    };
-
-
+    /**
+     * No tracer.
+     *
+     * @tparam T The number type.
+     */
     template<class T>
     class No_Tracer {
     public:
+
+        /**
+         * Constructor.
+         */
         No_Tracer() {
         }
 
+        /**
+         * Destructor.
+         */
         ~No_Tracer() {
         }
 
-        bool on(const unsigned long &g) const {
+        /**
+         * Tests if tracing is enabled.
+         *
+         * @param g The generation number.
+         * @return always @c false.
+         */
+        bool is_enabled(const unsigned long &g) const {
             return false;
         }
 
+        /**
+         * Traces some state information.
+         *
+         * @param g The generation number.
+         * @param y The value of the objective function.
+         * @param min_step The minimum step size.
+         * @param max_step The maximum step size.
+         */
         void trace(const unsigned long &g, const T &y, const T &min_step, const T &max_step) {
         }
     };
@@ -450,7 +431,7 @@ namespace especia {
                 if (!optimized)
                     break;
             }
-            if (optimized or tracer.on(g))
+            if (optimized or tracer.is_enabled(g))
                 tracer.trace(g, f(xw, n) + constraint.cost(xw, n), step_size * d[0], step_size * d[n - 1]);
             if (optimized)
                 break;
@@ -500,7 +481,7 @@ namespace especia {
      * @param[out] underflow Set to @c true when the mutation variance is too small.
      * @param[in] deviate The random number generator.
      * @param[in] decompose The eigenvalue decomposition.
-     * @param[in] trace The tracer.
+     * @param[in] tracer The tracer.
      */
     template<class F, class Constraint, class Deviate, class Decompose, class Tracer>
     void minimize(const F &f,
@@ -520,7 +501,7 @@ namespace especia {
                   double &y,
                   bool &optimized,
                   bool &underflow,
-                  Deviate &deviate, Decompose &decompose, Tracer &trace) {
+                  Deviate &deviate, Decompose &decompose, Tracer &tracer) {
         using std::less;
         using std::log;
         using std::max;
@@ -567,7 +548,7 @@ namespace especia {
                  y,
                  optimized,
                  underflow,
-                 deviate, decompose, less<double>(), trace);
+                 deviate, decompose, less<double>(), tracer);
     }
 
 

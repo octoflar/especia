@@ -43,8 +43,50 @@
 
 namespace especia {
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "OCDFAInspection"
+    template<class T>
+    class Model_Tracer {
+    public:
+        Model_Tracer(std::ostream &output_stream, unsigned int modulus)
+                : os(output_stream), m(modulus) {
+        }
+
+        ~Model_Tracer() {
+        }
+
+        bool is_enabled(const unsigned long &g) const {
+            return m > 0 and g % m == 0;
+        }
+
+        void trace(const unsigned long &g, const T &y, const T &min_step, const T &max_step) {
+            using std::endl;
+            using std::ios_base;
+            using std::setw;
+
+            const ios_base::fmtflags fmt = os.flags();
+
+            const int p = 4;
+            const int width = 12;
+
+            os.setf(ios_base::fmtflags());
+            os.setf(ios_base::scientific, ios_base::floatfield);
+            os.setf(ios_base::right, ios_base::adjustfield);
+            os.precision(p);
+
+            os << setw(8) << g;
+            os << setw(width) << y;
+            os << setw(width) << min_step;
+            os << setw(width) << max_step;
+            os << endl;
+
+            os.flags(fmt);
+        }
+
+    private:
+        std::ostream &os;
+        const unsigned int m;
+    };
+
+
     template<class Profile>
     class Model {
     public:
@@ -564,7 +606,7 @@ namespace especia {
             }
 
             const Bound_Constraint<double> constraint(&a[0], &b[0], n);
-            const Default_Tracer<double> tracer(os, trace);
+            Model_Tracer<double> tracer(os, trace);
             const unsigned update_modulus = 1;
 
             unsigned long g = 0;
@@ -661,7 +703,6 @@ namespace especia {
         std::map<std::string, size_t> sim;
         std::map<std::string, size_t> pim;
     };
-#pragma clang diagnostic pop
 
 }
 
