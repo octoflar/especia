@@ -1,5 +1,4 @@
-// Especia: many-multiplet version to infer the variation of the fine-structure
-// constant
+// Especia
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,9 +24,13 @@
 #include <iostream>
 
 #include "config.h"
+
 #define ESPECIA_MANY_MULTIPLET_ANALYSIS 1
+
 #include "model.h"
+
 #undef ESPECIA_MANY_MULTIPLET_ANALYSIS
+
 #include "mtwister.h"
 #include "randev.h"
 #include "decompose.h"
@@ -36,8 +39,7 @@ const char usemsg[] = "usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
 
 /**
- * Many-multiplet flavor of Especia to infer the variation of the fine-structure
- * constant.
+ * Flavor of Especia to infer the variation of the fine-structure constant.
  *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
@@ -99,12 +101,12 @@ int main(int argc, char *argv[]) {
                 sym_eig_decomp decompose;
 
                 if (model.optimize(parent_number,
-                               population_size,
-                               step_size,
-                               accuracy_goal,
-                               stop_generation,
-                               trace,
-                               normal_deviate, decompose, cout))
+                                   population_size,
+                                   step_size,
+                                   accuracy_goal,
+                                   stop_generation,
+                                   trace,
+                                   normal_deviate, decompose, cout))
                     model.put(cout);
             } catch (exception &e) {
                 cerr << e.what() << endl;

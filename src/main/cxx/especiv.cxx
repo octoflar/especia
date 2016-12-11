@@ -1,5 +1,4 @@
-// Especia: Voigt profile version for intergalactic lines using the pseudo-Voigt
-// approximation
+// Especia
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,7 +33,7 @@ const char usemsg[] = "usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
 
 /**
- * Pseudo-Voigt profile flavor of Especia to analyse intergalactic lines.
+ * Flavor of Especia to analyse intergalactic Lyman-alpha lines.
  *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
@@ -96,12 +95,12 @@ int main(int argc, char *argv[]) {
                 sym_eig_decomp decompose;
 
                 if (model.optimize(parent_number,
-                               population_size,
-                               step_size,
-                               accuracy_goal,
-                               stop_generation,
-                               trace,
-                               normal_deviate, decompose, cout))
+                                   population_size,
+                                   step_size,
+                                   accuracy_goal,
+                                   stop_generation,
+                                   trace,
+                                   normal_deviate, decompose, cout))
                     model.put(cout);
             } catch (exception &e) {
                 cerr << e.what() << endl;
