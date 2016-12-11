@@ -35,22 +35,24 @@ namespace especia {
     const double sqrt_of_pi = 1.7724538509055160272981674833411451827975; // +
 
     /**
-     * The speed of light in vacuum (km s-1).
+     * The electric constant (F m-1).
      */
-    const double speed_of_light = 299792.458;
+    const double electric_constant = 8.854187817E-12;
 
     /**
-     * Returns the Doppler factor.
-     *
-     * @tparam number The number type.
-     *
-     * @param v The relative radial velocity between emitter and observer (km s-1)
-     * @return the Doppler factor.
+     * The electron mass (kg).
      */
-    template<class number>
-    double doppler_factor(const number &v) {
-        return std::sqrt((number(1) + v / speed_of_light) / (number(1) - v / speed_of_light));
-    }
+    const double electron_mass = 9.10938356E-31;
+
+    /**
+     * The elementary charge (C).
+     */
+    const double elementary_charge = 1.6021766208E-19;
+
+    /**
+     * The speed of light in vacuum (m s-1).
+     */
+    const double speed_of_light_in_vacuum = 299792458.0;
 
     /**
      * Returns the square of a number.

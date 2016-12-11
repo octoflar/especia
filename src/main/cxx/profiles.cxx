@@ -106,48 +106,47 @@ double poly(const double &x,
 }
 
 inline
-double poly_w_g(const double &rho) {
-    return 1.0 - rho * poly(rho, 0.66000, 0.15021, -1.24984, 4.74052, -9.48291, 8.48252, -2.95553);
+double poly_w_g(const double &r) {
+    return 1.0 - r * poly(r, 0.66000, 0.15021, -1.24984, 4.74052, -9.48291, 8.48252, -2.95553);
 }
 
 inline
-double poly_w_l(const double &rho) {
-    return 1.0 - (1.0 - rho) * poly(rho, -0.42179, -1.25693, 10.30003, -23.45651, 29.14158, -16.50453, 3.19974);
+double poly_w_l(const double &r) {
+    return 1.0 - (1.0 - r) * poly(r, -0.42179, -1.25693, 10.30003, -23.45651, 29.14158, -16.50453, 3.19974);
 }
 
 inline
-double poly_w_i(const double &rho) {
-    return poly(rho, 1.19913, 1.43021, -15.36331, 47.06071, -73.61822, 57.92559, -17.80614);
+double poly_w_i(const double &r) {
+    return poly(r, 1.19913, 1.43021, -15.36331, 47.06071, -73.61822, 57.92559, -17.80614);
 }
 
 inline
-double poly_w_p(const double &rho) {
-    return poly(rho, 1.10186, -0.47745, -0.68688, 2.76622, -4.55466, 4.05475, -1.26571);
+double poly_w_p(const double &r) {
+    return poly(r, 1.10186, -0.47745, -0.68688, 2.76622, -4.55466, 4.05475, -1.26571);
 }
 
 inline
-double poly_eta_l(const double &rho) {
-    return rho * (1.0 + (1.0 - rho) * poly(rho, -0.30165, -1.38927, 9.31550, -24.10743, 34.96491, -21.18862, 3.70290));
+double poly_eta_l(const double &r) {
+    return r * (1.0 + (1.0 - r) * poly(r, -0.30165, -1.38927, 9.31550, -24.10743, 34.96491, -21.18862, 3.70290));
 }
 
 inline
-double poly_eta_i(const double &rho) {
-    return (rho * (1.0 - rho)) * poly(rho, 0.25437, -0.14107, 3.23653, -11.09215, 22.10544, -24.12407, 9.76947);
+double poly_eta_i(const double &r) {
+    return (r * (1.0 - r)) * poly(r, 0.25437, -0.14107, 3.23653, -11.09215, 22.10544, -24.12407, 9.76947);
 }
 
 inline
-double poly_eta_p(const double &rho) {
-    return (rho * (1.0 - rho)) * poly(rho, 1.01579, 1.50429, -9.21815, 23.59717, -39.71134, 32.83023, -10.02142);
+double poly_eta_p(const double &r) {
+    return (r * (1.0 - r)) * poly(r, 1.01579, 1.50429, -9.21815, 23.59717, -39.71134, 32.83023, -10.02142);
 }
 
 
-especia::Pseudo_Voigt::Pseudo_Voigt(double b, double d) {
-    const double p = (c_g * b) / (c_l * d);
-    const double q = 1.0 / pow(1.0 + p * (0.07842 + p * (4.47163 + p * (2.42843 + p * (p + 2.69269)))), 0.2);
-
-    gamma_g = (c_l * d) / (q * c_g);
-    gamma_l = (c_l * d) / (q * c_l);
-    eta = q * (1.36603 - q * (0.47719 - q * 0.11116));
+especia::Pseudo_Voigt::Pseudo_Voigt(const double &b, const double &d)
+        : u((c_g * b) / (c_l * d)),
+          r(1.0 / pow(1.0 + u * (0.07842 + u * (4.47163 + u * (2.42843 + u * (u + 2.69269)))), 0.2)),
+          gamma_g((c_l * d) / (c_g * r)),
+          gamma_l((c_l * d) / (c_l * r)),
+          eta(r * (1.36603 - r * (0.47719 - r * 0.11116))) {
 }
 
 especia::Pseudo_Voigt::~Pseudo_Voigt() {
@@ -161,16 +160,16 @@ const double especia::Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
 const double especia::Pseudo_Voigt::c_l = 2.0;
 
 
-especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(double b, double d) {
-    const double sum = c_g * b + c_l * d;
-    const double rho = c_l * d / sum;
-    gamma_g = sum * poly_w_g(rho) / c_g;
-    gamma_l = sum * poly_w_l(rho) / c_l;
-    gamma_i = sum * poly_w_i(rho) / c_i;
-    gamma_p = sum * poly_w_p(rho) / c_p;
-    eta_l = poly_eta_l(rho);
-    eta_i = poly_eta_i(rho);
-    eta_p = poly_eta_p(rho);
+especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const double &b, const double &d)
+        : u(c_g * b + c_l * d),
+          r(c_l * d / u),
+          gamma_g(u * poly_w_g(r) / c_g),
+          gamma_l(u * poly_w_l(r) / c_l),
+          gamma_i(u * poly_w_i(r) / c_i),
+          gamma_p(u * poly_w_p(r) / c_p),
+          eta_l(poly_eta_l(r)),
+          eta_i(poly_eta_i(r)),
+          eta_p(poly_eta_p(r)) {
 }
 
 especia::Extended_Pseudo_Voigt::~Extended_Pseudo_Voigt() {
@@ -189,11 +188,15 @@ const double especia::Extended_Pseudo_Voigt::c_i = 2.0 * sqrt(pow(2.0, 2.0 / 3.0
 const double especia::Extended_Pseudo_Voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
 
 
-especia::A_Doppler::A_Doppler() : y(0.0), b(1.0), c(0.0) {
+especia::A_Doppler::A_Doppler()
+        : u(0.0), c(0.0), b(1.0), a(0.0) {
 }
 
-especia::A_Doppler::A_Doppler(const double a[]) {
-    assign(a);
+especia::A_Doppler::A_Doppler(const double q[])
+        : u(1.0E+08 / (1.0E+08 / q[0] + q[6] * q[7] * (1.0E-10 * q[7] + 2.0E-05))),
+          c(u * (1.0 + q[2]) * (1.0 + q[3] / C0)),
+          b(q[4] * c / C0),
+          a(C1 * q[1] * pow(10.0, q[5]) * (u * c)) {
 }
 
 especia::A_Doppler::~A_Doppler() {
@@ -202,25 +205,22 @@ especia::A_Doppler::~A_Doppler() {
 double especia::A_Doppler::operator()(double x) const {
     using std::abs;
 
-    return (abs(x - y) < 4.0 * b) ? c * f_g(x - y, b) : 0.0;
+    return (abs(x - c) < 4.0 * b) ? a * f_g(x - c, b) : 0.0;
 }
 
-void especia::A_Doppler::assign(const double a[]) {
-    const double u = 1.0e-05 * a[7];
-    const double v = u * (u + 2.0);
-    const double w = 1.0e+08 / (1.0e+08 / a[0] + a[6] * v);
+const double especia::A_Doppler::C0 = 1.0E-03 * speed_of_light_in_vacuum;
+const double especia::A_Doppler::C1 = 1.0E-06 * sqr(elementary_charge) /
+                                      (4.0 * electric_constant * electron_mass * sqr(speed_of_light_in_vacuum));
 
-    y = w * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
-    b = a[4] * y / speed_of_light;
-    c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (w * y);
+
+especia::G_Doppler::G_Doppler()
+        : c(0.0), b(1.0), a(0.0) {
 }
 
-
-especia::G_Doppler::G_Doppler() : y(0.0), b(1.0), c(0.0) {
-}
-
-especia::G_Doppler::G_Doppler(const double a[]) {
-    assign(a);
+especia::G_Doppler::G_Doppler(const double q[])
+        : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / C0)),
+          b(q[4] * c / C0),
+          a(C1 * q[1] * pow(10.0, q[5]) * (q[0] * c)) {
 }
 
 especia::G_Doppler::~G_Doppler() {
@@ -229,11 +229,9 @@ especia::G_Doppler::~G_Doppler() {
 double especia::G_Doppler::operator()(double x) const {
     using std::abs;
 
-    return (abs(x - y) < 4.0 * b) ? c * f_g(x - y, b) : 0.0;
+    return (abs(x - c) < 4.0 * b) ? a * f_g(x - c, b) : 0.0;
 }
 
-void especia::G_Doppler::assign(const double a[]) {
-    y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
-    b = a[4] * y / speed_of_light;
-    c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);
-}
+const double especia::G_Doppler::C0 = 1.0E-03 * speed_of_light_in_vacuum;
+const double especia::G_Doppler::C1 = 1.0E-06 * sqr(elementary_charge) /
+                                      (4.0 * electric_constant * electron_mass * sqr(speed_of_light_in_vacuum));

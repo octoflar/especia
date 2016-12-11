@@ -107,6 +107,12 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
     return os;
 }
 
+double doppler_factor(double v) {
+    const double c = 1.0E-03 * especia::speed_of_light_in_vacuum;
+
+    return sqrt((1.0 + v / c) / (1.0 - v / c));
+}
+
 /**
  * Utility to apply the barycentric velocity correction to spectroscopic
  * data.
@@ -123,8 +129,6 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
  * @return an exit code.
  */
 int main(int argc, char *argv[]) {
-    using especia::doppler_factor;
-
     const char *pname = argv[0];
 
     int skip = 0;

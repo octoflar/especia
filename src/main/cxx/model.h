@@ -420,16 +420,16 @@ namespace especia {
 
             for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i) {
                 const size_t j = i->second;
-
                 const string id = i->first;
 
+                const double c = 1.0E-3 * speed_of_light_in_vacuum;
                 const double x = val[j];
                 const double z = val[j + 2];
                 const double v = val[j + 3];
-                const double w = x * (1.0 + z) * (1.0 + v / speed_of_light);
+                const double w = x * (1.0 + z) * (1.0 + v / c);
                 const double dz = err[j + 2];
                 const double dv = err[j + 3];
-                const double dw = x * sqrt(sqr((1.0 + v / speed_of_light) * dz) + sqr((1.0 + z) * dv / speed_of_light));
+                const double dw = x * sqrt(sqr((1.0 + v / c) * dz) + sqr((1.0 + z) * dv / c));
 
                 os.precision(4);
 

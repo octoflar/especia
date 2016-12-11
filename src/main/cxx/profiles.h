@@ -30,16 +30,16 @@
 
 namespace especia {
 
-   /**
-    * The pseudo-Voigt approximation to the Voigt function. The Voigt function is
-    * defined as the convolution of a Gaussian and a Lorentzian function.
-    *
-    * Further reading:
-    *
-    * T. Ida, M. Ando, H. Toraya (2000).
-    *   *Extended pseudo-Voigt function for approximating the Voigt profile.*
-    *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898.
-    */
+    /**
+     * The pseudo-Voigt approximation to the Voigt function. The Voigt function is
+     * defined as the convolution of a Gaussian and a Lorentzian function.
+     *
+     * Further reading:
+     *
+     * T. Ida, M. Ando, H. Toraya (2000).
+     *   *Extended pseudo-Voigt function for approximating the Voigt profile.*
+     *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898.
+     */
     class Pseudo_Voigt {
     public:
         /**
@@ -48,7 +48,7 @@ namespace especia {
          * @param[in] b The width of the Gaussian.
          * @param[in] d The width of the Lorentzian.
          */
-        Pseudo_Voigt(double b = 1.0, double d = 1.0);
+        Pseudo_Voigt(const double &b = 1.0, const double &d = 1.0);
 
         /**
          * Destructor.
@@ -64,25 +64,27 @@ namespace especia {
         double operator()(const double &x) const;
 
     private:
-        double gamma_g;
-        double gamma_l;
-        double eta;
+        const double u;
+        const double r;
+        const double gamma_g;
+        const double gamma_l;
+        const double eta;
 
         static const double c_g;
         static const double c_l;
     };
 
 
-   /**
-    * The extended pseudo-Voigt approximation to the Voigt function. The Voigt function
-    * is defined as the convolution of a Gaussian and a Lorentzian function.
-    *
-    * Further reading:
-    *
-    * T. Ida, M. Ando, H. Toraya (2000)
-    *   *Extended pseudo-Voigt function for approximating the Voigt profile.*
-    *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898.
-    */
+    /**
+     * The extended pseudo-Voigt approximation to the Voigt function. The Voigt function
+     * is defined as the convolution of a Gaussian and a Lorentzian function.
+     *
+     * Further reading:
+     *
+     * T. Ida, M. Ando, H. Toraya (2000)
+     *   *Extended pseudo-Voigt function for approximating the Voigt profile.*
+     *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898.
+     */
     class Extended_Pseudo_Voigt {
     public:
         /**
@@ -91,7 +93,7 @@ namespace especia {
          * @param[in] b The width of the Gaussian.
          * @param[in] d The width of the Lorentzian.
          */
-        Extended_Pseudo_Voigt(double b = 1.0, double d = 1.0);
+        Extended_Pseudo_Voigt(const double &b = 1.0, const double &d = 1.0);
 
         /**
          * Destructor.
@@ -107,13 +109,15 @@ namespace especia {
         double operator()(const double &x) const;
 
     private:
-        double gamma_g;
-        double gamma_l;
-        double gamma_i;
-        double gamma_p;
-        double eta_l;
-        double eta_i;
-        double eta_p;
+        const double u;
+        const double r;
+        const double gamma_g;
+        const double gamma_l;
+        const double gamma_i;
+        const double gamma_p;
+        const double eta_l;
+        const double eta_i;
+        const double eta_p;
 
         static const double c_g;
         static const double c_l;
@@ -121,17 +125,17 @@ namespace especia {
         static const double c_p;
     };
 
-   /**
-    * The Doppler profile to infer the variation of the fine-structure constant
-    * alpha by means of a many-multiplet analysis.
-    *
-    * Further reading:
-    *
-    * R. Quast, D. Reimers and S. A. Levshakov (2004).
-    *   *Probing the variability of the fine-structure constant with the VLT/UVES.*
-    *   Astronomy and Astrophysics, 415, L7.
-    *   doi: http://dx.doi.org/10.1051/0004-6361:20040013
-    */
+    /**
+     * The Doppler profile to infer the variation of the fine-structure constant
+     * alpha by means of a many-multiplet analysis.
+     *
+     * Further reading:
+     *
+     * R. Quast, D. Reimers and S. A. Levshakov (2004).
+     *   *Probing the variability of the fine-structure constant with the VLT/UVES.*
+     *   Astronomy and Astrophysics, 415, L7.
+     *   doi: http://dx.doi.org/10.1051/0004-6361:20040013
+     */
     class A_Doppler {
     public:
         /**
@@ -147,11 +151,11 @@ namespace especia {
         /**
          * Creates a new Doppler profile with the parameter values specified.
          *
-         * @param[in] a
+         * @param[in] q
          * @parblock
          * The vector of parameter values. Its components are:
          *
-         * @c a[0] The laboratory wavelength (Angstrom)
+         * @c a[0] The rest wavelength (Angstrom)
          *
          * @c a[1] The oscillator strength
          *
@@ -168,7 +172,7 @@ namespace especia {
          * @c a[7] The variation of the fine-structure constant (1.0e-05)
          * @endparblock
          */
-        A_Doppler(const double a[]);
+        A_Doppler(const double q[]);
 
         /**
          * Destructor.
@@ -183,42 +187,35 @@ namespace especia {
          */
         double operator()(double x) const;
 
-        /**
-         * Assigns a new set of parameter values to this Doppler profile.
-         *
-         * @param[in] a
-         * @parblock
-         * The vector of parameter values. Its components are:
-         *
-         * @c a[0] The laboratory wavelength (Angstrom)
-         *
-         * @c a[1] The oscillator strength
-         *
-         * @c a[2] The cosmological redshift
-         *
-         * @c a[3] The radial velocity (km s-1)
-         *
-         * @c a[4] The line broadening velocity (km s-1)
-         *
-         * @c a[5] The decadic logarithm of the particle column number density (cm-2)
-         *
-         * @c a[6] The relativistic correction coefficient
-         *
-         * @c a[7] The variation of the fine-structure constant (1.0e-05)
-         * @endparblock
-         */
-        void assign(const double a[]);
-
     private:
-        double y; // central wavelength (Angstrom)
-        double b; // Doppler width (Angstrom)
-        double c; // amplitude
+        /**
+         * The modified rest wavelength (Angstrom).
+         */
+        const double u;
+
+        /**
+         * The central wavelength (Angstrom).
+         */
+        const double c;
+
+        /**
+         * The Doppler width (Angstrom).
+         */
+        const double b;
+
+        /**
+         * The amplitude.
+         */
+        const double a;
+
+        static const double C0;
+        static const double C1;
     };
 
 
-   /**
-    * The Doppler profile to model intergalactic absorption lines.
-    */
+    /**
+     * The Doppler profile to model intergalactic absorption lines.
+     */
     class G_Doppler {
     public:
         /**
@@ -234,11 +231,11 @@ namespace especia {
         /**
          * Creates a new Doppler profile with the parameter values specified.
          *
-         * @param[in] a
+         * @param[in] q
          * @parblock
          * The vector of parameter values. Its components are:
          *
-         * @c a[0] The laboratory wavelength (Angstrom)
+         * @c a[0] The rest wavelength (Angstrom)
          *
          * @c a[1] The oscillator strength
          *
@@ -251,7 +248,7 @@ namespace especia {
          * @c a[5] The decadic logarithm of the particle column number density (cm-2)
          * @endparblock
          */
-        G_Doppler(const double a[]);
+        G_Doppler(const double q[]);
 
         /**
          * Destructor.
@@ -266,41 +263,33 @@ namespace especia {
          */
         double operator()(double x) const;
 
-        /**
-         * Assigns a new set of parameter values to this Doppler profile.
-         *
-         * @param[in] a
-         * @parblock
-         * The vector of parameter values. Its components are:
-         *
-         * @c a[0] The laboratory wavelength (Angstrom)
-         *
-         * @c a[1] The oscillator strength
-         *
-         * @c a[2] The cosmological redshift
-         *
-         * @c a[3] The radial velocity (km s-1)
-         *
-         * @c a[4] The line broadening velocity (km s-1)
-         *
-         * @c a[5] The decadic logarithm of the particle column number density (cm-2)
-         * @endparblock
-         */
-        void assign(const double a[]);
-
     private:
-        double y; // central wavelength (Angstrom)
-        double b; // Doppler width (Angstrom)
-        double c; // amplitude
+        /**
+         * The central wavelength (Angstrom).
+         */
+        const double c;
+
+        /**
+         * The Doppler width (Angstrom).
+         */
+        const double b;
+
+        /**
+         * The amplitude.
+         */
+        const double a;
+
+        static const double C0;
+        static const double C1;
     };
 
 
-   /**
-    * The Voigt profile to model intergalactic spectral lines.
-    *
-    * @tparam Approximation The strategy to approximate the Voigt function.
-    */
-    template<class Approximation>
+    /**
+     * The Voigt profile to model intergalactic spectral lines.
+     *
+     * @tparam A The strategy to approximate the Voigt function.
+     */
+    template<class A>
     class G_Voigt {
     public:
         /**
@@ -311,17 +300,17 @@ namespace especia {
         /**
          * Default constructor.
          */
-        G_Voigt() : c(0.0), y(0.0), approximation(1.0, 1.0) {
+        G_Voigt() : a(0.0), c(0.0), approximation(1.0, 1.0) {
         };
 
         /**
          * Creates a new Voigt profile with the parameter values specified.
          *
-         * @param[in] a
+         * @param[in] q
          * @parblock
          * The vector of parameter values. Its components are:
          *
-         * @c a[0] The laboratory wavelength (Angstrom)
+         * @c a[0] The rest wavelength (Angstrom)
          *
          * @c a[1] The oscillator strength
          *
@@ -336,8 +325,10 @@ namespace especia {
          * @c a[6] The damping constant (s-1)
          * @endparblock
          */
-        G_Voigt(const double a[]) {
-            assign(a);
+        G_Voigt(const double q[])
+                : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / C0)),
+                  a(C1 * q[1] * pow(10.0, q[5]) * (q[0] * c)),
+                  approximation(q[4] * c / C0, C2 * q[6] * (q[0] * c)) {
         }
 
         /**
@@ -353,74 +344,60 @@ namespace especia {
          * @return The value of the Voigt profile at @c x.
          */
         double operator()(double x) const {
-            return c * approximation(x - y);
+            return a * approximation(x - c);
         };
 
-        /**
-         * Assigns a new set of parameter values to this Voigt profile.
-         *
-         * @param[in] a
-         * @parblock
-         * The vector of parameter values. Its components are:
-         *
-         * @c a[0] The laboratory wavelength (Angstrom)
-         *
-         * @c a[1] The oscillator strength
-         *
-         * @c a[2] The cosmological redshift
-         *
-         * @c a[3] The radial velocity (km s-1)
-         *
-         * @c a[4] The line broadening velocity (km s-1)
-         *
-         * @c a[5] The decadic logarithm of the particle column number density (cm-2)
-         *
-         * @c a[6] The damping constant (s-1)
-         * @endparblock
-         */
-        void assign(const double a[]) {
-            y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
-            c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);
-
-            const double b = a[4] * y / speed_of_light;
-            const double d = 2.65442e-20 * a[6] * (a[0] * y);
-
-            approximation = Approximation(b, d);
-        }
-
     private:
-        double y; // central wavelength (Angstrom)
-        double c; // amplitude
-        Approximation approximation;
+        /**
+         * The central wavelength (Angstrom).
+         */
+        const double c;
+
+        /**
+         * The amplitude.
+         */
+        const double a; // amplitude
+
+        /**
+         * The approximation.
+         */
+        const A approximation;
+
+        static const double C0;
+        static const double C1;
+        static const double C2;
     };
 
+    template<class A>
+    const double G_Voigt<A>::C0 = 1.0E-03 * speed_of_light_in_vacuum;
 
-   /**
-    * The superposition of many profiles.
-    *
-    * @tparam Profile The profile type.
-    */
-    template<class Profile>
+    template<class A>
+    const double G_Voigt<A>::C1 = 1.0E-06 * sqr(elementary_charge) /
+                                  (4.0 * electric_constant * electron_mass * sqr(speed_of_light_in_vacuum));
+    template<class A>
+    const double G_Voigt<A>::C2 = 1.0E-10 / (4.0 * pi * speed_of_light_in_vacuum);
+
+
+    /**
+     * The superposition of many profiles.
+     *
+     * @tparam P The profile type.
+     */
+    template<class P>
     class Superposition {
     public:
-        /**
-         * Default constructor.
-         */
-        Superposition()
-                : profiles() {
-        }
-
         /**
          * Constructs a new superposition of profiles with the parameter values specified.
          *
          * @param[in] n The number of profiles.
-         * @param[in] a The vector of parameter values. The semantics of parameter values and the
+         * @param[in] q The vector of parameter values. The semantics of parameter values and the
          *              number of parameters per component are defined by the profile type.
          */
-        Superposition(size_t n, const double a[])
-                : profiles(n) {
-            for (size_t i = 0; i < n; ++i, a += Profile::parameter_count)
-                profiles[i].assign(a);
+        Superposition(size_t n, const double q[])
+                : profiles() {
+            profiles.reserve(n);
+            for (size_t i = 0; i < n; ++i, q += P::parameter_count)
+                profiles.push_back(P(q));
         }
 
         /**
@@ -444,22 +421,8 @@ namespace especia {
             return d;
         }
 
-        /**
-         * Assigns a new set of parameter values to this superposition.
-         *
-         * @param[in] n The number of profiles.
-         * @param[in] a The vector of parameter values. The semantics of parameter values and the
-         *              number of parameters per component are defined by the profile type.
-         */
-        void assign(size_t n, const double a[]) {
-            profiles.resize(n);
-
-            for (size_t i = 0; i < n; ++i, a += Profile::parameter_count)
-                profiles[i].assign(a);
-        }
-
     private:
-        std::vector<Profile> profiles;
+        std::vector<P> profiles;
     };
 
 }
