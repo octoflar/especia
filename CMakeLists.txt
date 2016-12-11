@@ -56,6 +56,8 @@ configure_file(${MAIN}/resources-filtered/doxygen-html.properties.in resources/d
 set(COMMON_SOURCES
         ${MAIN}/cxx/base.h
         ${MAIN}/cxx/config.h
+        ${MAIN}/cxx/decompose.cxx
+        ${MAIN}/cxx/decompose.h
         ${MAIN}/cxx/model.h
         ${MAIN}/cxx/mtwister.h
         ${MAIN}/cxx/optimize.h
@@ -65,9 +67,7 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/readline.cxx
         ${MAIN}/cxx/readline.h
         ${MAIN}/cxx/section.cxx
-        ${MAIN}/cxx/section.h
-        ${MAIN}/cxx/symeig.cxx
-        ${MAIN}/cxx/symeig.h)
+        ${MAIN}/cxx/section.h)
 
 add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
 target_link_libraries(especia ${VECLIB})

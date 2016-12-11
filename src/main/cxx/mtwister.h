@@ -66,7 +66,7 @@ namespace especia {
             unsigned s, unsigned long b,
             unsigned t, unsigned long c,
             unsigned l>
-    class mersenne_twister {
+    class Mersenne_Twister {
     public:
         /**
          * Constructs a new instance of this functor from a single seed.
@@ -74,7 +74,7 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        mersenne_twister(unsigned long seed = 5489, unsigned long multiplier = 1812433253)
+        Mersenne_Twister(unsigned long seed = 5489, unsigned long multiplier = 1812433253)
                 : words(n) {
             reset(seed, multiplier);
         }
@@ -85,7 +85,7 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        mersenne_twister(unsigned seed_count, const unsigned long seeds[])
+        Mersenne_Twister(unsigned seed_count, const unsigned long seeds[])
                 : words(n) {
             reset(seed_count, seeds);
         }
@@ -93,7 +93,7 @@ namespace especia {
         /**
          * Destructor.
          */
-        ~mersenne_twister() {
+        ~Mersenne_Twister() {
         };
 
         /**
@@ -209,18 +209,18 @@ namespace especia {
     /**
      * A predefined Mersenne twister algorithm.
      */
-    typedef mersenne_twister<32, 351, 175, 19, 0xe4bd75f5, 11, 7, 0x655e5280,
-            15, 0xffd58000, 17> mt11213_a;
+    typedef Mersenne_Twister<32, 351, 175, 19, 0xe4bd75f5, 11, 7, 0x655e5280,
+            15, 0xffd58000, 17> MT11213A;
     /**
      * A predefined Mersenne twister algorithm.
      */
-    typedef mersenne_twister<32, 351, 175, 19, 0xccab8ee7, 11, 7, 0x31b6ab00,
-            15, 0xffe50000, 17> mt11213_b;
+    typedef Mersenne_Twister<32, 351, 175, 19, 0xccab8ee7, 11, 7, 0x31b6ab00,
+            15, 0xffe50000, 17> MT11213B;
     /**
      * A predefined Mersenne twister algorithm.
      */
-    typedef mersenne_twister<32, 624, 397, 31, 0x9908b0df, 11, 7, 0x9d2c5680,
-            15, 0xefc60000, 18> mt19937;
+    typedef Mersenne_Twister<32, 624, 397, 31, 0x9908b0df, 11, 7, 0x9d2c5680,
+            15, 0xefc60000, 18> MT19937;
 
 }
 

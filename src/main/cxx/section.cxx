@@ -23,9 +23,9 @@
 #include <cctype>
 #include <iomanip>
 #include <sstream>
-#include "section.h"
+#include "Section.h"
 
-especia::section::section()
+especia::Section::Section()
         : wav(),
           flx(),
           err(),
@@ -40,7 +40,7 @@ especia::section::section()
           n(0) {
 }
 
-especia::section::section(size_t m)
+especia::Section::Section(size_t m)
         : wav(0.0, m),
           flx(0.0, m),
           err(0.0, m),
@@ -55,7 +55,7 @@ especia::section::section(size_t m)
           n(m) {
 }
 
-especia::section::section(const double x[], const double y[], const double z[], size_t m)
+especia::Section::Section(const double x[], const double y[], const double z[], size_t m)
         : wav(x, m),
           flx(y, m),
           err(z, m),
@@ -70,10 +70,10 @@ especia::section::section(const double x[], const double y[], const double z[], 
           n(m) {
 }
 
-especia::section::~section() {
+especia::Section::~Section() {
 }
 
-void especia::section::continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error) {
+void especia::Section::continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error) {
     using std::fill;
     using std::sqrt;
     using std::runtime_error;
@@ -125,7 +125,8 @@ void especia::section::continuum(size_t m, const double cat[], double cfl[]) con
                 else if (s > 0.0)
                     a[i][i] = sqrt(s);
                 else // the normal equations are (numerically) singular
-                    throw runtime_error("RQ::section::continuum(): Error: normal equations are numerically singular");
+                    throw runtime_error(
+                            "especia::section::continuum(): Error: normal equations are numerically singular");
             }
         for (size_t i = 0; i < m; ++i) {
             double s = b[i];
@@ -147,7 +148,7 @@ void especia::section::continuum(size_t m, const double cat[], double cfl[]) con
         // Compute the continuum flux
         for (size_t i = 0; i < n; ++i) {
             const double x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
-                // map wavelength domain onto the interval [-1, 1]
+            // map wavelength domain onto the interval [-1, 1]
 
             double l1 = 1.0;
             double l2 = 0.0;
@@ -167,7 +168,7 @@ void especia::section::continuum(size_t m, const double cat[], double cfl[]) con
         fill(&cfl[0], &cfl[n], 1.0);
 }
 
-size_t especia::section::selection_size() const {
+size_t especia::Section::selection_size() const {
     size_t j = 0;
 
     for (size_t i = 0; i < n; ++i)
@@ -177,7 +178,7 @@ size_t especia::section::selection_size() const {
     return j;
 }
 
-double especia::section::cost() const {
+double especia::Section::cost() const {
     double a = 0.0;
 
     for (size_t i = 0; i < n; ++i)
@@ -187,19 +188,19 @@ double especia::section::cost() const {
     return 0.5 * a;
 }
 
-void especia::section::mask(double a, double b) {
+void especia::Section::mask(double a, double b) {
     for (size_t i = 0; i < n; ++i)
         if (a <= wav[i] and wav[i] <= b)
             msk[i] = 0;
 }
 
-void especia::section::unmask(double a, double b) {
+void especia::Section::unmask(double a, double b) {
     for (size_t i = 0; i < n; ++i)
         if (a <= wav[i] and wav[i] <= b)
             msk[i] = 1;
 }
 
-void especia::section::integrals(double x, double hwhm, double &p, double &q) const {
+void especia::Section::integrals(double x, double hwhm, double &p, double &q) const {
     using std::erf; // since C++11
     using std::exp;
 
@@ -213,7 +214,7 @@ void especia::section::integrals(double x, double hwhm, double &p, double &q) co
     q = -(b * exp(-x * x)) / d;
 }
 
-std::istream &especia::section::get(std::istream &is, double a, double b) {
+std::istream &especia::Section::get(std::istream &is, double a, double b) {
     using namespace std;
 
     const size_t room = 20000;
@@ -292,7 +293,7 @@ std::istream &especia::section::get(std::istream &is, double a, double b) {
     return is;
 }
 
-std::ostream &especia::section::put(std::ostream &os, double a, double b) const {
+std::ostream &especia::Section::put(std::ostream &os, double a, double b) const {
     using namespace std;
 
     if (os) {
@@ -336,11 +337,11 @@ std::ostream &especia::section::put(std::ostream &os, double a, double b) const 
     return os;
 }
 
-std::istream &especia::operator>>(std::istream &is, std::vector<section> &s) {
+std::istream &especia::operator>>(std::istream &is, std::vector<Section> &s) {
     using namespace std;
 
-    section r;
-    vector<section> t;
+    Section r;
+    vector<Section> t;
 
     while (is >> r)
         t.push_back(r);
@@ -351,7 +352,7 @@ std::istream &especia::operator>>(std::istream &is, std::vector<section> &s) {
     return is;
 }
 
-std::ostream &especia::operator<<(std::ostream &os, const std::vector<section> &s) {
+std::ostream &especia::operator<<(std::ostream &os, const std::vector<Section> &s) {
     size_t i;
 
     for (i = 0; i + 1 < s.size(); ++i)

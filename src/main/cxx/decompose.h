@@ -28,20 +28,20 @@
 
 namespace especia {
     // Function-like class for solving symmetric eigenproblems
-    class sym_eig_decomp_d; // divide and conquer
-    class sym_eig_decomp_r; // relatively robust representations
-    class sym_eig_decomp_x; // inverse iteration
+    class D_Decompose; // divide and conquer
+    class R_Decompose; // relatively robust representations
+    class X_Decompose; // inverse iteration
 
-    typedef sym_eig_decomp_r sym_eig_decomp;
+    typedef R_Decompose sym_eig_decomp;
 }
 
 // Function-like class for solving symmetric eigenproblems. Calls the
 // LAPACK driver routine DSYEVD (divide and conquer).
-class especia::sym_eig_decomp_d {
+class especia::D_Decompose {
 public:
-    sym_eig_decomp_d(size_t n = 0);
+    D_Decompose(size_t n = 0);
 
-    ~sym_eig_decomp_d();
+    ~D_Decompose();
 
     void operator()(const double A[], // symmetric matrix (row-major, lower triangular)
                     double Z[], // transformation matrix (row-major)
@@ -70,11 +70,11 @@ private:
 
 // Function-like class for solving symmetric eigenproblems. Calls the
 // LAPACK driver routine DSYEVR (relatively robust representations).
-class especia::sym_eig_decomp_r {
+class especia::R_Decompose {
 public:
-    sym_eig_decomp_r(size_t n = 0);
+    R_Decompose(size_t n = 0);
 
-    ~sym_eig_decomp_r();
+    ~R_Decompose();
 
     void operator()(const double A[], // symmetric matrix (row-major, lower triangular)
                     double Z[], // transformation matrix (row-major)
@@ -107,11 +107,11 @@ private:
 
 // Function-like class for solving symmetric eigenproblems. Calls the
 // LAPACK driver routine DSYEVX (inverse iteration).
-class especia::sym_eig_decomp_x {
+class especia::X_Decompose {
 public:
-    sym_eig_decomp_x(size_t n = 0);
+    X_Decompose(size_t n = 0);
 
-    ~sym_eig_decomp_x();
+    ~X_Decompose();
 
     void operator()(const double A[], // symmetric matrix (row-major, lower triangular)
                     double Z[], // transformation matrix (row-major)

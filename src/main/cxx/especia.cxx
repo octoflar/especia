@@ -27,13 +27,13 @@
 
 #define ESPECIA_MANY_MULTIPLET_ANALYSIS 1
 
-#include "model.h"
+#include "Model.h"
 
 #undef ESPECIA_MANY_MULTIPLET_ANALYSIS
 
 #include "mtwister.h"
 #include "randev.h"
-#include "symeig.h"
+#include "decompose.h"
 
 const char usemsg[] = "usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
@@ -93,13 +93,13 @@ int main(int argc, char *argv[]) {
         cout << "-->\n";
         cout << "</html>\n";
 
-        model<doppler_mm> model;
+        Model<A_Doppler> model;
         model.get(cin, cout);
 
         if (cin.eof() and !cin.fail()) {
             try {
-                normal_deviate<mt19937> random(seed);
-                sym_eig_decomp decomp;
+                Normal_Deviate<MT19937> normal_deviate(seed);
+                sym_eig_decomp decompose;
 
                 if (model.optimize(parent_number,
                                population_size,
@@ -107,7 +107,7 @@ int main(int argc, char *argv[]) {
                                accuracy_goal,
                                stop_generation,
                                trace,
-                               random, decomp, cout))
+                               normal_deviate, decompose, cout))
                     model.put(cout);
             } catch (exception &e) {
                 cerr << e.what() << endl;

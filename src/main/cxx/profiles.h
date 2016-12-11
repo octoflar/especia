@@ -40,7 +40,7 @@ namespace especia {
     *   *Extended pseudo-Voigt function for approximating the Voigt profile.*
     *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898.
     */
-    class pseudo_voigt {
+    class Pseudo_Voigt {
     public:
         /**
          * Creates a new pseudo-Voigt approximation to the Voigt function.
@@ -48,12 +48,12 @@ namespace especia {
          * @param[in] b The width of the Gaussian.
          * @param[in] d The width of the Lorentzian.
          */
-        pseudo_voigt(double b = 1.0, double d = 1.0);
+        Pseudo_Voigt(double b = 1.0, double d = 1.0);
 
         /**
          * Destructor.
          */
-        ~pseudo_voigt();
+        ~Pseudo_Voigt();
 
         /**
          * Returns the value of the pseudo-Voigt approximation at a given abscissa value.
@@ -83,7 +83,7 @@ namespace especia {
     *   *Extended pseudo-Voigt function for approximating the Voigt profile.*
     *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898.
     */
-    class extended_pseudo_voigt {
+    class Extended_Pseudo_Voigt {
     public:
         /**
          * Creates a new extended pseudo-Voigt approximation to the Voigt function.
@@ -91,12 +91,12 @@ namespace especia {
          * @param[in] b The width of the Gaussian.
          * @param[in] d The width of the Lorentzian.
          */
-        extended_pseudo_voigt(double b = 1.0, double d = 1.0);
+        Extended_Pseudo_Voigt(double b = 1.0, double d = 1.0);
 
         /**
          * Destructor.
          */
-        ~extended_pseudo_voigt();
+        ~Extended_Pseudo_Voigt();
 
         /**
          * Returns the value of the extended pseudo-Voigt approximation at a given abscissa value.
@@ -123,7 +123,7 @@ namespace especia {
 
    /**
     * The Doppler profile to infer the variation of the fine-structure constant
-    * by means of a many-multiplet analysis.
+    * alpha by means of a many-multiplet analysis.
     *
     * Further reading:
     *
@@ -132,7 +132,7 @@ namespace especia {
     *   Astronomy and Astrophysics, 415, L7.
     *   doi: http://dx.doi.org/10.1051/0004-6361:20040013
     */
-    class doppler_mm {
+    class A_Doppler {
     public:
         /**
          * The number of parameters.
@@ -142,7 +142,7 @@ namespace especia {
         /**
          * Default constructor.
          */
-        doppler_mm();
+        A_Doppler();
 
         /**
          * Creates a new Doppler profile with the parameter values specified.
@@ -168,12 +168,12 @@ namespace especia {
          * @c a[7] The variation of the fine-structure constant (1.0e-05)
          * @endparblock
          */
-        doppler_mm(const double a[]);
+        A_Doppler(const double a[]);
 
         /**
          * Destructor.
          */
-        ~doppler_mm();
+        ~A_Doppler();
 
         /**
          * Returns the value of the Doppler profile at a given wavelength.
@@ -219,7 +219,7 @@ namespace especia {
    /**
     * The Doppler profile to model intergalactic absorption lines.
     */
-    class doppler_ig {
+    class G_Doppler {
     public:
         /**
          * The number of parameters.
@@ -229,7 +229,7 @@ namespace especia {
         /**
          * Default constructor.
          */
-        doppler_ig();
+        G_Doppler();
 
         /**
          * Creates a new Doppler profile with the parameter values specified.
@@ -251,12 +251,12 @@ namespace especia {
          * @c a[5] The decadic logarithm of the particle column number density (cm-2)
          * @endparblock
          */
-        doppler_ig(const double a[]);
+        G_Doppler(const double a[]);
 
         /**
          * Destructor.
          */
-        ~doppler_ig();
+        ~G_Doppler();
 
         /**
          * Returns the value of the Doppler profile at a given wavelength.
@@ -298,10 +298,10 @@ namespace especia {
    /**
     * The Voigt profile to model intergalactic spectral lines.
     *
-    * @tparam approximation The approximation to the Voigt function.
+    * @tparam Approximation The strategy to approximate the Voigt function.
     */
-    template<class approximation>
-    class voigt_ig {
+    template<class Approximation>
+    class G_Voigt {
     public:
         /**
          * The number of parameters.
@@ -311,7 +311,7 @@ namespace especia {
         /**
          * Default constructor.
          */
-        voigt_ig() : c(0.0), y(0.0), f(1.0, 1.0) {
+        G_Voigt() : c(0.0), y(0.0), approximation(1.0, 1.0) {
         };
 
         /**
@@ -336,14 +336,14 @@ namespace especia {
          * @c a[6] The damping constant (s-1)
          * @endparblock
          */
-        voigt_ig(const double a[]) {
+        G_Voigt(const double a[]) {
             assign(a);
         }
 
         /**
          * Destructor.
          */
-        ~voigt_ig() {
+        ~G_Voigt() {
         }
 
         /**
@@ -353,7 +353,7 @@ namespace especia {
          * @return The value of the Voigt profile at @c x.
          */
         double operator()(double x) const {
-            return c * f(x - y);
+            return c * approximation(x - y);
         };
 
         /**
@@ -385,29 +385,29 @@ namespace especia {
             const double b = a[4] * y / speed_of_light;
             const double d = 2.65442e-20 * a[6] * (a[0] * y);
 
-            f = approximation(b, d);
+            approximation = Approximation(b, d);
         }
 
     private:
         double y; // central wavelength (Angstrom)
         double c; // amplitude
-        approximation f;
+        Approximation approximation;
     };
 
 
    /**
     * The superposition of many profiles.
     *
-    * @tparam profile The profile type.
+    * @tparam Profile The profile type.
     */
-    template<class profile>
-    class superposition {
+    template<class Profile>
+    class Superposition {
     public:
         /**
          * Default constructor.
          */
-        superposition()
-                : p() {
+        Superposition()
+                : profiles() {
         }
 
         /**
@@ -417,16 +417,16 @@ namespace especia {
          * @param[in] a The vector of parameter values. The semantics of parameter values and the
          *              number of parameters per component are defined by the profile type.
          */
-        superposition(size_t n, const double a[])
-                : p(n) {
-            for (size_t i = 0; i < n; ++i, a += profile::parameter_count)
-                p[i].assign(a);
+        Superposition(size_t n, const double a[])
+                : profiles(n) {
+            for (size_t i = 0; i < n; ++i, a += Profile::parameter_count)
+                profiles[i].assign(a);
         }
 
         /**
          * Destructor.
          */
-        ~superposition() {
+        ~Superposition() {
         }
 
         /**
@@ -438,8 +438,8 @@ namespace especia {
         double operator()(double x) const {
             double d = 0.0;
 
-            for (size_t i = 0; i < p.size(); ++i)
-                d += p[i](x);
+            for (size_t i = 0; i < profiles.size(); ++i)
+                d += profiles[i](x);
 
             return d;
         }
@@ -452,14 +452,14 @@ namespace especia {
          *              number of parameters per component are defined by the profile type.
          */
         void assign(size_t n, const double a[]) {
-            p.resize(n);
+            profiles.resize(n);
 
-            for (size_t i = 0; i < n; ++i, a += profile::parameter_count)
-                p[i].assign(a);
+            for (size_t i = 0; i < n; ++i, a += Profile::parameter_count)
+                profiles[i].assign(a);
         }
 
     private:
-        std::vector<profile> p;
+        std::vector<Profile> profiles;
     };
 
 }

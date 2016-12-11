@@ -27,7 +27,7 @@
 namespace especia {
 
    /**
-    * A functor template to generate random normal deviates.
+    * A class template to generate random normal deviates.
     *
     * The algorithm uses the polar method (e.g. Knuth, 1998,
     * Sec. 3.4.1, Algorithm P) to generate standard normally distributed random
@@ -39,31 +39,33 @@ namespace especia {
     *   *The art of computer programming 2. Seminumerical algorithms.*
     *   Addison Wesley Longman, ISBN 0-201-89684-2.
     *
-    * @tparam uniform_deviate A functor to generate random uniform deviates.
+    * @tparam U The strategy to generate random uniform deviates.
     */
-    template<class uniform_deviate>
-    class normal_deviate {
+    template<class U>
+    class Normal_Deviate {
     public:
         /**
-         * Constructs a new instance of this functor from a seed.
+         * Constructs a new instance of this class from a seed.
          *
          * @param[in] seed The seed.
          */
-        normal_deviate(unsigned long seed = 5489) : udev(seed), gen_xy(false) {
+        Normal_Deviate(unsigned long seed = 5489)
+                : uniform_deviate(seed), status(false) {
         }
 
         /**
-         * Copy constructor.
+         * Constructs a new instance of this class from a uniform deviate.
          *
-         * @param[in] u The instance of this functor to be copied.
+         * @param[in] u The instance of this class to be copied.
          */
-        normal_deviate(const uniform_deviate &u) : udev(u), gen_xy(false) {
+        Normal_Deviate(const U &u)
+                : uniform_deviate(u), status(false) {
         }
 
         /**
          * Destructor.
          */
-        ~normal_deviate() {
+        ~Normal_Deviate() {
         }
 
         /**
@@ -75,14 +77,14 @@ namespace especia {
             using std::log;
             using std::sqrt;
 
-            gen_xy = !gen_xy;
+            status = !status;
 
-            if (gen_xy) {
+            if (status) {
                 double t;
 
                 do {
-                    x = 2.0 * udev() - 1.0;
-                    y = 2.0 * udev() - 1.0;
+                    x = 2.0 * uniform_deviate() - 1.0;
+                    y = 2.0 * uniform_deviate() - 1.0;
                     t = x * x + y * y;
                 } while (t >= 1.0 or t == 0.0);
 
@@ -91,8 +93,9 @@ namespace especia {
                 y *= t;
 
                 return x;
-            } else
+            } else {
                 return y;
+            }
         }
 
         /**
@@ -101,8 +104,8 @@ namespace especia {
          * @param[in] seed The seed.
          */
         void reset(unsigned long seed = 5489) {
-            udev.reset(seed);
-            gen_xy = false;
+            uniform_deviate.reset(seed);
+            status = false;
         }
 
         /**
@@ -110,14 +113,14 @@ namespace especia {
          *
          * @param[in] u The other instance.
          */
-        void reset(const uniform_deviate &u) {
-            udev = u;
-            gen_xy = false;
+        void reset(const U &u) {
+            uniform_deviate = u;
+            status = false;
         }
 
     private:
-        uniform_deviate udev;
-        bool gen_xy;
+        U uniform_deviate;
+        bool status;
         double x, y;
     };
 

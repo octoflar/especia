@@ -33,25 +33,31 @@
 #include <string>
 #include <valarray>
 #include <vector>
+
 #include "config.h"
 #include "optimize.h"
 #include "profiles.h"
 #include "readline.h"
-#include "section.h"
+#include "Section.h"
 
 
 namespace especia {
 
-    template<class profile>
-    class model {
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCDFAInspection"
+    template<class Profile>
+    class Model {
     public:
-        std::istream &get(std::istream &is, std::ostream &os, char comment_mark = '%', char begin_of_section = '{',
+        std::istream &get(std::istream &is,
+                          std::ostream &os,
+                          char comment_mark = '%',
+                          char begin_of_section = '{',
                           char end_of_section = '}') {
             using namespace std;
 
             typedef map<string, size_t>::const_iterator id_index_map_ci;
 
-            const char errmsg[] = "RQ::model<>::get(): Error: ";
+            const char errmsg[] = "especia::Model<>::get(): Error: ";
             const char dlimsg[] = "duplicate line identifier";
             const char dsimsg[] = "duplicate section identifier";
             const char fnfmsg[] = "file not found";
@@ -60,7 +66,7 @@ namespace especia {
             const char synmsg[] = "syntax error";
             const char rnfmsg[] = "reference not found";
 
-            vector<especia::section> sec;
+            vector<especia::Section> sec;
 
             vector<size_t> isc;
             vector<size_t> nle;
@@ -124,7 +130,7 @@ namespace especia {
                                 ifstream ifs(fn.c_str());
 
                                 if (ifs) {
-                                    especia::section s;
+                                    especia::Section s;
 
                                     if (s.get(ifs, a, b)) {
                                         istringstream is2(s2);
@@ -176,8 +182,8 @@ namespace especia {
                             if (pim.find(pid) == pim.end()) {
                                 pim[pid] = i;
 
-                                if (read(ist, val, lo, up, msk, ref, profile::parameter_count, '\n', true)) {
-                                    i += profile::parameter_count;
+                                if (read(ist, val, lo, up, msk, ref, Profile::parameter_count, '\n', true)) {
+                                    i += Profile::parameter_count;
                                     k += 1;
                                 } else {
                                     is.setstate(ios_base::badbit | ios_base::failbit);
@@ -252,7 +258,7 @@ namespace especia {
 
                 // Dereference line parameter references
                 for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i)
-                    for (size_t j = 0; j < profile::parameter_count; ++j) {
+                    for (size_t j = 0; j < Profile::parameter_count; ++j) {
                         const size_t k = i->second + j;
 
                         while (!ref[k].empty()) {
@@ -473,7 +479,7 @@ namespace especia {
                     val[i] = x[ind[i]];
 
             for (size_t i = 0; i < sec.size(); ++i)
-                sec[i].compute_model(superposition<profile>(nli[i], &val[isc[i] + 1]), nle[i], val[isc[i]]);
+                sec[i].compute_model(Superposition<Profile>(nli[i], &val[isc[i] + 1]), nle[i], val[isc[i]]);
         }
 
         double operator()(const double x[], size_t n) const {
@@ -490,19 +496,19 @@ namespace especia {
 
             double d = 0.0;
             for (size_t i = 0; i < sec.size(); ++i)
-                d += sec[i].cost(superposition<profile>(nli[i], &y[isc[i] + 1]), nle[i], y[isc[i]]);
+                d += sec[i].cost(Superposition<Profile>(nli[i], &y[isc[i] + 1]), nle[i], y[isc[i]]);
 
             return d;
         }
 
-        template<class normal_deviate, class sym_eig_decomp>
+        template<class Deviate, class Decompose>
         bool optimize(unsigned parent_number,
                       unsigned population_size,
                       double step_size,
                       double accuracy_goal,
                       unsigned long stop_generation,
                       unsigned trace,
-                      normal_deviate &random, sym_eig_decomp &decomp, std::ostream &os) {
+                      Deviate &deviate, Decompose &decompose, std::ostream &os) {
             using std::endl;
             using std::ios_base;
             using std::less;
@@ -516,9 +522,9 @@ namespace especia {
             const char endlog[] = "</log>";
             const char begmsg[] = "<message>";
             const char endmsg[] = "</message>";
-            const char optmsg[] = "RQ::model<>::optimize(): Message: Optimization completed";
-            const char stpmsg[] = "RQ::model<>::optimize(): Warning: Optimization stopped at generation ";
-            const char uflmsg[] = "RQ::model<>::optimize(): Warning: Mutation variance underflow";
+            const char optmsg[] = "especia::Model<>::optimize(): Message: optimization completed";
+            const char stpmsg[] = "especia::Model<>::optimize(): Warning: optimization stopped at generation ";
+            const char uflmsg[] = "especia::Model<>::optimize(): Warning: mutation variance underflow";
 
             const size_t n = ind.max() + 1;
 
@@ -557,7 +563,8 @@ namespace especia {
                 os << beglog << endl;
             }
 
-            const bound_constraint<double> constraint(&a[0], &b[0], n);
+            const Bound_Constraint<double> constraint(&a[0], &b[0], n);
+            const Default_Tracer<double> tracer(os, trace);
             const unsigned update_modulus = 1;
 
             unsigned long g = 0;
@@ -565,24 +572,24 @@ namespace especia {
             bool optimized = false;
             bool underflow = false;
 
-            optimize(constraint,
-                     parent_number, 
-                     population_size, 
-                     update_modulus, 
-                     accuracy_goal, 
-                     stop_generation,
-                     g, 
-                     x, 
-                     step_size, 
-                     d, 
-                     B, 
-                     C, 
-                     y, 
-                     optimized,
-                     underflow,
-                     random, 
-                     decomp,
-                     os, trace);
+            especia::minimize(*this,
+                              constraint,
+                              n,
+                              parent_number,
+                              population_size,
+                              update_modulus,
+                              accuracy_goal,
+                              stop_generation,
+                              g,
+                              &x[0],
+                              step_size,
+                              &d[0],
+                              &B[0],
+                              &C[0],
+                              y,
+                              optimized,
+                              underflow,
+                              deviate, decompose, tracer);
 
             if (trace > 0) {
                 os << endlog << endl;
@@ -620,109 +627,6 @@ namespace especia {
         }
 
     private:
-        template<class generator, class prior, class decomposer>
-        void optimize(const prior &constraint,
-                      unsigned parent_number,
-                      unsigned population_size,
-                      unsigned update_modulus,
-                      double accuracy_goal,
-                      unsigned long stop_generation,
-                      unsigned long &g,
-                      std::valarray<double> &x,
-                      double &step_size,
-                      std::valarray<double> &d,
-                      std::valarray<double> &B,
-                      std::valarray<double> &C,
-                      double &y,
-                      bool &optimized,
-                      bool &underflow,
-                      generator &random, decomposer &decomp,
-                      std::ostream &os, unsigned trace = 0) {
-            using std::endl;
-            using std::ios_base;
-            using std::less;
-            using std::log;
-            using std::max;
-            using std::min;
-            using std::setw;
-            using std::sqrt;
-            using std::valarray;
-
-            valarray<double> w(1.0, parent_number);
-            for (size_t i = 0; i < parent_number; ++i)
-                w[i] = log((parent_number + 1.0) / (i + 1));
-
-            const size_t n = x.size();
-            const double wv = sqr(w.sum()) / w.apply(sqr).sum();
-            const double cs = (wv + 2.0) / (wv + n + 3.0);
-            const double cc = 4.0 / (n + 4.0);
-            const double acov = 1.0 / wv;
-            const double ccov = acov * (2.0 / sqr(n + sqrt(2.0))) +
-                                (1.0 - acov) * min(1.0, (2.0 * wv - 1.0) / (sqr(n + 2.0) + wv));
-            const double step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
-
-            const less<double> comp = less<double>();
-
-            valarray<double> pc(0.0, n);
-            valarray<double> ps(0.0, n);
-
-            while (!optimized and !underflow and g < stop_generation) {
-                unsigned long stop;
-
-                if (trace > 0) {
-                    stop = g + trace;
-                } else {
-                    stop = stop_generation;
-                }
-
-                especia::optimize(*this, constraint,
-                                  n,
-                                  parent_number,
-                                  population_size,
-                                  &w[0],
-                                  step_size_damping,
-                                  cs,
-                                  cc,
-                                  ccov,
-                                  acov,
-                                  update_modulus,
-                                  accuracy_goal,
-                                  stop,
-                                  g,
-                                  &x[0],
-                                  step_size,
-                                  &d[0],
-                                  &B[0],
-                                  &C[0],
-                                  &ps[0],
-                                  &pc[0],
-                                  y,
-                                  optimized,
-                                  underflow,
-                                  random, decomp, comp);
-
-                if (trace > 0) {
-                    const ios_base::fmtflags fmt = os.flags();
-
-                    const int p = 4;
-                    const int width = 12;
-
-                    os.setf(ios_base::fmtflags());
-                    os.setf(ios_base::scientific, ios_base::floatfield);
-                    os.setf(ios_base::right, ios_base::adjustfield);
-                    os.precision(p);
-
-                    os << setw(8) << g;
-                    os << setw(width) << y;
-                    os << setw(width) << step_size * d.min();
-                    os << setw(width) << step_size * d.max();
-                    os << endl;
-
-                    os.flags(fmt);
-                }
-            }
-        }
-
         std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, int p, size_t parameter_index) const {
             using namespace std;
 
@@ -740,7 +644,7 @@ namespace especia {
             return os;
         }
 
-        std::vector<especia::section> sec;
+        std::vector<especia::Section> sec;
 
         std::valarray<size_t> isc;
         std::valarray<size_t> nle;
@@ -757,6 +661,7 @@ namespace especia {
         std::map<std::string, size_t> sim;
         std::map<std::string, size_t> pim;
     };
+#pragma clang diagnostic pop
 
 }
 

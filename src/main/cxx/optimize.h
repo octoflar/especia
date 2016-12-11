@@ -25,6 +25,8 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <iomanip>
+#include <iostream>
 #include <limits>
 #include <numeric>
 #include <valarray>
@@ -36,11 +38,11 @@ namespace especia {
     /**
      * An indirect comparator to compare a set of fitness values.
      *
-     * @tparam number The number type.
-     * @tparam comparator The direct number comparator type.
+     * @tparam T The number type.
+     * @tparam Compare The strategy to compare numbers directly.
      */
-    template<class number, class comparator>
-    class indirect_comparator {
+    template<class T, class Compare>
+    class Indirect_Compare {
     public:
         /**
          * Constructs a new indirect comparator to compare a set of fitness values.
@@ -48,39 +50,40 @@ namespace especia {
          * @param[in] f The fitness values.
          * @param[in] c The direct number comparator.
          */
-        indirect_comparator(const std::valarray<number> &f, const comparator &c) : fitness(f), comp(c) {
+        Indirect_Compare(const std::valarray<T> &f, const Compare &c)
+                : fitness(f), compare(c) {
         }
 
         /**
          * Destructor.
          */
-        ~indirect_comparator() {
+        ~Indirect_Compare() {
         }
 
         /**
-         * The indirect comparation.
+         * The indirect comparing.
          *
          * @param[in] i An index into the set of fitness values.
          * @param[in] j An index into the set of fitness values.
          * @return the direct comparator result.
          */
         bool operator()(const size_t &i, const size_t &j) const {
-            return comp(fitness[i], fitness[j]);
+            return compare(fitness[i], fitness[j]);
         }
 
     private:
-        const std::valarray<number> &fitness;
-        const comparator &comp;
+        const std::valarray<T> &fitness;
+        const Compare &compare;
     };
 
 
     /**
      * A bound constraint.
      *
-     * @tparam number The number type.
+     * @tparam T The number type.
      */
-    template<class number>
-    class bound_constraint {
+    template<class T>
+    class Bound_Constraint {
     public:
         /**
          * Constructs a new strict-bound prior constraint.
@@ -89,14 +92,14 @@ namespace especia {
          * @param upper_bounds The upper bounds.
          * @param n The number of bounds.
          */
-        bound_constraint(const number lower_bounds[], const number upper_bounds[], size_t n)
+        Bound_Constraint(const T lower_bounds[], const T upper_bounds[], size_t n)
                 : a(lower_bounds, n), b(upper_bounds, n) {
         }
 
         /**
          * Destructor.
          */
-        ~bound_constraint() {
+        ~Bound_Constraint() {
         }
 
         /**
@@ -106,7 +109,7 @@ namespace especia {
          * @param n The number of parameters to test.
          * @return @c true, if the parameter vector violates the constraint.
          */
-        bool test(const number *x, size_t n) const {
+        bool test(const T x[], size_t n) const {
             for (size_t i = 0; i < n; ++i) {
                 if (x[i] < a[i] || x[i] > b[i]) {
                     return true;
@@ -122,34 +125,34 @@ namespace especia {
          * @param n The number of parameters to take account of.
          * @return always zero.
          */
-        number cost(const number x[], size_t n) const {
-            return number(0);
+        T cost(const T x[], size_t n) const {
+            return T(0);
         }
 
     private:
-        const std::valarray<number> a;
-        const std::valarray<number> b;
+        const std::valarray<T> a;
+        const std::valarray<T> b;
     };
 
 
     /**
      * No constraint.
      *
-     * @tparam number The number type.
+     * @tparam T The number type.
      */
-    template<class number>
-    class no_constraint {
+    template<class T>
+    class No_Constraint {
     public:
         /**
          * Constructor.
          */
-        no_constraint() {
+        No_Constraint() {
         }
 
         /**
          * Destructor.
          */
-        ~no_constraint() {
+        ~No_Constraint() {
         }
 
         /**
@@ -159,7 +162,7 @@ namespace especia {
          * @param n The number of parameters to test.
          * @return always @c false.
          */
-        bool test(const number *x, size_t n) const {
+        bool test(const T x[], size_t n) const {
             return false;
         }
 
@@ -170,8 +173,69 @@ namespace especia {
          * @param n The number of parameters to take account of.
          * @return always zero.
          */
-        number cost(const number x[], size_t n) const {
-            return number(0);
+        T cost(const T x[], size_t n) const {
+            return T(0);
+        }
+    };
+
+
+    template<class T>
+    class Default_Tracer {
+    public:
+        Default_Tracer(std::ostream &output_stream, unsigned int modulus) : os(output_stream), m(modulus) {
+        }
+
+        ~Default_Tracer() {
+        }
+
+        bool on(const unsigned long &g) const {
+            return m > 0 and g % m == 0;
+        }
+
+        void trace(const unsigned long &g, const T &y, const T &min_step, const T &max_step) const {
+            using std::endl;
+            using std::ios_base;
+            using std::setw;
+
+            const ios_base::fmtflags fmt = os.flags();
+
+            const int p = 4;
+            const int width = 12;
+
+            os.setf(ios_base::fmtflags());
+            os.setf(ios_base::scientific, ios_base::floatfield);
+            os.setf(ios_base::right, ios_base::adjustfield);
+            os.precision(p);
+
+            os << setw(8) << g;
+            os << setw(width) << y;
+            os << setw(width) << min_step;
+            os << setw(width) << max_step;
+            os << endl;
+
+            os.flags(fmt);
+        }
+
+    private:
+        std::ostream &os;
+        const unsigned int m;
+    };
+
+
+    template<class T>
+    class No_Tracer {
+    public:
+        No_Tracer() {
+        }
+
+        ~No_Tracer() {
+        }
+
+        bool on(const unsigned long &g) const {
+            return false;
+        }
+
+        void trace(const unsigned long &g, const T &y, const T &min_step, const T &max_step) {
         }
     };
 
@@ -191,13 +255,14 @@ namespace especia {
      *    *Completely Derandomized Self-Adaption in Evolution Strategies.*
      *    Evolutionary Computation, 9, 159, ISSN 1063-6560.
      *
-     * @tparam function  The function type.
-     * @tparam prior The prior constraint type.
-     * @tparam generator The strategy to generate random normal deviates.
-     * @tparam decomposer The strategy to perform the symmetric eigenvalue decomposition.
-     * @tparam comparator The strategy to compare fitness values.
+     * @tparam F The function type.
+     * @tparam Constraint The constraint type.
+     * @tparam Deviate The strategy to generate random normal deviates.
+     * @tparam Decompose The strategy to perform the symmetric eigenvalue decomposition.
+     * @tparam Compare The strategy to compare fitness values.
+     * @tparam Tracer The tracer type.
      *
-     * @param[in] f The objective function.
+     * @param[in] f The model function.
      * @param[in] constraint The prior constraint on the parameter values.
      * @param[in] n The number of parameters.
      * @param[in] parent_number The number of parents per generation.
@@ -222,13 +287,14 @@ namespace especia {
      * @param[out] yw The value of the objective function (plus the constraint cost) at @c xw.
      * @param[out] optimized Set to @c true when the optimization has converged.
      * @param[out] underflow Set to @c true when the mutation variance is too small.
-     * @param[in] random The random number generator.
-     * @param[in] decomp The eigenvalue decomposition.
-     * @param[in] comp The comparator to compare fitness values.
+     * @param[in] deviate The random number generator.
+     * @param[in] decompose The eigenvalue decomposition.
+     * @param[in] compare The comparator to compare fitness values.
+     * @param[in] tracer The tracer.
      */
-    template<class function, class prior, class generator, class decomposer, class comparator>
-    void optimize(const function &f,
-                  const prior &constraint,
+    template<class F, class Constraint, class Deviate, class Decompose, class Compare, class Tracer>
+    void optimize(const F &f,
+                  const Constraint &constraint,
                   size_t n,
                   unsigned parent_number,
                   unsigned population_size,
@@ -252,7 +318,7 @@ namespace especia {
                   double &yw,
                   bool &optimized,
                   bool &underflow,
-                  generator &random, decomposer &decomp, const comparator &comp) {
+                  Deviate &deviate, Decompose &decompose, const Compare &compare, Tracer &tracer) {
         using std::accumulate;
         using std::exp;
         using std::inner_product;
@@ -290,7 +356,7 @@ namespace especia {
                 vw = 0.0;
                 for (size_t j = 0; j < n; ++j) {
                     do {
-                        const double z = random();
+                        const double z = deviate();
 
                         for (size_t i = 0, ij = j; i < n; ++i, ij += n) {
                             u[k][i] = uw[i] + z * BD[ij];
@@ -310,7 +376,7 @@ namespace especia {
                 index[k] = k;
             }
             partial_sort(&index[0], &index[parent_number], &index[population_size],
-                         indirect_comparator<double, comparator>(fitness, comp));
+                         Indirect_Compare<double, Compare>(fitness, compare));
             ++g;
 
             // Check the mutation variance
@@ -364,7 +430,7 @@ namespace especia {
             if (ccov > 0.0 and g % update_modulus == 0) {
                 // Decompose the covariance matrix and sort its eigenvalues in ascending
                 // order, along with eigenvectors
-                decomp(C, B, d, n);
+                decompose(C, B, d, n);
 
                 // Adjust the condition of the covariance matrix and recompute the
                 // local step sizes
@@ -384,6 +450,8 @@ namespace especia {
                 if (!optimized)
                     break;
             }
+            if (optimized or tracer.on(g))
+                tracer.trace(g, f(xw, n) + constraint.cost(xw, n), step_size * d[0], step_size * d[n - 1]);
             if (optimized)
                 break;
         }
@@ -393,13 +461,124 @@ namespace especia {
 
 
     /**
+     * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear
+     * function optimization. Based on Hansen and Ostermeier (2001).
+     *
+     * Further reading:
+     *
+     * N. Hansen, S. D. Müller, P. Koumoutsakos (2003).
+     *   *Reducing the Increasing the Time Complexity of the Derandomized Evolution
+     *      Strategy with Covariance Matrix Adaption (CMA-ES).*
+     *   Evolutionary Computation, 11, 1, ISSN 1063-6560.
+     *
+     *  N. Hansen, A. Ostermeier (2001).
+     *    *Completely Derandomized Self-Adaption in Evolution Strategies.*
+     *    Evolutionary Computation, 9, 159, ISSN 1063-6560.
+     *
+     * @tparam F The function type.
+     * @tparam Constraint The constraint type.
+     * @tparam Deviate The strategy to generate random normal deviates.
+     * @tparam Decompose The strategy to perform the symmetric eigenvalue decomposition.
+     * @tparam Tracer The tracer type.
+     *
+     * @param[in] f The model function.
+     * @param[in] constraint The prior constraint on the parameter values.
+     * @param[in] n The number of parameters.
+     * @param[in] parent_number The number of parents per generation.
+     * @param[in] population_size The number of individuals per generation. Twice the parent number, at least
+     * @param[in] update_modulus The covariance matrix update modulus.
+     * @param[in] accuracy_goal The accuracy goal.
+     * @param[in] stop_generation The stop generation.
+     * @param[in,out] g The generation number.
+     * @param[in,out] x The parameter values.
+     * @param[in,out] step_size The global step size.
+     * @param[in,out] d The local step sizes.
+     * @param[in,out] B The rotation matrix.
+     * @param[in,out] C The covariance matrix.
+     * @param[out] y The value of the objective function (plus the constraint cost) at @c x.
+     * @param[out] optimized Set to @c true when the optimization has converged.
+     * @param[out] underflow Set to @c true when the mutation variance is too small.
+     * @param[in] deviate The random number generator.
+     * @param[in] decompose The eigenvalue decomposition.
+     * @param[in] trace The tracer.
+     */
+    template<class F, class Constraint, class Deviate, class Decompose, class Tracer>
+    void minimize(const F &f,
+                  const Constraint &constraint,
+                  size_t n,
+                  unsigned parent_number,
+                  unsigned population_size,
+                  unsigned update_modulus,
+                  double accuracy_goal,
+                  unsigned long stop_generation,
+                  unsigned long &g,
+                  double x[],
+                  double &step_size,
+                  double d[],
+                  double B[],
+                  double C[],
+                  double &y,
+                  bool &optimized,
+                  bool &underflow,
+                  Deviate &deviate, Decompose &decompose, Tracer &trace) {
+        using std::less;
+        using std::log;
+        using std::max;
+        using std::min;
+        using std::sqrt;
+        using std::valarray;
+
+        valarray<double> w(1.0, parent_number);
+        for (size_t i = 0; i < parent_number; ++i)
+            w[i] = log((parent_number + 1.0) / (i + 1));
+
+        const double wv = sqr(w.sum()) / w.apply(sqr).sum();
+        const double cs = (wv + 2.0) / (wv + n + 3.0);
+        const double cc = 4.0 / (n + 4.0);
+        const double acov = 1.0 / wv;
+        const double ccov = acov * (2.0 / sqr(n + sqrt(2.0))) +
+                            (1.0 - acov) * min(1.0, (2.0 * wv - 1.0) / (sqr(n + 2.0) + wv));
+        const double step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
+
+        valarray<double> pc(0.0, n);
+        valarray<double> ps(0.0, n);
+
+        optimize(f, constraint,
+                 n,
+                 parent_number,
+                 population_size,
+                 &w[0],
+                 step_size_damping,
+                 cs,
+                 cc,
+                 ccov,
+                 acov,
+                 update_modulus,
+                 accuracy_goal,
+                 stop_generation,
+                 g,
+                 x,
+                 step_size,
+                 d,
+                 B,
+                 C,
+                 &ps[0],
+                 &pc[0],
+                 y,
+                 optimized,
+                 underflow,
+                 deviate, decompose, less<double>(), trace);
+    }
+
+
+    /**
      * Function to scale the global step size to compute standard uncertainties and covariance.
      *
      * Compute the standard covariance along the major principal axis from the curvature of a
      * parabola through three point around the minimum.
      *
-     * @tparam function The function type.
-     * @tparam prior The prior constraint type.
+     * @tparam F The function type.
+     * @tparam Constraint The constraint type.
      *
      * @param[in] f The objective function.
      * @param[in] constraint The prior constraint on the parameter values.
@@ -409,8 +588,8 @@ namespace especia {
      * @param[in] B The rotation matrix.
      * @param[in,out] s The global step size.
      */
-    template<class function, class prior>
-    void scale_step_size(const function &f, const prior &constraint, const double x[], size_t n, const double d[],
+    template<class F, class Constraint>
+    void scale_step_size(const F &f, const Constraint &constraint, const double x[], size_t n, const double d[],
                          const double B[], double &s) {
         using std::abs;
         using std::valarray;

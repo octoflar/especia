@@ -141,7 +141,7 @@ double poly_eta_p(const double &rho) {
 }
 
 
-especia::pseudo_voigt::pseudo_voigt(double b, double d) {
+especia::Pseudo_Voigt::Pseudo_Voigt(double b, double d) {
     const double p = (c_g * b) / (c_l * d);
     const double q = 1.0 / pow(1.0 + p * (0.07842 + p * (4.47163 + p * (2.42843 + p * (p + 2.69269)))), 0.2);
 
@@ -150,18 +150,18 @@ especia::pseudo_voigt::pseudo_voigt(double b, double d) {
     eta = q * (1.36603 - q * (0.47719 - q * 0.11116));
 }
 
-especia::pseudo_voigt::~pseudo_voigt() {
+especia::Pseudo_Voigt::~Pseudo_Voigt() {
 }
 
-double especia::pseudo_voigt::operator()(const double &x) const {
+double especia::Pseudo_Voigt::operator()(const double &x) const {
     return (1.0 - eta) * f_g(x, gamma_g) + eta * f_l(x, gamma_l);
 }
 
-const double especia::pseudo_voigt::c_g = 2.0 * sqrt(log(2.0));
-const double especia::pseudo_voigt::c_l = 2.0;
+const double especia::Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
+const double especia::Pseudo_Voigt::c_l = 2.0;
 
 
-especia::extended_pseudo_voigt::extended_pseudo_voigt(double b, double d) {
+especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(double b, double d) {
     const double sum = c_g * b + c_l * d;
     const double rho = c_l * d / sum;
     gamma_g = sum * poly_w_g(rho) / c_g;
@@ -173,39 +173,39 @@ especia::extended_pseudo_voigt::extended_pseudo_voigt(double b, double d) {
     eta_p = poly_eta_p(rho);
 }
 
-especia::extended_pseudo_voigt::~extended_pseudo_voigt() {
+especia::Extended_Pseudo_Voigt::~Extended_Pseudo_Voigt() {
 }
 
-double especia::extended_pseudo_voigt::operator()(const double &x) const {
+double especia::Extended_Pseudo_Voigt::operator()(const double &x) const {
     return (1.0 - eta_l - eta_i - eta_p) * f_g(x, gamma_g) +
            eta_l * f_l(x, gamma_l) +
            eta_i * f_i(x, gamma_i) +
            eta_p * f_p(x, gamma_p);
 }
 
-const double especia::extended_pseudo_voigt::c_g = 2.0 * sqrt(log(2.0));
-const double especia::extended_pseudo_voigt::c_l = 2.0;
-const double especia::extended_pseudo_voigt::c_i = 2.0 * sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
-const double especia::extended_pseudo_voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
+const double especia::Extended_Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
+const double especia::Extended_Pseudo_Voigt::c_l = 2.0;
+const double especia::Extended_Pseudo_Voigt::c_i = 2.0 * sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
+const double especia::Extended_Pseudo_Voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
 
 
-especia::doppler_mm::doppler_mm() : y(0.0), b(1.0), c(0.0) {
+especia::A_Doppler::A_Doppler() : y(0.0), b(1.0), c(0.0) {
 }
 
-especia::doppler_mm::doppler_mm(const double a[]) {
+especia::A_Doppler::A_Doppler(const double a[]) {
     assign(a);
 }
 
-especia::doppler_mm::~doppler_mm() {
+especia::A_Doppler::~A_Doppler() {
 }
 
-double especia::doppler_mm::operator()(double x) const {
+double especia::A_Doppler::operator()(double x) const {
     using std::abs;
 
     return (abs(x - y) < 4.0 * b) ? c * f_g(x - y, b) : 0.0;
 }
 
-void especia::doppler_mm::assign(const double a[]) {
+void especia::A_Doppler::assign(const double a[]) {
     const double u = 1.0e-05 * a[7];
     const double v = u * (u + 2.0);
     const double w = 1.0e+08 / (1.0e+08 / a[0] + a[6] * v);
@@ -216,23 +216,23 @@ void especia::doppler_mm::assign(const double a[]) {
 }
 
 
-especia::doppler_ig::doppler_ig() : y(0.0), b(1.0), c(0.0) {
+especia::G_Doppler::G_Doppler() : y(0.0), b(1.0), c(0.0) {
 }
 
-especia::doppler_ig::doppler_ig(const double a[]) {
+especia::G_Doppler::G_Doppler(const double a[]) {
     assign(a);
 }
 
-especia::doppler_ig::~doppler_ig() {
+especia::G_Doppler::~G_Doppler() {
 }
 
-double especia::doppler_ig::operator()(double x) const {
+double especia::G_Doppler::operator()(double x) const {
     using std::abs;
 
     return (abs(x - y) < 4.0 * b) ? c * f_g(x - y, b) : 0.0;
 }
 
-void especia::doppler_ig::assign(const double a[]) {
+void especia::G_Doppler::assign(const double a[]) {
     y = a[0] * (1.0 + a[2]) * (1.0 + a[3] / speed_of_light);
     b = a[4] * y / speed_of_light;
     c = 8.85280e-21 * a[1] * pow(10.0, a[5]) * (a[0] * y);

@@ -268,7 +268,7 @@ Reimers, Dieter; Baade, Robert; Quast, Ralf; Levshakov, Sergei A. (2002): *Detec
 -->
 <!--
 <message>
-RQ::model<>::optimize(): Message: Optimization completed
+especia::Model<>::optimize(): Message: optimization completed
 </message>
 -->
 </html>

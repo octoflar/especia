@@ -32,26 +32,26 @@
 
 namespace especia {
     // Class for modeling absorption line regions
-    class section;
+    class Section;
 
-    std::istream &operator>>(std::istream &is, section &s);
+    std::istream &operator>>(std::istream &is, Section &s);
 
-    std::istream &operator>>(std::istream &is, std::vector<section> &s);
+    std::istream &operator>>(std::istream &is, std::vector<Section> &s);
 
-    std::ostream &operator<<(std::ostream &os, const section &s);
+    std::ostream &operator<<(std::ostream &os, const Section &s);
 
-    std::ostream &operator<<(std::ostream &os, const std::vector<section> &s);
+    std::ostream &operator<<(std::ostream &os, const std::vector<Section> &s);
 }
 
-class especia::section {
+class especia::Section {
 public:
-    section();
+    Section();
 
-    section(size_t n);
+    Section(size_t n);
 
-    section(const double wav[], const double flx[], const double err[], size_t n);
+    Section(const double wav[], const double flx[], const double err[], size_t n);
 
-    ~section();
+    ~Section();
 
     std::istream &get(std::istream &is, double a = 0.0, double b = std::numeric_limits<double>::max());
 
@@ -108,32 +108,32 @@ private:
 };
 
 inline
-double especia::section::begin() const {
+double especia::Section::begin() const {
     return wav[0];
 }
 
 inline
-double especia::section::center() const {
+double especia::Section::center() const {
     return 0.5 * (begin() + end());
 }
 
 inline
-double especia::section::end() const {
+double especia::Section::end() const {
     return (n > 1) ? wav[n - 1] : wav[0];
 }
 
 inline
-double especia::section::width() const {
+double especia::Section::width() const {
     return end() - begin();
 }
 
 inline
-size_t especia::section::size() const {
+size_t especia::Section::size() const {
     return n;
 }
 
 template<class optical_depth>
-void especia::section::convolve(const optical_depth &t, double r, double *opt, double *atm, double *cat) const {
+void especia::Section::convolve(const optical_depth &t, double r, double *opt, double *atm, double *cat) const {
     using std::exp;
     using std::valarray;
 
@@ -175,7 +175,7 @@ void especia::section::convolve(const optical_depth &t, double r, double *opt, d
 }
 
 template<class optical_depth>
-double especia::section::cost(const optical_depth &t, size_t m, double r) const {
+double especia::Section::cost(const optical_depth &t, size_t m, double r) const {
     using std::abs;
     using std::valarray;
 
@@ -206,7 +206,7 @@ double especia::section::cost(const optical_depth &t, size_t m, double r) const 
 }
 
 template<class optical_depth>
-void especia::section::compute_model(const optical_depth &t, size_t m, double r) {
+void especia::Section::compute_model(const optical_depth &t, size_t m, double r) {
     convolve(t, r, &opt[0], &atm[0], &cat[0]);
     continuum(m, &cat[0], &cfl[0]);
 
@@ -219,12 +219,12 @@ void especia::section::compute_model(const optical_depth &t, size_t m, double r)
 }
 
 inline
-std::istream &especia::operator>>(std::istream &is, section &s) {
+std::istream &especia::operator>>(std::istream &is, Section &s) {
     return s.get(is);
 }
 
 inline
-std::ostream &especia::operator<<(std::ostream &os, const section &s) {
+std::ostream &especia::operator<<(std::ostream &os, const Section &s) {
     return s.put(os);
 }
 
