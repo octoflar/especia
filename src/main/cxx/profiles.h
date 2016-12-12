@@ -300,7 +300,8 @@ namespace especia {
         /**
          * Default constructor.
          */
-        G_Voigt() : a(0.0), c(0.0), approximation(1.0, 1.0) {
+        G_Voigt()
+                : a(0.0), c(0.0), approximation(1.0, 1.0) {
         };
 
         /**
@@ -356,7 +357,7 @@ namespace especia {
         /**
          * The amplitude.
          */
-        const double a; // amplitude
+        const double a;
 
         /**
          * The approximation.
