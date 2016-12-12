@@ -384,7 +384,7 @@ namespace especia {
      * @param[in,out] C The covariance matrix.
      * @param[in,out] ps The step size cumulation path.
      * @param[in,out] pc The distribution cumulation path.
-     * @param[out] yw The value of the objective function (plus the constraint cost) at \param xw.
+     * @param[out] yw The value of the objective function (plus the constraint cost) at @c xw.
      * @param[out] optimized Set to @c true when the optimization has converged.
      * @param[out] underflow Set to @c true when the mutation variance is too small.
      * @param[in] deviate The random number generator.
@@ -595,7 +595,7 @@ namespace especia {
      * @param[in,out] d The local step sizes.
      * @param[in,out] B The rotation matrix.
      * @param[in,out] C The covariance matrix.
-     * @param[out] y The value of the objective function (plus the constraint cost) at \param x.
+     * @param[out] y The value of the objective function (plus the constraint cost) at @c x.
      * @param[out] optimized Set to @c true when the optimization has converged.
      * @param[out] underflow Set to @c true when the mutation variance is too small.
      * @param[in] deviate The random number generator.

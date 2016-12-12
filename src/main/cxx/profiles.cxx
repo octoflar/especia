@@ -37,7 +37,7 @@ using especia::sqrt_of_pi;
  *
  * @param[in] x The abscissa value.
  * @param[in] gamma The width.
- * @return the value of the Gaussian at \param x.
+ * @return the value of the Gaussian at @c x.
  */
 inline
 double f_g(const double &x, const double &gamma) {
@@ -49,7 +49,7 @@ double f_g(const double &x, const double &gamma) {
  *
  * @param[in] x The abscissa value.
  * @param[in] gamma The width.
- * @return the value of the Lorentzian at \param x.
+ * @return the value of the Lorentzian at @c x.
  */
 inline
 double f_l(const double &x, const double &gamma) {
@@ -61,7 +61,7 @@ double f_l(const double &x, const double &gamma) {
  *
  * @param[in] x The abscissa value.
  * @param[in] gamma The width.
- * @return the value of the function at \param x.
+ * @return the value of the function at @c x.
  */
 inline
 double f_i(const double &x, const double &gamma) {
@@ -73,7 +73,7 @@ double f_i(const double &x, const double &gamma) {
  *
  * @param[in] x The abscissa value.
  * @param[in] gamma The width.
- * @return the value of the function at \param x.
+ * @return the value of the function at @c x.
  */
 inline
 double f_p(const double &x, const double &gamma) {
@@ -91,7 +91,7 @@ double f_p(const double &x, const double &gamma) {
  * @param[in] h4 The coefficient for the monomial of degree 4.
  * @param[in] h5 The coefficient for the monomial of degree 5.
  * @param[in] h6 The coefficient for the monomial of degree 6.
- * @return the value of the polynomial at \param x.
+ * @return the value of the polynomial at @c x.
  */
 inline
 double poly(const double &x,
