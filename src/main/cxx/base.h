@@ -25,32 +25,32 @@
 namespace especia {
 
     /**
-     * Pi. https://www.wolframalpha.com/input/?i=pi+42+digits
+     * Pi. <https://www.wolframalpha.com/input/?i=pi+42+digits>
      */
     const double pi = 3.14159265358979323846264338327950288419717;
 
     /**
-     * The square root of Pi. https://www.wolframalpha.com/input/?i=square+root+of+pi+with+42+digits
+     * The square root of Pi. <https://www.wolframalpha.com/input/?i=square+root+of+pi+to+42+digits>
      */
     const double sqrt_of_pi = 1.77245385090551602729816748334114518279755;
 
     /**
-     * The electric constant (F m-1). NIST SP 961 (Sept/2015)
+     * The electric constant (F m-1). *NIST SP 961 (Sept/2015)*
      */
     const double electric_constant = 8.854187817E-12;
 
     /**
-     * The electron mass (kg). NIST SP 961 (Sept/2015)
+     * The electron mass (kg). *NIST SP 961 (Sept/2015)*
      */
     const double electron_mass = 9.10938356E-31;
 
     /**
-     * The elementary charge (C). NIST SP 961 (Sept/2015)
+     * The elementary charge (C). *NIST SP 961 (Sept/2015)*
      */
     const double elementary_charge = 1.6021766208E-19;
 
     /**
-     * The speed of light in vacuum (m s-1). NIST SP 961 (Sept/2015)
+     * The speed of light in vacuum (m s-1). *NIST SP 961 (Sept/2015)*
      */
     const double speed_of_light_in_vacuum = 299792458.0;
 
