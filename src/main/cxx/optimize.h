@@ -220,6 +220,125 @@ namespace especia {
         }
     };
 
+    template<class Deviate, class Decompose, class Compare, class Tracer>
+    class Optimizer_Builder;
+
+    template<class Deviate, class Decompose, class Compare, class Tracer>
+    class Optimizer {
+    public:
+        ~Optimizer() {
+
+        }
+
+    private:
+        Optimizer(Optimizer_Builder<Deviate, Decompose, Compare, Tracer> *builder) {
+        }
+
+        friend class Optimizer_Builder<Deviate, Decompose, Compare, Tracer>;
+    };
+
+    template<class Deviate, class Decompose, class Compare, class Tracer>
+    class Optimizer_Builder {
+    public:
+        Optimizer_Builder(const Deviate &dev, const Tracer &tr, size_t dim = 1)
+                : deviate(dev),
+                  tracer(tr),
+                  decompose(Decompose(dim)),
+                  compare(Compare()),
+                  n(dim) {
+            set_parent_number();
+            set_population_size();
+            set_update_modulus();
+            set_accuracy_goal();
+            set_stop_generation();
+        }
+
+        ~Optimizer_Builder() {
+
+        }
+
+        Optimizer_Builder& set_parent_number(unsigned parent_number = 4) {
+            this->parent_number = parent_number;
+            return *this;
+        }
+
+        Optimizer_Builder& set_population_size(unsigned population_size = 8) {
+            this->population_size = population_size;
+            return *this;
+        }
+
+        Optimizer_Builder& set_update_modulus(unsigned update_modulus = 1) {
+            this->update_modulus = update_modulus;
+            return *this;
+        }
+
+        Optimizer_Builder& set_accuracy_goal(double accuracy_goal = 1.0E-06) {
+            this->accuracy_goal = accuracy_goal;
+            return *this;
+        }
+
+        Optimizer_Builder& set_stop_generation(unsigned long stop_generation = 1000) {
+            this->stop_generation = stop_generation;
+            return *this;
+        }
+
+        Optimizer<Deviate, Decompose, Compare, Tracer> build() {
+            return Optimizer<Deviate, Decompose, Compare, Tracer>(this);
+        };
+
+        const Deviate &get_deviate() const {
+            return deviate;
+        }
+
+        const Tracer &get_tracer() const {
+            return tracer;
+        }
+
+        const Decompose &get_decompose() const {
+            return decompose;
+        }
+
+        const Compare &get_compare() const {
+            return compare;
+        }
+
+        const size_t get_n() const {
+            return n;
+        }
+
+        unsigned int get_parent_number() const {
+            return parent_number;
+        }
+
+        unsigned int get_population_size() const {
+            return population_size;
+        }
+
+        unsigned int get_update_modulus() const {
+            return update_modulus;
+        }
+
+        double get_accuracy_goal() const {
+            return accuracy_goal;
+        }
+
+        unsigned long get_stop_generation() const {
+            return stop_generation;
+        }
+
+    private:
+        const Deviate &deviate;
+        const Tracer &tracer;
+        const Decompose decompose;
+        const Compare compare;
+        const size_t n;
+
+        unsigned int parent_number;
+        unsigned int population_size;
+        unsigned int update_modulus;
+        double accuracy_goal;
+        unsigned long stop_generation;
+    };
 
     /**
      * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear
@@ -265,7 +384,7 @@ namespace especia {
      * @param[in,out] C The covariance matrix.
      * @param[in,out] ps The step size cumulation path.
      * @param[in,out] pc The distribution cumulation path.
-     * @param[out] yw The value of the objective function (plus the constraint cost) at @c xw.
+     * @param[out] yw The value of the objective function (plus the constraint cost) at \param xw.
      * @param[out] optimized Set to @c true when the optimization has converged.
      * @param[out] underflow Set to @c true when the mutation variance is too small.
      * @param[in] deviate The random number generator.
@@ -476,7 +595,7 @@ namespace especia {
      * @param[in,out] d The local step sizes.
      * @param[in,out] B The rotation matrix.
      * @param[in,out] C The covariance matrix.
-     * @param[out] y The value of the objective function (plus the constraint cost) at @c x.
+     * @param[out] y The value of the objective function (plus the constraint cost) at \param x.
      * @param[out] optimized Set to @c true when the optimization has converged.
      * @param[out] underflow Set to @c true when the mutation variance is too small.
      * @param[in] deviate The random number generator.

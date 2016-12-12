@@ -37,7 +37,7 @@ using especia::sqrt_of_pi;
  *
  * @param[in] x The abscissa value.
  * @param[in] gamma The width.
- * @return the value of the Gaussian at @c x.
+ * @return the value of the Gaussian at \param x.
  */
 inline
 double f_g(const double &x, const double &gamma) {
@@ -49,7 +49,7 @@ double f_g(const double &x, const double &gamma) {
  *
  * @param[in] x The abscissa value.
  * @param[in] gamma The width.
- * @return the value of the Lorentzian at @c x.
+ * @return the value of the Lorentzian at \param x.
  */
 inline
 double f_l(const double &x, const double &gamma) {
@@ -61,7 +61,7 @@ double f_l(const double &x, const double &gamma) {
  *
  * @param[in] x The abscissa value.
  * @param[in] gamma The width.
- * @return the value of the function at @c x.
+ * @return the value of the function at \param x.
  */
 inline
 double f_i(const double &x, const double &gamma) {
@@ -73,7 +73,7 @@ double f_i(const double &x, const double &gamma) {
  *
  * @param[in] x The abscissa value.
  * @param[in] gamma The width.
- * @return the value of the function at @c x.
+ * @return the value of the function at \param x.
  */
 inline
 double f_p(const double &x, const double &gamma) {
@@ -91,7 +91,7 @@ double f_p(const double &x, const double &gamma) {
  * @param[in] h4 The coefficient for the monomial of degree 4.
  * @param[in] h5 The coefficient for the monomial of degree 5.
  * @param[in] h6 The coefficient for the monomial of degree 6.
- * @return the value of the polynomial at @c x.
+ * @return the value of the polynomial at \param x.
  */
 inline
 double poly(const double &x,
@@ -203,9 +203,7 @@ especia::A_Doppler::~A_Doppler() {
 }
 
 double especia::A_Doppler::operator()(double x) const {
-    using std::abs;
-
-    return (abs(x - c) < 4.0 * b) ? a * f_g(x - c, b) : 0.0;
+    return a * truncate(f_g, x - c, b, 4.0);
 }
 
 const double especia::A_Doppler::C0 = 1.0E-03 * speed_of_light_in_vacuum;
@@ -227,9 +225,7 @@ especia::G_Doppler::~G_Doppler() {
 }
 
 double especia::G_Doppler::operator()(double x) const {
-    using std::abs;
-
-    return (abs(x - c) < 4.0 * b) ? a * f_g(x - c, b) : 0.0;
+    return a * truncate(f_g, x - c, b, 4.0);
 }
 
 const double especia::G_Doppler::C0 = 1.0E-03 * speed_of_light_in_vacuum;

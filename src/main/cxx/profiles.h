@@ -59,7 +59,7 @@ namespace especia {
          * Returns the value of the pseudo-Voigt approximation at a given abscissa value.
          *
          * @param[in] x The abscissa value.
-         * @return the value of the pseudo-Voigt approximation at @c x.
+         * @return the value of the pseudo-Voigt approximation at \param x.
          */
         double operator()(const double &x) const;
 
@@ -104,7 +104,7 @@ namespace especia {
          * Returns the value of the extended pseudo-Voigt approximation at a given abscissa value.
          *
          * @param[in] x The abscissa value.
-         * @return the value of the extended pseudo-Voigt approximation at @c x.
+         * @return the value of the extended pseudo-Voigt approximation at \param x.
          */
         double operator()(const double &x) const;
 
@@ -183,7 +183,7 @@ namespace especia {
          * Returns the value of the Doppler profile at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom)
-         * @return The value of the Doppler profile at @c x.
+         * @return The value of the Doppler profile at \param x.
          */
         double operator()(double x) const;
 
@@ -259,7 +259,7 @@ namespace especia {
          * Returns the value of the Doppler profile at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom)
-         * @return The value of the Doppler profile at @c x.
+         * @return The value of the Doppler profile at \param x.
          */
         double operator()(double x) const;
 
@@ -342,7 +342,7 @@ namespace especia {
          * Returns the value of the Voigt profile at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom)
-         * @return The value of the Voigt profile at @c x.
+         * @return The value of the Voigt profile at \param x.
          */
         double operator()(double x) const {
             return a * approximation(x - c);
@@ -411,7 +411,7 @@ namespace especia {
          * Returns the value of the profile superpositon at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom)
-         * @return The value of the profile superposition at @c x.
+         * @return The value of the profile superposition at \param x.
          */
         double operator()(double x) const {
             double d = 0.0;
@@ -426,6 +426,13 @@ namespace especia {
         std::vector<P> profiles;
     };
 
+    template<class F>
+    inline
+    double truncate(const F &f, const double &x, const double &b, const double &c) {
+        using std::abs;
+
+        return x < c * b && x > -c * b ? f(x, b) : 0.0;
+    }
 }
 
 #endif // ESPECIA_PROFILES_H
