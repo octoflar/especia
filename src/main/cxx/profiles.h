@@ -426,12 +426,25 @@ namespace especia {
         std::vector<P> profiles;
     };
 
+    /**
+     * Truncates the support of a given profile function.
+     *
+     * @tparam F The function type.
+     *
+     * @param f The function.
+     * @param x The wavelength relative to the center of the profile.
+     * @param b The width of the profile.
+     * @param c The truncation parameter.
+     * @return The value of the profile function at \param x if the
+     *         absolute value of \param x is less than \param c
+     *         zero otherwise.
+     */
     template<class F>
     inline
-    double truncate(const F &f, const double &x, const double &b, const double &c) {
+    double truncate(const F &f, const double &x, const double& b, const double &c) {
         using std::abs;
 
-        return x < c * b && x > -c * b ? f(x, b) : 0.0;
+        return abs(x) < c * b ? f(x, b) : 0.0;
     }
 }
 
