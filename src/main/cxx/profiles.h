@@ -155,21 +155,21 @@ namespace especia {
          * @parblock
          * The vector of parameter values. Its components are:
          *
-         * @c a[0] The rest wavelength (Angstrom)
+         * @c q[0] The rest wavelength (Angstrom)
          *
-         * @c a[1] The oscillator strength
+         * @c q[1] The oscillator strength
          *
-         * @c a[2] The cosmological redshift
+         * @c q[2] The cosmological redshift
          *
-         * @c a[3] The radial velocity (km s-1)
+         * @c q[3] The radial velocity (km s-1)
          *
-         * @c a[4] The line broadening velocity (km s-1)
+         * @c q[4] The line broadening velocity (km s-1)
          *
-         * @c a[5] The decadic logarithm of the particle column number density (cm-2)
+         * @c q[5] The decadic logarithm of the particle column number density (cm-2)
          *
-         * @c a[6] The relativistic correction coefficient
+         * @c q[6] The relativistic correction coefficient
          *
-         * @c a[7] The variation of the fine-structure constant (1.0e-05)
+         * @c q[7] The variation of the fine-structure constant (1.0e-05)
          * @endparblock
          */
         A_Doppler(const double q[]);
@@ -235,17 +235,17 @@ namespace especia {
          * @parblock
          * The vector of parameter values. Its components are:
          *
-         * @c a[0] The rest wavelength (Angstrom)
+         * @c q[0] The rest wavelength (Angstrom)
          *
-         * @c a[1] The oscillator strength
+         * @c q[1] The oscillator strength
          *
-         * @c a[2] The cosmological redshift
+         * @c q[2] The cosmological redshift
          *
-         * @c a[3] The radial velocity (km s-1)
+         * @c q[3] The radial velocity (km s-1)
          *
-         * @c a[4] The line broadening velocity (km s-1)
+         * @c q[4] The line broadening velocity (km s-1)
          *
-         * @c a[5] The decadic logarithm of the particle column number density (cm-2)
+         * @c q[5] The decadic logarithm of the particle column number density (cm-2)
          * @endparblock
          */
         G_Doppler(const double q[]);
@@ -311,19 +311,19 @@ namespace especia {
          * @parblock
          * The vector of parameter values. Its components are:
          *
-         * @c a[0] The rest wavelength (Angstrom)
+         * @c q[0] The rest wavelength (Angstrom)
          *
-         * @c a[1] The oscillator strength
+         * @c q[1] The oscillator strength
          *
-         * @c a[2] The cosmological redshift
+         * @c q[2] The cosmological redshift
          *
-         * @c a[3] The radial velocity (km s-1)
+         * @c q[3] The radial velocity (km s-1)
          *
-         * @c a[4] The line broadening velocity (km s-1)
+         * @c q[4] The line broadening velocity (km s-1)
          *
-         * @c a[5] The decadic logarithm of the particle column number density (cm-2)
+         * @c q[5] The decadic logarithm of the particle column number density (cm-2)
          *
-         * @c a[6] The damping constant (s-1)
+         * @c q[6] The damping constant (s-1)
          * @endparblock
          */
         G_Voigt(const double q[])
