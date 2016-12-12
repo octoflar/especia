@@ -25,7 +25,7 @@
 namespace especia {
 
     /**
-     * Pi. <https://www.wolframalpha.com/input/?i=pi+42+digits>
+     * Pi. <https://www.wolframalpha.com/input/?i=pi+to+42+digits>
      */
     const double pi = 3.14159265358979323846264338327950288419717;
 
