@@ -63,6 +63,7 @@ namespace especia {
      * @return the square of the number.
      */
     template<class number>
+    inline
     number sqr(const number &x) {
         return (x == number(0)) ? number(0) : x * x;
     }
