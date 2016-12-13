@@ -435,9 +435,8 @@ namespace especia {
      * @param x The wavelength relative to the center of the profile.
      * @param b The width of the profile.
      * @param c The truncation parameter.
-     * @return the value of the profile function at @c x, if the
-     *         absolute value of @c x is less than @c c, zero
-     *         otherwise.
+     * @return the value of the profile function at @c x, if the absolute value
+     *         of @c x is less than @c c widths, zero otherwise.
      */
     template<class F>
     inline
