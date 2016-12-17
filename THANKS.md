@@ -38,3 +38,13 @@ doi: [10.1051/0004-6361:20040013](http://dx.doi.org/10.1051/0004-6361:20040013).
 R. Quast, R. Baade and D. Reimers.
 Astronomy and Astrophysics 386 (3) 796 (2002).
 doi: [10.1051/0004-6361:20020342](http://dx.doi.org/10.1051/0004-6361:20020342).
+
+## Data included with this software
+
+Based on observations made with ESO Telescopes at the La Silla or Paranal Observatories
+under programme ID 066.A-0212.
+
+Based on observations made with the NASA/ESA Hubble Space Telescope, obtained
+from the data archive at the Space Telescope Institute. STScI is operated by
+the association of Universities for Research in Astronomy, Inc. under the NASA
+contract NAS 5-26555.

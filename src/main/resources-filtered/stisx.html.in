@@ -38,8 +38,10 @@ To optimize this model type, for instance:
 
     especix 27182 40 80 0.5 0.000001 2000 10 < stisx.md
     
-The spectroscopic data used here were acquired by the Space Telescope
-Imaging Spectrograph (STIS) aboard the Hubble Space Telescope.
+Based on observations made with the NASA/ESA Hubble Space Telescope, obtained
+from the data archive at the Space Telescope Institute. STScI is operated by
+the association of Universities for Research in Astronomy, Inc. under the NASA
+contract NAS 5-26555.
 
 ## Section: sub-damped Lyman-alpha line toward HE 0515-4414
 

@@ -26,8 +26,9 @@ To optimize this model type, for instance:
 
     especid 27182 10 20 0.5 0.000001 2000 10 < synth.md
     
-The spectroscopic data used here are simulated, but based on actual observations.
-    
+Synthetic data based on observations made with ESO Telescopes at the La Silla
+or Paranal Observatories under programme ID 066.A-0212.
+
 ## Section: fine-structure multiplet of CI 1560
 
 Doppler profiles are used here. The line parameters are:
@@ -152,8 +153,8 @@ Doppler profiles are used here. The line parameters are:
 
 ## Section: fine-structure multiplet of CI 1656
 
-This section exhibits three unidentified lines. These generic lines might
-affect the modelling of the background continuum, if not considered. All
+This section exhibits three unidentified lines that affect the
+modelling of the background continuum, if not considered. All
 parameters of the CI 1656 lines are tied to those of CI 1560.
 
 ````````
