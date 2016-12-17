@@ -1,9 +1,8 @@
 # New in 2017.1
 
-Version 2017.1 is a maintenance release. The main programs and executable
-files were renamed and some utility programs were added. Ancillary files
-were revised. Build properties for the GCC and Intel compilers were added.
-A few new features and enhancements were implemented:
+The main programs and executable files were renamed and some utility 
+programs were added. Ancillary files were revised. Version 2017.1 
+implements some new features and enhancements:
 
 * Implementation of the extended pseudo-Voigt approximation (Ida, Ando &
 Toraya 2000).
