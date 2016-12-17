@@ -11,7 +11,7 @@ Toraya 2000).
 as used in inverse problem theory. The cost function simply is half the
 residual sum of squares.
 * More accurate and faster computation of parameter uncertainties and
-covariance matrix.
+the covariance matrix.
 * Comment lines in spectrum data files are permitted. Comment lines must
 start with a hash mark `#` in the first column.
 * The command line typed to invoke Especia is echoed to the standard
