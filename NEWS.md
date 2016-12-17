@@ -5,6 +5,8 @@ files were renamed and some utility programs were added. Ancillary files
 were revised. Build properties for the GCC and Intel compilers were added.
 A few new features and enhancements were implemented:
 
+* Implementation of the extended pseudo-Voigt approximation (Ida, Ando &
+Toraya 2000).
 * Replacement of the residual sum of squares (RSS) with the *cost function*,
 as used in inverse problem theory. The cost function simply is half the RSS. 
 * More accurate and faster computation of parameter uncertainties and
