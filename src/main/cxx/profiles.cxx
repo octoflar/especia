@@ -35,8 +35,8 @@ using especia::sqrt_of_pi;
 /**
  * The Gaussian.
  *
- * @param[in] x The abscissa value.
- * @param[in] gamma The width.
+ * @param[in] x The abscissa value (arbitrary unit).
+ * @param[in] gamma The width (arbitrary unit).
  * @return the value of the Gaussian at @c x.
  */
 inline
@@ -47,8 +47,8 @@ double f_g(const double &x, const double &gamma) {
 /**
  * The Lorentzian.
  *
- * @param[in] x The abscissa value.
- * @param[in] gamma The width.
+ * @param[in] x The abscissa value (arbitrary unit).
+ * @param[in] gamma The width (arbitrary unit).
  * @return the value of the Lorentzian at @c x.
  */
 inline
@@ -59,8 +59,8 @@ double f_l(const double &x, const double &gamma) {
 /**
  * The irrational function used in the extended pseudo-Voigt approximation.
  *
- * @param[in] x The abscissa value.
- * @param[in] gamma The width.
+ * @param[in] x The abscissa value (arbitrary unit).
+ * @param[in] gamma The width (arbitrary unit).
  * @return the value of the function at @c x.
  */
 inline
@@ -71,8 +71,8 @@ double f_i(const double &x, const double &gamma) {
 /**
  * The squared hyperbolic secant function used in the extended pseudo-Voigt approximation.
  *
- * @param[in] x The abscissa value.
- * @param[in] gamma The width.
+ * @param[in] x The abscissa value (arbitrary unit).
+ * @param[in] gamma The width (arbitrary unit).
  * @return the value of the function at @c x.
  */
 inline

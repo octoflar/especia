@@ -45,8 +45,8 @@ namespace especia {
         /**
          * Creates a new pseudo-Voigt approximation to the Voigt function.
          *
-         * @param[in] b The width of the Gaussian.
-         * @param[in] d The width of the Lorentzian.
+         * @param[in] b The width of the Gaussian (arbitrary unit).
+         * @param[in] d The width of the Lorentzian (arbitrary unit).
          */
         Pseudo_Voigt(const double &b = 1.0, const double &d = 1.0);
 
@@ -90,8 +90,8 @@ namespace especia {
         /**
          * Creates a new extended pseudo-Voigt approximation to the Voigt function.
          *
-         * @param[in] b The width of the Gaussian.
-         * @param[in] d The width of the Lorentzian.
+         * @param[in] b The width of the Gaussian (arbitrary unit).
+         * @param[in] d The width of the Lorentzian (arbitrary unit).
          */
         Extended_Pseudo_Voigt(const double &b = 1.0, const double &d = 1.0);
 
