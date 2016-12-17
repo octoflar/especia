@@ -58,7 +58,7 @@ namespace especia {
         /**
          * Returns the value of the pseudo-Voigt approximation at a given abscissa value.
          *
-         * @param[in] x The abscissa value.
+         * @param[in] x The abscissa value (arbitrary unit).
          * @return the value of the pseudo-Voigt approximation at @c x.
          */
         double operator()(const double &x) const;
@@ -103,7 +103,7 @@ namespace especia {
         /**
          * Returns the value of the extended pseudo-Voigt approximation at a given abscissa value.
          *
-         * @param[in] x The abscissa value.
+         * @param[in] x The abscissa value (arbitrary unit).
          * @return the value of the extended pseudo-Voigt approximation at @c x.
          */
         double operator()(const double &x) const;
