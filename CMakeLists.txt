@@ -19,9 +19,11 @@
 # SOFTWARE.
 
 cmake_minimum_required(VERSION 3.2.2)
+include(src/main/cmake/especia.cmake)
 include(src/main/cmake/project.cmake)
 include(src/main/cmake/veclib_required.cmake)
 include(src/main/cmake/openmp_optional.cmake)
+include(src/main/cmake/unix.cmake)
 
 project(especia VERSION 2017.1 LANGUAGES C CXX)
 project_doi(10.6084/m9.figshare.4167999.v14)
@@ -83,24 +85,24 @@ add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
+add_case(resources/synth.html)
 add_custom_target(checkd
-        COMMAND ./emod < resources/synth.html | `./ecom < resources/synth.html` > checkd.html
-        COMMAND ${GREP} --count --fixed-strings '<td><strong>159.77</strong></td>' checkd.html
-        COMMAND grep --count --fixed-strings '<td><strong>171.89</strong></td>' checkd.html
-        BYPRODUCTS checkd.html
+        COMMAND ${GREP} --count --fixed-strings '<td><strong>159.77</strong></td>' synth.html
+        COMMAND ${GREP} --count --fixed-strings '<td><strong>171.89</strong></td>' synth.html
+        DEPENDS synth.html
         COMMENT "The check is passed, if the next two lines issue the number 1.")
 add_dependencies(checkd ecom emod especid)
+add_case(resources/stisv.html)
 add_custom_target(checkv
-        COMMAND ./emod < resources/stisv.html | `./ecom < resources/stisv.html` > checkv.html
-        COMMAND ${GREP} --count --fixed-strings '<td><strong>251.04</strong></td>' checkv.html
-        BYPRODUCTS checkv.html
-        COMMENT "The check may take a minute. It is passed, if the next line issues the number 1.")
+        COMMAND ${GREP} --count --fixed-strings '<td><strong>251.04</strong></td>' stisv.html
+        DEPENDS stisv.html
+        COMMENT "The check is passed, if the next line issues the number 1.")
 add_dependencies(checkv ecom emod especiv)
+add_case(resources/stisx.html)
 add_custom_target(checkx
-        COMMAND ./emod < resources/stisx.html | `./ecom < resources/stisx.html` > checkx.html
-        COMMAND ${GREP} --count --fixed-strings '<td><strong>251.46</strong></td>' checkx.html
-        BYPRODUCTS checkx.html
-        COMMENT "The check may take a minute. It is passed, if the next line issues the number 1.")
+        COMMAND ${GREP} --count --fixed-strings '<td><strong>251.46</strong></td>' stisx.html
+        DEPENDS stisx.html
+        COMMENT "The check is passed, if the next line issues the number 1.")
 add_dependencies(checkx ecom emod especix)
 
 add_custom_target(check)
