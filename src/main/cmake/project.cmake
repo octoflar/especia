@@ -18,6 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+function(project_doi DOI)
+    set(PROJECT_DOI https://dx.doi.org/${DOI} PARENT_SCOPE)
+endfunction()
+
 function(project_version_tag TAG)
     if (${TAG} STREQUAL snapshot)
         find_program(GIT git)

@@ -19,13 +19,13 @@
 # SOFTWARE.
 
 cmake_minimum_required(VERSION 3.2.2)
-include(src/main/cmake/project_version_tag.cmake)
+include(src/main/cmake/project.cmake)
 include(src/main/cmake/veclib_required.cmake)
 include(src/main/cmake/openmp_optional.cmake)
 
 project(especia VERSION 2017.1 LANGUAGES C CXX)
+project_doi(10.6084/m9.figshare.4167999.v14)
 project_version_tag(snapshot)
-set(PROJECT_DOI https://dx.doi.org/10.6084/m9.figshare.4167999.v14)
 
 set(CMAKE_CONFIGURATION_TYPES Release)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -85,20 +85,20 @@ add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
 add_custom_target(checkd
         COMMAND ./emod < resources/synth.html | `./ecom < resources/synth.html` > checkd.html
-        COMMAND grep --count --fixed-strings '<td><strong>159.77</strong></td>' checkd.html
+        COMMAND ${GREP} --count --fixed-strings '<td><strong>159.77</strong></td>' checkd.html
         COMMAND grep --count --fixed-strings '<td><strong>171.89</strong></td>' checkd.html
         BYPRODUCTS checkd.html
         COMMENT "The check is passed, if the next two lines issue the number 1.")
 add_dependencies(checkd ecom emod especid)
 add_custom_target(checkv
         COMMAND ./emod < resources/stisv.html | `./ecom < resources/stisv.html` > checkv.html
-        COMMAND grep --count --fixed-strings '<td><strong>251.04</strong></td>' checkv.html
+        COMMAND ${GREP} --count --fixed-strings '<td><strong>251.04</strong></td>' checkv.html
         BYPRODUCTS checkv.html
         COMMENT "The check may take a minute. It is passed, if the next line issues the number 1.")
 add_dependencies(checkv ecom emod especiv)
 add_custom_target(checkx
         COMMAND ./emod < resources/stisx.html | `./ecom < resources/stisx.html` > checkx.html
-        COMMAND grep --count --fixed-strings '<td><strong>251.46</strong></td>' checkx.html
+        COMMAND ${GREP} --count --fixed-strings '<td><strong>251.46</strong></td>' checkx.html
         BYPRODUCTS checkx.html
         COMMENT "The check may take a minute. It is passed, if the next line issues the number 1.")
 add_dependencies(checkx ecom emod especix)
