@@ -27,7 +27,7 @@ function(add_check NAME EXECUTABLE RESOURCE EXPECTED)
         COMMENT "The check is passed, if the next line(s) issues the number 1.")
     foreach(VALUE ${EXPECTED} ${ARGN})
         add_custom_command(TARGET ${NAME} PRE_BUILD
-            COMMAND ${GREP} --count --fixed-strings '<td><strong>${VALUE}</strong></td>' ${BASENAME})
+                COMMAND ${GREP} --count --fixed-strings '<td><strong>${VALUE}</strong></td>' ${BASENAME})
     endforeach()
     add_dependencies(${NAME} ecom emod ${EXECUTABLE})
     add_dependencies(check ${NAME})
