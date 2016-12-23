@@ -21,7 +21,8 @@
 function(add_check NAME EXECUTABLE RESOURCE EXPECTED)
     get_filename_component(BASENAME ${RESOURCE} NAME)
     add_custom_command(OUTPUT ${BASENAME}
-            COMMAND ./emod < ${RESOURCE} | `./ecom < ${RESOURCE}` > ${BASENAME})
+            COMMAND ./emod < ${RESOURCE} | `./ecom < ${RESOURCE}` > ${BASENAME}
+            DEPENDS ecom emod ${EXECUTABLE})
     add_custom_target(${NAME}
             DEPENDS ${BASENAME}
             COMMENT "The check is passed, if the next lines issue the number 1.")
@@ -29,7 +30,6 @@ function(add_check NAME EXECUTABLE RESOURCE EXPECTED)
         add_custom_command(TARGET ${NAME} PRE_BUILD
                 COMMAND ${GREP} --count --fixed-strings '<td><strong>${VALUE}</strong></td>' ${BASENAME})
     endforeach ()
-    add_dependencies(${NAME} ecom emod ${EXECUTABLE})
     add_dependencies(check ${NAME})
 endfunction()
 
