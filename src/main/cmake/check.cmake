@@ -24,7 +24,7 @@ function(add_check NAME EXECUTABLE RESOURCE EXPECTED)
             COMMAND ./emod < ${RESOURCE} | `./ecom < ${RESOURCE}` > ${BASENAME})
     add_custom_target(${NAME}
             DEPENDS ${BASENAME}
-            COMMENT "The check is passed, if the next line(s) issue the number 1.")
+            COMMENT "The check is passed, if the next lines issue the number 1.")
     foreach (VALUE ${EXPECTED} ${ARGN})
         add_custom_command(TARGET ${NAME} PRE_BUILD
                 COMMAND ${GREP} --count --fixed-strings '<td><strong>${VALUE}</strong></td>' ${BASENAME})
