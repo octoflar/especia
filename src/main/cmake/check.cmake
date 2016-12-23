@@ -23,12 +23,12 @@ function(add_check NAME EXECUTABLE RESOURCE EXPECTED)
     add_custom_command(OUTPUT ${BASENAME}
             COMMAND ./emod < ${RESOURCE} | `./ecom < ${RESOURCE}` > ${BASENAME})
     add_custom_target(${NAME}
-        DEPENDS ${BASENAME}
-        COMMENT "The check is passed, if the next line(s) issues the number 1.")
-    foreach(VALUE ${EXPECTED} ${ARGN})
+            DEPENDS ${BASENAME}
+            COMMENT "The check is passed, if the next line(s) issues the number 1.")
+    foreach (VALUE ${EXPECTED} ${ARGN})
         add_custom_command(TARGET ${NAME} PRE_BUILD
                 COMMAND ${GREP} --count --fixed-strings '<td><strong>${VALUE}</strong></td>' ${BASENAME})
-    endforeach()
+    endforeach ()
     add_dependencies(${NAME} ecom emod ${EXECUTABLE})
     add_dependencies(check ${NAME})
 endfunction()
