@@ -19,13 +19,13 @@
 # SOFTWARE.
 
 find_program(DIFF diff)
-if (${DIFF})
+if (DIFF)
     set(DIFF "${DIFF} --brief")
 endif ()
 
 find_program(GREP grep)
 
 find_program(RM   rm)
-if (${RM})
+if (RM)
     set(RM "${RM} -f")
 endif ()
