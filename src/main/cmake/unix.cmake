@@ -25,7 +25,7 @@ endif ()
 
 find_program(GREP grep)
 
-find_program(RM   rm)
+find_program(RM rm)
 if (RM)
     set(RM "${RM} -f")
 endif ()
