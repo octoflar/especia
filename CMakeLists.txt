@@ -27,7 +27,7 @@ include(src/main/cmake/check.cmake)
 
 project(especia VERSION 2017.1 LANGUAGES C CXX)
 project_doi(10.6084/m9.figshare.4167999.v14)
-project_version_tag(snapshot)
+project_tag(snapshot)
 
 set(CMAKE_CONFIGURATION_TYPES Release)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

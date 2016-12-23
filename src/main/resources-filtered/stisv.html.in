@@ -181,7 +181,7 @@ Reimers, Dieter; Baade, Robert; Quast, Ralf; Levshakov, Sergei A. (2002): *Detec
 <!--
   Created by
   Evolutionary spectrum inversion and analysis (Especia)
-  @PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@ @PROJECT_DOI@
+  @PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_TAG@ @PROJECT_DOI@
 -->
 <!--
 <log>
@@ -290,7 +290,7 @@ especia::Model<>::optimize(): Message: optimization completed
 <!--
   Created by
   Evolutionary spectrum inversion and analysis (Especia)
-  @PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@ @PROJECT_DOI@
+  @PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_TAG@ @PROJECT_DOI@
 -->
 <!--
 <data>
