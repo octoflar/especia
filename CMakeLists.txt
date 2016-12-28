@@ -89,12 +89,6 @@ add_check(checkd especid resources/synth.html 159.77 171.89)
 add_check(checkv especiv resources/stisv.html 251.04)
 add_check(checkx especix resources/stisx.html 251.46)
 
-
-install(TARGETS especia especid especiv especix ecom edat elog emod emsg
-        RUNTIME
-        DESTINATION $ENV{HOME}/bin
-        CONFIGURATIONS Release)
-
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/base.h)
 add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/base.h)
 add_executable(threecol EXCLUDE_FROM_ALL ${MAIN}/cxx/util/threecol.cxx)
@@ -102,3 +96,8 @@ add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx)
 
 add_custom_target(util)
 add_dependencies(util airtovac barycorr threecol vactoair)
+
+install(TARGETS especia especid especiv especix ecom edat elog emod emsg
+        RUNTIME
+        DESTINATION $ENV{HOME}/bin
+        CONFIGURATIONS Release)
