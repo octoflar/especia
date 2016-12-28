@@ -14,8 +14,6 @@ instrumental profile.
 
 The algorithms are explained in
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
-A provided example case uses an artificial spectrum synthesised on basis of
-actually observed data [(Quast et al. 2002)](http://dx.doi.org/10.1051/0004-6361:20020342).
 
 
 # Getting started
