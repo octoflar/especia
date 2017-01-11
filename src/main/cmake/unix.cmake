@@ -18,14 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-find_program(DIFF diff)
-if (DIFF)
-    set(DIFF "${DIFF} --brief")
-endif ()
+set(DIFF diff)
 
-find_program(GREP grep)
+set(GREP grep)
 
-find_program(RM rm)
-if (RM)
-    set(RM "${RM} -f")
-endif ()
+set(RM rm -f)
+
+set(TAR tar -cz --exclude .git --exclude cmake-build --exclude cmake-build-debug --exclude cmake-build-release --exclude .idea)
