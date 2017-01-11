@@ -22,7 +22,7 @@ result HTML file within a comment block. The model definition can be extracted
 from the result file by means of the `emod` utility.
 * The project uses [CMake](https://cmake.org) instead of
 [make](https://www.gnu.org/software/make/) to configure and manage the build
-processes.
+and installation processes.
 
 # New in 2016.1
 
