@@ -18,4 +18,5 @@ cmake-build-release/
 config.h
 
 # compiler creates files with suffix
+*.a
 *.o
