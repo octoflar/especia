@@ -24,4 +24,4 @@ set(GREP grep)
 
 set(RM rm -f)
 
-set(TAR tar -cz --exclude .git --exclude cmake-build --exclude cmake-build-debug --exclude cmake-build-release --exclude .idea)
+set(TAR tar -cz --exclude .DS_Store --exclude .git --exclude cmake-build --exclude cmake-build-debug --exclude cmake-build-release --exclude .idea)
