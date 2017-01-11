@@ -1,0 +1,28 @@
+# Mac OS creates
+.DS_Store
+
+# CLion creates
+.idea/
+
+# Eclipse creates
+.cproject
+.project
+.settings/
+
+# Xcode files by convention are in folder
+xcode-build/
+
+# build files by convention are in folders
+cmake-build/
+cmake-build-debug/
+cmake-build-release/
+
+# cmake configures files
+config.h
+
+# compiler creates files with suffix
+*.a
+*.o
+
+# exclude git directory
+.git/

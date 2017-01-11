@@ -97,6 +97,11 @@ add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx)
 add_custom_target(util)
 add_dependencies(util airtovac barycorr threecol vactoair)
 
+add_custom_target(tar.bz2
+        COMMAND ${TAR} -f ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_TAG}.tar.bz2 -C ${CMAKE_SOURCE_DIR} -X ${CMAKE_SOURCE_DIR}/.tarexclude .
+        BYPRODUCTS ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_TAG}.tar.bz2
+        VERBATIM)
+
 install(TARGETS especia especid especiv especix ecom edat elog emod emsg
         RUNTIME
         DESTINATION $ENV{HOME}/bin
