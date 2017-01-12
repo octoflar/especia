@@ -17,7 +17,7 @@ cmake-build/
 cmake-build-debug/
 cmake-build-release/
 
-# cmake configures files
+# cmake creates
 config.h
 
 # compiler creates files with suffix
