@@ -40,7 +40,7 @@ openmp_optional()
 set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 
-configure_file(${MAIN}/cxx-filtered/config.h.in ${MAIN}/cxx/config.h @ONLY)
+configure_file(${MAIN}/cxx/config.h.in ${MAIN}/cxx/config.h @ONLY)
 
 configure_file(${MAIN}/scripts/erun erun COPYONLY)
 
