@@ -43,6 +43,17 @@ or Paranal Observatories under programme ID 066.A-0212.
 
 ## Section: Fe II 1608
 
+Many-multiplet Doppler profiles are used here. The line parameters are:
+
+1. laboratory wavelength (Å)
+2. oscillator strength
+3. cosmological redshift
+4. radial velocity (km s-1)
+5. line broadening velocity (km s-1)
+6. decadic logarithm of the particle column number density (cm-2)
+7. relativistic correction coefficient
+8. variation of the fine-structure constant (1.0E-05)
+
 ````````
 {
 % section 1
@@ -2127,6 +2138,11 @@ or Paranal Observatories under programme ID 066.A-0212.
   0             0           0           0           Fe_II_1608_31
 }
 ````````
+
+## References
+
+Quast, Ralf; Reimers, Dieter; Levshakov, Sergei A. (2004): *Probing the variability of the fine-structure constant with the VLT/UVES.*
+Astronomy and Astrophysics 415 (2) L7. doi: [10.1051/0004-6361:20040013](http://dx.doi.org/10.1051/0004-6361:20040013).
 </model>
 -->
 </html>
