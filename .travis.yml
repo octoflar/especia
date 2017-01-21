@@ -24,10 +24,10 @@ addons:
     packages:
       - liblapack-dev
 script:
-  - mkdir cmake-build
-  - cd cmake-build
-  - cmake ..
-  - make all util check
+  - mkdir cmake-build-release
+  - cd cmake-build-release
+  - cmake -DCMAKE_BUILD_TYPE=Release ..
+  - make all test
 matrix:
   include:
     - os: osx
