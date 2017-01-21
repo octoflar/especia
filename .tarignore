@@ -20,9 +20,5 @@ cmake-build-release/
 # cmake creates
 config.h
 
-# compiler creates files with suffix
-*.a
-*.o
-
 # exclude git directory
 .git/
