@@ -42,7 +42,7 @@ set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 
 configure_file(${MAIN}/cxx-filtered/config.h.in ${MAIN}/cxx/config.h @ONLY)
 
-configure_file(${MAIN}/scripts/erun.sh erun COPYONLY)
+configure_file(${MAIN}/scripts/erun erun COPYONLY)
 
 configure_file(${MAIN}/resources-filtered/doxygen-html.properties.in resources/doxygen-html.properties @ONLY)
 
@@ -115,6 +115,6 @@ install(TARGETS especia especid especiv especix ecom edat elog emod emsg
         DESTINATION $ENV{HOME}/bin
         CONFIGURATIONS Release)
 
-install(PROGRAMS erun
+install(PROGRAMS ${MAIN}/scripts/erun
         DESTINATION $ENV{HOME}/bin
         CONFIGURATIONS Release)
