@@ -44,16 +44,19 @@ configure_file(${MAIN}/cxx-filtered/config.h.in ${MAIN}/cxx/config.h @ONLY)
 
 configure_file(${MAIN}/scripts/erun.sh erun COPYONLY)
 
-configure_file(${MAIN}/resources/stis1216.dat resources/stis1216.dat COPYONLY)
-configure_file(${MAIN}/resources/uves1561.dat resources/uves1561.dat COPYONLY)
-configure_file(${MAIN}/resources/uves1657.dat resources/uves1657.dat COPYONLY)
-configure_file(${MAIN}/resources/stisv.md     resources/stisv.md COPYONLY)
-configure_file(${MAIN}/resources/stisx.md     resources/stisx.md COPYONLY)
-configure_file(${MAIN}/resources/uvesd.md     resources/uvesd.md COPYONLY)
+configure_file(${TEST}/resources/blue346.dat  resources/blue346.dat COPYONLY)
+configure_file(${TEST}/resources/redl580.dat  resources/redl580.dat COPYONLY)
+configure_file(${TEST}/resources/stis1216.dat resources/stis1216.dat COPYONLY)
+configure_file(${TEST}/resources/uves1561.dat resources/uves1561.dat COPYONLY)
+configure_file(${TEST}/resources/uves1657.dat resources/uves1657.dat COPYONLY)
+configure_file(${TEST}/resources/stisv.md     resources/stisv.md COPYONLY)
+configure_file(${TEST}/resources/stisx.md     resources/stisx.md COPYONLY)
+configure_file(${TEST}/resources/uvesa.md     resources/uvesa.md COPYONLY)
+configure_file(${TEST}/resources/uvesd.md     resources/uvesd.md COPYONLY)
 
-configure_file(${MAIN}/resources-filtered/stisv.html.in resources/stisv.html @ONLY)
-configure_file(${MAIN}/resources-filtered/stisx.html.in resources/stisx.html @ONLY)
-configure_file(${MAIN}/resources-filtered/uvesd.html.in resources/uvesd.html @ONLY)
+configure_file(${TEST}/resources-filtered/stisv.html.in resources/stisv.html @ONLY)
+configure_file(${TEST}/resources-filtered/stisx.html.in resources/stisx.html @ONLY)
+configure_file(${TEST}/resources-filtered/uvesd.html.in resources/uvesd.html @ONLY)
 
 configure_file(${MAIN}/resources-filtered/doxygen-html.properties.in resources/doxygen-html.properties @ONLY)
 

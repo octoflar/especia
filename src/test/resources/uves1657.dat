@@ -1,4 +1,4 @@
-# Synthetic example data (C I 1657)
+# Simulated data (C I 1561 toward HE 0515-4414)
 # Copyright (c) 2016 Ralf Quast
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,7 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# Synthetic data based on observations made with ESO Telescopes at the La Silla
+# Based on observations made with ESO Telescopes at the La Silla
 # or Paranal Observatories under programme ID 066.A-0212.
    3562.01249999699        1.01880519880429       1.879716291706537E-002
    3562.02499999699        1.01636012255930       1.872609588419409E-002
