@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+# Runs an Especia result HTML and searches for expected values, if specified
 # Copyright (c) 2016 Ralf Quast
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,19 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-function(add_check NAME EXECUTABLE RESOURCE EXPECTED)
-    get_filename_component(BASENAME ${RESOURCE} NAME)
-    add_custom_command(OUTPUT ${BASENAME}
-            COMMAND ./emod < ${RESOURCE} | `./ecom < ${RESOURCE}` > ${BASENAME}
-            DEPENDS ecom emod ${EXECUTABLE})
-    add_custom_target(${NAME}
-            DEPENDS ${BASENAME}
-            COMMENT "The check is passed, if the next lines issue the number 1.")
-    foreach (VALUE ${EXPECTED} ${ARGN})
-        add_custom_command(TARGET ${NAME} PRE_BUILD
-                COMMAND ${GREP} --count --fixed-strings '<td><strong>${VALUE}</strong></td>' ${BASENAME})
-    endforeach ()
-    add_dependencies(check ${NAME})
-endfunction()
+set -e
 
-add_custom_target(check)
+source="$1"
+target="$2"
+
+ecom=`dirname "$0"`/ecom
+emod=`dirname "$0"`/emod
+${emod} < ${source} | `${ecom} < ${source}` > ${target}
+
+shift
+shift
+for value in "$@"
+do
+    grep --count --fixed-strings "<td><strong>"${value}"</strong></td>" ${target}
+done

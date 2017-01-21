@@ -22,8 +22,8 @@ cmake_minimum_required(VERSION 3.6.0)
 include(src/main/cmake/project.cmake)
 include(src/main/cmake/veclib_required.cmake)
 include(src/main/cmake/openmp_optional.cmake)
+include(src/main/cmake/test.cmake)
 include(src/main/cmake/unix.cmake)
-include(src/main/cmake/check.cmake)
 
 project(especia VERSION 2017.1 LANGUAGES C CXX)
 project_doi(10.6084/m9.figshare.4167999.v14)
@@ -40,20 +40,22 @@ openmp_optional()
 set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 
-configure_file(${MAIN}/cxx/config.h.in         ${MAIN}/cxx/config.h)
+configure_file(${MAIN}/cxx-filtered/config.h.in ${MAIN}/cxx/config.h @ONLY)
 
-configure_file(${MAIN}/resources-filtered/stisv.html.in resources/stisv.html)
-configure_file(${MAIN}/resources-filtered/stisx.html.in resources/stisx.html)
-configure_file(${MAIN}/resources-filtered/synth.html.in resources/synth.html)
+configure_file(${MAIN}/scripts/erun.sh erun COPYONLY)
 
-configure_file(${MAIN}/resources/stis1216.dat  resources/stis1216.dat COPYONLY)
+configure_file(${MAIN}/resources/stis1216.dat  resources/stis1216.dat  COPYONLY)
 configure_file(${MAIN}/resources/synth1561.dat resources/synth1561.dat COPYONLY)
 configure_file(${MAIN}/resources/synth1657.dat resources/synth1657.dat COPYONLY)
 configure_file(${MAIN}/resources/stisv.md      resources/stisv.md COPYONLY)
 configure_file(${MAIN}/resources/stisx.md      resources/stisx.md COPYONLY)
 configure_file(${MAIN}/resources/synth.md      resources/synth.md COPYONLY)
 
-configure_file(${MAIN}/resources-filtered/doxygen-html.properties.in resources/doxygen-html.properties)
+configure_file(${MAIN}/resources-filtered/stisv.html.in resources/stisv.html @ONLY)
+configure_file(${MAIN}/resources-filtered/stisx.html.in resources/stisx.html @ONLY)
+configure_file(${MAIN}/resources-filtered/synth.html.in resources/synth.html @ONLY)
+
+configure_file(${MAIN}/resources-filtered/doxygen-html.properties.in resources/doxygen-html.properties @ONLY)
 
 set(COMMON_SOURCES
         ${MAIN}/cxx/base.h
@@ -85,9 +87,9 @@ add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
-add_check(checkd especid resources/synth.html 159.77 171.89)
-add_check(checkv especiv resources/stisv.html 251.04)
-add_check(checkx especix resources/stisx.html 251.46)
+add_system_test(synth  1 159.77 171.89)
+add_system_test(stisv 18 251.04)
+add_system_test(stisx 36 251.46)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/base.h)
 add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/base.h)

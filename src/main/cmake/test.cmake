@@ -18,12 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(DIFF diff)
+function(add_system_test NAME COST EXPECTED_VALUES)
+    add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
+    set_tests_properties(${NAME} PROPERTIES COST ${COST})
+    add_custom_command(OUTPUT ${NAME}.html
+            COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN}
+            DEPENDS ecom emod especia especid especiv especix
+            VERBATIM)
+    add_custom_target(erun${NAME}
+            DEPENDS ${NAME}.html)
+endfunction()
 
-set(GREP grep)
-
-set(RM rm -f)
-
-set(RMDIR rm -rf)
-
-set(TAR tar -cjv)
+enable_testing()
