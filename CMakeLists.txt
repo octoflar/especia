@@ -114,3 +114,7 @@ install(TARGETS especia especid especiv especix ecom edat elog emod emsg
         RUNTIME
         DESTINATION $ENV{HOME}/bin
         CONFIGURATIONS Release)
+
+install(PROGRAMS erun
+        DESTINATION $ENV{HOME}/bin
+        CONFIGURATIONS Release)
