@@ -30,7 +30,7 @@ the ISO/IEC 14882:2011 norm, also known as C++11. To build and test this softwar
 
     mkdir cmake-build
     cd cmake-build
-    cmake ..
+    cmake -DCMAKE_BUILD_TYPE=Release ..
     make all test
 
 Typing `make install` will complete the build and move all executable files into your
