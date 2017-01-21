@@ -44,6 +44,8 @@ configure_file(${MAIN}/cxx-filtered/config.h.in ${MAIN}/cxx/config.h @ONLY)
 
 configure_file(${MAIN}/scripts/erun.sh erun COPYONLY)
 
+configure_file(${MAIN}/resources-filtered/doxygen-html.properties.in resources/doxygen-html.properties @ONLY)
+
 configure_file(${TEST}/resources/blue346.dat  resources/blue346.dat COPYONLY)
 configure_file(${TEST}/resources/redl580.dat  resources/redl580.dat COPYONLY)
 configure_file(${TEST}/resources/stis1216.dat resources/stis1216.dat COPYONLY)
@@ -56,9 +58,9 @@ configure_file(${TEST}/resources/uvesd.md     resources/uvesd.md COPYONLY)
 
 configure_file(${TEST}/resources-filtered/stisv.html.in resources/stisv.html @ONLY)
 configure_file(${TEST}/resources-filtered/stisx.html.in resources/stisx.html @ONLY)
+configure_file(${TEST}/resources-filtered/uvesa.html.in resources/uvesa.html @ONLY)
 configure_file(${TEST}/resources-filtered/uvesd.html.in resources/uvesd.html @ONLY)
 
-configure_file(${MAIN}/resources-filtered/doxygen-html.properties.in resources/doxygen-html.properties @ONLY)
 
 set(COMMON_SOURCES
         ${MAIN}/cxx/base.h
@@ -90,9 +92,10 @@ add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
-add_system_test(uvesd  1 159.77 171.89)
-add_system_test(stisv 18 251.04)
-add_system_test(stisx 36 251.46)
+add_system_test(uvesa -2 105.05 258.77 212.87 223.66 238.23 196.27)
+add_system_test(uvesd  0 159.77 171.89)
+add_system_test(stisv -1 251.04)
+add_system_test(stisx -1 251.46)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/base.h)
 add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/base.h)

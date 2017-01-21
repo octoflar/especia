@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especia 27182 10 20 0.5 0.000001 2000 10 < uvesa.md
+    especia 27182 40 80 0.5 0.000001 10000 10 < uvesa.md
     
 Data based on observations made with ESO Telescopes at the La Silla
 or Paranal Observatories under programme ID 066.A-0212.
