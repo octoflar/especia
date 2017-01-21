@@ -44,8 +44,6 @@ configure_file(${MAIN}/cxx-filtered/config.h.in ${MAIN}/cxx/config.h @ONLY)
 
 configure_file(${MAIN}/scripts/erun erun COPYONLY)
 
-configure_file(${MAIN}/resources-filtered/doxygen-html.properties.in resources/doxygen-html.properties @ONLY)
-
 configure_file(${TEST}/resources/blue346.dat  resources/blue346.dat COPYONLY)
 configure_file(${TEST}/resources/redl580.dat  resources/redl580.dat COPYONLY)
 configure_file(${TEST}/resources/stis1216.dat resources/stis1216.dat COPYONLY)
