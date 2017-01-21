@@ -24,9 +24,9 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especid 27182 10 20 0.5 0.000001 2000 10 < synth.md
+    especid 27182 10 20 0.5 0.000001 2000 10 < uvesd.md
     
-Synthetic data based on observations made with ESO Telescopes at the La Silla
+Data based on observations made with ESO Telescopes at the La Silla
 or Paranal Observatories under programme ID 066.A-0212.
 
 ## Section: fine-structure multiplet of CI 1560
@@ -44,7 +44,7 @@ Doppler profiles are used here. The line parameters are:
 {
 % section 1
 % id            source                  begin       end         polynomials
-  C_I_1560      synth1561.dat           3355.00     3359.00     3
+  C_I_1560      uves1561.dat            3355.00     3359.00     3
 %
 % spectral resolution
 % initial       min         max         optimize    reference
@@ -161,7 +161,7 @@ parameters of the CI 1656 lines are tied to those of CI 1560.
 {
 % section 2
 % id            source                  begin       end         polynomials
-  C_I_1656      synth1657.dat           3562.00     3567.00     3
+  C_I_1656      uves1657.dat            3562.00     3567.00     3
 %
 % spectral resolution
 % initial       min         max         optimize    reference

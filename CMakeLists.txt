@@ -44,16 +44,16 @@ configure_file(${MAIN}/cxx-filtered/config.h.in ${MAIN}/cxx/config.h @ONLY)
 
 configure_file(${MAIN}/scripts/erun.sh erun COPYONLY)
 
-configure_file(${MAIN}/resources/stis1216.dat  resources/stis1216.dat  COPYONLY)
-configure_file(${MAIN}/resources/synth1561.dat resources/synth1561.dat COPYONLY)
-configure_file(${MAIN}/resources/synth1657.dat resources/synth1657.dat COPYONLY)
-configure_file(${MAIN}/resources/stisv.md      resources/stisv.md COPYONLY)
-configure_file(${MAIN}/resources/stisx.md      resources/stisx.md COPYONLY)
-configure_file(${MAIN}/resources/synth.md      resources/synth.md COPYONLY)
+configure_file(${MAIN}/resources/stis1216.dat resources/stis1216.dat COPYONLY)
+configure_file(${MAIN}/resources/uves1561.dat resources/uves1561.dat COPYONLY)
+configure_file(${MAIN}/resources/uves1657.dat resources/uves1657.dat COPYONLY)
+configure_file(${MAIN}/resources/stisv.md     resources/stisv.md COPYONLY)
+configure_file(${MAIN}/resources/stisx.md     resources/stisx.md COPYONLY)
+configure_file(${MAIN}/resources/uvesd.md     resources/uvesd.md COPYONLY)
 
 configure_file(${MAIN}/resources-filtered/stisv.html.in resources/stisv.html @ONLY)
 configure_file(${MAIN}/resources-filtered/stisx.html.in resources/stisx.html @ONLY)
-configure_file(${MAIN}/resources-filtered/synth.html.in resources/synth.html @ONLY)
+configure_file(${MAIN}/resources-filtered/uvesd.html.in resources/uvesd.html @ONLY)
 
 configure_file(${MAIN}/resources-filtered/doxygen-html.properties.in resources/doxygen-html.properties @ONLY)
 
@@ -87,7 +87,7 @@ add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
-add_system_test(synth  1 159.77 171.89)
+add_system_test(uvesd  1 159.77 171.89)
 add_system_test(stisv 18 251.04)
 add_system_test(stisx 36 251.46)
 
