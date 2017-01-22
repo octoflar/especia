@@ -62,7 +62,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     1
+  55000.0       50000.0     60000.0     0
 %
 % lines
 % id
@@ -758,7 +758,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     1
+  55000.0       50000.0     60000.0     0
 %
 % lines
 % id
@@ -1106,7 +1106,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     1           Fe_II_2374
+  55000.0       50000.0     60000.0     0           Fe_II_2374
 %
 % lines
 % id
@@ -1454,7 +1454,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     1
+  55000.0       50000.0     60000.0     0
 %
 % lines
 % initial       min         max         optimize    reference
@@ -1801,7 +1801,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     1           Fe_II_2587
+  55000.0       50000.0     60000.0     0           Fe_II_2587
 %
 % lines
 % id
