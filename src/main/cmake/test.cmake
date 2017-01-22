@@ -22,7 +22,7 @@ function(add_system_test NAME COST EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
     set_tests_properties(${NAME} PROPERTIES COST ${COST})
     add_custom_command(OUTPUT ${NAME}.html
-            COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN}
+            COMMAND ./erun resources/${NAME}.html ${NAME}.html
             DEPENDS ecom emod especia especid especiv especix
             VERBATIM)
     add_custom_target(erun${NAME}
