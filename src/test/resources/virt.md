@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especid 27182 10 20 0.5 0.000001 2000 10 < uvesd.md
+    especid 27182 10 20 0.5 0.000001 2000 10 < virt.md
     
 Data based on observations made with ESO Telescopes at the La Silla
 or Paranal Observatories under programme ID 066.A-0212.
@@ -44,7 +44,7 @@ Doppler profiles are used here. The line parameters are:
 {
 % section 1
 % id            source                  begin       end         polynomials
-  C_I_1560      uves1561.dat            3355.00     3359.00     3
+  C_I_1560      virt1561.dat            3355.00     3359.00     3
 %
 % spectral resolution
 % initial       min         max         optimize    reference
@@ -161,7 +161,7 @@ parameters of the CI 1656 lines are tied to those of CI 1560.
 {
 % section 2
 % id            source                  begin       end         polynomials
-  C_I_1656      uves1657.dat            3562.00     3567.00     3
+  C_I_1656      virt1657.dat            3562.00     3567.00     3
 %
 % spectral resolution
 % initial       min         max         optimize    reference
@@ -294,5 +294,6 @@ parameters of the CI 1656 lines are tied to those of CI 1560.
 
 ## References
 
-Quast, Ralf; Baade, Robert; Reimers, Dieter (2002): *Fine-structure diagnostics of neutral carbon toward HE 0515-4414.* Astronomy and Astrophysics 386 (3) 796. doi: [10.1051/0004-6361:20020342](http://dx.doi.org/10.1051/0004-6361:20020342).
+Quast, Ralf; Baade, Robert; Reimers, Dieter (2002): *Fine-structure diagnostics of neutral carbon toward HE 0515-4414.* 
+Astronomy and Astrophysics 386 (3) 796. doi: [10.1051/0004-6361:20020342](http://dx.doi.org/10.1051/0004-6361:20020342).
 

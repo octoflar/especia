@@ -36,7 +36,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especia 27182 40 80 0.5 0.000001 10000 10 < uvesa.md
+    especia 27182 40 80 0.5 0.000001 10000 10 < uves.md
     
 Data based on observations made with ESO Telescopes at the La Silla
 or Paranal Observatories under programme ID 066.A-0212.
@@ -58,11 +58,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 1
 % id            source                  begin       end         polynomials     exclude
-  Fe_II_1608    resources/blue346.dat   3450.00     3465.00     3
+  Fe_II_1608    resources/uves3460.dat  3450.00     3465.00     3
 %
 % resolution
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     1
 %
 % lines
 % id
@@ -406,11 +406,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 2
 % id            source                  begin       end         polynomials
-  Fe_II_2344    resources/redl580.dat   5020.00     5050.00     3
+  Fe_II_2344    resources/uves5800.dat  5020.00     5050.00     3
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     1
 %
 % lines
 % id
@@ -754,11 +754,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 3
 % id            source                  begin       end         polynomials
-  Fe_II_2374    resources/redl580.dat   5090.00     5115.00     3
+  Fe_II_2374    resources/uves5800.dat  5090.00     5115.00     3
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     1
 %
 % lines
 % id
@@ -1102,11 +1102,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 4
 % id            source                  begin       end         polynomials     exclude
-  Fe_II_2383    resources/redl580.dat   5110.00     5140.00     3               5124.593 5126.302 % -15 - 85 km/s
+  Fe_II_2383    resources/uves5800.dat  5110.00     5140.00     3               5124.593 5126.302 % -15 - 85 km/s
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     1           Fe_II_2374
 %
 % lines
 % id
@@ -1450,11 +1450,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 5
 % id            source                  begin       end         polynomials
-  Fe_II_2587    resources/redl580.dat   5550.00     5570.00     3
+  Fe_II_2587    resources/uves5800.dat  5550.00     5570.00     3
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     1
 %
 % lines
 % initial       min         max         optimize    reference
@@ -1797,11 +1797,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 6
 % id            source                  begin       end         polynomials     exclude
-  Fe_II_2600    resources/redl580.dat   5570.00     5600.00     3               5578.000 5582.000 5592.171 5594.037 % -15 - 85 km/s
+  Fe_II_2600    resources/uves5800.dat  5570.00     5600.00     3               5578.000 5582.000 5592.171 5594.037 % -15 - 85 km/s
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     1           Fe_II_2587
 %
 % lines
 % id
