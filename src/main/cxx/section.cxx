@@ -195,12 +195,6 @@ void especia::Section::mask(double a, double b) {
             msk[i] = 0;
 }
 
-void especia::Section::unmask(double a, double b) {
-    for (size_t i = 0; i < n; ++i)
-        if (a <= wav[i] and wav[i] <= b)
-            msk[i] = 1;
-}
-
 void especia::Section::integrals(double x, double hwhm, double &p, double &q) const {
     using std::erf; // since C++11
     using std::exp;

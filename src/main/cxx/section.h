@@ -76,8 +76,6 @@ public:
 
     void mask(double a, double b);
 
-    void unmask(double a, double b);
-
     template<class optical_depth>
     void compute_model(const optical_depth &t, size_t m, double r);
 
