@@ -20,10 +20,6 @@
 
 function(add_system_test NAME EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
-    add_custom_target(${NAME}.html
-            COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN}
-            DEPENDS ecom emod especia especid especiv especix
-            VERBATIM)
 endfunction()
 
 enable_testing()
