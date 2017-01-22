@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especid 27182 10 20 0.5 0.000001 2000 10 < virt.md
+    especid 27182 10 20 0.5 0.000001 2000 10 < virtual.md
     
 Data based on observations made with ESO Telescopes at the La Silla
 or Paranal Observatories under programme ID 066.A-0212.
@@ -44,7 +44,7 @@ Doppler profiles are used here. The line parameters are:
 {
 % section 1
 % id            source                  begin       end         polynomials
-  C_I_1560      virt1561.dat            3355.00     3359.00     3
+  C_I_1560      virtual1561.dat         3355.00     3359.00     3
 %
 % spectral resolution
 % initial       min         max         optimize    reference
@@ -161,7 +161,7 @@ parameters of the CI 1656 lines are tied to those of CI 1560.
 {
 % section 2
 % id            source                  begin       end         polynomials
-  C_I_1656      virt1657.dat            3562.00     3567.00     3
+  C_I_1656      virtual1657.dat         3562.00     3567.00     3
 %
 % spectral resolution
 % initial       min         max         optimize    reference

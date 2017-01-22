@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especix 27182 40 80 0.5 0.000001 2000 10 < stix.md
+    especiv 27182 40 80 0.5 0.000001 2000 10 < stis.md
     
 Based on observations made with the NASA/ESA Hubble Space Telescope, obtained
 from the data archive at the Space Telescope Institute. STScI is operated by
