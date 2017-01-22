@@ -18,14 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-function(add_system_test NAME COST EXPECTED_VALUES)
+function(add_system_test NAME EXECUTABLE EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
-    set_tests_properties(${NAME} PROPERTIES COST ${COST})
     add_custom_command(OUTPUT ${NAME}.html
-            COMMAND ./erun resources/${NAME}.html ${NAME}.html
-            DEPENDS ecom emod especia especid especiv especix
+            COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN}
+            DEPENDS ecom emod ${EXECUTABLE}
             VERBATIM)
-    add_custom_target(erun${NAME}
+    add_custom_target(test${NAME}
             DEPENDS ${NAME}.html)
 endfunction()
 
