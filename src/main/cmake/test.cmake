@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 function(add_system_test NAME EXPECTED_VALUES)
-    add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
+    add_test(NAME ${NAME} COMMAND sh erun.sh resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
 endfunction()
 
 enable_testing()

@@ -42,7 +42,7 @@ set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 
 configure_file(${MAIN}/cxx/config.h.in ${MAIN}/cxx/config.h @ONLY)
 
-configure_file(${MAIN}/scripts/erun erun COPYONLY)
+configure_file(${MAIN}/scripts/erun.sh erun.sh COPYONLY)
 
 configure_file(${TEST}/resources/stis1216.dat    resources/stis1216.dat COPYONLY)
 configure_file(${TEST}/resources/uves3460.dat    resources/uves3460.dat COPYONLY)
@@ -112,6 +112,7 @@ install(TARGETS especia especid especiv especix ecom edat elog emod emsg
         DESTINATION $ENV{HOME}/bin
         CONFIGURATIONS Release)
 
-install(PROGRAMS ${MAIN}/scripts/erun
+install(PROGRAMS ${MAIN}/scripts/erun.sh
         DESTINATION $ENV{HOME}/bin
-        CONFIGURATIONS Release)
+        CONFIGURATIONS Release
+        RENAME erun)
