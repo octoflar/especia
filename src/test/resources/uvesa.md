@@ -50,7 +50,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     0
 %
 % lines
 % id
@@ -398,7 +398,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     0
 %
 % lines
 % id
@@ -746,7 +746,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     0
 %
 % lines
 % id
@@ -1094,7 +1094,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     0
 %
 % lines
 % id
@@ -1442,7 +1442,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     0
 %
 % lines
 % initial       min         max         optimize    reference
@@ -1789,7 +1789,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %
 % resolution (1000)
 % initial       min         max         optimize    reference
-  55000.0       52          56          0
+  55000.0       50000.0     60000.0     0
 %
 % lines
 % id
