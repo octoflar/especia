@@ -26,9 +26,6 @@ To optimize this model type, for instance:
 
     especia 27182 40 80 0.5 0.000001 10000 10 < uves.md
     
-Data based on observations made with ESO Telescopes at the La Silla
-or Paranal Observatories under programme ID 066.A-0212.
-
 ## Section: Fe II 1608
 
 Many-multiplet Doppler profiles are used here. The line parameters are:
