@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-cmake_minimum_required(VERSION 3.6.0)
+cmake_minimum_required(VERSION 3.2.2)
 include(src/main/cmake/project.cmake)
 include(src/main/cmake/veclib_required.cmake)
 include(src/main/cmake/openmp_optional.cmake)
