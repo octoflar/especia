@@ -202,7 +202,7 @@ especia::A_Doppler::A_Doppler(const double q[])
 especia::A_Doppler::~A_Doppler() {
 }
 
-double especia::A_Doppler::operator()(double x) const {
+double especia::A_Doppler::operator()(const double &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
@@ -224,7 +224,7 @@ especia::G_Doppler::G_Doppler(const double q[])
 especia::G_Doppler::~G_Doppler() {
 }
 
-double especia::G_Doppler::operator()(double x) const {
+double especia::G_Doppler::operator()(const double &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 

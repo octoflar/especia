@@ -223,6 +223,9 @@ namespace especia {
     template<class Deviate, class Decompose, class Compare, class Tracer>
     class Optimizer_Builder;
 
+    /**
+     * @todo - implement
+     */
     template<class Deviate, class Decompose, class Compare, class Tracer>
     class Optimizer {
     public:
@@ -237,6 +240,9 @@ namespace especia {
         friend class Optimizer_Builder<Deviate, Decompose, Compare, Tracer>;
     };
 
+    /**
+     * @todo - implement
+     */
     template<class Deviate, class Decompose, class Compare, class Tracer>
     class Optimizer_Builder {
     public:
@@ -302,7 +308,7 @@ namespace especia {
             return compare;
         }
 
-        const size_t get_n() const {
+        size_t get_n() const {
             return n;
         }
 

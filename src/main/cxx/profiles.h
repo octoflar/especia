@@ -185,7 +185,7 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom)
          * @return the value of the Doppler profile at @c x.
          */
-        double operator()(double x) const;
+        double operator()(const double &x) const;
 
     private:
         /**
@@ -261,7 +261,7 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom)
          * @return the value of the Doppler profile at @c x.
          */
-        double operator()(double x) const;
+        double operator()(const double &x) const;
 
     private:
         /**
@@ -344,7 +344,7 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom)
          * @return the value of the Voigt profile at @c x.
          */
-        double operator()(double x) const {
+        double operator()(const double &x) const {
             return a * approximation(x - c);
         };
 
@@ -413,7 +413,7 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom)
          * @return the value of the profile superposition at @c x.
          */
-        double operator()(double x) const {
+        double operator()(const double &x) const {
             double d = 0.0;
 
             for (size_t i = 0; i < profiles.size(); ++i)
