@@ -27,7 +27,8 @@ script:
   - mkdir cmake-build-release
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - travis_wait 60 make all test
+  - make -j clean all
+  - make test
 matrix:
   include:
     - os: osx
