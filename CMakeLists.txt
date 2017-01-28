@@ -25,7 +25,7 @@ include(src/main/cmake/openmp_optional.cmake)
 include(src/main/cmake/test.cmake)
 include(src/main/cmake/unix.cmake)
 
-project(especia VERSION 2017.1 LANGUAGES CXX)
+project(especia VERSION 2017.1 LANGUAGES C CXX)
 project_doi(10.6084/m9.figshare.4167999.v14)
 project_tag(snapshot)
 
