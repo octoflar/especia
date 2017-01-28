@@ -27,19 +27,12 @@ script:
   - mkdir cmake-build-release
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - make all test
+  - travis_wait 60 make all test
 matrix:
   include:
     - os: osx
-      compiler:
-        - clang
     - os: linux
       compiler:
         - gcc
-      dist: trusty
-      sudo: required
-    - os: linux
-      compiler:
-        - clang
       dist: trusty
       sudo: required
