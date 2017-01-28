@@ -69,7 +69,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             -500        500         1
+  0             -100        100         1
 
   Fe_II_1608_03
   1608.45080    0           0           0
