@@ -137,7 +137,7 @@ void especia::Section::convolve(const optical_depth &t, double r, double *opt, d
     using std::valarray;
 
     if (n > 2) {
-        const double hwhm = 0.5 * center() / (r * kilos * 1.0E+03);
+        const double hwhm = 0.5 * center() / (r * kilo);
             // HWHM (half width at half maximum) of the instrumental profile
         const double h = width() / (n - 1);
             // sample spacing
