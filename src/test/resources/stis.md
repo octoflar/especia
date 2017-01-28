@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especiv 27182 40 80 0.5 0.000001 2000 10 < stis.md
+    especiv 27182 40 80 0.5 0.0001 2000 10 < stis.md
     
 ## Section: sub-damped Lyman-alpha line toward HE 0515-4414
 
@@ -44,9 +44,9 @@ Voigt profiles are used here. The line parameters are:
 % id            source                  begin       end         polynomials
   H_I_1216      stis1216.dat            2596.0      2638.0      3
 %
-% resolution
+% resolution (1E+3)
 % initial       min         max         optimize    reference
-  10000         9           11          0
+  10            9           11          0
 %
 % lines
 % id

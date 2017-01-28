@@ -50,6 +50,16 @@ namespace especia {
     const double elementary_charge = 1.6021766208E-19;
 
     /**
+     * The resolution of the spectroscopic data is calculated in units of this number (kilo).
+     */
+    const double kilos = 1.0;
+
+    /**
+     * The variation of the fine-structure constant is calculated in units of this number (micro).
+     */
+    const double micros = 1.0;
+
+    /**
      * The speed of light in vacuum (m s-1). *NIST SP 961 (Sept/2015)*
      */
     const double speed_of_light_in_vacuum = 299792458.0;

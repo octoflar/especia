@@ -169,7 +169,7 @@ namespace especia {
          *
          * @c q[6] The relativistic correction coefficient
          *
-         * @c q[7] The variation of the fine-structure constant (1.0e-05)
+         * @c q[7] The variation of the fine-structure constant (1E-6)
          * @endparblock
          */
         A_Doppler(const double q[]);

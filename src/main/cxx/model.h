@@ -408,7 +408,7 @@ namespace especia {
             os << "      <td>Start<br>Wavelength<br>(&Aring;)</td>\n";
             os << "      <td>End<br>Wavelength<br>(&Aring;)</td>\n";
             os << "      <td>Legendre<br>Polynomials</td>\n";
-            os << "      <td>Resolution</td>\n";
+            os << "      <td>Resolution<br>(10<sup>3</sup>)</td>\n";
             os << "      <td>Data Points</td>\n";
             os << "      <td>Cost</td>\n";
             os << "      <td>Cost per<br>Data Point</td>\n";
@@ -454,7 +454,7 @@ namespace especia {
             os << "      <td>Broadening<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
             os << "      <td>Log. Column<br>Density<br>(cm<sup>-2</sup>)</td>\n";
 #if defined(ESPECIA_MANY_MULTIPLET_ANALYSIS)
-            os << "      <td>&Delta;&alpha/&alpha;<br>(10<sup>-5</sup>)</td>\n";
+            os << "      <td>&Delta;&alpha;/&alpha;<br>(10<sup>-6</sup>)</td>\n";
 #endif
             os << "    </tr>\n";
             os << "  </thead>\n";
@@ -653,8 +653,7 @@ namespace especia {
             os << "</html>\n";
 
             // Compute uncertainty
-            if (optimized)
-                scale_step_size(*this, constraint, &x[0], n, &d[0], &B[0], step_size);
+            scale_step_size(*this, constraint, &x[0], n, &d[0], &B[0], step_size);
             for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1)
                 d[i] = step_size * sqrt(C[ii]);
             for (size_t i = 0; i < msk.size(); ++i)

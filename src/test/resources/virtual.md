@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especid 27182 10 20 0.5 0.000001 2000 10 < virtual.md
+    especid 27182 10 20 0.5 0.0001 2000 10 < virtual.md
     
 ## Section: fine-structure multiplet of CI 1560
 
@@ -43,9 +43,9 @@ Doppler profiles are used here. The line parameters are:
 % id            source                  begin       end         polynomials
   C_I_1560      virtual1561.dat         3355.00     3359.00     3
 %
-% spectral resolution
+% spectral resolution (1E+3)
 % initial       min         max         optimize    reference
-  50000         40000       60000       1
+  50            40          60          1
 %
 % absorption lines
 % id
@@ -160,7 +160,7 @@ parameters of the CI 1656 lines are tied to those of CI 1560.
 % id            source                  begin       end         polynomials
   C_I_1656      virtual1657.dat         3562.00     3567.00     3
 %
-% spectral resolution
+% spectral resolution (1E+3)
 % initial       min         max         optimize    reference
   0             0           0           0           C_I_1560
 %

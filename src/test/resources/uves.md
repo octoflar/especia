@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especia 27182 40 80 0.5 0.000001 10000 10 < uves.md
+    especia 27182 40 80 0.5 0.0001 10000 10 < uves.md
     
 ## Section: Fe II 1608
 
@@ -37,7 +37,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 5. line broadening velocity (km s-1)
 6. decadic logarithm of the particle column number density (cm-2)
 7. relativistic correction coefficient
-8. variation of the fine-structure constant (1.0E-05)
+8. variation of the fine-structure constant Δα/α (1E-6)
 
 ````````
 {
@@ -45,15 +45,15 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id            source          begin       end         polynomials     exclude
   Fe_II_1608    uves3460.dat    3450.00     3465.00     3
 %
-% resolution
+% resolution (1E+3)
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     0
+  55            50          60          1
 %
 % lines
 % id
 % initial       min         max         optimize    reference
 
-% Fe_II_1608__1
+% Fe_II_1608_01
 %   1608.45080    0           0           0
 %   0.0580        0           0           0
 %   1.1508        0           0           0
@@ -61,7 +61,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 %   0             1.0         14.0        1
 %   0             10.0        14.0        1
 
-  Fe_II_1608__2
+  Fe_II_1608_02
   1608.45080    0           0           0
   0.0580        0           0           0
   1.1508        0           0           0
@@ -69,9 +69,9 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             -50         50          1
+  0             -500        500         1
 
-  Fe_II_1608__3
+  Fe_II_1608_03
   1608.45080    0           0           0
   0.0580        0           0           0
   1.1508        0           0           0
@@ -79,9 +79,9 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_1608__3b
+  Fe_II_1608_03b
   1608.45080    0           0           0
   0.0580        0           0           0
   1.1508        0           0           0
@@ -89,9 +89,9 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_1608__4
+  Fe_II_1608_04
   1608.45080    0           0           0
   0.0580        0           0           0
   1.1508        0           0           0
@@ -99,9 +99,9 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_1608__5
+  Fe_II_1608_05
   1608.45080    0           0           0
   0.0580        0           0           0
   1.1508        0           0           0
@@ -109,9 +109,9 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_1608__6
+  Fe_II_1608_06
   1608.45080    0           0           0
   0.0580        0           0           0
   1.1508        0           0           0
@@ -119,9 +119,9 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_1608__7
+  Fe_II_1608_07
   1608.45080    0           0           0
   0.0580        0           0           0
   1.1508        0           0           0
@@ -129,9 +129,9 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_1608__8
+  Fe_II_1608_08
   1608.45080    0           0           0
   0.0580        0           0           0
   1.1508        0           0           0
@@ -139,9 +139,9 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_1608__9
+  Fe_II_1608_09
   1608.45080    0           0           0
   0.0580        0           0           0
   1.1508        0           0           0
@@ -149,7 +149,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_10
   1608.45080    0           0           0
@@ -159,7 +159,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
 %   Fe_II_1608_11
 %   1608.45080    0           0           0
@@ -177,7 +177,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
 %   Fe_II_1608_13
 %   1608.45080    0           0           0
@@ -211,7 +211,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_16b
   1608.45080    0           0           0
@@ -221,7 +221,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_17
   1608.45080    0           0           0
@@ -231,7 +231,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             2.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_17b
   1608.45080    0           0           0
@@ -241,7 +241,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             2.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_18
   1608.45080    0           0           0
@@ -251,7 +251,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_19
   1608.45080    0           0           0
@@ -261,7 +261,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_20
   1608.45080    0           0           0
@@ -271,7 +271,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_21
   1608.45080    0           0           0
@@ -281,7 +281,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_22
   1608.45080    0           0           0
@@ -291,7 +291,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_23
   1608.45080    0           0           0
@@ -301,7 +301,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         6.0         1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_24
   1608.45080    0           0           0
@@ -311,7 +311,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             2.0         6.0         1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_25
   1608.45080    0           0           0
@@ -321,7 +321,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_26
   1608.45080    0           0           0
@@ -331,7 +331,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_27
   1608.45080    0           0           0
@@ -341,7 +341,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_28
   1608.45080    0           0           0
@@ -351,7 +351,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_29
   1608.45080    0           0           0
@@ -361,7 +361,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_30
   1608.45080    0           0           0
@@ -371,7 +371,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
   Fe_II_1608_31
   1608.45080    0           0           0
@@ -381,7 +381,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             1.0         14.0        1
   0             10.0        14.0        1
   -1300         0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 }
 ````````
 
@@ -393,111 +393,111 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id            source          begin       end         polynomials
   Fe_II_2344    uves5800.dat    5020.00     5050.00     3
 %
-% resolution (1000)
+% resolution (1E+3)
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     0
+  55            50          60          1
 %
 % lines
 % id
 % initial       min         max         optimize    reference
 
-%   Fe_II_2344__1
+%   Fe_II_2344_01
 %   2344.2130     0           0           0
 %   0.114         0           0           0
 %   1.1508        0           0           0
-%   0             0           0           1           Fe_II_1608__1
-%   0             0           0           1           Fe_II_1608__1
-%   0             0           0           1           Fe_II_1608__1
+%   0             0           0           1           Fe_II_1608_01
+%   0             0           0           1           Fe_II_1608_01
+%   0             0           0           1           Fe_II_1608_01
 
-  Fe_II_2344__2
+  Fe_II_2344_02
   2344.2130     0           0           0
   0.114         0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__2
-  0             0           0           0           Fe_II_1608__2
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
+  0             0           0           0           Fe_II_1608_02
+  0             0           0           0           Fe_II_1608_02
   1210          0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_2344__3
+  Fe_II_2344_03
   2344.2130     0           0           0
   0.114         0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__3
-  0             0           0           0           Fe_II_1608__3
-  0             0           0           0           Fe_II_1608__3
+  0             0           0           0           Fe_II_1608_03
+  0             0           0           0           Fe_II_1608_03
+  0             0           0           0           Fe_II_1608_03
   1210          0           0           0
-  0             0           0           0           Fe_II_1608__3
+  0             0           0           0           Fe_II_1608_03
 
-  Fe_II_2344__3b
+  Fe_II_2344_03b
   2344.2130     0           0           0
   0.114         0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__3b
-  0             0           0           0           Fe_II_1608__3b
-  0             0           0           0           Fe_II_1608__3b
+  0             0           0           0           Fe_II_1608_03b
+  0             0           0           0           Fe_II_1608_03b
+  0             0           0           0           Fe_II_1608_03b
   1210          0           0           0
-  0             0           0           0           Fe_II_1608__3b
+  0             0           0           0           Fe_II_1608_03b
 
-  Fe_II_2344__4
+  Fe_II_2344_04
   2344.2130     0           0           0
   0.114         0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__4
-  0             0           0           0           Fe_II_1608__4
-  0             0           0           0           Fe_II_1608__4
+  0             0           0           0           Fe_II_1608_04
+  0             0           0           0           Fe_II_1608_04
+  0             0           0           0           Fe_II_1608_04
   1210          0           0           0
-  0             0           0           0           Fe_II_1608__4
+  0             0           0           0           Fe_II_1608_04
 
-  Fe_II_2344__5
+  Fe_II_2344_05
   2344.2130     0           0           0
   0.114         0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__5
-  0             0           0           0           Fe_II_1608__5
-  0             0           0           0           Fe_II_1608__5
+  0             0           0           0           Fe_II_1608_05
+  0             0           0           0           Fe_II_1608_05
+  0             0           0           0           Fe_II_1608_05
   1210          0           0           0
-  0             0           0           0           Fe_II_1608__5
+  0             0           0           0           Fe_II_1608_05
 
-  Fe_II_2344__6
+  Fe_II_2344_06
   2344.2130     0           0           0
   0.114         0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__6
-  0             0           0           0           Fe_II_1608__6
-  0             0           0           0           Fe_II_1608__6
+  0             0           0           0           Fe_II_1608_06
+  0             0           0           0           Fe_II_1608_06
+  0             0           0           0           Fe_II_1608_06
   1210          0           0           0
-  0             0           0           0           Fe_II_1608__6
+  0             0           0           0           Fe_II_1608_06
 
-  Fe_II_2344__7
+  Fe_II_2344_07
   2344.2130     0           0           0
   0.114         0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__7
-  0             0           0           0           Fe_II_1608__7
-  0             0           0           0           Fe_II_1608__7
+  0             0           0           0           Fe_II_1608_07
+  0             0           0           0           Fe_II_1608_07
+  0             0           0           0           Fe_II_1608_07
   1210          0           0           0
-  0             0           0           0           Fe_II_1608__7
+  0             0           0           0           Fe_II_1608_07
 
-  Fe_II_2344__8
+  Fe_II_2344_08
   2344.2130     0           0           0
   0.114         0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__8
-  0             0           0           0           Fe_II_1608__8
-  0             0           0           0           Fe_II_1608__8
+  0             0           0           0           Fe_II_1608_08
+  0             0           0           0           Fe_II_1608_08
+  0             0           0           0           Fe_II_1608_08
   1210          0           0           0
-  0             0           0           0           Fe_II_1608__8
+  0             0           0           0           Fe_II_1608_08
 
-  Fe_II_2344__9
+  Fe_II_2344_09
   2344.2130     0           0           0
   0.114         0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__9
-  0             0           0           0           Fe_II_1608__9
-  0             0           0           0           Fe_II_1608__9
+  0             0           0           0           Fe_II_1608_09
+  0             0           0           0           Fe_II_1608_09
+  0             0           0           0           Fe_II_1608_09
   1210          0           0           0
-  0             0           0           0           Fe_II_1608__9
+  0             0           0           0           Fe_II_1608_09
 
   Fe_II_2344_10
   2344.2130     0           0           0
@@ -741,111 +741,111 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id            source          begin       end         polynomials
   Fe_II_2374    uves5800.dat    5090.00     5115.00     3
 %
-% resolution (1000)
+% resolution (1E+3)
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     0
+  55            50          60          1           Fe_II_2344
 %
 % lines
 % id
 % initial       min         max         optimize    reference
 
-%   Fe_II_2374__1
+%   Fe_II_2374_01
 %   2374.4603     0           0           0
 %   0.0313        0           0           0
 %   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608__1
-%   0             0           0           0           Fe_II_1608__1
-%   0             0           0           0           Fe_II_1608__1
+%   0             0           0           0           Fe_II_1608_01
+%   0             0           0           0           Fe_II_1608_01
+%   0             0           0           0           Fe_II_1608_01
 
-  Fe_II_2374__2
+  Fe_II_2374_02
   2374.4603     0           0           0
   0.0313        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__2
-  0             0           0           0           Fe_II_1608__2
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
+  0             0           0           0           Fe_II_1608_02
+  0             0           0           0           Fe_II_1608_02
   1590          0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_2374__3
+  Fe_II_2374_03
   2374.4603     0           0           0
   0.0313        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__3
-  0             0           0           0           Fe_II_1608__3
-  0             0           0           0           Fe_II_1608__3
+  0             0           0           0           Fe_II_1608_03
+  0             0           0           0           Fe_II_1608_03
+  0             0           0           0           Fe_II_1608_03
   1590          0           0           0
-  0             0           0           0           Fe_II_1608__3
+  0             0           0           0           Fe_II_1608_03
 
-  Fe_II_2374__3b
+  Fe_II_2374_03b
   2374.4603     0           0           0
   0.0313        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__3b
-  0             0           0           0           Fe_II_1608__3b
-  0             0           0           0           Fe_II_1608__3b
+  0             0           0           0           Fe_II_1608_03b
+  0             0           0           0           Fe_II_1608_03b
+  0             0           0           0           Fe_II_1608_03b
   1590          0           0           0
-  0             0           0           0           Fe_II_1608__3b
+  0             0           0           0           Fe_II_1608_03b
 
-  Fe_II_2374__4
+  Fe_II_2374_04
   2374.4603     0           0           0
   0.0313        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__4
-  0             0           0           0           Fe_II_1608__4
-  0             0           0           0           Fe_II_1608__4
+  0             0           0           0           Fe_II_1608_04
+  0             0           0           0           Fe_II_1608_04
+  0             0           0           0           Fe_II_1608_04
   1590          0           0           0
-  0             0           0           0           Fe_II_1608__4
+  0             0           0           0           Fe_II_1608_04
 
-  Fe_II_2374__5
+  Fe_II_2374_05
   2374.4603     0           0           0
   0.0313        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__5
-  0             0           0           0           Fe_II_1608__5
-  0             0           0           0           Fe_II_1608__5
+  0             0           0           0           Fe_II_1608_05
+  0             0           0           0           Fe_II_1608_05
+  0             0           0           0           Fe_II_1608_05
   1590          0           0           0
-  0             0           0           0           Fe_II_1608__5
+  0             0           0           0           Fe_II_1608_05
 
-  Fe_II_2374__6
+  Fe_II_2374_06
   2374.4603     0           0           0
   0.0313        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__6
-  0             0           0           0           Fe_II_1608__6
-  0             0           0           0           Fe_II_1608__6
+  0             0           0           0           Fe_II_1608_06
+  0             0           0           0           Fe_II_1608_06
+  0             0           0           0           Fe_II_1608_06
   1590          0           0           0
-  0             0           0           0           Fe_II_1608__6
+  0             0           0           0           Fe_II_1608_06
 
-  Fe_II_2374__7
+  Fe_II_2374_07
   2374.4603     0           0           0
   0.0313        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__7
-  0             0           0           0           Fe_II_1608__7
-  0             0           0           0           Fe_II_1608__7
+  0             0           0           0           Fe_II_1608_07
+  0             0           0           0           Fe_II_1608_07
+  0             0           0           0           Fe_II_1608_07
   1590          0           0           0
-  0             0           0           0           Fe_II_1608__7
+  0             0           0           0           Fe_II_1608_07
 
-  Fe_II_2374__8
+  Fe_II_2374_08
   2374.4603     0           0           0
   0.0313        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__8
-  0             0           0           0           Fe_II_1608__8
-  0             0           0           0           Fe_II_1608__8
+  0             0           0           0           Fe_II_1608_08
+  0             0           0           0           Fe_II_1608_08
+  0             0           0           0           Fe_II_1608_08
   1590          0           0           0
-  0             0           0           0           Fe_II_1608__8
+  0             0           0           0           Fe_II_1608_08
 
-  Fe_II_2374__9
+  Fe_II_2374_09
   2374.4603     0           0           0
   0.0313        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__9
-  0             0           0           0           Fe_II_1608__9
-  0             0           0           0           Fe_II_1608__9
+  0             0           0           0           Fe_II_1608_09
+  0             0           0           0           Fe_II_1608_09
+  0             0           0           0           Fe_II_1608_09
   1590          0           0           0
-  0             0           0           0           Fe_II_1608__9
+  0             0           0           0           Fe_II_1608_09
 
   Fe_II_2374_10
   2374.4603     0           0           0
@@ -1089,111 +1089,111 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id            source          begin       end         polynomials     exclude
   Fe_II_2383    uves5800.dat    5110.00     5140.00     3               5124.593 5126.302 % -15 - 85 km/s
 %
-% resolution (1000)
+% resolution (1E+3)
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     0
+  0             0           0           0           Fe_II_2374
 %
 % lines
 % id
 % initial       min         max         optimize    reference
 
-%   Fe_II_2383__1
+%   Fe_II_2383_01
 %   2382.7642     0           0           0
 %   0.3200        0           0           0
 %   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608__1
-%   0             0           0           0           Fe_II_1608__1
-%   0             0           0           0           Fe_II_1608__1
+%   0             0           0           0           Fe_II_1608_01
+%   0             0           0           0           Fe_II_1608_01
+%   0             0           0           0           Fe_II_1608_01
 
-  Fe_II_2383__2
+  Fe_II_2383_02
   2382.7642     0           0           0
   0.3200        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__2
-  0             0           0           0           Fe_II_1608__2
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
+  0             0           0           0           Fe_II_1608_02
+  0             0           0           0           Fe_II_1608_02
   1460          0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_2383__3
+  Fe_II_2383_03
   2382.7642     0           0           0
   0.3200        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__3
-  0             0           0           0           Fe_II_1608__3
-  0             0           0           0           Fe_II_1608__3
+  0             0           0           0           Fe_II_1608_03
+  0             0           0           0           Fe_II_1608_03
+  0             0           0           0           Fe_II_1608_03
   1460          0           0           0
-  0             0           0           0           Fe_II_1608__3
+  0             0           0           0           Fe_II_1608_03
 
-  Fe_II_2383__3b
+  Fe_II_2383_03b
   2382.7642     0           0           0
   0.3200        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__3b
-  0             0           0           0           Fe_II_1608__3b
-  0             0           0           0           Fe_II_1608__3b
+  0             0           0           0           Fe_II_1608_03b
+  0             0           0           0           Fe_II_1608_03b
+  0             0           0           0           Fe_II_1608_03b
   1460          0           0           0
-  0             0           0           0           Fe_II_1608__3b
+  0             0           0           0           Fe_II_1608_03b
 
-  Fe_II_2383__4
+  Fe_II_2383_04
   2382.7642     0           0           0
   0.3200        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__4
-  0             0           0           0           Fe_II_1608__4
-  0             0           0           0           Fe_II_1608__4
+  0             0           0           0           Fe_II_1608_04
+  0             0           0           0           Fe_II_1608_04
+  0             0           0           0           Fe_II_1608_04
   1460          0           0           0
-  0             0           0           0           Fe_II_1608__4
+  0             0           0           0           Fe_II_1608_04
 
-  Fe_II_2383__5
+  Fe_II_2383_05
   2382.7642     0           0           0
   0.3200        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__5
-  0             0           0           0           Fe_II_1608__5
-  0             0           0           0           Fe_II_1608__5
+  0             0           0           0           Fe_II_1608_05
+  0             0           0           0           Fe_II_1608_05
+  0             0           0           0           Fe_II_1608_05
   1460          0           0           0
-  0             0           0           0           Fe_II_1608__5
+  0             0           0           0           Fe_II_1608_05
 
-  Fe_II_2383__6
+  Fe_II_2383_06
   2382.7642     0           0           0
   0.3200        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__6
-  0             0           0           0           Fe_II_1608__6
-  0             0           0           0           Fe_II_1608__6
+  0             0           0           0           Fe_II_1608_06
+  0             0           0           0           Fe_II_1608_06
+  0             0           0           0           Fe_II_1608_06
   1460          0           0           0
-  0             0           0           0           Fe_II_1608__6
+  0             0           0           0           Fe_II_1608_06
 
-  Fe_II_2383__7
+  Fe_II_2383_07
   2382.7642     0           0           0
   0.3200        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__7
-  0             0           0           0           Fe_II_1608__7
-  0             0           0           0           Fe_II_1608__7
+  0             0           0           0           Fe_II_1608_07
+  0             0           0           0           Fe_II_1608_07
+  0             0           0           0           Fe_II_1608_07
   1460          0           0           0
-  0             0           0           0           Fe_II_1608__7
+  0             0           0           0           Fe_II_1608_07
 
-  Fe_II_2383__8
+  Fe_II_2383_08
   2382.7642     0           0           0
   0.3200        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__8
-  0             0           0           0           Fe_II_1608__8
-  0             0           0           0           Fe_II_1608__8
+  0             0           0           0           Fe_II_1608_08
+  0             0           0           0           Fe_II_1608_08
+  0             0           0           0           Fe_II_1608_08
   1460          0           0           0
-  0             0           0           0           Fe_II_1608__8
+  0             0           0           0           Fe_II_1608_08
 
-  Fe_II_2383__9
+  Fe_II_2383_09
   2382.7642     0           0           0
   0.3200        0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__9
-  0             0           0           0           Fe_II_1608__9
-  0             0           0           0           Fe_II_1608__9
+  0             0           0           0           Fe_II_1608_09
+  0             0           0           0           Fe_II_1608_09
+  0             0           0           0           Fe_II_1608_09
   1460          0           0           0
-  0             0           0           0           Fe_II_1608__9
+  0             0           0           0           Fe_II_1608_09
 
   Fe_II_2383_10
   2382.7642     0           0           0
@@ -1437,110 +1437,110 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id            source          begin       end         polynomials
   Fe_II_2587    uves5800.dat    5550.00     5570.00     3
 %
-% resolution (1000)
+% resolution (1E+3)
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     0
+  55            50          60          1
 %
 % lines
 % initial       min         max         optimize    reference
 
-%   Fe_II_2587__1
+%   Fe_II_2587_01
 %   2586.6496     0           0           0
 %   0.06918       0           0           0
 %   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608__1
-%   0             0           0           0           Fe_II_1608__1
-%   0             0           0           0           Fe_II_1608__1
+%   0             0           0           0           Fe_II_1608_01
+%   0             0           0           0           Fe_II_1608_01
+%   0             0           0           0           Fe_II_1608_01
 
-  Fe_II_2587__2
+  Fe_II_2587_02
   2586.6496     0           0           0
   0.06918       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__2
-  0             0           0           0           Fe_II_1608__2
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
+  0             0           0           0           Fe_II_1608_02
+  0             0           0           0           Fe_II_1608_02
   1490          0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_2587__3
+  Fe_II_2587_03
   2586.6496     0           0           0
   0.06918       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__3
-  0             0           0           0           Fe_II_1608__3
-  0             0           0           0           Fe_II_1608__3
+  0             0           0           0           Fe_II_1608_03
+  0             0           0           0           Fe_II_1608_03
+  0             0           0           0           Fe_II_1608_03
   1490          0           0           0
-  0             0           0           0           Fe_II_1608__3
+  0             0           0           0           Fe_II_1608_03
 
-  Fe_II_2587__3b
+  Fe_II_2587_03b
   2586.6496     0           0           0
   0.06918       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__3b
-  0             0           0           0           Fe_II_1608__3b
-  0             0           0           0           Fe_II_1608__3b
+  0             0           0           0           Fe_II_1608_03b
+  0             0           0           0           Fe_II_1608_03b
+  0             0           0           0           Fe_II_1608_03b
   1490          0           0           0
-  0             0           0           0           Fe_II_1608__3b
+  0             0           0           0           Fe_II_1608_03b
 
-  Fe_II_2587__4
+  Fe_II_2587_04
   2586.6496     0           0           0
   0.06918       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__4
-  0             0           0           0           Fe_II_1608__4
-  0             0           0           0           Fe_II_1608__4
+  0             0           0           0           Fe_II_1608_04
+  0             0           0           0           Fe_II_1608_04
+  0             0           0           0           Fe_II_1608_04
   1490          0           0           0
-  0             0           0           0           Fe_II_1608__4
+  0             0           0           0           Fe_II_1608_04
 
-  Fe_II_2587__5
+  Fe_II_2587_05
   2586.6496     0           0           0
   0.06918       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__5
-  0             0           0           0           Fe_II_1608__5
-  0             0           0           0           Fe_II_1608__5
+  0             0           0           0           Fe_II_1608_05
+  0             0           0           0           Fe_II_1608_05
+  0             0           0           0           Fe_II_1608_05
   1490          0           0           0
-  0             0           0           0           Fe_II_1608__5
+  0             0           0           0           Fe_II_1608_05
 
-  Fe_II_2587__6
+  Fe_II_2587_06
   2586.6496     0           0           0
   0.06918       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__6
-  0             0           0           0           Fe_II_1608__6
-  0             0           0           0           Fe_II_1608__6
+  0             0           0           0           Fe_II_1608_06
+  0             0           0           0           Fe_II_1608_06
+  0             0           0           0           Fe_II_1608_06
   1490          0           0           0
-  0             0           0           0           Fe_II_1608__6
+  0             0           0           0           Fe_II_1608_06
 
-  Fe_II_2587__7
+  Fe_II_2587_07
   2586.6496     0           0           0
   0.06918       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__7
-  0             0           0           0           Fe_II_1608__7
-  0             0           0           0           Fe_II_1608__7
+  0             0           0           0           Fe_II_1608_07
+  0             0           0           0           Fe_II_1608_07
+  0             0           0           0           Fe_II_1608_07
   1490          0           0           0
-  0             0           0           0           Fe_II_1608__7
+  0             0           0           0           Fe_II_1608_07
 
-  Fe_II_2587__8
+  Fe_II_2587_08
   2586.6496     0           0           0
   0.06918       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__8
-  0             0           0           0           Fe_II_1608__8
-  0             0           0           0           Fe_II_1608__8
+  0             0           0           0           Fe_II_1608_08
+  0             0           0           0           Fe_II_1608_08
+  0             0           0           0           Fe_II_1608_08
   1490          0           0           0
-  0             0           0           0           Fe_II_1608__8
+  0             0           0           0           Fe_II_1608_08
 
-  Fe_II_2587__9
+  Fe_II_2587_09
   2586.6496     0           0           0
   0.06918       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__9
-  0             0           0           0           Fe_II_1608__9
-  0             0           0           0           Fe_II_1608__9
+  0             0           0           0           Fe_II_1608_09
+  0             0           0           0           Fe_II_1608_09
+  0             0           0           0           Fe_II_1608_09
   1490          0           0           0
-  0             0           0           0           Fe_II_1608__9
+  0             0           0           0           Fe_II_1608_09
 
   Fe_II_2587_10
   2586.6496     0           0           0
@@ -1784,111 +1784,111 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id            source          begin       end         polynomials     exclude
   Fe_II_2600    uves5800.dat    5570.00     5600.00     3               5578.000 5582.000 5592.171 5594.037 % -15 - 85 km/s
 %
-% resolution (1000)
+% resolution (1E+3)
 % initial       min         max         optimize    reference
-  55000.0       50000.0     60000.0     0
+  0             0           0           0           Fe_II_2587
 %
 % lines
 % id
 % initial       min         max         optimize    reference
 
-%   Fe_II_2600__1
+%   Fe_II_2600_01
 %   2600.1725     0           0           0
 %   0.23878       0           0           0
 %   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608__1
-%   0             0           0           0           Fe_II_1608__1
-%   0             0           0           0           Fe_II_1608__1
+%   0             0           0           0           Fe_II_1608_01
+%   0             0           0           0           Fe_II_1608_01
+%   0             0           0           0           Fe_II_1608_01
 
-  Fe_II_2600__2
+  Fe_II_2600_02
   2600.1725     0           0           0
   0.23878       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__2
-  0             0           0           0           Fe_II_1608__2
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
+  0             0           0           0           Fe_II_1608_02
+  0             0           0           0           Fe_II_1608_02
   1330          0           0           0
-  0             0           0           0           Fe_II_1608__2
+  0             0           0           0           Fe_II_1608_02
 
-  Fe_II_2600__3
+  Fe_II_2600_03
   2600.1725     0           0           0
   0.23878       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__3
-  0             0           0           0           Fe_II_1608__3
-  0             0           0           0           Fe_II_1608__3
+  0             0           0           0           Fe_II_1608_03
+  0             0           0           0           Fe_II_1608_03
+  0             0           0           0           Fe_II_1608_03
   1330          0           0           0
-  0             0           0           0           Fe_II_1608__3
+  0             0           0           0           Fe_II_1608_03
 
-  Fe_II_2600__3b
+  Fe_II_2600_03b
   2600.1725     0           0           0
   0.23878       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__3b
-  0             0           0           0           Fe_II_1608__3b
-  0             0           0           0           Fe_II_1608__3b
+  0             0           0           0           Fe_II_1608_03b
+  0             0           0           0           Fe_II_1608_03b
+  0             0           0           0           Fe_II_1608_03b
   1330          0           0           0
-  0             0           0           0           Fe_II_1608__3b
+  0             0           0           0           Fe_II_1608_03b
 
-  Fe_II_2600__4
+  Fe_II_2600_04
   2600.1725     0           0           0
   0.23878       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__4
-  0             0           0           0           Fe_II_1608__4
-  0             0           0           0           Fe_II_1608__4
+  0             0           0           0           Fe_II_1608_04
+  0             0           0           0           Fe_II_1608_04
+  0             0           0           0           Fe_II_1608_04
   1330          0           0           0
-  0             0           0           0           Fe_II_1608__4
+  0             0           0           0           Fe_II_1608_04
 
-  Fe_II_2600__5
+  Fe_II_2600_05
   2600.1725     0           0           0
   0.23878       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__5
-  0             0           0           0           Fe_II_1608__5
-  0             0           0           0           Fe_II_1608__5
+  0             0           0           0           Fe_II_1608_05
+  0             0           0           0           Fe_II_1608_05
+  0             0           0           0           Fe_II_1608_05
   1330          0           0           0
-  0             0           0           0           Fe_II_1608__5
+  0             0           0           0           Fe_II_1608_05
 
-  Fe_II_2600__6
+  Fe_II_2600_06
   2600.1725     0           0           0
   0.23878       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__6
-  0             0           0           0           Fe_II_1608__6
-  0             0           0           0           Fe_II_1608__6
+  0             0           0           0           Fe_II_1608_06
+  0             0           0           0           Fe_II_1608_06
+  0             0           0           0           Fe_II_1608_06
   1330          0           0           0
-  0             0           0           0           Fe_II_1608__6
+  0             0           0           0           Fe_II_1608_06
 
-  Fe_II_2600__7
+  Fe_II_2600_07
   2600.1725     0           0           0
   0.23878       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__7
-  0             0           0           0           Fe_II_1608__7
-  0             0           0           0           Fe_II_1608__7
+  0             0           0           0           Fe_II_1608_07
+  0             0           0           0           Fe_II_1608_07
+  0             0           0           0           Fe_II_1608_07
   1330          0           0           0
-  0             0           0           0           Fe_II_1608__7
+  0             0           0           0           Fe_II_1608_07
 
-  Fe_II_2600__8
+  Fe_II_2600_08
   2600.1725     0           0           0
   0.23878       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__8
-  0             0           0           0           Fe_II_1608__8
-  0             0           0           0           Fe_II_1608__8
+  0             0           0           0           Fe_II_1608_08
+  0             0           0           0           Fe_II_1608_08
+  0             0           0           0           Fe_II_1608_08
   1330          0           0           0
-  0             0           0           0           Fe_II_1608__8
+  0             0           0           0           Fe_II_1608_08
 
-  Fe_II_2600__9
+  Fe_II_2600_09
   2600.1725     0           0           0
   0.23878       0           0           0
   1.1508        0           0           0
-  0             0           0           0           Fe_II_1608__9
-  0             0           0           0           Fe_II_1608__9
-  0             0           0           0           Fe_II_1608__9
+  0             0           0           0           Fe_II_1608_09
+  0             0           0           0           Fe_II_1608_09
+  0             0           0           0           Fe_II_1608_09
   1330          0           0           0
-  0             0           0           0           Fe_II_1608__9
+  0             0           0           0           Fe_II_1608_09
 
   Fe_II_2600_10
   2600.1725     0           0           0

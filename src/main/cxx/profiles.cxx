@@ -28,6 +28,7 @@ using std::log;
 using std::pow;
 using std::sqrt;
 
+using especia::micros;
 using especia::pi;
 using especia::sqr;
 using especia::sqrt_of_pi;
@@ -193,7 +194,7 @@ especia::A_Doppler::A_Doppler()
 }
 
 especia::A_Doppler::A_Doppler(const double q[])
-        : u(1.0E+08 / (1.0E+08 / q[0] + q[6] * q[7] * (1.0E-10 * q[7] + 2.0E-05))),
+        : u(1.0E+08 / (1.0E+08 / q[0] + q[6] * (q[7] * micros) * (q[7] * micros * 1.0E-12 + 2.0E-06))),
           c(u * (1.0 + q[2]) * (1.0 + q[3] / C0)),
           b(q[4] * c / C0),
           a(C1 * q[1] * pow(10.0, q[5]) * (u * c)) {

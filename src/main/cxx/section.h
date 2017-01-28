@@ -29,6 +29,7 @@
 #include <stdexcept>
 #include <valarray>
 #include <vector>
+#include "base.h"
 
 namespace especia {
     // Class for modeling absorption line regions
@@ -136,8 +137,8 @@ void especia::Section::convolve(const optical_depth &t, double r, double *opt, d
     using std::valarray;
 
     if (n > 2) {
-        const double hwhm = 0.5 * center() / r;
-            // HWHM (half width at half maximun) of the instrumental profile
+        const double hwhm = 0.5 * center() / (r * kilos * 1.0E+03);
+            // HWHM (half width at half maximum) of the instrumental profile
         const double h = width() / (n - 1);
             // sample spacing
         const size_t m = static_cast<size_t>(4.0 * (hwhm / h)) + 1;

@@ -92,7 +92,7 @@ add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 add_system_test(virtual-especid 159.77 171.89)
 add_system_test(stis-especiv 251.04)
 add_system_test(stis-especix 251.46)
-add_system_test(uves-especia 105.05 258.77 212.87 223.66 238.23 196.27)
+add_system_test(uves-especia 104.04 251.72 215.22 224.68 236.32 191.97)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/base.h)
 add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/base.h)

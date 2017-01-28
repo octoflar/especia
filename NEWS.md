@@ -4,6 +4,8 @@ The main programs and executable files were renamed and some utility
 programs were added. Ancillary files were revised. Version 2017.1 
 implements some new features and enhancements:
 
+* The variation of the fine-structure constant Δα/α is calculated in
+units of 10<sup>-6</sup> which is a standard SI prefix.
 * Implementation of the extended pseudo-Voigt approximation (Ida, Ando &
 Toraya 2000).
 * Replacement of the residual sum of squares with the *cost function*,
