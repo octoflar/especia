@@ -1,3 +1,5 @@
+![](https://travis-ci.org/octoflar/especia.svg?branch=master)
+
 # Synopsis
 
 The Evolutionary spectrum inversion and analysis (Especia) file set
