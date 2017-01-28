@@ -4,6 +4,8 @@ The main programs and executable files were renamed and some utility
 programs were added. Ancillary files were revised. Version 2017.1 
 implements some new features and enhancements:
 
+* The spectral resolution of the instrument is expressed in units of
+10<sup>3</sup> which improves the scaling of the optimization problem.
 * The variation of the fine-structure constant Δα/α is calculated in
 units of 10<sup>-6</sup> which is a standard SI prefix.
 * Implementation of the extended pseudo-Voigt approximation (Ida, Ando &
