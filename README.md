@@ -1,4 +1,4 @@
-![](https://travis-ci.org/octoflar/especia.svg?branch=master)
+[![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia)
 
 # Synopsis
 
