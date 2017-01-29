@@ -56,11 +56,6 @@ namespace especia {
      */
     const std::string SYSTEM = "@CMAKE_SYSTEM@";
 
-    /**
-     * The name of the CPU the project is build for.
-     */
-    const std::string SYSTEM_PROCESSOR = "@CMAKE_SYSTEM_PROCESSOR@";
-
 }
 
 #endif // ESPECIA_CONFIG_H
