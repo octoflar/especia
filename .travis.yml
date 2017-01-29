@@ -28,8 +28,7 @@ script:
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make -j clean all
-  - ctest -V -E uves-especia
-  - ctest -V -R uves-especia
+  - ctest -j 4 -V
 matrix:
   include:
     - os: osx
