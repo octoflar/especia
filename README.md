@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia)
-
-# Synopsis
+# Synopsis [![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia)
 
 The Evolutionary spectrum inversion and analysis (Especia) file set
 provides ISO C++ code for the inverse modelling and analysis of intergalactic and
