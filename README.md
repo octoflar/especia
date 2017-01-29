@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia)
+
 # Synopsis
 
 The Evolutionary spectrum inversion and analysis (Especia) file set
@@ -16,7 +18,7 @@ The algorithms are explained in
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
 
 
-# Getting started [![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia)
+# Getting started 
 
 This software enables you to analyse spectroscopic data. Though it has been developed
 for the analysis of astrophysical spectra, it is applicable to spectroscopy in general.
