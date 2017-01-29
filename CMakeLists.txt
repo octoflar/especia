@@ -61,7 +61,7 @@ configure_file(${TEST}/resources/virtual-especid.html resources/virtual-especid.
 
 set(COMMON_SOURCES
         ${MAIN}/cxx/base.h
-        ${MAIN}/cxx/config.h
+        config.h
         ${MAIN}/cxx/decompose.cxx
         ${MAIN}/cxx/decompose.h
         ${MAIN}/cxx/model.h

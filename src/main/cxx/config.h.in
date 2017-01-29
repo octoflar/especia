@@ -27,6 +27,21 @@
 namespace especia {
 
     /**
+     * The project name.
+     */
+    const std::string PROJECT_NAME = "@PROJECT_NAME@";
+
+    /**
+     * The project version.
+     */
+    const std::string PROJECT_VERSION = "@PROJECT_VERSION@";
+
+    /**
+     * The project tag.
+     */
+    const std::string PROJECT_TAG = "@PROJECT_TAG@";
+
+    /**
      * The project name and version identifier.
      */
     const std::string PROJECT_LONG_NAME = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_TAG@";
@@ -35,6 +50,16 @@ namespace especia {
      * The project DOI.
      */
     const std::string DOI = "@PROJECT_DOI@";
+
+    /**
+     * The composite name of the operating system the project is compiled for.
+     */
+    const std::string SYSTEM = "@CMAKE_SYSTEM@";
+
+    /**
+     * The name of the CPU the project is build for.
+     */
+    const std::string SYSTEM_PROCESSOR = "@CMAKE_SYSTEM_PROCESSOR@";
 
 }
 

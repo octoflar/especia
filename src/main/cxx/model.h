@@ -390,6 +390,7 @@ namespace especia {
             os << "  Created by\n";
             os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
             os << "  " << PROJECT_LONG_NAME << " " << DOI << "\n";
+            os << "  " << SYSTEM << " " << SYSTEM_PROCESSOR << "\n";
             os << "-->\n";
             os << "<!--\n";
             os << "<data>\n";
@@ -598,6 +599,7 @@ namespace especia {
             os << "  Created by\n";
             os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
             os << "  " << PROJECT_LONG_NAME << " " << DOI << "\n";
+            os << "  " << SYSTEM << " " << SYSTEM_PROCESSOR << "\n";
             os << "-->\n";
 
             if (trace > 0) {
