@@ -34,5 +34,5 @@ shift
 shift
 for value in "$@"
 do
-    grep --count --fixed-strings "<td><strong>"${value}"</strong></td>" ${target}
+    grep --quiet --fixed-strings "<td><strong>"${value}"</strong></td>" ${target}
 done
