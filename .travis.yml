@@ -28,7 +28,7 @@ script:
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make -j clean all
-  - travis_wait 60 ctest -j 4
+  - ctest -j 4 -E uves-especia
 matrix:
   include:
     - os: osx

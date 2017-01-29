@@ -31,8 +31,6 @@ namespace especia {
     class D_Decompose; // divide and conquer
     class R_Decompose; // relatively robust representations
     class X_Decompose; // inverse iteration
-
-    typedef R_Decompose sym_eig_decomp;
 }
 
 // Function-like class for solving symmetric eigenproblems. Calls the

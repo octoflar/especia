@@ -66,6 +66,8 @@ int main(int argc, char *argv[]) {
 
     const char *pname = argv[0];
 
+    int exit_code = 0;
+
     if (argc == 8) {
         const unsigned long seed = (unsigned long) atol(argv[1]);
         const unsigned parent_number = (unsigned) atoi(argv[2]);
@@ -92,7 +94,7 @@ int main(int argc, char *argv[]) {
         if (cin.eof() and !cin.fail()) {
             try {
                 Normal_Deviate<MT19937> normal_deviate(seed);
-                sym_eig_decomp decompose;
+                R_Decompose decompose;
 
                 if (model.optimize(parent_number,
                                    population_size,
@@ -100,20 +102,24 @@ int main(int argc, char *argv[]) {
                                    accuracy_goal,
                                    stop_generation,
                                    trace,
-                                   normal_deviate, decompose, cout))
-                    model.put(cout);
+                                   normal_deviate, decompose, cout)) {
+                    exit_code = 0;
+                } else {
+                    exit_code = 2;
+                }
+                model.put(cout);
             } catch (exception &e) {
                 cerr << e.what() << endl;
 
-                return 2;
+                exit_code = 3;
             }
         }
     } else {
         cout << PROJECT_LONG_NAME << " " << DOI << endl;
         cout << usemsg << pname << ": " << parmsg << endl;
 
-        return 1;
+        exit_code = 1;
     }
 
-    return 0;
+    return exit_code;
 }
