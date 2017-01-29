@@ -27,7 +27,8 @@ target="$2"
 
 ecom=`dirname "$0"`/ecom
 emod=`dirname "$0"`/emod
-${emod} < ${source} | $(${ecom} < ${source}) | tee ${target}
+elog=`dirname "$0"`/elog
+${emod} < ${source} | $(${ecom} < ${source}) | tee ${target} | ${elog} 
 
 shift
 shift
