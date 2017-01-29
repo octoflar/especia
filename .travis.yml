@@ -28,12 +28,13 @@ script:
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make -j clean all
-  - make test
+  - ctest -V
 matrix:
   include:
     - os: osx
     - os: linux
       compiler:
         - gcc
+        - clang
       dist: trusty
       sudo: required
