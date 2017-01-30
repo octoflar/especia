@@ -53,10 +53,10 @@ configure_file(${TEST}/resources/stis.md         resources/stis.md COPYONLY)
 configure_file(${TEST}/resources/uves.md         resources/uves.md COPYONLY)
 configure_file(${TEST}/resources/virtual.md      resources/virtual.md COPYONLY)
 
-configure_file(${TEST}/resources/stis-especiv.html    resources/stis-especiv.html COPYONLY)
-configure_file(${TEST}/resources/stis-especix.html    resources/stis-especix.html COPYONLY)
-configure_file(${TEST}/resources/uves-especia.html    resources/uves-especia.html COPYONLY)
-configure_file(${TEST}/resources/virtual-especid.html resources/virtual-especid.html COPYONLY)
+configure_file(${TEST}/resources/especiv.html resources/especiv.html COPYONLY)
+configure_file(${TEST}/resources/especix.html resources/especix.html COPYONLY)
+configure_file(${TEST}/resources/especia.html resources/especia.html COPYONLY)
+configure_file(${TEST}/resources/especid.html resources/especid.html COPYONLY)
 
 
 set(COMMON_SOURCES
@@ -89,10 +89,10 @@ add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
-add_system_test(virtual-especid 159.77 171.89)
-add_system_test(stis-especiv 251.04)
-add_system_test(stis-especix 251.46)
-add_system_test(uves-especia 103.91 258.67 213.20 223.51 238.06 196.48)
+add_system_test(especid 159.77 171.89)
+add_system_test(especiv 251.04)
+add_system_test(especix 251.46)
+add_system_test(especia 103.91 258.67 213.20 223.51 238.06 196.48)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/base.h)
 add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/base.h)

@@ -28,33 +28,38 @@ script:
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make -j clean all util
-  - if [[ "$TEST_SUITE" == "system:quick" ]]; then ctest -V -R virtual-especid; fi
-  - if [[ "$TEST_SUITE" == "system:stis" ]];  then ctest -V -R stis-especi?; fi
-  - if [[ "$TEST_SUITE" == "system:uves" ]];  then ctest -V -R uves-especia; fi
+  - ctest --verbose --tests-regex "$TEST"
 matrix:
   include:
     - os: osx
       env:
-        - TEST_SUITE="system:quick"
+        - TEST="especid_test"
     - os: osx
       env:
-        - CTEST_PARALLEL_LEVEL=2
-        - TEST_SUITE="system:stis"
+        - TEST="especiv_test"
     - os: osx
       env:
-        - TEST_SUITE="system:uves"
+        - TEST="especix_test"
+    - os: osx
+      env:
+        - TEST="especia_test"
     - os: linux
       env:
-        - TEST_SUITE="system:quick"
+        - TEST="especid_test"
       dist: trusty
       sudo: required
     - os: linux
       env:
-        - TEST_SUITE="system:stis"
+        - TEST="especiv_test"
       dist: trusty
       sudo: required
     - os: linux
       env:
-        - TEST_SUITE="system:uves"
+        - TEST="especix_test"
+      dist: trusty
+      sudo: required
+    - os: linux
+      env:
+        - TEST="especia_test"
       dist: trusty
       sudo: required
