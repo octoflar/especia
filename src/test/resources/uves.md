@@ -53,14 +53,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id
 % initial       min         max         optimize    reference
 
-% Fe_II_1608_01
-%   1608.45080    0           0           0
-%   0.0580        0           0           0
-%   1.1508        0           0           0
-%   0             -555.0     -545.0       1
-%   0             1.0         14.0        1
-%   0             10.0        14.0        1
-
   Fe_II_1608_02
   1608.45080    0           0           0
   0.0580        0           0           0
@@ -161,14 +153,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   -1300         0           0           0
   0             0           0           0           Fe_II_1608_02
 
-%   Fe_II_1608_11
-%   1608.45080    0           0           0
-%   0.0580        0           0           0
-%   1.1508        0           0           0
-%   0             -350.0      -345.0      1
-%   0             1.0         14.0        1
-%   0             10.0        14.0        1
-
   Fe_II_1608_12
   1608.45080    0           0           0
   0.0580        0           0           0
@@ -178,30 +162,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             10.0        14.0        1
   -1300         0           0           0
   0             0           0           0           Fe_II_1608_02
-
-%   Fe_II_1608_13
-%   1608.45080    0           0           0
-%   0.0580        0           0           0
-%   1.1508        0           0           0
-%   0             -310.0      -300.0      1
-%   0             1.0         14.0        1
-%   0             10.0        14.0        1
-
-%   Fe_II_1608_14
-%   1608.45080    0           0           0
-%   0.0580        0           0           0
-%   1.1508        0           0           0
-%   0             -285.0      -275.0      1
-%   0             1.0         14.0        1
-%   0             10.0        14.0        1
-
-%   Fe_II_1608_15
-%   1608.45080    0           0           0
-%   0.0580        0           0           0
-%   1.1508        0           0           0
-%   0             -270.0      -260.0      1
-%   0             1.0         14.0        1
-%   0             10.0        14.0        1
 
   Fe_II_1608_16
   1608.45080    0           0           0
@@ -401,14 +361,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id
 % initial       min         max         optimize    reference
 
-%   Fe_II_2344_01
-%   2344.2130     0           0           0
-%   0.114         0           0           0
-%   1.1508        0           0           0
-%   0             0           0           1           Fe_II_1608_01
-%   0             0           0           1           Fe_II_1608_01
-%   0             0           0           1           Fe_II_1608_01
-
   Fe_II_2344_02
   2344.2130     0           0           0
   0.114         0           0           0
@@ -509,14 +461,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   1210          0           0           0
   0             0           0           0           Fe_II_1608_10
 
-%   Fe_II_2344_11
-%   2344.2130     0           0           0
-%   0.114         0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_11
-%   0             0           0           0           Fe_II_1608_11
-%   0             0           0           0           Fe_II_1608_11
-
   Fe_II_2344_12
   2344.2130     0           0           0
   0.114         0           0           0
@@ -526,30 +470,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             0           0           0           Fe_II_1608_12
   1210          0           0           0
   0             0           0           0           Fe_II_1608_12
-
-%   Fe_II_2344_13
-%   2344.2130     0           0           0
-%   0.114         0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_13
-%   0             0           0           0           Fe_II_1608_13
-%   0             0           0           0           Fe_II_1608_13
-
-%   Fe_II_2344_14
-%   2344.2130     0           0           0
-%   0.114         0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_14
-%   0             0           0           0           Fe_II_1608_14
-%   0             0           0           0           Fe_II_1608_14
-
-%   Fe_II_2344_15
-%   2344.2130     0           0           0
-%   0.114         0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_15
-%   0             0           0           0           Fe_II_1608_15
-%   0             0           0           0           Fe_II_1608_15
 
   Fe_II_2344_16
   2344.2130     0           0           0
@@ -749,14 +669,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id
 % initial       min         max         optimize    reference
 
-%   Fe_II_2374_01
-%   2374.4603     0           0           0
-%   0.0313        0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_01
-%   0             0           0           0           Fe_II_1608_01
-%   0             0           0           0           Fe_II_1608_01
-
   Fe_II_2374_02
   2374.4603     0           0           0
   0.0313        0           0           0
@@ -857,14 +769,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   1590          0           0           0
   0             0           0           0           Fe_II_1608_10
 
-%   Fe_II_2374_11
-%   2374.4603     0           0           0
-%   0.0313        0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_11
-%   0             0           0           0           Fe_II_1608_11
-%   0             0           0           0           Fe_II_1608_11
-
   Fe_II_2374_12
   2374.4603     0           0           0
   0.0313        0           0           0
@@ -874,30 +778,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             0           0           0           Fe_II_1608_12
   1590          0           0           0
   0             0           0           0           Fe_II_1608_12
-
-%   Fe_II_2374_13
-%   2374.4603     0           0           0
-%   0.0313        0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_13
-%   0             0           0           0           Fe_II_1608_13
-%   0             0           0           0           Fe_II_1608_13
-
-%   Fe_II_2374_14
-%   2374.4603     0           0           0
-%   0.0313        0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_14
-%   0             0           0           0           Fe_II_1608_14
-%   0             0           0           0           Fe_II_1608_14
-
-%   Fe_II_2374_15
-%   2374.4603     0           0           0
-%   0.0313        0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_15
-%   0             0           0           0           Fe_II_1608_15
-%   0             0           0           0           Fe_II_1608_15
 
   Fe_II_2374_16
   2374.4603     0           0           0
@@ -1097,14 +977,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id
 % initial       min         max         optimize    reference
 
-%   Fe_II_2383_01
-%   2382.7642     0           0           0
-%   0.3200        0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_01
-%   0             0           0           0           Fe_II_1608_01
-%   0             0           0           0           Fe_II_1608_01
-
   Fe_II_2383_02
   2382.7642     0           0           0
   0.3200        0           0           0
@@ -1205,14 +1077,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   1460          0           0           0
   0             0           0           0           Fe_II_1608_10
 
-%   Fe_II_2383_11
-%   2382.7642     0           0           0
-%   0.3200        0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_11
-%   0             0           0           0           Fe_II_1608_11
-%   0             0           0           0           Fe_II_1608_11
-
   Fe_II_2383_12
   2382.7642     0           0           0
   0.3200        0           0           0
@@ -1222,30 +1086,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             0           0           0           Fe_II_1608_12
   1460          0           0           0
   0             0           0           0           Fe_II_1608_12
-
-%   Fe_II_2383_13
-%   2382.7642     0           0           0
-%   0.3200        0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_13
-%   0             0           0           0           Fe_II_1608_13
-%   0             0           0           0           Fe_II_1608_13
-
-%   Fe_II_2383_14
-%   2382.7642     0           0           0
-%   0.3200        0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_14
-%   0             0           0           0           Fe_II_1608_14
-%   0             0           0           0           Fe_II_1608_14
-
-%   Fe_II_2383_15
-%   2382.7642     0           0           0
-%   0.3200        0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_15
-%   0             0           0           0           Fe_II_1608_15
-%   0             0           0           0           Fe_II_1608_15
 
   Fe_II_2383_16
   2382.7642     0           0           0
@@ -1444,14 +1284,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % lines
 % initial       min         max         optimize    reference
 
-%   Fe_II_2587_01
-%   2586.6496     0           0           0
-%   0.06918       0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_01
-%   0             0           0           0           Fe_II_1608_01
-%   0             0           0           0           Fe_II_1608_01
-
   Fe_II_2587_02
   2586.6496     0           0           0
   0.06918       0           0           0
@@ -1552,14 +1384,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   1490          0           0           0
   0             0           0           0           Fe_II_1608_10
 
-%   Fe_II_2587_11
-%   2586.6496     0           0           0
-%   0.06918       0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_11
-%   0             0           0           0           Fe_II_1608_11
-%   0             0           0           0           Fe_II_1608_11
-
   Fe_II_2587_12
   2586.6496     0           0           0
   0.06918       0           0           0
@@ -1569,30 +1393,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             0           0           0           Fe_II_1608_12
   1490          0           0           0
   0             0           0           0           Fe_II_1608_12
-
-%   Fe_II_2587_13
-%   2586.6496     0           0           0
-%   0.06918       0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_13
-%   0             0           0           0           Fe_II_1608_13
-%   0             0           0           0           Fe_II_1608_13
-
-%   Fe_II_2587_14
-%   2586.6496     0           0           0
-%   0.06918       0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_14
-%   0             0           0           0           Fe_II_1608_14
-%   0             0           0           0           Fe_II_1608_14
-
-%   Fe_II_2587_15
-%   2586.6496     0           0           0
-%   0.06918       0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_15
-%   0             0           0           0           Fe_II_1608_15
-%   0             0           0           0           Fe_II_1608_15
 
   Fe_II_2587_16
   2586.6496     0           0           0
@@ -1792,14 +1592,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 % id
 % initial       min         max         optimize    reference
 
-%   Fe_II_2600_01
-%   2600.1725     0           0           0
-%   0.23878       0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_01
-%   0             0           0           0           Fe_II_1608_01
-%   0             0           0           0           Fe_II_1608_01
-
   Fe_II_2600_02
   2600.1725     0           0           0
   0.23878       0           0           0
@@ -1900,14 +1692,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   1330          0           0           0
   0             0           0           0           Fe_II_1608_10
 
-%   Fe_II_2600_11
-%   2600.1725     0           0           0
-%   0.23878       0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_11
-%   0             0           0           0           Fe_II_1608_11
-%   0             0           0           0           Fe_II_1608_11
-
   Fe_II_2600_12
   2600.1725     0           0           0
   0.23878       0           0           0
@@ -1917,30 +1701,6 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   0             0           0           0           Fe_II_1608_12
   1330          0           0           0
   0             0           0           0           Fe_II_1608_12
-
-%   Fe_II_2600_13
-%   2600.1725     0           0           0
-%   0.23878       0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_13
-%   0             0           0           0           Fe_II_1608_13
-%   0             0           0           0           Fe_II_1608_13
-
-%   Fe_II_2600_14
-%   2600.1725     0           0           0
-%   0.23878       0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_14
-%   0             0           0           0           Fe_II_1608_14
-%   0             0           0           0           Fe_II_1608_14
-
-%   Fe_II_2600_15
-%   2600.1725     0           0           0
-%   0.23878       0           0           0
-%   1.1508        0           0           0
-%   0             0           0           0           Fe_II_1608_15
-%   0             0           0           0           Fe_II_1608_15
-%   0             0           0           0           Fe_II_1608_15
 
   Fe_II_2600_16
   2600.1725     0           0           0
