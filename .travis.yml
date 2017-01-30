@@ -19,9 +19,6 @@
 # SOFTWARE.
 
 language: cpp
-env:
-  - TEST_SUITE=system_quick
-  - TEST_SUITE=system_laggy
 addons:
   apt:
     packages:
@@ -36,6 +33,12 @@ script:
 matrix:
   include:
     - os: osx
+      env:
+        - TEST_SUITE=system_quick
+        - TEST_SUITE=system_laggy
     - os: linux
+      env:
+        - TEST_SUITE=system_quick
+        - TEST_SUITE=system_laggy
       dist: trusty
       sudo: required
