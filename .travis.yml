@@ -35,10 +35,16 @@ matrix:
     - os: osx
       env:
         - TEST_SUITE=system_quick
+    - os: osx
+      env:
         - TEST_SUITE=system_laggy
     - os: linux
       env:
         - TEST_SUITE=system_quick
+      dist: trusty
+      sudo: required
+    - os: linux
+      env:
         - TEST_SUITE=system_laggy
       dist: trusty
       sudo: required
