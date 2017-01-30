@@ -28,7 +28,7 @@ script:
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make -j clean all util
-  - if [[ "$TEST_SUITE" == "system:quick" ]]; then ctest -V -E virtual-especid; fi
+  - if [[ "$TEST_SUITE" == "system:quick" ]]; then ctest -V -R virtual-especid; fi
   - if [[ "$TEST_SUITE" == "system:stis" ]]; then ctest -V -R stis-especi?; fi
   - if [[ "$TEST_SUITE" == "system:uves" ]]; then ctest -V -R uves-especia; fi
 matrix:
