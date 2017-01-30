@@ -28,8 +28,9 @@ script:
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make -j clean all util
-  - if [[ "$TEST_SUITE" == "system_quick" ]]; then ctest -V -E uves-especia; fi
-  - if [[ "$TEST_SUITE" == "system_laggy" ]]; then ctest -V -R uves-especia; fi
+  - if [[ "$TEST_SUITE" == "system_quick" ]]; then ctest -V -E virtual-especid; fi
+  - if [[ "$TEST_SUITE" == "system_stis" ]]; then ctest -V -R stis-especi?; fi
+  - if [[ "$TEST_SUITE" == "system_uves" ]]; then ctest -V -R uves-especia; fi
 matrix:
   include:
     - os: osx
@@ -37,7 +38,10 @@ matrix:
         - TEST_SUITE=system_quick
     - os: osx
       env:
-        - TEST_SUITE=system_laggy
+        - TEST_SUITE=system_stis
+    - os: osx
+      env:
+        - TEST_SUITE=system_uves
     - os: linux
       env:
         - TEST_SUITE=system_quick
@@ -45,6 +49,11 @@ matrix:
       sudo: required
     - os: linux
       env:
-        - TEST_SUITE=system_laggy
+        - TEST_SUITE=system_stis
+      dist: trusty
+      sudo: required
+    - os: linux
+      env:
+        - TEST_SUITE=system_uves
       dist: trusty
       sudo: required
