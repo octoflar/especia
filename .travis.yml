@@ -19,6 +19,9 @@
 # SOFTWARE.
 
 language: cpp
+env:
+  - TEST_SUITE=system_quick
+  - TEST_SUITE=system_laggy
 addons:
   apt:
     packages:
@@ -27,8 +30,9 @@ script:
   - mkdir cmake-build-release
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - make -j clean all
-  - ctest -j 4 -V
+  - make -j clean all util
+  - if [[ "$TEST_SUITE" == "system_quick" ]]; then ctest -V -E uves-especia; fi
+  - if [[ "$TEST_SUITE" == "system_laggy" ]]; then ctest -V -R uves-especia; fi
 matrix:
   include:
     - os: osx
