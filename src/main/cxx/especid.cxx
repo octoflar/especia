@@ -80,13 +80,6 @@ int main(int argc, char *argv[]) {
         cout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
         cout << "<html>\n";
         cout << "<!--\n";
-        cout << " Created by\n";
-        cout << " Evolutionary spectrum inversion and analysis (Especia)\n";
-        cout << " " << PROJECT_LONG_NAME << " " << DOI << "\n";
-        cout << " " << SYSTEM << " " << "\n";
-        cout << " " << CXX_COMPILER << " " << CXX_COMPILER_VERSION << "\n";
-        cout << "-->\n";
-        cout << "<!--\n";
         cout << "<command>\n";
         for (int i = 0; i < argc; ++i)
             cout << " " << argv[i];

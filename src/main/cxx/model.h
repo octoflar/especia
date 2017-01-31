@@ -34,6 +34,7 @@
 #include <valarray>
 #include <vector>
 
+#include "config.h"
 #include "optimize.h"
 #include "profiles.h"
 #include "readline.h"
@@ -500,6 +501,12 @@ namespace especia {
 
             os << "  </tbody>\n";
             os << "</table>\n";
+            os << "<address>\n";
+            os << " Created by Evolutionary spectrum inversion and analysis (Especia).<br>\n";
+            os << " " << PROJECT_LONG_NAME << " " << "<a href=\"" << DOI << "\">" << DOI << "</a>" << "<br>\n";
+            os << " " << SYSTEM << " " << "<br>\n";
+            os << " " << CXX_COMPILER << " " << CXX_COMPILER_VERSION << "<br>\n";
+            os << "</address>\n";
             os << "</body>\n";
             os << "</html>\n";
 
