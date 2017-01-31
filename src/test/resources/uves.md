@@ -43,7 +43,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 1
 % id            source          begin       end         polynomials     exclude
-  Fe_II_1608    uves3460.dat    3450.00     3465.00     3
+  Fe_II_1608    uves_3460.dat   3450.00     3465.00     3
 %
 % resolution (1E+3)
 % initial       min         max         optimize    reference
@@ -351,7 +351,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 2
 % id            source          begin       end         polynomials
-  Fe_II_2344    uves5800.dat    5020.00     5050.00     3
+  Fe_II_2344    uves_5800.dat   5020.00     5050.00     3
 %
 % resolution (1E+3)
 % initial       min         max         optimize    reference
@@ -659,7 +659,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 3
 % id            source          begin       end         polynomials
-  Fe_II_2374    uves5800.dat    5090.00     5115.00     3
+  Fe_II_2374    uves_5800.dat   5090.00     5115.00     3
 %
 % resolution (1E+3)
 % initial       min         max         optimize    reference
@@ -967,7 +967,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 4
 % id            source          begin       end         polynomials     exclude
-  Fe_II_2383    uves5800.dat    5110.00     5140.00     3               5124.593 5126.302 % -15 - 85 km/s
+  Fe_II_2383    uves_5800.dat   5110.00     5140.00     3               5124.593 5126.302 % -15 - 85 km/s
 %
 % resolution (1E+3)
 % initial       min         max         optimize    reference
@@ -1275,7 +1275,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 5
 % id            source          begin       end         polynomials
-  Fe_II_2587    uves5800.dat    5550.00     5570.00     3
+  Fe_II_2587    uves_5800.dat   5550.00     5570.00     3
 %
 % resolution (1E+3)
 % initial       min         max         optimize    reference
@@ -1582,7 +1582,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 {
 % section 6
 % id            source          begin       end         polynomials     exclude
-  Fe_II_2600    uves5800.dat    5570.00     5600.00     3               5578.000 5582.000 5592.171 5594.037 % -15 - 85 km/s
+  Fe_II_2600    uves_5800.dat   5570.00     5600.00     3               5578.000 5582.000 5592.171 5594.037 % -15 - 85 km/s
 %
 % resolution (1E+3)
 % initial       min         max         optimize    reference

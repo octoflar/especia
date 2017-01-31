@@ -41,7 +41,7 @@ Doppler profiles are used here. The line parameters are:
 {
 % section 1
 % id            source                  begin       end         polynomials
-  C_I_1560      virtual1561.dat         3355.00     3359.00     3
+  C_I_1560      virtual_1561.dat        3355.00     3359.00     3
 %
 % spectral resolution (1E+3)
 % initial       min         max         optimize    reference
@@ -158,7 +158,7 @@ parameters of the CI 1656 lines are tied to those of CI 1560.
 {
 % section 2
 % id            source                  begin       end         polynomials
-  C_I_1656      virtual1657.dat         3562.00     3567.00     3
+  C_I_1656      virtual_1657.dat        3562.00     3567.00     3
 %
 % spectral resolution (1E+3)
 % initial       min         max         optimize    reference

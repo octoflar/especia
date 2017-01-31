@@ -19,8 +19,8 @@
 # SOFTWARE.
 
 function(add_system_test NAME EXPECTED_VALUES)
-    add_test(NAME ${NAME}_test COMMAND sh erun.sh resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
-    set_tests_properties(${NAME}_test PROPERTIES LABELS system TIMEOUT 3600)
+    add_test(NAME ${NAME} COMMAND sh erun.sh resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
+    set_tests_properties(${NAME} PROPERTIES LABELS system TIMEOUT 3600)
 endfunction()
 
 enable_testing()

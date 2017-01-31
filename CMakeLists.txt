@@ -39,29 +39,27 @@ openmp_optional()
 
 set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
+include_directories(${CMAKE_BINARY_DIR})
 
-configure_file(${MAIN}/cxx/config.h.in ${MAIN}/cxx/config.h @ONLY)
-
+configure_file(${MAIN}/cxx/config.h.in ${CMAKE_BINARY_DIR}/config.h @ONLY)
 configure_file(${MAIN}/scripts/erun.sh erun.sh COPYONLY)
 
-configure_file(${TEST}/resources/stis1216.dat    resources/stis1216.dat COPYONLY)
-configure_file(${TEST}/resources/uves3460.dat    resources/uves3460.dat COPYONLY)
-configure_file(${TEST}/resources/uves5800.dat    resources/uves5800.dat COPYONLY)
-configure_file(${TEST}/resources/virtual1561.dat resources/virtual1561.dat COPYONLY)
-configure_file(${TEST}/resources/virtual1657.dat resources/virtual1657.dat COPYONLY)
-configure_file(${TEST}/resources/stis.md         resources/stis.md COPYONLY)
-configure_file(${TEST}/resources/uves.md         resources/uves.md COPYONLY)
-configure_file(${TEST}/resources/virtual.md      resources/virtual.md COPYONLY)
-
-configure_file(${TEST}/resources/especiv.html resources/especiv.html COPYONLY)
-configure_file(${TEST}/resources/especix.html resources/especix.html COPYONLY)
-configure_file(${TEST}/resources/especia.html resources/especia.html COPYONLY)
-configure_file(${TEST}/resources/especid.html resources/especid.html COPYONLY)
+configure_file(${TEST}/resources/especia_test.html resources/especia_test.html COPYONLY)
+configure_file(${TEST}/resources/especid_test.html resources/especid_test.html COPYONLY)
+configure_file(${TEST}/resources/especiv_test.html resources/especiv_test.html COPYONLY)
+configure_file(${TEST}/resources/especix_test.html resources/especix_test.html COPYONLY)
+configure_file(${TEST}/resources/stis.md           resources/stis.md COPYONLY)
+configure_file(${TEST}/resources/stis_1216.dat     resources/stis_1216.dat COPYONLY)
+configure_file(${TEST}/resources/uves.md           resources/uves.md COPYONLY)
+configure_file(${TEST}/resources/uves_3460.dat     resources/uves_3460.dat COPYONLY)
+configure_file(${TEST}/resources/uves_5800.dat     resources/uves_5800.dat COPYONLY)
+configure_file(${TEST}/resources/virtual.md        resources/virtual.md COPYONLY)
+configure_file(${TEST}/resources/virtual_1561.dat  resources/virtual_1561.dat COPYONLY)
+configure_file(${TEST}/resources/virtual_1657.dat  resources/virtual_1657.dat COPYONLY)
 
 
 set(COMMON_SOURCES
         ${MAIN}/cxx/base.h
-        ${MAIN}/cxx/config.h
         ${MAIN}/cxx/decompose.cxx
         ${MAIN}/cxx/decompose.h
         ${MAIN}/cxx/model.h
@@ -89,10 +87,10 @@ add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emsg ${MAIN}/cxx/emsg.cxx)
 
-add_system_test(especid 159.77 171.89)
-add_system_test(especiv 251.04)
-add_system_test(especix 251.46)
-add_system_test(especia 103.91 258.67 213.20 223.51 238.06 196.48)
+add_system_test(especid_test 159.77 171.89)
+add_system_test(especiv_test 251.04)
+add_system_test(especix_test 251.46)
+add_system_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/base.h)
 add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/base.h)

@@ -42,7 +42,7 @@ Voigt profiles are used here. The line parameters are:
 {
 % section 1
 % id            source                  begin       end         polynomials
-  H_I_1216      stis1216.dat            2596.0      2638.0      3
+  H_I_1216      stis_1216.dat           2596.0      2638.0      3
 %
 % resolution (1E+3)
 % initial       min         max         optimize    reference
