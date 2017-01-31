@@ -34,7 +34,6 @@
 #include <valarray>
 #include <vector>
 
-#include "config.h"
 #include "optimize.h"
 #include "profiles.h"
 #include "readline.h"
@@ -387,12 +386,6 @@ namespace especia {
             os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
             os << "<html>\n";
             os << "<!--\n";
-            os << "  Created by\n";
-            os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
-            os << "  " << PROJECT_LONG_NAME << " " << DOI << "\n";
-            os << "  " << SYSTEM << " " << "\n";
-            os << "-->\n";
-            os << "<!--\n";
             os << "<data>\n";
             os << sec;
             os << "</data>\n";
@@ -595,12 +588,6 @@ namespace especia {
 
             os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
             os << "<html>\n";
-            os << "<!--\n";
-            os << "  Created by\n";
-            os << "  Evolutionary spectrum inversion and analysis (Especia)\n";
-            os << "  " << PROJECT_LONG_NAME << " " << DOI << "\n";
-            os << "  " << SYSTEM << " " << "\n";
-            os << "-->\n";
 
             if (trace > 0) {
                 os << "<!--" << endl;

@@ -17,8 +17,5 @@ cmake-build/
 cmake-build-debug/
 cmake-build-release/
 
-# cmake creates
-config.h
-
 # exclude git directory
 .git/

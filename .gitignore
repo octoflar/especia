@@ -13,6 +13,3 @@ xcode-build/
 cmake-build/
 cmake-build-debug/
 cmake-build-release/
-
-# cmake configures files
-config.h

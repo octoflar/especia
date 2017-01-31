@@ -29,6 +29,7 @@
 #include <stdexcept>
 #include <valarray>
 #include <vector>
+
 #include "base.h"
 
 namespace especia {

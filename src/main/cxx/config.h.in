@@ -56,6 +56,16 @@ namespace especia {
      */
     const std::string SYSTEM = "@CMAKE_SYSTEM@";
 
+    /**
+     * The vendor of the C++ compiler used to compile the project.
+     */
+    const std::string CXX_COMPILER = "@CMAKE_CXX_COMPILER_ID@";
+
+    /**
+     * The version of the Fortran compiler used to compile the project.
+     */
+    const std::string CXX_COMPILER_VERSION = "@CMAKE_CXX_COMPILER_VERSION@";
+
 }
 
 #endif // ESPECIA_CONFIG_H
