@@ -402,7 +402,7 @@ namespace especia {
             os << "      <td>Section</td>\n";
             os << "      <td>Start<br>Wavelength<br>(&Aring;)</td>\n";
             os << "      <td>End<br>Wavelength<br>(&Aring;)</td>\n";
-            os << "      <td>Degree of<br>Legendre<br>Polynomials</td>\n";
+            os << "      <td>Degree of<br>Legendre Polynomial</td>\n";
             os << "      <td>Resolution<br>(10<sup>3</sup>)</td>\n";
             os << "      <td>Data Points</td>\n";
             os << "      <td>Cost</td>\n";
