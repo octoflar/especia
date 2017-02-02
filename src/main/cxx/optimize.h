@@ -263,27 +263,27 @@ namespace especia {
 
         }
 
-        Optimizer_Builder& set_parent_number(unsigned parent_number = 4) {
+        Optimizer_Builder &set_parent_number(unsigned parent_number = 4) {
             this->parent_number = parent_number;
             return *this;
         }
 
-        Optimizer_Builder& set_population_size(unsigned population_size = 8) {
+        Optimizer_Builder &set_population_size(unsigned population_size = 8) {
             this->population_size = population_size;
             return *this;
         }
 
-        Optimizer_Builder& set_update_modulus(unsigned update_modulus = 1) {
+        Optimizer_Builder &set_update_modulus(unsigned update_modulus = 1) {
             this->update_modulus = update_modulus;
             return *this;
         }
 
-        Optimizer_Builder& set_accuracy_goal(double accuracy_goal = 1.0E-06) {
+        Optimizer_Builder &set_accuracy_goal(double accuracy_goal = 1.0E-06) {
             this->accuracy_goal = accuracy_goal;
             return *this;
         }
 
-        Optimizer_Builder& set_stop_generation(unsigned long stop_generation = 1000) {
+        Optimizer_Builder &set_stop_generation(unsigned long stop_generation = 1000) {
             this->stop_generation = stop_generation;
             return *this;
         }
@@ -551,7 +551,8 @@ namespace especia {
 
             // Check if the optimization is completed
             for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-                optimized = (sqr(step_size) * C[ii] < sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
+                optimized = (sqr(step_size) * C[ii] <
+                             sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
                 if (!optimized)
                     break;
             }
@@ -677,12 +678,12 @@ namespace especia {
 
 
     /**
-     * Function to scale the global step size to compute standard uncertainties and covariance.
+     * Rescales the global step size to compute standard uncertainties and covariance.
      *
      * Computes the standard variance along the minor principal axis from the curvature of a
-     * parabola through three points around the minimum. Then scales the global step size to
-     * yield the standard covariance matrix when multiplied with the local step size and the
-     * optimized covariance matrix.
+     * parabola through three points around the minimum. The global step size is rescaled to
+     * approximate the standard covariance matrix by the product of the squared global step
+     * size and the optimized covariance matrix.
      *
      * @tparam F The function type.
      * @tparam Constraint The constraint type.
@@ -696,26 +697,41 @@ namespace especia {
      * @param[in,out] s The global step size.
      */
     template<class F, class Constraint>
-    void scale_step_size(const F &f, const Constraint &constraint, const double x[], size_t n, const double d[],
-                         const double B[], double &s) {
+    void rescale_step_size(const F &f, const Constraint &constraint, const double *x, size_t n, const double *d,
+                           const double *B, double &s) {
         using std::abs;
         using std::sqrt;
         using std::valarray;
 
-        const double a = 100.0 * s;
-
-        valarray<double> p(x, n);
-        valarray<double> q(x, n);
-        for (size_t i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
-            p[i] += a * B[ij] * d[j];
-            q[i] -= a * B[ij] * d[j];
-        }
-
         const double zx = f(&x[0], n) + constraint.cost(&x[0], n);
-        const double zp = f(&p[0], n) + constraint.cost(&p[0], n);
-        const double zq = f(&q[0], n) + constraint.cost(&q[0], n);
 
-        s = a / sqrt(abs((zp + zq) - (zx + zx)));
+        double a = 0.0;
+        double b = 0.0;
+        double c = s;
+
+        do {
+            // compute two steps along the line of least variance in oposite directions
+            valarray<double> p(x, n);
+            valarray<double> q(x, n);
+            for (size_t i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
+                p[i] += c * B[ij] * d[j];
+                q[i] -= c * B[ij] * d[j];
+            }
+            const double zp = f(&p[0], n) + constraint.cost(&p[0], n);
+            const double zq = f(&q[0], n) + constraint.cost(&q[0], n);
+
+            // compute the rescaled global step size
+            s = c / sqrt(abs((zp + zq) - (zx + zx)));
+
+            // make a smaller or larger computation step in the next iteration
+            if (abs(zq - zx) < 0.1) {
+                a = c;
+                c = c * 1.618;
+            } else {
+                b = c;
+                c = c * 0.618;
+            }
+        } while (a == 0.0 or b == 0.0); // the computation step is too small or too large
     }
 
 }

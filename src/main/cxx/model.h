@@ -651,7 +651,7 @@ namespace especia {
 
             // Compute uncertainty
             if (optimized)
-                scale_step_size(*this, constraint, &x[0], n, &d[0], &B[0], step_size);
+                rescale_step_size(*this, constraint, &x[0], n, &d[0], &B[0], step_size);
             for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1)
                 d[i] = step_size * sqrt(C[ii]);
             for (size_t i = 0; i < msk.size(); ++i)
