@@ -679,7 +679,7 @@ namespace especia {
     /**
      * Function to scale the global step size to compute standard uncertainties and covariance.
      *
-     * Computes the standard variance along the major principal axis from the curvature of a
+     * Computes the standard variance along the minor principal axis from the curvature of a
      * parabola through three points around the minimum. Then scales the global step size to
      * yield the standard covariance matrix when multiplied with the local step size and the
      * optimized covariance matrix.
