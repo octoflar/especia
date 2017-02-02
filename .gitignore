@@ -13,3 +13,6 @@ xcode-build/
 cmake-build/
 cmake-build-debug/
 cmake-build-release/
+
+# ignore literature
+*.pdf
