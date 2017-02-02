@@ -706,7 +706,7 @@ namespace especia {
 
         valarray<double> p(x, n);
         valarray<double> q(x, n);
-        for (size_t i = 0, j = n - 1, ij = j; i < n; ++i, ij += n) {
+        for (size_t i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
             p[i] += a * B[ij] * d[j];
             q[i] -= a * B[ij] * d[j];
         }
@@ -715,7 +715,7 @@ namespace especia {
         const double zp = f(&p[0], n) + constraint.cost(&p[0], n);
         const double zq = f(&q[0], n) + constraint.cost(&q[0], n);
 
-        s = a / sqrt(abs((zp + zq) - 2.0 * zx));
+        s = a / sqrt(abs((zp + zq) - (zx + zx)));
     }
 
 }
