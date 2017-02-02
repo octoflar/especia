@@ -464,9 +464,10 @@ namespace especia {
                 const double z = val[j + 2];
                 const double v = val[j + 3];
                 const double w = x * (1.0 + z) * (1.0 + v / c);
+                const double dx = err[j];
                 const double dz = err[j + 2];
                 const double dv = err[j + 3];
-                const double dw = x * sqrt(sqr((1.0 + v / c) * dz) + sqr((1.0 + z) * dv / c));
+                const double dw = dx + x * sqrt(sqr((1.0 + v / c) * dz) + sqr((1.0 + z) * dv / c));
 
                 os.precision(4);
 
