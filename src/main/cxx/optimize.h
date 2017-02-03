@@ -474,9 +474,9 @@ namespace especia {
                     vw = v[k];
                 }
             }
-#ifdef _OPENMP
-#pragma omp parallel for
-#endif
+            #ifdef _OPENMP
+            #pragma omp parallel for
+            #endif
             for (size_t k = 0; k < population_size; ++k) {
                 fitness[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
                 index[k] = k;
@@ -717,8 +717,26 @@ namespace especia {
                 p[i] += c * B[ij] * d[j];
                 q[i] -= c * B[ij] * d[j];
             }
-            const double zp = f(&p[0], n) + constraint.cost(&p[0], n);
-            const double zq = f(&q[0], n) + constraint.cost(&q[0], n);
+            double zp;
+            double zq;
+            #ifdef _OPENMP
+            #pragma omp parallel
+            #endif
+            {
+                #ifdef _OPENMP
+                #pragma omp sections
+                #endif
+                {
+                    #ifdef _OPENMP
+                    #pragma omp section
+                    #endif
+                    zp = f(&p[0], n) + constraint.cost(&p[0], n);
+                    #ifdef _OPENMP
+                    #pragma omp section
+                    #endif
+                    zq = f(&q[0], n) + constraint.cost(&q[0], n);
+                }
+            }
 
             // compute the rescaled global step size
             s = c / sqrt(abs((zp + zq) - (zx + zx)));
