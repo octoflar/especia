@@ -130,9 +130,9 @@ double vactoair(double x) {
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
  * @parblock
- * @c argv[0] The program name
+ * @c argv[0] The program name.
  *
- * @c argv[1] The number of lines to skip (optional, default = 0)
+ * @c argv[1] The number of lines to skip (optional, default = 0).
  * @endparblock
  * @return an exit code.
  */

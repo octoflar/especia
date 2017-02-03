@@ -157,11 +157,11 @@ double find_root(void f(double, double &, double &), double c, double x, double 
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
  * @parblock
- * @c argv[0] The program name
+ * @c argv[0] The program name.
  *
- * @c argv[1] The number of lines to skip (optional, default = 0)
+ * @c argv[1] The number of lines to skip (optional, default = 0).
  *
- * @c argv[2] The accuracy goal (optional, dafault = 1.0E-8)
+ * @c argv[2] The accuracy goal (optional, dafault = 1.0E-8).
  * @endparblock
  * @return an exit code.
  */

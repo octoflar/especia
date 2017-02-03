@@ -104,11 +104,11 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
  * @parblock
- * @c argv[0] The program name
+ * @c argv[0] The program name.
  *
  * @c argv[1] The path name of the flux data file.
  *
- * @c argv[2] The path name of the flux uncertainty data file
+ * @c argv[2] The path name of the flux uncertainty data file.
  * @endparblock
  * @return an exit code.
  */
