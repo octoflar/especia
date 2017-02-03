@@ -290,6 +290,7 @@ private:
     }
 };
 
+
 class stack {
 public:
     stack() : frames() {
@@ -336,7 +337,7 @@ public:
         return *this;
     }
 
-    stack &rescale() {
+    stack &scale() {
         valarray<double> m(size());
         valarray<size_t> j(size());
 
@@ -367,12 +368,10 @@ public:
 };
 
 
-inline
 istream &operator>>(istream &is, frame &f) {
     return f.get(is);
 }
 
-inline
 ostream &operator<<(ostream &os, const frame &f) {
     return f.put(os);
 }
@@ -407,11 +406,10 @@ ostream &operator<<(ostream &os, const stack &s) {
  * acquired at different dates.
  *
  * The utility (1) reads a stack of spectroscopic data frames
- * from standard input, the frame separator is an empty line,
- * (2) rescales all frames are to the same median flux level,
- * (3) computes the weighted average of all frames, and
- * (4) re-samples the weighted average frame to equidistant
- * wavelengths.
+ * from standard input, where the frame separator is an empty
+ * line, (2) scales all frames are to the same median flux level,
+ * (3) computes the weighted average of all frames, and (4) samples
+ * the weighted average frame to equidistant wavelengths.
  *
  * The current implementation interprets the spectroscopic data as a cubic spline,
  * therefore the frames need not be co-aligned. The final resampling step might be
@@ -442,7 +440,7 @@ int main(int argc, char *argv[]) {
 
         if (cin >> s) {
             try {
-                cout << s.rescale().align().combine().resample(resolution);
+                cout << s.scale().align().combine().resample(resolution);
             }
             catch (exception &e) {
                 cerr << pname << ": " << e.what() << endl;
