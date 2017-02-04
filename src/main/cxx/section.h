@@ -208,7 +208,7 @@ namespace especia {
          * @param r[in] The spectral resolution of the instrument.
          * @param m[in] The number of Legendre basis polynomials to model the background continuum.
          *
-         * @return a reference to this section.
+         * @return this section.
          */
         template<class M>
         Section &apply(const M &model, double r, size_t m) {
@@ -367,7 +367,7 @@ namespace especia {
      *
      * @param is[in,out] The input stream.
      * @param section[out] The data section.
-     * @return a reference to the input stream.
+     * @return the input stream.
      */
     inline
     std::istream &operator>>(std::istream &is, Section &section) {
@@ -379,7 +379,7 @@ namespace especia {
      *
      * @param os[in,out] The output stream.
      * @param section[in] The data section.
-     * @return a reference to the output stream.
+     * @return the output stream.
      */
     inline
     std::ostream &operator<<(std::ostream &os, const Section &section) {
@@ -391,7 +391,7 @@ namespace especia {
      *
      * @param is[in,out] The input stream.
      * @param section[out] The data sections.
-     * @return a reference to the input stream.
+     * @return the input stream.
      */
     std::istream &operator>>(std::istream &is, std::vector<Section> &sections);
 
@@ -400,7 +400,7 @@ namespace especia {
     *
     * @param os[in,out] The output stream.
     * @param section[in] The data sections.
-    * @return a reference to the output stream.
+    * @return the output stream.
     */
     std::ostream &operator<<(std::ostream &os, const std::vector<Section> &sections);
 }
