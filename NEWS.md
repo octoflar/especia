@@ -1,32 +1,32 @@
 # New in 2017.1
 
-The main programs and executable files were renamed and some utility 
-programs were added. Ancillary files were revised. Version 2017.1 
-implements some new features and enhancements:
+The main programs were renamed and a couple of utility programs were
+added. All ancillary files were revised. Version 2017.1 provides new
+features and enhancements:
 
 * The spectral resolution of the instrument is expressed in units of
 10<sup>3</sup> which improves the scaling of the optimization problem.
 * The variation of the fine-structure constant Δα/α is calculated in
-units of 10<sup>-6</sup> which is a standard SI prefix.
-* Implementation of the extended pseudo-Voigt approximation (Ida, Ando &
-Toraya 2000).
-* Replacement of the residual sum of squares with the *cost function*,
-as used in inverse problem theory. The cost function simply is half the
+units of 10<sup>-6</sup> which improves the scaling of the problem.
+* The extended pseudo-Voigt approximation (Ida, Ando &
+Toraya 2000) was implemented.
+* The residual sum of squares was replaced with the *cost function*,
+termed in inverse problem theory. The cost function simply is half the
 residual sum of squares.
-* More accurate and faster computation of parameter uncertainties and
-the covariance matrix.
-* Comment lines in spectrum data files are permitted. Comment lines must
-start with a hash mark `#` in the first column.
-* The command line typed to invoke Especia is echoed to the standard
-output stream. It appears in the result HTML file within a comment block.
-The command line can be extracted from the result file with the `ecom`
-utility.
-* The model definition put in is echoed to standard output. It appears in the
-result HTML file within a comment block. The model definition can be extracted
-from the result file by means of the `emod` utility.
-* The project uses [CMake](https://cmake.org) instead of
-[make](https://www.gnu.org/software/make/) to configure and manage the build
-and installation processes.
+* The computation of model parameter uncertainties and covariance was
+improved in terms of accuracy and speed.
+* Comment lines in spectrum data files are permitted now. Comment lines
+must start with a hash mark `#` or a percent `%` character in the first
+column.
+* The command line typed to invoke Especia is included in the result HTML
+file within a comment block. This command line can be extracted from the
+result file by means of the new `ecom` utility.
+* The model definition is included in the result HTML file within a comment
+block. The model definition can be extracted from the result file by means
+of the new `emod` utility.
+* GNU [make](https://www.gnu.org/software/make/) was replaced with the
+cross-platform [CMake](https://cmake.org) to make the build and installation
+processes simpler.
 
 # New in 2016.1
 
