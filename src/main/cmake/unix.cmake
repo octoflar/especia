@@ -26,4 +26,6 @@ set(RM rm -f)
 
 set(RMDIR rm -rf)
 
+set(SHELL sh)
+
 set(TAR tar -cjv)
