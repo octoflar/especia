@@ -27,58 +27,20 @@
 #include <cstddef>
 #include <limits>
 #include <numeric>
+#include <thread>
 #include <valarray>
+#include <vector>
 
 #include "base.h"
 
 namespace especia {
 
     /**
-     * An indirect comparator to compare a set of fitness values.
-     *
-     * @tparam T The number type.
-     * @tparam Compare The strategy to compare numbers directly.
-     */
-    template<class T, class Compare>
-    class Indirect_Compare {
-    public:
-        /**
-         * Constructs a new indirect comparator to compare a set of fitness values.
-         *
-         * @param[in] f The fitness values.
-         * @param[in] c The direct number comparator.
-         */
-        Indirect_Compare(const std::valarray<T> &f, const Compare &c)
-                : fitness(f), compare(c) {
-        }
-
-        /**
-         * Destructor.
-         */
-        ~Indirect_Compare() {
-        }
-
-        /**
-         * The indirect comparing.
-         *
-         * @param[in] i An index into the set of fitness values.
-         * @param[in] j An index into the set of fitness values.
-         * @return the direct comparator result.
-         */
-        bool operator()(const size_t &i, const size_t &j) const {
-            return compare(fitness[i], fitness[j]);
-        }
-
-    private:
-        const std::valarray<T> &fitness;
-        const Compare &compare;
-    };
-
-
-    /**
      * A bound constraint.
      *
      * @tparam T The number type.
+     *
+     * @todo - this is work in progress
      */
     template<class T>
     class Bound_Constraint {
@@ -137,6 +99,8 @@ namespace especia {
      * No constraint.
      *
      * @tparam T The number type.
+     *
+     * @todo - this is work in progress
      */
     template<class T>
     class No_Constraint {
@@ -181,6 +145,8 @@ namespace especia {
      * No tracer.
      *
      * @tparam T The number type.
+     *
+     * @todo - this is work in progress
      */
     template<class T>
     class No_Tracer {
@@ -224,7 +190,7 @@ namespace especia {
     class Optimizer_Builder;
 
     /**
-     * @todo - implement
+     * @todo - this is work in progress
      */
     template<class Deviate, class Decompose, class Compare, class Tracer>
     class Optimizer {
@@ -241,7 +207,7 @@ namespace especia {
     };
 
     /**
-     * @todo - implement
+     * @todo - this is work in progress
      */
     template<class Deviate, class Decompose, class Compare, class Tracer>
     class Optimizer_Builder {
@@ -346,6 +312,49 @@ namespace especia {
         unsigned long stop_generation;
     };
 
+
+    /**
+     * An indirect comparator to compare a set of fitness values.
+     *
+     * @tparam T The number type.
+     * @tparam Compare The strategy to compare numbers directly.
+     */
+    template<class T, class Compare>
+    class Indirect_Compare {
+    public:
+        /**
+         * Constructs a new indirect comparator to compare a set of fitness values.
+         *
+         * @param[in] f The fitness values.
+         * @param[in] c The direct number comparator.
+         */
+        Indirect_Compare(const std::valarray<T> &f, const Compare &c)
+                : fitness(f), compare(c) {
+        }
+
+        /**
+         * Destructor.
+         */
+        ~Indirect_Compare() {
+        }
+
+        /**
+         * The indirect comparing.
+         *
+         * @param[in] i An index into the set of fitness values.
+         * @param[in] j An index into the set of fitness values.
+         * @return the direct comparator result.
+         */
+        bool operator()(const size_t &i, const size_t &j) const {
+            return compare(fitness[i], fitness[j]);
+        }
+
+    private:
+        const std::valarray<T> &fitness;
+        const Compare &compare;
+    };
+
+
     /**
      * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear
      * function optimization. Based on Hansen and Ostermeier (2001).
@@ -431,7 +440,9 @@ namespace especia {
         using std::numeric_limits;
         using std::partial_sort;
         using std::sqrt;
+        using std::thread;
         using std::valarray;
+        using std::vector;
 
         const double expected_length = (n - 0.25 + 1.0 / (21 * n)) / sqrt(double(n));
         const double max_covariance_matrix_condition = 0.01 / numeric_limits<double>::epsilon();
@@ -447,13 +458,15 @@ namespace especia {
             valarray<valarray<double> > v = u;
             valarray<valarray<double> > x = u;
 
-            valarray<double> fitness(population_size);
-            valarray<size_t> index(population_size);
+            valarray<double> y(population_size);
+            valarray<size_t> indexes(population_size);
 
             valarray<double> BD(B, n * n);
-            for (size_t j = 0; j < n; ++j)
-                for (size_t i = 0, ij = j; i < n; ++i, ij += n)
+            for (size_t j = 0; j < n; ++j) {
+                for (size_t i = 0, ij = j; i < n; ++i, ij += n) {
                     BD[ij] *= d[j];
+                }
+            }
 
             // Generate a new population of object parameter vectors,
             // sorted indirectly by fitness
@@ -474,24 +487,39 @@ namespace especia {
                     vw = v[k];
                 }
             }
-            #ifdef _OPENMP
-            #pragma omp parallel for
-            #endif
+#ifdef _OPENMP
+#pragma omp parallel for
             for (size_t k = 0; k < population_size; ++k) {
-                fitness[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
-                index[k] = k;
+                y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
+                indexes[k] = k;
             }
-            partial_sort(&index[0], &index[parent_number], &index[population_size],
-                         Indirect_Compare<double, Compare>(fitness, compare));
+#else
+            vector<thread> threads;
+            threads.reserve(population_size);
+            for (size_t k = 0; k < population_size; ++k) {
+                threads.push_back(
+                        thread([k, &f, &constraint, &x, n, &y]() {
+                            y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
+                        })
+                );
+                indexes[k] = k;
+            }
+            for (size_t k = 0; k < population_size; ++k) {
+                threads[k].join();
+            }
+#endif
+            partial_sort(&indexes[0], &indexes[parent_number], &indexes[population_size],
+                         Indirect_Compare<double, Compare>(y, compare));
             ++g;
 
             // Check the mutation variance
-            underflow = (fitness[index[0]] == fitness[index[parent_number]]);
+            underflow = (y[indexes[0]] == y[indexes[parent_number]]);
             if (!underflow)
                 for (size_t i = 0, ij = g % n; i < n; ++i, ij += n) {
                     underflow = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
-                    if (!underflow)
+                    if (!underflow) {
                         break;
+                    }
                 }
             if (underflow) {
                 break;
@@ -501,9 +529,9 @@ namespace especia {
             for (size_t i = 0; i < n; ++i) {
                 uw[i] = vw[i] = xw[i] = 0.0;
                 for (size_t j = 0; j < parent_number; ++j) {
-                    uw[i] += w[j] * u[index[j]][i];
-                    vw[i] += w[j] * v[index[j]][i];
-                    xw[i] += w[j] * x[index[j]][i];
+                    uw[i] += w[j] * u[indexes[j]][i];
+                    vw[i] += w[j] * v[indexes[j]][i];
+                    xw[i] += w[j] * x[indexes[j]][i];
                 }
                 uw[i] /= ws;
                 vw[i] /= ws;
@@ -524,7 +552,7 @@ namespace especia {
                     for (size_t j = 0, ij = i0; j <= i; ++j, ++ij) {
                         Z[ij] = 0.0;
                         for (size_t k = 0; k < parent_number; ++k) {
-                            Z[ij] += w[k] * (u[index[k]][i] * u[index[k]][j]);
+                            Z[ij] += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
                         // ibd. (2003), Eq. (11)
                         C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) + (1.0 - acov) * Z[ij] / ws);
@@ -709,6 +737,7 @@ namespace especia {
         using std::abs;
         using std::sqrt;
         using std::valarray;
+        using std::thread;
 
         const double zx = f(&x[0], n) + constraint.cost(&x[0], n);
 
@@ -726,26 +755,23 @@ namespace especia {
             }
             double zp;
             double zq;
-
-            #ifdef _OPENMP
-            #pragma omp parallel
-            #endif
+#ifdef _OPENMP
+#pragma omp parallel
             {
-                #ifdef _OPENMP
-                #pragma omp sections
-                #endif
+#pragma omp sections
                 {
-                    #ifdef _OPENMP
-                    #pragma omp section
-                    #endif
+#pragma omp section
                     zp = f(&p[0], n) + constraint.cost(&p[0], n);
-                    #ifdef _OPENMP
-                    #pragma omp section
-                    #endif
+#pragma omp section
                     zq = f(&q[0], n) + constraint.cost(&q[0], n);
                 }
             }
-
+#else
+            thread tp([&f, &constraint, &p, n, &zp]() { zp = f(&p[0], n) + constraint.cost(&p[0], n); });
+            thread tq([&f, &constraint, &q, n, &zq]() { zq = f(&q[0], n) + constraint.cost(&q[0], n); });
+            tp.join();
+            tq.join();
+#endif
             // Compute the rescaled global step size
             s = c / sqrt(abs((zp + zq) - (zx + zx)));
 
