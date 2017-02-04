@@ -717,7 +717,7 @@ namespace especia {
         double c = s;
 
         do {
-            // compute two steps along the line of least variance in oposite directions
+            // Compute two steps along the line of least variance in opposite directions
             valarray<double> p(x, n);
             valarray<double> q(x, n);
             for (size_t i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
@@ -726,6 +726,7 @@ namespace especia {
             }
             double zp;
             double zq;
+
             #ifdef _OPENMP
             #pragma omp parallel
             #endif
@@ -745,10 +746,10 @@ namespace especia {
                 }
             }
 
-            // compute the rescaled global step size
+            // Compute the rescaled global step size
             s = c / sqrt(abs((zp + zq) - (zx + zx)));
 
-            // make a smaller or larger computation step in the next iteration
+            // Make a smaller or larger computation step in the next iteration
             if (abs(zq - zx) < 0.1) {
                 a = c;
                 c = c * 1.618;
