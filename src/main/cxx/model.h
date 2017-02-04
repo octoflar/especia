@@ -402,7 +402,7 @@ namespace especia {
             os << "      <td>Section</td>\n";
             os << "      <td>Start<br>Wavelength<br>(&Aring;)</td>\n";
             os << "      <td>End<br>Wavelength<br>(&Aring;)</td>\n";
-            os << "      <td>Degree of<br>Legendre<br>Polynomial</td>\n";
+            os << "      <td>Legendre Basis<br>Polynomials</td>\n";
             os << "      <td>Resolution<br>(10<sup>3</sup>)</td>\n";
             os << "      <td>Data Points</td>\n";
             os << "      <td>Cost</td>\n";
@@ -415,15 +415,15 @@ namespace especia {
                 const size_t j = i->second;
 
                 const string id = i->first;
-                const size_t px = sec[j].selection_size();
+                const size_t px = sec[j].valid_data_count();
                 const double st = sec[j].cost();
 
                 os.precision(2);
 
                 os << "    <tr>\n";
                 os << "      <td>" << id << "</td>\n";
-                os << "      <td>" << sec[j].begin() << "</td>\n";
-                os << "      <td>" << sec[j].end() << "</td>\n";
+                os << "      <td>" << sec[j].lower_bound() << "</td>\n";
+                os << "      <td>" << sec[j].upper_bound() << "</td>\n";
                 os << "      <td>" << nle[j] << "</td>\n";
                 os << "      <td>";
                 put_parameter(os, ios_base::fixed, 2, isc[j]);
@@ -523,7 +523,7 @@ namespace especia {
                     val[i] = x[ind[i]];
 
             for (size_t i = 0; i < sec.size(); ++i)
-                sec[i].compute_model(Superposition<Profile>(nli[i], &val[isc[i] + 1]), nle[i], val[isc[i]]);
+                sec[i].apply(Superposition<Profile>(nli[i], &val[isc[i] + 1]), val[isc[i]], nle[i]);
         }
 
         double operator()(const double x[], size_t n) const {
@@ -540,7 +540,7 @@ namespace especia {
 
             double d = 0.0;
             for (size_t i = 0; i < sec.size(); ++i)
-                d += sec[i].cost(Superposition<Profile>(nli[i], &y[isc[i] + 1]), nle[i], y[isc[i]]);
+                d += sec[i].cost(Superposition<Profile>(nli[i], &y[isc[i] + 1]), y[isc[i]], nle[i]);
 
             return d;
         }

@@ -86,7 +86,7 @@ public:
         valarray<double> w(m);
 
         for (size_t i = 0; i < m; ++i) {
-            splint(u[i] = blu_end() + i * h, v[i], w[i]);
+            splint(u[i] = lower_bound() + i * h, v[i], w[i]);
         }
         resize(m);
 
@@ -107,20 +107,20 @@ public:
         return *this;
     }
 
-    double blu_end() const {
+    double lower_bound() const {
         return x[0];
     }
 
-    double red_end() const {
+    double upper_bound() const {
         return (n > 1) ? x[n - 1] : x[0];
     }
 
     double center() const {
-        return 0.5 * (blu_end() + red_end());
+        return 0.5 * (lower_bound() + upper_bound());
     }
 
     double width() const {
-        return red_end() - blu_end();
+        return upper_bound() - lower_bound();
     }
 
     double median() const {
@@ -135,7 +135,7 @@ public:
         return y[index[n >> 1]];
     }
 
-    size_t size() const {
+    size_t data_count() const {
         return n;
     }
 
@@ -303,15 +303,15 @@ public:
         frame f;
 
         if (!frames.empty()) {
-            f.resize(frames.front().size());
+            f.resize(frames.front().data_count());
 
-            for (size_t i = 0; i < f.size(); ++i) {
+            for (size_t i = 0; i < f.data_count(); ++i) {
                 f.x[i] = frames.front().x[i];
                 f.y[i] = 0.0;
                 f.z[i] = 0.0;
 
                 for (vector<frame>::const_iterator j = frames.begin(); j < frames.end(); ++j) {
-                    if (j->blu_end() <= f.x[i] and f.x[i] <= j->red_end()) {
+                    if (j->lower_bound() <= f.x[i] and f.x[i] <= j->upper_bound()) {
                         double w, y, z;
 
                         j->splint(f.x[i], y, z);

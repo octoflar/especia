@@ -1,4 +1,4 @@
-// Class for modeling absorption line regions
+// Class for modeling spectroscopic data sections
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -33,199 +33,376 @@
 #include "base.h"
 
 namespace especia {
-    // Class for modeling absorption line regions
-    class Section;
 
-    std::istream &operator>>(std::istream &is, Section &s);
+    /**
+     * Represents a section of (observed and modelled) spectroscopic data.
+     */
+    class Section {
+    public:
 
-    std::istream &operator>>(std::istream &is, std::vector<Section> &s);
+        /**
+         * Constructs a new instance of this class, which contains no data.
+         */
+        Section();
 
-    std::ostream &operator<<(std::ostream &os, const Section &s);
+        /**
+         * Constructs a new instance of this class for a certain number of data points.
+         *
+         * @param n[in] The number of data points.
+         */
+        Section(size_t n);
 
-    std::ostream &operator<<(std::ostream &os, const std::vector<Section> &s);
-}
+        /**
+         * Constructs a new instance of this class for a certain number of data points,
+         * with given wavelength, flux, and uncertainty data.
+         *
+         * @param n[in] The number of data points.
+         * @param wav[in] The wavelength data.
+         * @param flx[in] The spectral flux data.
+         * @param unc[in] The spectral flux uncertainty data.
+         */
+        Section(size_t n, const double wav[], const double flx[], const double unc[]);
 
-class especia::Section {
-public:
-    Section();
+        /**
+         * Destructor.
+         */
+        ~Section();
 
-    Section(size_t n);
+        /**
+         * Reads a data section from an input stream.
+         *
+         * @param is[in,out] The input stream.
+         * @param a[in] The minimum wavelength to read.
+         * @param b[in] The maximum wavelength to read.
+         * @return the input stream.
+         */
+        std::istream &get(std::istream &is, double a = 0.0, double b = std::numeric_limits<double>::max());
 
-    Section(const double wav[], const double flx[], const double err[], size_t n);
+        /**
+         * Writes a data section to an output stream.
+         *
+         * @param is[in,out] The output stream.
+         * @param a[in] The minimum wavelength to write.
+         * @param b[in] The maximum wavelength to write.
+         * @return the output stream.
+         */
+        std::ostream &put(std::ostream &os, double a = 0.0, double b = std::numeric_limits<double>::max()) const;
 
-    ~Section();
-
-    std::istream &get(std::istream &is, double a = 0.0, double b = std::numeric_limits<double>::max());
-
-    std::ostream &put(std::ostream &os, double a = 0.0, double b = std::numeric_limits<double>::max()) const;
-
-    double begin() const;
-
-    double center() const;
-
-    double end() const;
-
-    double width() const;
-
-    size_t size() const;
-
-    size_t selection_size() const;
-
-    double cost() const;
-
-    template<class optical_depth>
-    double cost(const optical_depth &t, size_t m, double r) const;
-
-    void mask(double a, double b);
-
-    template<class optical_depth>
-    void compute_model(const optical_depth &t, size_t m, double r);
-
-private:
-    template<class optical_depth>
-    void convolve(const optical_depth &t, double r, double *opt, double *atm, double *cat) const;
-
-    void integrals(double x, double fwhm, double &p, double &q) const;
-        // the indefinite integrals of P(x) and xP(x), where P(x) is the instrumental profile
-
-    void continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error);
-
-    std::valarray<double> wav; // wavelength data
-    std::valarray<double> flx; // flux data
-    std::valarray<double> err; // flux data uncertainty
-
-    std::valarray<bool> msk; // selection mask
-
-    std::valarray<double> opt; // true optical depth
-    std::valarray<double> atm; // absorption term
-    std::valarray<double> cat; // convoluted absorption term
-    std::valarray<double> cfl; // continuum flux
-    std::valarray<double> tfl; // true flux
-    std::valarray<double> fit; // convoluted true flux
-    std::valarray<double> res; // residuals
-
-    size_t n; // number of data points
-};
-
-inline
-double especia::Section::begin() const {
-    return wav[0];
-}
-
-inline
-double especia::Section::center() const {
-    return 0.5 * (begin() + end());
-}
-
-inline
-double especia::Section::end() const {
-    return (n > 1) ? wav[n - 1] : wav[0];
-}
-
-inline
-double especia::Section::width() const {
-    return end() - begin();
-}
-
-inline
-size_t especia::Section::size() const {
-    return n;
-}
-
-template<class optical_depth>
-void especia::Section::convolve(const optical_depth &t, double r, double *opt, double *atm, double *cat) const {
-    using std::exp;
-    using std::valarray;
-
-    if (n > 2) {
-        const double hwhm = 0.5 * center() / (r * kilo);
-            // HWHM (half width at half maximum) of the instrumental profile
-        const double h = width() / (n - 1);
-            // sample spacing
-        const size_t m = static_cast<size_t>(4.0 * (hwhm / h)) + 1;
-            // cut the Gaussian profile at 4 HWHM where it is 10E-5
-        valarray<double> p(m);
-        valarray<double> q(m);
-
-        for (size_t i = 0; i < m; ++i)
-            integrals(i * h, hwhm, p[i], q[i]);
-
-        for (size_t i = 0; i < n; ++i) {
-            opt[i] = t(wav[i]);
-            atm[i] = exp(-opt[i]);
+        /**
+         * Returns the lower wavelength bound of this data section.
+         *
+         * @return the lower wavelength bound of this data section.
+         */
+        double lower_bound() const {
+            return wav[0];
         }
 
-        // Convolve the true flux with the instrumental profile
-        for (size_t i = 0; i < n; ++i) {
-            double a = 0.0;
-            double b = 0.0;
+        /**
+         * Returns the central wavelength of this data section.
+         *
+         * @return the central wavelength of this data section.
+         */
+        double center() const {
+            return 0.5 * (lower_bound() + upper_bound());
+        }
 
-            for (size_t j = 0; j + 1 < m; ++j) {
-                const size_t k = (i < j + 1) ? 0 : i - j - 1;
-                const size_t l = (i + j + 2 > n) ? n - 2 : i + j;
-                const double d = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
+        /**
+         * Returns the upper wavelength bound of this data section.
+         *
+         * @return the upper wavelength bound of this data section.
+         */
+        double upper_bound() const {
+            return (n > 1) ? wav[n - 1] : wav[0];
+        }
 
-                a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - j * d);
-                b += (q[j + 1] - q[j]) * d;
+        /**
+         * Returns the width of this data section.
+         *
+         * @return the width of this data section.
+         */
+        double width() const {
+            return upper_bound() - lower_bound();
+        }
+
+        /**
+         * Returns the number of data points in this section.
+         *
+         * @return the number of data points.
+         */
+        size_t data_count() const {
+            return n;
+        }
+
+        /**
+         * Returns the number of valid data points in this section.
+         *
+         * @return the number of valid data points.
+         */
+        size_t valid_data_count() const;
+
+        /**
+         * Returns the value of the cost function resulting from having applied an optical
+         * depth model to this section.
+         *
+         * @return the value of the cost function.
+         */
+        double cost() const;
+
+
+        /**
+         * Returns the value of the cost function as a function of a given optical depth
+         * model.
+         *
+         * @tparam M The type of optical depth model.
+         * @param model[in] The optical depth model.
+         * @param r[in] The spectral resolution of the instrument.
+         * @param m[in] The number of Legendre basis polynomials to model the background continuum.
+         *
+         * @return the value of the cost function.
+         */
+        template<class M>
+        double cost(const M &model, double r, size_t m) const {
+            using std::abs;
+            using std::valarray;
+
+            valarray<double> opt(n);
+            valarray<double> atm(n);
+            valarray<double> cat(n);
+            valarray<double> cfl(n);
+            valarray<double> tfl(n);
+            valarray<double> fit(n);
+            valarray<double> res(n);
+
+            convolute(model, r, &opt[0], &atm[0], &cat[0]);
+            continuum(m, &cat[0], &cfl[0]);
+
+            double cost = 0.0;
+
+            for (size_t i = 0; i < n; ++i) {
+                tfl[i] = cfl[i] * atm[i];
+                fit[i] = cfl[i] * cat[i];
+
+                res[i] = (flx[i] - fit[i]) / unc[i];
+
+                if (msk[i]) {
+                    cost += res[i] * res[i];
+                }
             }
 
-            cat[i] = a + b / h;
+            return 0.5 * cost;
         }
+
+        /**
+         * Masks the data in a certain interval as invalid.
+         *
+         * @param a[in] The lower bound of the interval.
+         * @param b[in] The upper bound of the interval.
+         */
+        void mask(double a, double b);
+
+        /**
+         * Applies an optical depth model to this section.
+         *
+         * @tparam M The type of optical depth model.
+         * @param model[in] The optical depth model.
+         * @param r[in] The spectral resolution of the instrument.
+         * @param m[in] The number of Legendre basis polynomials to model the background continuum.
+         *
+         * @return a reference to this section.
+         */
+        template<class M>
+        Section &apply(const M &model, double r, size_t m) {
+            convolute(model, r, &opt[0], &atm[0], &cat[0]);
+            continuum(m, &cat[0], &cfl[0]);
+
+            for (size_t i = 0; i < n; ++i) {
+                tfl[i] = cfl[i] * atm[i];
+                fit[i] = cfl[i] * cat[i];
+
+                res[i] = (flx[i] - fit[i]) / unc[i];
+            }
+            return *this;
+        }
+
+    private:
+        /**
+         * Calculates an optimized background continuum.
+         *
+         * @param m[in] The number of Legendre basis polynomials to model the background continuum.
+         * @param cat[in] The evaluated convoluted absorption term.
+         * @param cfl[out] The evaluated background continuum flux.
+         */
+        void continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error);
+
+        /**
+         * Convolutes a given optical depth model with the instrumental line spread function.
+         *
+         * @tparam M The type of optical depth model.
+         * @param model[in] The optical depth model.
+         * @param r[in] The spectral resolution of the instrument.
+         * @param opt[out] The evaluated optical depth.
+         * @param atm[out] The evaluated absorption term.
+         * @param cat[out] The evaluated convoluted absorption term.
+         */
+        template<class M>
+        void convolute(const M &model, double r, double opt[], double atm[], double cat[]) const {
+            using std::exp;
+            using std::valarray;
+
+            if (n > 2) {
+                // The half width at half maximum (HWHM) of the instrumental profile.
+                const double h = 0.5 * center() / (r * kilo);
+                // The sample spacing.
+                const double w = width() / (n - 1);
+                // The Gaussian line spread function is cut at 4 HWHM where it is less than 10E-5.
+                const size_t m = static_cast<size_t>(4.0 * (h / w)) + 1;
+
+                valarray<double> p(m);
+                valarray<double> q(m);
+
+                for (size_t i = 0; i < m; ++i) {
+                    primitive(i * w, h, p[i], q[i]);
+                }
+
+                for (size_t i = 0; i < n; ++i) {
+                    opt[i] = model(wav[i]);
+                    atm[i] = exp(-opt[i]);
+                }
+
+                // Convolution of the modelled flux with the instrumental line spread function.
+                for (size_t i = 0; i < n; ++i) {
+                    double a = 0.0;
+                    double b = 0.0;
+
+                    for (size_t j = 0; j + 1 < m; ++j) {
+                        const size_t k = (i < j + 1) ? 0 : i - j - 1;
+                        const size_t l = (i + j + 2 > n) ? n - 2 : i + j;
+                        const double d = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
+
+                        a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - j * d);
+                        b += (q[j + 1] - q[j]) * d;
+                    }
+
+                    cat[i] = a + b / w;
+                }
+            }
+        }
+
+        /**
+         * Evaluates the primitive functions of g(x) and x g(x), where g(x) is the (Gaussian)
+         * line spread function of the instrument.
+         *
+         * @param x[in] The abscissa value where to evaluate the primitive functions.
+         * @param h[in] The half width at half maximum (HWHM) of the Gaussian line spread function.
+         * @param p[out] The primitive function of g(x) evaluated at @ x.
+         * @param q[out] The primitive function of x g(x) evaluated at @ x.
+         */
+        void primitive(double x, double h, double &p, double &q) const;
+
+        /**
+         * The observed wavelength data (arbitrary units).
+         */
+        std::valarray<double> wav;
+
+        /**
+         * The observed spectral flux data (arbitrary units).
+         */
+        std::valarray<double> flx;
+
+        /**
+         * The observed spectral flux uncertainty data (arbitrary units).
+         */
+        std::valarray<double> unc;
+
+        /**
+         * The selection mask.
+         */
+        std::valarray<bool> msk;
+
+        /**
+         * The evaluated optical depth model.
+         */
+        std::valarray<double> opt;
+
+        /**
+         * The evaluated absorption term.
+         */
+        std::valarray<double> atm;
+
+        /**
+         * The evaluated convoluted absorption term.
+         */
+        std::valarray<double> cat;
+
+        /**
+         * The evaluated background continuum flux.
+         */
+        std::valarray<double> cfl;
+
+        /**
+         * The evaluated spectral flux.
+         */
+        std::valarray<double> tfl;
+
+
+        /**
+         * The evaluated convoluted spectral flux.
+         */
+        std::valarray<double> fit;
+
+        /**
+         * The evaluated residual flux.
+         */
+        std::valarray<double> res;
+
+        /**
+         * The number of data points.
+         */
+        size_t n;
+    };
+
+
+    /**
+     * The operator to read a data section from an input stream.
+     *
+     * @param is[in,out] The input stream.
+     * @param section[out] The data section.
+     * @return a reference to the input stream.
+     */
+    inline
+    std::istream &operator>>(std::istream &is, Section &section) {
+        return section.get(is);
     }
-}
 
-template<class optical_depth>
-double especia::Section::cost(const optical_depth &t, size_t m, double r) const {
-    using std::abs;
-    using std::valarray;
-
-    valarray<double> opt(n);
-    valarray<double> atm(n);
-    valarray<double> cat(n);
-    valarray<double> cfl(n);
-    valarray<double> tfl(n);
-    valarray<double> fit(n);
-    valarray<double> res(n);
-
-    convolve(t, r, &opt[0], &atm[0], &cat[0]);
-    continuum(m, &cat[0], &cfl[0]);
-
-    double a = 0.0;
-
-    for (size_t i = 0; i < n; ++i) {
-        tfl[i] = cfl[i] * atm[i];
-        fit[i] = cfl[i] * cat[i];
-
-        res[i] = (flx[i] - fit[i]) / err[i];
-
-        if (msk[i])
-            a += res[i] * res[i];
+    /**
+     * The operator to write a data section to an output stream.
+     *
+     * @param os[in,out] The output stream.
+     * @param section[in] The data section.
+     * @return a reference to the output stream.
+     */
+    inline
+    std::ostream &operator<<(std::ostream &os, const Section &section) {
+        return section.put(os);
     }
 
-    return 0.5 * a;
-}
+    /**
+     * The operator to read data sections from an input stream.
+     *
+     * @param is[in,out] The input stream.
+     * @param section[out] The data sections.
+     * @return a reference to the input stream.
+     */
+    std::istream &operator>>(std::istream &is, std::vector<Section> &sections);
 
-template<class optical_depth>
-void especia::Section::compute_model(const optical_depth &t, size_t m, double r) {
-    convolve(t, r, &opt[0], &atm[0], &cat[0]);
-    continuum(m, &cat[0], &cfl[0]);
-
-    for (size_t i = 0; i < n; ++i) {
-        tfl[i] = cfl[i] * atm[i];
-        fit[i] = cfl[i] * cat[i];
-
-        res[i] = (flx[i] - fit[i]) / err[i];
-    }
-}
-
-inline
-std::istream &especia::operator>>(std::istream &is, Section &s) {
-    return s.get(is);
-}
-
-inline
-std::ostream &especia::operator<<(std::ostream &os, const Section &s) {
-    return s.put(os);
+    /**
+    * The operator to write data sections to an output stream.
+    *
+    * @param os[in,out] The output stream.
+    * @param section[in] The data sections.
+    * @return a reference to the output stream.
+    */
+    std::ostream &operator<<(std::ostream &os, const std::vector<Section> &sections);
 }
 
 #endif // ESPECIA_SECTION_H

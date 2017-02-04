@@ -1,4 +1,4 @@
-// Class for modeling absorption line regions
+// Class for modeling spectroscopic data sections
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,7 +29,7 @@
 especia::Section::Section()
         : wav(),
           flx(),
-          err(),
+          unc(),
           msk(),
           opt(),
           atm(),
@@ -44,8 +44,8 @@ especia::Section::Section()
 especia::Section::Section(size_t m)
         : wav(0.0, m),
           flx(0.0, m),
-          err(0.0, m),
-          msk(1, m),
+          unc(0.0, m),
+          msk(true, m),
           opt(0.0, m),
           atm(0.0, m),
           cat(0.0, m),
@@ -56,11 +56,11 @@ especia::Section::Section(size_t m)
           n(m) {
 }
 
-especia::Section::Section(const double x[], const double y[], const double z[], size_t m)
+especia::Section::Section(size_t m, const double x[], const double y[], const double unc[])
         : wav(x, m),
           flx(y, m),
-          err(z, m),
-          msk(1, m),
+          unc(unc, m),
+          msk(true, m),
           opt(0.0, m),
           atm(0.0, m),
           cat(0.0, m),
@@ -76,8 +76,8 @@ especia::Section::~Section() {
 
 void especia::Section::continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error) {
     using std::fill;
-    using std::sqrt;
     using std::runtime_error;
+    using std::sqrt;
     using std::valarray;
 
     if (m > 0) {
@@ -87,16 +87,17 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
 
         valarray<valarray<double> > a(b, m);
 
-        // Linear optimization problem, establish the normal equations
+        // Optimizing the background continuum is a linear optimization problem. Here the normal
+        // equations are established.
         for (size_t i = 0; i < n; ++i)
             if (msk[i]) {
+                // Map the wavelengths onto the interval [-1, 1]
                 const double x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
-                // map wavelength domain onto the interval [-1, 1]
 
                 double l1 = 1.0;
                 double l2 = 0.0;
 
-                // Compute the higher order Legendre polynomials
+                // Compute the higher-order Legendre basis polynomials.
                 for (size_t j = 1; j < m; ++j) {
                     const double l3 = l2;
 
@@ -104,16 +105,21 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
                     l1 = ((2 * j - 1) * x * l2 - (j - 1) * l3) / j;
                     l[j] = l1;
                 }
-
+                // Establish the normal equations.
                 for (size_t j = 0; j < m; ++j) {
-                    for (size_t k = j; k < m; ++k)
-                        a[j][k] += (cat[i] * cat[i] * l[j] * l[k]) / (err[i] * err[i]);
+                    for (size_t k = j; k < m; ++k) {
+                        a[j][k] += (cat[i] * cat[i] * l[j] * l[k]) / (unc[i] * unc[i]);
+                    }
 
-                    b[j] += (flx[i] * cat[i] * l[j]) / (err[i] * err[i]);
+                    b[j] += (flx[i] * cat[i] * l[j]) / (unc[i] * unc[i]);
                 }
             }
 
-        // Solve the normal equations using Cholesky decomposition (e.g. Press et al. 2002)
+        // The normal equations are solved by means of a Cholesky decomposition (e.g. Press et al. 2002).
+        //
+        // W. H. Press, S. A. Teukolsky, W. T. Vetterling, B. P. Flannery (2002).
+        //   Numerical Recipes in C: The Art of Scientific Computing.
+        //   Cambridge University Press, ISBN 0-521-75033-4.
         for (size_t i = 0; i < m; ++i)
             for (size_t j = i; j < m; ++j) {
                 double s = a[i][j];
@@ -121,42 +127,44 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
                 for (size_t k = 0; k < i; ++k)
                     s -= a[i][k] * a[j][k];
 
-                if (i < j)
+                if (i < j) {
                     a[j][i] = s / a[i][i];
-                else if (s > 0.0)
+                } else if (s > 0.0) {
                     a[i][i] = sqrt(s);
-                else // the normal equations are (numerically) singular
+                } else {
+                    // The normal equations are (numerically) singular.
                     throw runtime_error(
                             "especia::section::continuum(): Error: normal equations are numerically singular");
+                }
             }
         for (size_t i = 0; i < m; ++i) {
             double s = b[i];
 
-            for (size_t k = 0; k < i; ++k)
+            for (size_t k = 0; k < i; ++k) {
                 s -= a[i][k] * c[k];
+            }
 
             c[i] = s / a[i][i];
         }
         for (size_t i = m - 1; i + 1 > 0; --i) {
             double s = c[i];
 
-            for (size_t k = i + 1; k < m; ++k)
+            for (size_t k = i + 1; k < m; ++k) {
                 s -= a[k][i] * c[k];
+            }
 
             c[i] = s / a[i][i];
         }
 
-        // Compute the continuum flux
+        // Compute the continuum flux.
         for (size_t i = 0; i < n; ++i) {
             const double x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
-            // map wavelength domain onto the interval [-1, 1]
 
             double l1 = 1.0;
             double l2 = 0.0;
 
             cfl[i] = c[0];
 
-            // Accumulate the higher order Legendre polynomials
             for (size_t k = 1; k < m; ++k) {
                 const double l3 = l2;
 
@@ -165,43 +173,50 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
                 cfl[i] += c[k] * l1;
             }
         }
-    } else // continuum flux is unity
+    } else {
         fill(&cfl[0], &cfl[n], 1.0);
+    }
 }
 
-size_t especia::Section::selection_size() const {
-    size_t j = 0;
+size_t especia::Section::valid_data_count() const {
+    size_t count = 0;
 
-    for (size_t i = 0; i < n; ++i)
-        if (msk[i])
-            ++j;
+    for (size_t i = 0; i < n; ++i) {
+        if (msk[i]) {
+            ++count;
+        }
+    }
 
-    return j;
+    return count;
 }
 
 double especia::Section::cost() const {
-    double a = 0.0;
+    double cost = 0.0;
 
-    for (size_t i = 0; i < n; ++i)
-        if (msk[i])
-            a += res[i] * res[i];
+    for (size_t i = 0; i < n; ++i) {
+        if (msk[i]) {
+            cost += res[i] * res[i];
+        }
+    }
 
-    return 0.5 * a;
+    return 0.5 * cost;
 }
 
 void especia::Section::mask(double a, double b) {
-    for (size_t i = 0; i < n; ++i)
-        if (a <= wav[i] and wav[i] <= b)
+    for (size_t i = 0; i < n; ++i) {
+        if (a <= wav[i] and wav[i] <= b) {
             msk[i] = 0;
+        }
+    }
 }
 
-void especia::Section::integrals(double x, double hwhm, double &p, double &q) const {
+void especia::Section::primitive(double x, double h, double &p, double &q) const {
     using std::erf; // since C++11
     using std::exp;
 
     const double c = 1.6651092223153955127063292897904020952612;
     const double d = 3.5449077018110320545963349666822903655951;
-    const double b = 2.0 * hwhm / c;
+    const double b = 2.0 * h / c;
 
     x /= b;
 
@@ -228,9 +243,10 @@ std::istream &especia::Section::get(std::istream &is, double a, double b) {
     string line;
 
     while (getline(is, line) and !line.empty()) {
-        // Skip comments
-        if (line[0] == '#')
+        // Skip comments.
+        if (line[0] == '#' or line[0] == '%') {
             continue;
+        }
 
         istringstream ist(line);
         bool tw;
@@ -241,15 +257,16 @@ std::istream &especia::Section::get(std::istream &is, double a, double b) {
                 x.push_back(tx);
                 y.push_back(ty);
 
-                if (ist >> tz)
+                if (ist >> tz) {
                     z.push_back(tz);
-                else
+                } else {
                     z.push_back(1.0);
-
-                if (ist >> tw)
+                }
+                if (ist >> tw) {
                     w.push_back(tw);
-                else
+                } else {
                     w.push_back(true);
+                }
 
                 ++i;
             }
@@ -263,7 +280,7 @@ std::istream &especia::Section::get(std::istream &is, double a, double b) {
     if (i > 0) {
         wav.resize(i);
         flx.resize(i);
-        err.resize(i);
+        unc.resize(i);
         msk.resize(i);
 
         opt.resize(i, 0.0);
@@ -278,12 +295,13 @@ std::istream &especia::Section::get(std::istream &is, double a, double b) {
 
         copy(x.begin(), x.end(), &wav[0]);
         copy(y.begin(), y.end(), &flx[0]);
-        copy(z.begin(), z.end(), &err[0]);
+        copy(z.begin(), z.end(), &unc[0]);
         copy(w.begin(), w.end(), &msk[0]);
 
         is.clear(is.rdstate() & ~ios_base::failbit);
-    } else
+    } else {
         is.setstate(ios_base::failbit);
+    }
 
     return is;
 }
@@ -292,8 +310,10 @@ std::ostream &especia::Section::put(std::ostream &os, double a, double b) const 
     using namespace std;
 
     if (os) {
-        const int p = 8;  // precision
-        const int w = 16; // width
+        // The precision.
+        const int p = 8;
+        // The width of the output field.
+        const int w = 16;
 
         const ios_base::fmtflags f = os.flags();
 
@@ -304,23 +324,23 @@ std::ostream &especia::Section::put(std::ostream &os, double a, double b) const 
 
         for (size_t i = 0; i < n; ++i)
             if (a <= wav[i] and wav[i] <= b) {
+                // The normalized observed spectral flux and its uncertainty.
                 const double nfl = flx[i] / cfl[i];
-                const double ner = err[i] / cfl[i];
-                // normalized observed flux and uncertainty
+                const double nun = unc[i] / cfl[i];
 
-                os << setw(w) << wav[i];
-                os << setw(w) << flx[i];
-                os << setw(w) << err[i];
-                os << setw(3) << msk[i];
-                os << setw(w) << opt[i];
-                os << setw(w) << atm[i];
-                os << setw(w) << cat[i];
-                os << setw(w) << cfl[i];
-                os << setw(w) << tfl[i];
-                os << setw(w) << fit[i];
-                os << setw(w) << res[i];
-                os << setw(w) << nfl;
-                os << setw(w) << ner;
+                os << setw(w) << wav[i]; // 1
+                os << setw(w) << flx[i]; // 2
+                os << setw(w) << unc[i]; // 3
+                os << setw(3) << msk[i]; // 4
+                os << setw(w) << opt[i]; // 5
+                os << setw(w) << atm[i]; // 6
+                os << setw(w) << cat[i]; // 7
+                os << setw(w) << cfl[i]; // 8
+                os << setw(w) << tfl[i]; // 9
+                os << setw(w) << fit[i]; // 10
+                os << setw(w) << res[i]; // 11
+                os << setw(w) << nfl;    // 12
+                os << setw(w) << nun;    // 13
 
                 os << '\n';
             }
@@ -332,34 +352,25 @@ std::ostream &especia::Section::put(std::ostream &os, double a, double b) const 
     return os;
 }
 
-std::istream &especia::operator>>(std::istream &is, std::vector<Section> &s) {
-    using namespace std;
+std::istream &especia::operator>>(std::istream &is, std::vector<Section> &sections) {
+    using std::vector;
 
-    Section r;
-    vector<Section> t;
+    Section s;
 
-    while (is >> r)
-        t.push_back(r);
-
-    if (!is.bad() and t.size() > 1)
-        s.assign(t.begin(), t.end());
+    while (is >> s) {
+        sections.push_back(s);
+    }
 
     return is;
 }
 
-std::ostream &especia::operator<<(std::ostream &os, const std::vector<Section> &s) {
+std::ostream &especia::operator<<(std::ostream &os, const std::vector<Section> &sections) {
     size_t i;
 
-    for (i = 0; i + 1 < s.size(); ++i)
-        os << s[i] << '\n';
-    os << s[i];
+    for (i = 0; i + 1 < sections.size(); ++i) {
+        os << sections[i] << '\n';
+    }
+    os << sections[i];
 
     return os;
 }
-
-// References
-//
-// W. H. Press, S. A. Teukolsky, W. T. Vetterling, B. P. Flannery (2002)
-//   Numerical Recipes in C: The Art of Scientific Computing
-//   Cambridge University Press, ISBN 0-521-75033-4
-
