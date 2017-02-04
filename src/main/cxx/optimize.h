@@ -704,8 +704,8 @@ namespace especia {
      * @param[in,out] s The global step size.
      */
     template<class F, class Constraint>
-    void rescale_step_size(const F &f, const Constraint &constraint, const double *x, size_t n, const double *d,
-                           const double *B, double &s) {
+    void rescale_step_size(const F &f, const Constraint &constraint, const double x[], size_t n, const double d[],
+                           const double B[], double &s) {
         using std::abs;
         using std::sqrt;
         using std::valarray;
