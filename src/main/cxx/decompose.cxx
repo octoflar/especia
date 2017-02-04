@@ -20,6 +20,7 @@
 // SOFTWARE.
 //
 #include <algorithm>
+
 #include "decompose.h"
 
 #if !defined(F77NAME)
@@ -32,7 +33,10 @@ using std::runtime_error;
 using std::swap;
 using std::valarray;
 
-// Interface to LAPACK eigenvalue routines (version 3.0)
+
+/**
+ * Interface to LAPACK eigenvalue routines (version 3.0).
+ */
 extern "C" {
 double F77NAME(dlamch)(const char &cmach);
 
@@ -90,22 +94,24 @@ especia::D_Decompose::D_Decompose(size_t n)
 especia::D_Decompose::~D_Decompose() {
 }
 
-void especia::D_Decompose::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
+void especia::D_Decompose::operator()(size_t k, const double A[], double Z[], double w[]) throw(runtime_error) {
     copy(&A[0], &A[k * k], Z);
 
-    if (k != n)
+    if (k != n) {
         resize_workspace(k);
+    }
 
-    // regular call
+    // The regular call.
     F77NAME(dsyevd)(job, uplo, n, &Z[0], max(1, n), w, &work[0], lwork, &iwork[0], liwork, info);
 
     if (info == 0) {
+        // Transform from column-major into row-major layout.
         transpose(Z);
-            // transform from column-major into row-major layout
-    } else if (info > 0)
+    } else if (info > 0) {
         throw runtime_error(int_err);
-    else
+    } else {
         throw runtime_error(ill_arg);
+    }
 }
 
 void especia::D_Decompose::resize_workspace(size_t k) {
@@ -114,7 +120,7 @@ void especia::D_Decompose::resize_workspace(size_t k) {
     n = k;
 #pragma clang diagnostic pop
 
-    // workspace query
+    // The workspace query.
     F77NAME(dsyevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
@@ -129,16 +135,19 @@ void especia::D_Decompose::resize_workspace(size_t k) {
 #pragma clang diagnostic ignored "-Wsign-conversion"
         iwork.resize(liwork);
 #pragma clang diagnostic pop
-    } else if (info > 0)
+    } else if (info > 0) {
         throw runtime_error(int_err);
-    else
+    } else {
         throw runtime_error(ill_arg);
+    }
 }
 
 void especia::D_Decompose::transpose(double A[]) const {
-    for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
-        for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
+    for (int i = 0, i0 = 0; i < n; ++i, i0 += n) {
+        for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
             swap(A[ij], A[ji]);
+        }
+    }
 }
 
 
@@ -153,23 +162,25 @@ especia::R_Decompose::R_Decompose(size_t n)
 especia::R_Decompose::~R_Decompose() {
 }
 
-void especia::R_Decompose::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
+void especia::R_Decompose::operator()(size_t k, const double A[], double Z[], double w[]) throw(runtime_error) {
     valarray<double> C(A, k * k);
 
-    if (k != n)
+    if (k != n) {
         resize_workspace(k);
+    }
 
-    // regular call
+    // The regular call.
     F77NAME(dsyevr)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
                     m, w, Z, max(1, n), &isupp[0], &work[0], lwork, &iwork[0], liwork, info);
 
     if (info == 0) {
+        // Transform from column-major into row-major layout.
         transpose(Z);
-            // transform from column-major into row-major layout
-    } else if (info > 0)
+    } else if (info > 0) {
         throw runtime_error(int_err);
-    else
+    } else {
         throw runtime_error(ill_arg);
+    }
 }
 
 void especia::R_Decompose::resize_workspace(size_t k) {
@@ -178,14 +189,13 @@ void especia::R_Decompose::resize_workspace(size_t k) {
     n = k;
 #pragma clang diagnostic pop
 
-    // workspace query
+    // The workspace query.
     F77NAME(dsyevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
                     m, 0, 0, max(1, n), &isupp[0], &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
         liwork = iwork[0];
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsign-conversion"
         work.resize(lwork);
@@ -199,16 +209,19 @@ void especia::R_Decompose::resize_workspace(size_t k) {
 #pragma clang diagnostic ignored "-Wsign-conversion"
         isupp.resize(2 * max(1, n));
 #pragma clang diagnostic pop
-    } else if (info > 0)
+    } else if (info > 0) {
         throw runtime_error(int_err);
-    else
+    } else {
         throw runtime_error(ill_arg);
+    }
 }
 
 void especia::R_Decompose::transpose(double A[]) const {
-    for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
-        for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
+    for (int i = 0, i0 = 0; i < n; ++i, i0 += n) {
+        for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
             swap(A[ij], A[ji]);
+        }
+    }
 }
 
 
@@ -223,23 +236,25 @@ especia::X_Decompose::X_Decompose(size_t n)
 especia::X_Decompose::~X_Decompose() {
 }
 
-void especia::X_Decompose::operator()(const double A[], double Z[], double w[], size_t k) throw(runtime_error) {
+void especia::X_Decompose::operator()(size_t k, const double A[], double Z[], double w[]) throw(runtime_error) {
     valarray<double> C(A, k * k);
 
-    if (k != n)
+    if (k != n) {
         resize_workspace(k);
+    }
 
-    // regular call
+    // The regular call.
     F77NAME(dsyevx)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
                     m, w, Z, max(1, n), &work[0], lwork, &iwork[0], &ifail[0], info);
 
     if (info == 0) {
+        // Transform from column-major into row-major layout.
         transpose(Z);
-            // transform from column-major into row-major layout
-    } else if (info > 0)
+    } else if (info > 0) {
         throw runtime_error(int_err);
-    else
+    } else {
         throw runtime_error(ill_arg);
+    }
 }
 
 void especia::X_Decompose::resize_workspace(size_t k) {
@@ -248,13 +263,12 @@ void especia::X_Decompose::resize_workspace(size_t k) {
     n = k;
 #pragma clang diagnostic pop
 
-    // workspace query
+    // The workspace query.
     F77NAME(dsyevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
                     m, 0, 0, max(1, n), &work[0], -1, &iwork[0], &ifail[0], info);
 
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsign-conversion"
         work.resize(max(1, lwork));
@@ -267,14 +281,17 @@ void especia::X_Decompose::resize_workspace(size_t k) {
 #pragma clang diagnostic ignored "-Wsign-conversion"
         ifail.resize(n);
 #pragma clang diagnostic pop
-    } else if (info > 0)
+    } else if (info > 0) {
         throw runtime_error(int_err);
-    else
+    } else {
         throw runtime_error(ill_arg);
+    }
 }
 
 void especia::X_Decompose::transpose(double A[]) const {
-    for (int i = 0, i0 = 0; i < n; ++i, i0 += n)
-        for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n)
+    for (int i = 0, i0 = 0; i < n; ++i, i0 += n) {
+        for (int j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
             swap(A[ij], A[ji]);
+        }
+    }
 }

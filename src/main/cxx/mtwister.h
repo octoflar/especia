@@ -104,8 +104,8 @@ namespace especia {
         double operator()() {
             using std::numeric_limits;
 
+            // Division by 2^w - 1.
             return rand() * (1.0 / double(numeric_limits<word>::max() >> (numeric_limits<word>::digits - w)));
-            // division by 2^w - 1
         }
 
         /**
@@ -147,8 +147,9 @@ namespace especia {
                     words[0] = words[n - 1];
                     i = 1;
                 }
-                if (++j >= seed_count)
+                if (++j >= seed_count) {
                     j = 0;
+                }
             }
             for (unsigned k = n - 1; k > 0; --k) {
                 words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1566083941)) - i) &
@@ -168,11 +169,13 @@ namespace especia {
 
         unsigned long rand() {
             if (i == n) {
-                for (unsigned k = 0; k < n - m; ++k)
+                for (unsigned k = 0; k < n - m; ++k) {
                     twist(k + m, k, k + 1);
+                }
 
-                for (unsigned k = n - m; k < n - 1; ++k)
+                for (unsigned k = n - m; k < n - 1; ++k) {
                     twist(k + m - n, k, k + 1);
+                }
 
                 twist(m - 1, n - 1, 0);
                 i = 0;
@@ -181,8 +184,9 @@ namespace especia {
             unsigned long y = words[i];
             ++i;
 
-            if (u > 0)
+            if (u > 0) {
                 y ^= (y >> u);
+            }
 
             y ^= (y << s) & b;
             y ^= (y << t) & c;
@@ -198,8 +202,9 @@ namespace especia {
                     << (numeric_limits<word>::digits - w + r))
                     >> (numeric_limits<word>::digits - w))) | (words[k] & (numeric_limits<word>::max()
                     >> (numeric_limits<word>::digits - r)))) >> 1);
-            if ((words[k] & 1ul) == 1ul)
+            if ((words[k] & 1ul) == 1ul) {
                 words[j] ^= a;
+            }
         }
 
         std::valarray<unsigned long> words;

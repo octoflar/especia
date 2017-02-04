@@ -30,14 +30,16 @@ using namespace std;
  * @return an exit code.
  */
 int main() {
-    bool ismessage = false;
+    bool found = false;
     string s;
 
-    while (getline(cin, s))
-        if (ismessage and !(s == "</message>" or s == "</mesg>"))
+    while (getline(cin, s)) {
+        if (found and !(s == "</message>" or s == "</mesg>")) {
             cout << s << endl;
-        else
-            ismessage = (s == "<message>" or s == "<mesg>");
+        } else {
+            found = (s == "<message>" or s == "<mesg>");
+        }
+    }
 
     return 0;
 }

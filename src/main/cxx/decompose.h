@@ -27,115 +27,162 @@
 #include <valarray>
 
 namespace especia {
-    // Function-like class for solving symmetric eigenproblems
-    class D_Decompose; // divide and conquer
-    class R_Decompose; // relatively robust representations
-    class X_Decompose; // inverse iteration
+
+    /**
+     * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
+     * DSYEVD (divide and conquer).
+     */
+    class D_Decompose {
+    public:
+        /**
+         * Constructs a new instance of this class.
+         *
+         * @param n The problem dimension.
+         */
+        D_Decompose(size_t n = 0);
+
+        /**
+         * Destructor.
+         */
+        ~D_Decompose();
+
+        /**
+         * Solves a symmetric eigenproblem.
+         *
+         * @param n[in] The problem dimension.
+         * @param A[in] The symmetric matrix (row-major, lower triangular).
+         * @param Z[out] The transformation matrix (row-major).
+         * @param w[out] The eigenvalues.
+         */
+        void operator()(size_t n, const double A[], double Z[], double w[]) throw(std::runtime_error);
+
+    private:
+        void resize_workspace(size_t n = 0);
+
+        void transpose(double A[]) const;
+
+        char job;
+        char uplo;
+
+        int n;
+        int info;
+
+        int lwork;
+        int liwork;
+        std::valarray<double> work;
+        std::valarray<int> iwork;
+
+        static const char int_err[];
+        static const char ill_arg[];
+    };
+
+    /**
+     * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
+     * DSYEVR (relatively robust representations).
+     */
+    class R_Decompose {
+    public:
+        /**
+         * Constructs a new instance of this class.
+         *
+         * @param n The problem dimension.
+         */
+        R_Decompose(size_t n = 0);
+
+        /**
+         * Destructor.
+         */
+        ~R_Decompose();
+
+        /**
+         * Solves a symmetric eigenproblem.
+         *
+         * @param n[in] The problem dimension.
+         * @param A[in] The symmetric matrix (row-major, lower triangular).
+         * @param Z[out] The transformation matrix (row-major).
+         * @param w[out] The eigenvalues.
+         */
+        void operator()(size_t n, const double A[], double Z[], double w[]) throw(std::runtime_error);
+
+    private:
+        void resize_workspace(size_t n = 0);
+
+        void transpose(double A[]) const;
+
+        char job;
+        char range;
+        char uplo;
+
+        int m;
+        int n;
+        int info;
+
+        std::valarray<int> isupp;
+
+        int lwork;
+        int liwork;
+        std::valarray<double> work;
+        std::valarray<int> iwork;
+
+        static const char int_err[];
+        static const char ill_arg[];
+    };
+
+    /**
+     * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
+     * DSYEVX (inverse iteration).
+     */
+    class X_Decompose {
+    public:
+        /**
+         * Constructs a new instance of this class.
+         *
+         * @param n The problem dimension.
+         */
+        X_Decompose(size_t n = 0);
+
+        /**
+         * Destructor.
+         */
+        ~X_Decompose();
+
+        /**
+         * Solves a symmetric eigenproblem.
+         *
+         * @param n[in] The problem dimension.
+         * @param A[in] The symmetric matrix (row-major, lower triangular).
+         * @param Z[out] The transformation matrix (row-major).
+         * @param w[out] The eigenvalues.
+         */
+        void operator()(size_t n, const double A[], double Z[], double w[]) throw(std::runtime_error);
+
+    private:
+        void resize_workspace(size_t n = 0);
+
+        void transpose(double A[]) const;
+
+        char job;
+        char range;
+        char uplo;
+
+        int m;
+        int n;
+        int info;
+
+        int lwork;
+        std::valarray<double> work;
+        std::valarray<int> iwork;
+        std::valarray<int> ifail;
+
+        static const char int_err[];
+        static const char ill_arg[];
+    };
+
+    /**
+     * The selected algorithm to solve symmetric eigenproblems.
+     */
+    typedef R_Decompose Decompose;
+
 }
-
-// Function-like class for solving symmetric eigenproblems. Calls the
-// LAPACK driver routine DSYEVD (divide and conquer).
-class especia::D_Decompose {
-public:
-    D_Decompose(size_t n = 0);
-
-    ~D_Decompose();
-
-    void operator()(const double A[], // symmetric matrix (row-major, lower triangular)
-                    double Z[], // transformation matrix (row-major)
-                    double w[], // diagonal elements
-                    size_t n) throw(std::runtime_error);
-
-private:
-    void resize_workspace(size_t n = 0);
-
-    void transpose(double A[]) const;
-
-    char job;
-    char uplo;
-
-    int n;
-    int info;
-
-    int lwork;
-    int liwork;
-    std::valarray<double> work;
-    std::valarray<int> iwork;
-
-    static const char int_err[];
-    static const char ill_arg[];
-};
-
-// Function-like class for solving symmetric eigenproblems. Calls the
-// LAPACK driver routine DSYEVR (relatively robust representations).
-class especia::R_Decompose {
-public:
-    R_Decompose(size_t n = 0);
-
-    ~R_Decompose();
-
-    void operator()(const double A[], // symmetric matrix (row-major, lower triangular)
-                    double Z[], // transformation matrix (row-major)
-                    double w[], // diagonal elements
-                    size_t n) throw(std::runtime_error);
-
-private:
-    void resize_workspace(size_t n = 0);
-
-    void transpose(double A[]) const;
-
-    char job;
-    char range;
-    char uplo;
-
-    int m;
-    int n;
-    int info;
-
-    std::valarray<int> isupp;
-
-    int lwork;
-    int liwork;
-    std::valarray<double> work;
-    std::valarray<int> iwork;
-
-    static const char int_err[];
-    static const char ill_arg[];
-};
-
-// Function-like class for solving symmetric eigenproblems. Calls the
-// LAPACK driver routine DSYEVX (inverse iteration).
-class especia::X_Decompose {
-public:
-    X_Decompose(size_t n = 0);
-
-    ~X_Decompose();
-
-    void operator()(const double A[], // symmetric matrix (row-major, lower triangular)
-                    double Z[], // transformation matrix (row-major)
-                    double w[], // diagonal elements
-                    size_t n) throw(std::runtime_error);
-
-private:
-    void resize_workspace(size_t n = 0);
-
-    void transpose(double A[]) const;
-
-    char job;
-    char range;
-    char uplo;
-
-    int m;
-    int n;
-    int info;
-
-    int lwork;
-    std::valarray<double> work;
-    std::valarray<int> iwork;
-    std::valarray<int> ifail;
-
-    static const char int_err[];
-    static const char ill_arg[];
-};
 
 #endif // ESPECIA_SYMEIG_H

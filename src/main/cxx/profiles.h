@@ -397,8 +397,9 @@ namespace especia {
         Superposition(size_t n, const double q[])
                 : profiles() {
             profiles.reserve(n);
-            for (size_t i = 0; i < n; ++i, q += P::parameter_count)
+            for (size_t i = 0; i < n; ++i, q += P::parameter_count) {
                 profiles.push_back(P(q));
+            }
         }
 
         /**
@@ -416,8 +417,9 @@ namespace especia {
         double operator()(const double &x) const {
             double d = 0.0;
 
-            for (size_t i = 0; i < profiles.size(); ++i)
+            for (size_t i = 0; i < profiles.size(); ++i) {
                 d += profiles[i](x);
+            }
 
             return d;
         }

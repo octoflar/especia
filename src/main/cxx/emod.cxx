@@ -30,14 +30,16 @@ using namespace std;
  * @return an exit code.
  */
 int main() {
-    bool ismodel = false;
+    bool found = false;
     string s;
 
-    while (getline(cin, s))
-        if (ismodel and !(s == "</model>" or s == "</job>" or s == "</input>"))
+    while (getline(cin, s)) {
+        if (found and !(s == "</model>" or s == "</job>" or s == "</input>")) {
             cout << s << endl;
-        else
-            ismodel = (s == "<model>" or s == "<job>" or s == "<input>");
+        } else {
+            found = (s == "<model>" or s == "<job>" or s == "<input>");
+        }
+    }
 
     return 0;
 }

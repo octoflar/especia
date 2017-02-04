@@ -81,8 +81,9 @@ int main(int argc, char *argv[]) {
         cout << "<html>\n";
         cout << "<!--\n";
         cout << "<command>\n";
-        for (int i = 0; i < argc; ++i)
+        for (int i = 0; i < argc; ++i) {
             cout << " " << argv[i];
+        }
         cout << endl;
         cout << "</command>\n";
         cout << "-->\n";
@@ -94,7 +95,7 @@ int main(int argc, char *argv[]) {
         if (cin.eof() and !cin.fail()) {
             try {
                 Normal_Deviate<MT19937> normal_deviate(seed);
-                R_Decompose decompose;
+                Decompose decompose;
 
                 if (model.optimize(parent_number,
                                    population_size,

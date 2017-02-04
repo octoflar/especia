@@ -32,13 +32,13 @@
 using namespace std;
 
 
-template<class number, class comparator>
-class indirect_comparator {
+template<class Number, class Comparator>
+class Indirect_Comparator {
 public:
-    indirect_comparator(const valarray<number> &y, const comparator &c) : x(y), comp(c) {
+    Indirect_Comparator(const valarray<Number> &y, const Comparator &c) : x(y), comp(c) {
     }
 
-    ~indirect_comparator() {
+    ~Indirect_Comparator() {
     }
 
     bool operator()(size_t i, size_t j) {
@@ -46,22 +46,22 @@ public:
     }
 
 private:
-    const valarray<number> &x;
-    const comparator &comp;
+    const valarray<Number> &x;
+    const Comparator &comp;
 };
 
 
-class frame {
+class Frame {
 public:
-    friend class stack;
+    friend class Frame_Stack;
 
-    frame() : x(), y(), z(), c(), d(), i(0), j(0), n(0) {
+    Frame() : x(), y(), z(), c(), d(), i(0), j(0), n(0) {
     }
 
-    ~frame() {
+    ~Frame() {
     }
 
-    frame &resize(size_t m) {
+    Frame &resize(size_t m) {
         x.resize(m, 0.0);
         y.resize(m, 0.0);
         z.resize(m, 0.0);
@@ -75,7 +75,7 @@ public:
         return *this;
     }
 
-    frame &resample(double r = 0.0) {
+    Frame &resample(double r = 0.0) {
         using especia::kilo;
 
         const double h = (r > 0.0) ? 0.5 * center() / (r * kilo) : width() / (n - 1);
@@ -99,7 +99,7 @@ public:
         return *this;
     }
 
-    frame &scale(double a) {
+    Frame &scale(double a) {
         y *= a;
         z *= a;
         spline();
@@ -129,8 +129,8 @@ public:
             index[i] = i;
 
         nth_element(&index[n / 3], &index[n >> 1], &index[n / 3 << 1],
-                    indirect_comparator<double, less<double> >(y, less<double>()));
-        clog << "frame::median(): Message: median is " << y[index[n >> 1]] << endl;
+                    Indirect_Comparator<double, less<double> >(y, less<double>()));
+        cout << "frame::median(): Message: median is " << y[index[n >> 1]] << endl;
 
         return y[index[n >> 1]];
     }
@@ -291,16 +291,20 @@ private:
 };
 
 
-class stack {
+class Frame_Stack {
 public:
-    stack() : frames() {
+    Frame_Stack() : frames() {
     }
 
-    ~stack() {
+    ~Frame_Stack() {
     }
 
-    frame combine() const {
-        frame f;
+    Frame_Stack &align() {
+        return *this;
+    }
+
+    Frame combine() const {
+        Frame f;
 
         if (!frames.empty()) {
             f.resize(frames.front().data_count());
@@ -310,7 +314,7 @@ public:
                 f.y[i] = 0.0;
                 f.z[i] = 0.0;
 
-                for (vector<frame>::const_iterator j = frames.begin(); j < frames.end(); ++j) {
+                for (vector<Frame>::const_iterator j = frames.begin(); j < frames.end(); ++j) {
                     if (j->lower_bound() <= f.x[i] and f.x[i] <= j->upper_bound()) {
                         double w, y, z;
 
@@ -333,11 +337,7 @@ public:
         return f;
     }
 
-    stack &align() {
-        return *this;
-    }
-
-    stack &scale() {
+    Frame_Stack &scale() {
         valarray<double> m(size());
         valarray<size_t> j(size());
 
@@ -345,7 +345,7 @@ public:
             m[i] = frames[i].median();
             j[i] = i;
         }
-        nth_element(&j[0], &j[size() >> 1], &j[size()], indirect_comparator<double, less<double> >(m, less<double>()));
+        nth_element(&j[0], &j[size() >> 1], &j[size()], Indirect_Comparator<double, less<double> >(m, less<double>()));
 
         const size_t k = j[size() >> 1];
 
@@ -364,39 +364,39 @@ public:
         return frames.size();
     }
 
-    vector<frame> frames;
+    vector<Frame> frames;
 };
 
 
-istream &operator>>(istream &is, frame &f) {
-    return f.get(is);
+istream &operator>>(istream &is, Frame &frame) {
+    return frame.get(is);
 }
 
-ostream &operator<<(ostream &os, const frame &f) {
-    return f.put(os);
+ostream &operator<<(ostream &os, const Frame &frame) {
+    return frame.put(os);
 }
 
-istream &operator>>(istream &is, stack &s) {
+istream &operator>>(istream &is, Frame_Stack &stack) {
     using namespace std;
 
-    frame f;
+    Frame frame;
 
-    while (is >> f)
-        s.frames.push_back(f);
+    while (is >> frame)
+        stack.frames.push_back(frame);
 
-    if (!is.bad() and s.size() > 0) {
+    if (!is.bad() and stack.size() > 0) {
         is.clear(is.rdstate() & ~ios_base::failbit);
     }
 
     return is;
 }
 
-ostream &operator<<(ostream &os, const stack &s) {
+ostream &operator<<(ostream &os, const Frame_Stack &stack) {
     size_t i;
 
-    for (i = 0; i + 1 < s.size(); ++i)
-        os << s.frames[i] << '\n';
-    os << s.frames[i];
+    for (i = 0; i + 1 < stack.size(); ++i)
+        os << stack.frames[i] << '\n';
+    os << stack.frames[i];
 
     return os;
 }
@@ -436,11 +436,11 @@ int main(int argc, char *argv[]) {
         resolution = atof(argv[1]);
     }
     if (argc == 2 or argc == 1) {
-        stack s;
+        Frame_Stack stack;
 
-        if (cin >> s) {
+        if (cin >> stack) {
             try {
-                cout << s.scale().align().combine().resample(resolution);
+                cout << stack.scale().align().combine().resample(resolution);
             }
             catch (exception &e) {
                 cerr << pname << ": " << e.what() << endl;

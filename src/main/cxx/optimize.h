@@ -493,8 +493,9 @@ namespace especia {
                     if (!underflow)
                         break;
                 }
-            if (underflow)
+            if (underflow) {
                 break;
+            }
 
             // Recombine the best individuals
             for (size_t i = 0; i < n; ++i) {
@@ -522,8 +523,9 @@ namespace especia {
 
                     for (size_t j = 0, ij = i0; j <= i; ++j, ++ij) {
                         Z[ij] = 0.0;
-                        for (size_t k = 0; k < parent_number; ++k)
+                        for (size_t k = 0; k < parent_number; ++k) {
                             Z[ij] += w[k] * (u[index[k]][i] * u[index[k]][j]);
+                        }
                         // ibd. (2003), Eq. (11)
                         C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) + (1.0 - acov) * Z[ij] / ws);
                     }
@@ -536,30 +538,35 @@ namespace especia {
             if (ccov > 0.0 and g % update_modulus == 0) {
                 // Decompose the covariance matrix and sort its eigenvalues in ascending
                 // order, along with eigenvectors
-                decompose(C, B, d, n);
+                decompose(n, C, B, d);
 
                 // Adjust the condition of the covariance matrix and recompute the
                 // local step sizes
-                if ((t = d[n - 1] / max_covariance_matrix_condition - d[0]) > 0.0)
+                if ((t = d[n - 1] / max_covariance_matrix_condition - d[0]) > 0.0) {
                     for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
                         C[ii] += t;
                         d[i] += t;
                     }
-                for (size_t i = 0; i < n; ++i)
+                }
+                for (size_t i = 0; i < n; ++i) {
                     d[i] = sqrt(d[i]);
+                }
             }
 
             // Check if the optimization is completed
             for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
                 optimized = (sqr(step_size) * C[ii] <
                              sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
-                if (!optimized)
+                if (!optimized) {
                     break;
+                }
             }
-            if (optimized or tracer.is_enabled(g))
+            if (optimized or tracer.is_enabled(g)) {
                 tracer.trace(g, f(xw, n) + constraint.cost(xw, n), step_size * d[0], step_size * d[n - 1]);
-            if (optimized)
+            }
+            if (optimized) {
                 break;
+            }
         }
 
         yw = f(xw, n) + constraint.cost(xw, n);
