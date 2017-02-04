@@ -494,8 +494,7 @@ namespace especia {
                 indexes[k] = k;
             }
 #else
-            vector<thread> threads;
-            threads.reserve(population_size);
+            vector<thread> threads; threads.reserve(population_size);
             for (size_t k = 0; k < population_size; ++k) {
                 threads.push_back(
                         thread([k, &f, &constraint, &x, n, &y]() {
