@@ -4,8 +4,8 @@ The main programs were renamed and a couple of utility programs were
 added. All ancillary files were revised. Version 2017.1 provides new
 features and enhancements:
 
-* Standard C++-11 multithreading is used, if your compiler does not
-support Open Multiprocessing.
+* Especia uses standard C++-11 multithreading, if your compiler does
+not support Open Multiprocessing directives.
 * The spectral resolution of the instrument is expressed in units of
 10<sup>3</sup> which improves the scaling of the optimization problem.
 * The variation of the fine-structure constant Δα/α is calculated in
