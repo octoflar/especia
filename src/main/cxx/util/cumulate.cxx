@@ -32,25 +32,6 @@
 using namespace std;
 
 
-template<class Number, class Comparator>
-class Indirect_Comparator {
-public:
-    Indirect_Comparator(const valarray<Number> &y, const Comparator &c) : x(y), comp(c) {
-    }
-
-    ~Indirect_Comparator() {
-    }
-
-    bool operator()(size_t i, size_t j) {
-        return comp(x[i], x[j]);
-    }
-
-private:
-    const valarray<Number> &x;
-    const Comparator &comp;
-};
-
-
 class Frame {
 public:
     friend class Frame_Stack;
@@ -124,12 +105,14 @@ public:
     }
 
     double median() const {
+        using especia::Indirect_Compare;
+
         valarray<size_t> index(n);
         for (size_t i = 0; i < n; ++i)
             index[i] = i;
 
         nth_element(&index[n / 3], &index[n >> 1], &index[n / 3 << 1],
-                    Indirect_Comparator<double, less<double> >(y, less<double>()));
+                    Indirect_Compare<double, less<double> >(y, less<double>()));
         cout << "frame::median(): Message: median is " << y[index[n >> 1]] << endl;
 
         return y[index[n >> 1]];
@@ -338,6 +321,8 @@ public:
     }
 
     Frame_Stack &scale() {
+        using especia::Indirect_Compare;
+
         valarray<double> m(size());
         valarray<size_t> j(size());
 
@@ -345,7 +330,7 @@ public:
             m[i] = frames[i].median();
             j[i] = i;
         }
-        nth_element(&j[0], &j[size() >> 1], &j[size()], Indirect_Comparator<double, less<double> >(m, less<double>()));
+        nth_element(&j[0], &j[size() >> 1], &j[size()], Indirect_Compare<double, less<double> >(m, less<double>()));
 
         const size_t k = j[size() >> 1];
 

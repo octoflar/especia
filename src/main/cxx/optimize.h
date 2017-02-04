@@ -19,6 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCDFAInspection"
 #ifndef ESPECIA_OPTIMIZE_H
 #define ESPECIA_OPTIMIZE_H
 
@@ -39,8 +41,6 @@ namespace especia {
      * A bound constraint.
      *
      * @tparam T The number type.
-     *
-     * @todo - this is work in progress
      */
     template<class T>
     class Bound_Constraint {
@@ -69,7 +69,7 @@ namespace especia {
          * @param n The number of parameters to test.
          * @return @c true, if the parameter vector violates the constraint.
          */
-        bool test(const T x[], size_t n) const {
+        bool is_violated(const T x[], size_t n) const {
             for (size_t i = 0; i < n; ++i) {
                 if (x[i] < a[i] || x[i] > b[i]) {
                     return true;
@@ -94,13 +94,10 @@ namespace especia {
         const std::valarray<T> b;
     };
 
-
     /**
      * No constraint.
      *
      * @tparam T The number type.
-     *
-     * @todo - this is work in progress
      */
     template<class T>
     class No_Constraint {
@@ -124,7 +121,7 @@ namespace especia {
          * @param n The number of parameters to test.
          * @return always @c false.
          */
-        bool test(const T x[], size_t n) const {
+        bool is_violated(const T *x, size_t n) const {
             return false;
         }
 
@@ -140,28 +137,25 @@ namespace especia {
         }
     };
 
-
     /**
-     * No tracer.
+     * No tracing.
      *
      * @tparam T The number type.
-     *
-     * @todo - this is work in progress
      */
     template<class T>
-    class No_Tracer {
+    class No_Tracing {
     public:
 
         /**
          * Constructor.
          */
-        No_Tracer() {
+        No_Tracing() {
         }
 
         /**
          * Destructor.
          */
-        ~No_Tracer() {
+        ~No_Tracing() {
         }
 
         /**
@@ -184,174 +178,6 @@ namespace especia {
          */
         void trace(const unsigned long &g, const T &y, const T &min_step, const T &max_step) {
         }
-    };
-
-    template<class Deviate, class Decompose, class Compare, class Tracer>
-    class Optimizer_Builder;
-
-    /**
-     * @todo - this is work in progress
-     */
-    template<class Deviate, class Decompose, class Compare, class Tracer>
-    class Optimizer {
-    public:
-        ~Optimizer() {
-
-        }
-
-    private:
-        Optimizer(Optimizer_Builder<Deviate, Decompose, Compare, Tracer> *builder) {
-        }
-
-        friend class Optimizer_Builder<Deviate, Decompose, Compare, Tracer>;
-    };
-
-    /**
-     * @todo - this is work in progress
-     */
-    template<class Deviate, class Decompose, class Compare, class Tracer>
-    class Optimizer_Builder {
-    public:
-        Optimizer_Builder(const Deviate &dev, const Tracer &tr, size_t dim = 1)
-                : deviate(dev),
-                  tracer(tr),
-                  decompose(Decompose(dim)),
-                  compare(Compare()),
-                  n(dim) {
-            set_parent_number();
-            set_population_size();
-            set_update_modulus();
-            set_accuracy_goal();
-            set_stop_generation();
-        }
-
-        ~Optimizer_Builder() {
-
-        }
-
-        Optimizer_Builder &set_parent_number(unsigned parent_number = 4) {
-            this->parent_number = parent_number;
-            return *this;
-        }
-
-        Optimizer_Builder &set_population_size(unsigned population_size = 8) {
-            this->population_size = population_size;
-            return *this;
-        }
-
-        Optimizer_Builder &set_update_modulus(unsigned update_modulus = 1) {
-            this->update_modulus = update_modulus;
-            return *this;
-        }
-
-        Optimizer_Builder &set_accuracy_goal(double accuracy_goal = 1.0E-06) {
-            this->accuracy_goal = accuracy_goal;
-            return *this;
-        }
-
-        Optimizer_Builder &set_stop_generation(unsigned long stop_generation = 1000) {
-            this->stop_generation = stop_generation;
-            return *this;
-        }
-
-        Optimizer<Deviate, Decompose, Compare, Tracer> build() {
-            return Optimizer<Deviate, Decompose, Compare, Tracer>(this);
-        };
-
-        const Deviate &get_deviate() const {
-            return deviate;
-        }
-
-        const Tracer &get_tracer() const {
-            return tracer;
-        }
-
-        const Decompose &get_decompose() const {
-            return decompose;
-        }
-
-        const Compare &get_compare() const {
-            return compare;
-        }
-
-        size_t get_n() const {
-            return n;
-        }
-
-        unsigned int get_parent_number() const {
-            return parent_number;
-        }
-
-        unsigned int get_population_size() const {
-            return population_size;
-        }
-
-        unsigned int get_update_modulus() const {
-            return update_modulus;
-        }
-
-        double get_accuracy_goal() const {
-            return accuracy_goal;
-        }
-
-        unsigned long get_stop_generation() const {
-            return stop_generation;
-        }
-
-    private:
-        const Deviate &deviate;
-        const Tracer &tracer;
-        const Decompose decompose;
-        const Compare compare;
-        const size_t n;
-
-        unsigned int parent_number;
-        unsigned int population_size;
-        unsigned int update_modulus;
-        double accuracy_goal;
-        unsigned long stop_generation;
-    };
-
-
-    /**
-     * An indirect comparator to compare a set of fitness values.
-     *
-     * @tparam T The number type.
-     * @tparam Compare The strategy to compare numbers directly.
-     */
-    template<class T, class Compare>
-    class Indirect_Compare {
-    public:
-        /**
-         * Constructs a new indirect comparator to compare a set of fitness values.
-         *
-         * @param[in] f The fitness values.
-         * @param[in] c The direct number comparator.
-         */
-        Indirect_Compare(const std::valarray<T> &f, const Compare &c)
-                : fitness(f), compare(c) {
-        }
-
-        /**
-         * Destructor.
-         */
-        ~Indirect_Compare() {
-        }
-
-        /**
-         * The indirect comparing.
-         *
-         * @param[in] i An index into the set of fitness values.
-         * @param[in] j An index into the set of fitness values.
-         * @return the direct comparator result.
-         */
-        bool operator()(const size_t &i, const size_t &j) const {
-            return compare(fitness[i], fitness[j]);
-        }
-
-    private:
-        const std::valarray<T> &fitness;
-        const Compare &compare;
     };
 
 
@@ -482,7 +308,7 @@ namespace especia {
                             v[k][i] = vw[i] + z * B[ij];
                             x[k][i] = xw[i] + u[k][i] * step_size; // Hansen and Ostermeier (2001), Eq. (13)
                         }
-                    } while (constraint.test(&x[k][0], n));
+                    } while (constraint.is_violated(&x[k][0], n));
                     uw = u[k];
                     vw = v[k];
                 }
@@ -788,3 +614,5 @@ namespace especia {
 }
 
 #endif // ESPECIA_OPTIMIZE_H
+
+#pragma clang diagnostic pop

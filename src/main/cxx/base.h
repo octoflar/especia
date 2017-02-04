@@ -22,6 +22,8 @@
 #ifndef ESPECIA_BASE_H
 #define ESPECIA_BASE_H
 
+#include <valarray>
+
 namespace especia {
 
     /**
@@ -77,6 +79,47 @@ namespace especia {
     Number sqr(const Number &x) {
         return (x == Number(0)) ? Number(0) : x * x;
     }
+
+    /**
+     * An indirect comparing of a set of values.
+     *
+     * @tparam Number The number type.
+     * @tparam Compare The strategy to compare numbers directly.
+     */
+    template<class Number, class Compare>
+    class Indirect_Compare {
+    public:
+        /**
+         * Constructs a new indirect comparing.
+         *
+         * @param[in] v The values.
+         * @param[in] c The direct number comparing.
+         */
+        Indirect_Compare(const std::valarray<Number> &v, const Compare &c)
+                : values(v), compare(c) {
+        }
+
+        /**
+         * Destructor.
+         */
+        ~Indirect_Compare() {
+        }
+
+        /**
+         * The indirect comparing operator.
+         *
+         * @param[in] i An index into the set of fitness values.
+         * @param[in] j An index into the set of fitness values.
+         * @return the direct comparing result.
+         */
+        bool operator()(const size_t &i, const size_t &j) const {
+            return compare(values[i], values[j]);
+        }
+
+    private:
+        const std::valarray<Number> &values;
+        const Compare &compare;
+    };
 
 }
 
