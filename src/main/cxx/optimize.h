@@ -327,10 +327,10 @@ namespace especia {
                             y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
                         })
                 );
-                indexes[k] = k;
             }
             for (size_t k = 0; k < population_size; ++k) {
                 threads[k].join();
+                indexes[k] = k;
             }
 #endif
             partial_sort(&indexes[0], &indexes[parent_number], &indexes[population_size],
