@@ -140,9 +140,9 @@ namespace especia {
     /**
      * No tracing.
      *
-     * @tparam T The number type.
+     * @tparam Number The number type.
      */
-    template<class T>
+    template<class Number>
     class No_Tracing {
     public:
 
@@ -176,7 +176,7 @@ namespace especia {
          * @param min_step The minimum step size.
          * @param max_step The maximum step size.
          */
-        void trace(const unsigned long &g, const T &y, const T &min_step, const T &max_step) {
+        void trace(const unsigned long &g, const Number &y, const Number &min_step, const Number &max_step) {
         }
     };
 
