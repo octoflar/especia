@@ -254,7 +254,7 @@ namespace especia {
                 const double h = 0.5 * center() / (r * kilo);
                 // The sample spacing.
                 const double w = width() / (n - 1);
-                // The Gaussian line spread function is cut at 4 HWHM where it is less than 10E-5.
+                // The Gaussian line spread function is truncated at 4 HWHM where it is less than 10E-5.
                 const size_t m = static_cast<size_t>(4.0 * (h / w)) + 1;
 
                 valarray<double> p(m);
