@@ -495,8 +495,9 @@ namespace especia {
         using std::valarray;
 
         valarray<double> w(1.0, parent_number);
-        for (size_t i = 0; i < parent_number; ++i)
+        for (size_t i = 0; i < parent_number; ++i) {
             w[i] = log((parent_number + 1.0) / (i + 1));
+        }
 
         const double wv = sqr(w.sum()) / w.apply(sqr).sum();
         const double cs = (wv + 2.0) / (wv + n + 3.0);
