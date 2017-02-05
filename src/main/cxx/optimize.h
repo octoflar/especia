@@ -40,9 +40,9 @@ namespace especia {
     /**
      * A bound constraint.
      *
-     * @tparam T The number type.
+     * @tparam Number The number type.
      */
-    template<class T>
+    template<class Number>
     class Bound_Constraint {
     public:
         /**
@@ -52,7 +52,7 @@ namespace especia {
          * @param upper_bounds The upper bounds.
          * @param n The number of bounds.
          */
-        Bound_Constraint(const T lower_bounds[], const T upper_bounds[], size_t n)
+        Bound_Constraint(const Number lower_bounds[], const Number upper_bounds[], size_t n)
                 : a(lower_bounds, n), b(upper_bounds, n) {
         }
 
@@ -69,7 +69,7 @@ namespace especia {
          * @param n The number of parameters to test.
          * @return @c true, if the parameter vector violates the constraint.
          */
-        bool is_violated(const T x[], size_t n) const {
+        bool is_violated(const Number x[], size_t n) const {
             for (size_t i = 0; i < n; ++i) {
                 if (x[i] < a[i] || x[i] > b[i]) {
                     return true;
@@ -85,21 +85,21 @@ namespace especia {
          * @param n The number of parameters to take account of.
          * @return always zero.
          */
-        T cost(const T x[], size_t n) const {
-            return T(0);
+        Number cost(const Number x[], size_t n) const {
+            return Number(0);
         }
 
     private:
-        const std::valarray<T> a;
-        const std::valarray<T> b;
+        const std::valarray<Number> a;
+        const std::valarray<Number> b;
     };
 
     /**
      * No constraint.
      *
-     * @tparam T The number type.
+     * @tparam Number The number type.
      */
-    template<class T>
+    template<class Number>
     class No_Constraint {
     public:
         /**
@@ -121,7 +121,7 @@ namespace especia {
          * @param n The number of parameters to test.
          * @return always @c false.
          */
-        bool is_violated(const T *x, size_t n) const {
+        bool is_violated(const Number *x, size_t n) const {
             return false;
         }
 
@@ -132,8 +132,8 @@ namespace especia {
          * @param n The number of parameters to take account of.
          * @return always zero.
          */
-        T cost(const T x[], size_t n) const {
-            return T(0);
+        Number cost(const Number x[], size_t n) const {
+            return Number(0);
         }
     };
 
