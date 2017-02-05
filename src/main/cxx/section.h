@@ -344,7 +344,6 @@ namespace especia {
          */
         std::valarray<double> tfl;
 
-
         /**
          * The evaluated convoluted spectral flux.
          */
