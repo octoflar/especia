@@ -138,6 +138,80 @@ namespace especia {
     };
 
     /**
+     * Traces state information to an output stream.
+     *
+     * @tparam Number The number type.
+     */
+    template<class Number>
+    class Default_Tracer {
+    public:
+        /**
+         * Constructor.
+         *
+         * @param output_stream The output stream.
+         * @param modulus The trace modulus.
+         * @param precision The precision of numeric output.
+         * @param width The width of the numeric output fields.
+         */
+        Default_Tracer(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
+                        unsigned int width = 12)
+                : os(output_stream), m(modulus), p(precision), w(width) {
+        }
+
+        /**
+         * Destructor.
+         */
+        ~Default_Tracer() {
+        }
+
+        /**
+         * Tests if tracing is enabled.
+         *
+         * @param g The generation number.
+         * @return @true if tracing is enabled, otherwise @c false.
+         */
+        bool is_enabled(unsigned long g) const {
+            return m > 0 and g % m == 0;
+        }
+
+        /**
+         * Traces state information to an output stream..
+         *
+         * @param g The generation number.
+         * @param y The value of the objective function.
+         * @param min_step The minimum step size.
+         * @param max_step The maximum step size.
+         */
+        void trace(unsigned long g, Number y, Number min_step, Number max_step) const {
+            using std::endl;
+            using std::ios_base;
+            using std::setw;
+
+            const ios_base::fmtflags fmt = os.flags();
+
+            os.setf(ios_base::fmtflags());
+            os.setf(ios_base::scientific, ios_base::floatfield);
+            os.setf(ios_base::right, ios_base::adjustfield);
+            os.precision(p);
+
+            os << setw(8) << g;
+            os << setw(w) << y;
+            os << setw(w) << min_step;
+            os << setw(w) << max_step;
+            os << endl;
+
+            os.flags(fmt);
+        }
+
+    private:
+        std::ostream &os;
+        const unsigned int m;
+        const unsigned int p;
+        const unsigned int w;
+    };
+
+
+    /**
      * No tracing.
      *
      * @tparam Number The number type.
@@ -164,19 +238,19 @@ namespace especia {
          * @param g The generation number.
          * @return always @c false.
          */
-        bool is_enabled(const unsigned long &g) const {
+        bool is_enabled(unsigned long g) const {
             return false;
         }
 
         /**
-         * Traces some state information.
+         * Traces state information.
          *
          * @param g The generation number.
          * @param y The value of the objective function.
          * @param min_step The minimum step size.
          * @param max_step The maximum step size.
          */
-        void trace(const unsigned long &g, const Number &y, const Number &min_step, const Number &max_step) {
+        void trace(unsigned long g, Number y, Number min_step, Number max_step) const {
         }
     };
 
