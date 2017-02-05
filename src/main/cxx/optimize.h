@@ -319,7 +319,7 @@ namespace especia {
                 y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
                 indexes[k] = k;
             }
-#else
+#else // C++-11
             vector<thread> threads; threads.reserve(population_size);
             for (size_t k = 0; k < population_size; ++k) {
                 threads.push_back(
@@ -592,7 +592,7 @@ namespace especia {
                     zq = f(&q[0], n) + constraint.cost(&q[0], n);
                 }
             }
-#else
+#else // C++-11
             thread tp([&f, &constraint, &p, n, &zp]() { zp = f(&p[0], n) + constraint.cost(&p[0], n); });
             thread tq([&f, &constraint, &q, n, &zq]() { zq = f(&q[0], n) + constraint.cost(&q[0], n); });
             tp.join();

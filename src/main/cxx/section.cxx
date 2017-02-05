@@ -211,7 +211,7 @@ void especia::Section::mask(double a, double b) {
 }
 
 void especia::Section::primitive(double x, double h, double &p, double &q) const {
-    using std::erf; // since C++11
+    using std::erf; // C++11
     using std::exp;
 
     const double c = 1.6651092223153955127063292897904020952612;
