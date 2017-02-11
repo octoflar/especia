@@ -24,7 +24,7 @@
 
 #include "optimizer.h"
 
-especia::Optimizer_Builder::Optimizer_Builder() : w() {
+especia::Optimizer_Builder::Optimizer_Builder() : weights() {
     with_problem_dimension();
     with_parent_number();
     with_population_size();
@@ -35,6 +35,12 @@ especia::Optimizer_Builder::Optimizer_Builder() : w() {
 
 especia::Optimizer_Builder::~Optimizer_Builder() {
 
+}
+
+especia::Optimizer_Builder &especia::Optimizer_Builder::with_problem_dimension(unsigned n) {
+    this->n = n;
+    set_strategy_parameters();
+    return *this;
 }
 
 especia::Optimizer_Builder &especia::Optimizer_Builder::with_parent_number(unsigned parent_number) {
@@ -48,18 +54,38 @@ especia::Optimizer_Builder &especia::Optimizer_Builder::with_population_size(uns
     return *this;
 }
 
+especia::Optimizer_Builder &especia::Optimizer_Builder::with_update_modulus(unsigned update_modulus) {
+    this->update_modulus = update_modulus;
+    return *this;
+}
+
+especia::Optimizer_Builder &especia::Optimizer_Builder::with_accuracy_goal(double accuracy_goal) {
+    this->accuracy_goal = accuracy_goal;
+    return *this;
+}
+
+especia::Optimizer_Builder &especia::Optimizer_Builder::with_stop_generation(unsigned long stop_generation) {
+    this->stop_generation = stop_generation;
+    return *this;
+}
+
+especia::Optimizer especia::Optimizer_Builder::build() {
+    return Optimizer(*this);
+};
+
 void especia::Optimizer_Builder::set_strategy_parameters() {
     using std::log;
     using std::max;
     using std::min;
     using std::sqrt;
 
-    w.resize(parent_number);
+    weights.resize(parent_number);
+
     for (size_t i = 0; i < parent_number; ++i) {
-        w[i] = log((parent_number + 1.0) / (i + 1));
+        weights[i] = log((parent_number + 1.0) / (i + 1));
     }
 
-    wv = sqr(w.sum()) / w.apply(sqr).sum();
+    wv = sqr(weights.sum()) / weights.apply(sqr).sum();
     cs = (wv + 2.0) / (wv + n + 3.0);
     cc = 4.0 / (n + 4.0);
 
