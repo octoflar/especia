@@ -89,7 +89,7 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
 
         // Optimizing the background continuum is a linear optimization problem. Here the normal
         // equations are established.
-        for (size_t i = 0; i < n; ++i)
+        for (size_t i = 0; i < n; ++i) {
             if (msk[i]) {
                 // Map the wavelengths onto the interval [-1, 1]
                 const double x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
@@ -114,13 +114,13 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
                     b[j] += (flx[i] * cat[i] * l[j]) / (unc[i] * unc[i]);
                 }
             }
-
+        }
         // The normal equations are solved by means of a Cholesky decomposition (e.g. Press et al. 2002).
         //
         // W. H. Press, S. A. Teukolsky, W. T. Vetterling, B. P. Flannery (2002).
         //   Numerical Recipes in C: The Art of Scientific Computing.
         //   Cambridge University Press, ISBN 0-521-75033-4.
-        for (size_t i = 0; i < m; ++i)
+        for (size_t i = 0; i < m; ++i) {
             for (size_t j = i; j < m; ++j) {
                 double s = a[i][j];
 
@@ -137,6 +137,7 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
                             "especia::section::continuum(): Error: normal equations are numerically singular");
                 }
             }
+        }
         for (size_t i = 0; i < m; ++i) {
             double s = b[i];
 
