@@ -50,8 +50,8 @@ namespace especia {
         /**
          * Constructs a new strict-bound prior constraint.
          *
-         * @param lower_bounds The lower bounds.
-         * @param upper_bounds The upper bounds.
+         * @param lower_bounds[in] The lower bounds.
+         * @param upper_bounds[in] The upper bounds.
          * @param n The number of bounds.
          */
         Bounds(const Number lower_bounds[], const Number upper_bounds[], size_t n)
@@ -67,8 +67,8 @@ namespace especia {
         /**
          * Tests if a given parameter vector violates the constraint.
          *
-         * @param x The parameter vector.
-         * @param n The number of parameters to test.
+         * @param x[in] The parameter vector.
+         * @param n[in] The number of parameters to test.
          * @return @c true, if the parameter vector violates the constraint.
          */
         bool is_violated(const Number x[], size_t n) const {
@@ -83,8 +83,8 @@ namespace especia {
         /**
          * Computes the cost associated with the constraint.
          *
-         * @param x The parameter vector.
-         * @param n The number of parameters to take account of.
+         * @param x[in] The parameter vector.
+         * @param n[in] The number of parameters to take account of.
          * @return always zero.
          */
         Number cost(const Number x[], size_t n) const {
@@ -119,8 +119,8 @@ namespace especia {
         /**
          * Tests if a given parameter vector violates the constraint.
          *
-         * @param x The parameter vector.
-         * @param n The number of parameters to test.
+         * @param x[in] The parameter vector.
+         * @param n[in] The number of parameters to test.
          * @return always @c false.
          */
         bool is_violated(const Number *x, size_t n) const {
@@ -130,8 +130,8 @@ namespace especia {
         /**
          * Computes the cost associated with the constraint.
          *
-         * @param x The parameter vector.
-         * @param n The number of parameters to take account of.
+         * @param x[in] The parameter vector.
+         * @param n[in] The number of parameters to take account of.
          * @return always zero.
          */
         Number cost(const Number x[], size_t n) const {
@@ -150,10 +150,10 @@ namespace especia {
         /**
          * Constructor.
          *
-         * @param output_stream The output stream.
-         * @param modulus The trace modulus.
-         * @param precision The precision of numeric output.
-         * @param width The width of the numeric output fields.
+         * @param output_stream[in] The output stream.
+         * @param modulus[in] The trace modulus.
+         * @param precision[in] The precision of numeric output.
+         * @param width[in] The width of the numeric output fields.
          */
         Output_Stream_Tracer(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
                         unsigned int width = 12)
@@ -169,7 +169,7 @@ namespace especia {
         /**
          * Tests if tracing is enabled.
          *
-         * @param g The generation number.
+         * @param g[in] The generation number.
          * @return @true if tracing is enabled, otherwise @c false.
          */
         bool is_enabled(unsigned long g) const {
@@ -179,10 +179,10 @@ namespace especia {
         /**
          * Traces state information to an output stream..
          *
-         * @param g The generation number.
-         * @param y The value of the objective function.
-         * @param min_step The minimum step size.
-         * @param max_step The maximum step size.
+         * @param g[in] The generation number.
+         * @param y[in] The value of the objective function.
+         * @param min_step[in] The minimum step size.
+         * @param max_step[in] The maximum step size.
          */
         void trace(unsigned long g, Number y, Number min_step, Number max_step) const {
             using std::endl;
@@ -237,7 +237,7 @@ namespace especia {
         /**
          * Tests if tracing is enabled.
          *
-         * @param g The generation number.
+         * @param g[in] The generation number.
          * @return always @c false.
          */
         bool is_enabled(unsigned long g) const {
@@ -247,10 +247,10 @@ namespace especia {
         /**
          * Traces state information.
          *
-         * @param g The generation number.
-         * @param y The value of the objective function.
-         * @param min_step The minimum step size.
-         * @param max_step The maximum step size.
+         * @param g[in] The generation number.
+         * @param y[in] The value of the objective function.
+         * @param min_step[in] The minimum step size.
+         * @param max_step[in] The maximum step size.
          */
         void trace(unsigned long g, Number y, Number min_step, Number max_step) const {
         }
