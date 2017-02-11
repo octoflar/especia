@@ -93,6 +93,7 @@ namespace especia {
 
         /**
          * Builds a new CMA-ES optimizer.
+         *
          * @return the CMA-ES optimizer.
          */
         Optimizer build();
