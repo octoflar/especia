@@ -27,7 +27,6 @@
 
 namespace especia {
 
-    template<class Deviate, class Decompose, class Compare, class Tracer>
     class Optimizer_Builder;
 
     /**
@@ -41,81 +40,54 @@ namespace especia {
         }
 
     private:
-        Optimizer(Optimizer_Builder<Deviate, Decompose, Compare, Tracer> *builder) {
+        Optimizer(Deviate &deviate, Decompose &decompose, Compare &compare, Tracer &tracer,
+                  Optimizer_Builder &builder) {
         }
 
-        friend class Optimizer_Builder<Deviate, Decompose, Compare, Tracer>;
+        friend class Optimizer_Builder;
     };
 
     /**
      * @todo - this is work in progress
      */
-    template<class Deviate, class Decompose, class Compare, class Tracer>
     class Optimizer_Builder {
     public:
-        Optimizer_Builder(const Deviate &dev, const Tracer &tr, size_t dim = 1)
-                : deviate(dev),
-                  tracer(tr),
-                  decompose(Decompose(dim)),
-                  compare(Compare()),
-                  n(dim) {
-            set_parent_number();
-            set_population_size();
-            set_update_modulus();
-            set_accuracy_goal();
-            set_stop_generation();
-        }
+        Optimizer_Builder();
 
-        ~Optimizer_Builder() {
+        ~Optimizer_Builder();
 
-        }
-
-        Optimizer_Builder &set_parent_number(unsigned parent_number = 4) {
-            this->parent_number = parent_number;
+        Optimizer_Builder &with_problem_dimension(unsigned n = 1) {
+            this->n = n;
+            set_strategy_parameters();
             return *this;
         }
 
-        Optimizer_Builder &set_population_size(unsigned population_size = 8) {
-            this->population_size = population_size;
-            return *this;
-        }
+        Optimizer_Builder &with_parent_number(unsigned parent_number = 4);
 
-        Optimizer_Builder &set_update_modulus(unsigned update_modulus = 1) {
+        Optimizer_Builder &with_population_size(unsigned population_size = 8);
+
+        Optimizer_Builder &with_update_modulus(unsigned update_modulus = 1) {
             this->update_modulus = update_modulus;
             return *this;
         }
 
-        Optimizer_Builder &set_accuracy_goal(double accuracy_goal = 1.0E-06) {
+        Optimizer_Builder &with_accuracy_goal(double accuracy_goal = 1.0E-06) {
             this->accuracy_goal = accuracy_goal;
             return *this;
         }
 
-        Optimizer_Builder &set_stop_generation(unsigned long stop_generation = 1000) {
+        Optimizer_Builder &with_stop_generation(unsigned long stop_generation = 1000) {
             this->stop_generation = stop_generation;
             return *this;
         }
 
-        Optimizer<Deviate, Decompose, Compare, Tracer> build() {
-            return Optimizer<Deviate, Decompose, Compare, Tracer>(this);
+        template<class Deviate, class Decompose, class Compare, class Tracer>
+        Optimizer<Deviate, Decompose, Compare, Tracer>
+        build(Deviate &deviate, Decompose &decompose, Compare &compare, Tracer &tracer) {
+            return Optimizer<Deviate, Decompose, Compare, Tracer>(deviate, decompose, compare, tracer, *this);
         };
 
-        const Deviate &get_deviate() const {
-            return deviate;
-        }
-
-        const Tracer &get_tracer() const {
-            return tracer;
-        }
-
-        const Decompose &get_decompose() const {
-            return decompose;
-        }
-
-        const Compare &get_compare() const {
-            return compare;
-        }
-
-        size_t get_n() const {
+        size_t get_problem_dimension() const {
             return n;
         }
 
@@ -139,18 +111,52 @@ namespace especia {
             return stop_generation;
         }
 
+        std::valarray<double> get_weights() const {
+            return w;
+        }
+
+        double get_step_size_cumulation_rate() const {
+            return cs;
+        }
+
+        double get_distribution_cumulation_rate() const {
+            return cc;
+        }
+
+        double get_covariance_matrix_adaption_rate() const {
+            return ccov;
+        }
+
+        double get_covariance_matrix_adaption_mixing() const {
+            return acov;
+        }
+
+        double get_step_size_damping() const {
+            return step_size_damping;
+        }
+
     private:
-        const Deviate &deviate;
-        const Tracer &tracer;
-        const Decompose decompose;
-        const Compare compare;
-        const size_t n;
+
+        void set_strategy_parameters();
+
+        size_t n;
 
         unsigned int parent_number;
         unsigned int population_size;
         unsigned int update_modulus;
+
         double accuracy_goal;
         unsigned long stop_generation;
+
+        std::valarray<double> w;
+
+        double wv;
+        double cs;
+        double cc;
+        double acov;
+        double ccov;
+        double step_size_damping;
+
     };
 
 }

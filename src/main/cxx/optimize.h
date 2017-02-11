@@ -27,6 +27,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <iomanip>
 #include <limits>
 #include <numeric>
 #include <thread>
@@ -38,12 +39,12 @@
 namespace especia {
 
     /**
-     * A bound constraint.
+     * A bounded constraint.
      *
      * @tparam Number The number type.
      */
     template<class Number>
-    class Bound_Constraint {
+    class Bounds {
     public:
         /**
          * Constructs a new strict-bound prior constraint.
@@ -52,14 +53,14 @@ namespace especia {
          * @param upper_bounds The upper bounds.
          * @param n The number of bounds.
          */
-        Bound_Constraint(const Number lower_bounds[], const Number upper_bounds[], size_t n)
+        Bounds(const Number lower_bounds[], const Number upper_bounds[], size_t n)
                 : a(lower_bounds, n), b(upper_bounds, n) {
         }
 
         /**
          * Destructor.
          */
-        ~Bound_Constraint() {
+        ~Bounds() {
         }
 
         /**
@@ -100,18 +101,18 @@ namespace especia {
      * @tparam Number The number type.
      */
     template<class Number>
-    class No_Constraint {
+    class Unconstrained {
     public:
         /**
          * Constructor.
          */
-        No_Constraint() {
+        Unconstrained() {
         }
 
         /**
          * Destructor.
          */
-        ~No_Constraint() {
+        ~Unconstrained() {
         }
 
         /**
@@ -143,7 +144,7 @@ namespace especia {
      * @tparam Number The number type.
      */
     template<class Number>
-    class Default_Tracer {
+    class Output_Stream_Tracer {
     public:
         /**
          * Constructor.
@@ -153,7 +154,7 @@ namespace especia {
          * @param precision The precision of numeric output.
          * @param width The width of the numeric output fields.
          */
-        Default_Tracer(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
+        Output_Stream_Tracer(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
                         unsigned int width = 12)
                 : os(output_stream), m(modulus), p(precision), w(width) {
         }
@@ -161,7 +162,7 @@ namespace especia {
         /**
          * Destructor.
          */
-        ~Default_Tracer() {
+        ~Output_Stream_Tracer() {
         }
 
         /**

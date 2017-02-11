@@ -64,6 +64,7 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/decompose.h
         ${MAIN}/cxx/model.h
         ${MAIN}/cxx/mtwister.h
+        ${MAIN}/cxx/optimizer.cxx
         ${MAIN}/cxx/optimizer.h
         ${MAIN}/cxx/optimize.h
         ${MAIN}/cxx/profiles.cxx
