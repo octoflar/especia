@@ -47,7 +47,7 @@ namespace especia {
         /**
          * Configures the problem dimension.
          *
-         * @param n The problem dimension.
+         * @param n[in] The problem dimension.
          * @return this builder.
          */
         Optimizer_Builder &with_problem_dimension(unsigned n = 1);
@@ -55,7 +55,7 @@ namespace especia {
         /**
          * Configures the parent number.
          *
-         * @param parent_number The parent number.
+         * @param parent_number[in] The parent number.
          * @return this builder.
          */
         Optimizer_Builder &with_parent_number(unsigned parent_number = 4);
@@ -63,7 +63,7 @@ namespace especia {
         /**
          * Configures the population size.
          *
-         * @param population_size The population size.
+         * @param population_size[in] The population size.
          * @return this builder.
          */
         Optimizer_Builder &with_population_size(unsigned population_size = 8);
@@ -71,7 +71,7 @@ namespace especia {
         /**
          * Configures the covariance matrix update modulus.
          *
-         * @param update_modulus The update modulus.
+         * @param update_modulus[in] The update modulus.
          * @return this builder.
          */
         Optimizer_Builder &with_update_modulus(unsigned update_modulus = 1);
@@ -79,7 +79,7 @@ namespace especia {
         /**
          * Configures the accuracy goal.
          *
-         * @param accuracy_goal The accuracy goal.
+         * @param accuracy_goal[in] The accuracy goal.
          * @return this builder.
          */
         Optimizer_Builder &with_accuracy_goal(double accuracy_goal = 1.0E-04);
@@ -87,7 +87,7 @@ namespace especia {
         /**
          * Configures the stop generation.
          *
-         * @param stop_generation The stop generation.
+         * @param stop_generation[in] The stop generation.
          * @return this builder.
          */
         Optimizer_Builder &with_stop_generation(unsigned long stop_generation = 1000);
