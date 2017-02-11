@@ -61,8 +61,8 @@ namespace especia {
 
         void transpose(double A[]) const;
 
-        char job;
-        char uplo;
+        const char job;
+        const char uplo;
 
         int n;
         int info;
@@ -109,9 +109,9 @@ namespace especia {
 
         void transpose(double A[]) const;
 
-        char job;
-        char range;
-        char uplo;
+        const char job;
+        const char range;
+        const char uplo;
 
         int m;
         int n;
@@ -161,9 +161,9 @@ namespace especia {
 
         void transpose(double A[]) const;
 
-        char job;
-        char range;
-        char uplo;
+        const char job;
+        const char range;
+        const char uplo;
 
         int m;
         int n;
