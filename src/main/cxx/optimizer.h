@@ -54,6 +54,7 @@ namespace especia {
 
         /**
          * Configures the parent number.
+         *
          * @param parent_number The parent number.
          * @return this builder.
          */
@@ -276,7 +277,6 @@ namespace especia {
          * The step size damping.
          */
         double step_size_damping;
-
     };
 
 
