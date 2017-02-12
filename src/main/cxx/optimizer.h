@@ -27,275 +27,284 @@
 
 namespace especia {
 
-    class Optimizer;
-
     /**
-     * Builds a new CMA-ES optimizer.
-     */
-    class Optimizer_Builder {
-    public:
-        /**
-         * The default constructor.
-         */
-        Optimizer_Builder();
-
-        /**
-         * The destructor.
-         */
-        ~Optimizer_Builder();
-
-        /**
-         * Configures the problem dimension.
-         *
-         * @param n[in] The problem dimension.
-         * @return this builder.
-         */
-        Optimizer_Builder &with_problem_dimension(unsigned n = 1);
-
-        /**
-         * Configures the parent number.
-         *
-         * @param parent_number[in] The parent number.
-         * @return this builder.
-         */
-        Optimizer_Builder &with_parent_number(unsigned parent_number = 4);
-
-        /**
-         * Configures the population size.
-         *
-         * @param population_size[in] The population size.
-         * @return this builder.
-         */
-        Optimizer_Builder &with_population_size(unsigned population_size = 8);
-
-        /**
-         * Configures the covariance matrix update modulus.
-         *
-         * @param update_modulus[in] The update modulus.
-         * @return this builder.
-         */
-        Optimizer_Builder &with_update_modulus(unsigned update_modulus = 1);
-
-        /**
-         * Configures the accuracy goal.
-         *
-         * @param accuracy_goal[in] The accuracy goal.
-         * @return this builder.
-         */
-        Optimizer_Builder &with_accuracy_goal(double accuracy_goal = 1.0E-04);
-
-        /**
-         * Configures the stop generation.
-         *
-         * @param stop_generation[in] The stop generation.
-         * @return this builder.
-         */
-        Optimizer_Builder &with_stop_generation(unsigned long stop_generation = 1000);
-
-        /**
-         * Builds a new CMA-ES optimizer.
-         *
-         * @return the CMA-ES optimizer.
-         */
-        Optimizer build();
-
-        /**
-         * Returns the problem dimension.
-         *
-         * @return the problem dimension.
-         */
-        size_t get_problem_dimension() const {
-            return n;
-        }
-
-        /**
-         * Returns the parent number.
-         *
-         * @return the parent number.
-         */
-        unsigned int get_parent_number() const {
-            return parent_number;
-        }
-
-        /**
-         * Returns the population size.
-         *
-         * @return the population size.
-         */
-        unsigned int get_population_size() const {
-            return population_size;
-        }
-
-        /**
-         * Returns the covariance matrix update modulus.
-         *
-         * @return the covariance matrix update modulus.
-         */
-        unsigned int get_update_modulus() const {
-            return update_modulus;
-        }
-
-        /**
-         * Returns the accuracy goal.
-         *
-         * @return the accuracy goal.
-         */
-        double get_accuracy_goal() const {
-            return accuracy_goal;
-        }
-
-        /**
-         * Returns the stop generation.
-         *
-         * @return the stop generation.
-         */
-        unsigned long get_stop_generation() const {
-            return stop_generation;
-        }
-
-        /**
-         * Returns the recombination weights.
-         *
-         * @return the recombination weights.
-         */
-        std::valarray<double> get_weights() const {
-            return weights;
-        }
-
-        /**
-         * Returns the step size cumulation rate.
-         *
-         * @return the step size cumulation rate.
-         */
-        double get_step_size_cumulation_rate() const {
-            return cs;
-        }
-
-        /**
-         * Returns the distribution cumulation rate.
-         *
-         * @return the distribution cumulation rate.
-         */
-        double get_distribution_cumulation_rate() const {
-            return cc;
-        }
-
-        /**
-         * Returns the covariance matrix adaption rate.
-         *
-         * @return the covariance matrix adaption rate.
-         */
-        double get_covariance_matrix_adaption_rate() const {
-            return ccov;
-        }
-
-        /**
-         * Returns the covariance matrix adaption mixing.
-         *
-         * @return the covariance matrix adaption mixing.
-         */
-        double get_covariance_matrix_adaption_mixing() const {
-            return acov;
-        }
-
-        /**
-         * Returns the step size damping.
-         *
-         * @return the step size damping.
-         */
-        double get_step_size_damping() const {
-            return step_size_damping;
-        }
-
-    private:
-        /**
-         * Calculates strategy parameters like recombination weights, cumulation and adaption rates.
-         */
-        void set_strategy_parameters();
-
-        /**
-         * The problem dimension.
-         */
-        size_t n;
-
-        /**
-         * The parent number.
-         */
-        unsigned int parent_number;
-
-        /**
-         * The population size.
-         */
-        unsigned int population_size;
-
-        /**
-         * The covariance matrix update modulus.
-         */
-        unsigned int update_modulus;
-
-        /**
-         * The accuracy goal.
-         */
-        double accuracy_goal;
-
-        /**
-         * The stop generation.
-         */
-        unsigned long stop_generation;
-
-        /**
-         * The recombination weights.
-         */
-        std::valarray<double> weights;
-
-        /**
-         * The variance of the recombination weights.
-         */
-        double wv;
-
-        /**
-         * The step size cumulation rate.
-         */
-        double cs;
-
-        /**
-         * The distribution cumulation rate.
-         */
-        double cc;
-
-        /**
-         * The covariance matrix adaption mixing.
-         */
-        double acov;
-
-        /**
-         * The covariance matrix adaption rate.
-         */
-        double ccov;
-
-        /**
-         * The step size damping.
-         */
-        double step_size_damping;
-    };
-
-
-    /**
+     * An optimizer based on the CMA-ES.
+     *
      * @todo - this is work in progress
      */
     class Optimizer {
     public:
-        ~Optimizer() {
 
-        }
+        /**
+         * Builds a new optimizer.
+         */
+        class Builder {
+        public:
+            /**
+             * Creates a new instance of this class.
+             */
+            Builder();
+
+            /**
+             * Destructor.
+             */
+            ~Builder();
+
+            /**
+             * Builds a new optimizer.
+             *
+             * @return the optimizer.
+             */
+            Optimizer build();
+
+            /**
+              * Returns the problem dimension.
+              *
+              * @return the problem dimension.
+              */
+            size_t get_problem_dimension() const {
+                return n;
+            }
+
+            /**
+             * Returns the parent number.
+             *
+             * @return the parent number.
+             */
+            unsigned int get_parent_number() const {
+                return parent_number;
+            }
+
+            /**
+             * Returns the population size.
+             *
+             * @return the population size.
+             */
+            unsigned int get_population_size() const {
+                return population_size;
+            }
+
+            /**
+             * Returns the covariance matrix update modulus.
+             *
+             * @return the covariance matrix update modulus.
+             */
+            unsigned int get_update_modulus() const {
+                return update_modulus;
+            }
+
+            /**
+             * Returns the accuracy goal.
+             *
+             * @return the accuracy goal.
+             */
+            double get_accuracy_goal() const {
+                return accuracy_goal;
+            }
+
+            /**
+             * Returns the stop generation.
+             *
+             * @return the stop generation.
+             */
+            unsigned long get_stop_generation() const {
+                return stop_generation;
+            }
+
+            /**
+             * Returns the recombination weights.
+             *
+             * @return the recombination weights.
+             */
+            std::valarray<double> get_weights() const {
+                return weights;
+            }
+
+            /**
+             * Returns the step size cumulation rate.
+             *
+             * @return the step size cumulation rate.
+             */
+            double get_step_size_cumulation_rate() const {
+                return cs;
+            }
+
+            /**
+             * Returns the distribution cumulation rate.
+             *
+             * @return the distribution cumulation rate.
+             */
+            double get_distribution_cumulation_rate() const {
+                return cc;
+            }
+
+            /**
+             * Returns the covariance matrix adaption rate.
+             *
+             * @return the covariance matrix adaption rate.
+             */
+            double get_covariance_matrix_adaption_rate() const {
+                return ccov;
+            }
+
+            /**
+             * Returns the covariance matrix adaption mixing.
+             *
+             * @return the covariance matrix adaption mixing.
+             */
+            double get_covariance_matrix_adaption_mixing() const {
+                return acov;
+            }
+
+            /**
+             * Returns the step size damping.
+             *
+             * @return the step size damping.
+             */
+            double get_step_size_damping() const {
+                return step_size_damping;
+            }
+
+            /**
+             * Configures the problem dimension.
+             *
+             * @param n[in] The problem dimension.
+             * @return this builder.
+             */
+            Builder &with_problem_dimension(unsigned n = 1);
+
+            /**
+             * Configures the parent number.
+             *
+             * @param parent_number[in] The parent number.
+             * @return this builder.
+             */
+            Builder &with_parent_number(unsigned parent_number = 4);
+
+            /**
+             * Configures the population size.
+             *
+             * @param population_size[in] The population size.
+             * @return this builder.
+             */
+            Builder &with_population_size(unsigned population_size = 8);
+
+            /**
+             * Configures the covariance matrix update modulus.
+             *
+             * @param update_modulus[in] The update modulus.
+             * @return this builder.
+             */
+            Builder &with_update_modulus(unsigned update_modulus = 1);
+
+            /**
+             * Configures the accuracy goal.
+             *
+             * @param accuracy_goal[in] The accuracy goal.
+             * @return this builder.
+             */
+            Builder &with_accuracy_goal(double accuracy_goal = 1.0E-04);
+
+            /**
+             * Configures the stop generation.
+             *
+             * @param stop_generation[in] The stop generation.
+             * @return this builder.
+             */
+            Builder &with_stop_generation(unsigned long stop_generation = 1000);
+
+        private:
+            /**
+             * Calculates strategy parameters like recombination weights, cumulation and adaption rates.
+             */
+            void set_strategy_parameters();
+
+            /**
+             * The problem dimension.
+             */
+            size_t n;
+
+            /**
+             * The parent number.
+             */
+            unsigned int parent_number;
+
+            /**
+             * The population size.
+             */
+            unsigned int population_size;
+
+            /**
+             * The covariance matrix update modulus.
+             */
+            unsigned int update_modulus;
+
+            /**
+             * The accuracy goal.
+             */
+            double accuracy_goal;
+
+            /**
+             * The stop generation.
+             */
+            unsigned long stop_generation;
+
+            /**
+             * The recombination weights.
+             */
+            std::valarray<double> weights;
+
+            /**
+             * The variance of the recombination weights.
+             */
+            double wv;
+
+            /**
+             * The step size cumulation rate.
+             */
+            double cs;
+
+            /**
+             * The distribution cumulation rate.
+             */
+            double cc;
+
+            /**
+             * The covariance matrix adaption mixing.
+             */
+            double acov;
+
+            /**
+             * The covariance matrix adaption rate.
+             */
+            double ccov;
+
+            /**
+             * The step size damping.
+             */
+            double step_size_damping;
+        };
+
+
+        /**
+         * Destructor.
+         */
+        ~Optimizer();
 
     private:
-        Optimizer(Optimizer_Builder builder) {
-        }
+        /**
+         * Creates a new instance of this class with the configuration supplied as argument.
+         *
+         * @param config The configuration.
+         */
+        Optimizer(const Builder &config);
 
-        friend class Optimizer_Builder;
+        /**
+         * The CMA-ES configuration.
+         */
+        const Builder configuration;
     };
 
 }
 
-#endif //ESPECIA_OPTMIZER_H
+#endif // ESPECIA_OPTMIZER_H

@@ -24,7 +24,7 @@
 
 #include "optimizer.h"
 
-especia::Optimizer_Builder::Optimizer_Builder() : weights() {
+especia::Optimizer::Builder::Builder() : weights() {
     with_problem_dimension();
     with_parent_number();
     with_population_size();
@@ -33,47 +33,47 @@ especia::Optimizer_Builder::Optimizer_Builder() : weights() {
     with_stop_generation();
 }
 
-especia::Optimizer_Builder::~Optimizer_Builder() {
+especia::Optimizer::Builder::~Builder() {
 
 }
 
-especia::Optimizer_Builder &especia::Optimizer_Builder::with_problem_dimension(unsigned n) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(unsigned n) {
     this->n = n;
     set_strategy_parameters();
     return *this;
 }
 
-especia::Optimizer_Builder &especia::Optimizer_Builder::with_parent_number(unsigned parent_number) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_parent_number(unsigned parent_number) {
     this->parent_number = parent_number;
     set_strategy_parameters();
     return *this;
 }
 
-especia::Optimizer_Builder &especia::Optimizer_Builder::with_population_size(unsigned population_size) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_population_size(unsigned population_size) {
     this->population_size = population_size;
     return *this;
 }
 
-especia::Optimizer_Builder &especia::Optimizer_Builder::with_update_modulus(unsigned update_modulus) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_update_modulus(unsigned update_modulus) {
     this->update_modulus = update_modulus;
     return *this;
 }
 
-especia::Optimizer_Builder &especia::Optimizer_Builder::with_accuracy_goal(double accuracy_goal) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_accuracy_goal(double accuracy_goal) {
     this->accuracy_goal = accuracy_goal;
     return *this;
 }
 
-especia::Optimizer_Builder &especia::Optimizer_Builder::with_stop_generation(unsigned long stop_generation) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_stop_generation(unsigned long stop_generation) {
     this->stop_generation = stop_generation;
     return *this;
 }
 
-especia::Optimizer especia::Optimizer_Builder::build() {
+especia::Optimizer especia::Optimizer::Builder::build() {
     return Optimizer(*this);
 };
 
-void especia::Optimizer_Builder::set_strategy_parameters() {
+void especia::Optimizer::Builder::set_strategy_parameters() {
     using std::log;
     using std::max;
     using std::min;
@@ -93,4 +93,12 @@ void especia::Optimizer_Builder::set_strategy_parameters() {
     ccov = acov * (2.0 / sqr(n + sqrt(2.0))) + (1.0 - acov) * min(1.0, (2.0 * wv - 1.0) / (sqr(n + 2.0) + wv));
 
     step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
+}
+
+especia::Optimizer::Optimizer(const especia::Optimizer::Builder &config) : configuration(config) {
+
+}
+
+especia::Optimizer::~Optimizer() {
+
 }
