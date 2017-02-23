@@ -39,7 +39,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 7. relativistic correction coefficient
 8. variation of the fine-structure constant Δα/α (1E-6)
 
-````````
+```
 {
 % section 1
 % id            source          begin       end         polynomials     exclude
@@ -343,11 +343,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   -1300         0           0           0
   0             0           0           0           Fe_II_1608_02
 }
-````````
+```
 
 ## Section: Fe II 2344
 
-````````
+```
 {
 % section 2
 % id            source          begin       end         polynomials
@@ -651,11 +651,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   1210          0           0           0
   0             0           0           0           Fe_II_1608_31
 }
-````````
+```
 
 ## Section: Fe II 2374
 
-````````
+```
 {
 % section 3
 % id            source          begin       end         polynomials
@@ -959,11 +959,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   1590          0           0           0
   0             0           0           0           Fe_II_1608_31
 }
-````````
+```
 
 ## Section: Fe II 2383
 
-````````
+```
 {
 % section 4
 % id            source          begin       end         polynomials     exclude
@@ -1267,11 +1267,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   1460          0           0           0
   0             0           0           0           Fe_II_1608_31
 }
-````````
+```
 
 ## Section: Fe II 2587
 
-````````
+```
 {
 % section 5
 % id            source          begin       end         polynomials
@@ -1574,11 +1574,11 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   1490          0           0           0
   0             0           0           0           Fe_II_1608_31
 }
-````````
+```
 
 ## Section: Fe II 2600
 
-````````
+```
 {
 % section 6
 % id            source          begin       end         polynomials     exclude
@@ -1882,7 +1882,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
   1330          0           0           0
   0             0           0           0           Fe_II_1608_31
 }
-````````
+```
 
 ## References
 

@@ -37,7 +37,7 @@ Doppler profiles are used here. The line parameters are:
 5. line broadening velocity (km s-1)
 6. decadic logarithm of the particle column number density (cm-2)
 
-````````
+```
 {
 % section 1
 % id            source                  begin       end         polynomials
@@ -146,7 +146,7 @@ Doppler profiles are used here. The line parameters are:
   0             0           0           0           C_I_3P0-3D1_2
   0             0           0           0           C_I_3P2-3D2_2
 }
-````````
+```
 
 ## Section: fine-structure multiplet of CI 1656
 
@@ -154,7 +154,7 @@ This section exhibits three unidentified lines that affect the
 modelling of the background continuum, if not considered. All
 parameters of the CI 1656 lines are tied to those of CI 1560.
 
-````````
+```
 {
 % section 2
 % id            source                  begin       end         polynomials
@@ -287,7 +287,7 @@ parameters of the CI 1656 lines are tied to those of CI 1560.
   0             0           0           0           G1
   12.0          10.0        14.0        1
 }
-````````
+```
 
 ## References
 
