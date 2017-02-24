@@ -116,6 +116,8 @@ double vactoair(double x) {
  * Utility to convert wavelength in spectroscopic data from vacuum
  * to air.
  *
+ * @remark Usage: vactoair [SKIP] < ISTREAM > OSTREAM
+ *
  * Further reading:
  *
  * B. Edlen (1966).

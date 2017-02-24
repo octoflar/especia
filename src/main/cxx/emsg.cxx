@@ -27,6 +27,8 @@ using namespace std;
  * Extracts messages from Especia result HTML. Reads from standard
  * input and writes to standard output.
  *
+ * @remark Usage: emsg < ISTREAM > OSTREAM
+ *
  * @return an exit code.
  */
 int main() {

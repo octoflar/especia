@@ -27,6 +27,8 @@ using namespace std;
  * Extracts the model definition from Especia result HTML. Reads from standard
  * input and writes to standard output.
  *
+ * @remark Usage: emod < ISTREAM > OSTREAM
+ *
  * @return an exit code.
  */
 int main() {

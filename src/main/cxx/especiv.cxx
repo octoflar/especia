@@ -35,6 +35,8 @@ const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < 
 /**
  * Flavor of Especia to analyse intergalactic Lyman-alpha lines.
  *
+ * @remark Usage: especiv SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM
+ *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
  * @parblock

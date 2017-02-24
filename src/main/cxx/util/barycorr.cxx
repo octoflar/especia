@@ -117,6 +117,8 @@ double doppler_factor(double v) {
  * Utility to apply the barycentric velocity correction to spectroscopic
  * data.
  *
+ * @remark Usage: barycorr VELOCITY [SKIP] < ISTREAM > OSTREAM
+ *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
  * @parblock

@@ -41,6 +41,8 @@ const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < 
 /**
  * Flavor of Especia to infer the variation of the fine-structure constant.
  *
+ * @remark Usage: especia SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM
+ *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
  * @parblock

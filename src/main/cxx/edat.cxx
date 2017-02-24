@@ -27,6 +27,8 @@ using namespace std;
  * Extracts the spectroscopic data from Especia result HTML. Reads from standard
  * input and writes to standard output.
  *
+ * @remark Usage: edat < ISTREAM > OSTREAM
+ *
  * @return an exit code.
  */
 int main() {

@@ -101,6 +101,8 @@ ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, 
  * Utility to merge separate spectral flux and uncertainty data to
  * three-column format.
  *
+ * @remark Usage: threecol FLUX UNCERTAINTY > OSTREAM
+ *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
  * @parblock

@@ -390,6 +390,8 @@ ostream &operator<<(ostream &os, const Frame_Stack &stack) {
  * Utility to accumulate multiple spectra of the same target,
  * acquired at different dates.
  *
+ * @remark Usage: cumulate [RESOLUTION] < ISTREAM > OSTREAM
+ *
  * The utility (1) reads a stack of spectroscopic data frames
  * from standard input, where the frame separator is an empty
  * line, (2) scales all frames are to the same median flux level,
