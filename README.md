@@ -25,7 +25,7 @@ you. If you already have some understanding of these matters, consult the
 [especia wiki](https://github.com/octoflar/especia/wiki) for operating instructions.
 
 Building this software requires [CMake](https://cmake.org) and a compiler that implements
-the ISO/IEC 14882:2011 norm, also known as C++11. To build and test this software
+[C++11](https://en.wikipedia.org/wiki/C%2B%2B11). To build and test this software
 `cd` into the project root directory and type:
 
     mkdir cmake-build-release
