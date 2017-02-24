@@ -18,8 +18,8 @@ residual sum of squares.
 * The computation of model parameter uncertainties and covariance was
 improved in terms of accuracy and speed.
 * Comment lines in spectrum data files are permitted now. Comment lines
-must start with a hash mark `#` or a percent `%` character in the first
-column.
+must start with a hash mark `#`, an exclamation mark `!`, or a percent
+sign `%` in the first column.
 * The command line typed to invoke Especia is included in the result HTML
 file within a comment block. This command line can be extracted from the
 result file by means of the new `ecom` utility.

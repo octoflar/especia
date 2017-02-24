@@ -245,7 +245,7 @@ std::istream &especia::Section::get(std::istream &is, double a, double b) {
 
     while (getline(is, line) and !line.empty()) {
         // Skip comments.
-        if (line[0] == '#' or line[0] == '%') {
+        if (line[0] == '#' or line[0] == '%' or line[0] == '!') {
             continue;
         }
 
