@@ -27,9 +27,9 @@ using namespace std;
  * Extracts the log data from Especia result HTML. Reads from standard
  * input and writes to standard output.
  *
- * @remark Usage: elog < ISTREAM > OSTREAM
- *
  * @return an exit code.
+ *
+ * @remark Usage: elog < ISTREAM > OSTREAM
  */
 int main() {
     bool found = false;

@@ -116,8 +116,6 @@ double vactoair(double x) {
  * Utility to convert wavelength in spectroscopic data from vacuum
  * to air.
  *
- * @remark Usage: vactoair [SKIP] < ISTREAM > OSTREAM
- *
  * Further reading:
  *
  * B. Edlen (1966).
@@ -137,6 +135,8 @@ double vactoair(double x) {
  * @c argv[1] The number of lines to skip (optional, default = 0).
  * @endparblock
  * @return an exit code.
+ *
+ * @remark Usage: vactoair [SKIP] < ISTREAM > OSTREAM
  */
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];

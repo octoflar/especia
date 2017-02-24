@@ -27,9 +27,9 @@ using namespace std;
  * Extracts the command from Especia result HTML. Reads from standard
  * input and writes to standard output.
  *
- * @remark Usage: ecom < ISTREAM > OSTREAM
- *
  * @return an exit code.
+ *
+ * @remark Usage: ecom < ISTREAM > OSTREAM
  */
 int main() {
     bool found = false;

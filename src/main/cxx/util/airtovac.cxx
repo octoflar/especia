@@ -143,8 +143,6 @@ double find_root(void f(double, double &, double &), double c, double x, double 
  * Utility to convert wavelength in spectroscopic data from air
  * to vacuum.
  *
- * @remark Usage: airtovac [SKIP] [ACCURACY] < ISTREAM > OSTREAM
- *
  * Further reading:
  *
  * B. Edlen (1966).
@@ -166,6 +164,8 @@ double find_root(void f(double, double &, double &), double c, double x, double 
  * @c argv[2] The accuracy goal (optional, dafault = 1.0E-8).
  * @endparblock
  * @return an exit code.
+ *
+ * @remark Usage: airtovac [SKIP] [ACCURACY] < ISTREAM > OSTREAM
  */
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
