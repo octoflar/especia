@@ -396,13 +396,6 @@ ostream &operator<<(ostream &os, const Frame_Stack &stack) {
  * (3) computes the weighted average of all frames, and (4) samples
  * the weighted average frame to equidistant wavelengths.
  *
- * The current implementation interprets the spectroscopic data as a cubic spline,
- * therefore the frames need not be co-aligned. The final resampling step might be
- * sufficiently accurate, but does not necessarily conserve flux.
- *
- * A flux-conserving co-alignment of frames before averaging might be more accurate
- * than the procedure implemented here.
- *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
  * @parblock
@@ -413,6 +406,14 @@ ostream &operator<<(ostream &os, const Frame_Stack &stack) {
  * @return an exit code.
  *
  * @remark Usage: cumulate [RESOLUTION] < ISTREAM > OSTREAM
+ *
+ * @deprecated The current implementation interprets the spectroscopic data as a cubic
+ * spline, therefore the frames need not be co-aligned. The final resampling step might be
+ * sufficiently accurate, but does not necessarily conserve flux. A flux-conserving
+ * co-alignment of frames before averaging will be more accurate than the procedure
+ * implemented here, the use of which is discouraged. My recommended way to combine
+ * spectroscopic data is to define a model definition block for each individual exposure
+ * taken.
  */
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
