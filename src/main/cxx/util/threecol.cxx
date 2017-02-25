@@ -64,9 +64,9 @@ int main(int argc, char *argv[]) {
         fxy.close();
         fxz.close();
 
-        if (fxy and fxz and y.size() == z.size())
+        if (fxy and fxz and y.size() == z.size()) {
             put(cout, x, y, z);
-        else {
+        } else {
             cerr << pname << ": input failure" << endl;
             return 2;
         }
