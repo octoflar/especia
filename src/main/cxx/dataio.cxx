@@ -30,134 +30,130 @@
 
 using namespace std;
 
-namespace especia {
+istream &especia::get(istream &is, valarray<double> &x, valarray<double> &y, int skip) {
+    const size_t room = 20000;
 
-    istream &get(istream &is, valarray<double> &x, valarray<double> &y, int skip) {
-        const size_t room = 20000;
+    vector<double> u;
+    vector<double> v;
 
-        vector<double> u;
-        vector<double> v;
+    u.reserve(room);
+    v.reserve(room);
 
-        u.reserve(room);
-        v.reserve(room);
+    size_t n = 0;
+    string s;
 
-        size_t n = 0;
-        string s;
+    while (getline(is, s)) {
+        if (skip <= 0) {
+            istringstream ist(s);
+            double a, b;
 
-        while (getline(is, s)) {
-            if (skip <= 0) {
-                istringstream ist(s);
-                double a, b;
+            if (ist >> a >> b) {
+                u.push_back(a);
+                v.push_back(b);
 
-                if (ist >> a >> b) {
-                    u.push_back(a);
-                    v.push_back(b);
-
-                    ++n;
-                } else {
-                    is.setstate(ios_base::badbit | ios_base::failbit);
-
-                    return is;
-                }
+                ++n;
             } else {
-                --skip;
+                is.setstate(ios_base::badbit | ios_base::failbit);
+
+                return is;
             }
-        }
-
-        if (n > 0 and is.eof()) {
-            x.resize(n);
-            y.resize(n);
-
-            copy(u.begin(), u.end(), &x[0]);
-            copy(v.begin(), v.end(), &y[0]);
-
-            is.clear(is.rdstate() & ~ios_base::failbit);
         } else {
-            is.setstate(ios_base::failbit);
+            --skip;
         }
-
-        return is;
     }
 
-    istream &get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip) {
-        const size_t room = 20000;
+    if (n > 0 and is.eof()) {
+        x.resize(n);
+        y.resize(n);
 
-        vector<double> u;
-        vector<double> v;
-        vector<double> w;
+        copy(u.begin(), u.end(), &x[0]);
+        copy(v.begin(), v.end(), &y[0]);
 
-        u.reserve(room);
-        v.reserve(room);
-        w.reserve(room);
+        is.clear(is.rdstate() & ~ios_base::failbit);
+    } else {
+        is.setstate(ios_base::failbit);
+    }
 
-        size_t n = 0;
-        string s;
+    return is;
+}
 
-        while (getline(is, s)) {
-            if (skip <= 0) {
-                istringstream ist(s);
-                double a, b, c;
+istream &especia::get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip) {
+    const size_t room = 20000;
 
-                if (ist >> a >> b) {
-                    u.push_back(a);
-                    v.push_back(b);
-                    if (ist >> c)
-                        w.push_back(c);
+    vector<double> u;
+    vector<double> v;
+    vector<double> w;
 
-                    ++n;
-                } else {
-                    is.setstate(ios_base::badbit | ios_base::failbit);
+    u.reserve(room);
+    v.reserve(room);
+    w.reserve(room);
 
-                    return is;
-                }
+    size_t n = 0;
+    string s;
+
+    while (getline(is, s)) {
+        if (skip <= 0) {
+            istringstream ist(s);
+            double a, b, c;
+
+            if (ist >> a >> b) {
+                u.push_back(a);
+                v.push_back(b);
+                if (ist >> c)
+                    w.push_back(c);
+
+                ++n;
             } else {
-                --skip;
+                is.setstate(ios_base::badbit | ios_base::failbit);
+
+                return is;
             }
-        }
-
-        if (n > 0 and is.eof()) {
-            x.resize(n);
-            y.resize(n);
-            z.resize(n);
-
-            copy(u.begin(), u.end(), &x[0]);
-            copy(v.begin(), v.end(), &y[0]);
-            copy(w.begin(), w.end(), &z[0]);
-
-            is.clear(is.rdstate() & ~ios_base::failbit);
         } else {
-            is.setstate(ios_base::failbit);
+            --skip;
         }
-
-        return is;
     }
 
-    ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
-        if (os) {
-            const int p = 6;  // precision
-            const int w = 14; // width
+    if (n > 0 and is.eof()) {
+        x.resize(n);
+        y.resize(n);
+        z.resize(n);
 
-            const ios_base::fmtflags f = os.flags();
+        copy(u.begin(), u.end(), &x[0]);
+        copy(v.begin(), v.end(), &y[0]);
+        copy(w.begin(), w.end(), &z[0]);
 
-            os.setf(ios_base::right, ios_base::adjustfield);
-            os.precision(p);
+        is.clear(is.rdstate() & ~ios_base::failbit);
+    } else {
+        is.setstate(ios_base::failbit);
+    }
 
-            for (size_t i = 0; i < x.size(); ++i) {
-                os.setf(ios_base::fixed, ios_base::floatfield);
-                os << setw(w) << x[i];
-                os.setf(ios_base::scientific, ios_base::floatfield);
-                os << setw(w) << y[i];
-                if (z.size() > 0) {
-                    os << setw(w) << z[i];
-                }
-                os << '\n';
+    return is;
+}
+
+ostream &especia::put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
+    if (os) {
+        const int p = 6;  // precision
+        const int w = 14; // width
+
+        const ios_base::fmtflags f = os.flags();
+
+        os.setf(ios_base::right, ios_base::adjustfield);
+        os.precision(p);
+
+        for (size_t i = 0; i < x.size(); ++i) {
+            os.setf(ios_base::fixed, ios_base::floatfield);
+            os << setw(w) << x[i];
+            os.setf(ios_base::scientific, ios_base::floatfield);
+            os << setw(w) << y[i];
+            if (z.size() > 0) {
+                os << setw(w) << z[i];
             }
-
-            os.flush();
-            os.flags(f);
+            os << '\n';
         }
 
-        return os;
+        os.flush();
+        os.flags(f);
     }
 
+    return os;
 }
