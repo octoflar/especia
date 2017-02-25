@@ -21,100 +21,15 @@
 //
 #include <cmath>
 #include <cstdlib>
-#include <iomanip>
-#include <iostream>
-#include <sstream>
-#include <valarray>
-#include <vector>
 
 #include "../base.h"
+#include "../dataio.h"
 
 using namespace std;
 
-istream &get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip = 0) {
-    const size_t room = 20000;
+using especia::get;
+using especia::put;
 
-    vector<double> u;
-    vector<double> v;
-    vector<double> w;
-
-    u.reserve(room);
-    v.reserve(room);
-    w.reserve(room);
-
-    size_t n = 0;
-    string s;
-
-    while (getline(is, s)) {
-        if (skip <= 0) {
-            istringstream ist(s);
-            double a, b, c;
-
-            if (ist >> a >> b) {
-                u.push_back(a);
-                v.push_back(b);
-                if (ist >> c)
-                    w.push_back(c);
-
-                ++n;
-            } else {
-                is.setstate(ios_base::badbit | ios_base::failbit);
-
-                return is;
-            }
-        } else {
-            --skip;
-        }
-    }
-
-    if (n > 0 and is.eof()) {
-        x.resize(n);
-        y.resize(n);
-        z.resize(n);
-
-        copy(u.begin(), u.end(), &x[0]);
-        copy(v.begin(), v.end(), &y[0]);
-        copy(w.begin(), w.end(), &z[0]);
-
-        is.clear(is.rdstate() & ~ios_base::failbit);
-    } else {
-        is.setstate(ios_base::failbit);
-    }
-
-    return is;
-}
-
-ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
-    if (os) {
-        const int p = 6;  // precision
-        const int w = 14; // width
-
-        const ios_base::fmtflags f = os.flags();
-
-        os.setf(ios_base::right, ios_base::adjustfield);
-        os.precision(p);
-
-        for (size_t i = 0; i < x.size(); ++i) {
-            os.setf(ios_base::fixed, ios_base::floatfield);
-            os << setw(w) << x[i];
-            os.setf(ios_base::scientific, ios_base::floatfield);
-            os << setw(w) << y[i];
-            os << setw(w) << z[i];
-            os << '\n';
-        }
-
-        os.flush();
-        os.flags(f);
-    }
-
-    return os;
-}
-
-double doppler_factor(double v) {
-    const double c = 1.0E-03 * especia::speed_of_light_in_vacuum;
-
-    return sqrt((1.0 + v / c) / (1.0 - v / c));
-}
 
 /**
  * Utility to apply the barycentric velocity correction to spectroscopic
@@ -149,9 +64,9 @@ int main(int argc, char *argv[]) {
         valarray<double> z;
 
         if (get(cin, x, y, z, skip)) {
-            if (v != 0.0)
-                x *= doppler_factor(v);
-
+            if (v != 0.0) {
+                x *= especia::doppler_factor(v * especia::kilo);
+            }
             put(cout, x, y, z);
         } else {
             cerr << pname << ": input failure" << endl;

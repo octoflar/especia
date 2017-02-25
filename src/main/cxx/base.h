@@ -67,6 +67,17 @@ namespace especia {
     const double speed_of_light_in_vacuum = 299792458.0;
 
     /**
+     * Returns the Doppler factor for a given radial velocity.
+     *
+     * @param v The radial velocity (m s-1)
+     * @return the Doppler factor.
+     */
+    inline
+    double doppler_factor(double v) {
+        return sqrt((1.0 + v / speed_of_light_in_vacuum) / (1.0 - v / speed_of_light_in_vacuum));
+    }
+
+    /**
      * Returns the square of a number.
      *
      * @tparam Number The number type.

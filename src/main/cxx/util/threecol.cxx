@@ -21,82 +21,14 @@
 //
 #include <cstdlib>
 #include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <sstream>
-#include <valarray>
-#include <vector>
+
+#include "../dataio.h"
 
 using namespace std;
 
-istream &get(istream &is, valarray<double> &x, valarray<double> &y) {
-    const size_t room = 20000;
+using especia::get;
+using especia::put;
 
-    vector<double> u;
-    vector<double> v;
-
-    u.reserve(room);
-    v.reserve(room);
-
-    size_t n = 0;
-    string s;
-
-    while (getline(is, s)) {
-        istringstream ist(s);
-        double a, b;
-
-        if (ist >> a >> b) {
-            u.push_back(a);
-            v.push_back(b);
-
-            ++n;
-        } else {
-            is.setstate(ios_base::badbit | ios_base::failbit);
-
-            return is;
-        }
-    }
-
-    if (n > 0 and is.eof()) {
-        x.resize(n);
-        y.resize(n);
-
-        copy(u.begin(), u.end(), &x[0]);
-        copy(v.begin(), v.end(), &y[0]);
-
-        is.clear(is.rdstate() & ~ios_base::failbit);
-    } else {
-        is.setstate(ios_base::failbit);
-    }
-
-    return is;
-}
-
-ostream &put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
-    if (os) {
-        const int p = 6;  // precision
-        const int w = 14; // width
-
-        const ios_base::fmtflags f = os.flags();
-
-        os.setf(ios_base::right, ios_base::adjustfield);
-        os.precision(p);
-
-        for (size_t i = 0; i < x.size(); ++i) {
-            os.setf(ios_base::fixed, ios_base::floatfield);
-            os << setw(w) << x[i];
-            os.setf(ios_base::scientific, ios_base::floatfield);
-            os << setw(w) << y[i];
-            os << setw(w) << z[i];
-            os << '\n';
-        }
-
-        os.flush();
-        os.flags(f);
-    }
-
-    return os;
-}
 
 /**
  * Utility to merge separate spectral flux and uncertainty data to
