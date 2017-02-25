@@ -69,11 +69,11 @@ namespace especia {
     /**
      * Returns the Doppler factor for a given radial velocity.
      *
-     * @param v The radial velocity (m s-1)
+     * @param v[in] The radial velocity (m s-1)
      * @return the Doppler factor.
      */
     inline
-    double doppler_factor(double v) {
+    double doppler_factor(const double &v) {
         return sqrt((1.0 + v / speed_of_light_in_vacuum) / (1.0 - v / speed_of_light_in_vacuum));
     }
 
@@ -82,7 +82,7 @@ namespace especia {
      *
      * @tparam Number The number type.
      *
-     * @param x The number.
+     * @param x[in] The number.
      * @return the square of the number.
      */
     template<class Number>
