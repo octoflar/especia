@@ -45,7 +45,7 @@ istream &get(istream &is, valarray<double> &x, valarray<double> &y, valarray<dou
     size_t n = 0;
     string s;
 
-    while (getline(is, s))
+    while (getline(is, s)) {
         if (skip <= 0) {
             istringstream ist(s);
             double a, b, c;
@@ -62,8 +62,10 @@ istream &get(istream &is, valarray<double> &x, valarray<double> &y, valarray<dou
 
                 return is;
             }
-        } else
+        } else {
             --skip;
+        }
+    }
 
     if (n > 0 and is.eof()) {
         x.resize(n);
@@ -75,8 +77,9 @@ istream &get(istream &is, valarray<double> &x, valarray<double> &y, valarray<dou
         copy(w.begin(), w.end(), &z[0]);
 
         is.clear(is.rdstate() & ~ios_base::failbit);
-    } else
+    } else {
         is.setstate(ios_base::failbit);
+    }
 
     return is;
 }

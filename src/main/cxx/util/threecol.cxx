@@ -65,8 +65,9 @@ istream &get(istream &is, valarray<double> &x, valarray<double> &y) {
         copy(v.begin(), v.end(), &y[0]);
 
         is.clear(is.rdstate() & ~ios_base::failbit);
-    } else
+    } else {
         is.setstate(ios_base::failbit);
+    }
 
     return is;
 }

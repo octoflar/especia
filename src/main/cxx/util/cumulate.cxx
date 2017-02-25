@@ -173,8 +173,9 @@ public:
             spline();
 
             is.clear(is.rdstate() & ~ios_base::failbit);
-        } else
+        } else {
             is.setstate(ios_base::failbit);
+        }
 
         return is;
     }
@@ -243,18 +244,21 @@ private:
     }
 
     void splint(double u, double &v, double &w) const throw(runtime_error) {
-        if (i > 0 and x[--i] > u)
+        if (i > 0 and x[--i] > u) {
             i = 0;
-        if (j + 1 < n and x[++j] < u)
+        }
+        if (j + 1 < n and x[++j] < u) {
             j = n - 1;
+        }
 
         while (j > i + 1) {
             const size_t k = (i + j) >> 1;
 
-            if (x[k] > u)
+            if (x[k] > u) {
                 j = k;
-            else
+            } else {
                 i = k;
+            }
         }
 
         if (const double h = x[j] - x[i]) {
@@ -366,8 +370,9 @@ istream &operator>>(istream &is, Frame_Stack &stack) {
 
     Frame frame;
 
-    while (is >> frame)
+    while (is >> frame) {
         stack.frames.push_back(frame);
+    }
 
     if (!is.bad() and stack.size() > 0) {
         is.clear(is.rdstate() & ~ios_base::failbit);
@@ -379,8 +384,9 @@ istream &operator>>(istream &is, Frame_Stack &stack) {
 ostream &operator<<(ostream &os, const Frame_Stack &stack) {
     size_t i;
 
-    for (i = 0; i + 1 < stack.size(); ++i)
+    for (i = 0; i + 1 < stack.size(); ++i) {
         os << stack.frames[i] << '\n';
+    }
     os << stack.frames[i];
 
     return os;
