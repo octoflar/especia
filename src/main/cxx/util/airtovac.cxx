@@ -29,40 +29,6 @@ using namespace std;
 
 
 /**
- * Solves the equation f(x) = c by means of Newton's method.
- *
- * @param f[in] A function, which takes as arguments:
- * @parblock
- * @c x An abscissa value
- *
- * @c y The result y = f(x).
- *
- * @c z The derivative of @c y with respect to @c x.
- * @endparblock
- * @param c[in] A constant.
- * @param x[in] An initial guess of the solution.
- * @param accuracy_goal[in] The accuracy goal (optional).
- * @param max_iteration[in] The maximum number of iterations (optional).
- *
- * @return the solution.
- */
-double solve(void f(const double &, double &, double &), double c, double x,
-             double accuracy_goal = 1.0E-6, unsigned int max_iteration = 100) throw(runtime_error) {
-    double d, y, z;
-
-    for (unsigned int i = 0; i < max_iteration; ++i) {
-        f(x, y, z);
-        d = (y - c) / z;
-        x -= d;
-        if (abs(d) < accuracy_goal) {
-            return x;
-        }
-    }
-
-    throw runtime_error("solve(): Error: failed to reach accuracy goal");
-}
-
-/**
  * Utility to convert photon wavelength (Angstrom) in spectroscopic data from air
  * to vacuum.
  *
@@ -104,7 +70,7 @@ int main(int argc, char *argv[]) {
         if (especia::get(cin, x, y, z, skip)) {
             try {
                 for (size_t i = 0; i < x.size(); ++i) {
-                    x[i] = 10.0 / solve(especia::edlen, 10.0 / x[i], 10.0 / x[i]);
+                    x[i] = 10.0 / especia::solve(especia::edlen, 10.0 / x[i], 10.0 / x[i]);
                 }
             }
             catch (exception &e) {

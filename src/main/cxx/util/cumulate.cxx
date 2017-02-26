@@ -105,14 +105,14 @@ public:
     }
 
     double median() const {
-        using especia::Indirect_Compare;
+        using especia::Index_Compare;
 
         valarray<size_t> index(n);
         for (size_t i = 0; i < n; ++i)
             index[i] = i;
 
         nth_element(&index[n / 3], &index[n >> 1], &index[n / 3 << 1],
-                    Indirect_Compare<double, less<double> >(y, less<double>()));
+                    Index_Compare<double, less<double> >(y, less<double>()));
         cout << "frame::median(): Message: median is " << y[index[n >> 1]] << endl;
 
         return y[index[n >> 1]];
@@ -325,7 +325,7 @@ public:
     }
 
     Frame_Stack &scale() {
-        using especia::Indirect_Compare;
+        using especia::Index_Compare;
 
         valarray<double> m(size());
         valarray<size_t> j(size());
@@ -334,7 +334,7 @@ public:
             m[i] = frames[i].median();
             j[i] = i;
         }
-        nth_element(&j[0], &j[size() >> 1], &j[size()], Indirect_Compare<double, less<double> >(m, less<double>()));
+        nth_element(&j[0], &j[size() >> 1], &j[size()], Index_Compare<double, less<double> >(m, less<double>()));
 
         const size_t k = j[size() >> 1];
 

@@ -410,7 +410,7 @@ namespace especia {
             }
 #endif
             partial_sort(&indexes[0], &indexes[parent_number], &indexes[population_size],
-                         Indirect_Compare<double, Compare>(y, compare));
+                         Index_Compare<double, Compare>(y, compare));
             ++g;
 
             // Check the mutation variance

@@ -23,6 +23,7 @@
 #define ESPECIA_BASE_H
 
 #include <cmath>
+#include <stdexcept>
 #include <valarray>
 
 namespace especia {
@@ -173,32 +174,70 @@ namespace especia {
     }
 
     /**
-     * An indirect comparing.
+     * Solves the equation f(x) = c by means of Newton's method.
+     *
+     * @param f[in] A function, which takes as arguments:
+     * @parblock
+     * @c x An abscissa value
+     *
+     * @c y The result y = f(x).
+     *
+     * @c z The derivative of @c y with respect to @c x.
+     * @endparblock
+     * @param c[in] A constant.
+     * @param x[in] An initial guess of the solution.
+     * @param accuracy_goal[in] The accuracy goal (optional).
+     * @param max_iteration[in] The maximum number of iterations (optional).
+     *
+     * @return the solution to the equation f(x) = c.
+     */
+    inline
+    double solve(void f(const double &, double &, double &), double c, double x, double accuracy_goal = 1.0E-6,
+                 unsigned int max_iteration = 100) throw(std::runtime_error) {
+        using std::abs;
+        using std::runtime_error;
+
+        double d, y, z;
+
+        for (unsigned int i = 0; i < max_iteration; ++i) {
+            f(x, y, z);
+            d = (y - c) / z;
+            x -= d;
+            if (abs(d) < accuracy_goal) {
+                return x;
+            }
+        }
+
+        throw runtime_error("especia::solve(): Error: accuracy goal not reached");
+    }
+
+    /**
+     * An indirect comparing of indexes.
      *
      * @tparam Number The base value type.
      * @tparam Compare The strategy to compare base values directly.
      */
     template<class Number, class Compare>
-    class Indirect_Compare {
+    class Index_Compare {
     public:
         /**
-         * Constructs a new indirect comparing.
+         * Constructs a new index comparing.
          *
          * @param[in] v The base values.
          * @param[in] c The direct base value comparing.
          */
-        Indirect_Compare(const std::valarray<Number> &v, const Compare &c)
+        Index_Compare(const std::valarray<Number> &v, const Compare &c)
                 : values(v), compare(c) {
         }
 
         /**
          * Destructor.
          */
-        ~Indirect_Compare() {
+        ~Index_Compare() {
         }
 
         /**
-         * The indirect comparing operator.
+         * The index comparing operator.
          *
          * @param[in] i An index into the set of base values.
          * @param[in] j An index into the set of base values.
