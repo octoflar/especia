@@ -43,6 +43,117 @@
 
 namespace especia {
 
+    /**
+     * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear
+     * function optimization. Based on Hansen and Ostermeier (2001).
+     *
+     * Further reading:
+     *
+     * N. Hansen, S. D. Müller, P. Koumoutsakos (2003).
+     *   *Reducing the Increasing the Time Complexity of the Derandomized Evolution
+     *      Strategy with Covariance Matrix Adaption (CMA-ES).*
+     *   Evolutionary Computation, 11, 1, ISSN 1063-6560.
+     *
+     *  N. Hansen, A. Ostermeier (2001).
+     *    *Completely Derandomized Self-Adaption in Evolution Strategies.*
+     *    Evolutionary Computation, 9, 159, ISSN 1063-6560.
+     *
+     * @tparam F The function type.
+     * @tparam Constraint The constraint type.
+     * @tparam Deviate The strategy to generate random normal deviates.
+     * @tparam Decompose The strategy to perform the symmetric eigenvalue decomposition.
+     * @tparam Tracer The tracer type.
+     *
+     * @param[in] f The model function.
+     * @param[in] constraint The prior constraint on the parameter values.
+     * @param[in] n The number of parameters.
+     * @param[in] parent_number The number of parents per generation.
+     * @param[in] population_size The number of individuals per generation. Twice the parent number, at least
+     * @param[in] update_modulus The covariance matrix update modulus.
+     * @param[in] accuracy_goal The accuracy goal.
+     * @param[in] stop_generation The stop generation.
+     * @param[in,out] g The generation number.
+     * @param[in,out] x The parameter values.
+     * @param[in,out] step_size The global step size.
+     * @param[in,out] d The local step sizes.
+     * @param[in,out] B The rotation matrix.
+     * @param[in,out] C The covariance matrix.
+     * @param[out] y The value of the objective function (plus the constraint cost) at @c x.
+     * @param[out] optimized Set to @c true when the optimization has converged.
+     * @param[out] underflow Set to @c true when the mutation variance is too small.
+     * @param[in] deviate The random number generator.
+     * @param[in] decompose The eigenvalue decomposition.
+     * @param[in] tracer The tracer.
+     */
+    template<class F, class Constraint, class Deviate, class Decompose, class Tracer>
+    void minimize(const F &f,
+                  const Constraint &constraint,
+                  size_t n,
+                  unsigned parent_number,
+                  unsigned population_size,
+                  unsigned update_modulus,
+                  double accuracy_goal,
+                  unsigned long stop_generation,
+                  unsigned long &g,
+                  double x[],
+                  double &step_size,
+                  double d[],
+                  double B[],
+                  double C[],
+                  double &y,
+                  bool &optimized,
+                  bool &underflow,
+                  Deviate &deviate, Decompose &decompose, Tracer &tracer) {
+        using std::less;
+        using std::log;
+        using std::max;
+        using std::min;
+        using std::sqrt;
+        using std::valarray;
+
+        valarray<double> w(1.0, parent_number);
+        for (size_t i = 0; i < parent_number; ++i) {
+            w[i] = log((parent_number + 1.0) / (i + 1));
+        }
+
+        const double wv = sqr(w.sum()) / w.apply(sqr).sum();
+        const double cs = (wv + 2.0) / (wv + n + 3.0);
+        const double cc = 4.0 / (n + 4.0);
+        const double acov = 1.0 / wv;
+        const double ccov = acov * (2.0 / sqr(n + sqrt(2.0))) +
+                            (1.0 - acov) * min(1.0, (2.0 * wv - 1.0) / (sqr(n + 2.0) + wv));
+        const double step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
+
+        valarray<double> pc(0.0, n);
+        valarray<double> ps(0.0, n);
+
+        optimize(f, constraint,
+                 n,
+                 parent_number,
+                 population_size,
+                 &w[0],
+                 step_size_damping,
+                 cs,
+                 cc,
+                 ccov,
+                 acov,
+                 update_modulus,
+                 accuracy_goal,
+                 stop_generation,
+                 g,
+                 x,
+                 step_size,
+                 d,
+                 B,
+                 C,
+                 &ps[0],
+                 &pc[0],
+                 y,
+                 optimized,
+                 underflow,
+                 deviate, decompose, less<double>(), tracer);
+    }
+
     template<class Profile>
     class Model {
     public:

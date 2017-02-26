@@ -23,9 +23,230 @@
 #ifndef ESPECIA_OPTMIZER_H
 #define ESPECIA_OPTMIZER_H
 
+#include <cstddef>
+#include <iomanip>
+#include <iostream>
+
 #include "optimize.h"
 
 namespace especia {
+
+    /**
+     * A bounded constraint.
+     *
+     * @tparam Number The number type.
+     */
+    template<class Number>
+    class Bounds {
+    public:
+        /**
+         * Constructs a new strict-bound prior constraint.
+         *
+         * @param lower_bounds[in] The lower bounds.
+         * @param upper_bounds[in] The upper bounds.
+         * @param n The number of bounds.
+         */
+        Bounds(const Number lower_bounds[], const Number upper_bounds[], size_t n)
+                : a(lower_bounds, n), b(upper_bounds, n) {
+        }
+
+        /**
+         * Destructor.
+         */
+        ~Bounds() {
+        }
+
+        /**
+         * Tests if a given parameter vector violates the constraint.
+         *
+         * @param x[in] The parameter vector.
+         * @param n[in] The number of parameters to test.
+         * @return @c true, if the parameter vector violates the constraint.
+         */
+        bool is_violated(const Number x[], size_t n) const {
+            for (size_t i = 0; i < n; ++i) {
+                if (x[i] < a[i] || x[i] > b[i]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Computes the cost associated with the constraint.
+         *
+         * @param x[in] The parameter vector.
+         * @param n[in] The number of parameters to take account of.
+         * @return always zero.
+         */
+        Number cost(const Number x[], size_t n) const {
+            return Number(0);
+        }
+
+    private:
+        const std::valarray<Number> a;
+        const std::valarray<Number> b;
+    };
+
+    /**
+     * No constraint.
+     *
+     * @tparam Number The number type.
+     */
+    template<class Number>
+    class Unconstrained {
+    public:
+        /**
+         * Constructor.
+         */
+        Unconstrained() {
+        }
+
+        /**
+         * Destructor.
+         */
+        ~Unconstrained() {
+        }
+
+        /**
+         * Tests if a given parameter vector violates the constraint.
+         *
+         * @param x[in] The parameter vector.
+         * @param n[in] The number of parameters to test.
+         * @return always @c false.
+         */
+        bool is_violated(const Number *x, size_t n) const {
+            return false;
+        }
+
+        /**
+         * Computes the cost associated with the constraint.
+         *
+         * @param x[in] The parameter vector.
+         * @param n[in] The number of parameters to take account of.
+         * @return always zero.
+         */
+        Number cost(const Number x[], size_t n) const {
+            return Number(0);
+        }
+    };
+
+    /**
+     * Traces state information to an output stream.
+     *
+     * @tparam Number The number type.
+     */
+    template<class Number>
+    class Output_Stream_Tracer {
+    public:
+        /**
+         * Constructor.
+         *
+         * @param output_stream[in] The output stream.
+         * @param modulus[in] The trace modulus.
+         * @param precision[in] The precision of numeric output.
+         * @param width[in] The width of the numeric output fields.
+         */
+        Output_Stream_Tracer(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
+                             unsigned int width = 12)
+                : os(output_stream), m(modulus), p(precision), w(width) {
+        }
+
+        /**
+         * Destructor.
+         */
+        ~Output_Stream_Tracer() {
+        }
+
+        /**
+         * Tests if tracing is enabled.
+         *
+         * @param g[in] The generation number.
+         * @return @true if tracing is enabled, otherwise @c false.
+         */
+        bool is_enabled(unsigned long g) const {
+            return m > 0 and g % m == 0;
+        }
+
+        /**
+         * Traces state information to an output stream..
+         *
+         * @param g[in] The generation number.
+         * @param y[in] The value of the objective function.
+         * @param min_step[in] The minimum step size.
+         * @param max_step[in] The maximum step size.
+         */
+        void trace(unsigned long g, Number y, Number min_step, Number max_step) const {
+            using std::endl;
+            using std::ios_base;
+            using std::setw;
+
+            const ios_base::fmtflags fmt = os.flags();
+
+            os.setf(ios_base::fmtflags());
+            os.setf(ios_base::scientific, ios_base::floatfield);
+            os.setf(ios_base::right, ios_base::adjustfield);
+            os.precision(p);
+
+            os << setw(8) << g;
+            os << setw(w) << y;
+            os << setw(w) << min_step;
+            os << setw(w) << max_step;
+            os << endl;
+
+            os.flags(fmt);
+        }
+
+    private:
+        std::ostream &os;
+        const unsigned int m;
+        const unsigned int p;
+        const unsigned int w;
+    };
+
+
+    /**
+     * No tracing.
+     *
+     * @tparam Number The number type.
+     */
+    template<class Number>
+    class No_Tracing {
+    public:
+
+        /**
+         * Constructor.
+         */
+        No_Tracing() {
+        }
+
+        /**
+         * Destructor.
+         */
+        ~No_Tracing() {
+        }
+
+        /**
+         * Tests if tracing is enabled.
+         *
+         * @param g[in] The generation number.
+         * @return always @c false.
+         */
+        bool is_enabled(unsigned long g) const {
+            return false;
+        }
+
+        /**
+         * Traces state information.
+         *
+         * @param g[in] The generation number.
+         * @param y[in] The value of the objective function.
+         * @param min_step[in] The minimum step size.
+         * @param max_step[in] The maximum step size.
+         */
+        void trace(unsigned long g, Number y, Number min_step, Number max_step) const {
+        }
+    };
 
     /**
      * An optimizer based on the CMA-ES.
