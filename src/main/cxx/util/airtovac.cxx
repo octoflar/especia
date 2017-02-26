@@ -33,7 +33,7 @@ using especia::put;
 
 
 /**
- * Solves the equation f(x) = c by means of the Newton-Raphson method.
+ * Solves the equation f(x) = c by means of Newton's method.
  *
  * @param f[in] A function, which takes as arguments:
  * @parblock
