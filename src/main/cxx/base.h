@@ -93,7 +93,7 @@ namespace especia {
     }
 
     /**
-     * Used to convert photon wavelength in vacuum to wavelength in air.
+     * Used to convert photon wavelength in vacuum to photon wavelength in air.
      *
      * Further reading:
      *
@@ -111,7 +111,7 @@ namespace especia {
     }
 
     /**
-     * Used to convert photon wavelength in air to wavelength in vacuum (by means of Newton's method).
+     * Used to convert photon wavelength in air to photon wavelength in vacuum (by means of Newton's method).
      *
      * Further reading:
      *
@@ -134,7 +134,7 @@ namespace especia {
     }
 
     /**
-     * Used to convert photon wavelength in vacuum to wavelength in air.
+     * Used to convert photon wavelength in vacuum to photon wavelength in air.
      *
      * Further reading:
      *
@@ -151,7 +151,7 @@ namespace especia {
     }
 
     /**
-     * Used to convert photon wavelength in air to wavelength in vacuum (by means of Newton's method).
+     * Used to convert photon wavelength in air to photon wavelength in vacuum (by means of Newton's method).
      *
      * Further reading:
      *

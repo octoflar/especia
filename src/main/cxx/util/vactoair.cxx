@@ -29,8 +29,8 @@ using namespace std;
 
 
 /**
- * Utility to convert photon wavelength in spectroscopic data from vacuum
- * to air.
+ * Utility to convert photon wavelength (Angstrom) in spectroscopic data from
+ * vacuum to air.
  *
  * Further reading:
  *

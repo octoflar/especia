@@ -63,7 +63,7 @@ double solve(void f(const double &, double &, double &), double c, double x,
 }
 
 /**
- * Utility to convert photon wavelength in spectroscopic data from air
+ * Utility to convert photon wavelength (Angstrom) in spectroscopic data from air
  * to vacuum.
  *
  * Further reading:
