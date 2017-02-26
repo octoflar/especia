@@ -1,6 +1,6 @@
 # Authors
 
-The author of this software is **Ralf Quast**, affiliated (1998 - 2006) with *Universität Hamburg, Hamburger Sternwarte, 21029 Hamburg, Germany.* To acknowledge the use of this software, please cite:
+The author of this software is [Ralf Quast](mailto:octoflar@icloud.com), affiliated (1998 - 2006) with *Universität Hamburg, Hamburger Sternwarte, 21029 Hamburg, Germany.* To acknowledge the use of this software, please cite:
 
 Quast, Ralf (2016): *Evolutionary spectrum inversion and analysis (Especia).* figshare.  
 doi: [10.6084/m9.figshare.4167999.v14](https://dx.doi.org/10.6084/m9.figshare.4167999.v14).
