@@ -19,6 +19,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
+#include <cmath>
 #include <cstdlib>
 #include <exception>
 
@@ -27,6 +28,46 @@
 
 using namespace std;
 
+
+namespace especia {
+
+    /**
+     * Solves the equation f(x) = c by means of Newton's method.
+     *
+     * @param f[in] A differentiable function, which takes as parameters:
+     * @parblock
+     * @param x[in] The abscissa value.
+     * @param y[out] The result y = f(x).
+     * @param z[out] The derivative of @c y with respect to @c x.
+     * @endparblock
+     * @param c[in] The constant on the right-hand side of the equation.
+     * @param x[in] The initial guess of the solution.
+     * @param accuracy_goal[in] The accuracy goal (optional).
+     * @param max_iteration[in] The maximum number of iterations (optional).
+     *
+     * @return the solution to the equation f(x) = c.
+     */
+    inline
+    double solve(void f(const double &x, double &y, double &z), double c, double x, double accuracy_goal = 1.0E-8,
+                 unsigned int max_iteration = 100) throw(std::runtime_error) {
+        using std::abs;
+        using std::runtime_error;
+
+        double d, y, z;
+
+        for (unsigned int i = 0; i < max_iteration; ++i) {
+            f(x, y, z);
+            d = (y - c) / z;
+            x -= d;
+            if (abs(d) < accuracy_goal * x) {
+                return x;
+            }
+        }
+
+        throw runtime_error("especia::solve(): Error: accuracy goal not reached");
+    }
+
+}
 
 /**
  * Utility to convert photon wavelength (Angstrom) in spectroscopic data from air

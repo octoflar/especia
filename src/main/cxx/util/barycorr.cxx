@@ -19,6 +19,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
+#include <cmath>
 #include <cstdlib>
 
 #include "../base.h"
@@ -26,6 +27,21 @@
 
 using namespace std;
 
+
+namespace especia {
+
+    /**
+     * Returns the relativistic Doppler factor for a given radial velocity.
+     *
+     * @param v[in] The radial velocity (m s-1).
+     * @return the Doppler factor.
+     */
+    inline
+    double dopp(const double &v) {
+        return std::sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light));
+    }
+
+}
 
 /**
  * Utility to apply the barycentric velocity correction to spectroscopic

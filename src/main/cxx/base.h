@@ -22,8 +22,6 @@
 #ifndef ESPECIA_BASE_H
 #define ESPECIA_BASE_H
 
-#include <cmath>
-#include <stdexcept>
 #include <valarray>
 
 namespace especia {
@@ -67,17 +65,6 @@ namespace especia {
      * The speed of light in vacuum (m s-1). *NIST SP 961 (Sept/2015)*
      */
     const double speed_of_light = 299792458.0;
-
-    /**
-     * Returns the relativistic Doppler factor for a given radial velocity.
-     *
-     * @param v[in] The radial velocity (m s-1).
-     * @return the Doppler factor.
-     */
-    inline
-    double dopp(const double &v) {
-        return std::sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light));
-    }
 
     /**
      * Returns the square of a number.
@@ -236,42 +223,6 @@ namespace especia {
 
         y = x * n;
         z = n + x * m;
-    }
-
-    /**
-     * Solves the equation f(x) = c by means of Newton's method.
-     *
-     * @param f[in] A differentiable function, which takes as parameters:
-     * @parblock
-     * @param x[in] The abscissa value.
-     * @param y[out] The result y = f(x).
-     * @param z[out] The derivative of @c y with respect to @c x.
-     * @endparblock
-     * @param c[in] The constant on the right-hand side of the equation.
-     * @param x[in] The initial guess of the solution.
-     * @param accuracy_goal[in] The accuracy goal (optional).
-     * @param max_iteration[in] The maximum number of iterations (optional).
-     *
-     * @return the solution to the equation f(x) = c.
-     */
-    inline
-    double solve(void f(const double &x, double &y, double &z), double c, double x, double accuracy_goal = 1.0E-8,
-                 unsigned int max_iteration = 100) throw(std::runtime_error) {
-        using std::abs;
-        using std::runtime_error;
-
-        double d, y, z;
-
-        for (unsigned int i = 0; i < max_iteration; ++i) {
-            f(x, y, z);
-            d = (y - c) / z;
-            x -= d;
-            if (abs(d) < accuracy_goal * x) {
-                return x;
-            }
-        }
-
-        throw runtime_error("especia::solve(): Error: accuracy goal not reached");
     }
 
     /**
