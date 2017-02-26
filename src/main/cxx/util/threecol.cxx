@@ -22,7 +22,7 @@
 #include <cstdlib>
 #include <fstream>
 
-#include "../dataio.h"
+#include "dataio.h"
 
 using namespace std;
 

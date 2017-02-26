@@ -94,14 +94,13 @@ add_system_test(especiv_test 251.04)
 add_system_test(especix_test 251.46)
 add_system_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
 
-add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/dataio.cxx)
-add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/dataio.cxx)
-add_executable(threecol EXCLUDE_FROM_ALL ${MAIN}/cxx/util/threecol.cxx ${MAIN}/cxx/dataio.cxx)
-add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx ${MAIN}/cxx/dataio.cxx)
-add_executable(cumulate EXCLUDE_FROM_ALL ${MAIN}/cxx/util/cumulate.cxx)
+add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/util/dataio.cxx)
+add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/util/dataio.cxx)
+add_executable(threecol EXCLUDE_FROM_ALL ${MAIN}/cxx/util/threecol.cxx ${MAIN}/cxx/util/dataio.cxx)
+add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx ${MAIN}/cxx/util/dataio.cxx)
 
 add_custom_target(util)
-add_dependencies(util airtovac barycorr threecol vactoair cumulate)
+add_dependencies(util airtovac barycorr threecol vactoair)
 
 add_custom_target(tar
         COMMAND ${TAR} -f ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_TAG}.tar.bz2 -C ${CMAKE_SOURCE_DIR} --exclude .git -X ${CMAKE_SOURCE_DIR}/.gitignore .

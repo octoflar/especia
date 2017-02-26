@@ -22,13 +22,22 @@
 #include <cmath>
 #include <cstdlib>
 
-#include "../base.h"
-#include "../dataio.h"
+#include "dataio.h"
 
 using namespace std;
 
 
 namespace especia {
+
+    /**
+     * SI prefix.
+     */
+    const double kilo = 1.0E+03;
+
+    /**
+     * The speed of light in vacuum (m s-1). *NIST SP 961 (Sept/2015)*
+     */
+    const double speed_of_light = 299792458.0;
 
     /**
      * Returns the relativistic Doppler factor for a given radial velocity.
