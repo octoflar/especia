@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
         if (especia::get(cin, x, y, z, skip)) {
             try {
                 for (size_t i = 0; i < x.size(); ++i) {
-                    x[i] = 10.0 / especia::solve(especia::edlen, 10.0 / x[i], 10.0 / x[i]);
+                    x[i] = 10.0 / especia::solve(especia::edlen_1966, 10.0 / x[i], 10.0 / x[i]);
                 }
             }
             catch (exception &e) {

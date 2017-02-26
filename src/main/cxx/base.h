@@ -98,59 +98,17 @@ namespace especia {
      *
      * Further reading:
      *
-     * B. Edlen (1966).
-     *   *The refractive index of air.*
-     *   Metrologia, 2, 2, 71-80.
-     *   http://dx.doi.org/10.1088/0026-1394/2/2/002
-     *
-     * @param x[in] The wavenumber in vacuum (nm-1).
-     * @return the wavenumber in air (nm-1).
-     *
-     * @remark The function uses wavenumber := 1 / wavelength as input and output.
-     */
-    inline
-    double edlen(const double &x) {
-        return (1.0000834213 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x)) * x;
-    }
-
-    /**
-     * Used to convert photon wavelength in air to photon wavelength in vacuum (by means of Newton's method).
-     *
-     * Further reading:
-     *
-     * B. Edlen (1966).
-     *   *The refractive index of air.*
-     *   Metrologia, 2, 2, 71-80.
-     *   http://dx.doi.org/10.1088/0026-1394/2/2/002
-     *
-     * @param x[in] The wavenumber in vacuum (nm-1).
-     * @param y[out] The wavenumber in air (nm-1).
-     * @param z[out] The derivative of @c y with respect to @c x.
-     *
-     * @remark The function uses wavenumber := 1 / wavelength as input and output.
-     */
-    inline
-    void edlen(const double &x, double &y, double &z) {
-        const double a = 1.0000834213 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x);
-        const double b = x * ((3.1994E-10 * x) / sqr(0.0000389 - x * x) + (4.81206E-08 * x) / sqr(0.000130 - x * x));
-
-        y = a * x;
-        z = a + b;
-    }
-
-    /**
-     * Used to convert photon wavelength in vacuum to photon wavelength in air.
-     *
-     * Further reading:
-     *
-     * B. Edlen (1953).
+     * B. Edlén (1953).
      *   *The dispersion of standard air.*
      *   Journal of the Optical Society of America, 43, 5, 339.
      *
      * @param x[in] The wavenumber in vacuum (nm-1).
      * @return the wavenumber in air (nm-1).
      *
-     * @remark The function uses wavenumber := 1 / wavelength as input and output.
+     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
+     *
+     * @remark This formula is the IAU standard for the vacuum to standard air corrections (see resolution
+     * No. C15, Commission 44, XXI General Assembly in 1991).
      */
     inline
     double edlen_1953(const double &x) {
@@ -162,7 +120,7 @@ namespace especia {
      *
      * Further reading:
      *
-     * B. Edlen (1953).
+     * B. Edlén (1953).
      *   *The dispersion of standard air.*
      *   Journal of the Optical Society of America, 43, 5, 339.
      *
@@ -170,15 +128,114 @@ namespace especia {
      * @param y[out] The wavenumber in air (nm-1).
      * @param z[out] The derivative of @c y with respect to @c x.
      *
-     * @remark The function uses wavenumber := 1 / wavelength as input and output.
+     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
+     *
+     * @remark This formula is the IAU standard for the vacuum to standard air corrections (see resolution
+     * No. C15, Commission 44, XXI General Assembly in 1991).
      */
     inline
     void edlen_1953(const double &x, double &y, double &z) {
-        const double a = 1.0000643280 + 2.5540E-10 / (0.0000410 - x * x) + 2.949810E-08 / (0.000146 - x * x);
-        const double b = x * ((5.1080E-10 * x) / sqr(0.0000410 - x * x) + (5.89962E-08 * x) / sqr(0.000146 - x * x));
+        const double n = 1.0000643280 + 2.5540E-10 / (0.0000410 - x * x) + 2.949810E-08 / (0.000146 - x * x);
+        const double m = (5.1080E-10 * x) / sqr(0.0000410 - x * x) + (5.89962E-08 * x) / sqr(0.000146 - x * x);
 
-        y = a * x;
-        z = a + b;
+        y = x * n;
+        z = n + x * m;
+    }
+
+    /**
+     * Used to convert photon wavelength in vacuum to photon wavelength in air.
+     *
+     * Further reading:
+     *
+     * B. Edlén (1966).
+     *   *The refractive index of air.*
+     *   Metrologia, 2, 2, 71-80.
+     *   http://dx.doi.org/10.1088/0026-1394/2/2/002
+     *
+     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @return the wavenumber in air (nm-1).
+     *
+     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
+     */
+    inline
+    double edlen_1966(const double &x) {
+        return (1.0000834213 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x)) * x;
+    }
+
+    /**
+     * Used to convert photon wavelength in air to photon wavelength in vacuum (by means of Newton's method).
+     *
+     * Further reading:
+     *
+     * B. Edlén (1966).
+     *   *The refractive index of air.*
+     *   Metrologia, 2, 2, 71-80.
+     *   http://dx.doi.org/10.1088/0026-1394/2/2/002
+     *
+     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @param y[out] The wavenumber in air (nm-1).
+     * @param z[out] The derivative of @c y with respect to @c x.
+     *
+     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
+     */
+    inline
+    void edlen_1966(const double &x, double &y, double &z) {
+        const double n = 1.0000834213 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x);
+        const double m = (3.1994E-10 * x) / sqr(0.0000389 - x * x) + (4.81206E-08 * x) / sqr(0.000130 - x * x);
+
+        y = x * n;
+        z = n + x * m;
+    }
+
+    /**
+     * Used to convert photon wavelength in vacuum to photon wavelength in air.
+     *
+     * Further reading:
+     *
+     * Donald C. Morton (2000).
+     *   *Atomic Data for Resonance Absorption Lines. II. Wavelengths Longward of the Lyman Limit for Heavy Elements.*
+     *   Astrophys. J. Suppl. Ser., 130, 2, 403.
+     *
+     * K. P. Birch and M. J. Downs (1994)
+     *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
+     *   Metrologia, 31, 4, 315.
+     *
+     * @param x[in] The wavenumber in vacuum (µm-1).
+     * @return the wavenumber in air (µm-1).
+     *
+     * @attention The function uses wavenumber (µm-1) := 10000.0 / wavelength (Angstrom) as input and output.
+     */
+    inline
+    double birch_1994(const double &x) {
+        return (1.0000834254 + 0.02406147 / (130.0 - x * x) + 0.00015998 / (38.9 - x * x)) * x;
+    }
+
+    /**
+     * Used to convert photon wavelength in vacuum to photon wavelength in air (by means of Newton's method).
+     *
+     * Further reading:
+     *
+     * Donald C. Morton (2000).
+     *   *Atomic Data for Resonance Absorption Lines. II. Wavelengths Longward of the Lyman Limit for Heavy Elements.*
+     *   Astrophys. J. Suppl. Ser., 130, 2, 403.
+     *
+     * K. P. Birch and M. J. Downs (1994)
+     *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
+     *   Metrologia, 31, 4, 315.
+     *
+     * @param x[in] The wavenumber in vacuum (µm-1).
+     * @param y[out] The wavenumber in air (µm-1).
+     * @param z[out] The derivative of @c y with respect to @c x.
+     *
+     * @attention The function uses wavenumber (µm-1) := 10000.0 / wavelength (Angstrom) as input and output.
+     */
+    inline
+    void birch_1994(const double &x, double &y, double &z) {
+        const double n = 1.0000834254 + 0.02406147 / (130.0 - x * x) + 0.00015998 / (38.9 - x * x);
+        const double m = (0.04812294 * x) / sqr(130.0 - x * x) + (0.00031996 * x) / sqr(38.9 - x * x);
+
+        y = x * n;
+        z = n + x * m;
     }
 
     /**
@@ -198,8 +255,8 @@ namespace especia {
      * @return the solution to the equation f(x) = c.
      */
     inline
-    double solve(void f(const double &x, double &y, double &z), double c, double x, double accuracy_goal = 1.0E-6,
-                 unsigned int max_iteration = 20) throw(std::runtime_error) {
+    double solve(void f(const double &x, double &y, double &z), double c, double x, double accuracy_goal = 1.0E-8,
+                 unsigned int max_iteration = 100) throw(std::runtime_error) {
         using std::abs;
         using std::runtime_error;
 
@@ -209,7 +266,7 @@ namespace especia {
             f(x, y, z);
             d = (y - c) / z;
             x -= d;
-            if (abs(d) < accuracy_goal) {
+            if (abs(d) < accuracy_goal * x) {
                 return x;
             }
         }
