@@ -280,7 +280,6 @@ namespace especia {
         yw = f(xw, n) + constraint.cost(xw, n);
     }
 
-
     /**
      * Rescales the global step size to compute standard uncertainties and covariance.
      *
