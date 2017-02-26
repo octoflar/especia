@@ -23,7 +23,6 @@
 #include <algorithm>
 #include <iomanip>
 #include <sstream>
-#include <valarray>
 #include <vector>
 
 #include "dataio.h"

@@ -22,6 +22,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <exception>
+#include <stdexcept>
 
 #include "../base.h"
 #include "../dataio.h"

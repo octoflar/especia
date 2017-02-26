@@ -20,7 +20,6 @@
 // SOFTWARE.
 //
 #include <cstdlib>
-#include <exception>
 
 #include "../base.h"
 #include "../dataio.h"
