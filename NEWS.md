@@ -5,8 +5,8 @@ added. All ancillary files were revised. Version 2017.1 provides new
 features and enhancements:
 
 * Functions to convert photon wavelength in vacuum to photon wavelength
-in air (and vice versa) were added to the base API (Edlén 1953, 1966;
-Birch & Downs 1994).
+in standard air (and vice versa) were added to the base API (Edlén 1953,
+1966; Birch & Downs 1994).
 * Especia uses standard C++-11 multithreading, if your compiler does
 not support Open Multiprocessing directives.
 * The spectral resolution of the instrument is expressed in units of
