@@ -67,6 +67,17 @@ namespace especia {
     const double speed_of_light = 299792458.0;
 
     /**
+     * Returns the relativistic Doppler factor for a given radial velocity.
+     *
+     * @param v[in] The radial velocity (m s-1).
+     * @return the Doppler factor.
+     */
+    inline
+    double dop(const double &v) {
+        return sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light));
+    }
+
+    /**
      * Returns the square of a number.
      *
      * @tparam Number The number type.
@@ -78,17 +89,6 @@ namespace especia {
     inline
     Number sqr(const Number &x) {
         return (x == Number(0)) ? Number(0) : x * x;
-    }
-
-    /**
-     * Returns the relativistic Doppler factor for a given radial velocity.
-     *
-     * @param v[in] The radial velocity (m s-1).
-     * @return the Doppler factor.
-     */
-    inline
-    double dop(const double &v) {
-        return sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light));
     }
 
     /**
