@@ -103,8 +103,10 @@ namespace especia {
      *   Metrologia, 2, 2, 71-80.
      *   http://dx.doi.org/10.1088/0026-1394/2/2/002
      *
-     * @param x[in] The quotient 10 / wavelength (Angstrom) in vacuum.
-     * @return the quotient 10 / wavelength (Angstrom) in air.
+     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @return the wavenumber in air (nm-1).
+     *
+     * @remark The function uses wavenumber := 1 / wavelength as input and output.
      */
     inline
     double edlen(const double &x) {
@@ -121,9 +123,11 @@ namespace especia {
      *   Metrologia, 2, 2, 71-80.
      *   http://dx.doi.org/10.1088/0026-1394/2/2/002
      *
-     * @param x[in] The quotient 10 / wavelength (Angstrom) in vacuum.
-     * @param y[out] The quotient 10 / wavelength (Angstrom) in air.
+     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @param y[out] The wavenumber in air (nm-1).
      * @param z[out] The derivative of @c y with respect to @c x.
+     *
+     * @remark The function uses wavenumber := 1 / wavelength as input and output.
      */
     inline
     void edlen(const double &x, double &y, double &z) {
@@ -143,8 +147,10 @@ namespace especia {
      *   *The dispersion of standard air.*
      *   Journal of the Optical Society of America, 43, 5, 339.
      *
-     * @param x[in] The quotient 10 / wavelength (Angstrom) in vacuum.
-     * @return the quotient 10 / wavelength (Angstrom) in air.
+     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @return the wavenumber in air (nm-1).
+     *
+     * @remark The function uses wavenumber := 1 / wavelength as input and output.
      */
     inline
     double edlen_1953(const double &x) {
@@ -160,9 +166,11 @@ namespace especia {
      *   *The dispersion of standard air.*
      *   Journal of the Optical Society of America, 43, 5, 339.
      *
-     * @param x[in] The quotient 10 / wavelength (Angstrom) in vacuum.
-     * @param y[out] The quotient 10 / wavelength (Angstrom) in air.
+     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @param y[out] The wavenumber in air (nm-1).
      * @param z[out] The derivative of @c y with respect to @c x.
+     *
+     * @remark The function uses wavenumber := 1 / wavelength as input and output.
      */
     inline
     void edlen_1953(const double &x, double &y, double &z) {
