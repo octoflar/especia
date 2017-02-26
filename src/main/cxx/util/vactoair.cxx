@@ -1,4 +1,4 @@
-// Utility: convert wavelength in spectroscopic data from vacuum to air
+// Utility: convert photon wavelength in spectroscopic data from vacuum to air
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,7 +29,7 @@ using namespace std;
 
 
 /**
- * Utility to convert wavelength in spectroscopic data from vacuum
+ * Utility to convert photon wavelength in spectroscopic data from vacuum
  * to air.
  *
  * Further reading:

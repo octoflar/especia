@@ -93,7 +93,7 @@ namespace especia {
     }
 
     /**
-     * Used to convert wavelength in vacuum to wavelength in air.
+     * Used to convert photon wavelength in vacuum to wavelength in air.
      *
      * Further reading:
      *
@@ -102,8 +102,8 @@ namespace especia {
      *   Metrologia, 2, 2, 71-80.
      *   http://dx.doi.org/10.1088/0026-1394/2/2/002
      *
-     * @param x[in] The quotient 10 / wavelength in vacuum.
-     * @return the quotient 10 / wavelength in air.
+     * @param x[in] The quotient 10 / wavelength (Angstrom) in vacuum.
+     * @return the quotient 10 / wavelength (Angstrom) in air.
      */
     inline
     double edlen(const double &x) {
@@ -111,7 +111,7 @@ namespace especia {
     }
 
     /**
-     * Used to convert wavelength in air to wavelength in vacuum (by means of Newton's method).
+     * Used to convert photon wavelength in air to wavelength in vacuum (by means of Newton's method).
      *
      * Further reading:
      *
@@ -120,8 +120,8 @@ namespace especia {
      *   Metrologia, 2, 2, 71-80.
      *   http://dx.doi.org/10.1088/0026-1394/2/2/002
      *
-     * @param x[in] The quotient 10 / wavelength in vacuum.
-     * @param y[out] The quotient 10 / wavelength in air.
+     * @param x[in] The quotient 10 / wavelength (Angstrom) in vacuum.
+     * @param y[out] The quotient 10 / wavelength (Angstrom) in air.
      * @param z[out] The derivative of @c y with respect to @c x.
      */
     inline
@@ -134,7 +134,7 @@ namespace especia {
     }
 
     /**
-     * Used to convert wavelength in vacuum to wavelength in air.
+     * Used to convert photon wavelength in vacuum to wavelength in air.
      *
      * Further reading:
      *
@@ -142,8 +142,8 @@ namespace especia {
      *   *The dispersion of standard air.*
      *   Journal of the Optical Society of America, 43, 5, 339.
      *
-     * @param x[in] The quotient 10 / wavelength in vacuum.
-     * @return the quotient 10 / wavelength in air.
+     * @param x[in] The quotient 10 / wavelength (Angstrom) in vacuum.
+     * @return the quotient 10 / wavelength (Angstrom) in air.
      */
     inline
     double edlen_1953(const double &x) {
@@ -151,7 +151,7 @@ namespace especia {
     }
 
     /**
-     * Used to convert wavelength in air to wavelength in vacuum (by means of Newton's method).
+     * Used to convert photon wavelength in air to wavelength in vacuum (by means of Newton's method).
      *
      * Further reading:
      *
@@ -159,8 +159,8 @@ namespace especia {
      *   *The dispersion of standard air.*
      *   Journal of the Optical Society of America, 43, 5, 339.
      *
-     * @param x[in] The quotient 10 / wavelength in vacuum.
-     * @param y[out] The quotient 10 / wavelength in air.
+     * @param x[in] The quotient 10 / wavelength (Angstrom) in vacuum.
+     * @param y[out] The quotient 10 / wavelength (Angstrom) in air.
      * @param z[out] The derivative of @c y with respect to @c x.
      */
     inline

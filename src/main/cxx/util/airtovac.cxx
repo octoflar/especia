@@ -1,4 +1,4 @@
-// Utility: convert wavelength in spectroscopic data from air to vacuum
+// Utility: convert photon wavelength in spectroscopic data from air to vacuum
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -63,7 +63,7 @@ double solve(void f(const double &, double &, double &), double c, double x,
 }
 
 /**
- * Utility to convert wavelength in spectroscopic data from air
+ * Utility to convert photon wavelength in spectroscopic data from air
  * to vacuum.
  *
  * Further reading:
