@@ -19,16 +19,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#include <cmath>
 #include <cstdlib>
 
 #include "../base.h"
 #include "../dataio.h"
 
 using namespace std;
-
-using especia::get;
-using especia::put;
 
 
 /**
@@ -63,11 +59,11 @@ int main(int argc, char *argv[]) {
         valarray<double> y;
         valarray<double> z;
 
-        if (get(cin, x, y, z, skip)) {
+        if (especia::get(cin, x, y, z, skip)) {
             if (v != 0.0) {
                 x *= especia::dop(v * especia::kilo);
             }
-            put(cout, x, y, z);
+            especia::put(cout, x, y, z);
         } else {
             cerr << pname << ": input failure" << endl;
             return 2;

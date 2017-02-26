@@ -27,10 +27,6 @@
 
 using namespace std;
 
-using especia::edlen;
-using especia::get;
-using especia::put;
-
 
 /**
  * Solves the equation f(x) = c by means of Newton's method.
@@ -105,17 +101,17 @@ int main(int argc, char *argv[]) {
         valarray<double> y;
         valarray<double> z;
 
-        if (get(cin, x, y, z, skip)) {
+        if (especia::get(cin, x, y, z, skip)) {
             try {
                 for (size_t i = 0; i < x.size(); ++i) {
-                    x[i] = 10.0 / solve(edlen, 10.0 / x[i], 10.0 / x[i]);
+                    x[i] = 10.0 / solve(especia::edlen, 10.0 / x[i], 10.0 / x[i]);
                 }
             }
             catch (exception &e) {
                 cerr << pname << ": " << e.what() << endl;
                 return 3;
             }
-            put(cout, x, y, z);
+            especia::put(cout, x, y, z);
         } else {
             cerr << pname << ": input failure" << endl;
             return 2;

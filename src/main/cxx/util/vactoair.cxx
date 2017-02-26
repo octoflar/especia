@@ -27,10 +27,6 @@
 
 using namespace std;
 
-using especia::edlen;
-using especia::get;
-using especia::put;
-
 
 /**
  * Utility to convert wavelength in spectroscopic data from vacuum
@@ -71,11 +67,11 @@ int main(int argc, char *argv[]) {
         valarray<double> y;
         valarray<double> z;
 
-        if (get(cin, x, y, z, skip)) {
+        if (especia::get(cin, x, y, z, skip)) {
             for (size_t i = 0; i < x.size(); ++i) {
-                x[i] = 10.0 / edlen(10.0 / x[i]);
+                x[i] = 10.0 / especia::edlen(10.0 / x[i]);
             }
-            put(cout, x, y, z);
+            especia::put(cout, x, y, z);
         } else {
             cerr << pname << ": input failure" << endl;
             return 2;

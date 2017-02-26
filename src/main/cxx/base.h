@@ -22,6 +22,7 @@
 #ifndef ESPECIA_BASE_H
 #define ESPECIA_BASE_H
 
+#include <cmath>
 #include <valarray>
 
 namespace especia {
@@ -74,7 +75,7 @@ namespace especia {
      */
     inline
     double dop(const double &v) {
-        return sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light));
+        return std::sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light));
     }
 
     /**

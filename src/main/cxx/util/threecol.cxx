@@ -26,9 +26,6 @@
 
 using namespace std;
 
-using especia::get;
-using especia::put;
-
 
 /**
  * Utility to merge separate spectral flux and uncertainty data to
@@ -58,14 +55,14 @@ int main(int argc, char *argv[]) {
         ifstream fxy(argv[1]);
         ifstream fxz(argv[2]);
 
-        get(fxy, x, y);
-        get(fxz, x, z);
+        especia::get(fxy, x, y);
+        especia::get(fxz, x, z);
 
         fxy.close();
         fxz.close();
 
         if (fxy and fxz and y.size() == z.size()) {
-            put(cout, x, y, z);
+            especia::put(cout, x, y, z);
         } else {
             cerr << pname << ": input failure" << endl;
             return 2;
