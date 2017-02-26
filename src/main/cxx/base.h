@@ -110,7 +110,7 @@ namespace especia {
     }
 
     /**
-     * Used to convert wavelength in air to wavelength in vacuum.
+     * Used to convert wavelength in air to wavelength in vacuum (by means of the Newton-Raphson method).
      *
      * Further reading:
      *
@@ -150,7 +150,7 @@ namespace especia {
     }
 
     /**
-     * Used to convert wavelength in air to wavelength in vacuum.
+     * Used to convert wavelength in air to wavelength in vacuum (by means of the Newton-Raphson method).
      *
      * Further reading:
      *
