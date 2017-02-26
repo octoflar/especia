@@ -93,14 +93,14 @@ namespace especia {
      *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
      *   Metrologia, 31, 4, 315.
      *
-     * @param x[in] The wavenumber in vacuum (µm-1).
-     * @return the wavenumber in air (µm-1).
+     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @return the wavenumber in air (nm-1).
      *
-     * @attention The function uses wavenumber (µm-1) := 10000.0 / wavelength (Angstrom) as input and output.
+     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
      */
     inline
     double birch_1994(const double &x) {
-        return (1.0 + 8.34254E-05 + 2.406147E-02 / (130.0 - x * x) + 1.5998E-04 / (38.9 - x * x)) * x;
+        return (1.0 + 8.34254E-05 + 2.406147E-08 / (130.0E-06 - x * x) + 1.5998E-10 / (38.9E-06 - x * x)) * x;
     }
 
     /**
@@ -116,16 +116,16 @@ namespace especia {
      *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
      *   Metrologia, 31, 4, 315.
      *
-     * @param x[in] The wavenumber in vacuum (µm-1).
-     * @param y[out] The wavenumber in air (µm-1).
+     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @param y[out] The wavenumber in air (nm-1).
      * @param z[out] The derivative of @c y with respect to @c x.
      *
-     * @attention The function uses wavenumber (µm-1) := 10000.0 / wavelength (Angstrom) as input and output.
+     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
      */
     inline
     void birch_1994(const double &x, double &y, double &z) {
-        const double n = 1.0 + 8.34254E-05 + 2.406147E-02 / (130.0 - x * x) + 1.5998E-04 / (38.9 - x * x);
-        const double m = (4.812294E-02 * x) / sqr(130.0 - x * x) + (3.1996E-04 * x) / sqr(38.9 - x * x);
+        const double n = 1.0 + 8.34254E-05 + 2.406147E-08 / (130.0E-06 - x * x) + 1.5998E-10 / (38.9E-06 - x * x);
+        const double m = (4.812294E-08 * x) / sqr(130.0E-06 - x * x) + (3.1996E-10 * x) / sqr(38.9E-06 - x * x);
 
         y = x * n;
         z = n + x * m;
