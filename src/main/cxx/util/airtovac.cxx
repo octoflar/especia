@@ -32,15 +32,32 @@ using especia::get;
 using especia::put;
 
 
+/**
+ * Solves the equation f(x) = c by means of the Newton-Raphson method.
+ *
+ * @param f[in] A function, which takes as arguments:
+ * @parblock
+ * @c x An abscissa value
+ *
+ * @c y The result y = f(x).
+ *
+ * @c z The derivative of @c y with respect to @c x.
+ * @endparblock
+ * @param c[in] A constant.
+ * @param x[in] An initial guess of the solution.
+ * @param accuracy[in] The relative accuracy goal (optional).
+ *
+ * @return the solution.
+ */
 double
-solve(void f(const double &, double &, double &), double c, double x, double accuracy_goal) throw(runtime_error) {
+solve(void f(const double &, double &, double &), double c, double x, double accuracy = 1.0E-8) throw(runtime_error) {
     double d, y, z;
 
     for (unsigned int i = 0; i < 100; ++i) {
         f(x, y, z);
         d = (y - c) / z;
         x -= d;
-        if (abs(d) < accuracy_goal * x) {
+        if (abs(d) < accuracy * x) {
             return x;
         }
     }
@@ -70,7 +87,7 @@ solve(void f(const double &, double &, double &), double c, double x, double acc
  *
  * @c argv[1] The number of lines to skip (optional, default = 0).
  *
- * @c argv[2] The accuracy goal (optional, dafault = 1.0E-8).
+ * @c argv[2] The relative accuracy goal (optional, default = 1.0E-8).
  * @endparblock
  * @return an exit code.
  *
