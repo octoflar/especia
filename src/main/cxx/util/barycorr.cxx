@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 
         if (especia::get(cin, x, y, z, skip)) {
             if (v != 0.0) {
-                x *= especia::dop(v * especia::kilo);
+                x *= especia::dopp(v * especia::kilo);
             }
             especia::put(cout, x, y, z);
         } else {

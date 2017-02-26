@@ -75,7 +75,7 @@ namespace especia {
      * @return the Doppler factor.
      */
     inline
-    double dop(const double &v) {
+    double dopp(const double &v) {
         return std::sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light));
     }
 
@@ -91,6 +91,57 @@ namespace especia {
     inline
     Number sqr(const Number &x) {
         return (x == Number(0)) ? Number(0) : x * x;
+    }
+
+    /**
+     * Used to convert photon wavelength in vacuum to photon wavelength in air.
+     *
+     * Further reading:
+     *
+     * Donald C. Morton (2000).
+     *   *Atomic Data for Resonance Absorption Lines. II. Wavelengths Longward of the Lyman Limit for Heavy Elements.*
+     *   Astrophys. J. Suppl. Ser., 130, 2, 403.
+     *
+     * K. P. Birch and M. J. Downs (1994)
+     *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
+     *   Metrologia, 31, 4, 315.
+     *
+     * @param x[in] The wavenumber in vacuum (µm-1).
+     * @return the wavenumber in air (µm-1).
+     *
+     * @attention The function uses wavenumber (µm-1) := 10000.0 / wavelength (Angstrom) as input and output.
+     */
+    inline
+    double birch_1994(const double &x) {
+        return (1.0000834254 + 0.02406147 / (130.0 - x * x) + 0.00015998 / (38.9 - x * x)) * x;
+    }
+
+    /**
+     * Used to convert photon wavelength in vacuum to photon wavelength in air (by means of Newton's method).
+     *
+     * Further reading:
+     *
+     * Donald C. Morton (2000).
+     *   *Atomic Data for Resonance Absorption Lines. II. Wavelengths Longward of the Lyman Limit for Heavy Elements.*
+     *   Astrophys. J. Suppl. Ser., 130, 2, 403.
+     *
+     * K. P. Birch and M. J. Downs (1994)
+     *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
+     *   Metrologia, 31, 4, 315.
+     *
+     * @param x[in] The wavenumber in vacuum (µm-1).
+     * @param y[out] The wavenumber in air (µm-1).
+     * @param z[out] The derivative of @c y with respect to @c x.
+     *
+     * @attention The function uses wavenumber (µm-1) := 10000.0 / wavelength (Angstrom) as input and output.
+     */
+    inline
+    void birch_1994(const double &x, double &y, double &z) {
+        const double n = 1.0000834254 + 0.02406147 / (130.0 - x * x) + 0.00015998 / (38.9 - x * x);
+        const double m = (0.04812294 * x) / sqr(130.0 - x * x) + (0.00031996 * x) / sqr(38.9 - x * x);
+
+        y = x * n;
+        z = n + x * m;
     }
 
     /**
@@ -182,57 +233,6 @@ namespace especia {
     void edlen_1966(const double &x, double &y, double &z) {
         const double n = 1.0000834213 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x);
         const double m = (3.1994E-10 * x) / sqr(0.0000389 - x * x) + (4.81206E-08 * x) / sqr(0.000130 - x * x);
-
-        y = x * n;
-        z = n + x * m;
-    }
-
-    /**
-     * Used to convert photon wavelength in vacuum to photon wavelength in air.
-     *
-     * Further reading:
-     *
-     * Donald C. Morton (2000).
-     *   *Atomic Data for Resonance Absorption Lines. II. Wavelengths Longward of the Lyman Limit for Heavy Elements.*
-     *   Astrophys. J. Suppl. Ser., 130, 2, 403.
-     *
-     * K. P. Birch and M. J. Downs (1994)
-     *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
-     *   Metrologia, 31, 4, 315.
-     *
-     * @param x[in] The wavenumber in vacuum (µm-1).
-     * @return the wavenumber in air (µm-1).
-     *
-     * @attention The function uses wavenumber (µm-1) := 10000.0 / wavelength (Angstrom) as input and output.
-     */
-    inline
-    double birch_1994(const double &x) {
-        return (1.0000834254 + 0.02406147 / (130.0 - x * x) + 0.00015998 / (38.9 - x * x)) * x;
-    }
-
-    /**
-     * Used to convert photon wavelength in vacuum to photon wavelength in air (by means of Newton's method).
-     *
-     * Further reading:
-     *
-     * Donald C. Morton (2000).
-     *   *Atomic Data for Resonance Absorption Lines. II. Wavelengths Longward of the Lyman Limit for Heavy Elements.*
-     *   Astrophys. J. Suppl. Ser., 130, 2, 403.
-     *
-     * K. P. Birch and M. J. Downs (1994)
-     *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
-     *   Metrologia, 31, 4, 315.
-     *
-     * @param x[in] The wavenumber in vacuum (µm-1).
-     * @param y[out] The wavenumber in air (µm-1).
-     * @param z[out] The derivative of @c y with respect to @c x.
-     *
-     * @attention The function uses wavenumber (µm-1) := 10000.0 / wavelength (Angstrom) as input and output.
-     */
-    inline
-    void birch_1994(const double &x, double &y, double &z) {
-        const double n = 1.0000834254 + 0.02406147 / (130.0 - x * x) + 0.00015998 / (38.9 - x * x);
-        const double m = (0.04812294 * x) / sqr(130.0 - x * x) + (0.00031996 * x) / sqr(38.9 - x * x);
 
         y = x * n;
         z = n + x * m;
