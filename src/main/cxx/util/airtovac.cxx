@@ -45,19 +45,20 @@ using especia::put;
  * @endparblock
  * @param c[in] A constant.
  * @param x[in] An initial guess of the solution.
- * @param accuracy[in] The relative accuracy goal (optional).
+ * @param accuracy_goal[in] The accuracy goal (optional).
+ * @param max_iteration[in] The maximum number of iterations (optional).
  *
  * @return the solution.
  */
-double
-solve(void f(const double &, double &, double &), double c, double x, double accuracy = 1.0E-8) throw(runtime_error) {
+double solve(void f(const double &, double &, double &), double c, double x,
+             double accuracy_goal = 1.0E-6, unsigned int max_iteration = 100) throw(runtime_error) {
     double d, y, z;
 
-    for (unsigned int i = 0; i < 100; ++i) {
+    for (unsigned int i = 0; i < max_iteration; ++i) {
         f(x, y, z);
         d = (y - c) / z;
         x -= d;
-        if (abs(d) < accuracy * x) {
+        if (abs(d) < accuracy_goal) {
             return x;
         }
     }
@@ -86,26 +87,20 @@ solve(void f(const double &, double &, double &), double c, double x, double acc
  * @c argv[0] The program name.
  *
  * @c argv[1] The number of lines to skip (optional, default = 0).
- *
- * @c argv[2] The relative accuracy goal (optional, default = 1.0E-8).
  * @endparblock
  * @return an exit code.
  *
- * @remark Usage: airtovac [SKIP] [ACCURACY] < ISTREAM > OSTREAM
+ * @remark Usage: airtovac [SKIP] < ISTREAM > OSTREAM
  */
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
 
     int skip = 0;
-    double accuracy_goal = 1.0e-08;
 
-    if (argc == 3) {
-        accuracy_goal = atof(argv[2]);
-    }
-    if (argc == 3 || argc == 2) {
+    if (argc == 2) {
         skip = atoi(argv[1]);
     }
-    if (argc == 3 || argc == 2 || argc == 1) {
+    if (argc == 2 || argc == 1) {
         valarray<double> x;
         valarray<double> y;
         valarray<double> z;
@@ -113,7 +108,7 @@ int main(int argc, char *argv[]) {
         if (get(cin, x, y, z, skip)) {
             try {
                 for (size_t i = 0; i < x.size(); ++i) {
-                    x[i] = 10.0 / solve(edlen, 10.0 / x[i], 10.0 / x[i], accuracy_goal);
+                    x[i] = 10.0 / solve(edlen, 10.0 / x[i], 10.0 / x[i]);
                 }
             }
             catch (exception &e) {
@@ -128,7 +123,7 @@ int main(int argc, char *argv[]) {
 
         return 0;
     } else {
-        cout << "usage: " << pname << " [SKIP] [ACCURACY] < ISTREAM > OSTREAM" << endl;
+        cout << "usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
         return 1;
     }
 }
