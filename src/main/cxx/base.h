@@ -178,9 +178,9 @@ namespace especia {
      *
      * @param f[in] A differentiable function, which takes as parameters:
      * @parblock
-     * @param x The abscissa value
-     * @param y The result y = f(x).
-     * @param z The derivative of @c y with respect to @c x.
+     * @param x[in] The abscissa value
+     * @param y[out] The result y = f(x).
+     * @param z[out] The derivative of @c y with respect to @c x.
      * @endparblock
      * @param c[in] The constant on the right-hand side of the equation.
      * @param x[in] The initial guess of the solution.
