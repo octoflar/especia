@@ -191,7 +191,7 @@ namespace especia {
      */
     inline
     double solve(void f(const double &x, double &y, double &z), double c, double x, double accuracy_goal = 1.0E-6,
-                 unsigned int max_iteration = 100) throw(std::runtime_error) {
+                 unsigned int max_iteration = 20) throw(std::runtime_error) {
         using std::abs;
         using std::runtime_error;
 
