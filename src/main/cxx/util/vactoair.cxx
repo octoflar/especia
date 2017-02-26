@@ -22,24 +22,15 @@
 #include <cstdlib>
 #include <exception>
 
+#include "../base.h"
 #include "../dataio.h"
 
 using namespace std;
 
+using especia::edlen;
 using especia::get;
 using especia::put;
 
-
-double vactoair(double x) {
-#if (0)
-    // Edlen (1953)
-    const double a = 1.0000643280 + 2.5540e-10 / (0.0000410 - x * x) + 2.949810e-08 / (0.000146 - x * x);
-#else
-    // Edlen (1966)
-    const double a = 1.0000834213 + 1.5997e-10 / (0.0000389 - x * x) + 2.406030e-08 / (0.000130 - x * x);
-#endif
-    return a * x;
-}
 
 /**
  * Utility to convert wavelength in spectroscopic data from vacuum
@@ -82,7 +73,7 @@ int main(int argc, char *argv[]) {
 
         if (get(cin, x, y, z, skip)) {
             for (size_t i = 0; i < x.size(); ++i) {
-                x[i] = 10.0 / vactoair(10.0 / x[i]);
+                x[i] = 10.0 / edlen(10.0 / x[i]);
             }
             put(cout, x, y, z);
         } else {

@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 
         if (get(cin, x, y, z, skip)) {
             if (v != 0.0) {
-                x *= especia::doppler_factor(v * especia::kilo);
+                x *= especia::dop(v * especia::kilo);
             }
             put(cout, x, y, z);
         } else {

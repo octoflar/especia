@@ -207,9 +207,9 @@ double especia::A_Doppler::operator()(const double &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
-const double especia::A_Doppler::C0 = 1.0E-03 * speed_of_light_in_vacuum;
+const double especia::A_Doppler::C0 = 1.0E-03 * speed_of_light;
 const double especia::A_Doppler::C1 = 1.0E-06 * sqr(elementary_charge) /
-                                      (4.0 * electric_constant * electron_mass * sqr(speed_of_light_in_vacuum));
+                                      (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
 
 
 especia::G_Doppler::G_Doppler()
@@ -229,6 +229,6 @@ double especia::G_Doppler::operator()(const double &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
-const double especia::G_Doppler::C0 = 1.0E-03 * speed_of_light_in_vacuum;
+const double especia::G_Doppler::C0 = 1.0E-03 * speed_of_light;
 const double especia::G_Doppler::C1 = 1.0E-06 * sqr(elementary_charge) /
-                                      (4.0 * electric_constant * electron_mass * sqr(speed_of_light_in_vacuum));
+                                      (4.0 * electric_constant * electron_mass * sqr(speed_of_light));

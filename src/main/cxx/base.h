@@ -64,18 +64,7 @@ namespace especia {
     /**
      * The speed of light in vacuum (m s-1). *NIST SP 961 (Sept/2015)*
      */
-    const double speed_of_light_in_vacuum = 299792458.0;
-
-    /**
-     * Returns the Doppler factor for a given radial velocity.
-     *
-     * @param v[in] The radial velocity (m s-1)
-     * @return the Doppler factor.
-     */
-    inline
-    double doppler_factor(const double &v) {
-        return sqrt((1.0 + v / speed_of_light_in_vacuum) / (1.0 - v / speed_of_light_in_vacuum));
-    }
+    const double speed_of_light = 299792458.0;
 
     /**
      * Returns the square of a number.
@@ -92,10 +81,101 @@ namespace especia {
     }
 
     /**
-     * An indirect comparing of a set of values.
+     * Returns the relativistic Doppler factor for a given radial velocity.
      *
-     * @tparam Number The number type.
-     * @tparam Compare The strategy to compare numbers directly.
+     * @param v[in] The radial velocity (m s-1).
+     * @return the Doppler factor.
+     */
+    inline
+    double dop(const double &v) {
+        return sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light));
+    }
+
+    /**
+     * Used to convert wavelength in vacuum to wavelength in air.
+     *
+     * Further reading:
+     *
+     * B. Edlen (1966).
+     *   *The refractive index of air.*
+     *   Metrologia, 2, 2, 71-80.
+     *   http://dx.doi.org/10.1088/0026-1394/2/2/002
+     *
+     * @param x[in] The quotient 10 / wavelength in vacuum.
+     * @return the quotient 10 / wavelength in air.
+     */
+    inline
+    double edlen(const double &x) {
+        return (1.0000834213 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x)) * x;
+    }
+
+    /**
+     * Used to convert wavelength in air to wavelength in vacuum.
+     *
+     * Further reading:
+     *
+     * B. Edlen (1966).
+     *   *The refractive index of air.*
+     *   Metrologia, 2, 2, 71-80.
+     *   http://dx.doi.org/10.1088/0026-1394/2/2/002
+     *
+     * @param x[in] The quotient 10 / wavelength in vacuum.
+     * @param y[out] The quotient 10 / wavelength in air.
+     * @param z[out] The derivative of @c y with respect to @c x.
+     */
+    inline
+    void edlen(const double &x, double &y, double &z) {
+        const double a = 1.0000834213 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x);
+        const double b = x * ((3.1994E-10 * x) / sqr(0.0000389 - x * x) + (4.81206E-08 * x) / sqr(0.000130 - x * x));
+
+        y = a * x;
+        z = a + b;
+    }
+
+    /**
+     * Used to convert wavelength in vacuum to wavelength in air.
+     *
+     * Further reading:
+     *
+     * B. Edlen (1953).
+     *   *The dispersion of standard air.*
+     *   Journal of the Optical Society of America, 43, 5, 339.
+     *
+     * @param x[in] The quotient 10 / wavelength in vacuum.
+     * @return the quotient 10 / wavelength in air.
+     */
+    inline
+    double edlen_1953(const double &x) {
+        return (1.0000643280 + 2.5540E-10 / (0.0000410 - x * x) + 2.949810E-08 / (0.000146 - x * x)) * x;
+    }
+
+    /**
+     * Used to convert wavelength in air to wavelength in vacuum.
+     *
+     * Further reading:
+     *
+     * B. Edlen (1953).
+     *   *The dispersion of standard air.*
+     *   Journal of the Optical Society of America, 43, 5, 339.
+     *
+     * @param x[in] The quotient 10 / wavelength in vacuum.
+     * @param y[out] The quotient 10 / wavelength in air.
+     * @param z[out] The derivative of @c y with respect to @c x.
+     */
+    inline
+    void edlen_1953(const double &x, double &y, double &z) {
+        const double a = 1.0000643280 + 2.5540E-10 / (0.0000410 - x * x) + 2.949810E-08 / (0.000146 - x * x);
+        const double b = x * ((5.1080E-10 * x) / sqr(0.0000410 - x * x) + (5.89962E-08 * x) / sqr(0.000146 - x * x));
+
+        y = a * x;
+        z = a + b;
+    }
+
+    /**
+     * An indirect comparing.
+     *
+     * @tparam Number The base value type.
+     * @tparam Compare The strategy to compare base values directly.
      */
     template<class Number, class Compare>
     class Indirect_Compare {
@@ -103,8 +183,8 @@ namespace especia {
         /**
          * Constructs a new indirect comparing.
          *
-         * @param[in] v The values.
-         * @param[in] c The direct number comparing.
+         * @param[in] v The base values.
+         * @param[in] c The direct base value comparing.
          */
         Indirect_Compare(const std::valarray<Number> &v, const Compare &c)
                 : values(v), compare(c) {
@@ -119,9 +199,9 @@ namespace especia {
         /**
          * The indirect comparing operator.
          *
-         * @param[in] i An index into the set of fitness values.
-         * @param[in] j An index into the set of fitness values.
-         * @return the direct comparing result.
+         * @param[in] i An index into the set of base values.
+         * @param[in] j An index into the set of base values.
+         * @return the result of comparing the indexed base values directly.
          */
         bool operator()(const size_t &i, const size_t &j) const {
             return compare(values[i], values[j]);

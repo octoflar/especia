@@ -370,13 +370,13 @@ namespace especia {
     };
 
     template<class A>
-    const double G_Voigt<A>::C0 = 1.0E-03 * speed_of_light_in_vacuum;
+    const double G_Voigt<A>::C0 = 1.0E-03 * speed_of_light;
 
     template<class A>
     const double G_Voigt<A>::C1 = 1.0E-06 * sqr(elementary_charge) /
-                                  (4.0 * electric_constant * electron_mass * sqr(speed_of_light_in_vacuum));
+                                  (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
     template<class A>
-    const double G_Voigt<A>::C2 = 1.0E-10 / (4.0 * pi * speed_of_light_in_vacuum);
+    const double G_Voigt<A>::C2 = 1.0E-10 / (4.0 * pi * speed_of_light);
 
 
     /**

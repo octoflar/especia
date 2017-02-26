@@ -415,7 +415,7 @@ namespace especia {
                 const size_t j = i->second;
                 const string id = i->first;
 
-                const double c = 1.0E-3 * speed_of_light_in_vacuum;
+                const double c = 1.0E-3 * speed_of_light;
                 const double x = val[j];
                 const double z = val[j + 2];
                 const double v = val[j + 3];
