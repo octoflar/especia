@@ -31,7 +31,7 @@ using namespace std;
 namespace especia {
 
     /**
-     * Returns the relativistic Doppler factor for a given radial velocity.
+     * Returns the Doppler factor for a given radial velocity.
      *
      * @param v[in] The radial velocity (m s-1).
      * @return the Doppler factor.
