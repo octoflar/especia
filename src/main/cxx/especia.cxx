@@ -24,16 +24,14 @@
 #include <iostream>
 
 #include "config.h"
+#include "core/decompose.h"
 
 #define ESPECIA_MANY_MULTIPLET_ANALYSIS 1
-
 #include "core/model.h"
-
-#undef ESPECIA_MANY_MULTIPLET_ANALYSIS
+#undef  ESPECIA_MANY_MULTIPLET_ANALYSIS
 
 #include "core/mtwister.h"
 #include "core/randev.h"
-#include "core/decompose.h"
 
 const char usemsg[] = "usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
