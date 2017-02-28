@@ -65,7 +65,7 @@ namespace especia {
             }
         }
 
-        throw runtime_error("especia::solve(): Error: accuracy goal not reached");
+        throw runtime_error("especia::solve(): Error: failed to reach accuracy goal");
     }
 
 }
