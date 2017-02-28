@@ -1,4 +1,4 @@
-// Utility: apply the barycentric velocity correction to spectroscopic data
+// Utility: heliocentric (or barycentric) velocity correction
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,22 +22,13 @@
 #include <cmath>
 #include <cstdlib>
 
-#include "dataio.h"
+#include "../core/base.h"
+#include "../core/dataio.h"
 
 using namespace std;
 
 
 namespace especia {
-
-    /**
-     * SI prefix.
-     */
-    const double kilo = 1.0E+03;
-
-    /**
-     * The speed of light in vacuum (m s-1). *NIST SP 961 (Sept/2015)*
-     */
-    const double speed_of_light = 299792458.0;
 
     /**
      * Returns the relativistic Doppler factor for a given radial velocity.
@@ -53,21 +44,22 @@ namespace especia {
 }
 
 /**
- * Utility to apply the barycentric velocity correction to spectroscopic
- * data.
+ * Utility to apply the heliocentric (or barycentric) velocity correction to
+ * spectroscopic data.
  *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
  * @parblock
  * @c argv[0] The program name.
  *
- * @c argv[1] The velocity of the observer relative to the barycenter of the solar system (km s-1).
+ * @c argv[1] The velocity of the observer relative to the heliocenter (or
+ * barycenter) of the solar system (m s-1).
  *
  * @c argv[2] The number of lines to skip (optional, default = 0).
  * @endparblock
  * @return an exit code.
  *
- * @remark Usage: barycorr VELOCITY [SKIP] < ISTREAM > OSTREAM
+ * @remark Usage: helicorr VELOCITY (m s-1) [SKIP] < ISTREAM > OSTREAM
  */
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
@@ -86,7 +78,7 @@ int main(int argc, char *argv[]) {
 
         if (especia::get(cin, x, y, z, skip)) {
             if (v != 0.0) {
-                x *= especia::dopp(v * especia::kilo);
+                x *= especia::dopp(v);
             }
             especia::put(cout, x, y, z);
         } else {
@@ -96,7 +88,7 @@ int main(int argc, char *argv[]) {
 
         return 0;
     } else {
-        cout << "usage: " << pname << " VELOCITY (km s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
+        cout << "usage: " << pname << " VELOCITY (m s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
         return 1;
     }
 }

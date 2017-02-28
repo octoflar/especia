@@ -29,7 +29,7 @@ using namespace std;
  *
  * @return an exit code.
  *
- * @remark Usage: emsg < ISTREAM > OSTREAM
+ * @remark Usage: emes < ISTREAM > OSTREAM
  */
 int main() {
     bool found = false;

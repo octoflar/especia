@@ -1,4 +1,4 @@
-// Utility: convert photon wavelength in spectroscopic data from vacuum to air
+// Utility: convert photon wavelength from vacuum to air
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,48 +21,11 @@
 //
 #include <cstdlib>
 
-#include "dataio.h"
+#include "../core/base.h"
+#include "../core/dataio.h"
 
 using namespace std;
 
-
-namespace especia {
-
-    /**
-     * Returns the square of a number.
-     *
-     * @tparam Number The number type.
-     *
-     * @param x[in] The number.
-     * @return the square of the number.
-     */
-    template<class Number>
-    inline
-    Number sqr(const Number &x) {
-        return (x == Number(0)) ? Number(0) : x * x;
-    }
-
-    /**
-     * Used to convert photon wavelength in vacuum to photon wavelength in air.
-     *
-     * Further reading:
-     *
-     * B. Edlén (1966).
-     *   *The refractive index of air.*
-     *   Metrologia, 2, 2, 71-80.
-     *   http://dx.doi.org/10.1088/0026-1394/2/2/002
-     *
-     * @param x[in] The wavenumber in vacuum (nm-1).
-     * @return the wavenumber in air (nm-1).
-     *
-     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
-     */
-    inline
-    double edlen_1966(const double &x) {
-        return (1.0000834213 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x)) * x;
-    }
-
-}
 
 /**
  * Utility to convert photon wavelength (Angstrom) in spectroscopic data from

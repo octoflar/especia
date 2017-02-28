@@ -41,7 +41,7 @@ set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 include_directories(${CMAKE_BINARY_DIR})
 
-configure_file(${MAIN}/cxx/config.h.in ${CMAKE_BINARY_DIR}/config.h @ONLY)
+configure_file(${MAIN}/cxx/core/config.h.in ${CMAKE_BINARY_DIR}/config.h @ONLY)
 configure_file(${MAIN}/scripts/erun.sh erun.sh COPYONLY)
 
 configure_file(${TEST}/resources/especia_test.html resources/especia_test.html COPYONLY)
@@ -59,21 +59,21 @@ configure_file(${TEST}/resources/virtual_1657.dat  resources/virtual_1657.dat CO
 
 
 set(COMMON_SOURCES
-        ${MAIN}/cxx/base.h
-        ${MAIN}/cxx/decompose.cxx
-        ${MAIN}/cxx/decompose.h
-        ${MAIN}/cxx/model.h
-        ${MAIN}/cxx/mtwister.h
-        ${MAIN}/cxx/optimizer.cxx
-        ${MAIN}/cxx/optimizer.h
-        ${MAIN}/cxx/optimize.h
-        ${MAIN}/cxx/profiles.cxx
-        ${MAIN}/cxx/profiles.h
-        ${MAIN}/cxx/randev.h
-        ${MAIN}/cxx/readline.cxx
-        ${MAIN}/cxx/readline.h
-        ${MAIN}/cxx/section.cxx
-        ${MAIN}/cxx/section.h)
+        ${MAIN}/cxx/core/base.h
+        ${MAIN}/cxx/core/decompose.cxx
+        ${MAIN}/cxx/core/decompose.h
+        ${MAIN}/cxx/core/model.h
+        ${MAIN}/cxx/core/mtwister.h
+        ${MAIN}/cxx/core/optimizer.cxx
+        ${MAIN}/cxx/core/optimizer.h
+        ${MAIN}/cxx/core/optimize.h
+        ${MAIN}/cxx/core/profiles.cxx
+        ${MAIN}/cxx/core/profiles.h
+        ${MAIN}/cxx/core/randev.h
+        ${MAIN}/cxx/core/readline.cxx
+        ${MAIN}/cxx/core/readline.h
+        ${MAIN}/cxx/core/section.cxx
+        ${MAIN}/cxx/core/section.h)
 
 add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
 target_link_libraries(especia ${VECLIB})
@@ -87,27 +87,27 @@ add_executable(ecom ${MAIN}/cxx/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/edat.cxx)
 add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
-add_executable(emsg ${MAIN}/cxx/emsg.cxx)
+add_executable(emes ${MAIN}/cxx/emes.cxx)
+add_executable(etee ${MAIN}/cxx/etee.cxx ${MAIN}/cxx/core/dataio.h ${MAIN}/cxx/core/dataio.cxx)
 
 add_system_test(especid_test 159.77 171.89)
 add_system_test(especiv_test 251.04)
 add_system_test(especix_test 251.46)
 add_system_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
 
-add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/util/dataio.cxx)
-add_executable(barycorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/barycorr.cxx ${MAIN}/cxx/util/dataio.cxx)
-add_executable(threecol EXCLUDE_FROM_ALL ${MAIN}/cxx/util/threecol.cxx ${MAIN}/cxx/util/dataio.cxx)
-add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx ${MAIN}/cxx/util/dataio.cxx)
+add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/core/dataio.cxx)
+add_executable(helicorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/helicorr.cxx ${MAIN}/cxx/core/dataio.cxx)
+add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx ${MAIN}/cxx/core/dataio.cxx)
 
 add_custom_target(util)
-add_dependencies(util airtovac barycorr threecol vactoair)
+add_dependencies(util airtovac helicorr vactoair)
 
 add_custom_target(tar
         COMMAND ${TAR} -f ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_TAG}.tar.bz2 -C ${CMAKE_SOURCE_DIR} --exclude .git -X ${CMAKE_SOURCE_DIR}/.gitignore .
         BYPRODUCTS ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_TAG}.tar.bz2
         VERBATIM)
 
-install(TARGETS especia especid especiv especix ecom edat elog emod emsg
+install(TARGETS especia especid especiv especix ecom edat elog emod emes etee
         RUNTIME
         DESTINATION $ENV{HOME}/bin
         CONFIGURATIONS Release)

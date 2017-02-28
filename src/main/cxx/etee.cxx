@@ -1,4 +1,4 @@
-// Utility: merge separate spectral flux and uncertainty data to three-column format
+// Utility: merge separate spectral flux and uncertainty data columns
 // Copyright (c) 2016 Ralf Quast
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,14 +22,13 @@
 #include <cstdlib>
 #include <fstream>
 
-#include "dataio.h"
+#include "core/dataio.h"
 
 using namespace std;
 
 
 /**
- * Utility to merge separate spectral flux and uncertainty data to
- * three-column format.
+ * Utility to merge separate spectral flux and uncertainty data columns.
  *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
@@ -39,15 +38,22 @@ using namespace std;
  * @c argv[1] The path name of the flux data file.
  *
  * @c argv[2] The path name of the flux uncertainty data file.
+ *
+ * @c argv[3] The number of lines to skip (optional, default = 0).
  * @endparblock
  * @return an exit code.
  *
- * @remark Usage: threecol FLUX UNCERTAINTY > OSTREAM
+ * @remark Usage: etee FLUX UNCERTAINTY [SKIP] > OSTREAM
  */
 int main(int argc, char *argv[]) {
     const char *pname = argv[0];
 
-    if (argc == 3) {
+    int skip = 0;
+
+    if (argc == 4) {
+        skip = atoi(argv[2]);
+    }
+    if (argc == 4 or argc == 3) {
         valarray<double> x;
         valarray<double> y;
         valarray<double> z;
@@ -55,8 +61,8 @@ int main(int argc, char *argv[]) {
         ifstream fxy(argv[1]);
         ifstream fxz(argv[2]);
 
-        especia::get(fxy, x, y);
-        especia::get(fxz, x, z);
+        especia::get(fxy, x, y, skip);
+        especia::get(fxz, x, z, skip);
 
         fxy.close();
         fxz.close();
@@ -70,7 +76,7 @@ int main(int argc, char *argv[]) {
 
         return 0;
     } else {
-        cout << "usage: " << pname << " FLUX UNCERTAINTY > OSTREAM" << endl;
+        cout << "usage: " << pname << " FLUX UNCERTAINTY [SKIP] > OSTREAM" << endl;
         return 1;
     }
 }

@@ -27,13 +27,13 @@
 
 #define ESPECIA_MANY_MULTIPLET_ANALYSIS 1
 
-#include "model.h"
+#include "core/model.h"
 
 #undef ESPECIA_MANY_MULTIPLET_ANALYSIS
 
-#include "mtwister.h"
-#include "randev.h"
-#include "decompose.h"
+#include "core/mtwister.h"
+#include "core/randev.h"
+#include "core/decompose.h"
 
 const char usemsg[] = "usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
