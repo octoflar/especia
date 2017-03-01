@@ -27,6 +27,7 @@
 #include <iomanip>
 #include <iostream>
 
+#include "decompose.h"
 #include "optimize.h"
 
 namespace especia {

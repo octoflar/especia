@@ -22,7 +22,6 @@
 
 #include <cmath>
 
-#include "decompose.h"
 #include "optimizer.h"
 
 especia::Optimizer::Builder::Builder() : weights() {
