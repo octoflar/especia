@@ -249,9 +249,18 @@ namespace especia {
     };
 
     /**
-     * An optimizer based on the CMA-ES.
+     * An optimizer based on the CMA-ES developed by Hansen and Ostermeier (2001).
      *
-     * @todo - this is work in progress
+     * Further reading:
+     *
+     * N. Hansen, S. D. Müller, P. Koumoutsakos (2003).
+     *   *Reducing the Increasing the Time Complexity of the Derandomized Evolution
+     *      Strategy with Covariance Matrix Adaption (CMA-ES).*
+     *   Evolutionary Computation, 11, 1, ISSN 1063-6560.
+     *
+     *  N. Hansen, A. Ostermeier (2001).
+     *    *Completely Derandomized Self-Adaption in Evolution Strategies.*
+     *    Evolutionary Computation, 9, 159, ISSN 1063-6560.
      */
     class Optimizer {
     public:
@@ -506,11 +515,51 @@ namespace especia {
             double step_size_damping;
         };
 
+        /**
+         * The optimization result.
+         */
+        class Result {
+
+            // @todo implement this class
+
+        };
 
         /**
          * Destructor.
          */
         ~Optimizer();
+
+        /**
+         * Minimizes an objective function.
+         *
+         * @tparam F The function type.
+         * @tparam Constraint The constraint type.
+         * @tparam Deviate The strategy to generate random normal deviates.
+         * @tparam Tracer The tracer type.
+         *
+         * @param f[in] The objective function.
+         * @param constraint[in] The constraint.
+         * @param x[in] The initial parameter values.
+         * @param d[in] The initial local step sizes.
+         * @param s[in] The initial global step size.
+         * @param deviate The random number generator.
+         * @param tracer The tracer.
+         *
+         * @return the optimization result.
+         */
+        template<class F, class Constraint, class Deviate, class Tracer>
+        Result minimize(const F &f,
+                        const Constraint &constraint,
+                        const std::valarray<double> &x,
+                        const std::valarray<double> &d,
+                        const double s,
+                        Deviate &deviate,
+                        Tracer &tracer) {
+
+            // @todo implement this function
+
+            return Result();
+        };
 
     private:
         /**
@@ -524,6 +573,12 @@ namespace especia {
          * The CMA-ES configuration.
          */
         const Builder configuration;
+
+        /**
+         * The eigenvalue decomposition strategy.
+         */
+        Decompose decompose;
+
     };
 
 }

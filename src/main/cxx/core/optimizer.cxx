@@ -22,6 +22,7 @@
 
 #include <cmath>
 
+#include "decompose.h"
 #include "optimizer.h"
 
 especia::Optimizer::Builder::Builder() : weights() {
@@ -95,7 +96,8 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
     step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
 }
 
-especia::Optimizer::Optimizer(const especia::Optimizer::Builder &config) : configuration(config) {
+especia::Optimizer::Optimizer(const especia::Optimizer::Builder &config)
+        : configuration(config), decompose(config.get_problem_dimension()) {
 
 }
 
