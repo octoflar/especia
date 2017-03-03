@@ -601,7 +601,7 @@ namespace especia {
              *
              * @return the optimized parameter values.
              */
-            const std::valarray<double> &get_parameters() const;
+            const std::valarray<double> &get_parameter_values() const;
 
             /**
              * Returns the parameter uncertainties.
@@ -650,88 +650,88 @@ namespace especia {
             Result(size_t n, const std::valarray<double> &x, const std::valarray<double> &d, double s);
 
             /**
-             * Returns a reference to the covariance matrix.
+             * Returns a pointer to the covariance matrix.
              *
-             * @return a reference to the covariance matrix.
+             * @return a pointer to the covariance matrix.
              */
-            std::valarray<double> &get_covariance_matrix();
+            double *__covariance_matrix();
 
             /**
-             * Returns a reference to the distribution cumulation path.
+             * Returns a pointer to the distribution cumulation path.
              *
-             * @return a reference to the distribution cumulation path.
+             * @return a pointer to the distribution cumulation path.
              */
-            std::valarray<double> &get_distribution_cumulation_path();
+            double *__distribution_cumulation_path();
 
             /**
              * Returns a reference to the fitness.
              *
              * @return a reference to the fitness.
              */
-            double &get_fitness();
+            double &__fitness();
 
             /**
              * Returns a reference to the generation number.
              *
              * @return a reference to the generation number.
              */
-            unsigned long &get_generation_number();
+            unsigned long &__generation_number();
 
             /**
              * Returns a reference to the global step size.
              *
              * @return a reference to the global step size.
              */
-            double &get_global_step_size();
+            double &__global_step_size();
 
             /**
-             * Returns a reference to the local step sizes.
+             * Returns a pointer to the local step sizes.
              *
-             * @return a reference to the local step sizes.
+             * @return a pointer to the local step sizes.
              */
-            std::valarray<double> &get_local_step_sizes();
+            double *__local_step_sizes();
 
             /**
-             * Returns a reference to the parameter values.
+             * Returns a pointer to the parameter values.
              *
-             * @return a reference to the parameter values.
+             * @return a pointer to the parameter values.
              */
-            std::valarray<double> &get_parameters();
+            double *__parameter_values();
 
             /**
-             * Returns a reference to the parameter uncertainties.
+             * Returns a pointer to the parameter uncertainties.
              *
-             * @return a reference to the parameter uncertainties.
+             * @return a pointer to the parameter uncertainties.
              */
-            std::valarray<double> &get_parameter_uncertainties();
+            double *__parameter_uncertainties();
 
             /**
-             * Returns a reference to the rotation matrix.
+             * Returns a pointer to the rotation matrix.
              *
-             * @return a reference to the rotation matrix.
+             * @return a pointer to the rotation matrix.
              */
-            std::valarray<double> &get_rotation_matrix();
+            double *__rotation_matrix();
 
             /**
-             * Returns a reference to the step size cumulation path.
+             * Returns a pointer to the step size cumulation path.
              *
-             * @return a reference to the step size cumulation path.
+             * @return a pointer to the step size cumulation path.
              */
-            std::valarray<double> &get_step_size_cumulation_path();
+            double *__step_size_cumulation_path();
 
             /**
              * Returns a reference to the optimization status flag.
              *
              * @return a reference to the optimization status flag.
              */
-            bool &is_optimized();
+            bool &__optimized();
 
             /**
              * Returns a reference to the mutation variance underflow status flag.
              *
              * @return a reference to the mutation variance underflow status flag.
              */
-            bool &is_underflow();
+            bool &__underflow();
 
             /**
              * The optimized parameter values.
@@ -822,7 +822,7 @@ namespace especia {
                         const double s,
                         const Constraint &constraint = No_Constraint<double>(),
                         const Tracer &tracer = No_Tracing<double>()) {
-            return optimize(f, x, d, s, constraint, tracer, std::greater<double>());
+            return __optimize(f, x, d, s, constraint, tracer, std::greater<double>());
         };
 
         /**
@@ -848,7 +848,7 @@ namespace especia {
                         const double s,
                         const Constraint &constraint = No_Constraint<double>(),
                         const Tracer &tracer = No_Tracing<double>()) {
-            return optimize(f, x, d, s, constraint, tracer, std::less<double>());
+            return __optimize(f, x, d, s, constraint, tracer, std::less<double>());
         };
 
     private:
@@ -878,20 +878,18 @@ namespace especia {
         * @return the optimization result.
         */
         template<class F, class Constraint, class Tracer, class Compare>
-        Result optimize(const F &f,
-                        const std::valarray<double> &x,
-                        const std::valarray<double> &d,
-                        const double s,
-                        const Constraint &constraint,
-                        const Tracer &tracer,
-                        const Compare &compare) {
+        Result __optimize(const F &f,
+                          const std::valarray<double> &x,
+                          const std::valarray<double> &d,
+                          const double s,
+                          const Constraint &constraint,
+                          const Tracer &tracer,
+                          const Compare &compare) {
             const size_t n = config.get_problem_dimension();
 
             Result result(n, x, d, s);
 
-            optimize(f,
-                     constraint,
-                     n,
+            optimize(f, constraint, n,
                      config.get_parent_number(),
                      config.get_population_size(),
                      &config.get_weights()[0],
@@ -903,33 +901,31 @@ namespace especia {
                      config.get_covariance_update_modulus(),
                      config.get_accuracy_goal(),
                      config.get_stop_generation(),
-                     result.get_generation_number(),
-                     &result.get_parameters()[0],
-                     result.get_global_step_size(),
-                     &result.get_local_step_sizes(),
-                     &result.get_rotation_matrix()[0],
-                     &result.get_covariance_matrix()[0],
-                     &result.get_step_size_cumulation_path()[0],
-                     &result.get_distribution_cumulation_path()[0],
-                     &result.get_fitness(),
-                     result.is_optimized(),
-                     result.is_underflow(),
+                     result.__generation_number(),
+                     result.__parameter_values(),
+                     result.__global_step_size(),
+                     result.__local_step_sizes(),
+                     result.__rotation_matrix(),
+                     result.__covariance_matrix(),
+                     result.__step_size_cumulation_path(),
+                     result.__distribution_cumulation_path(),
+                     result.__fitness(),
+                     result.__optimized(),
+                     result.__underflow(),
                      deviate,
                      decompose,
                      compare,
                      tracer
             );
 
-            if (result.is_optimized()) {
-                const double scale = standard_scale(f,
-                                                    constraint,
-                                                    n,
-                                                    &result.get_parameters()[0],
-                                                    &result.get_local_step_sizes()[0],
-                                                    &result.get_rotation_matrix()[0],
-                                                    &result.get_global_step_size());
+            if (result.__optimized()) {
+                const double scale = standard_scale(f, constraint, n,
+                                                    result.__parameter_values(),
+                                                    result.__local_step_sizes(),
+                                                    result.__rotation_matrix(),
+                                                    result.__global_step_size());
                 for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-                    result.z[i] = scale * sqrt(result.C[ii]);
+                    result.z[i] = scale * std::sqrt(result.C[ii]);
                 }
             }
 

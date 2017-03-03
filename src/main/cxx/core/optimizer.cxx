@@ -122,23 +122,23 @@ const std::valarray<double> &especia::Optimizer::Result::get_covariance_matrix()
     return C;
 }
 
-std::valarray<double> &especia::Optimizer::Result::get_covariance_matrix() {
-    return C;
+double *especia::Optimizer::Result::__covariance_matrix() {
+    return &C[0];
 }
 
 const std::valarray<double> &especia::Optimizer::Result::get_distribution_cumulation_path() const {
     return pc;
 }
 
-std::valarray<double> &especia::Optimizer::Result::get_distribution_cumulation_path() {
-    return pc;
+double *especia::Optimizer::Result::__distribution_cumulation_path() {
+    return &pc[0];
 }
 
 double especia::Optimizer::Result::get_fitness() const {
     return y;
 }
 
-double &especia::Optimizer::Result::get_fitness() {
+double &especia::Optimizer::Result::__fitness() {
     return y;
 }
 
@@ -146,7 +146,7 @@ unsigned long especia::Optimizer::Result::get_generation_number() const {
     return g;
 }
 
-unsigned long &especia::Optimizer::Result::get_generation_number() {
+unsigned long &especia::Optimizer::Result::__generation_number() {
     return g;
 }
 
@@ -154,7 +154,7 @@ double especia::Optimizer::Result::get_global_step_size() const {
     return s;
 }
 
-double &especia::Optimizer::Result::get_global_step_size() {
+double &especia::Optimizer::Result::__global_step_size() {
     return s;
 }
 
@@ -162,47 +162,47 @@ const std::valarray<double> &especia::Optimizer::Result::get_local_step_sizes() 
     return d;
 }
 
-std::valarray<double> &especia::Optimizer::Result::get_local_step_sizes() {
-    return d;
+double *especia::Optimizer::Result::__local_step_sizes() {
+    return &d[0];
 }
 
-const std::valarray<double> &especia::Optimizer::Result::get_parameters() const {
+const std::valarray<double> &especia::Optimizer::Result::get_parameter_values() const {
     return x;
 }
 
-std::valarray<double> &especia::Optimizer::Result::get_parameters() {
-    return x;
+double *especia::Optimizer::Result::__parameter_values() {
+    return &x[0];
 }
 
 const std::valarray<double> &especia::Optimizer::Result::get_parameter_uncertainties() const {
     return z;
 }
 
-std::valarray<double> &especia::Optimizer::Result::get_parameter_uncertainties() {
-    return z;
+double *especia::Optimizer::Result::__parameter_uncertainties() {
+    return &z[0];
 }
 
 const std::valarray<double> &especia::Optimizer::Result::get_rotation_matrix() const {
     return B;
 }
 
-std::valarray<double> &especia::Optimizer::Result::get_rotation_matrix() {
-    return B;
+double *especia::Optimizer::Result::__rotation_matrix() {
+    return &B[0];
 }
 
 const std::valarray<double> &especia::Optimizer::Result::get_step_size_cumulation_path() const {
     return ps;
 }
 
-std::valarray<double> &especia::Optimizer::Result::get_step_size_cumulation_path() {
-    return ps;
+double *especia::Optimizer::Result::__step_size_cumulation_path() {
+    return &ps[0];
 }
 
 bool especia::Optimizer::Result::is_optimized() const {
     return optimized;
 }
 
-bool &especia::Optimizer::Result::is_optimized() {
+bool &especia::Optimizer::Result::__optimized() {
     return optimized;
 }
 
@@ -210,7 +210,7 @@ bool especia::Optimizer::Result::is_underflow() const {
     return underflow;
 }
 
-bool &especia::Optimizer::Result::is_underflow() {
+bool &especia::Optimizer::Result::__underflow() {
     return underflow;
 }
 

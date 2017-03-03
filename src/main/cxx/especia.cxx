@@ -30,9 +30,6 @@
 #include "core/model.h"
 #undef  ESPECIA_MANY_MULTIPLET_ANALYSIS
 
-#include "core/mtwister.h"
-#include "core/deviates.h"
-
 const char usemsg[] = "usage: ";
 const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
 
@@ -100,7 +97,6 @@ int main(int argc, char *argv[]) {
 
         if (cin.eof() and !cin.fail()) {
             try {
-                Normal_Deviate<MT19937> normal_deviate(seed);
                 Decompose decompose;
 
                 if (model.optimize(parent_number,
@@ -109,7 +105,7 @@ int main(int argc, char *argv[]) {
                                    accuracy_goal,
                                    stop_generation,
                                    trace,
-                                   normal_deviate, decompose, cout)) {
+                                   seed, decompose, cout)) {
                     exit_code = 0;
                 } else {
                     exit_code = 2;

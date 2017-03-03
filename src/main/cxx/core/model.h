@@ -85,7 +85,7 @@ namespace especia {
      * @param[in] decompose The eigenvalue decomposition.
      * @param[in] tracer The tracer.
      */
-    template<class F, class Constraint, class Deviate, class Decompose, class Tracer>
+    template<class F, class Constraint, class Decompose, class Tracer>
     void minimize(const F &f,
                   const Constraint &constraint,
                   size_t n,
@@ -95,15 +95,15 @@ namespace especia {
                   double accuracy_goal,
                   unsigned long stop_generation,
                   unsigned long &g,
-                  double x[],
+                  std::valarray<double> &x,
                   double &step_size,
-                  double d[],
-                  double B[],
-                  double C[],
+                  std::valarray<double> &d,
+                  std::valarray<double> &B,
+                  std::valarray<double> &C,
                   double &y,
                   bool &optimized,
                   bool &underflow,
-                  Deviate &deviate, Decompose &decompose, Tracer &tracer) {
+                  unsigned long seed, Decompose &decompose, Tracer &tracer) {
         using std::less;
         using std::log;
         using std::max;
@@ -127,6 +127,8 @@ namespace especia {
         valarray<double> pc(0.0, n);
         valarray<double> ps(0.0, n);
 
+        Normal_Deviate<MT19937> deviate(seed);
+
         optimize(f, constraint,
                  n,
                  parent_number,
@@ -141,11 +143,11 @@ namespace especia {
                  accuracy_goal,
                  stop_generation,
                  g,
-                 x,
+                 &x[0],
                  step_size,
-                 d,
-                 B,
-                 C,
+                 &d[0],
+                 &B[0],
+                 &C[0],
                  &ps[0],
                  &pc[0],
                  y,
@@ -612,14 +614,14 @@ namespace especia {
             return d;
         }
 
-        template<class Deviate, class Decompose>
+        template<class Decompose>
         bool optimize(unsigned parent_number,
                       unsigned population_size,
                       double step_size,
                       double accuracy_goal,
                       unsigned long stop_generation,
                       unsigned trace,
-                      Deviate &deviate, Decompose &decompose, std::ostream &os) {
+                      unsigned long seed, Decompose &decompose, std::ostream &os) {
             using std::endl;
             using std::ios_base;
             using std::less;
@@ -687,15 +689,15 @@ namespace especia {
                               accuracy_goal,
                               stop_generation,
                               g,
-                              &x[0],
+                              x,
                               step_size,
-                              &d[0],
-                              &B[0],
-                              &C[0],
+                              d,
+                              B,
+                              C,
                               y,
                               optimized,
                               underflow,
-                              deviate, decompose, tracer);
+                              seed, decompose, tracer);
 
             if (trace > 0) {
                 os << endlog << endl;
