@@ -360,7 +360,7 @@ namespace especia {
              *
              * @return the recombination weights.
              */
-            std::valarray<double> get_weights() const {
+            const std::valarray<double> &get_weights() const {
                 return weights;
             }
 
@@ -546,9 +546,9 @@ namespace especia {
          * The optimization result.
          */
         class Result {
-        public:
-            friend Optimizer;
+            friend class Optimizer;
 
+        public:
             /**
              * Destructor.
              */
@@ -559,84 +559,108 @@ namespace especia {
              *
              * @return the covariance matrix.
              */
-            const std::valarray<double> &get_covariance_matrix() const;
+            const std::valarray<double> &get_covariance_matrix() const {
+                return C;
+            }
 
             /**
              * Returns the distribution cumulation path.
              *
              * @return the distribution cumulation path.
              */
-            const std::valarray<double> &get_distribution_cumulation_path() const;
+            const std::valarray<double> &get_distribution_cumulation_path() const {
+                return pc;
+            }
 
             /**
              * Returns the optimized fitness.
              *
              * @return the optimized fitness.
              */
-            double get_fitness() const;
+            double get_fitness() const {
+                return y;
+            }
 
             /**
              * Returns the final generation number.
              *
              * @return the final generation number.
              */
-            unsigned long get_generation_number() const;
+            unsigned long get_generation_number() const {
+                return g;
+            }
 
             /**
              * Returns the final global step size.
              *
              * @return the final global step size.
              */
-            double get_global_step_size() const;
+            double get_global_step_size() const {
+                return s;
+            }
 
             /**
              * Returns the final local step sizes.
              *
              * @return the final local step sizes.
              */
-            const std::valarray<double> &get_local_step_sizes() const;
+            const std::valarray<double> &get_local_step_sizes() const {
+                return d;
+            }
 
             /**
              * Returns the optimized parameter values.
              *
              * @return the optimized parameter values.
              */
-            const std::valarray<double> &get_parameter_values() const;
+            const std::valarray<double> &get_parameter_values() const {
+                return x;
+            }
 
             /**
              * Returns the parameter uncertainties.
              *
              * @return the parameter uncertainties.
              */
-            const std::valarray<double> &get_parameter_uncertainties() const;
+            const std::valarray<double> &get_parameter_uncertainties() const {
+                return z;
+            }
 
             /**
              * Returns the final rotation matrix.
              *
              * @return the final rotation matrix.
              */
-            const std::valarray<double> &get_rotation_matrix() const;
+            const std::valarray<double> &get_rotation_matrix() const {
+                return B;
+            }
 
             /**
              * Returns the step size cumulation path.
              *
              * @return the step size cumulation path.
              */
-            const std::valarray<double> &get_step_size_cumulation_path() const;
+            const std::valarray<double> &get_step_size_cumulation_path() const {
+                return ps;
+            }
 
             /**
              * Returns the optimization status flag.
              *
              * @return the optimization status flag.
              */
-            bool is_optimized() const;
+            bool is_optimized() const {
+                return optimized;
+            }
 
             /**
              * Returns the mutation variance underflow status flag.
              *
              * @return the mutation variance underflow status flag.
              */
-            bool is_underflow() const;
+            bool is_underflow() const {
+                return underflow;
+            }
 
         private:
             /**
@@ -654,84 +678,108 @@ namespace especia {
              *
              * @return a pointer to the covariance matrix.
              */
-            double *__covariance_matrix();
+            double *__covariance_matrix() {
+                return &C[0];
+            }
 
             /**
              * Returns a pointer to the distribution cumulation path.
              *
              * @return a pointer to the distribution cumulation path.
              */
-            double *__distribution_cumulation_path();
+            double *__distribution_cumulation_path() {
+                return &pc[0];
+            }
 
             /**
              * Returns a reference to the fitness.
              *
              * @return a reference to the fitness.
              */
-            double &__fitness();
+            double &__fitness() {
+                return y;
+            }
 
             /**
              * Returns a reference to the generation number.
              *
              * @return a reference to the generation number.
              */
-            unsigned long &__generation_number();
+            unsigned long &__generation_number() {
+                return g;
+            }
 
             /**
              * Returns a reference to the global step size.
              *
              * @return a reference to the global step size.
              */
-            double &__global_step_size();
+            double &__global_step_size() {
+                return s;
+            }
 
             /**
              * Returns a pointer to the local step sizes.
              *
              * @return a pointer to the local step sizes.
              */
-            double *__local_step_sizes();
+            double *__local_step_sizes() {
+                return &d[0];
+            }
 
             /**
              * Returns a pointer to the parameter values.
              *
              * @return a pointer to the parameter values.
              */
-            double *__parameter_values();
+            double *__parameter_values() {
+                return &x[0];
+            }
 
             /**
              * Returns a pointer to the parameter uncertainties.
              *
              * @return a pointer to the parameter uncertainties.
              */
-            double *__parameter_uncertainties();
+            double *__parameter_uncertainties() {
+                return &z[0];
+            }
 
             /**
              * Returns a pointer to the rotation matrix.
              *
              * @return a pointer to the rotation matrix.
              */
-            double *__rotation_matrix();
+            double *__rotation_matrix() {
+                return &B[0];
+            }
 
             /**
              * Returns a pointer to the step size cumulation path.
              *
              * @return a pointer to the step size cumulation path.
              */
-            double *__step_size_cumulation_path();
+            double *__step_size_cumulation_path() {
+                return &ps[0];
+            }
 
             /**
              * Returns a reference to the optimization status flag.
              *
              * @return a reference to the optimization status flag.
              */
-            bool &__optimized();
+            bool &__optimized() {
+                return optimized;
+            }
 
             /**
              * Returns a reference to the mutation variance underflow status flag.
              *
              * @return a reference to the mutation variance underflow status flag.
              */
-            bool &__underflow();
+            bool &__underflow() {
+                return underflow;
+            }
 
             /**
              * The optimized parameter values.

@@ -129,19 +129,29 @@ namespace especia {
 
         Normal_Deviate<MT19937> deviate(seed);
 
+        Optimizer::Builder builder;
+
+        builder.with_problem_dimension(n).
+                with_parent_number(parent_number).
+                with_population_size(population_size).
+                with_accuracy_goal(accuracy_goal).
+                with_stop_generation(stop_generation).
+                with_covariance_update_modulus(update_modulus).
+                with_random_seed(seed);
+
         optimize(f, constraint,
-                 n,
-                 parent_number,
-                 population_size,
-                 &w[0],
-                 step_size_damping,
-                 cs,
-                 cc,
-                 ccov,
-                 acov,
-                 update_modulus,
-                 accuracy_goal,
-                 stop_generation,
+                 builder.get_problem_dimension(),
+                 builder.get_parent_number(),
+                 builder.get_population_size(),
+                 &builder.get_weights()[0],
+                 builder.get_step_size_damping(),
+                 builder.get_step_size_cumulation_rate(),
+                 builder.get_distribution_cumulation_rate(),
+                 builder.get_covariance_matrix_adaption_rate(),
+                 builder.get_covariance_matrix_adaption_mixing(),
+                 builder.get_covariance_update_modulus(),
+                 builder.get_accuracy_goal(),
+                 builder.get_stop_generation(),
                  g,
                  &x[0],
                  step_size,
