@@ -32,6 +32,8 @@
 #include "mtwister.h"
 #include "optimize.h"
 
+using std::valarray;
+
 namespace especia {
 
     /**
@@ -151,7 +153,7 @@ namespace especia {
          * @param[in] width The width of the numeric output fields.
          */
         Tracing_To_Output_Stream(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
-                             unsigned int width = 12)
+                                 unsigned int width = 12)
                 : os(output_stream), m(modulus), p(precision), w(width) {
         }
 
@@ -544,9 +546,252 @@ namespace especia {
          * The optimization result.
          */
         class Result {
+        public:
+            friend Optimizer;
 
-            // @todo implement this class
+            /**
+             * Destructor.
+             */
+            ~Result();
 
+            /**
+             * Returns the covariance matrix.
+             *
+             * @return the covariance matrix.
+             */
+            const std::valarray<double> &get_covariance_matrix() const;
+
+            /**
+             * Returns the distribution cumulation path.
+             *
+             * @return the distribution cumulation path.
+             */
+            const std::valarray<double> &get_distribution_cumulation_path() const;
+
+            /**
+             * Returns the optimized fitness.
+             *
+             * @return the optimized fitness.
+             */
+            double get_fitness() const;
+
+            /**
+             * Returns the final generation number.
+             *
+             * @return the final generation number.
+             */
+            unsigned long get_generation_number() const;
+
+            /**
+             * Returns the final global step size.
+             *
+             * @return the final global step size.
+             */
+            double get_global_step_size() const;
+
+            /**
+             * Returns the final local step sizes.
+             *
+             * @return the final local step sizes.
+             */
+            const std::valarray<double> &get_local_step_sizes() const;
+
+            /**
+             * Returns the optimized parameter values.
+             *
+             * @return the optimized parameter values.
+             */
+            const std::valarray<double> &get_parameters() const;
+
+            /**
+             * Returns the parameter uncertainties.
+             *
+             * @return the parameter uncertainties.
+             */
+            const std::valarray<double> &get_parameter_uncertainties() const;
+
+            /**
+             * Returns the final rotation matrix.
+             *
+             * @return the final rotation matrix.
+             */
+            const std::valarray<double> &get_rotation_matrix() const;
+
+            /**
+             * Returns the step size cumulation path.
+             *
+             * @return the step size cumulation path.
+             */
+            const std::valarray<double> &get_step_size_cumulation_path() const;
+
+            /**
+             * Returns the optimization status flag.
+             *
+             * @return the optimization status flag.
+             */
+            bool is_optimized() const;
+
+            /**
+             * Returns the mutation variance underflow status flag.
+             *
+             * @return the mutation variance underflow status flag.
+             */
+            bool is_underflow() const;
+
+        private:
+            /**
+             * Constructor.
+             *
+             * @param[in] n The problem dimension.
+             * @param[in] x The initial parameter values.
+             * @param[in] d The initial local step sizes.
+             * @param[in] s The initial global step size.
+             */
+            Result(size_t n, const std::valarray<double> &x, const std::valarray<double> &d, double s);
+
+            /**
+             * Returns a reference to the covariance matrix.
+             *
+             * @return a reference to the covariance matrix.
+             */
+            std::valarray<double> &get_covariance_matrix();
+
+            /**
+             * Returns a reference to the distribution cumulation path.
+             *
+             * @return a reference to the distribution cumulation path.
+             */
+            std::valarray<double> &get_distribution_cumulation_path();
+
+            /**
+             * Returns a reference to the fitness.
+             *
+             * @return a reference to the fitness.
+             */
+            double &get_fitness();
+
+            /**
+             * Returns a reference to the generation number.
+             *
+             * @return a reference to the generation number.
+             */
+            unsigned long &get_generation_number();
+
+            /**
+             * Returns a reference to the global step size.
+             *
+             * @return a reference to the global step size.
+             */
+            double &get_global_step_size();
+
+            /**
+             * Returns a reference to the local step sizes.
+             *
+             * @return a reference to the local step sizes.
+             */
+            std::valarray<double> &get_local_step_sizes();
+
+            /**
+             * Returns a reference to the parameter values.
+             *
+             * @return a reference to the parameter values.
+             */
+            std::valarray<double> &get_parameters();
+
+            /**
+             * Returns a reference to the parameter uncertainties.
+             *
+             * @return a reference to the parameter uncertainties.
+             */
+            std::valarray<double> &get_parameter_uncertainties();
+
+            /**
+             * Returns a reference to the rotation matrix.
+             *
+             * @return a reference to the rotation matrix.
+             */
+            std::valarray<double> &get_rotation_matrix();
+
+            /**
+             * Returns a reference to the step size cumulation path.
+             *
+             * @return a reference to the step size cumulation path.
+             */
+            std::valarray<double> &get_step_size_cumulation_path();
+
+            /**
+             * Returns a reference to the optimization status flag.
+             *
+             * @return a reference to the optimization status flag.
+             */
+            bool &is_optimized();
+
+            /**
+             * Returns a reference to the mutation variance underflow status flag.
+             *
+             * @return a reference to the mutation variance underflow status flag.
+             */
+            bool &is_underflow();
+
+            /**
+             * The optimized parameter values.
+             */
+            std::valarray<double> x;
+
+            /**
+             * The final local step sizes.
+             */
+            std::valarray<double> d;
+
+            /**
+             * The final global step size.
+             */
+            double s;
+
+            /**
+             * The parameter uncertainties.
+             */
+            std::valarray<double> z;
+
+            /**
+             * The optimized fitness.
+             */
+            double y;
+
+            /**
+             * The final covariance matrix.
+             */
+            std::valarray<double> C;
+
+            /**
+             * The final rotation matrix.
+             */
+            std::valarray<double> B;
+
+            /**
+             * The distribution cumulation path.
+             */
+            std::valarray<double> pc;
+
+            /**
+             * The step size cumulation path.
+             */
+            std::valarray<double> ps;
+
+            /**
+             * The optimization status flag.
+             */
+            bool optimized;
+
+            /**
+             * The mutation variance underflow status flag.
+             */
+            bool underflow;
+
+            /**
+             * The final generation number.
+             */
+            unsigned long g;
         };
 
         /**
@@ -608,11 +853,11 @@ namespace especia {
 
     private:
         /**
-         * Creates a new instance of this class with the configuration supplied as argument.
+         * Creates a new instance of this class with the build configuration supplied as argument.
          *
-         * @param[in] config The configuration.
+         * @param[in] builder The build configuration.
          */
-        Optimizer(const Builder &config);
+        Optimizer(const Builder &builder);
 
         /**
         * Minimizes an objective function.
@@ -640,16 +885,61 @@ namespace especia {
                         const Constraint &constraint,
                         const Tracer &tracer,
                         const Compare &compare) {
+            const size_t n = config.get_problem_dimension();
 
-            // @todo implement this function
+            Result result(n, x, d, s);
 
-            return Result();
+            optimize(f,
+                     constraint,
+                     n,
+                     config.get_parent_number(),
+                     config.get_population_size(),
+                     &config.get_weights()[0],
+                     config.get_step_size_damping(),
+                     config.get_step_size_cumulation_rate(),
+                     config.get_distribution_cumulation_rate(),
+                     config.get_covariance_matrix_adaption_rate(),
+                     config.get_covariance_matrix_adaption_mixing(),
+                     config.get_covariance_update_modulus(),
+                     config.get_accuracy_goal(),
+                     config.get_stop_generation(),
+                     result.get_generation_number(),
+                     &result.get_parameters()[0],
+                     result.get_global_step_size(),
+                     &result.get_local_step_sizes(),
+                     &result.get_rotation_matrix()[0],
+                     &result.get_covariance_matrix()[0],
+                     &result.get_step_size_cumulation_path()[0],
+                     &result.get_distribution_cumulation_path()[0],
+                     &result.get_fitness(),
+                     result.is_optimized(),
+                     result.is_underflow(),
+                     deviate,
+                     decompose,
+                     compare,
+                     tracer
+            );
+
+            if (result.is_optimized()) {
+                const double scale = standard_scale(f,
+                                                    constraint,
+                                                    n,
+                                                    &result.get_parameters()[0],
+                                                    &result.get_local_step_sizes()[0],
+                                                    &result.get_rotation_matrix()[0],
+                                                    &result.get_global_step_size());
+                for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+                    result.z[i] = scale * sqrt(result.C[ii]);
+                }
+            }
+
+            return result;
         };
 
         /**
-         * The CMA-ES configuration.
+         * The build configuration.
          */
-        const Builder configuration;
+        const Builder config;
 
         /**
          * The eigenvalue decomposition strategy.

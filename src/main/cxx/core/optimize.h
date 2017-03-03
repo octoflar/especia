@@ -55,7 +55,7 @@ namespace especia {
      * @tparam Constraint The constraint type.
      * @tparam Deviate The strategy to generate random normal deviates.
      * @tparam Decompose The strategy to perform the symmetric eigenvalue decomposition.
-     * @tparam Compare The strategy to compare fitness values.
+     * @tparam Compare The strategy to compare fitness.
      * @tparam Tracer The tracer type.
      *
      * @param[in] f The model function.
@@ -80,12 +80,12 @@ namespace especia {
      * @param[in,out] C The covariance matrix.
      * @param[in,out] ps The step size cumulation path.
      * @param[in,out] pc The distribution cumulation path.
-     * @param[out] yw The value of the objective function (plus the constraint cost) at @c xw.
+     * @param[out] yw The fitness at @c xw.
      * @param[out] optimized Set to @c true when the optimization has converged.
      * @param[out] underflow Set to @c true when the mutation variance is too small.
      * @param[in] deviate The random number generator.
      * @param[in] decompose The eigenvalue decomposition.
-     * @param[in] compare The comparator to compare fitness values.
+     * @param[in] compare The comparator to compare fitness.
      * @param[in] tracer The tracer.
      */
     template<class F, class Constraint, class Deviate, class Decompose, class Compare, class Tracer>
@@ -281,7 +281,7 @@ namespace especia {
     }
 
     /**
-     * Rescales the global step size to compute standard uncertainties and covariance.
+     * Yields the scaling to compute standard uncertainties and covariance.
      *
      * Computes the standard variance along the minor principal axis from the curvature of a
      * parabola through three points around the minimum. The global step size is rescaled to
@@ -293,15 +293,17 @@ namespace especia {
      *
      * @param[in] f The objective function.
      * @param[in] constraint The prior constraint on the parameter values.
-     * @param[in] x The parameter values.
      * @param[in] n The number of parameter values.
+     * @param[in] x The parameter values.
      * @param[in] d The local step sizes
      * @param[in] B The rotation matrix.
-     * @param[in,out] s The global step size.
+     * @param[in] s The global step size.
+     *
+     * return the scaling to compute standard uncertainties and covariance.
      */
     template<class F, class Constraint>
-    void rescale_step_size(const F &f, const Constraint &constraint, const double x[], size_t n, const double d[],
-                           const double B[], double &s) {
+    double standard_scale(const F &f, const Constraint &constraint, size_t n, const double *x, const double *d,
+                          const double *B, double s) {
         using std::abs;
         using std::sqrt;
         using std::valarray;
@@ -352,6 +354,8 @@ namespace especia {
                 c = c * 0.618;
             }
         } while (a == 0.0 or b == 0.0); // the computation step is too small or too large
+
+        return s;
     }
 
 }

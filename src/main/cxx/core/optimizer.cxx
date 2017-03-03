@@ -99,8 +99,123 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
     step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
 }
 
-especia::Optimizer::Optimizer(const especia::Optimizer::Builder &config)
-        : configuration(config), decompose(config.get_problem_dimension()), deviate(config.get_random_seed()) {
+especia::Optimizer::Result::Result(size_t n, const valarray<double> &x_in, const valarray<double> &d_in, double s_in)
+        : x(x_in), d(d_in), s(s_in), z(0.0, n), B(0.0, sqr(n)), C(0.0, sqr(n)), pc(0.0, n), ps(0.0, n) {
+    for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+        B[ii] = 1.0;
+        C[ii] = d[i] * d[i];
+    }
+
+    y = 0.0;
+
+    optimized = false;
+    underflow = false;
+
+    g = 0;
+}
+
+especia::Optimizer::Result::~Result() {
+
+}
+
+const std::valarray<double> &especia::Optimizer::Result::get_covariance_matrix() const {
+    return C;
+}
+
+std::valarray<double> &especia::Optimizer::Result::get_covariance_matrix() {
+    return C;
+}
+
+const std::valarray<double> &especia::Optimizer::Result::get_distribution_cumulation_path() const {
+    return pc;
+}
+
+std::valarray<double> &especia::Optimizer::Result::get_distribution_cumulation_path() {
+    return pc;
+}
+
+double especia::Optimizer::Result::get_fitness() const {
+    return y;
+}
+
+double &especia::Optimizer::Result::get_fitness() {
+    return y;
+}
+
+unsigned long especia::Optimizer::Result::get_generation_number() const {
+    return g;
+}
+
+unsigned long &especia::Optimizer::Result::get_generation_number() {
+    return g;
+}
+
+double especia::Optimizer::Result::get_global_step_size() const {
+    return s;
+}
+
+double &especia::Optimizer::Result::get_global_step_size() {
+    return s;
+}
+
+const std::valarray<double> &especia::Optimizer::Result::get_local_step_sizes() const {
+    return d;
+}
+
+std::valarray<double> &especia::Optimizer::Result::get_local_step_sizes() {
+    return d;
+}
+
+const std::valarray<double> &especia::Optimizer::Result::get_parameters() const {
+    return x;
+}
+
+std::valarray<double> &especia::Optimizer::Result::get_parameters() {
+    return x;
+}
+
+const std::valarray<double> &especia::Optimizer::Result::get_parameter_uncertainties() const {
+    return z;
+}
+
+std::valarray<double> &especia::Optimizer::Result::get_parameter_uncertainties() {
+    return z;
+}
+
+const std::valarray<double> &especia::Optimizer::Result::get_rotation_matrix() const {
+    return B;
+}
+
+std::valarray<double> &especia::Optimizer::Result::get_rotation_matrix() {
+    return B;
+}
+
+const std::valarray<double> &especia::Optimizer::Result::get_step_size_cumulation_path() const {
+    return ps;
+}
+
+std::valarray<double> &especia::Optimizer::Result::get_step_size_cumulation_path() {
+    return ps;
+}
+
+bool especia::Optimizer::Result::is_optimized() const {
+    return optimized;
+}
+
+bool &especia::Optimizer::Result::is_optimized() {
+    return optimized;
+}
+
+bool especia::Optimizer::Result::is_underflow() const {
+    return underflow;
+}
+
+bool &especia::Optimizer::Result::is_underflow() {
+    return underflow;
+}
+
+especia::Optimizer::Optimizer(const especia::Optimizer::Builder &builder)
+        : config(builder), decompose(builder.get_problem_dimension()), deviate(builder.get_random_seed()) {
 
 }
 
