@@ -24,7 +24,6 @@
 #include <iostream>
 
 #include "config.h"
-#include "core/decompose.h"
 #include "core/model.h"
 
 const char usemsg[] = "usage: ";
@@ -94,15 +93,13 @@ int main(int argc, char *argv[]) {
 
         if (cin.eof() and !cin.fail()) {
             try {
-                Decompose decompose;
-
                 if (model.optimize(parent_number,
                                    population_size,
                                    step_size,
                                    accuracy_goal,
                                    stop_generation,
                                    trace,
-                                   seed, decompose, cout)) {
+                                   seed, cout)) {
                     exit_code = 0;
                 } else {
                     exit_code = 2;

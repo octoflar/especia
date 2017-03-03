@@ -69,15 +69,15 @@ namespace especia {
     /**
      * Returns the square of a number.
      *
-     * @tparam Number The number type.
+     * @tparam T The number type.
      *
      * @param[in] x The number.
      * @return the square of the number.
      */
-    template<class Number>
+    template<class T>
     inline
-    Number sqr(const Number &x) {
-        return (x == Number(0)) ? Number(0) : x * x;
+    T sqr(const T &x) {
+        return (x == T(0)) ? T(0) : x * x;
     }
 
     /**

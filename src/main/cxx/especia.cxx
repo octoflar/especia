@@ -24,8 +24,6 @@
 #include <iostream>
 
 #include "config.h"
-#include "core/decompose.h"
-
 #define ESPECIA_MANY_MULTIPLET_ANALYSIS 1
 #include "core/model.h"
 #undef  ESPECIA_MANY_MULTIPLET_ANALYSIS
@@ -105,7 +103,7 @@ int main(int argc, char *argv[]) {
                                    accuracy_goal,
                                    stop_generation,
                                    trace,
-                                   seed, decompose, cout)) {
+                                   seed, cout)) {
                     exit_code = 0;
                 } else {
                     exit_code = 2;
