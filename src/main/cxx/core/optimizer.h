@@ -23,6 +23,7 @@
 #define ESPECIA_OPTMIZER_H
 
 #include <cstddef>
+#include <functional>
 #include <iomanip>
 #include <iostream>
 
@@ -39,7 +40,7 @@ namespace especia {
      * @tparam Number The number type.
      */
     template<class Number>
-    class Bounds {
+    class Bounded_Constraint {
     public:
         /**
          * Constructs a new strict-bound prior constraint.
@@ -48,14 +49,14 @@ namespace especia {
          * @param[in] upper_bounds The upper bounds.
          * @param n The number of bounds.
          */
-        Bounds(const Number lower_bounds[], const Number upper_bounds[], size_t n)
+        Bounded_Constraint(const Number lower_bounds[], const Number upper_bounds[], size_t n)
                 : a(lower_bounds, n), b(upper_bounds, n) {
         }
 
         /**
          * Destructor.
          */
-        ~Bounds() {
+        ~Bounded_Constraint() {
         }
 
         /**
@@ -96,18 +97,18 @@ namespace especia {
      * @tparam Number The number type.
      */
     template<class Number>
-    class Unconstrained {
+    class No_Constraint {
     public:
         /**
          * Constructor.
          */
-        Unconstrained() {
+        No_Constraint() {
         }
 
         /**
          * Destructor.
          */
-        ~Unconstrained() {
+        ~No_Constraint() {
         }
 
         /**
@@ -139,7 +140,7 @@ namespace especia {
      * @tparam Number The number type.
      */
     template<class Number>
-    class Output_Stream_Tracer {
+    class Tracing_To_Output_Stream {
     public:
         /**
          * Constructor.
@@ -149,7 +150,7 @@ namespace especia {
          * @param[in] precision The precision of numeric output.
          * @param[in] width The width of the numeric output fields.
          */
-        Output_Stream_Tracer(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
+        Tracing_To_Output_Stream(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
                              unsigned int width = 12)
                 : os(output_stream), m(modulus), p(precision), w(width) {
         }
@@ -157,7 +158,7 @@ namespace especia {
         /**
          * Destructor.
          */
-        ~Output_Stream_Tracer() {
+        ~Tracing_To_Output_Stream() {
         }
 
         /**
@@ -554,6 +555,32 @@ namespace especia {
         ~Optimizer();
 
         /**
+         * Maximizes an objective function.
+         *
+         * @tparam F The function type.
+         * @tparam Constraint The constraint type.
+         * @tparam Tracer The tracer type.
+         *
+         * @param[in] f The objective function.
+         * @param[in] x The initial parameter values.
+         * @param[in] d The initial local step sizes.
+         * @param[in] s The initial global step size.
+         * @param[in] constraint The constraint.
+         * @param[in] tracer The tracer.
+         *
+         * @return the maximization result.
+         */
+        template<class F, class Constraint, class Tracer>
+        Result maximize(const F &f,
+                        const std::valarray<double> &x,
+                        const std::valarray<double> &d,
+                        const double s,
+                        const Constraint &constraint = No_Constraint<double>(),
+                        const Tracer &tracer = No_Tracing<double>()) {
+            return optimize(f, x, d, s, constraint, tracer, std::greater<double>());
+        };
+
+        /**
          * Minimizes an objective function.
          *
          * @tparam F The function type.
@@ -561,25 +588,22 @@ namespace especia {
          * @tparam Tracer The tracer type.
          *
          * @param[in] f The objective function.
-         * @param[in] constraint The constraint.
          * @param[in] x The initial parameter values.
          * @param[in] d The initial local step sizes.
          * @param[in] s The initial global step size.
+         * @param[in] constraint The constraint.
          * @param[in] tracer The tracer.
          *
-         * @return the optimization result.
+         * @return the minimization result.
          */
         template<class F, class Constraint, class Tracer>
         Result minimize(const F &f,
-                        const Constraint &constraint,
                         const std::valarray<double> &x,
                         const std::valarray<double> &d,
                         const double s,
-                        Tracer &tracer) {
-
-            // @todo implement this function
-
-            return Result();
+                        const Constraint &constraint = No_Constraint<double>(),
+                        const Tracer &tracer = No_Tracing<double>()) {
+            return optimize(f, x, d, s, constraint, tracer, std::less<double>());
         };
 
     private:
@@ -596,25 +620,26 @@ namespace especia {
         * @tparam F The function type.
         * @tparam Constraint The constraint type.
         * @tparam Tracer The tracer type.
+        * @tparam Compare The number comparator type.
         *
         * @param[in] f The objective function.
-        * @param[in] constraint The constraint.
-        * @param[in] compare The number comparator.
         * @param[in] x The initial parameter values.
         * @param[in] d The initial local step sizes.
         * @param[in] s The initial global step size.
+        * @param[in] constraint The constraint.
         * @param[in] tracer The tracer.
+        * @param[in] compare The number comparator.
         *
         * @return the optimization result.
         */
-        template<class F, class Constraint, class Compare, class Tracer>
+        template<class F, class Constraint, class Tracer, class Compare>
         Result optimize(const F &f,
-                        const Constraint &constraint,
-                        const Compare &compare,
                         const std::valarray<double> &x,
                         const std::valarray<double> &d,
                         const double s,
-                        Tracer &tracer) {
+                        const Constraint &constraint,
+                        const Tracer &tracer,
+                        const Compare &compare) {
 
             // @todo implement this function
 

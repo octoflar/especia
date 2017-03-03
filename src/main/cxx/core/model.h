@@ -669,8 +669,8 @@ namespace especia {
                 os << beglog << endl;
             }
 
-            const Bounds<double> constraint(&a[0], &b[0], n);
-            Output_Stream_Tracer<double> tracer(os, trace);
+            const Bounded_Constraint<double> constraint(&a[0], &b[0], n);
+            Tracing_To_Output_Stream<double> tracer(os, trace);
             const unsigned update_modulus = 1;
 
             unsigned long g = 0;
