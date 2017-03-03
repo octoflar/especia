@@ -1,24 +1,24 @@
-// Class for modeling spectroscopic data sections
-// Copyright (c) 2016 Ralf Quast
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
+/// @file section.h
+/// Class for modeling spectroscopic data sections.
+/// Copyright (c) 2016 Ralf Quast
+///
+/// Permission is hereby granted, free of charge, to any person obtaining a copy
+/// of this software and associated documentation files (the "Software"), to deal
+/// in the Software without restriction, including without limitation the rights
+/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+/// copies of the Software, and to permit persons to whom the Software is
+/// furnished to do so, subject to the following conditions:
+///
+/// The above copyright notice and this permission notice shall be included in all
+/// copies or substantial portions of the Software.
+///
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+/// SOFTWARE.
 #ifndef ESPECIA_SECTION_H
 #define ESPECIA_SECTION_H
 
@@ -48,7 +48,7 @@ namespace especia {
         /**
          * Constructs a new instance of this class for a certain number of data points.
          *
-         * @param n[in] The number of data points.
+         * @param[in] n The number of data points.
          */
         Section(size_t n);
 
@@ -56,10 +56,10 @@ namespace especia {
          * Constructs a new instance of this class for a certain number of data points,
          * with given wavelength, flux, and uncertainty data.
          *
-         * @param n[in] The number of data points.
-         * @param wav[in] The wavelength data.
-         * @param flx[in] The spectral flux data.
-         * @param unc[in] The spectral flux uncertainty data.
+         * @param[in] n The number of data points.
+         * @param[in] wav The wavelength data.
+         * @param[in] flx The spectral flux data.
+         * @param[in] unc The spectral flux uncertainty data.
          */
         Section(size_t n, const double wav[], const double flx[], const double unc[]);
 
@@ -71,9 +71,9 @@ namespace especia {
         /**
          * Reads a data section from an input stream.
          *
-         * @param is[in,out] The input stream.
-         * @param a[in] The minimum wavelength to read.
-         * @param b[in] The maximum wavelength to read.
+         * @param[in,out] is The input stream.
+         * @param[in] a The minimum wavelength to read.
+         * @param[in] b The maximum wavelength to read.
          * @return the input stream.
          */
         std::istream &get(std::istream &is, double a = 0.0, double b = std::numeric_limits<double>::max());
@@ -81,9 +81,9 @@ namespace especia {
         /**
          * Writes a data section to an output stream.
          *
-         * @param is[in,out] The output stream.
-         * @param a[in] The minimum wavelength to write.
-         * @param b[in] The maximum wavelength to write.
+         * @param[in,out] is The output stream.
+         * @param[in] a The minimum wavelength to write.
+         * @param[in] b The maximum wavelength to write.
          * @return the output stream.
          */
         std::ostream &put(std::ostream &os, double a = 0.0, double b = std::numeric_limits<double>::max()) const;
@@ -154,9 +154,10 @@ namespace especia {
          * model.
          *
          * @tparam M The type of optical depth model.
-         * @param model[in] The optical depth model.
-         * @param r[in] The spectral resolution of the instrument.
-         * @param m[in] The number of Legendre basis polynomials to model the background continuum.
+         *
+         * @param[in] model The optical depth model.
+         * @param[in] r The spectral resolution of the instrument.
+         * @param[in] m The number of Legendre basis polynomials to model the background continuum.
          *
          * @return the value of the cost function.
          */
@@ -195,8 +196,8 @@ namespace especia {
         /**
          * Masks the data in a certain interval as invalid.
          *
-         * @param a[in] The lower bound of the interval.
-         * @param b[in] The upper bound of the interval.
+         * @param[in] a The lower bound of the interval.
+         * @param[in] b The upper bound of the interval.
          */
         void mask(double a, double b);
 
@@ -204,9 +205,10 @@ namespace especia {
          * Applies an optical depth model to this section.
          *
          * @tparam M The type of optical depth model.
-         * @param model[in] The optical depth model.
-         * @param r[in] The spectral resolution of the instrument.
-         * @param m[in] The number of Legendre basis polynomials to model the background continuum.
+         *
+         * @param[in] model The optical depth model.
+         * @param[in] r The spectral resolution of the instrument.
+         * @param[in] m The number of Legendre basis polynomials to model the background continuum.
          *
          * @return this section.
          */
@@ -228,9 +230,9 @@ namespace especia {
         /**
          * Calculates an optimized background continuum.
          *
-         * @param m[in] The number of Legendre basis polynomials to model the background continuum.
-         * @param cat[in] The evaluated convoluted absorption term.
-         * @param cfl[out] The evaluated background continuum flux.
+         * @param[in] m The number of Legendre basis polynomials to model the background continuum.
+         * @param[in] cat The evaluated convoluted absorption term.
+         * @param[out] cfl The evaluated background continuum flux.
          */
         void continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error);
 
@@ -238,11 +240,12 @@ namespace especia {
          * Convolutes a given optical depth model with the instrumental line spread function.
          *
          * @tparam M The type of optical depth model.
-         * @param model[in] The optical depth model.
-         * @param r[in] The spectral resolution of the instrument.
-         * @param opt[out] The evaluated optical depth.
-         * @param atm[out] The evaluated absorption term.
-         * @param cat[out] The evaluated convoluted absorption term.
+         *
+         * @param[in] model The optical depth model.
+         * @param[in] r The spectral resolution of the instrument.
+         * @param[out] opt The evaluated optical depth.
+         * @param[out] atm The evaluated absorption term.
+         * @param[out] cat The evaluated convoluted absorption term.
          */
         template<class M>
         void convolute(const M &model, double r, double opt[], double atm[], double cat[]) const {
@@ -292,10 +295,10 @@ namespace especia {
          * Evaluates the primitive functions of g(x) and x g(x), where g(x) is the (Gaussian)
          * line spread function of the instrument.
          *
-         * @param x[in] The abscissa value where to evaluate the primitive functions.
-         * @param h[in] The half width at half maximum (HWHM) of the Gaussian line spread function.
-         * @param p[out] The primitive function of g(x) evaluated at @ x.
-         * @param q[out] The primitive function of x g(x) evaluated at @ x.
+         * @param[in] x The abscissa value where to evaluate the primitive functions.
+         * @param[in] h The half width at half maximum (HWHM) of the Gaussian line spread function.
+         * @param[out] p The primitive function of g(x) evaluated at @ x.
+         * @param[out] q The primitive function of x g(x) evaluated at @ x.
          */
         void primitive(double x, double h, double &p, double &q) const;
 

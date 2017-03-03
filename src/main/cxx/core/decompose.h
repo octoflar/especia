@@ -1,24 +1,24 @@
-// Symmetric eigenproblem solvers calling LAPACK
-// Copyright (c) 2016 Ralf Quast
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
+/// @file decompose.h
+/// Symmetric eigenproblem solvers calling LAPACK routines.
+/// Copyright (c) 2016 Ralf Quast
+///
+/// Permission is hereby granted, free of charge, to any person obtaining a copy
+/// of this software and associated documentation files (the "Software"), to deal
+/// in the Software without restriction, including without limitation the rights
+/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+/// copies of the Software, and to permit persons to whom the Software is
+/// furnished to do so, subject to the following conditions:
+///
+/// The above copyright notice and this permission notice shall be included in all
+/// copies or substantial portions of the Software.
+///
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+/// SOFTWARE.
 #ifndef ESPECIA_SYMEIG_H
 #define ESPECIA_SYMEIG_H
 
@@ -37,7 +37,7 @@ namespace especia {
         /**
          * Constructs a new instance of this class.
          *
-         * @param n The problem dimension.
+         * @param[in] n The problem dimension.
          */
         D_Decompose(size_t n = 0);
 
@@ -49,10 +49,10 @@ namespace especia {
         /**
          * Solves a symmetric eigenproblem.
          *
-         * @param n[in] The problem dimension.
-         * @param A[in] The symmetric matrix (row-major, lower triangular).
-         * @param Z[out] The transformation matrix (row-major).
-         * @param w[out] The eigenvalues.
+         * @param[in] n The problem dimension.
+         * @param[in] A The symmetric matrix (row-major, lower triangular).
+         * @param[out] Z The transformation matrix (row-major).
+         * @param[out] w The eigenvalues.
          */
         void operator()(size_t n, const double A[], double Z[], double w[]) throw(std::runtime_error);
 
@@ -85,7 +85,7 @@ namespace especia {
         /**
          * Constructs a new instance of this class.
          *
-         * @param n The problem dimension.
+         * @param[in] n The problem dimension.
          */
         R_Decompose(size_t n = 0);
 
@@ -97,10 +97,10 @@ namespace especia {
         /**
          * Solves a symmetric eigenproblem.
          *
-         * @param n[in] The problem dimension.
-         * @param A[in] The symmetric matrix (row-major, lower triangular).
-         * @param Z[out] The transformation matrix (row-major).
-         * @param w[out] The eigenvalues.
+         * @param[in] n The problem dimension.
+         * @param[in] A The symmetric matrix (row-major, lower triangular).
+         * @param[out] Z The transformation matrix (row-major).
+         * @param[out] w The eigenvalues.
          */
         void operator()(size_t n, const double A[], double Z[], double w[]) throw(std::runtime_error);
 
@@ -137,7 +137,7 @@ namespace especia {
         /**
          * Constructs a new instance of this class.
          *
-         * @param n The problem dimension.
+         * @param[in] n The problem dimension.
          */
         X_Decompose(size_t n = 0);
 
@@ -149,10 +149,10 @@ namespace especia {
         /**
          * Solves a symmetric eigenproblem.
          *
-         * @param n[in] The problem dimension.
-         * @param A[in] The symmetric matrix (row-major, lower triangular).
-         * @param Z[out] The transformation matrix (row-major).
-         * @param w[out] The eigenvalues.
+         * @param[in] n The problem dimension.
+         * @param[in] A The symmetric matrix (row-major, lower triangular).
+         * @param[out] Z The transformation matrix (row-major).
+         * @param[out] w The eigenvalues.
          */
         void operator()(size_t n, const double A[], double Z[], double w[]) throw(std::runtime_error);
 

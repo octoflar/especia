@@ -1,25 +1,24 @@
-// CMA-ES classes for nonlinear function optimization
-// Copyright (c) 2016 Ralf Quast
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
-
+/// @file optimizer.cxx
+/// CMA-ES classes for nonlinear function optimization.
+/// Copyright (c) 2016 Ralf Quast
+///
+/// Permission is hereby granted, free of charge, to any person obtaining a copy
+/// of this software and associated documentation files (the "Software"), to deal
+/// in the Software without restriction, including without limitation the rights
+/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+/// copies of the Software, and to permit persons to whom the Software is
+/// furnished to do so, subject to the following conditions:
+///
+/// The above copyright notice and this permission notice shall be included in all
+/// copies or substantial portions of the Software.
+///
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+/// SOFTWARE.
 #include <cmath>
 
 #include "optimizer.h"
@@ -28,7 +27,7 @@ especia::Optimizer::Builder::Builder() : weights() {
     with_problem_dimension();
     with_parent_number();
     with_population_size();
-    with_update_modulus();
+    with_covariance_update_modulus();
     with_accuracy_goal();
     with_stop_generation();
 }
@@ -54,13 +53,18 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_population_size(u
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_update_modulus(unsigned update_modulus) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_covariance_update_modulus(unsigned update_modulus) {
     this->update_modulus = update_modulus;
     return *this;
 }
 
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_accuracy_goal(double accuracy_goal) {
     this->accuracy_goal = accuracy_goal;
+    return *this;
+}
+
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_random_seed(unsigned long seed) {
+    this->random_seed = seed;
     return *this;
 }
 
@@ -96,7 +100,7 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
 }
 
 especia::Optimizer::Optimizer(const especia::Optimizer::Builder &config)
-        : configuration(config), decompose(config.get_problem_dimension()) {
+        : configuration(config), decompose(config.get_problem_dimension()), deviate(config.get_random_seed()) {
 
 }
 

@@ -62,6 +62,7 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/core/base.h
         ${MAIN}/cxx/core/decompose.cxx
         ${MAIN}/cxx/core/decompose.h
+        ${MAIN}/cxx/core/deviates.h
         ${MAIN}/cxx/core/model.h
         ${MAIN}/cxx/core/mtwister.h
         ${MAIN}/cxx/core/optimizer.cxx
@@ -69,7 +70,6 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/core/optimize.h
         ${MAIN}/cxx/core/profiles.cxx
         ${MAIN}/cxx/core/profiles.h
-        ${MAIN}/cxx/core/randev.h
         ${MAIN}/cxx/core/readline.cxx
         ${MAIN}/cxx/core/readline.h
         ${MAIN}/cxx/core/section.cxx

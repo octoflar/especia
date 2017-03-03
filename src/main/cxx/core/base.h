@@ -1,24 +1,24 @@
-// Basic constants and functions
-// Copyright (c) 2016 Ralf Quast
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
+/// @file base.h
+/// Basic constants and functions.
+/// Copyright (c) 2016 Ralf Quast
+///
+/// Permission is hereby granted, free of charge, to any person obtaining a copy
+/// of this software and associated documentation files (the "Software"), to deal
+/// in the Software without restriction, including without limitation the rights
+/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+/// copies of the Software, and to permit persons to whom the Software is
+/// furnished to do so, subject to the following conditions:
+///
+/// The above copyright notice and this permission notice shall be included in all
+/// copies or substantial portions of the Software.
+///
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+/// SOFTWARE.
 #ifndef ESPECIA_BASE_H
 #define ESPECIA_BASE_H
 
@@ -71,7 +71,7 @@ namespace especia {
      *
      * @tparam Number The number type.
      *
-     * @param x[in] The number.
+     * @param[in] x The number.
      * @return the square of the number.
      */
     template<class Number>
@@ -93,7 +93,7 @@ namespace especia {
      *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
      *   Metrologia, 31, 4, 315.
      *
-     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @param[in] x The wavenumber in vacuum (nm-1).
      * @return the wavenumber in air (nm-1).
      *
      * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
@@ -116,9 +116,9 @@ namespace especia {
      *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
      *   Metrologia, 31, 4, 315.
      *
-     * @param x[in] The wavenumber in vacuum (nm-1).
-     * @param y[out] The wavenumber in air (nm-1).
-     * @param z[out] The derivative of @c y with respect to @c x.
+     * @param[in] x The wavenumber in vacuum (nm-1).
+     * @param[out] y The wavenumber in air (nm-1).
+     * @param[out] z The derivative of @c y with respect to @c x.
      *
      * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
      */
@@ -140,7 +140,7 @@ namespace especia {
      *   *The dispersion of standard air.*
      *   Journal of the Optical Society of America, 43, 5, 339.
      *
-     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @param[in] x The wavenumber in vacuum (nm-1).
      * @return the wavenumber in air (nm-1).
      *
      * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
@@ -162,9 +162,9 @@ namespace especia {
      *   *The dispersion of standard air.*
      *   Journal of the Optical Society of America, 43, 5, 339.
      *
-     * @param x[in] The wavenumber in vacuum (nm-1).
-     * @param y[out] The wavenumber in air (nm-1).
-     * @param z[out] The derivative of @c y with respect to @c x.
+     * @param[in] x The wavenumber in vacuum (nm-1).
+     * @param[out] y The wavenumber in air (nm-1).
+     * @param[out] z The derivative of @c y with respect to @c x.
      *
      * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
      *
@@ -190,7 +190,7 @@ namespace especia {
      *   Metrologia, 2, 2, 71-80.
      *   http://dx.doi.org/10.1088/0026-1394/2/2/002
      *
-     * @param x[in] The wavenumber in vacuum (nm-1).
+     * @param[in] x The wavenumber in vacuum (nm-1).
      * @return the wavenumber in air (nm-1).
      *
      * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
@@ -210,9 +210,9 @@ namespace especia {
      *   Metrologia, 2, 2, 71-80.
      *   http://dx.doi.org/10.1088/0026-1394/2/2/002
      *
-     * @param x[in] The wavenumber in vacuum (nm-1).
-     * @param y[out] The wavenumber in air (nm-1).
-     * @param z[out] The derivative of @c y with respect to @c x.
+     * @param[in] x The wavenumber in vacuum (nm-1).
+     * @param[out] y The wavenumber in air (nm-1).
+     * @param[out] z The derivative of @c y with respect to @c x.
      *
      * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
      */

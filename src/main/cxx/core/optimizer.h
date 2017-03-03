@@ -1,25 +1,24 @@
-// CMA-ES classes for nonlinear function optimization
-// Copyright (c) 2016 Ralf Quast
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
-
+/// @file optimizer.h
+/// CMA-ES classes for nonlinear function optimization.
+/// Copyright (c) 2016 Ralf Quast
+///
+/// Permission is hereby granted, free of charge, to any person obtaining a copy
+/// of this software and associated documentation files (the "Software"), to deal
+/// in the Software without restriction, including without limitation the rights
+/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+/// copies of the Software, and to permit persons to whom the Software is
+/// furnished to do so, subject to the following conditions:
+///
+/// The above copyright notice and this permission notice shall be included in all
+/// copies or substantial portions of the Software.
+///
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+/// SOFTWARE.
 #ifndef ESPECIA_OPTMIZER_H
 #define ESPECIA_OPTMIZER_H
 
@@ -28,6 +27,8 @@
 #include <iostream>
 
 #include "decompose.h"
+#include "deviates.h"
+#include "mtwister.h"
 #include "optimize.h"
 
 namespace especia {
@@ -43,8 +44,8 @@ namespace especia {
         /**
          * Constructs a new strict-bound prior constraint.
          *
-         * @param lower_bounds[in] The lower bounds.
-         * @param upper_bounds[in] The upper bounds.
+         * @param[in] lower_bounds The lower bounds.
+         * @param[in] upper_bounds The upper bounds.
          * @param n The number of bounds.
          */
         Bounds(const Number lower_bounds[], const Number upper_bounds[], size_t n)
@@ -60,8 +61,8 @@ namespace especia {
         /**
          * Tests if a given parameter vector violates the constraint.
          *
-         * @param x[in] The parameter vector.
-         * @param n[in] The number of parameters to test.
+         * @param[in] x The parameter vector.
+         * @param[in] n The number of parameters to test.
          * @return @c true, if the parameter vector violates the constraint.
          */
         bool is_violated(const Number x[], size_t n) const {
@@ -76,8 +77,8 @@ namespace especia {
         /**
          * Computes the cost associated with the constraint.
          *
-         * @param x[in] The parameter vector.
-         * @param n[in] The number of parameters to take account of.
+         * @param[in] x The parameter vector.
+         * @param[in] n The number of parameters to take account of.
          * @return always zero.
          */
         Number cost(const Number x[], size_t n) const {
@@ -112,8 +113,8 @@ namespace especia {
         /**
          * Tests if a given parameter vector violates the constraint.
          *
-         * @param x[in] The parameter vector.
-         * @param n[in] The number of parameters to test.
+         * @param[in] x The parameter vector.
+         * @param[in] n The number of parameters to test.
          * @return always @c false.
          */
         bool is_violated(const Number *x, size_t n) const {
@@ -123,8 +124,8 @@ namespace especia {
         /**
          * Computes the cost associated with the constraint.
          *
-         * @param x[in] The parameter vector.
-         * @param n[in] The number of parameters to take account of.
+         * @param[in] x The parameter vector.
+         * @param[in] n The number of parameters to take account of.
          * @return always zero.
          */
         Number cost(const Number x[], size_t n) const {
@@ -143,10 +144,10 @@ namespace especia {
         /**
          * Constructor.
          *
-         * @param output_stream[in] The output stream.
-         * @param modulus[in] The trace modulus.
-         * @param precision[in] The precision of numeric output.
-         * @param width[in] The width of the numeric output fields.
+         * @param[in] output_stream The output stream.
+         * @param[in] modulus The trace modulus.
+         * @param[in] precision The precision of numeric output.
+         * @param[in] width The width of the numeric output fields.
          */
         Output_Stream_Tracer(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
                              unsigned int width = 12)
@@ -162,7 +163,7 @@ namespace especia {
         /**
          * Tests if tracing is enabled.
          *
-         * @param g[in] The generation number.
+         * @param[in] g The generation number.
          * @return @true if tracing is enabled, otherwise @c false.
          */
         bool is_enabled(unsigned long g) const {
@@ -172,10 +173,10 @@ namespace especia {
         /**
          * Traces state information to an output stream..
          *
-         * @param g[in] The generation number.
-         * @param y[in] The value of the objective function.
-         * @param min_step[in] The minimum step size.
-         * @param max_step[in] The maximum step size.
+         * @param[in] g The generation number.
+         * @param[in] y The value of the objective function.
+         * @param[in] min_step The minimum step size.
+         * @param[in] max_step The maximum step size.
          */
         void trace(unsigned long g, Number y, Number min_step, Number max_step) const {
             using std::endl;
@@ -230,7 +231,7 @@ namespace especia {
         /**
          * Tests if tracing is enabled.
          *
-         * @param g[in] The generation number.
+         * @param[in] g The generation number.
          * @return always @c false.
          */
         bool is_enabled(unsigned long g) const {
@@ -240,10 +241,10 @@ namespace especia {
         /**
          * Traces state information.
          *
-         * @param g[in] The generation number.
-         * @param y[in] The value of the objective function.
-         * @param min_step[in] The minimum step size.
-         * @param max_step[in] The maximum step size.
+         * @param[in] g The generation number.
+         * @param[in] y The value of the objective function.
+         * @param[in] min_step The minimum step size.
+         * @param[in] max_step The maximum step size.
          */
         void trace(unsigned long g, Number y, Number min_step, Number max_step) const {
         }
@@ -320,7 +321,7 @@ namespace especia {
              *
              * @return the covariance matrix update modulus.
              */
-            unsigned int get_update_modulus() const {
+            unsigned int get_covariance_update_modulus() const {
                 return update_modulus;
             }
 
@@ -331,6 +332,15 @@ namespace especia {
              */
             double get_accuracy_goal() const {
                 return accuracy_goal;
+            }
+
+            /**
+             * Returns the random seed.
+             *
+             * @return the random seed.
+             */
+            unsigned long get_random_seed() const {
+                return random_seed;
             }
 
             /**
@@ -399,7 +409,7 @@ namespace especia {
             /**
              * Configures the problem dimension.
              *
-             * @param n[in] The problem dimension.
+             * @param[in] n The problem dimension.
              * @return this builder.
              */
             Builder &with_problem_dimension(unsigned n = 1);
@@ -407,7 +417,7 @@ namespace especia {
             /**
              * Configures the parent number.
              *
-             * @param parent_number[in] The parent number.
+             * @param[in] parent_number The parent number.
              * @return this builder.
              */
             Builder &with_parent_number(unsigned parent_number = 4);
@@ -415,7 +425,7 @@ namespace especia {
             /**
              * Configures the population size.
              *
-             * @param population_size[in] The population size.
+             * @param[in] population_size The population size.
              * @return this builder.
              */
             Builder &with_population_size(unsigned population_size = 8);
@@ -423,23 +433,31 @@ namespace especia {
             /**
              * Configures the covariance matrix update modulus.
              *
-             * @param update_modulus[in] The update modulus.
+             * @param[in] update_modulus The update modulus.
              * @return this builder.
              */
-            Builder &with_update_modulus(unsigned update_modulus = 1);
+            Builder &with_covariance_update_modulus(unsigned update_modulus = 1);
 
             /**
              * Configures the accuracy goal.
              *
-             * @param accuracy_goal[in] The accuracy goal.
+             * @param[in] accuracy_goal The accuracy goal.
              * @return this builder.
              */
             Builder &with_accuracy_goal(double accuracy_goal = 1.0E-04);
 
             /**
+             * Configures the random seed.
+             *
+             * @param[in] seed The random seed.
+             * @return this builder.
+             */
+            Builder &with_random_seed(unsigned long seed = 27182);
+
+            /**
              * Configures the stop generation.
              *
-             * @param stop_generation[in] The stop generation.
+             * @param[in] stop_generation The stop generation.
              * @return this builder.
              */
             Builder &with_stop_generation(unsigned long stop_generation = 1000);
@@ -474,6 +492,11 @@ namespace especia {
              * The accuracy goal.
              */
             double accuracy_goal;
+
+            /**
+              * The random seed.
+              */
+            unsigned long random_seed;
 
             /**
              * The stop generation.
@@ -535,26 +558,23 @@ namespace especia {
          *
          * @tparam F The function type.
          * @tparam Constraint The constraint type.
-         * @tparam Deviate The strategy to generate random normal deviates.
          * @tparam Tracer The tracer type.
          *
-         * @param f[in] The objective function.
-         * @param constraint[in] The constraint.
-         * @param x[in] The initial parameter values.
-         * @param d[in] The initial local step sizes.
-         * @param s[in] The initial global step size.
-         * @param deviate The random number generator.
-         * @param tracer The tracer.
+         * @param[in] f The objective function.
+         * @param[in] constraint The constraint.
+         * @param[in] x The initial parameter values.
+         * @param[in] d The initial local step sizes.
+         * @param[in] s The initial global step size.
+         * @param[in] tracer The tracer.
          *
          * @return the optimization result.
          */
-        template<class F, class Constraint, class Deviate, class Tracer>
+        template<class F, class Constraint, class Tracer>
         Result minimize(const F &f,
                         const Constraint &constraint,
                         const std::valarray<double> &x,
                         const std::valarray<double> &d,
                         const double s,
-                        Deviate &deviate,
                         Tracer &tracer) {
 
             // @todo implement this function
@@ -566,9 +586,40 @@ namespace especia {
         /**
          * Creates a new instance of this class with the configuration supplied as argument.
          *
-         * @param config The configuration.
+         * @param[in] config The configuration.
          */
         Optimizer(const Builder &config);
+
+        /**
+        * Minimizes an objective function.
+        *
+        * @tparam F The function type.
+        * @tparam Constraint The constraint type.
+        * @tparam Tracer The tracer type.
+        *
+        * @param[in] f The objective function.
+        * @param[in] constraint The constraint.
+        * @param[in] compare The number comparator.
+        * @param[in] x The initial parameter values.
+        * @param[in] d The initial local step sizes.
+        * @param[in] s The initial global step size.
+        * @param[in] tracer The tracer.
+        *
+        * @return the optimization result.
+        */
+        template<class F, class Constraint, class Compare, class Tracer>
+        Result optimize(const F &f,
+                        const Constraint &constraint,
+                        const Compare &compare,
+                        const std::valarray<double> &x,
+                        const std::valarray<double> &d,
+                        const double s,
+                        Tracer &tracer) {
+
+            // @todo implement this function
+
+            return Result();
+        };
 
         /**
          * The CMA-ES configuration.
@@ -580,6 +631,10 @@ namespace especia {
          */
         Decompose decompose;
 
+        /**
+         * The random number generator.
+         */
+        Normal_Deviate<MT19937> deviate;
     };
 
 }

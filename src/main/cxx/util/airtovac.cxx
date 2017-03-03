@@ -1,24 +1,24 @@
-// Utility: convert photon wavelength from air to vacuum
-// Copyright (c) 2016 Ralf Quast
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
+/// @file airtovac.cxx
+/// Utility to convert photon wavelength from air to vacuum
+/// Copyright (c) 2016 Ralf Quast
+///
+/// Permission is hereby granted, free of charge, to any person obtaining a copy
+/// of this software and associated documentation files (the "Software"), to deal
+/// in the Software without restriction, including without limitation the rights
+/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+/// copies of the Software, and to permit persons to whom the Software is
+/// furnished to do so, subject to the following conditions:
+///
+/// The above copyright notice and this permission notice shall be included in all
+/// copies or substantial portions of the Software.
+///
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+/// SOFTWARE.
 #include <cmath>
 #include <cstdlib>
 #include <exception>
@@ -35,16 +35,16 @@ namespace especia {
     /**
      * Solves the equation f(x) = c by means of Newton's method.
      *
-     * @param f[in] A differentiable function, which takes as parameters:
+     * @param[in] f A differentiable function, which takes as parameters:
      * @parblock
-     * @param x[in] The abscissa value.
-     * @param y[out] The result y = f(x).
-     * @param z[out] The derivative of @c y with respect to @c x.
+     * @param[in] x The abscissa value.
+     * @param[out] y The result y = f(x).
+     * @param[out] z The derivative of @c y with respect to @c x.
      * @endparblock
-     * @param c[in] The constant on the right-hand side of the equation.
-     * @param x[in] The initial guess of the solution.
-     * @param accuracy_goal[in] The accuracy goal (optional).
-     * @param max_iteration[in] The maximum number of iterations (optional).
+     * @param[in] c The constant on the right-hand side of the equation.
+     * @param[in] x The initial guess of the solution.
+     * @param[in] accuracy_goal The accuracy goal (optional).
+     * @param[in] max_iteration The maximum number of iterations (optional).
      *
      * @return the solution to the equation f(x) = c.
      */
