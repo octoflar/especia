@@ -228,10 +228,10 @@ namespace especia {
     /**
      * An indirect comparing of indexes.
      *
-     * @tparam Number The base value type.
+     * @tparam T The base value type.
      * @tparam Compare The strategy to compare base values directly.
      */
-    template<class Number, class Compare>
+    template<class T, class Compare>
     class Index_Compare {
     public:
         /**
@@ -240,7 +240,7 @@ namespace especia {
          * @param[in] v The base values.
          * @param[in] c The direct base value comparing.
          */
-        Index_Compare(const std::valarray<Number> &v, const Compare &c)
+        Index_Compare(const std::valarray<T> &v, const Compare &c)
                 : values(v), compare(c) {
         }
 
@@ -262,7 +262,7 @@ namespace especia {
         }
 
     private:
-        const std::valarray<Number> &values;
+        const std::valarray<T> &values;
         const Compare &compare;
     };
 
