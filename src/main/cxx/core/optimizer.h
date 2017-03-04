@@ -49,7 +49,7 @@ namespace especia {
          *
          * @param[in] lower_bounds The lower bounds.
          * @param[in] upper_bounds The upper bounds.
-         * @param n The number of bounds.
+         * @param[in] n The number of bounds.
          */
         Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], size_t n)
                 : a(lower_bounds, n), b(upper_bounds, n) {
