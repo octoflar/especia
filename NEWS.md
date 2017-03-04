@@ -1,8 +1,8 @@
 # New in 2017.1
 
-The main programs were renamed and a couple of utility programs were
-added. All ancillary files were revised. Version 2017.1 provides new
-features and enhancements:
+The main programs were renamed and a few utility programs were added.
+The source code, documentation, and ancillary files were revised.
+Version 2017.1 provides new features and enhancements:
 
 * Functions to convert photon wavelength in vacuum to photon wavelength
 in standard air (and vice versa) were added to the base API (Edlén 1953,
