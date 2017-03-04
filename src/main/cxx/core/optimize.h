@@ -281,34 +281,34 @@ namespace especia {
     }
 
     /**
-     * Yields the scaling to compute standard uncertainties and covariance.
+     * Yields the paramater standard uncertainties.
      *
      * Computes the standard variance along the minor principal axis from the curvature of a
      * parabola through three points around the minimum. The global step size is rescaled to
      * approximate the standard covariance matrix by the product of the squared global step
-     * size and the optimized covariance matrix.
+     * size with the optimized covariance matrix.
      *
      * @tparam F The function type.
      * @tparam Constraint The constraint type.
      *
      * @param[in] f The objective function.
-     * @param[in] constraint The prior constraint on the parameter values.
+     * @param[in] constraint The constraint on parameter values.
      * @param[in] n The number of parameter values.
      * @param[in] x The parameter values.
      * @param[in] d The local step sizes
      * @param[in] B The rotation matrix.
+     * @param[in] B The covariance matrix.
      * @param[in] s The global step size.
-     *
-     * return the scaling to compute standard uncertainties and covariance.
+     * @param[out] z The parameter uncertainties.
      */
     template<class F, class Constraint>
-    double standard_scale(const F &f,
-                          const Constraint &constraint,
-                          size_t n,
-                          const double *x,
-                          const double *d,
-                          const double *B,
-                          double s) {
+    void postopti(const F &f, const Constraint &constraint, size_t n,
+                  const double x[],
+                  const double d[],
+                  const double B[],
+                  const double C[],
+                  double s,
+                  double z[]) {
         using std::abs;
         using std::sqrt;
         using std::valarray;
@@ -360,7 +360,9 @@ namespace especia {
             }
         } while (a == 0.0 or b == 0.0); // the computation step is too small or too large
 
-        return s;
+        for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+            z[i] = s * sqrt(C[ii]);
+        }
     }
 
 }

@@ -23,14 +23,8 @@
 
 #include "optimizer.h"
 
-especia::Optimizer::Builder::Builder()
-        : weights() {
-    with_problem_dimension();
-    with_parent_number();
-    with_population_size();
-    with_covariance_update_modulus();
-    with_accuracy_goal();
-    with_stop_generation();
+especia::Optimizer::Builder::Builder() : weights(parent_number) {
+    set_strategy_parameters();
 }
 
 especia::Optimizer::Builder::~Builder() {

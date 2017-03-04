@@ -25,7 +25,6 @@
 #include <algorithm>
 #include <cstddef>
 #include <fstream>
-#include <functional>
 #include <iomanip>
 #include <iostream>
 #include <map>
@@ -539,34 +538,24 @@ namespace especia {
 
             os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
             os << "<html>\n";
+            os << "<!--" << endl;
+            os << beglog << endl;
 
-            if (trace > 0) {
-                os << "<!--" << endl;
-                os << beglog << endl;
-            }
-
-            Optimizer::Builder builder;
-
-            builder.with_problem_dimension(n).
+            Optimizer optimizer = Optimizer::Builder().with_problem_dimension(n).
                     with_parent_number(parent_number).
                     with_population_size(population_size).
                     with_accuracy_goal(accuracy_goal).
                     with_stop_generation(stop_generation).
-                    with_covariance_update_modulus(1).
-                    with_random_seed(seed);
-
-            Optimizer optimizer = builder.build();
+                    with_random_seed(seed).
+                    build();
 
             const Bounded_Constraint<> constraint(&a[0], &b[0], n);
             const Tracing_To_Output_Stream<> tracer(os, trace);
 
             Optimizer::Result result = optimizer.minimize(*this, x, d, step_size, constraint, tracer);
 
-            if (trace > 0) {
-                os << endlog << endl;
-                os << "-->" << endl;
-            }
-
+            os << endlog << endl;
+            os << "-->" << endl;
             os << "<!--" << endl;
             os << begmsg << endl;
 

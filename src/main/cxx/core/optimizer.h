@@ -269,7 +269,6 @@ namespace especia {
      */
     class Optimizer {
     public:
-
         /**
          * Builds a new optimizer.
          */
@@ -362,15 +361,6 @@ namespace especia {
              */
             const std::valarray<double> &get_weights() const {
                 return weights;
-            }
-
-            /**
-             * Returns a pointer to the recombination weights.
-             *
-             * @return a pointer to the recombination weights.
-             */
-            const double *get_weights_pointer() const {
-                return &weights[0];
             }
 
             /**
@@ -476,6 +466,15 @@ namespace especia {
 
         private:
             /**
+             * Returns a pointer to the recombination weights.
+             *
+             * @return a pointer to the recombination weights.
+             */
+            const double *get_weights_pointer() const {
+                return &weights[0];
+            }
+
+            /**
              * Calculates strategy parameters like recombination weights, cumulation and adaption rates.
              */
             void set_strategy_parameters();
@@ -483,37 +482,37 @@ namespace especia {
             /**
              * The problem dimension.
              */
-            size_t n;
+            size_t n = 1;
 
             /**
              * The parent number.
              */
-            unsigned int parent_number;
+            unsigned int parent_number = 4;
 
             /**
              * The population size.
              */
-            unsigned int population_size;
+            unsigned int population_size = 8;
 
             /**
              * The covariance matrix update modulus.
              */
-            unsigned int update_modulus;
+            unsigned int update_modulus = 1;
 
             /**
              * The accuracy goal.
              */
-            double accuracy_goal;
+            double accuracy_goal = 1.0E-4;
 
             /**
               * The random seed.
               */
-            unsigned long random_seed;
+            unsigned long random_seed = 27182;
 
             /**
              * The stop generation.
              */
-            unsigned long stop_generation;
+            unsigned long stop_generation = 1000;
 
             /**
              * The recombination weights.
@@ -549,14 +548,14 @@ namespace especia {
              * The step size damping.
              */
             double step_size_damping;
+
+            friend class Optimizer;
         };
 
         /**
          * The optimization result.
          */
         class Result {
-            friend class Optimizer;
-
         public:
             /**
              * Destructor.
@@ -750,7 +749,7 @@ namespace especia {
              *
              * @return a pointer to the parameter uncertainties.
              */
-            double *__parameter_uncertainties() {
+            double *get_parameter_uncertainties_pointer() {
                 return &z[0];
             }
 
@@ -849,6 +848,8 @@ namespace especia {
              * The final generation number.
              */
             unsigned long g;
+
+            friend class Optimizer;
         };
 
         /**
@@ -943,7 +944,7 @@ namespace especia {
                         const Tracer &tracer,
                         const Compare &compare) {
             using especia::optimize;
-            using especia::standard_scale;
+            using especia::postopti;
 
             const size_t n = config.get_problem_dimension();
 
@@ -976,17 +977,14 @@ namespace especia {
             );
 
             if (result.__optimized()) {
-                const double scale =
-                        standard_scale(f, constraint, n,
-                                       result.get_parameter_values_pointer(),
-                                       result.get_local_step_sizes_pointer(),
-                                       result.get_rotation_matrix_pointer(),
-                                       result.__global_step_size()
-                        );
-
-                for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-                    result.z[i] = scale * std::sqrt(result.C[ii]);
-                }
+                postopti(f, constraint, n,
+                         result.get_parameter_values_pointer(),
+                         result.get_local_step_sizes_pointer(),
+                         result.get_rotation_matrix_pointer(),
+                         result.get_covariance_matrix_pointer(),
+                         result.get_global_step_size(),
+                         result.get_parameter_uncertainties_pointer()
+                );
             }
 
             return result;
