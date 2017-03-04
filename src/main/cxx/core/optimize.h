@@ -305,9 +305,9 @@ namespace especia {
     double standard_scale(const F &f,
                           const Constraint &constraint,
                           size_t n,
-                          const double x[],
-                          const double d[],
-                          const double B[],
+                          const double *x,
+                          const double *d,
+                          const double *B,
                           double s) {
         using std::abs;
         using std::sqrt;

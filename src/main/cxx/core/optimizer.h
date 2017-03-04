@@ -39,9 +39,9 @@ namespace especia {
     /**
      * A bounded constraint.
      *
-     * @tparam Number The number type.
+     * @tparam T The number type.
      */
-    template<class Number>
+    template<class T = double>
     class Bounded_Constraint {
     public:
         /**
@@ -51,7 +51,7 @@ namespace especia {
          * @param[in] upper_bounds The upper bounds.
          * @param n The number of bounds.
          */
-        Bounded_Constraint(const Number lower_bounds[], const Number upper_bounds[], size_t n)
+        Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], size_t n)
                 : a(lower_bounds, n), b(upper_bounds, n) {
         }
 
@@ -68,7 +68,7 @@ namespace especia {
          * @param[in] n The number of parameters to test.
          * @return @c true, if the parameter vector violates the constraint.
          */
-        bool is_violated(const Number x[], size_t n) const {
+        bool is_violated(const T x[], size_t n) const {
             for (size_t i = 0; i < n; ++i) {
                 if (x[i] < a[i] || x[i] > b[i]) {
                     return true;
@@ -84,21 +84,21 @@ namespace especia {
          * @param[in] n The number of parameters to take account of.
          * @return always zero.
          */
-        Number cost(const Number x[], size_t n) const {
-            return Number(0);
+        T cost(const T x[], size_t n) const {
+            return T(0);
         }
 
     private:
-        const std::valarray<Number> a;
-        const std::valarray<Number> b;
+        const std::valarray<T> a;
+        const std::valarray<T> b;
     };
 
     /**
      * No constraint.
      *
-     * @tparam Number The number type.
+     * @tparam T The number type.
      */
-    template<class Number>
+    template<class T = double>
     class No_Constraint {
     public:
         /**
@@ -120,7 +120,7 @@ namespace especia {
          * @param[in] n The number of parameters to test.
          * @return always @c false.
          */
-        bool is_violated(const Number *x, size_t n) const {
+        bool is_violated(const T x[], size_t n) const {
             return false;
         }
 
@@ -131,17 +131,17 @@ namespace especia {
          * @param[in] n The number of parameters to take account of.
          * @return always zero.
          */
-        Number cost(const Number x[], size_t n) const {
-            return Number(0);
+        T cost(const T x[], size_t n) const {
+            return T(0);
         }
     };
 
     /**
      * Traces state information to an output stream.
      *
-     * @tparam Number The number type.
+     * @tparam T The number type.
      */
-    template<class Number>
+    template<class T = double>
     class Tracing_To_Output_Stream {
     public:
         /**
@@ -181,7 +181,7 @@ namespace especia {
          * @param[in] min_step The minimum step size.
          * @param[in] max_step The maximum step size.
          */
-        void trace(unsigned long g, Number y, Number min_step, Number max_step) const {
+        void trace(unsigned long g, T y, T min_step, T max_step) const {
             using std::endl;
             using std::ios_base;
             using std::setw;
@@ -213,9 +213,9 @@ namespace especia {
     /**
      * No tracing.
      *
-     * @tparam Number The number type.
+     * @tparam T The number type.
      */
-    template<class Number>
+    template<class T = double>
     class No_Tracing {
     public:
 
@@ -249,7 +249,7 @@ namespace especia {
          * @param[in] min_step The minimum step size.
          * @param[in] max_step The maximum step size.
          */
-        void trace(unsigned long g, Number y, Number min_step, Number max_step) const {
+        void trace(unsigned long g, T y, T min_step, T max_step) const {
         }
     };
 
@@ -276,7 +276,7 @@ namespace especia {
         class Builder {
         public:
             /**
-             * Creates a new instance of this class.
+             * Default constructor.
              */
             Builder();
 
@@ -365,6 +365,15 @@ namespace especia {
             }
 
             /**
+             * Returns a pointer to the recombination weights.
+             *
+             * @return a pointer to the recombination weights.
+             */
+            const double *get_weights_pointer() const {
+                return &weights[0];
+            }
+
+            /**
              * Returns the step size cumulation rate.
              *
              * @return the step size cumulation rate.
@@ -415,7 +424,7 @@ namespace especia {
              * @param[in] n The problem dimension.
              * @return this builder.
              */
-            Builder &with_problem_dimension(unsigned n = 1);
+            Builder &with_problem_dimension(size_t n = 1);
 
             /**
              * Configures the parent number.
@@ -678,7 +687,7 @@ namespace especia {
              *
              * @return a pointer to the covariance matrix.
              */
-            double *__covariance_matrix() {
+            double *get_covariance_matrix_pointer() {
                 return &C[0];
             }
 
@@ -687,7 +696,7 @@ namespace especia {
              *
              * @return a pointer to the distribution cumulation path.
              */
-            double *__distribution_cumulation_path() {
+            double *get_distribution_cumulation_path_pointer() {
                 return &pc[0];
             }
 
@@ -723,7 +732,7 @@ namespace especia {
              *
              * @return a pointer to the local step sizes.
              */
-            double *__local_step_sizes() {
+            double *get_local_step_sizes_pointer() {
                 return &d[0];
             }
 
@@ -732,7 +741,7 @@ namespace especia {
              *
              * @return a pointer to the parameter values.
              */
-            double *__parameter_values() {
+            double *get_parameter_values_pointer() {
                 return &x[0];
             }
 
@@ -750,7 +759,7 @@ namespace especia {
              *
              * @return a pointer to the rotation matrix.
              */
-            double *__rotation_matrix() {
+            double *get_rotation_matrix_pointer() {
                 return &B[0];
             }
 
@@ -759,7 +768,7 @@ namespace especia {
              *
              * @return a pointer to the step size cumulation path.
              */
-            double *__step_size_cumulation_path() {
+            double *get_step_size_cumulation_path_pointer() {
                 return &ps[0];
             }
 
@@ -868,9 +877,9 @@ namespace especia {
                         const std::valarray<double> &x,
                         const std::valarray<double> &d,
                         const double s,
-                        const Constraint &constraint = No_Constraint<double>(),
-                        const Tracer &tracer = No_Tracing<double>()) {
-            return __optimize(f, x, d, s, constraint, tracer, std::greater<double>());
+                        const Constraint &constraint = No_Constraint<>(),
+                        const Tracer &tracer = No_Tracing<>()) {
+            return optimize(f, x, d, s, constraint, tracer, std::greater<double>());
         };
 
         /**
@@ -894,9 +903,9 @@ namespace especia {
                         const std::valarray<double> &x,
                         const std::valarray<double> &d,
                         const double s,
-                        const Constraint &constraint = No_Constraint<double>(),
-                        const Tracer &tracer = No_Tracing<double>()) {
-            return __optimize(f, x, d, s, constraint, tracer, std::less<double>());
+                        const Constraint &constraint = No_Constraint<>(),
+                        const Tracer &tracer = No_Tracing<>()) {
+            return optimize(f, x, d, s, constraint, tracer, std::less<double>());
         };
 
     private:
@@ -908,31 +917,34 @@ namespace especia {
         Optimizer(const Builder &builder);
 
         /**
-        * Minimizes an objective function.
-        *
-        * @tparam F The function type.
-        * @tparam Constraint The constraint type.
-        * @tparam Tracer The tracer type.
-        * @tparam Compare The number comparator type.
-        *
-        * @param[in] f The objective function.
-        * @param[in] x The initial parameter values.
-        * @param[in] d The initial local step sizes.
-        * @param[in] s The initial global step size.
-        * @param[in] constraint The constraint.
-        * @param[in] tracer The tracer.
-        * @param[in] compare The number comparator.
-        *
-        * @return the optimization result.
-        */
+         * Optimizes an objective function.
+         *
+         * @tparam F The function type.
+         * @tparam Constraint The constraint type.
+         * @tparam Tracer The tracer type.
+         * @tparam Compare The fitness comparator type.
+         *
+         * @param[in] f The objective function.
+         * @param[in] x The initial parameter values.
+         * @param[in] d The initial local step sizes.
+         * @param[in] s The initial global step size.
+         * @param[in] constraint The constraint.
+         * @param[in] tracer The tracer.
+         * @param[in] compare The fitness comparator.
+         *
+         * @return the optimization result.
+         */
         template<class F, class Constraint, class Tracer, class Compare>
-        Result __optimize(const F &f,
-                          const std::valarray<double> &x,
-                          const std::valarray<double> &d,
-                          const double s,
-                          const Constraint &constraint,
-                          const Tracer &tracer,
-                          const Compare &compare) {
+        Result optimize(const F &f,
+                        const std::valarray<double> &x,
+                        const std::valarray<double> &d,
+                        const double s,
+                        const Constraint &constraint,
+                        const Tracer &tracer,
+                        const Compare &compare) {
+            using especia::optimize;
+            using especia::standard_scale;
+
             const size_t n = config.get_problem_dimension();
 
             Result result(n, x, d, s);
@@ -940,7 +952,7 @@ namespace especia {
             optimize(f, constraint, n,
                      config.get_parent_number(),
                      config.get_population_size(),
-                     &config.get_weights()[0],
+                     config.get_weights_pointer(),
                      config.get_step_size_damping(),
                      config.get_step_size_cumulation_rate(),
                      config.get_distribution_cumulation_rate(),
@@ -950,28 +962,28 @@ namespace especia {
                      config.get_accuracy_goal(),
                      config.get_stop_generation(),
                      result.__generation_number(),
-                     result.__parameter_values(),
+                     result.get_parameter_values_pointer(),
                      result.__global_step_size(),
-                     result.__local_step_sizes(),
-                     result.__rotation_matrix(),
-                     result.__covariance_matrix(),
-                     result.__step_size_cumulation_path(),
-                     result.__distribution_cumulation_path(),
+                     result.get_local_step_sizes_pointer(),
+                     result.get_rotation_matrix_pointer(),
+                     result.get_covariance_matrix_pointer(),
+                     result.get_step_size_cumulation_path_pointer(),
+                     result.get_distribution_cumulation_path_pointer(),
                      result.__fitness(),
                      result.__optimized(),
                      result.__underflow(),
-                     deviate,
-                     decompose,
-                     compare,
-                     tracer
+                     deviate, decompose, compare, tracer
             );
 
             if (result.__optimized()) {
-                const double scale = standard_scale(f, constraint, n,
-                                                    result.__parameter_values(),
-                                                    result.__local_step_sizes(),
-                                                    result.__rotation_matrix(),
-                                                    result.__global_step_size());
+                const double scale =
+                        standard_scale(f, constraint, n,
+                                       result.get_parameter_values_pointer(),
+                                       result.get_local_step_sizes_pointer(),
+                                       result.get_rotation_matrix_pointer(),
+                                       result.__global_step_size()
+                        );
+
                 for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
                     result.z[i] = scale * std::sqrt(result.C[ii]);
                 }

@@ -43,129 +43,6 @@
 
 namespace especia {
 
-    /**
-     * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear
-     * function optimization. Based on Hansen and Ostermeier (2001).
-     *
-     * Further reading:
-     *
-     * N. Hansen, S. D. Müller, P. Koumoutsakos (2003).
-     *   *Reducing the Increasing the Time Complexity of the Derandomized Evolution
-     *      Strategy with Covariance Matrix Adaption (CMA-ES).*
-     *   Evolutionary Computation, 11, 1, ISSN 1063-6560.
-     *
-     *  N. Hansen, A. Ostermeier (2001).
-     *    *Completely Derandomized Self-Adaption in Evolution Strategies.*
-     *    Evolutionary Computation, 9, 159, ISSN 1063-6560.
-     *
-     * @tparam F The function type.
-     * @tparam Constraint The constraint type.
-     * @tparam Deviate The strategy to generate random normal deviates.
-     * @tparam Decompose The strategy to perform the symmetric eigenvalue decomposition.
-     * @tparam Tracer The tracer type.
-     *
-     * @param[in] f The model function.
-     * @param[in] constraint The prior constraint on the parameter values.
-     * @param[in] n The number of parameters.
-     * @param[in] parent_number The number of parents per generation.
-     * @param[in] population_size The number of individuals per generation. Twice the parent number, at least
-     * @param[in] update_modulus The covariance matrix update modulus.
-     * @param[in] accuracy_goal The accuracy goal.
-     * @param[in] stop_generation The stop generation.
-     * @param[in,out] g The generation number.
-     * @param[in,out] x The parameter values.
-     * @param[in,out] step_size The global step size.
-     * @param[in,out] d The local step sizes.
-     * @param[in,out] B The rotation matrix.
-     * @param[in,out] C The covariance matrix.
-     * @param[out] y The value of the objective function (plus the constraint cost) at @c x.
-     * @param[out] optimized Set to @c true when the optimization has converged.
-     * @param[out] underflow Set to @c true when the mutation variance is too small.
-     * @param[in] deviate The random number generator.
-     * @param[in] decompose The eigenvalue decomposition.
-     * @param[in] tracer The tracer.
-     */
-    template<class F, class Constraint, class Decompose, class Tracer>
-    void minimize(const F &f,
-                  const Constraint &constraint,
-                  size_t n,
-                  unsigned parent_number,
-                  unsigned population_size,
-                  unsigned update_modulus,
-                  double accuracy_goal,
-                  unsigned long stop_generation,
-                  unsigned long &g,
-                  std::valarray<double> &x,
-                  double &step_size,
-                  std::valarray<double> &d,
-                  std::valarray<double> &B,
-                  std::valarray<double> &C,
-                  double &y,
-                  bool &optimized,
-                  bool &underflow,
-                  unsigned long seed, Decompose &decompose, Tracer &tracer) {
-        using std::less;
-        using std::log;
-        using std::max;
-        using std::min;
-        using std::sqrt;
-        using std::valarray;
-
-        valarray<double> w(1.0, parent_number);
-        for (size_t i = 0; i < parent_number; ++i) {
-            w[i] = log((parent_number + 1.0) / (i + 1));
-        }
-
-        const double wv = sqr(w.sum()) / w.apply(sqr).sum();
-        const double cs = (wv + 2.0) / (wv + n + 3.0);
-        const double cc = 4.0 / (n + 4.0);
-        const double acov = 1.0 / wv;
-        const double ccov = acov * (2.0 / sqr(n + sqrt(2.0))) +
-                            (1.0 - acov) * min(1.0, (2.0 * wv - 1.0) / (sqr(n + 2.0) + wv));
-        const double step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
-
-        valarray<double> pc(0.0, n);
-        valarray<double> ps(0.0, n);
-
-        Normal_Deviate<MT19937> deviate(seed);
-
-        Optimizer::Builder builder;
-
-        builder.with_problem_dimension(n).
-                with_parent_number(parent_number).
-                with_population_size(population_size).
-                with_accuracy_goal(accuracy_goal).
-                with_stop_generation(stop_generation).
-                with_covariance_update_modulus(update_modulus).
-                with_random_seed(seed);
-
-        optimize(f, constraint,
-                 builder.get_problem_dimension(),
-                 builder.get_parent_number(),
-                 builder.get_population_size(),
-                 &builder.get_weights()[0],
-                 builder.get_step_size_damping(),
-                 builder.get_step_size_cumulation_rate(),
-                 builder.get_distribution_cumulation_rate(),
-                 builder.get_covariance_matrix_adaption_rate(),
-                 builder.get_covariance_matrix_adaption_mixing(),
-                 builder.get_covariance_update_modulus(),
-                 builder.get_accuracy_goal(),
-                 builder.get_stop_generation(),
-                 g,
-                 &x[0],
-                 step_size,
-                 &d[0],
-                 &B[0],
-                 &C[0],
-                 &ps[0],
-                 &pc[0],
-                 y,
-                 optimized,
-                 underflow,
-                 deviate, decompose, less<double>(), tracer);
-    }
-
     template<class Profile>
     class Model {
     public:
@@ -624,21 +501,16 @@ namespace especia {
             return d;
         }
 
-        template<class Decompose>
         bool optimize(unsigned parent_number,
                       unsigned population_size,
                       double step_size,
                       double accuracy_goal,
                       unsigned long stop_generation,
                       unsigned trace,
-                      unsigned long seed, Decompose &decompose, std::ostream &os) {
+                      unsigned long seed, std::ostream &os) {
             using std::endl;
             using std::ios_base;
-            using std::less;
-            using std::max;
-            using std::min;
             using std::setw;
-            using std::sqrt;
             using std::valarray;
 
             const char beglog[] = "<log>";
@@ -651,27 +523,19 @@ namespace especia {
 
             const size_t n = ind.max() + 1;
 
-            valarray<double> x(n);
             valarray<double> a(n);
             valarray<double> b(n);
 
-            for (size_t i = 0, j = 0; i < msk.size(); ++i)
+            for (size_t i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
                     a[j] = lo[i];
                     b[j] = up[i];
-                    x[j] = 0.5 * (a[j] + b[j]);
                     ++j;
                 }
-
-            valarray<double> d(0.0, n);
-            valarray<double> B(0.0, sqr(n));
-            valarray<double> C = B;
-
-            for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-                d[i] = 0.5 * (b[i] - a[i]);
-                B[ii] = 1.0;
-                C[ii] = d[i] * d[i];
             }
+
+            const valarray<double> x = 0.5 * (a + b);
+            const valarray<double> d = 0.5 * (b - a);
 
             os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
             os << "<html>\n";
@@ -681,33 +545,22 @@ namespace especia {
                 os << beglog << endl;
             }
 
-            const Bounded_Constraint<double> constraint(&a[0], &b[0], n);
-            Tracing_To_Output_Stream<double> tracer(os, trace);
-            const unsigned update_modulus = 1;
+            Optimizer::Builder builder;
 
-            unsigned long g = 0;
-            double y = 0.0;
-            bool optimized = false;
-            bool underflow = false;
+            builder.with_problem_dimension(n).
+                    with_parent_number(parent_number).
+                    with_population_size(population_size).
+                    with_accuracy_goal(accuracy_goal).
+                    with_stop_generation(stop_generation).
+                    with_covariance_update_modulus(1).
+                    with_random_seed(seed);
 
-            especia::minimize(*this,
-                              constraint,
-                              n,
-                              parent_number,
-                              population_size,
-                              update_modulus,
-                              accuracy_goal,
-                              stop_generation,
-                              g,
-                              x,
-                              step_size,
-                              d,
-                              B,
-                              C,
-                              y,
-                              optimized,
-                              underflow,
-                              seed, decompose, tracer);
+            Optimizer optimizer = builder.build();
+
+            const Bounded_Constraint<> constraint(&a[0], &b[0], n);
+            const Tracing_To_Output_Stream<> tracer(os, trace);
+
+            Optimizer::Result result = optimizer.minimize(*this, x, d, step_size, constraint, tracer);
 
             if (trace > 0) {
                 os << endlog << endl;
@@ -717,31 +570,26 @@ namespace especia {
             os << "<!--" << endl;
             os << begmsg << endl;
 
-            if (optimized)
+            if (result.is_optimized())
                 os << optmsg << endl;
-            else if (underflow)
+            else if (result.is_underflow())
                 os << uflmsg << endl;
             else
-                os << stpmsg << g << endl;
+                os << stpmsg << result.get_generation_number() << endl;
 
             os << endmsg << endl;
             os << "-->" << endl;
             os << "</html>\n";
 
-            // Compute uncertainty
-            if (optimized)
-                step_size = standard_scale(*this, constraint, n, &x[0], &d[0], &B[0], step_size);
-            for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1)
-                d[i] = step_size * sqrt(C[ii]);
             for (size_t i = 0; i < msk.size(); ++i)
                 if (msk[i])
-                    err[i] = d[ind[i]];
+                    err[i] = result.get_parameter_uncertainties()[ind[i]];
                 else
                     err[i] = 0.0;
 
-            compute_model(&x[0], n);
+            compute_model(&result.get_parameter_values()[0], n);
 
-            return optimized;
+            return result.is_optimized();
         }
 
     private:

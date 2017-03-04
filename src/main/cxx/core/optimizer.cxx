@@ -23,7 +23,8 @@
 
 #include "optimizer.h"
 
-especia::Optimizer::Builder::Builder() : weights() {
+especia::Optimizer::Builder::Builder()
+        : weights() {
     with_problem_dimension();
     with_parent_number();
     with_population_size();
@@ -36,7 +37,7 @@ especia::Optimizer::Builder::~Builder() {
 
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(unsigned n) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(size_t n) {
     this->n = n;
     set_strategy_parameters();
     return *this;
