@@ -880,7 +880,7 @@ namespace especia {
                         const Constraint &constraint = No_Constraint<>(),
                         const Tracer &tracer = No_Tracing<>()) {
             return optimize(f, x, d, s, constraint, tracer, std::greater<double>());
-        };
+        }
 
         /**
          * Minimizes an objective function.
@@ -906,7 +906,7 @@ namespace especia {
                         const Constraint &constraint = No_Constraint<>(),
                         const Tracer &tracer = No_Tracing<>()) {
             return optimize(f, x, d, s, constraint, tracer, std::less<double>());
-        };
+        }
 
     private:
         /**
@@ -990,7 +990,7 @@ namespace especia {
             }
 
             return result;
-        };
+        }
 
         /**
          * The build configuration.

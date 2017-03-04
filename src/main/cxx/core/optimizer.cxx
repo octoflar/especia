@@ -76,7 +76,7 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_stop_generation(u
 
 especia::Optimizer especia::Optimizer::Builder::build() {
     return Optimizer(*this);
-};
+}
 
 void especia::Optimizer::Builder::set_strategy_parameters() {
     using std::log;
