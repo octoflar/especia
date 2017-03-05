@@ -126,7 +126,7 @@ namespace especia {
     };
 
     /**
-     * The Doppler profile to infer the variation of the fine-structure constant
+     * The (Doppler) profile to infer the variation of the fine-structure constant
      * alpha by means of a many-multiplet analysis.
      *
      * Further reading:
@@ -136,7 +136,7 @@ namespace especia {
      *   Astronomy and Astrophysics, 415, L7.
      *   http://dx.doi.org/10.1051/0004-6361:20040013
      */
-    class A_Doppler {
+    class Many_Multiplet {
     public:
         /**
          * The number of parameters.
@@ -146,7 +146,7 @@ namespace especia {
         /**
          * Default constructor.
          */
-        A_Doppler();
+        Many_Multiplet();
 
         /**
          * Creates a new Doppler profile with the parameter values specified.
@@ -172,12 +172,12 @@ namespace especia {
          * @c q[7] The variation of the fine-structure constant (1E-6)
          * @endparblock
          */
-        A_Doppler(const double q[]);
+        Many_Multiplet(const double q[]);
 
         /**
          * Destructor.
          */
-        ~A_Doppler();
+        ~Many_Multiplet();
 
         /**
          * Returns the value of the Doppler profile at a given wavelength.
@@ -216,7 +216,7 @@ namespace especia {
     /**
      * The Doppler profile to model intergalactic absorption lines.
      */
-    class G_Doppler {
+    class Intergalactic_Doppler {
     public:
         /**
          * The number of parameters.
@@ -226,7 +226,7 @@ namespace especia {
         /**
          * Default constructor.
          */
-        G_Doppler();
+        Intergalactic_Doppler();
 
         /**
          * Creates a new Doppler profile with the parameter values specified.
@@ -248,12 +248,12 @@ namespace especia {
          * @c q[5] The decadic logarithm of the particle column number density (cm-2)
          * @endparblock
          */
-        G_Doppler(const double q[]);
+        Intergalactic_Doppler(const double q[]);
 
         /**
          * Destructor.
          */
-        ~G_Doppler();
+        ~Intergalactic_Doppler();
 
         /**
          * Returns the value of the Doppler profile at a given wavelength.
@@ -290,7 +290,7 @@ namespace especia {
      * @tparam A The strategy to approximate the Voigt function.
      */
     template<class A>
-    class G_Voigt {
+    class Intergalactic_Voigt {
     public:
         /**
          * The number of parameters.
@@ -300,7 +300,7 @@ namespace especia {
         /**
          * Default constructor.
          */
-        G_Voigt()
+        Intergalactic_Voigt()
                 : a(0.0), c(0.0), approximation(1.0, 1.0) {
         };
 
@@ -326,7 +326,7 @@ namespace especia {
          * @c q[6] The damping constant (s-1)
          * @endparblock
          */
-        G_Voigt(const double q[])
+        Intergalactic_Voigt(const double q[])
                 : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / C0)),
                   a(C1 * q[1] * pow(10.0, q[5]) * (q[0] * c)),
                   approximation(q[4] * c / C0, C2 * q[6] * (q[0] * c)) {
@@ -335,7 +335,7 @@ namespace especia {
         /**
          * Destructor.
          */
-        ~G_Voigt() {
+        ~Intergalactic_Voigt() {
         }
 
         /**
@@ -370,13 +370,14 @@ namespace especia {
     };
 
     template<class A>
-    const double G_Voigt<A>::C0 = 1.0E-03 * speed_of_light;
+    const double Intergalactic_Voigt<A>::C0 = 1.0E-03 * speed_of_light;
 
     template<class A>
-    const double G_Voigt<A>::C1 = 1.0E-06 * sqr(elementary_charge) /
-                                  (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
+    const double Intergalactic_Voigt<A>::C1 = 1.0E-06 * sqr(elementary_charge) /
+                                              (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
+
     template<class A>
-    const double G_Voigt<A>::C2 = 1.0E-10 / (4.0 * pi * speed_of_light);
+    const double Intergalactic_Voigt<A>::C2 = 1.0E-10 / (4.0 * pi * speed_of_light);
 
 
     /**
@@ -442,7 +443,7 @@ namespace especia {
      */
     template<class F>
     inline
-    double truncate(const F &f, const double &x, const double& b, const double &c) {
+    double truncate(const F &f, const double &x, const double &b, const double &c) {
         using std::abs;
 
         return abs(x) < c * b ? f(x, b) : 0.0;

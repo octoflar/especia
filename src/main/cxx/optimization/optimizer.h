@@ -27,9 +27,9 @@
 #include <iomanip>
 #include <iostream>
 
-#include "decompose.h"
-#include "deviates.h"
-#include "mtwister.h"
+#include "../core/decompose.h"
+#include "../core/deviates.h"
+#include "../core/mtwister.h"
 #include "optimize.h"
 
 using std::valarray;

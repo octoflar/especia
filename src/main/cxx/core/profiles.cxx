@@ -189,46 +189,46 @@ const double especia::Extended_Pseudo_Voigt::c_i = 2.0 * sqrt(pow(2.0, 2.0 / 3.0
 const double especia::Extended_Pseudo_Voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
 
 
-especia::A_Doppler::A_Doppler()
+especia::Many_Multiplet::Many_Multiplet()
         : u(0.0), c(0.0), b(1.0), a(0.0) {
 }
 
-especia::A_Doppler::A_Doppler(const double q[])
+especia::Many_Multiplet::Many_Multiplet(const double q[])
         : u(1.0E+08 / (1.0E+08 / q[0] + q[6] * (q[7] * micro) * (q[7] * micro + 2.0))),
           c(u * (1.0 + q[2]) * (1.0 + q[3] / C0)),
           b(q[4] * c / C0),
           a(C1 * q[1] * pow(10.0, q[5]) * (u * c)) {
 }
 
-especia::A_Doppler::~A_Doppler() {
+especia::Many_Multiplet::~Many_Multiplet() {
 }
 
-double especia::A_Doppler::operator()(const double &x) const {
+double especia::Many_Multiplet::operator()(const double &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
-const double especia::A_Doppler::C0 = 1.0E-03 * speed_of_light;
-const double especia::A_Doppler::C1 = 1.0E-06 * sqr(elementary_charge) /
-                                      (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
+const double especia::Many_Multiplet::C0 = 1.0E-03 * speed_of_light;
+const double especia::Many_Multiplet::C1 = 1.0E-06 * sqr(elementary_charge) /
+                                           (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
 
 
-especia::G_Doppler::G_Doppler()
+especia::Intergalactic_Doppler::Intergalactic_Doppler()
         : c(0.0), b(1.0), a(0.0) {
 }
 
-especia::G_Doppler::G_Doppler(const double q[])
+especia::Intergalactic_Doppler::Intergalactic_Doppler(const double q[])
         : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / C0)),
           b(q[4] * c / C0),
           a(C1 * q[1] * pow(10.0, q[5]) * (q[0] * c)) {
 }
 
-especia::G_Doppler::~G_Doppler() {
+especia::Intergalactic_Doppler::~Intergalactic_Doppler() {
 }
 
-double especia::G_Doppler::operator()(const double &x) const {
+double especia::Intergalactic_Doppler::operator()(const double &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
-const double especia::G_Doppler::C0 = 1.0E-03 * speed_of_light;
-const double especia::G_Doppler::C1 = 1.0E-06 * sqr(elementary_charge) /
-                                      (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
+const double especia::Intergalactic_Doppler::C0 = 1.0E-03 * speed_of_light;
+const double especia::Intergalactic_Doppler::C1 = 1.0E-06 * sqr(elementary_charge) /
+                                                  (4.0 * electric_constant * electron_mass * sqr(speed_of_light));

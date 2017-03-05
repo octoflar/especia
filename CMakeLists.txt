@@ -65,15 +65,17 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/core/deviates.h
         ${MAIN}/cxx/core/model.h
         ${MAIN}/cxx/core/mtwister.h
-        ${MAIN}/cxx/core/optimizer.cxx
-        ${MAIN}/cxx/core/optimizer.h
-        ${MAIN}/cxx/core/optimize.h
         ${MAIN}/cxx/core/profiles.cxx
         ${MAIN}/cxx/core/profiles.h
         ${MAIN}/cxx/core/readline.cxx
         ${MAIN}/cxx/core/readline.h
         ${MAIN}/cxx/core/section.cxx
-        ${MAIN}/cxx/core/section.h)
+        ${MAIN}/cxx/core/section.h
+        ${MAIN}/cxx/optimization/optimizer.cxx
+        ${MAIN}/cxx/optimization/optimizer.h
+        ${MAIN}/cxx/optimization/optimize.h
+        ${MAIN}/cxx/runner/runner.cxx
+        ${MAIN}/cxx/runner/runner.h)
 
 add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
 target_link_libraries(especia ${VECLIB})

@@ -34,7 +34,7 @@
 #include <vector>
 
 #include "config.h"
-#include "optimizer.h"
+#include "../optimization/optimizer.h"
 #include "profiles.h"
 #include "readline.h"
 #include "section.h"

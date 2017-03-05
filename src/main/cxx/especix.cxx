@@ -20,106 +20,54 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
 #include <exception>
-#include <iomanip>
 #include <iostream>
 
-#include "config.h"
 #include "core/model.h"
+#include "core/profiles.h"
+#include "runner/runner.h"
 
-const char usemsg[] = "usage: ";
-const char parmsg[] = "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM";
+using namespace std;
+
 
 /**
  * Flavor of Especia to analyse intergalactic metal and damped H I, He I, II lines
  * with high accuracy.
  *
- * @param argc The number of command line arguments supplied.
+ * @param argc The number of command line arguments.
  * @param argv The command line arguments:
  * @parblock
- * @c argv[0] The program name
+ * @c argv[0] The program name.
  *
- * @c argv[1] The random seed
+ * @c argv[1] The random seed.
  *
- * @c argv[2] The parent number
+ * @c argv[2] The parent number.
  *
- * @c argv[3] The population size
+ * @c argv[3] The population size.
  *
- * @c argv[4] The initial global step size
+ * @c argv[4] The initial global step size.
  *
- * @c argv[5] The accuracy goal
+ * @c argv[5] The accuracy goal.
  *
- * @c argv[6] The stop generation number
+ * @c argv[6] The stop generation number.
  *
- * @c argv[7] The trace interval
+ * @c argv[7] The trace interval.
  * @endparblock
- * @return an exit code.
+ *
+ * @return an exit code: 0 = OK, 1 = model is not optimized, 2-4 = input error, 5 = unspecified error
  *
  * @remark Usage: especix SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM
+ *
+ * @remark A usage message is witten to standard output, if no command line arguments (excluding the
+ * program name) are supplied. In this case the returned exit code is zero.
  */
 int main(int argc, char *argv[]) {
-    using namespace especia;
-    using std::cin;
-    using std::cout;
-    using std::cerr;
-    using std::endl;
-    using std::exception;
+    especia::Model<especia::Intergalactic_Voigt<especia::Extended_Pseudo_Voigt>> model;
 
-    const char *pname = argv[0];
+    try {
+        return especia::Runner(argc, argv).run(model);
+    } catch (exception &e) {
+        cerr << e.what() << endl;
 
-    int exit_code = 0;
-
-    if (argc == 8) {
-        const unsigned long seed = (unsigned long) atol(argv[1]);
-        const unsigned parent_number = (unsigned) atoi(argv[2]);
-        const unsigned population_size = (unsigned) atoi(argv[3]);
-        const double step_size = atof(argv[4]);
-        const double accuracy_goal = atof(argv[5]);
-        const unsigned long stop_generation = (unsigned long) atol(argv[6]);
-        const unsigned trace = (unsigned) atoi(argv[7]);
-
-        cout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
-        cout << "<html>\n";
-        cout << "<!--\n";
-        cout << "<command>\n";
-        for (int i = 0; i < argc; ++i) {
-            cout << " " << argv[i];
-        }
-        cout << endl;
-        cout << "</command>\n";
-        cout << "-->\n";
-        cout << "</html>\n";
-
-        Model<G_Voigt<Extended_Pseudo_Voigt>> model;
-        model.get(cin, cout);
-
-        if (cin.eof() and !cin.fail()) {
-            try {
-                Decompose decompose;
-
-                if (model.optimize(parent_number,
-                                   population_size,
-                                   step_size,
-                                   accuracy_goal,
-                                   stop_generation,
-                                   trace,
-                                   seed, cout)) {
-                    exit_code = 0;
-                } else {
-                    exit_code = 2;
-                }
-                model.put(cout);
-            } catch (exception &e) {
-                cerr << e.what() << endl;
-
-                exit_code = 3;
-            }
-        }
-    } else {
-        cout << PROJECT_LONG_NAME << " " << DOI << endl;
-        cout << usemsg << pname << ": " << parmsg << endl;
-
-        exit_code = 1;
+        return 5;
     }
-
-    return exit_code;
 }
