@@ -52,8 +52,9 @@ namespace especia {
         for (size_t i = 0; i < n; ++i) {
             A aa;
 
-            if (is >> aa)
+            if (is >> aa) {
                 ta.push_back(aa);
+            }
         }
 
         if (is) {

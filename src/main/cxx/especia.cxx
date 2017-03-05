@@ -54,7 +54,7 @@ using namespace std;
  * @c argv[7] The trace interval.
  * @endparblock
  *
- * @return an exit code: 0 = OK, 1 = model is not optimized, 2-4 = input error, 5 = unspecified error
+ * @return an exit code
  *
  * @remark Usage: especia SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM
  *
@@ -66,9 +66,14 @@ int main(int argc, char *argv[]) {
 
     try {
         return especia::Runner(argc, argv).run(model);
+    } catch (invalid_argument &e) {
+        cerr << e.what() << endl;
+        return 10;
+    } catch (runtime_error &e) {
+        cerr << e.what() << endl;
+        return 20;
     } catch (exception &e) {
         cerr << e.what() << endl;
-
-        return 5;
+        return 30;
     }
 }

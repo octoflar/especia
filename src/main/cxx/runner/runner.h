@@ -22,8 +22,9 @@
 #ifndef ESPECIA_RUNNER_H
 #define ESPECIA_RUNNER_H
 
-#include <cstdlib>
 #include <iostream>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -68,15 +69,6 @@ namespace especia {
         ~Runner();
 
         /**
-         * Returns the accuracy goal.
-         *
-         * @return the accuracy goal.
-         */
-        double get_accuracy_goal() const {
-            return static_cast<double>(std::atof(args[5].c_str()));
-        }
-
-        /**
          * Returns the command line arguments.
          *
          * @return the command line arguments.
@@ -95,33 +87,6 @@ namespace especia {
         }
 
         /**
-         * Returns the initial global step size.
-         *
-         * @return the inititial global step size.
-         */
-        double get_global_step_size() const {
-            return static_cast<double>(std::atof(args[4].c_str()));
-        }
-
-        /**
-         * Returns the parent number.
-         *
-         * @return the parent number.
-         */
-        unsigned int get_parent_number() const {
-            return static_cast<unsigned>(std::atoi(args[2].c_str()));
-        }
-
-        /**
-         * Returns the population size.
-         *
-         * @return the population size.
-         */
-        unsigned int get_population_size() const {
-            return static_cast<unsigned>(std::atoi(args[3].c_str()));
-        }
-
-        /**
          * Returns the program name.
          *
          * @return the program name.
@@ -131,29 +96,66 @@ namespace especia {
         }
 
         /**
-         * Returns the random seed.
-         * @return the random seed.
+         * Parses the accuracy goal.
+         *
+         * @return the accuracy goal.
          */
-        unsigned long get_random_seed() const {
-            return static_cast<unsigned long>(std::atol(args[1].c_str()));
+        double parse_accuracy_goal() const throw(std::invalid_argument) {
+            return parse<double>(args[5]);
         }
 
         /**
-         * Returns the stop generation.
+         * Parses the initial global step size.
+         *
+         * @return the inititial global step size.
+         */
+        double parse_global_step_size() const throw(std::invalid_argument) {
+            return parse<double>(args[4]);
+        }
+
+        /**
+         * Parses the parent number.
+         *
+         * @return the parent number.
+         */
+        unsigned int parse_parent_number() const throw(std::invalid_argument) {
+            return parse<unsigned int>(args[2]);
+        }
+
+        /**
+         * Parses the population size.
+         *
+         * @return the population size.
+         */
+        unsigned int parse_population_size() const throw(std::invalid_argument) {
+            return parse<unsigned int>(args[3]);
+        }
+
+        /**
+         * Parses the random seed.
+         *
+         * @return the random seed.
+         */
+        unsigned long parse_random_seed() const throw(std::invalid_argument) {
+            return parse<unsigned long>(args[1]);
+        }
+
+        /**
+         * Parses the stop generation.
          *
          * @return the stop generation.
          */
-        unsigned long get_stop_generation() const {
-            return static_cast<unsigned long>(std::atol(args[6].c_str()));
+        unsigned long parse_stop_generation() const throw(std::invalid_argument) {
+            return parse<unsigned long>(args[6]);
         }
 
         /**
-         * Returns the trace interval.
+         * Parses the trace interval.
          *
          * @return the trace interval.
          */
-        unsigned int get_trace_interval() const {
-            return static_cast<unsigned>(std::atoi(args[7].c_str()));
+        unsigned int parse_trace_interval() const throw(std::invalid_argument) {
+            return parse<unsigned int>(args[7]);
         }
 
         /**
@@ -162,41 +164,45 @@ namespace especia {
          * @tparam M The model type.
          *
          * @param model The model.
-         * @return an exit code: 0 = OK, 1 = model is not optimized, 2-4 = input error
+         * @return an exit code
+         * @throw invalid_argument when an invalid argument was supplied.
+         * @throw runtime_error when a runtime error occurred.
          *
-         * A usage message is witten to standard output, if no command line arguments (excluding
+         * @remark A usage message is witten to standard output, if no command line arguments (excluding
          * the program name) were supplied. In this case zero is returned.
          */
         template<class M>
-        int run(M &model) {
-            if (get_arg_count() == 1) {
-                write_usage_message(std::cout);
+        int run(M &model) throw(std::invalid_argument, std::runtime_error) {
+            using std::cin;
+            using std::cout;
+            using std::invalid_argument;
+            using std::runtime_error;
 
+            if (get_arg_count() == 1) {
+                write_usage_message(cout);
                 return 0;
             }
             if (get_arg_count() != 8) {
-                write_usage_message(std::cout);
-
-                return 2;
+                throw invalid_argument("especia::runner: Error: an invalid number of arguments was supplied");
             }
 
-            write_command_line(std::cout);
+            write_command_line(cout);
 
-            const unsigned long seed = get_random_seed();
-            const unsigned int parent_number = get_parent_number();
-            const unsigned int population_size = get_population_size();
-            const double step_size = get_global_step_size();
-            const double accuracy_goal = get_accuracy_goal();
-            const unsigned long stop = get_stop_generation();
-            const unsigned int trace = get_trace_interval();
+            const unsigned long seed = parse_random_seed();
+            const unsigned int parent_number = parse_parent_number();
+            const unsigned int population_size = parse_population_size();
+            const double step_size = parse_global_step_size();
+            const double accuracy_goal = parse_accuracy_goal();
+            const unsigned long stop = parse_stop_generation();
+            const unsigned int trace = parse_trace_interval();
 
-            model.get(std::cin, std::cout);
+            model.get(cin, cout);
 
-            if (std::cin.fail()) {
-                return 3;
+            if (cin.fail()) {
+                throw runtime_error("especia::runner: Error: an error occurred while reading the model definition");
             }
-            if (not std::cin.eof()) {
-                return 4;
+            if (not cin.eof()) {
+                throw runtime_error("especia::runner: Error: an error occurred while reading the model definition");
             }
 
             const bool optimized = model.optimize(parent_number,
@@ -205,38 +211,57 @@ namespace especia {
                                                   accuracy_goal,
                                                   stop,
                                                   trace,
-                                                  seed, std::cout);
-            model.put(std::cout);
+                                                  seed, cout);
+            model.put(cout);
 
-            if (not optimized) {
+            if (optimized) {
+                return 0;
+            } else {
                 return 1;
             }
-
-            return 0;
         }
 
     private:
+        template<class T>
+        T parse(const std::string &arg) const throw(std::invalid_argument) {
+            using std::invalid_argument;
+            using std::istringstream;
+
+            istringstream iss(arg);
+            T t;
+
+            if (iss >> t) {
+                return t;
+            }
+
+            throw invalid_argument("especia::runner: Error: argument '" + arg + "' is not valid");
+        }
+
         void write_command_line(std::ostream &os) const {
-            os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << std::endl;
-            os << "<html>" << std::endl;
-            os << "<!--" << std::endl;
-            os << "<command>" << std::endl;
+            using std::endl;
+
+            os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << endl;
+            os << "<html>" << endl;
+            os << "<!--" << endl;
+            os << "<command>" << endl;
 
             for (int i = 0; i < args.size(); ++i) {
                 os << " " << args[i];
             }
 
             os << std::endl;
-            os << "</command>" << std::endl;
-            os << "-->" << std::endl;
-            os << "</html>" << std::endl;
+            os << "</command>" << endl;
+            os << "-->" << endl;
+            os << "</html>" << endl;
         }
 
         void write_usage_message(std::ostream &os) const {
-            os << PROJECT_LONG_NAME << " " << DOI << std::endl;
+            using std::endl;
+
+            os << PROJECT_LONG_NAME << " " << DOI << endl;
             os << "usage: " << get_program_name() << ": "
                << "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM"
-               << std::endl;
+               << endl;
         }
 
         /**
