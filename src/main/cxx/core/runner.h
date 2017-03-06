@@ -24,7 +24,6 @@
 
 #include <iomanip>
 #include <iostream>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -84,7 +83,7 @@ namespace especia {
          *
          * @return the number of command line arguments.
          */
-        unsigned long get_arg_count() const {
+        size_t get_arg_count() const {
             return args.size();
         }
 
@@ -94,7 +93,7 @@ namespace especia {
          * @return the program name.
          */
         std::string get_program_name() const {
-            return args[0];
+            return std::string(args[0]);
         }
 
         /**
@@ -102,8 +101,8 @@ namespace especia {
          *
          * @return the accuracy goal.
          */
-        double parse_accuracy_goal() const throw(std::invalid_argument) {
-            return parse<double>(args[5]);
+        Real_t parse_accuracy_goal() const throw(std::invalid_argument) {
+            return convert<Real_t>(args[5]);
         }
 
         /**
@@ -111,8 +110,8 @@ namespace especia {
          *
          * @return the inititial global step size.
          */
-        double parse_global_step_size() const throw(std::invalid_argument) {
-            return parse<double>(args[4]);
+        Real_t parse_global_step_size() const throw(std::invalid_argument) {
+            return convert<Real_t>(args[4]);
         }
 
         /**
@@ -120,8 +119,8 @@ namespace especia {
          *
          * @return the parent number.
          */
-        unsigned parse_parent_number() const throw(std::invalid_argument) {
-            return parse<unsigned>(args[2]);
+        Nnum_t parse_parent_number() const throw(std::invalid_argument) {
+            return convert<Nnum_t>(args[2]);
         }
 
         /**
@@ -129,8 +128,8 @@ namespace especia {
          *
          * @return the population size.
          */
-        unsigned parse_population_size() const throw(std::invalid_argument) {
-            return parse<unsigned>(args[3]);
+        Nnum_t parse_population_size() const throw(std::invalid_argument) {
+            return convert<Nnum_t>(args[3]);
         }
 
         /**
@@ -138,9 +137,8 @@ namespace especia {
          *
          * @return the random seed.
          */
-        unsigned long parse_random_seed() const throw(std::invalid_argument) {
-            return parse < unsigned
-            long > (args[1]);
+        Word_t parse_random_seed() const throw(std::invalid_argument) {
+            return convert<Word_t>(args[1]);
         }
 
         /**
@@ -148,9 +146,8 @@ namespace especia {
          *
          * @return the stop generation.
          */
-        unsigned long parse_stop_generation() const throw(std::invalid_argument) {
-            return parse < unsigned
-            long > (args[6]);
+        Lnum_t parse_stop_generation() const throw(std::invalid_argument) {
+            return convert<Lnum_t>(args[6]);
         }
 
         /**
@@ -158,8 +155,8 @@ namespace especia {
          *
          * @return the trace modulus.
          */
-        unsigned parse_trace_modulus() const throw(std::invalid_argument) {
-            return parse<unsigned>(args[7]);
+        Nnum_t parse_trace_modulus() const throw(std::invalid_argument) {
+            return convert<Nnum_t>(args[7]);
         }
 
         /**
@@ -184,27 +181,30 @@ namespace especia {
                 return 0;
             }
             if (get_arg_count() != 8) {
-                throw invalid_argument("especia::Runner: Error: an invalid number of arguments was supplied");
+                throw invalid_argument(
+                        "especia::Runner::run() Error: an invalid number of arguments was supplied");
             }
 
             write_command_line(cout);
 
-            const unsigned long random_seed = parse_random_seed();
-            const unsigned parent_number = parse_parent_number();
-            const unsigned population_size = parse_population_size();
-            const double global_step_size = parse_global_step_size();
-            const double accuracy_goal = parse_accuracy_goal();
-            const unsigned long stop_generation = parse_stop_generation();
-            const unsigned trace_modulus = parse_trace_modulus();
+            const Word_t random_seed = parse_random_seed();
+            const Nnum_t parent_number = parse_parent_number();
+            const Nnum_t population_size = parse_population_size();
+            const Real_t global_step_size = parse_global_step_size();
+            const Real_t accuracy_goal = parse_accuracy_goal();
+            const Lnum_t stop_generation = parse_stop_generation();
+            const Nnum_t trace_modulus = parse_trace_modulus();
 
             M model;
             model.get(cin, cout);
 
             if (cin.fail()) {
-                throw runtime_error("especia::Runner: Error: an error occurred while reading the model definition");
+                throw runtime_error(
+                        "especia::Runner::run() Error: an error occurred while reading the model definition");
             }
             if (not cin.eof()) {
-                throw runtime_error("especia::Runner: Error: an error occurred while reading the model definition");
+                throw runtime_error(
+                        "especia::Runner::run() Error: an error occurred while reading the model definition");
             }
 
             Optimizer optimizer = Optimizer::Builder().
@@ -246,36 +246,13 @@ namespace especia {
             }
         }
 
-        /**
-         * Parses a string argument into a number (or other object).
-         *
-         * @tparam T The numeric (or object) type.
-         *
-         * @param arg The string argument.
-         * @return the number (or object).
-         */
-        template<class T>
-        static T parse(const std::string &arg) throw(std::invalid_argument) {
-            using std::invalid_argument;
-            using std::istringstream;
-
-            istringstream iss(arg);
-            T t;
-
-            if (iss >> t) {
-                return t;
-            }
-
-            throw invalid_argument("especia::Runner: Error: argument '" + arg + "' is not valid");
-        }
-
     private:
         /**
          * Traces optimizer state information to an output stream.
          *
          * @tparam T The number type.
          */
-        template<class T = double>
+        template<class T = Real_t>
         class Tracer {
         public:
             /**
@@ -286,7 +263,7 @@ namespace especia {
              * @param[in] precision The precision of numeric output.
              * @param[in] width The width of the numeric output fields.
              */
-            Tracer(std::ostream &output_stream, unsigned modulus, unsigned precision = 4, unsigned width = 12)
+            Tracer(std::ostream &output_stream, Nnum_t modulus, Nnum_t precision = 4, Nnum_t width = 12)
                     : os(output_stream), m(modulus), p(precision), w(width) {
             }
 
@@ -302,7 +279,7 @@ namespace especia {
              * @param[in] g The generation number.
              * @return @true if tracing is enabled, otherwise @c false.
              */
-            bool is_enabled(unsigned long g) const {
+            Bool_t is_enabled(Lnum_t g) const {
                 return m > 0 and g % m == 0;
             }
 
@@ -314,7 +291,7 @@ namespace especia {
              * @param[in] min_step The minimum step size.
              * @param[in] max_step The maximum step size.
              */
-            void trace(unsigned long g, T y, T min_step, T max_step) const {
+            void trace(Lnum_t g, T y, T min_step, T max_step) const {
                 using std::endl;
                 using std::ios_base;
                 using std::setw;
@@ -337,9 +314,9 @@ namespace especia {
 
         private:
             std::ostream &os;
-            const unsigned m;
-            const unsigned p;
-            const unsigned w;
+            const Nnum_t m;
+            const Nnum_t p;
+            const Nnum_t w;
         };
 
         void write_command_line(std::ostream &os) const;

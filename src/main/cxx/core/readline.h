@@ -29,6 +29,8 @@
 #include <string>
 #include <vector>
 
+#include "base.h"
+
 namespace especia {
 
     /**
@@ -44,7 +46,7 @@ namespace especia {
      * @return the input stream.
      */
     template<class A>
-    std::istream &read(std::istream &is, std::vector<A> &a, size_t n, bool append = false) {
+    std::istream &read(std::istream &is, std::vector<A> &a, size_t n, Bool_t append = false) {
         using namespace std;
 
         vector<A> ta; ta.reserve(n);
@@ -84,7 +86,7 @@ namespace especia {
      * @return the input stream.
      */
     template<class A, class B>
-    std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b, size_t n, bool append = false) {
+    std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b, size_t n, Bool_t append = false) {
         using namespace std;
 
         vector<A> ta;
@@ -135,7 +137,7 @@ namespace especia {
      */
     template<class A, class B, class C>
     std::istream &
-    read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, size_t n, bool append = false) {
+    read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, size_t n, Bool_t append = false) {
         using namespace std;
 
         vector<A> ta;
@@ -196,7 +198,7 @@ namespace especia {
     template<class A, class B, class C, class D>
     std::istream &
     read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, std::vector<D> &d, size_t n,
-         bool append = false) {
+         Bool_t append = false) {
         using namespace std;
 
         vector<A> ta;
@@ -264,7 +266,7 @@ namespace especia {
     template<class A, class B, class C, class D, class E>
     std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b,
                        std::vector<C> &c, std::vector<D> &d, std::vector<E> &e, size_t n,
-                       bool append = false) {
+                       Bool_t append = false) {
         using namespace std;
 
         vector<A> ta;
@@ -337,7 +339,8 @@ namespace especia {
      */
     template<class A, class B, class C, class D>
     std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, std::vector<D> &d,
-                       std::vector<std::string> &s, size_t n, char eol = '\n', bool append = false) {
+                       std::vector<std::string> &s, size_t n, char eol = '\n',
+                       Bool_t append = false) {
         using namespace std;
 
         vector<A> ta;

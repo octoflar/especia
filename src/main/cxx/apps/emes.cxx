@@ -36,10 +36,14 @@ int main() {
     string s;
 
     while (getline(cin, s)) {
-        if (found and !(s == "</message>" or s == "</mesg>")) {
+        if (found and not (s == "</message>"
+                           // for compatibility with former versions
+                           or s == "</mesg>")) {
             cout << s << endl;
         } else {
-            found = (s == "<message>" or s == "<mesg>");
+            found = (s == "<message>"
+                     // for compatibility with former versions
+                     or s == "<mesg>");
         }
     }
 

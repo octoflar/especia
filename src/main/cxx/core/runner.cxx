@@ -41,7 +41,7 @@ void especia::Runner::write_command_line(std::ostream &os) const {
     os << "<!--" << endl;
     os << "<command>" << endl;
 
-    for (unsigned i = 0; i < args.size(); ++i) {
+    for (size_t i = 0; i < args.size(); ++i) {
         os << " " << args[i];
     }
 

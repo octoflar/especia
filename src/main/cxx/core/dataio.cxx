@@ -28,11 +28,11 @@
 
 using namespace std;
 
-istream &especia::get(istream &is, valarray<double> &x, valarray<double> &y, int skip) {
+istream &especia::get(istream &is, valarray<Real_t> &x, valarray<Real_t> &y, Nnum_t skip) {
     const size_t room = 20000;
 
-    vector<double> u;
-    vector<double> v;
+    vector<Real_t> u;
+    vector<Real_t> v;
 
     u.reserve(room);
     v.reserve(room);
@@ -43,7 +43,7 @@ istream &especia::get(istream &is, valarray<double> &x, valarray<double> &y, int
     while (getline(is, s)) {
         if (skip <= 0) {
             istringstream ist(s);
-            double a, b;
+            Real_t a, b;
 
             if (ist >> a >> b) {
                 u.push_back(a);
@@ -75,12 +75,12 @@ istream &especia::get(istream &is, valarray<double> &x, valarray<double> &y, int
     return is;
 }
 
-istream &especia::get(istream &is, valarray<double> &x, valarray<double> &y, valarray<double> &z, int skip) {
+istream &especia::get(istream &is, valarray<Real_t> &x, valarray<Real_t> &y, valarray<Real_t> &z, Nnum_t skip) {
     const size_t room = 20000;
 
-    vector<double> u;
-    vector<double> v;
-    vector<double> w;
+    vector<Real_t> u;
+    vector<Real_t> v;
+    vector<Real_t> w;
 
     u.reserve(room);
     v.reserve(room);
@@ -92,7 +92,7 @@ istream &especia::get(istream &is, valarray<double> &x, valarray<double> &y, val
     while (getline(is, s)) {
         if (skip <= 0) {
             istringstream ist(s);
-            double a, b, c;
+            Real_t a, b, c;
 
             if (ist >> a >> b) {
                 u.push_back(a);
@@ -128,10 +128,10 @@ istream &especia::get(istream &is, valarray<double> &x, valarray<double> &y, val
     return is;
 }
 
-ostream &especia::put(ostream &os, const valarray<double> &x, const valarray<double> &y, const valarray<double> &z) {
+ostream &especia::put(ostream &os, const valarray<Real_t> &x, const valarray<Real_t> &y, const valarray<Real_t> &z) {
     if (os) {
-        const int p = 6;  // precision
-        const int w = 14; // width
+        const Nnum_t p = 6;  // precision
+        const Nnum_t w = 14; // width
 
         const ios_base::fmtflags f = os.flags();
 

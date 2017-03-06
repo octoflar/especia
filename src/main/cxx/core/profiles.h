@@ -48,7 +48,7 @@ namespace especia {
          * @param[in] b The width of the Gaussian (arbitrary unit).
          * @param[in] d The width of the Lorentzian (arbitrary unit).
          */
-        Pseudo_Voigt(const double &b = 1.0, const double &d = 1.0);
+        Pseudo_Voigt(const Real_t &b = 1.0, const Real_t &d = 1.0);
 
         /**
          * Destructor.
@@ -61,17 +61,17 @@ namespace especia {
          * @param[in] x The abscissa value (arbitrary unit).
          * @return the value of the pseudo-Voigt approximation at @c x.
          */
-        double operator()(const double &x) const;
+        Real_t operator()(const Real_t &x) const;
 
     private:
-        const double u;
-        const double r;
-        const double gamma_g;
-        const double gamma_l;
-        const double eta;
+        const Real_t u;
+        const Real_t r;
+        const Real_t gamma_g;
+        const Real_t gamma_l;
+        const Real_t eta;
 
-        static const double c_g;
-        static const double c_l;
+        static const Real_t c_g;
+        static const Real_t c_l;
     };
 
 
@@ -93,7 +93,7 @@ namespace especia {
          * @param[in] b The width of the Gaussian (arbitrary unit).
          * @param[in] d The width of the Lorentzian (arbitrary unit).
          */
-        Extended_Pseudo_Voigt(const double &b = 1.0, const double &d = 1.0);
+        Extended_Pseudo_Voigt(const Real_t &b = 1.0, const Real_t &d = 1.0);
 
         /**
          * Destructor.
@@ -106,23 +106,23 @@ namespace especia {
          * @param[in] x The abscissa value (arbitrary unit).
          * @return the value of the extended pseudo-Voigt approximation at @c x.
          */
-        double operator()(const double &x) const;
+        Real_t operator()(const Real_t &x) const;
 
     private:
-        const double u;
-        const double r;
-        const double gamma_g;
-        const double gamma_l;
-        const double gamma_i;
-        const double gamma_p;
-        const double eta_l;
-        const double eta_i;
-        const double eta_p;
+        const Real_t u;
+        const Real_t r;
+        const Real_t gamma_g;
+        const Real_t gamma_l;
+        const Real_t gamma_i;
+        const Real_t gamma_p;
+        const Real_t eta_l;
+        const Real_t eta_i;
+        const Real_t eta_p;
 
-        static const double c_g;
-        static const double c_l;
-        static const double c_i;
-        static const double c_p;
+        static const Real_t c_g;
+        static const Real_t c_l;
+        static const Real_t c_i;
+        static const Real_t c_p;
     };
 
     /**
@@ -141,7 +141,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const unsigned parameter_count = 8;
+        static const Nnum_t parameter_count = 8;
 
         /**
          * Default constructor.
@@ -172,7 +172,7 @@ namespace especia {
          * @c q[7] The variation of the fine-structure constant (1E-6)
          * @endparblock
          */
-        Many_Multiplet(const double q[]);
+        Many_Multiplet(const Real_t q[]);
 
         /**
          * Destructor.
@@ -185,31 +185,31 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom)
          * @return the value of the Doppler profile at @c x.
          */
-        double operator()(const double &x) const;
+        Real_t operator()(const Real_t &x) const;
 
     private:
         /**
          * The modified rest wavelength (Angstrom).
          */
-        const double u;
+        const Real_t u;
 
         /**
          * The central wavelength (Angstrom).
          */
-        const double c;
+        const Real_t c;
 
         /**
          * The Doppler width (Angstrom).
          */
-        const double b;
+        const Real_t b;
 
         /**
          * The amplitude.
          */
-        const double a;
+        const Real_t a;
 
-        static const double C0;
-        static const double C1;
+        static const Real_t C0;
+        static const Real_t C1;
     };
 
 
@@ -221,7 +221,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const unsigned parameter_count = 6;
+        static const Nnum_t parameter_count = 6;
 
         /**
          * Default constructor.
@@ -248,7 +248,7 @@ namespace especia {
          * @c q[5] The decadic logarithm of the particle column number density (cm-2)
          * @endparblock
          */
-        Intergalactic_Doppler(const double q[]);
+        Intergalactic_Doppler(const Real_t q[]);
 
         /**
          * Destructor.
@@ -261,26 +261,26 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom)
          * @return the value of the Doppler profile at @c x.
          */
-        double operator()(const double &x) const;
+        Real_t operator()(const Real_t &x) const;
 
     private:
         /**
          * The central wavelength (Angstrom).
          */
-        const double c;
+        const Real_t c;
 
         /**
          * The Doppler width (Angstrom).
          */
-        const double b;
+        const Real_t b;
 
         /**
          * The amplitude.
          */
-        const double a;
+        const Real_t a;
 
-        static const double C0;
-        static const double C1;
+        static const Real_t C0;
+        static const Real_t C1;
     };
 
 
@@ -295,7 +295,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const unsigned parameter_count = 7;
+        static const Nnum_t parameter_count = 7;
 
         /**
          * Default constructor.
@@ -326,7 +326,7 @@ namespace especia {
          * @c q[6] The damping constant (s-1)
          * @endparblock
          */
-        Intergalactic_Voigt(const double q[])
+        Intergalactic_Voigt(const Real_t q[])
                 : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / C0)),
                   a(C1 * q[1] * pow(10.0, q[5]) * (q[0] * c)),
                   approximation(q[4] * c / C0, C2 * q[6] * (q[0] * c)) {
@@ -344,7 +344,7 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom)
          * @return the value of the Voigt profile at @c x.
          */
-        double operator()(const double &x) const {
+        Real_t operator()(const Real_t &x) const {
             return a * approximation(x - c);
         };
 
@@ -352,32 +352,32 @@ namespace especia {
         /**
          * The central wavelength (Angstrom).
          */
-        const double c;
+        const Real_t c;
 
         /**
          * The amplitude.
          */
-        const double a;
+        const Real_t a;
 
         /**
          * The approximation.
          */
         const A approximation;
 
-        static const double C0;
-        static const double C1;
-        static const double C2;
+        static const Real_t C0;
+        static const Real_t C1;
+        static const Real_t C2;
     };
 
     template<class A>
-    const double Intergalactic_Voigt<A>::C0 = 1.0E-03 * speed_of_light;
+    const Real_t Intergalactic_Voigt<A>::C0 = 1.0E-03 * speed_of_light;
 
     template<class A>
-    const double Intergalactic_Voigt<A>::C1 = 1.0E-06 * sqr(elementary_charge) /
+    const Real_t Intergalactic_Voigt<A>::C1 = 1.0E-06 * sqr(elementary_charge) /
                                               (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
 
     template<class A>
-    const double Intergalactic_Voigt<A>::C2 = 1.0E-10 / (4.0 * pi * speed_of_light);
+    const Real_t Intergalactic_Voigt<A>::C2 = 1.0E-10 / (4.0 * pi * speed_of_light);
 
 
     /**
@@ -395,10 +395,10 @@ namespace especia {
          * @param[in] q The vector of parameter values. The semantics of parameter values and the
          *              number of parameters per component are defined by the profile type.
          */
-        Superposition(unsigned n, const double q[])
+        Superposition(Nnum_t n, const Real_t q[])
                 : profiles() {
             profiles.reserve(n);
-            for (unsigned i = 0; i < n; ++i, q += P::parameter_count) {
+            for (Nnum_t i = 0; i < n; ++i, q += P::parameter_count) {
                 profiles.push_back(P(q));
             }
         }
@@ -415,10 +415,10 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom)
          * @return the value of the profile superposition at @c x.
          */
-        double operator()(const double &x) const {
-            double d = 0.0;
+        Real_t operator()(const Real_t &x) const {
+            Real_t d = 0.0;
 
-            for (unsigned i = 0; i < profiles.size(); ++i) {
+            for (Nnum_t i = 0; i < profiles.size(); ++i) {
                 d += profiles[i](x);
             }
 
@@ -443,7 +443,7 @@ namespace especia {
      */
     template<class F>
     inline
-    double truncate(const F &f, const double &x, const double &b, const double &c) {
+    Real_t truncate(const F &f, const Real_t &x, const Real_t &b, const Real_t &c) {
         using std::abs;
 
         return abs(x) < c * b ? f(x, b) : 0.0;

@@ -26,6 +26,8 @@
 #include <stdexcept>
 #include <valarray>
 
+#include "base.h"
+
 namespace especia {
 
     /**
@@ -39,7 +41,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        D_Decompose(unsigned n = 0);
+        D_Decompose(Nnum_t n = 0);
 
         /**
          * Destructor.
@@ -54,23 +56,23 @@ namespace especia {
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(unsigned n, const double A[], double Z[], double w[]) throw(std::runtime_error);
+        void operator()(Nnum_t n, const Real_t A[], Real_t Z[], Real_t w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(unsigned n = 0);
+        void resize_workspace(Nnum_t n = 0);
 
-        void transpose(double A[]) const;
+        void transpose(Real_t A[]) const;
 
         const char job;
         const char uplo;
 
-        int n;
-        int info;
+        Znum_t n;
+        Znum_t info;
 
-        int lwork;
-        int liwork;
-        std::valarray<double> work;
-        std::valarray<int> iwork;
+        Znum_t lwork;
+        Znum_t liwork;
+        std::valarray<Real_t> work;
+        std::valarray<Znum_t> iwork;
 
         static const char int_err[];
         static const char ill_arg[];
@@ -87,7 +89,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        R_Decompose(unsigned n = 0);
+        R_Decompose(Nnum_t n = 0);
 
         /**
          * Destructor.
@@ -102,27 +104,27 @@ namespace especia {
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(unsigned n, const double A[], double Z[], double w[]) throw(std::runtime_error);
+        void operator()(Nnum_t n, const Real_t A[], Real_t Z[], Real_t w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(unsigned n = 0);
+        void resize_workspace(Nnum_t n = 0);
 
-        void transpose(double A[]) const;
+        void transpose(Real_t A[]) const;
 
         const char job;
         const char range;
         const char uplo;
 
-        int m;
-        int n;
-        int info;
+        Znum_t m;
+        Znum_t n;
+        Znum_t info;
 
-        std::valarray<int> isupp;
+        std::valarray<Znum_t> isupp;
 
-        int lwork;
-        int liwork;
-        std::valarray<double> work;
-        std::valarray<int> iwork;
+        Znum_t lwork;
+        Znum_t liwork;
+        std::valarray<Real_t> work;
+        std::valarray<Znum_t> iwork;
 
         static const char int_err[];
         static const char ill_arg[];
@@ -139,7 +141,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        X_Decompose(unsigned n = 0);
+        X_Decompose(Nnum_t n = 0);
 
         /**
          * Destructor.
@@ -154,25 +156,25 @@ namespace especia {
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(unsigned n, const double A[], double Z[], double w[]) throw(std::runtime_error);
+        void operator()(Nnum_t n, const Real_t A[], Real_t Z[], Real_t w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(unsigned n = 0);
+        void resize_workspace(Nnum_t n = 0);
 
-        void transpose(double A[]) const;
+        void transpose(Real_t A[]) const;
 
         const char job;
         const char range;
         const char uplo;
 
-        int m;
-        int n;
-        int info;
+        Znum_t m;
+        Znum_t n;
+        Znum_t info;
 
-        int lwork;
-        std::valarray<double> work;
-        std::valarray<int> iwork;
-        std::valarray<int> ifail;
+        Znum_t lwork;
+        std::valarray<Real_t> work;
+        std::valarray<Znum_t> iwork;
+        std::valarray<Znum_t> ifail;
 
         static const char int_err[];
         static const char ill_arg[];

@@ -36,10 +36,14 @@ int main() {
     string s;
 
     while (getline(cin, s)) {
-        if (found and !(s == "</model>" or s == "</job>" or s == "</input>")) {
+        if (found and not (s == "</model>"
+                           // for compatibility with former versions
+                           or s == "</job>" or s == "</input>")) {
             cout << s << endl;
         } else {
-            found = (s == "<model>" or s == "<job>" or s == "<input>");
+            found = (s == "<model>"
+                     // for compatibility with former versions
+                     or s == "<job>" or s == "<input>");
         }
     }
 

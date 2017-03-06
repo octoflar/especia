@@ -36,7 +36,7 @@ int main() {
     string s;
 
     while (getline(cin, s)) {
-        if (found and !(s == "</command>")) {
+        if (found and s != "</command>") {
             cout << s << endl;
         } else {
             found = (s == "<command>");

@@ -20,7 +20,6 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
 #include <cmath>
-#include <cstdlib>
 #include <exception>
 #include <stdexcept>
 
@@ -29,46 +28,46 @@
 
 using namespace std;
 
+using especia::Nnum_t;
+using especia::Real_t;
 
-namespace especia {
 
-    /**
-     * Solves the equation f(x) = c by means of Newton's method.
-     *
-     * @param[in] f A differentiable function, which takes as parameters:
-     * @parblock
-     * @param[in] x The abscissa value.
-     * @param[out] y The result y = f(x).
-     * @param[out] z The derivative of @c y with respect to @c x.
-     * @endparblock
-     * @param[in] c The constant on the right-hand side of the equation.
-     * @param[in] x The initial guess of the solution.
-     * @param[in] accuracy_goal The accuracy goal (optional).
-     * @param[in] max_iteration The maximum number of iterations (optional).
-     *
-     * @return the solution to the equation f(x) = c.
-     */
-    inline
-    double solve(void f(const double &x, double &y, double &z), double c, double x,
-                 double accuracy_goal = 1.0E-8,
-                 unsigned max_iteration = 100) throw(std::runtime_error) {
-        using std::abs;
-        using std::runtime_error;
+/**
+ * Solves the equation f(x) = c by means of Newton's method.
+ *
+ * @param[in] f A differentiable function, which takes as parameters:
+ * @parblock
+ * @param[in] x The abscissa value.
+ * @param[out] y The result y = f(x).
+ * @param[out] z The derivative of @c y with respect to @c x.
+ * @endparblock
+ * @param[in] c The constant on the right-hand side of the equation.
+ * @param[in] x The initial guess of the solution.
+ * @param[in] accuracy_goal The accuracy goal (optional).
+ *
+ * @return the solution to the equation f(x) = c.
+ */
+Real_t solve(void f(const Real_t &x, Real_t &y, Real_t &z), Real_t c, Real_t x,
+             Real_t accuracy_goal = 1.0E-8) throw(std::runtime_error) {
+    using std::abs;
+    using std::runtime_error;
 
-        double d, y, z;
+    Real_t d, y, z;
 
-        for (unsigned i = 0; i < max_iteration; ++i) {
-            f(x, y, z);
-            d = (y - c) / z;
-            x -= d;
-            if (abs(d) < accuracy_goal * x) {
-                return x;
-            }
+    for (Nnum_t i = 0; i < 100; ++i) {
+        f(x, y, z);
+        d = (y - c) / z;
+        x -= d;
+        if (abs(d) < accuracy_goal * x) {
+            return x;
         }
-
-        throw runtime_error("especia::solve(): Error: failed to reach accuracy goal");
     }
 
+    throw runtime_error("Error: the required accuracy goal was not reached");
+}
+
+void write_usage_message(ostream &os, const string &pname) {
+    os << "usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
 }
 
 /**
@@ -98,37 +97,41 @@ namespace especia {
  * @remark Usage: airtovac [SKIP] < ISTREAM > OSTREAM
  */
 int main(int argc, char *argv[]) {
-    const char *pname = argv[0];
+    const string pname(argv[0]);
 
-    int skip = 0;
+    try {
+        if (argc != 1 and argc != 2) {
+            throw invalid_argument("Error: an invalid number of arguments was supplied");
+        }
 
-    if (argc == 2) {
-        skip = atoi(argv[1]);
-    }
-    if (argc == 2 || argc == 1) {
-        valarray<double> x;
-        valarray<double> y;
-        valarray<double> z;
+        Nnum_t skip = 0;
+
+        if (argc == 2) {
+            skip = especia::convert<Nnum_t>(string(argv[1]));
+        }
+
+        valarray<Real_t> x;
+        valarray<Real_t> y;
+        valarray<Real_t> z;
 
         if (especia::get(cin, x, y, z, skip)) {
-            try {
-                for (size_t i = 0; i < x.size(); ++i) {
-                    x[i] = 10.0 / especia::solve(especia::edlen_1966, 10.0 / x[i], 10.0 / x[i]);
-                }
-            }
-            catch (exception &e) {
-                cerr << pname << ": " << e.what() << endl;
-                return 3;
+            for (size_t i = 0; i < x.size(); ++i) {
+                x[i] = 10.0 / solve(especia::edlen66, 10.0 / x[i], 10.0 / x[i]);
             }
             especia::put(cout, x, y, z);
         } else {
-            cerr << pname << ": input failure" << endl;
-            return 2;
+            throw runtime_error("Error: an input error occurred");
         }
-
         return 0;
-    } else {
-        cout << "usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
-        return 1;
+    } catch (invalid_argument &e) {
+        cerr << e.what() << endl;
+        write_usage_message(cout, pname);
+        return 10;
+    } catch (runtime_error &e) {
+        cerr << e.what() << endl;
+        return 20;
+    } catch (exception &e) {
+        cerr << e.what() << endl;
+        return 30;
     }
 }

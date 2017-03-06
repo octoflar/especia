@@ -26,6 +26,13 @@
 
 using namespace std;
 
+using especia::Nnum_t;
+using especia::Real_t;
+
+
+void write_usage_message(ostream &os, const string &pname) {
+    os << "usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
+}
 
 /**
  * Utility to convert photon wavelength (Angstrom) in spectroscopic data from
@@ -54,31 +61,41 @@ using namespace std;
  * @remark Usage: vactoair [SKIP] < ISTREAM > OSTREAM
  */
 int main(int argc, char *argv[]) {
-    const char *pname = argv[0];
+    const string pname(argv[0]);
 
-    int skip = 0;
+    try {
+        if (argc != 1 and argc != 2) {
+            throw invalid_argument("Error: an invalid number of arguments was supplied");
+        }
 
-    if (argc == 2) {
-        skip = atoi(argv[1]);
-    }
-    if (argc == 2 || argc == 1) {
-        valarray<double> x;
-        valarray<double> y;
-        valarray<double> z;
+        Nnum_t skip = 0;
+
+        if (argc == 2) {
+            skip = especia::convert<Nnum_t>(string(argv[1]));
+        }
+
+        valarray<Real_t> x;
+        valarray<Real_t> y;
+        valarray<Real_t> z;
 
         if (especia::get(cin, x, y, z, skip)) {
             for (size_t i = 0; i < x.size(); ++i) {
-                x[i] = 10.0 / especia::edlen_1966(10.0 / x[i]);
+                x[i] = 10.0 / especia::edlen66(10.0 / x[i]);
             }
             especia::put(cout, x, y, z);
         } else {
-            cerr << pname << ": input failure" << endl;
-            return 2;
+            throw runtime_error("Error: an input error occurred");
         }
-
         return 0;
-    } else {
-        cout << "usage: " << pname << " [SKIP] < ISTREAM > OSTREAM" << endl;
-        return 1;
+    } catch (invalid_argument &e) {
+        cerr << e.what() << endl;
+        write_usage_message(cout, pname);
+        return 10;
+    } catch (runtime_error &e) {
+        cerr << e.what() << endl;
+        return 20;
+    } catch (exception &e) {
+        cerr << e.what() << endl;
+        return 30;
     }
 }

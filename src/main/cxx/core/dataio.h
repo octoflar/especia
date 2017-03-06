@@ -25,6 +25,8 @@
 #include <iostream>
 #include <valarray>
 
+#include "base.h"
+
 namespace especia {
 
     /**
@@ -38,7 +40,7 @@ namespace especia {
      * @return the input stream.
      */
     std::istream &
-    get(std::istream &is, std::valarray<double> &x, std::valarray<double> &y, int skip = 0);
+    get(std::istream &is, std::valarray<Real_t> &x, std::valarray<Real_t> &y, Nnum_t skip = 0);
 
     /**
      * Reads spectroscopic data from an input stream.
@@ -52,7 +54,8 @@ namespace especia {
      * @return the input stream.
      */
     std::istream &
-    get(std::istream &is, std::valarray<double> &x, std::valarray<double> &y, std::valarray<double> &z, int skip = 0);
+    get(std::istream &is, std::valarray<Real_t> &x, std::valarray<Real_t> &y,
+        std::valarray<Real_t> &z, Nnum_t skip = 0);
 
     /**
      * Writes spectroscopic data to an output stream.
@@ -65,8 +68,8 @@ namespace especia {
      * @return the output stream.
      */
     std::ostream &
-    put(std::ostream &os, const std::valarray<double> &x, const std::valarray<double> &y,
-        const std::valarray<double> &z);
+    put(std::ostream &os, const std::valarray<Real_t> &x, const std::valarray<Real_t> &y,
+        const std::valarray<Real_t> &z);
 
 }
 

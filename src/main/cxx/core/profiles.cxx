@@ -28,10 +28,12 @@ using std::log;
 using std::pow;
 using std::sqrt;
 
+using especia::Real_t;
 using especia::micro;
 using especia::pi;
 using especia::sqr;
 using especia::sqrt_of_pi;
+
 
 /**
  * The Gaussian.
@@ -41,7 +43,7 @@ using especia::sqrt_of_pi;
  * @return the value of the Gaussian at @c x.
  */
 inline
-double f_g(const double &x, const double &gamma) {
+Real_t f_g(const Real_t &x, const Real_t &gamma) {
     return (1.0 / (sqrt_of_pi * gamma)) * exp(-sqr(x / gamma));
 }
 
@@ -53,7 +55,7 @@ double f_g(const double &x, const double &gamma) {
  * @return the value of the Lorentzian at @c x.
  */
 inline
-double f_l(const double &x, const double &gamma) {
+Real_t f_l(const Real_t &x, const Real_t &gamma) {
     return 1.0 / ((pi * gamma) * (1.0 + sqr(x / gamma)));
 }
 
@@ -65,7 +67,7 @@ double f_l(const double &x, const double &gamma) {
  * @return the value of the function at @c x.
  */
 inline
-double f_i(const double &x, const double &gamma) {
+Real_t f_i(const Real_t &x, const Real_t &gamma) {
     return 1.0 / ((2.0 * gamma) * pow(1.0 + sqr(x / gamma), 1.5));
 }
 
@@ -77,7 +79,7 @@ double f_i(const double &x, const double &gamma) {
  * @return the value of the function at @c x.
  */
 inline
-double f_p(const double &x, const double &gamma) {
+Real_t f_p(const Real_t &x, const Real_t &gamma) {
     return 1.0 / (2.0 * gamma * sqr(cosh(x / gamma)));
 }
 
@@ -95,54 +97,54 @@ double f_p(const double &x, const double &gamma) {
  * @return the value of the polynomial at @c x.
  */
 inline
-double poly(const double &x,
-            const double &h0,
-            const double &h1,
-            const double &h2,
-            const double &h3,
-            const double &h4,
-            const double &h5,
-            const double &h6) {
+Real_t poly(const Real_t &x,
+            const Real_t &h0,
+            const Real_t &h1,
+            const Real_t &h2,
+            const Real_t &h3,
+            const Real_t &h4,
+            const Real_t &h5,
+            const Real_t &h6) {
     return h0 + x * (h1 + x * (h2 + x * (h3 + x * (h4 + x * (h5 + x * h6)))));
 }
 
 inline
-double poly_w_g(const double &r) {
+Real_t poly_w_g(const Real_t &r) {
     return 1.0 - r * poly(r, 0.66000, 0.15021, -1.24984, 4.74052, -9.48291, 8.48252, -2.95553);
 }
 
 inline
-double poly_w_l(const double &r) {
+Real_t poly_w_l(const Real_t &r) {
     return 1.0 - (1.0 - r) * poly(r, -0.42179, -1.25693, 10.30003, -23.45651, 29.14158, -16.50453, 3.19974);
 }
 
 inline
-double poly_w_i(const double &r) {
+Real_t poly_w_i(const Real_t &r) {
     return poly(r, 1.19913, 1.43021, -15.36331, 47.06071, -73.61822, 57.92559, -17.80614);
 }
 
 inline
-double poly_w_p(const double &r) {
+Real_t poly_w_p(const Real_t &r) {
     return poly(r, 1.10186, -0.47745, -0.68688, 2.76622, -4.55466, 4.05475, -1.26571);
 }
 
 inline
-double poly_eta_l(const double &r) {
+Real_t poly_eta_l(const Real_t &r) {
     return r * (1.0 + (1.0 - r) * poly(r, -0.30165, -1.38927, 9.31550, -24.10743, 34.96491, -21.18862, 3.70290));
 }
 
 inline
-double poly_eta_i(const double &r) {
+Real_t poly_eta_i(const Real_t &r) {
     return (r * (1.0 - r)) * poly(r, 0.25437, -0.14107, 3.23653, -11.09215, 22.10544, -24.12407, 9.76947);
 }
 
 inline
-double poly_eta_p(const double &r) {
+Real_t poly_eta_p(const Real_t &r) {
     return (r * (1.0 - r)) * poly(r, 1.01579, 1.50429, -9.21815, 23.59717, -39.71134, 32.83023, -10.02142);
 }
 
 
-especia::Pseudo_Voigt::Pseudo_Voigt(const double &b, const double &d)
+especia::Pseudo_Voigt::Pseudo_Voigt(const Real_t &b, const Real_t &d)
         : u((c_g * b) / (c_l * d)),
           r(1.0 / pow(1.0 + u * (0.07842 + u * (4.47163 + u * (2.42843 + u * (u + 2.69269)))), 0.2)),
           gamma_g((c_l * d) / (c_g * r)),
@@ -153,15 +155,15 @@ especia::Pseudo_Voigt::Pseudo_Voigt(const double &b, const double &d)
 especia::Pseudo_Voigt::~Pseudo_Voigt() {
 }
 
-double especia::Pseudo_Voigt::operator()(const double &x) const {
+Real_t especia::Pseudo_Voigt::operator()(const Real_t &x) const {
     return (1.0 - eta) * f_g(x, gamma_g) + eta * f_l(x, gamma_l);
 }
 
-const double especia::Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
-const double especia::Pseudo_Voigt::c_l = 2.0;
+const Real_t especia::Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
+const Real_t especia::Pseudo_Voigt::c_l = 2.0;
 
 
-especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const double &b, const double &d)
+especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const Real_t &b, const Real_t &d)
         : u(c_g * b + c_l * d),
           r(c_l * d / u),
           gamma_g(u * poly_w_g(r) / c_g),
@@ -176,24 +178,24 @@ especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const double &b, const dou
 especia::Extended_Pseudo_Voigt::~Extended_Pseudo_Voigt() {
 }
 
-double especia::Extended_Pseudo_Voigt::operator()(const double &x) const {
+Real_t especia::Extended_Pseudo_Voigt::operator()(const Real_t &x) const {
     return (1.0 - eta_l - eta_i - eta_p) * f_g(x, gamma_g) +
            eta_l * f_l(x, gamma_l) +
            eta_i * f_i(x, gamma_i) +
            eta_p * f_p(x, gamma_p);
 }
 
-const double especia::Extended_Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
-const double especia::Extended_Pseudo_Voigt::c_l = 2.0;
-const double especia::Extended_Pseudo_Voigt::c_i = 2.0 * sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
-const double especia::Extended_Pseudo_Voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
+const Real_t especia::Extended_Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
+const Real_t especia::Extended_Pseudo_Voigt::c_l = 2.0;
+const Real_t especia::Extended_Pseudo_Voigt::c_i = 2.0 * sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
+const Real_t especia::Extended_Pseudo_Voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
 
 
 especia::Many_Multiplet::Many_Multiplet()
         : u(0.0), c(0.0), b(1.0), a(0.0) {
 }
 
-especia::Many_Multiplet::Many_Multiplet(const double q[])
+especia::Many_Multiplet::Many_Multiplet(const Real_t q[])
         : u(1.0E+08 / (1.0E+08 / q[0] + q[6] * (q[7] * micro) * (q[7] * micro + 2.0))),
           c(u * (1.0 + q[2]) * (1.0 + q[3] / C0)),
           b(q[4] * c / C0),
@@ -203,12 +205,12 @@ especia::Many_Multiplet::Many_Multiplet(const double q[])
 especia::Many_Multiplet::~Many_Multiplet() {
 }
 
-double especia::Many_Multiplet::operator()(const double &x) const {
+Real_t especia::Many_Multiplet::operator()(const Real_t &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
-const double especia::Many_Multiplet::C0 = 1.0E-03 * speed_of_light;
-const double especia::Many_Multiplet::C1 = 1.0E-06 * sqr(elementary_charge) /
+const Real_t especia::Many_Multiplet::C0 = 1.0E-03 * speed_of_light;
+const Real_t especia::Many_Multiplet::C1 = 1.0E-06 * sqr(elementary_charge) /
                                            (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
 
 
@@ -216,7 +218,7 @@ especia::Intergalactic_Doppler::Intergalactic_Doppler()
         : c(0.0), b(1.0), a(0.0) {
 }
 
-especia::Intergalactic_Doppler::Intergalactic_Doppler(const double q[])
+especia::Intergalactic_Doppler::Intergalactic_Doppler(const Real_t q[])
         : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / C0)),
           b(q[4] * c / C0),
           a(C1 * q[1] * pow(10.0, q[5]) * (q[0] * c)) {
@@ -225,10 +227,10 @@ especia::Intergalactic_Doppler::Intergalactic_Doppler(const double q[])
 especia::Intergalactic_Doppler::~Intergalactic_Doppler() {
 }
 
-double especia::Intergalactic_Doppler::operator()(const double &x) const {
+Real_t especia::Intergalactic_Doppler::operator()(const Real_t &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
-const double especia::Intergalactic_Doppler::C0 = 1.0E-03 * speed_of_light;
-const double especia::Intergalactic_Doppler::C1 = 1.0E-06 * sqr(elementary_charge) /
+const Real_t especia::Intergalactic_Doppler::C0 = 1.0E-03 * speed_of_light;
+const Real_t especia::Intergalactic_Doppler::C1 = 1.0E-06 * sqr(elementary_charge) /
                                                   (4.0 * electric_constant * electron_mass * sqr(speed_of_light));

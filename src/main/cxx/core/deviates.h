@@ -24,6 +24,8 @@
 
 #include <cmath>
 
+#include "base.h"
+
 namespace especia {
 
    /**
@@ -49,7 +51,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        Normal_Deviate(unsigned long seed = 5489)
+        Normal_Deviate(Word_t seed = 5489)
                 : uniform_deviate(seed), status(false) {
         }
 
@@ -73,14 +75,14 @@ namespace especia {
          *
          * @return a normal random number.
          */
-        double operator()() {
+        Real_t operator()() {
             using std::log;
             using std::sqrt;
 
             status = !status;
 
             if (status) {
-                double t;
+                Real_t t;
 
                 do {
                     x = 2.0 * uniform_deviate() - 1.0;
@@ -103,7 +105,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        void reset(unsigned long seed = 5489) {
+        void reset(Word_t seed = 5489) {
             uniform_deviate.reset(seed);
             status = false;
         }
@@ -120,8 +122,8 @@ namespace especia {
 
     private:
         U uniform_deviate;
-        bool status;
-        double x, y;
+        Bool_t status;
+        Real_t x, y;
     };
 
 }

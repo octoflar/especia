@@ -19,13 +19,20 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
-#include <cstdlib>
 #include <fstream>
 
+#include "../core/base.h"
 #include "../core/dataio.h"
 
 using namespace std;
 
+using especia::Nnum_t;
+using especia::Real_t;
+
+
+void write_usage_message(ostream &os, const string &pname) {
+    os << "usage: " << pname << " FLUX UNCERTAINTY [SKIP] > OSTREAM" << endl;
+}
 
 /**
  * Utility to merge separated spectral flux and uncertainty data columns.
@@ -46,17 +53,26 @@ using namespace std;
  * @remark Usage: etee FLUX UNCERTAINTY [SKIP] > OSTREAM
  */
 int main(int argc, char *argv[]) {
-    const char *pname = argv[0];
+    const string pname(argv[0]);
 
-    int skip = 0;
-
-    if (argc == 4) {
-        skip = atoi(argv[2]);
+    if (argc == 1) {
+        write_usage_message(cout, pname);
+        return 0;
     }
-    if (argc == 4 or argc == 3) {
-        valarray<double> x;
-        valarray<double> y;
-        valarray<double> z;
+    try {
+        if (argc != 3 and argc != 4) {
+            throw invalid_argument("Error: an invalid number of arguments was supplied");
+        }
+
+        Nnum_t skip = 0;
+
+        if (argc == 4) {
+            skip = especia::convert<Nnum_t>(string(argv[2]));
+        }
+
+        valarray<Real_t> x;
+        valarray<Real_t> y;
+        valarray<Real_t> z;
 
         ifstream fxy(argv[1]);
         ifstream fxz(argv[2]);
@@ -70,13 +86,18 @@ int main(int argc, char *argv[]) {
         if (fxy and fxz and y.size() == z.size()) {
             especia::put(cout, x, y, z);
         } else {
-            cerr << pname << ": input failure" << endl;
-            return 2;
+            throw runtime_error("Error: an input error occurred");
         }
-
         return 0;
-    } else {
-        cout << "usage: " << pname << " FLUX UNCERTAINTY [SKIP] > OSTREAM" << endl;
-        return 1;
+    } catch (invalid_argument &e) {
+        cerr << e.what() << endl;
+        write_usage_message(cout, pname);
+        return 10;
+    } catch (runtime_error &e) {
+        cerr << e.what() << endl;
+        return 20;
+    } catch (exception &e) {
+        cerr << e.what() << endl;
+        return 30;
     }
 }
