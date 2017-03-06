@@ -276,6 +276,8 @@ namespace especia {
      *
      * @param s The string.
      * @return the number.
+     *
+     * @throw invalid_argument when the string cannot be converted into a number of requested type.
      */
     template<class T>
     static T convert(const std::string &s) throw(std::invalid_argument) {
