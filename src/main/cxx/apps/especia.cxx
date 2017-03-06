@@ -22,7 +22,6 @@
 #include <exception>
 #include <iostream>
 
-#include "../core/model.h"
 #define ESPECIA_MANY_MULTIPLET_ANALYSIS 1
 #include "../core/model.h"
 #undef  ESPECIA_MANY_MULTIPLET_ANALYSIS

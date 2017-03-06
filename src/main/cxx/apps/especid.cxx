@@ -23,7 +23,6 @@
 #include <iostream>
 
 #include "../core/model.h"
-#include "../core/profiles.h"
 #include "../core/runner.h"
 
 using namespace std;
