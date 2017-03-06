@@ -86,7 +86,7 @@ const double safe_minimum = F77NAME(dlamch)('s');
 const char especia::D_Decompose::int_err[] = "especia::D_Decompose(): Error: internal error in LAPACK routine DSYEVD";
 const char especia::D_Decompose::ill_arg[] = "especia::D_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
 
-especia::D_Decompose::D_Decompose(size_t n)
+especia::D_Decompose::D_Decompose(unsigned n)
         : job('V'), uplo('U'), work(1), iwork(1) {
     resize_workspace(n);
 }
@@ -94,10 +94,10 @@ especia::D_Decompose::D_Decompose(size_t n)
 especia::D_Decompose::~D_Decompose() {
 }
 
-void especia::D_Decompose::operator()(size_t k, const double A[], double Z[], double w[]) throw(runtime_error) {
+void especia::D_Decompose::operator()(unsigned k, const double A[], double Z[], double w[]) throw(runtime_error) {
     copy(&A[0], &A[k * k], Z);
 
-    if (k != static_cast<size_t>(n)) {
+    if (k != static_cast<unsigned>(n)) {
         resize_workspace(k);
     }
 
@@ -114,7 +114,7 @@ void especia::D_Decompose::operator()(size_t k, const double A[], double Z[], do
     }
 }
 
-void especia::D_Decompose::resize_workspace(size_t k) {
+void especia::D_Decompose::resize_workspace(unsigned k) {
     n = static_cast<int>(k);
 
     // The workspace query.
@@ -123,8 +123,8 @@ void especia::D_Decompose::resize_workspace(size_t k) {
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
         liwork = iwork[0];
-        work.resize(static_cast<size_t>(lwork));
-        iwork.resize(static_cast<size_t>(liwork));
+        work.resize(static_cast<unsigned>(lwork));
+        iwork.resize(static_cast<unsigned>(liwork));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -144,7 +144,7 @@ void especia::D_Decompose::transpose(double A[]) const {
 const char especia::R_Decompose::int_err[] = "especia::R_Decompose(): Error: internal error in LAPACK routine DSYEVR";
 const char especia::R_Decompose::ill_arg[] = "especia::R_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVR";
 
-especia::R_Decompose::R_Decompose(size_t n)
+especia::R_Decompose::R_Decompose(unsigned n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(1) {
     resize_workspace(n);
 }
@@ -152,10 +152,10 @@ especia::R_Decompose::R_Decompose(size_t n)
 especia::R_Decompose::~R_Decompose() {
 }
 
-void especia::R_Decompose::operator()(size_t k, const double A[], double Z[], double w[]) throw(runtime_error) {
+void especia::R_Decompose::operator()(unsigned k, const double A[], double Z[], double w[]) throw(runtime_error) {
     valarray<double> C(A, k * k);
 
-    if (k != static_cast<size_t>(n)) {
+    if (k != static_cast<unsigned>(n)) {
         resize_workspace(k);
     }
 
@@ -173,7 +173,7 @@ void especia::R_Decompose::operator()(size_t k, const double A[], double Z[], do
     }
 }
 
-void especia::R_Decompose::resize_workspace(size_t k) {
+void especia::R_Decompose::resize_workspace(unsigned k) {
     n = static_cast<int>(k);
 
     // The workspace query.
@@ -183,9 +183,9 @@ void especia::R_Decompose::resize_workspace(size_t k) {
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
         liwork = iwork[0];
-        work.resize(static_cast<size_t>(lwork));
-        iwork.resize(static_cast<size_t>(liwork));
-        isupp.resize(2 * static_cast<size_t>(max(1, n)));
+        work.resize(static_cast<unsigned>(lwork));
+        iwork.resize(static_cast<unsigned>(liwork));
+        isupp.resize(2 * static_cast<unsigned>(max(1, n)));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -205,7 +205,7 @@ void especia::R_Decompose::transpose(double A[]) const {
 const char especia::X_Decompose::int_err[] = "especia::X_Decompose(): Error: internal error in LAPACK routine DSYEVX";
 const char especia::X_Decompose::ill_arg[] = "especia::X_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVX";
 
-especia::X_Decompose::X_Decompose(size_t n)
+especia::X_Decompose::X_Decompose(unsigned n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(), ifail() {
     resize_workspace(n);
 }
@@ -213,10 +213,10 @@ especia::X_Decompose::X_Decompose(size_t n)
 especia::X_Decompose::~X_Decompose() {
 }
 
-void especia::X_Decompose::operator()(size_t k, const double A[], double Z[], double w[]) throw(runtime_error) {
+void especia::X_Decompose::operator()(unsigned k, const double A[], double Z[], double w[]) throw(runtime_error) {
     valarray<double> C(A, k * k);
 
-    if (k != static_cast<size_t>(n)) {
+    if (k != static_cast<unsigned>(n)) {
         resize_workspace(k);
     }
 
@@ -234,7 +234,7 @@ void especia::X_Decompose::operator()(size_t k, const double A[], double Z[], do
     }
 }
 
-void especia::X_Decompose::resize_workspace(size_t k) {
+void especia::X_Decompose::resize_workspace(unsigned k) {
     n = static_cast<int>(k);
 
     // The workspace query.
@@ -243,9 +243,9 @@ void especia::X_Decompose::resize_workspace(size_t k) {
 
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
-        work.resize(static_cast<size_t>(lwork));
-        iwork.resize(5 * static_cast<size_t>(n));
-        ifail.resize(static_cast<size_t>(n));
+        work.resize(static_cast<unsigned>(lwork));
+        iwork.resize(5 * static_cast<unsigned>(n));
+        ifail.resize(static_cast<unsigned>(n));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {

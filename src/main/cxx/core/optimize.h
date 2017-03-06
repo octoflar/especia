@@ -89,7 +89,7 @@ namespace especia {
     template<class F, class Constraint, class Deviate, class Decompose, class Compare, class Tracer>
     void optimize(const F &f,
                   const Constraint &constraint,
-                  size_t n,
+                  unsigned n,
                   unsigned parent_number,
                   unsigned population_size,
                   const double w[],
@@ -138,25 +138,25 @@ namespace especia {
             valarray<valarray<double> > x = u;
 
             valarray<double> y(population_size);
-            valarray<size_t> indexes(population_size);
+            valarray<unsigned> indexes(population_size);
 
             valarray<double> BD(B, n * n);
-            for (size_t j = 0; j < n; ++j) {
-                for (size_t i = 0, ij = j; i < n; ++i, ij += n) {
+            for (unsigned j = 0; j < n; ++j) {
+                for (unsigned i = 0, ij = j; i < n; ++i, ij += n) {
                     BD[ij] *= d[j];
                 }
             }
 
             // Generate a new population of object parameter vectors,
             // sorted indirectly by fitness
-            for (size_t k = 0; k < population_size; ++k) {
+            for (unsigned k = 0; k < population_size; ++k) {
                 uw = 0.0;
                 vw = 0.0;
-                for (size_t j = 0; j < n; ++j) {
+                for (unsigned j = 0; j < n; ++j) {
                     do {
                         const double z = deviate();
 
-                        for (size_t i = 0, ij = j; i < n; ++i, ij += n) {
+                        for (unsigned i = 0, ij = j; i < n; ++i, ij += n) {
                             u[k][i] = uw[i] + z * BD[ij];
                             v[k][i] = vw[i] + z * B[ij];
                             x[k][i] = xw[i] + u[k][i] * step_size; // Hansen and Ostermeier (2001), Eq. (13)
@@ -168,20 +168,20 @@ namespace especia {
             }
 #ifdef _OPENMP
 #pragma omp parallel for
-            for (size_t k = 0; k < population_size; ++k) {
+            for (unsigned k = 0; k < population_size; ++k) {
                 y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
                 indexes[k] = k;
             }
 #else // C++-11
             vector<thread> threads; threads.reserve(population_size);
-            for (size_t k = 0; k < population_size; ++k) {
+            for (unsigned k = 0; k < population_size; ++k) {
                 threads.push_back(
                         thread([k, &f, &constraint, &x, n, &y]() {
                             y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
                         })
                 );
             }
-            for (size_t k = 0; k < population_size; ++k) {
+            for (unsigned k = 0; k < population_size; ++k) {
                 threads[k].join();
                 indexes[k] = k;
             }
@@ -193,7 +193,7 @@ namespace especia {
             // Check the mutation variance
             underflow = (y[indexes[0]] == y[indexes[parent_number]]);
             if (!underflow)
-                for (size_t i = 0, ij = g % n; i < n; ++i, ij += n) {
+                for (unsigned i = 0, ij = g % n; i < n; ++i, ij += n) {
                     underflow = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
                     if (!underflow) {
                         break;
@@ -204,9 +204,9 @@ namespace especia {
             }
 
             // Recombine the best individuals
-            for (size_t i = 0; i < n; ++i) {
+            for (unsigned i = 0; i < n; ++i) {
                 uw[i] = vw[i] = xw[i] = 0.0;
-                for (size_t j = 0; j < parent_number; ++j) {
+                for (unsigned j = 0; j < parent_number; ++j) {
                     uw[i] += w[j] * u[indexes[j]][i];
                     vw[i] += w[j] * v[indexes[j]][i];
                     xw[i] += w[j] * x[indexes[j]][i];
@@ -221,15 +221,15 @@ namespace especia {
 
             // Adapt the covariance matrix and the step size according to Hansen and Ostermeier (2001)
             // and Hansen et al. (2003)
-            for (size_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
+            for (unsigned i = 0, i0 = 0; i < n; ++i, i0 += n) {
                 pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i]; // ibd. (2001), Eq. (14)
                 if (ccov > 0.0) {
                     // BD is not used anymore and can be overwritten
                     valarray<double> &Z = BD;
 
-                    for (size_t j = 0, ij = i0; j <= i; ++j, ++ij) {
+                    for (unsigned j = 0, ij = i0; j <= i; ++j, ++ij) {
                         Z[ij] = 0.0;
-                        for (size_t k = 0; k < parent_number; ++k) {
+                        for (unsigned k = 0; k < parent_number; ++k) {
                             Z[ij] += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
                         // ibd. (2003), Eq. (11)
@@ -249,18 +249,18 @@ namespace especia {
                 // Adjust the condition of the covariance matrix and recompute the
                 // local step sizes
                 if ((t = d[n - 1] / max_covariance_matrix_condition - d[0]) > 0.0) {
-                    for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+                    for (unsigned i = 0, ii = 0; i < n; ++i, ii += n + 1) {
                         C[ii] += t;
                         d[i] += t;
                     }
                 }
-                for (size_t i = 0; i < n; ++i) {
+                for (unsigned i = 0; i < n; ++i) {
                     d[i] = sqrt(d[i]);
                 }
             }
 
             // Check if the optimization is completed
-            for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+            for (unsigned i = 0, ii = 0; i < n; ++i, ii += n + 1) {
                 optimized = (sqr(step_size) * C[ii] <
                              sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
                 if (!optimized) {
@@ -300,7 +300,7 @@ namespace especia {
      * @param[out] z The parameter uncertainties.
      */
     template<class F, class Constraint>
-    void postopti(const F &f, const Constraint &constraint, size_t n,
+    void postopti(const F &f, const Constraint &constraint, unsigned n,
                   const double x[],
                   const double d[],
                   const double B[],
@@ -322,7 +322,7 @@ namespace especia {
             // Compute two steps along the line of least variance in opposite directions
             valarray<double> p(x, n);
             valarray<double> q(x, n);
-            for (size_t i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
+            for (unsigned i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
                 p[i] += c * B[ij] * d[j];
                 q[i] -= c * B[ij] * d[j];
             }
@@ -358,7 +358,7 @@ namespace especia {
             }
         } while (a == 0.0 or b == 0.0); // the computation step is too small or too large
 
-        for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+        for (unsigned i = 0, ii = 0; i < n; ++i, ii += n + 1) {
             z[i] = s * sqrt(C[ii]);
         }
     }

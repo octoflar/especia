@@ -74,7 +74,7 @@ especia::Section::Section(size_t m, const double x[], const double y[], const do
 especia::Section::~Section() {
 }
 
-void especia::Section::continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error) {
+void especia::Section::continuum(unsigned m, const double cat[], double cfl[]) const throw(std::runtime_error) {
     using std::fill;
     using std::runtime_error;
     using std::sqrt;
@@ -98,7 +98,7 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
                 double l2 = 0.0;
 
                 // Compute the higher-order Legendre basis polynomials.
-                for (size_t j = 1; j < m; ++j) {
+                for (unsigned j = 1; j < m; ++j) {
                     const double l3 = l2;
 
                     l2 = l1;
@@ -106,8 +106,8 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
                     l[j] = l1;
                 }
                 // Establish the normal equations.
-                for (size_t j = 0; j < m; ++j) {
-                    for (size_t k = j; k < m; ++k) {
+                for (unsigned j = 0; j < m; ++j) {
+                    for (unsigned k = j; k < m; ++k) {
                         a[j][k] += (cat[i] * cat[i] * l[j] * l[k]) / (unc[i] * unc[i]);
                     }
 
@@ -120,13 +120,13 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
         // W. H. Press, S. A. Teukolsky, W. T. Vetterling, B. P. Flannery (2002).
         //   Numerical Recipes in C: The Art of Scientific Computing.
         //   Cambridge University Press, ISBN 0-521-75033-4.
-        for (size_t i = 0; i < m; ++i) {
-            for (size_t j = i; j < m; ++j) {
+        for (unsigned i = 0; i < m; ++i) {
+            for (unsigned j = i; j < m; ++j) {
                 double s = a[i][j];
 
-                for (size_t k = 0; k < i; ++k)
+                for (unsigned k = 0; k < i; ++k) {
                     s -= a[i][k] * a[j][k];
-
+                }
                 if (i < j) {
                     a[j][i] = s / a[i][i];
                 } else if (s > 0.0) {
@@ -138,19 +138,19 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
                 }
             }
         }
-        for (size_t i = 0; i < m; ++i) {
+        for (unsigned i = 0; i < m; ++i) {
             double s = b[i];
 
-            for (size_t k = 0; k < i; ++k) {
+            for (unsigned k = 0; k < i; ++k) {
                 s -= a[i][k] * c[k];
             }
 
             c[i] = s / a[i][i];
         }
-        for (size_t i = m - 1; i + 1 > 0; --i) {
+        for (unsigned i = m - 1; i + 1 > 0; --i) {
             double s = c[i];
 
-            for (size_t k = i + 1; k < m; ++k) {
+            for (unsigned k = i + 1; k < m; ++k) {
                 s -= a[k][i] * c[k];
             }
 
@@ -166,7 +166,7 @@ void especia::Section::continuum(size_t m, const double cat[], double cfl[]) con
 
             cfl[i] = c[0];
 
-            for (size_t k = 1; k < m; ++k) {
+            for (unsigned k = 1; k < m; ++k) {
                 const double l3 = l2;
 
                 l2 = l1;

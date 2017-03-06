@@ -49,7 +49,8 @@ namespace especia {
      * @return the solution to the equation f(x) = c.
      */
     inline
-    double solve(void f(const double &x, double &y, double &z), double c, double x, double accuracy_goal = 1.0E-8,
+    double solve(void f(const double &x, double &y, double &z), double c, double x,
+                 double accuracy_goal = 1.0E-8,
                  unsigned max_iteration = 100) throw(std::runtime_error) {
         using std::abs;
         using std::runtime_error;

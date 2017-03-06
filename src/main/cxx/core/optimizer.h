@@ -61,7 +61,7 @@ namespace especia {
          * @param[in] n The number of parameters to test.
          * @return always @c false.
          */
-        bool is_violated(const T x[], size_t n) const {
+        bool is_violated(const T x[], unsigned n) const {
             return false;
         }
 
@@ -72,7 +72,7 @@ namespace especia {
          * @param[in] n The number of parameters to take account of.
          * @return always zero.
          */
-        T cost(const T x[], size_t n) const {
+        T cost(const T x[], unsigned n) const {
             return T(0);
         }
     };
@@ -163,7 +163,7 @@ namespace especia {
               *
               * @return the problem dimension.
               */
-            size_t get_problem_dimension() const {
+            unsigned get_problem_dimension() const {
                 return n;
             }
 
@@ -281,7 +281,7 @@ namespace especia {
              * @param[in] n The problem dimension.
              * @return this builder.
              */
-            Builder &with_problem_dimension(size_t n = 1);
+            Builder &with_problem_dimension(unsigned n = 1);
 
             /**
              * Configures the parent number.
@@ -349,7 +349,7 @@ namespace especia {
             /**
              * The problem dimension.
              */
-            size_t n = 1;
+            unsigned n = 1;
 
             /**
              * The parent number.
@@ -546,7 +546,7 @@ namespace especia {
              * @param[in] d The initial local step sizes.
              * @param[in] s The initial global step size.
              */
-            Result(size_t n, const std::valarray<double> &x, const std::valarray<double> &d, double s);
+            Result(unsigned n, const std::valarray<double> &x, const std::valarray<double> &d, double s);
 
             /**
              * Returns a pointer to the covariance matrix.
@@ -813,7 +813,7 @@ namespace especia {
             using especia::optimize;
             using especia::postopti;
 
-            const size_t n = config.get_problem_dimension();
+            const unsigned n = config.get_problem_dimension();
 
             Result result(n, x, d, s);
 

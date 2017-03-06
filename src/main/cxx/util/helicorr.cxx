@@ -36,7 +36,6 @@ namespace especia {
      * @param[in] v The radial velocity (m s-1).
      * @return the Doppler factor.
      */
-    inline
     double dopp(const double &v) {
         return std::sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light));
     }

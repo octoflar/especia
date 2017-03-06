@@ -39,7 +39,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        D_Decompose(size_t n = 0);
+        D_Decompose(unsigned n = 0);
 
         /**
          * Destructor.
@@ -54,10 +54,10 @@ namespace especia {
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(size_t n, const double A[], double Z[], double w[]) throw(std::runtime_error);
+        void operator()(unsigned n, const double A[], double Z[], double w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(size_t n = 0);
+        void resize_workspace(unsigned n = 0);
 
         void transpose(double A[]) const;
 
@@ -87,7 +87,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        R_Decompose(size_t n = 0);
+        R_Decompose(unsigned n = 0);
 
         /**
          * Destructor.
@@ -102,10 +102,10 @@ namespace especia {
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(size_t n, const double A[], double Z[], double w[]) throw(std::runtime_error);
+        void operator()(unsigned n, const double A[], double Z[], double w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(size_t n = 0);
+        void resize_workspace(unsigned n = 0);
 
         void transpose(double A[]) const;
 
@@ -139,7 +139,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        X_Decompose(size_t n = 0);
+        X_Decompose(unsigned n = 0);
 
         /**
          * Destructor.
@@ -154,10 +154,10 @@ namespace especia {
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(size_t n, const double A[], double Z[], double w[]) throw(std::runtime_error);
+        void operator()(unsigned n, const double A[], double Z[], double w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(size_t n = 0);
+        void resize_workspace(unsigned n = 0);
 
         void transpose(double A[]) const;
 

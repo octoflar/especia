@@ -141,7 +141,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const size_t parameter_count = 8;
+        static const unsigned parameter_count = 8;
 
         /**
          * Default constructor.
@@ -221,7 +221,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const size_t parameter_count = 6;
+        static const unsigned parameter_count = 6;
 
         /**
          * Default constructor.
@@ -295,7 +295,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const size_t parameter_count = 7;
+        static const unsigned parameter_count = 7;
 
         /**
          * Default constructor.
@@ -395,10 +395,10 @@ namespace especia {
          * @param[in] q The vector of parameter values. The semantics of parameter values and the
          *              number of parameters per component are defined by the profile type.
          */
-        Superposition(size_t n, const double q[])
+        Superposition(unsigned n, const double q[])
                 : profiles() {
             profiles.reserve(n);
-            for (size_t i = 0; i < n; ++i, q += P::parameter_count) {
+            for (unsigned i = 0; i < n; ++i, q += P::parameter_count) {
                 profiles.push_back(P(q));
             }
         }
@@ -418,7 +418,7 @@ namespace especia {
         double operator()(const double &x) const {
             double d = 0.0;
 
-            for (size_t i = 0; i < profiles.size(); ++i) {
+            for (unsigned i = 0; i < profiles.size(); ++i) {
                 d += profiles[i](x);
             }
 

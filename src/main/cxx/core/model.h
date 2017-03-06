@@ -59,7 +59,7 @@ namespace especia {
              * @param[in] upper_bounds The upper bounds.
              * @param[in] n The number of bounds.
              */
-            Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], size_t n)
+            Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], unsigned n)
                     : a(lower_bounds, n), b(upper_bounds, n) {
             }
 
@@ -76,8 +76,8 @@ namespace especia {
              * @param[in] n The number of parameters to test.
              * @return @c true, if the parameter vector violates the constraint.
              */
-            bool is_violated(const T x[], size_t n) const {
-                for (size_t i = 0; i < n; ++i) {
+            bool is_violated(const T x[], unsigned n) const {
+                for (unsigned i = 0; i < n; ++i) {
                     if (x[i] < a[i] || x[i] > b[i]) {
                         return true;
                     }
@@ -92,7 +92,7 @@ namespace especia {
              * @param[in] n The number of parameters to take account of.
              * @return always zero.
              */
-            T cost(const T x[], size_t n) const {
+            T cost(const T x[], unsigned n) const {
                 return T(0);
             }
 
@@ -108,7 +108,7 @@ namespace especia {
                           char end_of_section = '}') {
             using namespace std;
 
-            typedef map<string, size_t>::const_iterator id_index_map_ci;
+            typedef map<string, unsigned>::const_iterator id_index_map_ci;
 
             const char errmsg[] = "especia::Model<>::get(): Error: ";
             const char dlimsg[] = "duplicate line identifier";
@@ -121,19 +121,19 @@ namespace especia {
 
             vector<especia::Section> sec;
 
-            vector<size_t> isc;
-            vector<size_t> nle;
-            vector<size_t> nli;
+            vector<unsigned> isc;
+            vector<unsigned> nle;
+            vector<unsigned> nli;
 
             vector<double> val;
             vector<double> lo;
             vector<double> up;
 
             vector<bool> msk;
-            vector<size_t> ind;
+            vector<unsigned> ind;
 
-            map<string, size_t> pim;
-            map<string, size_t> sim;
+            map<string, unsigned> pim;
+            map<string, unsigned> sim;
 
             vector<string> ref;
 
@@ -161,8 +161,8 @@ namespace especia {
                 st << line << '\n';
             }
 
-            size_t i = 0;
-            size_t j = 0;
+            unsigned i = 0;
+            unsigned j = 0;
 
             while (getline(st, line, end_of_section))
                 if (!st.eof()) {
@@ -173,7 +173,7 @@ namespace especia {
 
                         string sid, pid, fn, s2;
                         double a, b;
-                        size_t p;
+                        unsigned p;
 
                         // Parse section head
                         if (ist >> sid >> fn >> a >> b >> p and getline(ist, s2)) {
@@ -228,7 +228,7 @@ namespace especia {
                             return is;
                         }
 
-                        size_t k = 0;
+                        unsigned k = 0;
 
                         // Read profile function parameter specification
                         while (ist >> pid)
@@ -262,7 +262,7 @@ namespace especia {
 
             if (!st.bad() and st.eof()) {
                 // Index independent parameters
-                for (size_t i = 0, k = 0; i < msk.size(); ++i)
+                for (unsigned i = 0, k = 0; i < msk.size(); ++i)
                     if (msk[i] and ref[i].empty()) {
                         if (lo[i] > up[i])
                             swap(lo[i], up[i]);
@@ -277,11 +277,11 @@ namespace especia {
 
                 // Dereference resolution parameter references
                 for (id_index_map_ci i = sim.begin(); i != sim.end(); ++i) {
-                    const size_t j = isc[i->second];
+                    const unsigned j = isc[i->second];
 
                     while (!ref[j].empty()) {
                         if (sim.find(ref[j]) != sim.end()) {
-                            const size_t k = isc[sim[ref[j]]];
+                            const unsigned k = isc[sim[ref[j]]];
 
                             if (j != k) {
                                 if (ref[k].empty()) {
@@ -311,12 +311,12 @@ namespace especia {
 
                 // Dereference line parameter references
                 for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i)
-                    for (size_t j = 0; j < Profile::parameter_count; ++j) {
-                        const size_t k = i->second + j;
+                    for (unsigned j = 0; j < Profile::parameter_count; ++j) {
+                        const unsigned k = i->second + j;
 
                         while (!ref[k].empty()) {
                             if (pim.find(ref[k]) != pim.end()) {
-                                const size_t l = pim[ref[k]] + j;
+                                const unsigned l = pim[ref[k]] + j;
 
                                 if (k != l) {
                                     if (ref[l].empty()) {
@@ -344,8 +344,8 @@ namespace especia {
                         }
                     }
 
-                const size_t m = sec.size();
-                const size_t n = msk.size();
+                const unsigned m = sec.size();
+                const unsigned n = msk.size();
 
                 this->sec = sec;
 
@@ -387,7 +387,7 @@ namespace especia {
         std::ostream &put(std::ostream &os) const {
             using namespace std;
 
-            typedef map<string, size_t>::const_iterator id_index_map_ci;
+            typedef map<string, unsigned>::const_iterator id_index_map_ci;
 
             const ios_base::fmtflags fmt = os.flags();
 
@@ -423,10 +423,10 @@ namespace especia {
             os << "  <tbody align=\"left\">\n";
 
             for (id_index_map_ci i = sim.begin(); i != sim.end(); ++i) {
-                const size_t j = i->second;
+                const unsigned j = i->second;
 
                 const string id = i->first;
-                const size_t px = sec[j].valid_data_count();
+                const unsigned px = sec[j].valid_data_count();
                 const double st = sec[j].cost();
 
                 os.precision(2);
@@ -467,7 +467,7 @@ namespace especia {
             os << "  <tbody align=\"left\">\n";
 
             for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i) {
-                const size_t j = i->second;
+                const unsigned j = i->second;
                 const string id = i->first;
 
                 const double c = 1.0E-3 * speed_of_light;
@@ -528,12 +528,12 @@ namespace especia {
             return os;
         }
 
-        double operator()(const double x[], size_t n) const {
+        double operator()(const double x[], unsigned n) const {
             return cost(x, n);
         }
 
         void set(const double x[], const double z[]) {
-            for (size_t i = 0; i < val.size(); ++i) {
+            for (unsigned i = 0; i < val.size(); ++i) {
                 if (msk[i]) {
                     val[i] = x[ind[i]];
                     err[i] = z[ind[i]];
@@ -541,35 +541,35 @@ namespace especia {
                     err[i] = 0.0;
                 }
             }
-            for (size_t i = 0; i < sec.size(); ++i) {
+            for (unsigned i = 0; i < sec.size(); ++i) {
                 sec[i].apply(Superposition<Profile>(nli[i], &val[isc[i] + 1]), val[isc[i]], nle[i]);
             }
         }
 
-        double cost(const double x[], size_t n) const {
+        double cost(const double x[], unsigned n) const {
             using std::valarray;
 
             valarray<double> y = val;
-            for (size_t i = 0; i < y.size(); ++i) {
+            for (unsigned i = 0; i < y.size(); ++i) {
                 if (msk[i]) {
                     y[i] = x[ind[i]];
                 }
             }
             double d = 0.0;
-            for (size_t i = 0; i < sec.size(); ++i) {
+            for (unsigned i = 0; i < sec.size(); ++i) {
                 d += sec[i].cost(Superposition<Profile>(nli[i], &y[isc[i] + 1]), y[isc[i]], nle[i]);
             }
             return d;
         }
 
-        size_t get_parameter_count() const {
+        unsigned get_parameter_count() const {
             return ind.max() + 1;
         }
 
         std::valarray<double> get_initial_parameter_values() const {
             std::valarray<double> x(get_parameter_count());
 
-            for (size_t i = 0, j = 0; i < msk.size(); ++i) {
+            for (unsigned i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
                     x[j++] = 0.5 * (lo[i] + up[i]);
                 }
@@ -581,7 +581,7 @@ namespace especia {
         std::valarray<double> get_initial_local_step_sizes() const {
             std::valarray<double> z(get_parameter_count());
 
-            for (size_t i = 0, j = 0; i < msk.size(); ++i) {
+            for (unsigned i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
                     z[j++] = 0.5 * (up[i] - lo[i]);
                 }
@@ -594,7 +594,7 @@ namespace especia {
             std::valarray<double> a(get_parameter_count());
             std::valarray<double> b(get_parameter_count());
 
-            for (size_t i = 0, j = 0; i < msk.size(); ++i) {
+            for (unsigned i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
                     a[j] = lo[i];
                     b[j] = up[i];
@@ -606,7 +606,7 @@ namespace especia {
         }
 
     private:
-        std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, int p, size_t parameter_index) const {
+        std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, int p, unsigned parameter_index) const {
             using namespace std;
 
             const ios_base::fmtflags fmt = os.flags();
@@ -625,9 +625,9 @@ namespace especia {
 
         std::vector<especia::Section> sec;
 
-        std::valarray<size_t> isc;
-        std::valarray<size_t> nle;
-        std::valarray<size_t> nli;
+        std::valarray<unsigned> isc;
+        std::valarray<unsigned> nle;
+        std::valarray<unsigned> nli;
 
         std::valarray<double> val;
         std::valarray<double> err;
@@ -635,10 +635,10 @@ namespace especia {
         std::valarray<double> up;
 
         std::valarray<bool> msk;
-        std::valarray<size_t> ind;
+        std::valarray<unsigned> ind;
 
-        std::map<std::string, size_t> sim;
-        std::map<std::string, size_t> pim;
+        std::map<std::string, unsigned> sim;
+        std::map<std::string, unsigned> pim;
     };
 
 }

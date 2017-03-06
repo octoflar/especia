@@ -24,7 +24,7 @@
 especia::Runner::Runner(int argc, char *argv[]) {
     using std::string;
 
-    for (size_t i = 0; i < argc; ++i) {
+    for (int i = 0; i < argc; ++i) {
         args.push_back(string(argv[i]));
     }
 }
@@ -41,7 +41,7 @@ void especia::Runner::write_command_line(std::ostream &os) const {
     os << "<!--" << endl;
     os << "<command>" << endl;
 
-    for (int i = 0; i < args.size(); ++i) {
+    for (unsigned i = 0; i < args.size(); ++i) {
         os << " " << args[i];
     }
 

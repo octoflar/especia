@@ -31,7 +31,7 @@ especia::Optimizer::Builder::~Builder() {
 
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(size_t n) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(unsigned n) {
     this->n = n;
     set_strategy_parameters();
     return *this;
@@ -80,7 +80,7 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
 
     weights.resize(parent_number);
 
-    for (size_t i = 0; i < parent_number; ++i) {
+    for (unsigned i = 0; i < parent_number; ++i) {
         weights[i] = log((parent_number + 1.0) / (i + 1));
     }
 
@@ -94,9 +94,9 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
     step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
 }
 
-especia::Optimizer::Result::Result(size_t n, const valarray<double> &x_in, const valarray<double> &d_in, double s_in)
+especia::Optimizer::Result::Result(unsigned n, const valarray<double> &x_in, const valarray<double> &d_in, double s_in)
         : x(x_in), d(d_in), s(s_in), z(0.0, n), B(0.0, sqr(n)), C(0.0, sqr(n)), pc(0.0, n), ps(0.0, n) {
-    for (size_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+    for (unsigned i = 0, ii = 0; i < n; ++i, ii += n + 1) {
         B[ii] = 1.0;
         C[ii] = d[i] * d[i];
     }

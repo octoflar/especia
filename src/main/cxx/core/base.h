@@ -257,7 +257,7 @@ namespace especia {
          * @param[in] j An index into the set of base values.
          * @return the result of comparing the indexed base values directly.
          */
-        bool operator()(const size_t &i, const size_t &j) const {
+        bool operator()(const unsigned &i, const unsigned &j) const {
             return compare(values[i], values[j]);
         }
 

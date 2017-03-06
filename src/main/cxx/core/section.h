@@ -161,7 +161,7 @@ namespace especia {
          * @return the value of the cost function.
          */
         template<class M>
-        double cost(const M &model, double r, size_t m) const {
+        double cost(const M &model, double r, unsigned m) const {
             using std::abs;
             using std::valarray;
 
@@ -212,7 +212,7 @@ namespace especia {
          * @return this section.
          */
         template<class M>
-        Section &apply(const M &model, double r, size_t m) {
+        Section &apply(const M &model, double r, unsigned m) {
             convolute(model, r, &opt[0], &atm[0], &cat[0]);
             continuum(m, &cat[0], &cfl[0]);
 
@@ -233,7 +233,7 @@ namespace especia {
          * @param[in] cat The evaluated convoluted absorption term.
          * @param[out] cfl The evaluated background continuum flux.
          */
-        void continuum(size_t m, const double cat[], double cfl[]) const throw(std::runtime_error);
+        void continuum(unsigned m, const double cat[], double cfl[]) const throw(std::runtime_error);
 
         /**
          * Convolutes a given optical depth model with the instrumental line spread function.
@@ -257,12 +257,12 @@ namespace especia {
                 // The sample spacing.
                 const double w = width() / (n - 1);
                 // The Gaussian line spread function is truncated at 4 HWHM where it is less than 10E-5.
-                const size_t m = static_cast<size_t>(4.0 * (h / w)) + 1;
+                const unsigned m = static_cast<unsigned>(4.0 * (h / w)) + 1;
 
                 valarray<double> p(m);
                 valarray<double> q(m);
 
-                for (size_t i = 0; i < m; ++i) {
+                for (unsigned i = 0; i < m; ++i) {
                     primitive(i * w, h, p[i], q[i]);
                 }
 
@@ -276,9 +276,9 @@ namespace especia {
                     double a = 0.0;
                     double b = 0.0;
 
-                    for (size_t j = 0; j + 1 < m; ++j) {
-                        const size_t k = (i < j + 1) ? 0 : i - j - 1;
-                        const size_t l = (i + j + 2 > n) ? n - 2 : i + j;
+                    for (unsigned j = 0; j + 1 < m; ++j) {
+                        const unsigned k = (i < j + 1) ? 0 : i - j - 1;
+                        const unsigned l = (i + j + 2 > n) ? n - 2 : i + j;
                         const double d = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
 
                         a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - j * d);
