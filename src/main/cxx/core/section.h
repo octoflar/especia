@@ -141,10 +141,9 @@ namespace especia {
         size_t valid_data_count() const;
 
         /**
-         * Returns the value of the cost function resulting from having applied an optical
-         * depth model to this section.
+         * Returns the current value of the cost function.
          *
-         * @return the value of the cost function.
+         * @return the current value of the cost function.
          */
         double cost() const;
 

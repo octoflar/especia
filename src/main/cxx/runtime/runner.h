@@ -29,6 +29,7 @@
 #include <vector>
 
 #include "config.h"
+#include "../optimization/optimizer.h"
 
 namespace especia {
 
@@ -175,6 +176,7 @@ namespace especia {
         int run(M &model) throw(std::invalid_argument, std::runtime_error) {
             using std::cin;
             using std::cout;
+            using std::endl;
             using std::invalid_argument;
             using std::runtime_error;
 
@@ -183,7 +185,7 @@ namespace especia {
                 return 0;
             }
             if (get_arg_count() != 8) {
-                throw invalid_argument("especia::runner: Error: an invalid number of arguments was supplied");
+                throw invalid_argument("especia::Runner: Error: an invalid number of arguments was supplied");
             }
 
             write_command_line(cout);
@@ -199,22 +201,45 @@ namespace especia {
             model.get(cin, cout);
 
             if (cin.fail()) {
-                throw runtime_error("especia::runner: Error: an error occurred while reading the model definition");
+                throw runtime_error("especia::Runner: Error: an error occurred while reading the model definition");
             }
             if (not cin.eof()) {
-                throw runtime_error("especia::runner: Error: an error occurred while reading the model definition");
+                throw runtime_error("especia::Runner: Error: an error occurred while reading the model definition");
             }
 
-            const bool optimized = model.optimize(parent_number,
-                                                  population_size,
-                                                  step_size,
-                                                  accuracy_goal,
-                                                  stop,
-                                                  trace,
-                                                  seed, cout);
+            Optimizer optimizer = Optimizer::Builder().
+                    with_problem_dimension(model.get_parameter_count()).
+                    with_parent_number(parent_number).
+                    with_population_size(population_size).
+                    with_accuracy_goal(accuracy_goal).
+                    with_stop_generation(stop).
+                    with_random_seed(seed).
+                    build();
+
+            cout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << endl;
+            cout << "<html>" << endl;
+
+            cout << "<!--" << endl;
+            cout << "<log>" << endl;
+
+            Optimizer::Result result = optimizer.minimize(model,
+                                                          model.get_initial_parameter_values(),
+                                                          model.get_initial_local_step_sizes(),
+                                                          step_size,
+                                                          model.get_constraint(),
+                                                          Tracing_To_Output_Stream<>(cout, trace));
+
+            cout << "</log>" << endl;
+            cout << "-->" << endl;
+
+            write_result_messages(cout, result);
+
+            cout << "</html>" << endl;
+
+            model.apply(&result.get_parameter_values()[0], &result.get_parameter_uncertainties()[0]);
             model.put(cout);
 
-            if (optimized) {
+            if (result.is_optimized()) {
                 return 0;
             } else {
                 return 1;
@@ -234,35 +259,14 @@ namespace especia {
                 return t;
             }
 
-            throw invalid_argument("especia::runner: Error: argument '" + arg + "' is not valid");
+            throw invalid_argument("especia::Runner: Error: argument '" + arg + "' is not valid");
         }
 
-        void write_command_line(std::ostream &os) const {
-            using std::endl;
+        void write_command_line(std::ostream &os) const;
 
-            os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << endl;
-            os << "<html>" << endl;
-            os << "<!--" << endl;
-            os << "<command>" << endl;
+        void write_result_messages(std::ostream &os, const Optimizer::Result &result) const;
 
-            for (int i = 0; i < args.size(); ++i) {
-                os << " " << args[i];
-            }
-
-            os << std::endl;
-            os << "</command>" << endl;
-            os << "-->" << endl;
-            os << "</html>" << endl;
-        }
-
-        void write_usage_message(std::ostream &os) const {
-            using std::endl;
-
-            os << PROJECT_LONG_NAME << " " << DOI << endl;
-            os << "usage: " << get_program_name() << ": "
-               << "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM"
-               << endl;
-        }
+        void write_usage_message(std::ostream &os) const;
 
         /**
          * The command line arguments.

@@ -34,10 +34,10 @@
 #include <vector>
 
 #include "config.h"
-#include "../optimization/optimizer.h"
 #include "profiles.h"
 #include "readline.h"
 #include "section.h"
+#include "../optimization/optimizer.h"
 
 
 namespace especia {
@@ -45,6 +45,7 @@ namespace especia {
     template<class Profile>
     class Model {
     public:
+
         std::istream &get(std::istream &is,
                           std::ostream &os,
                           char comment_mark = '%',
@@ -472,58 +473,71 @@ namespace especia {
             return os;
         }
 
-        void compute_model(const double x[], size_t n) {
-            for (size_t i = 0; i < val.size(); ++i)
-                if (msk[i])
-                    val[i] = x[ind[i]];
-
-            for (size_t i = 0; i < sec.size(); ++i)
-                sec[i].apply(Superposition<Profile>(nli[i], &val[isc[i] + 1]), val[isc[i]], nle[i]);
-        }
-
         double operator()(const double x[], size_t n) const {
             return cost(x, n);
+        }
+
+        void apply(const double x[], const double z[]) {
+            for (size_t i = 0; i < val.size(); ++i) {
+                if (msk[i]) {
+                    val[i] = x[ind[i]];
+                    err[i] = z[ind[i]];
+                } else {
+                    err[i] = 0.0;
+                }
+            }
+            for (size_t i = 0; i < sec.size(); ++i) {
+                sec[i].apply(Superposition<Profile>(nli[i], &val[isc[i] + 1]), val[isc[i]], nle[i]);
+            }
         }
 
         double cost(const double x[], size_t n) const {
             using std::valarray;
 
             valarray<double> y = val;
-            for (size_t i = 0; i < y.size(); ++i)
-                if (msk[i])
+            for (size_t i = 0; i < y.size(); ++i) {
+                if (msk[i]) {
                     y[i] = x[ind[i]];
-
+                }
+            }
             double d = 0.0;
-            for (size_t i = 0; i < sec.size(); ++i)
+            for (size_t i = 0; i < sec.size(); ++i) {
                 d += sec[i].cost(Superposition<Profile>(nli[i], &y[isc[i] + 1]), y[isc[i]], nle[i]);
-
+            }
             return d;
         }
 
-        bool optimize(unsigned parent_number,
-                      unsigned population_size,
-                      double step_size,
-                      double accuracy_goal,
-                      unsigned long stop_generation,
-                      unsigned trace,
-                      unsigned long seed, std::ostream &os) {
-            using std::endl;
-            using std::ios_base;
-            using std::setw;
-            using std::valarray;
+        size_t get_parameter_count() const {
+            return ind.max() + 1;
+        }
 
-            const char beglog[] = "<log>";
-            const char endlog[] = "</log>";
-            const char begmsg[] = "<message>";
-            const char endmsg[] = "</message>";
-            const char optmsg[] = "especia::Model<>::optimize(): Message: optimization completed";
-            const char stpmsg[] = "especia::Model<>::optimize(): Warning: optimization stopped at generation ";
-            const char uflmsg[] = "especia::Model<>::optimize(): Warning: mutation variance underflow";
+        std::valarray<double> get_initial_parameter_values() const {
+            std::valarray<double> x(get_parameter_count());
 
-            const size_t n = ind.max() + 1;
+            for (size_t i = 0, j = 0; i < msk.size(); ++i) {
+                if (msk[i] and ind[i] == j) {
+                    x[j++] = 0.5 * (lo[i] + up[i]);
+                }
+            }
 
-            valarray<double> a(n);
-            valarray<double> b(n);
+            return x;
+        }
+
+        std::valarray<double> get_initial_local_step_sizes() const {
+            std::valarray<double> z(get_parameter_count());
+
+            for (size_t i = 0, j = 0; i < msk.size(); ++i) {
+                if (msk[i] and ind[i] == j) {
+                    z[j++] = 0.5 * (up[i] - lo[i]);
+                }
+            }
+
+            return z;
+        }
+
+        Bounded_Constraint<double> get_constraint() const {
+            std::valarray<double> a(get_parameter_count());
+            std::valarray<double> b(get_parameter_count());
 
             for (size_t i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
@@ -533,52 +547,7 @@ namespace especia {
                 }
             }
 
-            const valarray<double> x = 0.5 * (a + b);
-            const valarray<double> d = 0.5 * (b - a);
-
-            os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
-            os << "<html>\n";
-            os << "<!--" << endl;
-            os << beglog << endl;
-
-            Optimizer optimizer = Optimizer::Builder().with_problem_dimension(n).
-                    with_parent_number(parent_number).
-                    with_population_size(population_size).
-                    with_accuracy_goal(accuracy_goal).
-                    with_stop_generation(stop_generation).
-                    with_random_seed(seed).
-                    build();
-
-            const Bounded_Constraint<> constraint(&a[0], &b[0], n);
-            const Tracing_To_Output_Stream<> tracer(os, trace);
-
-            Optimizer::Result result = optimizer.minimize(*this, x, d, step_size, constraint, tracer);
-
-            os << endlog << endl;
-            os << "-->" << endl;
-            os << "<!--" << endl;
-            os << begmsg << endl;
-
-            if (result.is_optimized())
-                os << optmsg << endl;
-            else if (result.is_underflow())
-                os << uflmsg << endl;
-            else
-                os << stpmsg << result.get_generation_number() << endl;
-
-            os << endmsg << endl;
-            os << "-->" << endl;
-            os << "</html>\n";
-
-            for (size_t i = 0; i < msk.size(); ++i)
-                if (msk[i])
-                    err[i] = result.get_parameter_uncertainties()[ind[i]];
-                else
-                    err[i] = 0.0;
-
-            compute_model(&result.get_parameter_values()[0], n);
-
-            return result.is_optimized();
+            return Bounded_Constraint<double>(&a[0], &b[0], get_parameter_count());
         }
 
     private:

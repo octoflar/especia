@@ -24,7 +24,7 @@
 
 #include "core/model.h"
 #include "core/profiles.h"
-#include "runner/runner.h"
+#include "runtime/runner.h"
 
 using namespace std;
 

@@ -59,23 +59,12 @@ configure_file(${TEST}/resources/virtual_1657.dat  resources/virtual_1657.dat CO
 
 
 set(COMMON_SOURCES
-        ${MAIN}/cxx/core/base.h
         ${MAIN}/cxx/core/decompose.cxx
-        ${MAIN}/cxx/core/decompose.h
-        ${MAIN}/cxx/core/deviates.h
-        ${MAIN}/cxx/core/model.h
-        ${MAIN}/cxx/core/mtwister.h
         ${MAIN}/cxx/core/profiles.cxx
-        ${MAIN}/cxx/core/profiles.h
         ${MAIN}/cxx/core/readline.cxx
-        ${MAIN}/cxx/core/readline.h
         ${MAIN}/cxx/core/section.cxx
-        ${MAIN}/cxx/core/section.h
         ${MAIN}/cxx/optimization/optimizer.cxx
-        ${MAIN}/cxx/optimization/optimizer.h
-        ${MAIN}/cxx/optimization/optimize.h
-        ${MAIN}/cxx/runner/runner.cxx
-        ${MAIN}/cxx/runner/runner.h)
+        ${MAIN}/cxx/runtime/runner.cxx)
 
 add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
 target_link_libraries(especia ${VECLIB})
@@ -90,7 +79,7 @@ add_executable(edat ${MAIN}/cxx/edat.cxx)
 add_executable(elog ${MAIN}/cxx/elog.cxx)
 add_executable(emod ${MAIN}/cxx/emod.cxx)
 add_executable(emes ${MAIN}/cxx/emes.cxx)
-add_executable(etee ${MAIN}/cxx/etee.cxx ${MAIN}/cxx/core/dataio.h ${MAIN}/cxx/core/dataio.cxx)
+add_executable(etee ${MAIN}/cxx/etee.cxx ${MAIN}/cxx/core/dataio.cxx)
 
 add_system_test(especid_test 159.77 171.89)
 add_system_test(especiv_test 251.04)

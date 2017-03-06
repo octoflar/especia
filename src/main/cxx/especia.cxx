@@ -26,7 +26,7 @@
 #define ESPECIA_MANY_MULTIPLET_ANALYSIS 1
 #include "core/model.h"
 #undef  ESPECIA_MANY_MULTIPLET_ANALYSIS
-#include "runner/runner.h"
+#include "runtime/runner.h"
 
 using namespace std;
 
