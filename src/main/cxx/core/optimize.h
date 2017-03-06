@@ -19,8 +19,6 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "OCDFAInspection"
 #ifndef ESPECIA_OPTIMIZE_H
 #define ESPECIA_OPTIMIZE_H
 
@@ -368,5 +366,3 @@ namespace especia {
 }
 
 #endif // ESPECIA_OPTIMIZE_H
-
-#pragma clang diagnostic pop

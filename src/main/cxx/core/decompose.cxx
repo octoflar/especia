@@ -97,7 +97,7 @@ especia::D_Decompose::~D_Decompose() {
 void especia::D_Decompose::operator()(size_t k, const double A[], double Z[], double w[]) throw(runtime_error) {
     copy(&A[0], &A[k * k], Z);
 
-    if (k != n) {
+    if (k != static_cast<size_t>(n)) {
         resize_workspace(k);
     }
 
@@ -115,10 +115,7 @@ void especia::D_Decompose::operator()(size_t k, const double A[], double Z[], do
 }
 
 void especia::D_Decompose::resize_workspace(size_t k) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
-    n = k;
-#pragma clang diagnostic pop
+    n = static_cast<int>(k);
 
     // The workspace query.
     F77NAME(dsyevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
@@ -126,15 +123,8 @@ void especia::D_Decompose::resize_workspace(size_t k) {
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
         liwork = iwork[0];
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-conversion"
-        work.resize(lwork);
-#pragma clang diagnostic pop
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-conversion"
-        iwork.resize(liwork);
-#pragma clang diagnostic pop
+        work.resize(static_cast<size_t>(lwork));
+        iwork.resize(static_cast<size_t>(liwork));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -165,7 +155,7 @@ especia::R_Decompose::~R_Decompose() {
 void especia::R_Decompose::operator()(size_t k, const double A[], double Z[], double w[]) throw(runtime_error) {
     valarray<double> C(A, k * k);
 
-    if (k != n) {
+    if (k != static_cast<size_t>(n)) {
         resize_workspace(k);
     }
 
@@ -184,10 +174,7 @@ void especia::R_Decompose::operator()(size_t k, const double A[], double Z[], do
 }
 
 void especia::R_Decompose::resize_workspace(size_t k) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
-    n = k;
-#pragma clang diagnostic pop
+    n = static_cast<int>(k);
 
     // The workspace query.
     F77NAME(dsyevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
@@ -196,19 +183,9 @@ void especia::R_Decompose::resize_workspace(size_t k) {
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
         liwork = iwork[0];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-conversion"
-        work.resize(lwork);
-#pragma clang diagnostic pop
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-conversion"
-        iwork.resize(liwork);
-#pragma clang diagnostic pop
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-conversion"
-        isupp.resize(2 * max(1, n));
-#pragma clang diagnostic pop
+        work.resize(static_cast<size_t>(lwork));
+        iwork.resize(static_cast<size_t>(liwork));
+        isupp.resize(2 * static_cast<size_t>(max(1, n)));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -239,7 +216,7 @@ especia::X_Decompose::~X_Decompose() {
 void especia::X_Decompose::operator()(size_t k, const double A[], double Z[], double w[]) throw(runtime_error) {
     valarray<double> C(A, k * k);
 
-    if (k != n) {
+    if (k != static_cast<size_t>(n)) {
         resize_workspace(k);
     }
 
@@ -258,10 +235,7 @@ void especia::X_Decompose::operator()(size_t k, const double A[], double Z[], do
 }
 
 void especia::X_Decompose::resize_workspace(size_t k) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
-    n = k;
-#pragma clang diagnostic pop
+    n = static_cast<int>(k);
 
     // The workspace query.
     F77NAME(dsyevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
@@ -269,18 +243,9 @@ void especia::X_Decompose::resize_workspace(size_t k) {
 
     if (info == 0) {
         lwork = static_cast<int>(work[0]);
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-conversion"
-        work.resize(max(1, lwork));
-#pragma clang diagnostic pop
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-conversion"
-        iwork.resize(5 * n);
-#pragma clang diagnostic pop
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-conversion"
-        ifail.resize(n);
-#pragma clang diagnostic pop
+        work.resize(static_cast<size_t>(lwork));
+        iwork.resize(5 * static_cast<size_t>(n));
+        ifail.resize(static_cast<size_t>(n));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
