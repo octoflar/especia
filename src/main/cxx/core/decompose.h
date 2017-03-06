@@ -22,8 +22,8 @@
 #ifndef ESPECIA_SYMEIG_H
 #define ESPECIA_SYMEIG_H
 
-#include <cstddef>
 #include <stdexcept>
+#include <string>
 #include <valarray>
 
 #include "base.h"
@@ -74,8 +74,8 @@ namespace especia {
         std::valarray<Real_t> work;
         std::valarray<Znum_t> iwork;
 
-        static const char int_err[];
-        static const char ill_arg[];
+        static const std::string int_err;
+        static const std::string ill_arg;
     };
 
     /**
@@ -126,8 +126,8 @@ namespace especia {
         std::valarray<Real_t> work;
         std::valarray<Znum_t> iwork;
 
-        static const char int_err[];
-        static const char ill_arg[];
+        static const std::string int_err;
+        static const std::string ill_arg;
     };
 
     /**
@@ -176,8 +176,8 @@ namespace especia {
         std::valarray<Znum_t> iwork;
         std::valarray<Znum_t> ifail;
 
-        static const char int_err[];
-        static const char ill_arg[];
+        static const std::string int_err;
+        static const std::string ill_arg;
     };
 
     /**

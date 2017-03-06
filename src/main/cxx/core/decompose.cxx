@@ -30,6 +30,7 @@
 using std::copy;
 using std::max;
 using std::runtime_error;
+using std::string;
 using std::swap;
 using std::valarray;
 
@@ -85,8 +86,8 @@ void F77NAME(dsyevx)(const char &job,
 
 const Real_t safe_minimum = F77NAME(dlamch)('s');
 
-const char especia::D_Decompose::int_err[] = "especia::D_Decompose(): Error: internal error in LAPACK routine DSYEVD";
-const char especia::D_Decompose::ill_arg[] = "especia::D_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
+const string especia::D_Decompose::int_err = "especia::D_Decompose(): Error: internal error in LAPACK routine DSYEVD";
+const string especia::D_Decompose::ill_arg = "especia::D_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
 
 especia::D_Decompose::D_Decompose(Nnum_t n)
         : job('V'), uplo('U'), work(1), iwork(1) {
@@ -143,8 +144,8 @@ void especia::D_Decompose::transpose(Real_t A[]) const {
 }
 
 
-const char especia::R_Decompose::int_err[] = "especia::R_Decompose(): Error: internal error in LAPACK routine DSYEVR";
-const char especia::R_Decompose::ill_arg[] = "especia::R_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVR";
+const string especia::R_Decompose::int_err = "especia::R_Decompose(): Error: internal error in LAPACK routine DSYEVR";
+const string especia::R_Decompose::ill_arg = "especia::R_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVR";
 
 especia::R_Decompose::R_Decompose(Nnum_t n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(1) {
@@ -187,7 +188,7 @@ void especia::R_Decompose::resize_workspace(Nnum_t k) {
         liwork = iwork[0];
         work.resize(static_cast<Nnum_t>(lwork));
         iwork.resize(static_cast<Nnum_t>(liwork));
-        isupp.resize(2 * static_cast<Nnum_t>(max(1, n)));
+        isupp.resize(static_cast<Nnum_t>(2 * max(1, n)));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -204,8 +205,8 @@ void especia::R_Decompose::transpose(Real_t A[]) const {
 }
 
 
-const char especia::X_Decompose::int_err[] = "especia::X_Decompose(): Error: internal error in LAPACK routine DSYEVX";
-const char especia::X_Decompose::ill_arg[] = "especia::X_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVX";
+const string especia::X_Decompose::int_err = "especia::X_Decompose(): Error: internal error in LAPACK routine DSYEVX";
+const string especia::X_Decompose::ill_arg = "especia::X_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVX";
 
 especia::X_Decompose::X_Decompose(Nnum_t n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(), ifail() {
@@ -246,7 +247,7 @@ void especia::X_Decompose::resize_workspace(Nnum_t k) {
     if (info == 0) {
         lwork = static_cast<Znum_t>(work[0]);
         work.resize(static_cast<Nnum_t>(lwork));
-        iwork.resize(5 * static_cast<Nnum_t>(n));
+        iwork.resize(static_cast<Nnum_t>(5 * n));
         ifail.resize(static_cast<Nnum_t>(n));
     } else if (info > 0) {
         throw runtime_error(int_err);
