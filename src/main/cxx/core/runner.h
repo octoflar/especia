@@ -35,7 +35,7 @@
 namespace especia {
 
     /**
-     * Runs a model.
+     * Carries out an optimization run.
      */
     class Runner {
     public:
@@ -246,6 +246,29 @@ namespace especia {
             }
         }
 
+        /**
+         * Parses a string argument into a number (or other object).
+         *
+         * @tparam T The numeric (or object) type.
+         *
+         * @param arg The string argument.
+         * @return the number (or object).
+         */
+        template<class T>
+        static T parse(const std::string &arg) throw(std::invalid_argument) {
+            using std::invalid_argument;
+            using std::istringstream;
+
+            istringstream iss(arg);
+            T t;
+
+            if (iss >> t) {
+                return t;
+            }
+
+            throw invalid_argument("especia::Runner: Error: argument '" + arg + "' is not valid");
+        }
+
     private:
         /**
          * Traces optimizer state information to an output stream.
@@ -318,21 +341,6 @@ namespace especia {
             const unsigned p;
             const unsigned w;
         };
-
-        template<class T>
-        T parse(const std::string &arg) const throw(std::invalid_argument) {
-            using std::invalid_argument;
-            using std::istringstream;
-
-            istringstream iss(arg);
-            T t;
-
-            if (iss >> t) {
-                return t;
-            }
-
-            throw invalid_argument("especia::Runner: Error: argument '" + arg + "' is not valid");
-        }
 
         void write_command_line(std::ostream &os) const;
 

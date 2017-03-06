@@ -532,7 +532,7 @@ namespace especia {
             return cost(x, n);
         }
 
-        void apply(const double x[], const double z[]) {
+        void set(const double x[], const double z[]) {
             for (size_t i = 0; i < val.size(); ++i) {
                 if (msk[i]) {
                     val[i] = x[ind[i]];
