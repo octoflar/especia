@@ -50,13 +50,13 @@ namespace especia {
      */
     inline
     double solve(void f(const double &x, double &y, double &z), double c, double x, double accuracy_goal = 1.0E-8,
-                 unsigned int max_iteration = 100) throw(std::runtime_error) {
+                 unsigned max_iteration = 100) throw(std::runtime_error) {
         using std::abs;
         using std::runtime_error;
 
         double d, y, z;
 
-        for (unsigned int i = 0; i < max_iteration; ++i) {
+        for (unsigned i = 0; i < max_iteration; ++i) {
             f(x, y, z);
             d = (y - c) / z;
             x -= d;

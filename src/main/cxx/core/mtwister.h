@@ -28,38 +28,38 @@
 
 namespace especia {
 
-   /**
-    * The Mersenne twister algorithm to generate [0,1] uniformly distributed
-    * random deviates.
-    *
-    * This functor template is based on the 2002/01/26 version coded by Takuji
-    * Nishimura and Makoto Matsumoto(Matsumoto and Nishimura, 1998).
-    *
-    * The notation of template parameters follows Matsumoto and
-    * Nishimura (1998, Table 2).
-    *
-    * Further reading:
-    *
-    * M. Matsumoto, T. Nishimura (1998).
-    *   *Mersenne Twister: A 623-dimensionally equidistributed uniform pseudorandom number generator.*
-    *   ACM Transactions on Modeling and Computer Simulation, 8, 3, ISSN 1049-3301.
-    *
-    * D. Knuth (1998).
-    *   *The art of computer programming 2. Seminumerical algorithms*.
-    *   Addison Wesley Longman, ISBN 0-201-89684-2.
-    *
-    * @tparam w The number of bits in a word.
-    * @tparam n The parameter n.
-    * @tparam m The parameter m.
-    * @tparam r The parameter r.
-    * @tparam a The parameter a.
-    * @tparam u The parameter u.
-    * @tparam s The parameter s.
-    * @tparam b The parameter b.
-    * @tparam t The parameter t.
-    * @tparam c The parameter c.
-    * @tparam l The parameter l.
-    */
+    /**
+     * The Mersenne twister algorithm to generate [0,1] uniformly distributed
+     * random deviates.
+     *
+     * This functor template is based on the 2002/01/26 version coded by Takuji
+     * Nishimura and Makoto Matsumoto(Matsumoto and Nishimura, 1998).
+     *
+     * The notation of template parameters follows Matsumoto and
+     * Nishimura (1998, Table 2).
+     *
+     * Further reading:
+     *
+     * M. Matsumoto, T. Nishimura (1998).
+     *   *Mersenne Twister: A 623-dimensionally equidistributed uniform pseudorandom number generator.*
+     *   ACM Transactions on Modeling and Computer Simulation, 8, 3, ISSN 1049-3301.
+     *
+     * D. Knuth (1998).
+     *   *The art of computer programming 2. Seminumerical algorithms*.
+     *   Addison Wesley Longman, ISBN 0-201-89684-2.
+     *
+     * @tparam w The number of bits in a word.
+     * @tparam n The parameter n.
+     * @tparam m The parameter m.
+     * @tparam r The parameter r.
+     * @tparam a The parameter a.
+     * @tparam u The parameter u.
+     * @tparam s The parameter s.
+     * @tparam b The parameter b.
+     * @tparam t The parameter t.
+     * @tparam c The parameter c.
+     * @tparam l The parameter l.
+     */
     template<unsigned w, unsigned n, unsigned m, unsigned r,
             unsigned long a,
             unsigned u,

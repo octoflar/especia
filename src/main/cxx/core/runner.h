@@ -120,8 +120,8 @@ namespace especia {
          *
          * @return the parent number.
          */
-        unsigned int parse_parent_number() const throw(std::invalid_argument) {
-            return parse<unsigned int>(args[2]);
+        unsigned parse_parent_number() const throw(std::invalid_argument) {
+            return parse<unsigned>(args[2]);
         }
 
         /**
@@ -129,8 +129,8 @@ namespace especia {
          *
          * @return the population size.
          */
-        unsigned int parse_population_size() const throw(std::invalid_argument) {
-            return parse<unsigned int>(args[3]);
+        unsigned parse_population_size() const throw(std::invalid_argument) {
+            return parse<unsigned>(args[3]);
         }
 
         /**
@@ -139,7 +139,8 @@ namespace especia {
          * @return the random seed.
          */
         unsigned long parse_random_seed() const throw(std::invalid_argument) {
-            return parse<unsigned long>(args[1]);
+            return parse < unsigned
+            long > (args[1]);
         }
 
         /**
@@ -148,7 +149,8 @@ namespace especia {
          * @return the stop generation.
          */
         unsigned long parse_stop_generation() const throw(std::invalid_argument) {
-            return parse<unsigned long>(args[6]);
+            return parse < unsigned
+            long > (args[6]);
         }
 
         /**
@@ -156,8 +158,8 @@ namespace especia {
          *
          * @return the trace modulus.
          */
-        unsigned int parse_trace_modulus() const throw(std::invalid_argument) {
-            return parse<unsigned int>(args[7]);
+        unsigned parse_trace_modulus() const throw(std::invalid_argument) {
+            return parse<unsigned>(args[7]);
         }
 
         /**
@@ -168,9 +170,6 @@ namespace especia {
          * @return an exit code
          * @throw invalid_argument when an invalid argument was supplied.
          * @throw runtime_error when a runtime error occurred.
-         *
-         * @remark A usage message is witten to standard output, if no command line arguments (excluding
-         * the program name) were supplied. In this case zero is returned.
          */
         template<class M>
         int run() throw(std::invalid_argument, std::runtime_error) {
@@ -191,12 +190,12 @@ namespace especia {
             write_command_line(cout);
 
             const unsigned long random_seed = parse_random_seed();
-            const unsigned int parent_number = parse_parent_number();
-            const unsigned int population_size = parse_population_size();
+            const unsigned parent_number = parse_parent_number();
+            const unsigned population_size = parse_population_size();
             const double global_step_size = parse_global_step_size();
             const double accuracy_goal = parse_accuracy_goal();
             const unsigned long stop_generation = parse_stop_generation();
-            const unsigned int trace_modulus = parse_trace_modulus();
+            const unsigned trace_modulus = parse_trace_modulus();
 
             M model;
             model.get(cin, cout);
@@ -237,7 +236,7 @@ namespace especia {
 
             cout << "</html>" << endl;
 
-            model.apply(&result.get_parameter_values()[0], &result.get_parameter_uncertainties()[0]);
+            model.set(&result.get_parameter_values()[0], &result.get_parameter_uncertainties()[0]);
             model.put(cout);
 
             if (result.is_optimized()) {
@@ -264,8 +263,7 @@ namespace especia {
              * @param[in] precision The precision of numeric output.
              * @param[in] width The width of the numeric output fields.
              */
-            Tracer(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
-                                     unsigned int width = 12)
+            Tracer(std::ostream &output_stream, unsigned modulus, unsigned precision = 4, unsigned width = 12)
                     : os(output_stream), m(modulus), p(precision), w(width) {
             }
 
@@ -316,9 +314,9 @@ namespace especia {
 
         private:
             std::ostream &os;
-            const unsigned int m;
-            const unsigned int p;
-            const unsigned int w;
+            const unsigned m;
+            const unsigned p;
+            const unsigned w;
         };
 
         template<class T>

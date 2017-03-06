@@ -172,7 +172,7 @@ namespace especia {
              *
              * @return the parent number.
              */
-            unsigned int get_parent_number() const {
+            unsigned get_parent_number() const {
                 return parent_number;
             }
 
@@ -181,7 +181,7 @@ namespace especia {
              *
              * @return the population size.
              */
-            unsigned int get_population_size() const {
+            unsigned get_population_size() const {
                 return population_size;
             }
 
@@ -190,7 +190,7 @@ namespace especia {
              *
              * @return the covariance matrix update modulus.
              */
-            unsigned int get_covariance_update_modulus() const {
+            unsigned get_covariance_update_modulus() const {
                 return update_modulus;
             }
 
@@ -354,17 +354,17 @@ namespace especia {
             /**
              * The parent number.
              */
-            unsigned int parent_number = 4;
+            unsigned parent_number = 4;
 
             /**
              * The population size.
              */
-            unsigned int population_size = 8;
+            unsigned population_size = 8;
 
             /**
              * The covariance matrix update modulus.
              */
-            unsigned int update_modulus = 1;
+            unsigned update_modulus = 1;
 
             /**
              * The accuracy goal.
