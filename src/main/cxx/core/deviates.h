@@ -122,7 +122,7 @@ namespace especia {
 
     private:
         U uniform_deviate;
-        Bool_t status;
+        bool status;
         Real_t x, y;
     };
 

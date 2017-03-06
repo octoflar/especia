@@ -76,7 +76,7 @@ namespace especia {
              * @param[in] n The number of parameters to test.
              * @return @c true, if the parameter vector violates the constraint.
              */
-            Bool_t is_violated(const T x[], Nnum_t n) const {
+            bool is_violated(const T x[], Nnum_t n) const {
                 for (Nnum_t i = 0; i < n; ++i) {
                     if (x[i] < a[i] || x[i] > b[i]) {
                         return true;
@@ -129,7 +129,7 @@ namespace especia {
             vector<Real_t> lo;
             vector<Real_t> up;
 
-            vector<Bool_t> msk;
+            vector<bool> msk;
             vector<Nnum_t> ind;
 
             map<string, Nnum_t> pim;
@@ -634,7 +634,7 @@ namespace especia {
         std::valarray<Real_t> lo;
         std::valarray<Real_t> up;
 
-        std::valarray<Bool_t> msk;
+        std::valarray<bool> msk;
         std::valarray<Nnum_t> ind;
 
         std::map<std::string, Nnum_t> sim;

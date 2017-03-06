@@ -61,7 +61,7 @@ namespace especia {
          * @param[in] n The number of parameters to test.
          * @return always @c false.
          */
-        Bool_t is_violated(const T x[], Nnum_t n) const {
+        bool is_violated(const T x[], Nnum_t n) const {
             return false;
         }
 
@@ -104,7 +104,7 @@ namespace especia {
          * @param[in] g The generation number.
          * @return always @c false.
          */
-        Bool_t is_enabled(Lnum_t g) const {
+        bool is_enabled(Lnum_t g) const {
             return false;
         }
 
@@ -524,7 +524,7 @@ namespace especia {
              *
              * @return the optimization status flag.
              */
-            Bool_t is_optimized() const {
+            bool is_optimized() const {
                 return optimized;
             }
 
@@ -533,7 +533,7 @@ namespace especia {
              *
              * @return the mutation variance underflow status flag.
              */
-            Bool_t is_underflow() const {
+            bool is_underflow() const {
                 return underflow;
             }
 
@@ -643,7 +643,7 @@ namespace especia {
              *
              * @return a reference to the optimization status flag.
              */
-            Bool_t &__optimized() {
+            bool &__optimized() {
                 return optimized;
             }
 
@@ -652,7 +652,7 @@ namespace especia {
              *
              * @return a reference to the mutation variance underflow status flag.
              */
-            Bool_t &__underflow() {
+            bool &__underflow() {
                 return underflow;
             }
 
@@ -704,12 +704,12 @@ namespace especia {
             /**
              * The optimization status flag.
              */
-            Bool_t optimized;
+            bool optimized;
 
             /**
              * The mutation variance underflow status flag.
              */
-            Bool_t underflow;
+            bool underflow;
 
             /**
              * The final generation number.

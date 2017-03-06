@@ -319,7 +319,7 @@ namespace especia {
         /**
          * The selection mask.
          */
-        std::valarray<Bool_t> msk;
+        std::valarray<bool> msk;
 
         /**
          * The evaluated optical depth model.

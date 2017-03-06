@@ -66,7 +66,7 @@ namespace especia {
          * @param[in] j An index into the set of base values.
          * @return the result of comparing the indexed base values directly.
          */
-        Bool_t operator()(const Nnum_t &i, const Nnum_t &j) const {
+        bool operator()(const Nnum_t &i, const Nnum_t &j) const {
             return compare(values[i], values[j]);
         }
 
@@ -151,8 +151,8 @@ namespace especia {
                   Real_t ps[],
                   Real_t pc[],
                   Real_t &yw,
-                  Bool_t &optimized,
-                  Bool_t &underflow,
+                  bool &optimized,
+                  bool &underflow,
                   Deviate &deviate, Decompose &decompose, const Compare &compare, Tracer &tracer) {
         using std::accumulate;
         using std::exp;

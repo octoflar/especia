@@ -233,7 +233,7 @@ std::istream &especia::Section::get(std::istream &is, Real_t a, Real_t b) {
 
     const size_t room = 20000;
 
-    vector<Bool_t> w;
+    vector<bool> w;
     vector<Real_t> x;
     vector<Real_t> y;
     vector<Real_t> z;
@@ -253,7 +253,7 @@ std::istream &especia::Section::get(std::istream &is, Real_t a, Real_t b) {
         }
 
         istringstream ist(line);
-        Bool_t tw;
+        bool tw;
         Real_t tx, ty, tz;
 
         if (ist >> tx >> ty) {

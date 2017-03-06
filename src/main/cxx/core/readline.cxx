@@ -26,7 +26,7 @@
 using namespace std;
 
 istream &especia::readline(istream &is, string &s, char comment_mark, char eol) {
-    Bool_t empty_line = true;
+    bool empty_line = true;
 
     while (empty_line and getline(is, s, eol) and comment_mark != '\0') {
         size_t i = 0;

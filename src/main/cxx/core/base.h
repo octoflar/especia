@@ -30,11 +30,6 @@
 namespace especia {
 
     /**
-     * The logical type (denoted in maths as Boolean domain).
-     */
-    typedef bool Bool_t;
-
-    /**
      * The type of natural numbers, including zero (denoted in maths as N domain).
      */
     typedef unsigned int Nnum_t;
