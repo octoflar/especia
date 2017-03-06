@@ -23,7 +23,6 @@
 #include <iostream>
 
 #include "core/model.h"
-#include "core/profiles.h"
 #include "runtime/runner.h"
 
 using namespace std;
@@ -61,10 +60,10 @@ using namespace std;
  * program name) are supplied. In this case the returned exit code is zero.
  */
 int main(int argc, char *argv[]) {
-    especia::Model<especia::Intergalactic_Voigt<especia::Extended_Pseudo_Voigt>> model;
+    typedef especia::Model<especia::Intergalactic_Voigt<especia::Extended_Pseudo_Voigt>> Model;
 
     try {
-        return especia::Runner(argc, argv).run(model);
+        return especia::Runner(argc, argv).run<Model>();
     } catch (invalid_argument &e) {
         cerr << e.what() << endl;
         return 10;

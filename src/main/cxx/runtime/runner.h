@@ -164,7 +164,6 @@ namespace especia {
          *
          * @tparam M The model type.
          *
-         * @param model The model.
          * @return an exit code
          * @throw invalid_argument when an invalid argument was supplied.
          * @throw runtime_error when a runtime error occurred.
@@ -173,7 +172,7 @@ namespace especia {
          * the program name) were supplied. In this case zero is returned.
          */
         template<class M>
-        int run(M &model) throw(std::invalid_argument, std::runtime_error) {
+        int run() throw(std::invalid_argument, std::runtime_error) {
             using std::cin;
             using std::cout;
             using std::endl;
@@ -198,6 +197,7 @@ namespace especia {
             const unsigned long stop = parse_stop_generation();
             const unsigned int trace = parse_trace_interval();
 
+            M model;
             model.get(cin, cout);
 
             if (cin.fail()) {

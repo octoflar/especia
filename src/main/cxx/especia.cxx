@@ -62,10 +62,10 @@ using namespace std;
  * program name) are supplied. In this case the returned exit code is zero.
  */
 int main(int argc, char *argv[]) {
-    especia::Model<especia::Many_Multiplet> model;
+    typedef especia::Model<especia::Many_Multiplet> Model;
 
     try {
-        return especia::Runner(argc, argv).run(model);
+        return especia::Runner(argc, argv).run<Model>();
     } catch (invalid_argument &e) {
         cerr << e.what() << endl;
         return 10;

@@ -511,6 +511,16 @@ namespace especia {
             return ind.max() + 1;
         }
 
+        void get_parameter_bounds(std::valarray<double> &a, std::valarray<double> &b) const {
+            for (size_t i = 0, j = 0; i < msk.size(); ++i) {
+                if (msk[i] and ind[i] == j) {
+                    a[j] = lo[i];
+                    b[j] = up[i];
+                    ++j;
+                }
+            }
+        }
+
         std::valarray<double> get_initial_parameter_values() const {
             std::valarray<double> x(get_parameter_count());
 
