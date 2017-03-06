@@ -30,7 +30,7 @@
 #include <vector>
 
 #include "config.h"
-#include "../optimization/optimizer.h"
+#include "optimizer.h"
 
 namespace especia {
 

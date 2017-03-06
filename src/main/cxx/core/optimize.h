@@ -32,7 +32,7 @@
 #include <valarray>
 #include <vector>
 
-#include "../core/base.h"
+#include "base.h"
 
 namespace especia {
 

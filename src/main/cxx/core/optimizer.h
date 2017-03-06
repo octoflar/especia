@@ -25,9 +25,9 @@
 #include <cstddef>
 #include <functional>
 
-#include "../core/decompose.h"
-#include "../core/deviates.h"
-#include "../core/mtwister.h"
+#include "decompose.h"
+#include "deviates.h"
+#include "mtwister.h"
 #include "optimize.h"
 
 using std::valarray;

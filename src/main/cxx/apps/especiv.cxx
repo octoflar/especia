@@ -1,5 +1,5 @@
-/// @file especia.cxx
-/// Especia for inferring the variation of the fine-structure constant.
+/// @file especiv.cxx
+/// Especia for intergalactic metal and damped H I, He I, II lines.
 /// Copyright (c) 2016 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,17 +22,15 @@
 #include <exception>
 #include <iostream>
 
-#include "core/model.h"
-#define ESPECIA_MANY_MULTIPLET_ANALYSIS 1
-#include "core/model.h"
-#undef  ESPECIA_MANY_MULTIPLET_ANALYSIS
-#include "runtime/runner.h"
+#include "../core/model.h"
+#include "../core/profiles.h"
+#include "../core/runner.h"
 
 using namespace std;
 
 
 /**
- * Flavor of Especia to infer the variation of the fine-structure constant.
+ * Flavor of Especia to analyse intergalactic metal and damped H I, He I, II lines.
  *
  * @param argc The number of command line arguments.
  * @param argv The command line arguments:
@@ -56,13 +54,13 @@ using namespace std;
  *
  * @return an exit code
  *
- * @remark Usage: especia SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM
+ * @remark Usage: especiv SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM
  *
  * @remark A usage message is witten to standard output, if no command line arguments (excluding the
  * program name) are supplied. In this case the returned exit code is zero.
  */
 int main(int argc, char *argv[]) {
-    typedef especia::Model<especia::Many_Multiplet> Model;
+    typedef especia::Model<especia::Intergalactic_Voigt<especia::Pseudo_Voigt>> Model;
 
     try {
         return especia::Runner(argc, argv).run<Model>();

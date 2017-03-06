@@ -1,5 +1,5 @@
-/// @file especid.cxx
-/// Especia for intergalactic metal and non-damped H I, He I, II lines.
+/// @file etee.cxx
+/// Utility to merge separated spectral flux and uncertainty data
 /// Copyright (c) 2016 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,59 +19,64 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
-#include <exception>
-#include <iostream>
+#include <cstdlib>
+#include <fstream>
 
-#include "core/model.h"
-#include "core/profiles.h"
-#include "runtime/runner.h"
+#include "../core/dataio.h"
 
 using namespace std;
 
 
 /**
- * Flavor of Especia to analyse intergalactic metal lines.
+ * Utility to merge separated spectral flux and uncertainty data columns.
  *
- * @param argc The number of command line arguments.
+ * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
  * @parblock
  * @c argv[0] The program name.
  *
- * @c argv[1] The random seed.
+ * @c argv[1] The path name of the flux data file.
  *
- * @c argv[2] The parent number.
+ * @c argv[2] The path name of the flux uncertainty data file.
  *
- * @c argv[3] The population size.
- *
- * @c argv[4] The initial global step size.
- *
- * @c argv[5] The accuracy goal.
- *
- * @c argv[6] The stop generation number.
- *
- * @c argv[7] The trace modulus.
+ * @c argv[3] The number of lines to skip (optional, default = 0).
  * @endparblock
+ * @return an exit code.
  *
- * @return an exit code
- *
- * @remark Usage: especid SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM
- *
- * @remark A usage message is witten to standard output, if no command line arguments (excluding the
- * program name) are supplied. In this case the returned exit code is zero.
+ * @remark Usage: etee FLUX UNCERTAINTY [SKIP] > OSTREAM
  */
 int main(int argc, char *argv[]) {
-    typedef especia::Model<especia::Intergalactic_Doppler> Model;
+    const char *pname = argv[0];
 
-    try {
-        return especia::Runner(argc, argv).run<Model>();
-    } catch (invalid_argument &e) {
-        cerr << e.what() << endl;
-        return 10;
-    } catch (runtime_error &e) {
-        cerr << e.what() << endl;
-        return 20;
-    } catch (exception &e) {
-        cerr << e.what() << endl;
-        return 30;
+    int skip = 0;
+
+    if (argc == 4) {
+        skip = atoi(argv[2]);
+    }
+    if (argc == 4 or argc == 3) {
+        valarray<double> x;
+        valarray<double> y;
+        valarray<double> z;
+
+        ifstream fxy(argv[1]);
+        ifstream fxz(argv[2]);
+
+        especia::get(fxy, x, y, skip);
+        especia::get(fxz, x, z, skip);
+
+        fxy.close();
+        fxz.close();
+
+        if (fxy and fxz and y.size() == z.size()) {
+            especia::put(cout, x, y, z);
+        } else {
+            cerr << pname << ": input failure" << endl;
+            return 2;
+        }
+
+        return 0;
+    } else {
+        cout << "usage: " << pname << " FLUX UNCERTAINTY [SKIP] > OSTREAM" << endl;
+        return 1;
     }
 }

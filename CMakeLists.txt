@@ -66,41 +66,50 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/core/deviates.h
         ${MAIN}/cxx/core/model.h
         ${MAIN}/cxx/core/mtwister.h
+        ${MAIN}/cxx/core/optimizer.cxx
+        ${MAIN}/cxx/core/optimizer.h
+        ${MAIN}/cxx/core/optimize.h
         ${MAIN}/cxx/core/profiles.cxx
         ${MAIN}/cxx/core/profiles.h
         ${MAIN}/cxx/core/readline.cxx
         ${MAIN}/cxx/core/readline.h
+        ${MAIN}/cxx/core/runner.cxx
+        ${MAIN}/cxx/core/runner.h
         ${MAIN}/cxx/core/section.cxx
-        ${MAIN}/cxx/core/section.h
-        ${MAIN}/cxx/optimization/optimizer.cxx
-        ${MAIN}/cxx/optimization/optimizer.h
-        ${MAIN}/cxx/optimization/optimize.h
-        ${MAIN}/cxx/runtime/runner.cxx
-        ${MAIN}/cxx/runtime/runner.h)
+        ${MAIN}/cxx/core/section.h)
 
-add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
+add_executable(especia ${MAIN}/cxx/apps/especia.cxx ${COMMON_SOURCES})
 target_link_libraries(especia ${VECLIB})
-add_executable(especid ${MAIN}/cxx/especid.cxx ${COMMON_SOURCES})
+add_executable(especid ${MAIN}/cxx/apps/especid.cxx ${COMMON_SOURCES})
 target_link_libraries(especid ${VECLIB})
-add_executable(especiv ${MAIN}/cxx/especiv.cxx ${COMMON_SOURCES})
+add_executable(especiv ${MAIN}/cxx/apps/especiv.cxx ${COMMON_SOURCES})
 target_link_libraries(especiv ${VECLIB})
-add_executable(especix ${MAIN}/cxx/especix.cxx ${COMMON_SOURCES})
+add_executable(especix ${MAIN}/cxx/apps/especix.cxx ${COMMON_SOURCES})
 target_link_libraries(especix ${VECLIB})
-add_executable(ecom ${MAIN}/cxx/ecom.cxx)
-add_executable(edat ${MAIN}/cxx/edat.cxx)
-add_executable(elog ${MAIN}/cxx/elog.cxx)
-add_executable(emod ${MAIN}/cxx/emod.cxx)
-add_executable(emes ${MAIN}/cxx/emes.cxx)
-add_executable(etee ${MAIN}/cxx/etee.cxx ${MAIN}/cxx/core/dataio.cxx)
+add_executable(ecom ${MAIN}/cxx/apps/ecom.cxx)
+add_executable(edat ${MAIN}/cxx/apps/edat.cxx)
+add_executable(elog ${MAIN}/cxx/apps/elog.cxx)
+add_executable(emod ${MAIN}/cxx/apps/emod.cxx)
+add_executable(emes ${MAIN}/cxx/apps/emes.cxx)
+add_executable(etee ${MAIN}/cxx/apps/etee.cxx ${MAIN}/cxx/core/dataio.cxx ${MAIN}/cxx/core/dataio.h)
 
 add_system_test(especid_test 159.77 171.89)
 add_system_test(especiv_test 251.04)
 add_system_test(especix_test 251.46)
 add_system_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
 
-add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx ${MAIN}/cxx/core/dataio.cxx)
-add_executable(helicorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/helicorr.cxx ${MAIN}/cxx/core/dataio.cxx)
-add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx ${MAIN}/cxx/core/dataio.cxx)
+add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
+        ${MAIN}/cxx/core/base.h
+        ${MAIN}/cxx/core/dataio.cxx
+        ${MAIN}/cxx/core/dataio.h)
+add_executable(helicorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/helicorr.cxx
+        ${MAIN}/cxx/core/base.h
+        ${MAIN}/cxx/core/dataio.cxx
+        ${MAIN}/cxx/core/dataio.h)
+add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx
+        ${MAIN}/cxx/core/base.h
+        ${MAIN}/cxx/core/dataio.cxx
+        ${MAIN}/cxx/core/dataio.h)
 
 add_custom_target(util)
 add_dependencies(util airtovac helicorr vactoair)
