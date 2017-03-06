@@ -22,6 +22,7 @@
 #ifndef ESPECIA_RUNNER_H
 #define ESPECIA_RUNNER_H
 
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -59,7 +60,7 @@ namespace especia {
          *
          * @c argv[6] The stop generation number.
          *
-         * @c argv[7] The trace interval.
+         * @c argv[7] The trace modulus.
          * @endparblock
          */
         Runner(int argc, char *argv[]);
@@ -151,11 +152,11 @@ namespace especia {
         }
 
         /**
-         * Parses the trace interval.
+         * Parses the trace modulus.
          *
-         * @return the trace interval.
+         * @return the trace modulus.
          */
-        unsigned int parse_trace_interval() const throw(std::invalid_argument) {
+        unsigned int parse_trace_modulus() const throw(std::invalid_argument) {
             return parse<unsigned int>(args[7]);
         }
 
@@ -189,13 +190,13 @@ namespace especia {
 
             write_command_line(cout);
 
-            const unsigned long seed = parse_random_seed();
+            const unsigned long random_seed = parse_random_seed();
             const unsigned int parent_number = parse_parent_number();
             const unsigned int population_size = parse_population_size();
-            const double step_size = parse_global_step_size();
+            const double global_step_size = parse_global_step_size();
             const double accuracy_goal = parse_accuracy_goal();
-            const unsigned long stop = parse_stop_generation();
-            const unsigned int trace = parse_trace_interval();
+            const unsigned long stop_generation = parse_stop_generation();
+            const unsigned int trace_modulus = parse_trace_modulus();
 
             M model;
             model.get(cin, cout);
@@ -212,8 +213,8 @@ namespace especia {
                     with_parent_number(parent_number).
                     with_population_size(population_size).
                     with_accuracy_goal(accuracy_goal).
-                    with_stop_generation(stop).
-                    with_random_seed(seed).
+                    with_stop_generation(stop_generation).
+                    with_random_seed(random_seed).
                     build();
 
             cout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << endl;
@@ -225,9 +226,9 @@ namespace especia {
             Optimizer::Result result = optimizer.minimize(model,
                                                           model.get_initial_parameter_values(),
                                                           model.get_initial_local_step_sizes(),
-                                                          step_size,
+                                                          global_step_size,
                                                           model.get_constraint(),
-                                                          Tracing_To_Output_Stream<>(cout, trace));
+                                                          Tracer<>(cout, trace_modulus));
 
             cout << "</log>" << endl;
             cout << "-->" << endl;
@@ -247,6 +248,79 @@ namespace especia {
         }
 
     private:
+        /**
+         * Traces optimizer state information to an output stream.
+         *
+         * @tparam T The number type.
+         */
+        template<class T = double>
+        class Tracer {
+        public:
+            /**
+             * Constructor.
+             *
+             * @param[in] output_stream The output stream.
+             * @param[in] modulus The trace modulus.
+             * @param[in] precision The precision of numeric output.
+             * @param[in] width The width of the numeric output fields.
+             */
+            Tracer(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
+                                     unsigned int width = 12)
+                    : os(output_stream), m(modulus), p(precision), w(width) {
+            }
+
+            /**
+             * Destructor.
+             */
+            ~Tracer() {
+            }
+
+            /**
+             * Tests if tracing is enabled.
+             *
+             * @param[in] g The generation number.
+             * @return @true if tracing is enabled, otherwise @c false.
+             */
+            bool is_enabled(unsigned long g) const {
+                return m > 0 and g % m == 0;
+            }
+
+            /**
+             * Traces state information to an output stream..
+             *
+             * @param[in] g The generation number.
+             * @param[in] y The value of the objective function.
+             * @param[in] min_step The minimum step size.
+             * @param[in] max_step The maximum step size.
+             */
+            void trace(unsigned long g, T y, T min_step, T max_step) const {
+                using std::endl;
+                using std::ios_base;
+                using std::setw;
+
+                const ios_base::fmtflags fmt = os.flags();
+
+                os.setf(ios_base::fmtflags());
+                os.setf(ios_base::scientific, ios_base::floatfield);
+                os.setf(ios_base::right, ios_base::adjustfield);
+                os.precision(p);
+
+                os << setw(8) << g;
+                os << setw(w) << y;
+                os << setw(w) << min_step;
+                os << setw(w) << max_step;
+                os << endl;
+
+                os.flags(fmt);
+            }
+
+        private:
+            std::ostream &os;
+            const unsigned int m;
+            const unsigned int p;
+            const unsigned int w;
+        };
+
         template<class T>
         T parse(const std::string &arg) const throw(std::invalid_argument) {
             using std::invalid_argument;

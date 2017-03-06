@@ -37,14 +37,69 @@
 #include "profiles.h"
 #include "readline.h"
 #include "section.h"
-#include "../optimization/optimizer.h"
-
 
 namespace especia {
 
     template<class Profile>
     class Model {
     public:
+
+        /**
+         * A bounded constraint.
+         *
+         * @tparam T The number type.
+         */
+        template<class T = double>
+        class Bounded_Constraint {
+        public:
+            /**
+             * Constructs a new strict-bound prior constraint.
+             *
+             * @param[in] lower_bounds The lower bounds.
+             * @param[in] upper_bounds The upper bounds.
+             * @param[in] n The number of bounds.
+             */
+            Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], size_t n)
+                    : a(lower_bounds, n), b(upper_bounds, n) {
+            }
+
+            /**
+             * Destructor.
+             */
+            ~Bounded_Constraint() {
+            }
+
+            /**
+             * Tests if a given parameter vector violates the constraint.
+             *
+             * @param[in] x The parameter vector.
+             * @param[in] n The number of parameters to test.
+             * @return @c true, if the parameter vector violates the constraint.
+             */
+            bool is_violated(const T x[], size_t n) const {
+                for (size_t i = 0; i < n; ++i) {
+                    if (x[i] < a[i] || x[i] > b[i]) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            /**
+             * Computes the cost associated with the constraint.
+             *
+             * @param[in] x The parameter vector.
+             * @param[in] n The number of parameters to take account of.
+             * @return always zero.
+             */
+            T cost(const T x[], size_t n) const {
+                return T(0);
+            }
+
+        private:
+            const std::valarray<T> a;
+            const std::valarray<T> b;
+        };
 
         std::istream &get(std::istream &is,
                           std::ostream &os,
@@ -509,16 +564,6 @@ namespace especia {
 
         size_t get_parameter_count() const {
             return ind.max() + 1;
-        }
-
-        void get_parameter_bounds(std::valarray<double> &a, std::valarray<double> &b) const {
-            for (size_t i = 0, j = 0; i < msk.size(); ++i) {
-                if (msk[i] and ind[i] == j) {
-                    a[j] = lo[i];
-                    b[j] = up[i];
-                    ++j;
-                }
-            }
         }
 
         std::valarray<double> get_initial_parameter_values() const {

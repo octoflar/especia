@@ -24,8 +24,6 @@
 
 #include <cstddef>
 #include <functional>
-#include <iomanip>
-#include <iostream>
 
 #include "../core/decompose.h"
 #include "../core/deviates.h"
@@ -35,63 +33,6 @@
 using std::valarray;
 
 namespace especia {
-
-    /**
-     * A bounded constraint.
-     *
-     * @tparam T The number type.
-     */
-    template<class T = double>
-    class Bounded_Constraint {
-    public:
-        /**
-         * Constructs a new strict-bound prior constraint.
-         *
-         * @param[in] lower_bounds The lower bounds.
-         * @param[in] upper_bounds The upper bounds.
-         * @param[in] n The number of bounds.
-         */
-        Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], size_t n)
-                : a(lower_bounds, n), b(upper_bounds, n) {
-        }
-
-        /**
-         * Destructor.
-         */
-        ~Bounded_Constraint() {
-        }
-
-        /**
-         * Tests if a given parameter vector violates the constraint.
-         *
-         * @param[in] x The parameter vector.
-         * @param[in] n The number of parameters to test.
-         * @return @c true, if the parameter vector violates the constraint.
-         */
-        bool is_violated(const T x[], size_t n) const {
-            for (size_t i = 0; i < n; ++i) {
-                if (x[i] < a[i] || x[i] > b[i]) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * Computes the cost associated with the constraint.
-         *
-         * @param[in] x The parameter vector.
-         * @param[in] n The number of parameters to take account of.
-         * @return always zero.
-         */
-        T cost(const T x[], size_t n) const {
-            return T(0);
-        }
-
-    private:
-        const std::valarray<T> a;
-        const std::valarray<T> b;
-    };
 
     /**
      * No constraint.
@@ -135,80 +76,6 @@ namespace especia {
             return T(0);
         }
     };
-
-    /**
-     * Traces state information to an output stream.
-     *
-     * @tparam T The number type.
-     */
-    template<class T = double>
-    class Tracing_To_Output_Stream {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param[in] output_stream The output stream.
-         * @param[in] modulus The trace modulus.
-         * @param[in] precision The precision of numeric output.
-         * @param[in] width The width of the numeric output fields.
-         */
-        Tracing_To_Output_Stream(std::ostream &output_stream, unsigned int modulus, unsigned int precision = 4,
-                                 unsigned int width = 12)
-                : os(output_stream), m(modulus), p(precision), w(width) {
-        }
-
-        /**
-         * Destructor.
-         */
-        ~Tracing_To_Output_Stream() {
-        }
-
-        /**
-         * Tests if tracing is enabled.
-         *
-         * @param[in] g The generation number.
-         * @return @true if tracing is enabled, otherwise @c false.
-         */
-        bool is_enabled(unsigned long g) const {
-            return m > 0 and g % m == 0;
-        }
-
-        /**
-         * Traces state information to an output stream..
-         *
-         * @param[in] g The generation number.
-         * @param[in] y The value of the objective function.
-         * @param[in] min_step The minimum step size.
-         * @param[in] max_step The maximum step size.
-         */
-        void trace(unsigned long g, T y, T min_step, T max_step) const {
-            using std::endl;
-            using std::ios_base;
-            using std::setw;
-
-            const ios_base::fmtflags fmt = os.flags();
-
-            os.setf(ios_base::fmtflags());
-            os.setf(ios_base::scientific, ios_base::floatfield);
-            os.setf(ios_base::right, ios_base::adjustfield);
-            os.precision(p);
-
-            os << setw(8) << g;
-            os << setw(w) << y;
-            os << setw(w) << min_step;
-            os << setw(w) << max_step;
-            os << endl;
-
-            os.flags(fmt);
-        }
-
-    private:
-        std::ostream &os;
-        const unsigned int m;
-        const unsigned int p;
-        const unsigned int w;
-    };
-
 
     /**
      * No tracing.

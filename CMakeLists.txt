@@ -59,12 +59,24 @@ configure_file(${TEST}/resources/virtual_1657.dat  resources/virtual_1657.dat CO
 
 
 set(COMMON_SOURCES
+        ${MAIN}/cxx/core/base.h
+        ${MAIN}/cxx/core/config.h
         ${MAIN}/cxx/core/decompose.cxx
+        ${MAIN}/cxx/core/decompose.h
+        ${MAIN}/cxx/core/deviates.h
+        ${MAIN}/cxx/core/model.h
+        ${MAIN}/cxx/core/mtwister.h
         ${MAIN}/cxx/core/profiles.cxx
+        ${MAIN}/cxx/core/profiles.h
         ${MAIN}/cxx/core/readline.cxx
+        ${MAIN}/cxx/core/readline.h
         ${MAIN}/cxx/core/section.cxx
+        ${MAIN}/cxx/core/section.h
         ${MAIN}/cxx/optimization/optimizer.cxx
-        ${MAIN}/cxx/runtime/runner.cxx)
+        ${MAIN}/cxx/optimization/optimizer.h
+        ${MAIN}/cxx/optimization/optimize.h
+        ${MAIN}/cxx/runtime/runner.cxx
+        ${MAIN}/cxx/runtime/runner.h)
 
 add_executable(especia ${MAIN}/cxx/especia.cxx ${COMMON_SOURCES})
 target_link_libraries(especia ${VECLIB})

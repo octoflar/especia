@@ -49,7 +49,7 @@ using namespace std;
  *
  * @c argv[6] The stop generation number.
  *
- * @c argv[7] The trace interval.
+ * @c argv[7] The trace modulus.
  * @endparblock
  *
  * @return an exit code
