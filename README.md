@@ -12,7 +12,7 @@ Further highlights are the modelling and optimisation of the background continuu
 and a more accurate semi-analytic convolution of the absorption term with the
 instrumental profile.
 
-The algorithms are explained in
+The method is explained in
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
 
 
