@@ -209,7 +209,7 @@ namespace especia {
             }
 #ifdef _OPENMP
 #pragma omp parallel for
-            for (Nnum_t k = 0; k < population_size; ++k) {
+            for (N_elem k = 0; k < population_size; ++k) {
                 y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
                 indexes[k] = k;
             }

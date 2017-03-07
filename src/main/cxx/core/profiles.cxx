@@ -28,6 +28,7 @@ using std::log;
 using std::pow;
 using std::sqrt;
 
+using especia::N_elem;
 using especia::R_elem;
 using especia::micro;
 using especia::pi;
