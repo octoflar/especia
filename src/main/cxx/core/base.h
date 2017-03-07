@@ -45,14 +45,14 @@ namespace especia {
     typedef double R_elem;
 
     /**
+     * The type of random natural numbers.
+     */
+    typedef unsigned long int W_elem;
+
+    /**
      * The type of integral numbers (1-4 digits) including zero (denoted in maths as set Z).
      */
     typedef int Z_elem;
-
-    /**
-     * The type of binary words.
-     */
-    typedef unsigned long int W_elem;
 
     /**
      * Pi. <https://www.wolframalpha.com/input/?i=pi+to+42+digits>
