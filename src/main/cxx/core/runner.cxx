@@ -59,12 +59,17 @@ void especia::Runner::write_result_messages(std::ostream &os, const Optimizer::R
     os << "<message>" << endl;
 
     if (result.is_optimized()) {
-        os << "especia::Runner: Message: optimization completed successfully" << endl;
+        os << "especia::Runner::run() Message: optimization completed successfully"
+           << endl;
     } else {
-        os << "especia::Runner: Warning: optimization stopped at generation " << result.get_generation_number() << endl;
+        os << "especia::Runner::run() Warning: optimization stopped at generation "
+           << result.get_generation_number()
+           << endl;
     }
     if (result.is_underflow()) {
-        os << "especia::Runner: Warning: optimization stopped because of an underflow of the mutation variance" << endl;
+        os << "especia::Runner::run() Warning: optimization stopped because of an "
+           << "underflow of the mutation variance"
+           << endl;
     }
 
     os << "</message>" << endl;
