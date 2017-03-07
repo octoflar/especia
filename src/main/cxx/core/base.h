@@ -50,7 +50,7 @@ namespace especia {
     typedef int Z_elem;
 
     /**
-     * The type of random words.
+     * The type of binary words.
      */
     typedef unsigned long int W_elem;
 
