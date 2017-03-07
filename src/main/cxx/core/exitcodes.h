@@ -1,5 +1,5 @@
 /// @file exitcodes.h
-/// Exit codes.
+/// Application error exit codes.
 /// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,7 +25,7 @@
 namespace especia {
 
     /**
-     * Application exit codes.
+     * Application error exit codes.
      */
     class Exit_Codes {
     public:
