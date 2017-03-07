@@ -84,8 +84,8 @@ void LAPACK_NAME(syevx)(const char &job,
 
 const R_type safe_minimum = LAPACK_NAME(lamch)('s');
 
-const string especia::D_Decompose::int_err = "especia::D_Decompose(): Error: internal error in LAPACK routine DSYEVD";
-const string especia::D_Decompose::ill_arg = "especia::D_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
+const string especia::D_Decompose::int_err = "especia::D_Decompose() Error: internal error in LAPACK";
+const string especia::D_Decompose::ill_arg = "especia::D_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::D_Decompose::D_Decompose(N_type n)
         : job('V'), uplo('U'), work(1), iwork(1) {
@@ -142,8 +142,8 @@ void especia::D_Decompose::transpose(R_type A[]) const {
 }
 
 
-const string especia::R_Decompose::int_err = "especia::R_Decompose(): Error: internal error in LAPACK routine DSYEVR";
-const string especia::R_Decompose::ill_arg = "especia::R_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVR";
+const string especia::R_Decompose::int_err = "especia::R_Decompose() Error: internal error in LAPACK";
+const string especia::R_Decompose::ill_arg = "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::R_Decompose::R_Decompose(N_type n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(1) {
@@ -203,8 +203,8 @@ void especia::R_Decompose::transpose(R_type A[]) const {
 }
 
 
-const string especia::X_Decompose::int_err = "especia::X_Decompose(): Error: internal error in LAPACK routine DSYEVX";
-const string especia::X_Decompose::ill_arg = "especia::X_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVX";
+const string especia::X_Decompose::int_err = "especia::X_Decompose() Error: internal error in LAPACK";
+const string especia::X_Decompose::ill_arg = "especia::X_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::X_Decompose::X_Decompose(N_type n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(), ifail() {
