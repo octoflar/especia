@@ -20,7 +20,7 @@ The algorithms are explained in
 
 This software enables you to analyse spectroscopic data. Though it has been developed
 for the analysis of astrophysical spectra, it is applicable to spectroscopy in general.
-Read the two articles listed below to find out whether this software is of interest to
+Read the articles listed below to find out whether this software is of interest to
 you. If you already have some understanding of these matters, you may want to consult
 the [especia wiki](https://github.com/octoflar/especia/wiki).
 
@@ -46,6 +46,12 @@ example, version 2016.1 denotes the first release of the year 2016.
 
 
 # Further reading
+
+Quast, Ralf (2014): *Covariance matrix adaption in evolution strategies.* figshare.  
+doi: [10.6084/m9.figshare.994249.v1](https://doi.org/10.6084/m9.figshare.994249.v1)
+
+Quast, Ralf (2014): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.* figshare.  
+doi: [10.6084/m9.figshare.994250.v1](https://doi.org/10.6084/m9.figshare.994250.v1)
 
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Astronomy and Astrophysics 431 (3) 1167.
