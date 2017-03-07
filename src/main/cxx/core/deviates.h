@@ -51,7 +51,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        Normal_Deviate(Word_t seed = 5489)
+        Normal_Deviate(W_elem seed = 5489)
                 : uniform_deviate(seed), status(false) {
         }
 
@@ -75,14 +75,14 @@ namespace especia {
          *
          * @return a normal random number.
          */
-        Real_t operator()() {
+        R_elem operator()() {
             using std::log;
             using std::sqrt;
 
             status = !status;
 
             if (status) {
-                Real_t t;
+                R_elem t;
 
                 do {
                     x = 2.0 * uniform_deviate() - 1.0;
@@ -105,7 +105,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        void reset(Word_t seed = 5489) {
+        void reset(W_elem seed = 5489) {
             uniform_deviate.reset(seed);
             status = false;
         }
@@ -123,7 +123,7 @@ namespace especia {
     private:
         U uniform_deviate;
         bool status;
-        Real_t x, y;
+        R_elem x, y;
     };
 
 }

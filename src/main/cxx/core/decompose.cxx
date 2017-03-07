@@ -34,62 +34,62 @@ using std::string;
 using std::swap;
 using std::valarray;
 
-using especia::Real_t;
-using especia::Znum_t;
+using especia::R_elem;
+using especia::Z_elem;
 
 /**
  * Interface to LAPACK eigenvalue routines (version 3.0).
  */
 extern "C" {
-Real_t F77NAME(dlamch)(const char &cmach);
+R_elem F77NAME(dlamch)(const char &cmach);
 
 void F77NAME(dsyevd)(const char &job,
                      const char &uplo,
-                     const Znum_t &n,
-                     Real_t A[], const Znum_t &lda,
-                     Real_t w[],
-                     Real_t work[], const Znum_t &lwork,
-                     Znum_t iwork[], const Znum_t &liwork,
-                     Znum_t &info);
+                     const Z_elem &n,
+                     R_elem A[], const Z_elem &lda,
+                     R_elem w[],
+                     R_elem work[], const Z_elem &lwork,
+                     Z_elem iwork[], const Z_elem &liwork,
+                     Z_elem &info);
 
 void F77NAME(dsyevr)(const char &job,
                      const char &range,
                      const char &uplo,
-                     const Znum_t &n,
-                     Real_t A[], const Znum_t &lda,
-                     const Real_t &vl, const Real_t &vu,
-                     const Znum_t &il, const Znum_t &iu,
-                     const Real_t &abstol,
-                     Znum_t &m,
-                     Real_t w[],
-                     Real_t Z[], const Znum_t &ldz,
-                     Znum_t isupp[],
-                     Real_t work[], const Znum_t &lwork,
-                     Znum_t iwork[], const Znum_t &liwork,
-                     Znum_t &info);
+                     const Z_elem &n,
+                     R_elem A[], const Z_elem &lda,
+                     const R_elem &vl, const R_elem &vu,
+                     const Z_elem &il, const Z_elem &iu,
+                     const R_elem &abstol,
+                     Z_elem &m,
+                     R_elem w[],
+                     R_elem Z[], const Z_elem &ldz,
+                     Z_elem isupp[],
+                     R_elem work[], const Z_elem &lwork,
+                     Z_elem iwork[], const Z_elem &liwork,
+                     Z_elem &info);
 
 void F77NAME(dsyevx)(const char &job,
                      const char &range,
                      const char &uplo,
-                     const Znum_t &n,
-                     Real_t A[], const Znum_t &lda,
-                     const Real_t &vl, const Real_t &vu,
-                     const Znum_t &il, const Znum_t &iu,
-                     const Real_t &abstol,
-                     Znum_t &m,
-                     Real_t w[],
-                     Real_t Z[], const Znum_t &ldz,
-                     Real_t work[], const Znum_t &lwork,
-                     Znum_t iwork[],
-                     Znum_t ifail[], Znum_t &info);
+                     const Z_elem &n,
+                     R_elem A[], const Z_elem &lda,
+                     const R_elem &vl, const R_elem &vu,
+                     const Z_elem &il, const Z_elem &iu,
+                     const R_elem &abstol,
+                     Z_elem &m,
+                     R_elem w[],
+                     R_elem Z[], const Z_elem &ldz,
+                     R_elem work[], const Z_elem &lwork,
+                     Z_elem iwork[],
+                     Z_elem ifail[], Z_elem &info);
 }
 
-const Real_t safe_minimum = F77NAME(dlamch)('s');
+const R_elem safe_minimum = F77NAME(dlamch)('s');
 
 const string especia::D_Decompose::int_err = "especia::D_Decompose(): Error: internal error in LAPACK routine DSYEVD";
 const string especia::D_Decompose::ill_arg = "especia::D_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
 
-especia::D_Decompose::D_Decompose(Nnum_t n)
+especia::D_Decompose::D_Decompose(N_elem n)
         : job('V'), uplo('U'), work(1), iwork(1) {
     resize_workspace(n);
 }
@@ -97,10 +97,10 @@ especia::D_Decompose::D_Decompose(Nnum_t n)
 especia::D_Decompose::~D_Decompose() {
 }
 
-void especia::D_Decompose::operator()(Nnum_t k, const Real_t A[], Real_t Z[], Real_t w[]) throw(runtime_error) {
+void especia::D_Decompose::operator()(N_elem k, const R_elem A[], R_elem Z[], R_elem w[]) throw(runtime_error) {
     copy(&A[0], &A[k * k], Z);
 
-    if (k != static_cast<Nnum_t>(n)) {
+    if (k != static_cast<N_elem>(n)) {
         resize_workspace(k);
     }
 
@@ -117,17 +117,17 @@ void especia::D_Decompose::operator()(Nnum_t k, const Real_t A[], Real_t Z[], Re
     }
 }
 
-void especia::D_Decompose::resize_workspace(Nnum_t k) {
-    n = static_cast<Znum_t>(k);
+void especia::D_Decompose::resize_workspace(N_elem k) {
+    n = static_cast<Z_elem>(k);
 
     // The workspace query.
     F77NAME(dsyevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
-        lwork = static_cast<Znum_t>(work[0]);
+        lwork = static_cast<Z_elem>(work[0]);
         liwork = iwork[0];
-        work.resize(static_cast<Nnum_t>(lwork));
-        iwork.resize(static_cast<Nnum_t>(liwork));
+        work.resize(static_cast<N_elem>(lwork));
+        iwork.resize(static_cast<N_elem>(liwork));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -135,9 +135,9 @@ void especia::D_Decompose::resize_workspace(Nnum_t k) {
     }
 }
 
-void especia::D_Decompose::transpose(Real_t A[]) const {
-    for (Znum_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Znum_t j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
+void especia::D_Decompose::transpose(R_elem A[]) const {
+    for (Z_elem i = 0, i0 = 0; i < n; ++i, i0 += n) {
+        for (Z_elem j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
             swap(A[ij], A[ji]);
         }
     }
@@ -147,7 +147,7 @@ void especia::D_Decompose::transpose(Real_t A[]) const {
 const string especia::R_Decompose::int_err = "especia::R_Decompose(): Error: internal error in LAPACK routine DSYEVR";
 const string especia::R_Decompose::ill_arg = "especia::R_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVR";
 
-especia::R_Decompose::R_Decompose(Nnum_t n)
+especia::R_Decompose::R_Decompose(N_elem n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(1) {
     resize_workspace(n);
 }
@@ -155,10 +155,10 @@ especia::R_Decompose::R_Decompose(Nnum_t n)
 especia::R_Decompose::~R_Decompose() {
 }
 
-void especia::R_Decompose::operator()(Nnum_t k, const Real_t A[], Real_t Z[], Real_t w[]) throw(runtime_error) {
-    valarray<Real_t> C(A, k * k);
+void especia::R_Decompose::operator()(N_elem k, const R_elem A[], R_elem Z[], R_elem w[]) throw(runtime_error) {
+    valarray<R_elem> C(A, k * k);
 
-    if (k != static_cast<Nnum_t>(n)) {
+    if (k != static_cast<N_elem>(n)) {
         resize_workspace(k);
     }
 
@@ -176,19 +176,19 @@ void especia::R_Decompose::operator()(Nnum_t k, const Real_t A[], Real_t Z[], Re
     }
 }
 
-void especia::R_Decompose::resize_workspace(Nnum_t k) {
-    n = static_cast<Znum_t>(k);
+void especia::R_Decompose::resize_workspace(N_elem k) {
+    n = static_cast<Z_elem>(k);
 
     // The workspace query.
     F77NAME(dsyevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
                     m, 0, 0, max(1, n), &isupp[0], &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
-        lwork = static_cast<Znum_t>(work[0]);
+        lwork = static_cast<Z_elem>(work[0]);
         liwork = iwork[0];
-        work.resize(static_cast<Nnum_t>(lwork));
-        iwork.resize(static_cast<Nnum_t>(liwork));
-        isupp.resize(static_cast<Nnum_t>(2 * max(1, n)));
+        work.resize(static_cast<N_elem>(lwork));
+        iwork.resize(static_cast<N_elem>(liwork));
+        isupp.resize(static_cast<N_elem>(2 * max(1, n)));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -196,9 +196,9 @@ void especia::R_Decompose::resize_workspace(Nnum_t k) {
     }
 }
 
-void especia::R_Decompose::transpose(Real_t A[]) const {
-    for (Znum_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Znum_t j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
+void especia::R_Decompose::transpose(R_elem A[]) const {
+    for (Z_elem i = 0, i0 = 0; i < n; ++i, i0 += n) {
+        for (Z_elem j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
             swap(A[ij], A[ji]);
         }
     }
@@ -208,7 +208,7 @@ void especia::R_Decompose::transpose(Real_t A[]) const {
 const string especia::X_Decompose::int_err = "especia::X_Decompose(): Error: internal error in LAPACK routine DSYEVX";
 const string especia::X_Decompose::ill_arg = "especia::X_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVX";
 
-especia::X_Decompose::X_Decompose(Nnum_t n)
+especia::X_Decompose::X_Decompose(N_elem n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(), ifail() {
     resize_workspace(n);
 }
@@ -216,10 +216,10 @@ especia::X_Decompose::X_Decompose(Nnum_t n)
 especia::X_Decompose::~X_Decompose() {
 }
 
-void especia::X_Decompose::operator()(Nnum_t k, const Real_t A[], Real_t Z[], Real_t w[]) throw(runtime_error) {
-    valarray<Real_t> C(A, k * k);
+void especia::X_Decompose::operator()(N_elem k, const R_elem A[], R_elem Z[], R_elem w[]) throw(runtime_error) {
+    valarray<R_elem> C(A, k * k);
 
-    if (k != static_cast<Nnum_t>(n)) {
+    if (k != static_cast<N_elem>(n)) {
         resize_workspace(k);
     }
 
@@ -237,18 +237,18 @@ void especia::X_Decompose::operator()(Nnum_t k, const Real_t A[], Real_t Z[], Re
     }
 }
 
-void especia::X_Decompose::resize_workspace(Nnum_t k) {
-    n = static_cast<Znum_t>(k);
+void especia::X_Decompose::resize_workspace(N_elem k) {
+    n = static_cast<Z_elem>(k);
 
     // The workspace query.
     F77NAME(dsyevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
                     m, 0, 0, max(1, n), &work[0], -1, &iwork[0], &ifail[0], info);
 
     if (info == 0) {
-        lwork = static_cast<Znum_t>(work[0]);
-        work.resize(static_cast<Nnum_t>(lwork));
-        iwork.resize(static_cast<Nnum_t>(5 * n));
-        ifail.resize(static_cast<Nnum_t>(n));
+        lwork = static_cast<Z_elem>(work[0]);
+        work.resize(static_cast<N_elem>(lwork));
+        iwork.resize(static_cast<N_elem>(5 * n));
+        ifail.resize(static_cast<N_elem>(n));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -256,9 +256,9 @@ void especia::X_Decompose::resize_workspace(Nnum_t k) {
     }
 }
 
-void especia::X_Decompose::transpose(Real_t A[]) const {
-    for (Znum_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Znum_t j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
+void especia::X_Decompose::transpose(R_elem A[]) const {
+    for (Z_elem i = 0, i0 = 0; i < n; ++i, i0 += n) {
+        for (Z_elem j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
             swap(A[ij], A[ji]);
         }
     }

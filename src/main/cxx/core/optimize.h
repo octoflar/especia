@@ -66,7 +66,7 @@ namespace especia {
          * @param[in] j An index into the set of base values.
          * @return the result of comparing the indexed base values directly.
          */
-        bool operator()(const Nnum_t &i, const Nnum_t &j) const {
+        bool operator()(const N_elem &i, const N_elem &j) const {
             return compare(values[i], values[j]);
         }
 
@@ -130,27 +130,27 @@ namespace especia {
     template<class F, class Constraint, class Deviate, class Decompose, class Compare, class Tracer>
     void optimize(const F &f,
                   const Constraint &constraint,
-                  Nnum_t n,
-                  Nnum_t parent_number,
-                  Nnum_t population_size,
-                  const Real_t w[],
-                  Real_t step_size_damping,
-                  Real_t cs,
-                  Real_t cc,
-                  Real_t ccov,
-                  Real_t acov,
-                  Nnum_t update_modulus,
-                  Real_t accuracy_goal,
-                  Lnum_t stop_generation,
-                  Lnum_t &g,
-                  Real_t xw[],
-                  Real_t &step_size,
-                  Real_t d[],
-                  Real_t B[],
-                  Real_t C[],
-                  Real_t ps[],
-                  Real_t pc[],
-                  Real_t &yw,
+                  N_elem n,
+                  N_elem parent_number,
+                  N_elem population_size,
+                  const R_elem w[],
+                  R_elem step_size_damping,
+                  R_elem cs,
+                  R_elem cc,
+                  R_elem ccov,
+                  R_elem acov,
+                  N_elem update_modulus,
+                  R_elem accuracy_goal,
+                  L_elem stop_generation,
+                  L_elem &g,
+                  R_elem xw[],
+                  R_elem &step_size,
+                  R_elem d[],
+                  R_elem B[],
+                  R_elem C[],
+                  R_elem ps[],
+                  R_elem pc[],
+                  R_elem &yw,
                   bool &optimized,
                   bool &underflow,
                   Deviate &deviate, Decompose &decompose, const Compare &compare, Tracer &tracer) {
@@ -164,40 +164,40 @@ namespace especia {
         using std::valarray;
         using std::vector;
 
-        const Real_t expected_length = (n - 0.25 + 1.0 / (21 * n)) / sqrt(Real_t(n));
-        const Real_t max_covariance_matrix_condition = 0.01 / numeric_limits<Real_t>::epsilon();
-        const Real_t csu = sqrt(cs * (2.0 - cs));
-        const Real_t ccu = sqrt(cc * (2.0 - cc));
-        const Real_t ws = accumulate(w, w + parent_number, 0.0);
-        const Real_t cw = ws / sqrt(inner_product(w, w + parent_number, w, 0.0));
+        const R_elem expected_length = (n - 0.25 + 1.0 / (21 * n)) / sqrt(R_elem(n));
+        const R_elem max_covariance_matrix_condition = 0.01 / numeric_limits<R_elem>::epsilon();
+        const R_elem csu = sqrt(cs * (2.0 - cs));
+        const R_elem ccu = sqrt(cc * (2.0 - cc));
+        const R_elem ws = accumulate(w, w + parent_number, 0.0);
+        const R_elem cw = ws / sqrt(inner_product(w, w + parent_number, w, 0.0));
 
         while (g < stop_generation) {
-            valarray<Real_t> uw(n);
-            valarray<Real_t> vw(n);
-            valarray<valarray<Real_t> > u(uw, population_size);
-            valarray<valarray<Real_t> > v = u;
-            valarray<valarray<Real_t> > x = u;
+            valarray<R_elem> uw(n);
+            valarray<R_elem> vw(n);
+            valarray<valarray<R_elem> > u(uw, population_size);
+            valarray<valarray<R_elem> > v = u;
+            valarray<valarray<R_elem> > x = u;
 
-            valarray<Real_t> y(population_size);
-            valarray<Nnum_t> indexes(population_size);
+            valarray<R_elem> y(population_size);
+            valarray<N_elem> indexes(population_size);
 
-            valarray<Real_t> BD(B, n * n);
-            for (Nnum_t j = 0; j < n; ++j) {
-                for (Nnum_t i = 0, ij = j; i < n; ++i, ij += n) {
+            valarray<R_elem> BD(B, n * n);
+            for (N_elem j = 0; j < n; ++j) {
+                for (N_elem i = 0, ij = j; i < n; ++i, ij += n) {
                     BD[ij] *= d[j];
                 }
             }
 
             // Generate a new population of object parameter vectors,
             // sorted indirectly by fitness
-            for (Nnum_t k = 0; k < population_size; ++k) {
+            for (N_elem k = 0; k < population_size; ++k) {
                 uw = 0.0;
                 vw = 0.0;
-                for (Nnum_t j = 0; j < n; ++j) {
+                for (N_elem j = 0; j < n; ++j) {
                     do {
-                        const Real_t z = deviate();
+                        const R_elem z = deviate();
 
-                        for (Nnum_t i = 0, ij = j; i < n; ++i, ij += n) {
+                        for (N_elem i = 0, ij = j; i < n; ++i, ij += n) {
                             u[k][i] = uw[i] + z * BD[ij];
                             v[k][i] = vw[i] + z * B[ij];
                             x[k][i] = xw[i] + u[k][i] * step_size; // Hansen and Ostermeier (2001), Eq. (13)
@@ -215,26 +215,26 @@ namespace especia {
             }
 #else // C++-11
             vector<thread> threads; threads.reserve(population_size);
-            for (Nnum_t k = 0; k < population_size; ++k) {
+            for (N_elem k = 0; k < population_size; ++k) {
                 threads.push_back(
                         thread([k, &f, &constraint, &x, n, &y]() {
                             y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
                         })
                 );
             }
-            for (Nnum_t k = 0; k < population_size; ++k) {
+            for (N_elem k = 0; k < population_size; ++k) {
                 threads[k].join();
                 indexes[k] = k;
             }
 #endif
             partial_sort(&indexes[0], &indexes[parent_number], &indexes[population_size],
-                         Index_Compare<Real_t, Compare>(y, compare));
+                         Index_Compare<R_elem, Compare>(y, compare));
             ++g;
 
             // Check the mutation variance
             underflow = (y[indexes[0]] == y[indexes[parent_number]]);
             if (!underflow)
-                for (Nnum_t i = 0, ij = g % n; i < n; ++i, ij += n) {
+                for (N_elem i = 0, ij = g % n; i < n; ++i, ij += n) {
                     underflow = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
                     if (!underflow) {
                         break;
@@ -245,9 +245,9 @@ namespace especia {
             }
 
             // Recombine the best individuals
-            for (Nnum_t i = 0; i < n; ++i) {
+            for (N_elem i = 0; i < n; ++i) {
                 uw[i] = vw[i] = xw[i] = 0.0;
-                for (Nnum_t j = 0; j < parent_number; ++j) {
+                for (N_elem j = 0; j < parent_number; ++j) {
                     uw[i] += w[j] * u[indexes[j]][i];
                     vw[i] += w[j] * v[indexes[j]][i];
                     xw[i] += w[j] * x[indexes[j]][i];
@@ -257,20 +257,20 @@ namespace especia {
                 xw[i] /= ws;
             }
 
-            Real_t s = 0.0;
-            Real_t t = 0.0;
+            R_elem s = 0.0;
+            R_elem t = 0.0;
 
             // Adapt the covariance matrix and the step size according to Hansen and Ostermeier (2001)
             // and Hansen et al. (2003)
-            for (Nnum_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
+            for (N_elem i = 0, i0 = 0; i < n; ++i, i0 += n) {
                 pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i]; // ibd. (2001), Eq. (14)
                 if (ccov > 0.0) {
                     // BD is not used anymore and can be overwritten
-                    valarray<Real_t> &Z = BD;
+                    valarray<R_elem> &Z = BD;
 
-                    for (Nnum_t j = 0, ij = i0; j <= i; ++j, ++ij) {
+                    for (N_elem j = 0, ij = i0; j <= i; ++j, ++ij) {
                         Z[ij] = 0.0;
-                        for (Nnum_t k = 0; k < parent_number; ++k) {
+                        for (N_elem k = 0; k < parent_number; ++k) {
                             Z[ij] += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
                         // ibd. (2003), Eq. (11)
@@ -290,18 +290,18 @@ namespace especia {
                 // Adjust the condition of the covariance matrix and recompute the
                 // local step sizes
                 if ((t = d[n - 1] / max_covariance_matrix_condition - d[0]) > 0.0) {
-                    for (Nnum_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+                    for (N_elem i = 0, ii = 0; i < n; ++i, ii += n + 1) {
                         C[ii] += t;
                         d[i] += t;
                     }
                 }
-                for (Nnum_t i = 0; i < n; ++i) {
+                for (N_elem i = 0; i < n; ++i) {
                     d[i] = sqrt(d[i]);
                 }
             }
 
             // Check if the optimization is completed
-            for (Nnum_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+            for (N_elem i = 0, ii = 0; i < n; ++i, ii += n + 1) {
                 optimized = (sqr(step_size) * C[ii] <
                              sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
                 if (!optimized) {
@@ -341,34 +341,34 @@ namespace especia {
      * @param[out] z The parameter uncertainties.
      */
     template<class F, class Constraint>
-    void postopti(const F &f, const Constraint &constraint, Nnum_t n,
-                  const Real_t x[],
-                  const Real_t d[],
-                  const Real_t B[],
-                  const Real_t C[],
-                  Real_t s,
-                  Real_t z[]) {
+    void postopti(const F &f, const Constraint &constraint, N_elem n,
+                  const R_elem x[],
+                  const R_elem d[],
+                  const R_elem B[],
+                  const R_elem C[],
+                  R_elem s,
+                  R_elem z[]) {
         using std::abs;
         using std::sqrt;
         using std::valarray;
         using std::thread;
 
-        const Real_t zx = f(&x[0], n) + constraint.cost(&x[0], n);
+        const R_elem zx = f(&x[0], n) + constraint.cost(&x[0], n);
 
-        Real_t a = 0.0;
-        Real_t b = 0.0;
-        Real_t c = s;
+        R_elem a = 0.0;
+        R_elem b = 0.0;
+        R_elem c = s;
 
         do {
             // Compute two steps along the line of least variance in opposite directions
-            valarray<Real_t> p(x, n);
-            valarray<Real_t> q(x, n);
-            for (Nnum_t i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
+            valarray<R_elem> p(x, n);
+            valarray<R_elem> q(x, n);
+            for (N_elem i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
                 p[i] += c * B[ij] * d[j];
                 q[i] -= c * B[ij] * d[j];
             }
-            Real_t zp;
-            Real_t zq;
+            R_elem zp;
+            R_elem zq;
 #ifdef _OPENMP
 #pragma omp parallel
             {
@@ -399,7 +399,7 @@ namespace especia {
             }
         } while (a == 0.0 or b == 0.0); // the computation step is too small or too large
 
-        for (Nnum_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+        for (N_elem i = 0, ii = 0; i < n; ++i, ii += n + 1) {
             z[i] = s * sqrt(C[ii]);
         }
     }

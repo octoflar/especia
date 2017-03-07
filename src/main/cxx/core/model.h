@@ -49,7 +49,7 @@ namespace especia {
          *
          * @tparam T The number type.
          */
-        template<class T = Real_t>
+        template<class T = R_elem>
         class Bounded_Constraint {
         public:
             /**
@@ -59,7 +59,7 @@ namespace especia {
              * @param[in] upper_bounds The upper bounds.
              * @param[in] n The number of bounds.
              */
-            Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], Nnum_t n)
+            Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], N_elem n)
                     : a(lower_bounds, n), b(upper_bounds, n) {
             }
 
@@ -76,8 +76,8 @@ namespace especia {
              * @param[in] n The number of parameters to test.
              * @return @c true, if the parameter vector violates the constraint.
              */
-            bool is_violated(const T x[], Nnum_t n) const {
-                for (Nnum_t i = 0; i < n; ++i) {
+            bool is_violated(const T x[], N_elem n) const {
+                for (N_elem i = 0; i < n; ++i) {
                     if (x[i] < a[i] || x[i] > b[i]) {
                         return true;
                     }
@@ -92,7 +92,7 @@ namespace especia {
              * @param[in] n The number of parameters to take account of.
              * @return always zero.
              */
-            T cost(const T x[], Nnum_t n) const {
+            T cost(const T x[], N_elem n) const {
                 return T(0);
             }
 
@@ -108,7 +108,7 @@ namespace especia {
                           char end_of_section = '}') {
             using namespace std;
 
-            typedef map<string, Nnum_t>::const_iterator id_index_map_ci;
+            typedef map<string, N_elem>::const_iterator id_index_map_ci;
 
             const char errmsg[] = "especia::Model<>::get(): Error: ";
             const char dlimsg[] = "duplicate line identifier";
@@ -121,19 +121,19 @@ namespace especia {
 
             vector<especia::Section> sec;
 
-            vector<Nnum_t> isc;
-            vector<Nnum_t> nle;
-            vector<Nnum_t> nli;
+            vector<N_elem> isc;
+            vector<N_elem> nle;
+            vector<N_elem> nli;
 
-            vector<Real_t> val;
-            vector<Real_t> lo;
-            vector<Real_t> up;
+            vector<R_elem> val;
+            vector<R_elem> lo;
+            vector<R_elem> up;
 
             vector<bool> msk;
-            vector<Nnum_t> ind;
+            vector<N_elem> ind;
 
-            map<string, Nnum_t> pim;
-            map<string, Nnum_t> sim;
+            map<string, N_elem> pim;
+            map<string, N_elem> sim;
 
             vector<string> ref;
 
@@ -161,8 +161,8 @@ namespace especia {
                 st << line << '\n';
             }
 
-            Nnum_t i = 0;
-            Nnum_t j = 0;
+            N_elem i = 0;
+            N_elem j = 0;
 
             while (getline(st, line, end_of_section))
                 if (!st.eof()) {
@@ -172,8 +172,8 @@ namespace especia {
                         istringstream ist(line.substr(j + 1));
 
                         string sid, pid, fn, s2;
-                        Real_t a, b;
-                        Nnum_t p;
+                        R_elem a, b;
+                        N_elem p;
 
                         // Parse section head
                         if (ist >> sid >> fn >> a >> b >> p and getline(ist, s2)) {
@@ -228,7 +228,7 @@ namespace especia {
                             return is;
                         }
 
-                        Nnum_t k = 0;
+                        N_elem k = 0;
 
                         // Read profile function parameter specification
                         while (ist >> pid)
@@ -262,7 +262,7 @@ namespace especia {
 
             if (!st.bad() and st.eof()) {
                 // Index independent parameters
-                for (Nnum_t i = 0, k = 0; i < msk.size(); ++i)
+                for (N_elem i = 0, k = 0; i < msk.size(); ++i)
                     if (msk[i] and ref[i].empty()) {
                         if (lo[i] > up[i])
                             swap(lo[i], up[i]);
@@ -277,11 +277,11 @@ namespace especia {
 
                 // Dereference resolution parameter references
                 for (id_index_map_ci i = sim.begin(); i != sim.end(); ++i) {
-                    const Nnum_t j = isc[i->second];
+                    const N_elem j = isc[i->second];
 
                     while (!ref[j].empty()) {
                         if (sim.find(ref[j]) != sim.end()) {
-                            const Nnum_t k = isc[sim[ref[j]]];
+                            const N_elem k = isc[sim[ref[j]]];
 
                             if (j != k) {
                                 if (ref[k].empty()) {
@@ -311,12 +311,12 @@ namespace especia {
 
                 // Dereference line parameter references
                 for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i)
-                    for (Nnum_t j = 0; j < Profile::parameter_count; ++j) {
-                        const Nnum_t k = i->second + j;
+                    for (N_elem j = 0; j < Profile::parameter_count; ++j) {
+                        const N_elem k = i->second + j;
 
                         while (!ref[k].empty()) {
                             if (pim.find(ref[k]) != pim.end()) {
-                                const Nnum_t l = pim[ref[k]] + j;
+                                const N_elem l = pim[ref[k]] + j;
 
                                 if (k != l) {
                                     if (ref[l].empty()) {
@@ -344,8 +344,8 @@ namespace especia {
                         }
                     }
 
-                const Nnum_t m = sec.size();
-                const Nnum_t n = msk.size();
+                const N_elem m = sec.size();
+                const N_elem n = msk.size();
 
                 this->sec = sec;
 
@@ -387,7 +387,7 @@ namespace especia {
         std::ostream &put(std::ostream &os) const {
             using namespace std;
 
-            typedef map<string, Nnum_t>::const_iterator id_index_map_ci;
+            typedef map<string, N_elem>::const_iterator id_index_map_ci;
 
             const ios_base::fmtflags fmt = os.flags();
 
@@ -423,11 +423,11 @@ namespace especia {
             os << "  <tbody align=\"left\">\n";
 
             for (id_index_map_ci i = sim.begin(); i != sim.end(); ++i) {
-                const Nnum_t j = i->second;
+                const N_elem j = i->second;
 
                 const string id = i->first;
-                const Nnum_t px = sec[j].valid_data_count();
-                const Real_t st = sec[j].cost();
+                const N_elem px = sec[j].valid_data_count();
+                const R_elem st = sec[j].cost();
 
                 os.precision(2);
 
@@ -467,18 +467,18 @@ namespace especia {
             os << "  <tbody align=\"left\">\n";
 
             for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i) {
-                const Nnum_t j = i->second;
+                const N_elem j = i->second;
                 const string id = i->first;
 
-                const Real_t c = 1.0E-3 * speed_of_light;
-                const Real_t x = val[j];
-                const Real_t z = val[j + 2];
-                const Real_t v = val[j + 3];
-                const Real_t w = x * (1.0 + z) * (1.0 + v / c);
-                const Real_t dx = err[j];
-                const Real_t dz = err[j + 2];
-                const Real_t dv = err[j + 3];
-                const Real_t dw = dx + x * sqrt(sqr((1.0 + v / c) * dz) + sqr((1.0 + z) * dv / c));
+                const R_elem c = 1.0E-3 * speed_of_light;
+                const R_elem x = val[j];
+                const R_elem z = val[j + 2];
+                const R_elem v = val[j + 3];
+                const R_elem w = x * (1.0 + z) * (1.0 + v / c);
+                const R_elem dx = err[j];
+                const R_elem dz = err[j + 2];
+                const R_elem dv = err[j + 3];
+                const R_elem dw = dx + x * sqrt(sqr((1.0 + v / c) * dz) + sqr((1.0 + z) * dv / c));
 
                 os.precision(4);
 
@@ -528,12 +528,12 @@ namespace especia {
             return os;
         }
 
-        Real_t operator()(const Real_t x[], Nnum_t n) const {
+        R_elem operator()(const R_elem x[], N_elem n) const {
             return cost(x, n);
         }
 
-        void set(const Real_t x[], const Real_t z[]) {
-            for (Nnum_t i = 0; i < val.size(); ++i) {
+        void set(const R_elem x[], const R_elem z[]) {
+            for (N_elem i = 0; i < val.size(); ++i) {
                 if (msk[i]) {
                     val[i] = x[ind[i]];
                     err[i] = z[ind[i]];
@@ -541,35 +541,35 @@ namespace especia {
                     err[i] = 0.0;
                 }
             }
-            for (Nnum_t i = 0; i < sec.size(); ++i) {
+            for (N_elem i = 0; i < sec.size(); ++i) {
                 sec[i].apply(Superposition<Profile>(nli[i], &val[isc[i] + 1]), val[isc[i]], nle[i]);
             }
         }
 
-        Real_t cost(const Real_t x[], Nnum_t n) const {
+        R_elem cost(const R_elem x[], N_elem n) const {
             using std::valarray;
 
-            valarray<Real_t> y = val;
-            for (Nnum_t i = 0; i < y.size(); ++i) {
+            valarray<R_elem> y = val;
+            for (N_elem i = 0; i < y.size(); ++i) {
                 if (msk[i]) {
                     y[i] = x[ind[i]];
                 }
             }
-            Real_t d = 0.0;
-            for (Nnum_t i = 0; i < sec.size(); ++i) {
+            R_elem d = 0.0;
+            for (N_elem i = 0; i < sec.size(); ++i) {
                 d += sec[i].cost(Superposition<Profile>(nli[i], &y[isc[i] + 1]), y[isc[i]], nle[i]);
             }
             return d;
         }
 
-        Nnum_t get_parameter_count() const {
+        N_elem get_parameter_count() const {
             return ind.max() + 1;
         }
 
-        std::valarray<Real_t> get_initial_parameter_values() const {
-            std::valarray<Real_t> x(get_parameter_count());
+        std::valarray<R_elem> get_initial_parameter_values() const {
+            std::valarray<R_elem> x(get_parameter_count());
 
-            for (Nnum_t i = 0, j = 0; i < msk.size(); ++i) {
+            for (N_elem i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
                     x[j++] = 0.5 * (lo[i] + up[i]);
                 }
@@ -578,10 +578,10 @@ namespace especia {
             return x;
         }
 
-        std::valarray<Real_t> get_initial_local_step_sizes() const {
-            std::valarray<Real_t> z(get_parameter_count());
+        std::valarray<R_elem> get_initial_local_step_sizes() const {
+            std::valarray<R_elem> z(get_parameter_count());
 
-            for (Nnum_t i = 0, j = 0; i < msk.size(); ++i) {
+            for (N_elem i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
                     z[j++] = 0.5 * (up[i] - lo[i]);
                 }
@@ -590,11 +590,11 @@ namespace especia {
             return z;
         }
 
-        Bounded_Constraint<Real_t> get_constraint() const {
-            std::valarray<Real_t> a(get_parameter_count());
-            std::valarray<Real_t> b(get_parameter_count());
+        Bounded_Constraint<R_elem> get_constraint() const {
+            std::valarray<R_elem> a(get_parameter_count());
+            std::valarray<R_elem> b(get_parameter_count());
 
-            for (Nnum_t i = 0, j = 0; i < msk.size(); ++i) {
+            for (N_elem i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
                     a[j] = lo[i];
                     b[j] = up[i];
@@ -602,11 +602,11 @@ namespace especia {
                 }
             }
 
-            return Bounded_Constraint<Real_t>(&a[0], &b[0], get_parameter_count());
+            return Bounded_Constraint<R_elem>(&a[0], &b[0], get_parameter_count());
         }
 
     private:
-        std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, Nnum_t p, Nnum_t parameter_index) const {
+        std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, N_elem p, N_elem parameter_index) const {
             using namespace std;
 
             const ios_base::fmtflags fmt = os.flags();
@@ -625,20 +625,20 @@ namespace especia {
 
         std::vector<especia::Section> sec;
 
-        std::valarray<Nnum_t> isc;
-        std::valarray<Nnum_t> nle;
-        std::valarray<Nnum_t> nli;
+        std::valarray<N_elem> isc;
+        std::valarray<N_elem> nle;
+        std::valarray<N_elem> nli;
 
-        std::valarray<Real_t> val;
-        std::valarray<Real_t> err;
-        std::valarray<Real_t> lo;
-        std::valarray<Real_t> up;
+        std::valarray<R_elem> val;
+        std::valarray<R_elem> err;
+        std::valarray<R_elem> lo;
+        std::valarray<R_elem> up;
 
         std::valarray<bool> msk;
-        std::valarray<Nnum_t> ind;
+        std::valarray<N_elem> ind;
 
-        std::map<std::string, Nnum_t> sim;
-        std::map<std::string, Nnum_t> pim;
+        std::map<std::string, N_elem> sim;
+        std::map<std::string, N_elem> pim;
     };
 
 }
