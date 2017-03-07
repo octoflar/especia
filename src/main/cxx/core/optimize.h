@@ -1,6 +1,6 @@
 /// @file optimize.h
 /// CMA-ES function templates for nonlinear function optimization.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -66,7 +66,7 @@ namespace especia {
          * @param[in] j An index into the set of base values.
          * @return the result of comparing the indexed base values directly.
          */
-        bool operator()(const Nint_t &i, const Nint_t &j) const {
+        bool operator()(const N_type &i, const N_type &j) const {
             return compare(values[i], values[j]);
         }
 
@@ -130,27 +130,27 @@ namespace especia {
     template<class F, class Constraint, class Deviate, class Decompose, class Compare, class Tracer>
     void optimize(const F &f,
                   const Constraint &constraint,
-                  Nint_t n,
-                  Nint_t parent_number,
-                  Nint_t population_size,
-                  const Real_t w[],
-                  Real_t step_size_damping,
-                  Real_t cs,
-                  Real_t cc,
-                  Real_t ccov,
-                  Real_t acov,
-                  Nint_t update_modulus,
-                  Real_t accuracy_goal,
-                  Lint_t stop_generation,
-                  Lint_t &g,
-                  Real_t xw[],
-                  Real_t &step_size,
-                  Real_t d[],
-                  Real_t B[],
-                  Real_t C[],
-                  Real_t ps[],
-                  Real_t pc[],
-                  Real_t &yw,
+                  N_type n,
+                  N_type parent_number,
+                  N_type population_size,
+                  const R_type w[],
+                  R_type step_size_damping,
+                  R_type cs,
+                  R_type cc,
+                  R_type ccov,
+                  R_type acov,
+                  N_type update_modulus,
+                  R_type accuracy_goal,
+                  L_type stop_generation,
+                  L_type &g,
+                  R_type xw[],
+                  R_type &step_size,
+                  R_type d[],
+                  R_type B[],
+                  R_type C[],
+                  R_type ps[],
+                  R_type pc[],
+                  R_type &yw,
                   bool &optimized,
                   bool &underflow,
                   Deviate &deviate, Decompose &decompose, const Compare &compare, Tracer &tracer) {
@@ -164,40 +164,40 @@ namespace especia {
         using std::valarray;
         using std::vector;
 
-        const Real_t expected_length = (n - 0.25 + 1.0 / (21 * n)) / sqrt(Real_t(n));
-        const Real_t max_covariance_matrix_condition = 0.01 / numeric_limits<Real_t>::epsilon();
-        const Real_t csu = sqrt(cs * (2.0 - cs));
-        const Real_t ccu = sqrt(cc * (2.0 - cc));
-        const Real_t ws = accumulate(w, w + parent_number, 0.0);
-        const Real_t cw = ws / sqrt(inner_product(w, w + parent_number, w, 0.0));
+        const R_type expected_length = (n - 0.25 + 1.0 / (21 * n)) / sqrt(R_type(n));
+        const R_type max_covariance_matrix_condition = 0.01 / numeric_limits<R_type>::epsilon();
+        const R_type csu = sqrt(cs * (2.0 - cs));
+        const R_type ccu = sqrt(cc * (2.0 - cc));
+        const R_type ws = accumulate(w, w + parent_number, 0.0);
+        const R_type cw = ws / sqrt(inner_product(w, w + parent_number, w, 0.0));
 
         while (g < stop_generation) {
-            valarray<Real_t> uw(n);
-            valarray<Real_t> vw(n);
-            valarray<valarray<Real_t> > u(uw, population_size);
-            valarray<valarray<Real_t> > v = u;
-            valarray<valarray<Real_t> > x = u;
+            valarray<R_type> uw(n);
+            valarray<R_type> vw(n);
+            valarray<valarray<R_type> > u(uw, population_size);
+            valarray<valarray<R_type> > v = u;
+            valarray<valarray<R_type> > x = u;
 
-            valarray<Real_t> y(population_size);
-            valarray<Nint_t> indexes(population_size);
+            valarray<R_type> y(population_size);
+            valarray<N_type> indexes(population_size);
 
-            valarray<Real_t> BD(B, n * n);
-            for (Nint_t j = 0; j < n; ++j) {
-                for (Nint_t i = 0, ij = j; i < n; ++i, ij += n) {
+            valarray<R_type> BD(B, n * n);
+            for (N_type j = 0; j < n; ++j) {
+                for (N_type i = 0, ij = j; i < n; ++i, ij += n) {
                     BD[ij] *= d[j];
                 }
             }
 
             // Generate a new population of object parameter vectors,
             // sorted indirectly by fitness
-            for (Nint_t k = 0; k < population_size; ++k) {
+            for (N_type k = 0; k < population_size; ++k) {
                 uw = 0.0;
                 vw = 0.0;
-                for (Nint_t j = 0; j < n; ++j) {
+                for (N_type j = 0; j < n; ++j) {
                     do {
-                        const Real_t z = deviate();
+                        const R_type z = deviate();
 
-                        for (Nint_t i = 0, ij = j; i < n; ++i, ij += n) {
+                        for (N_type i = 0, ij = j; i < n; ++i, ij += n) {
                             u[k][i] = uw[i] + z * BD[ij];
                             v[k][i] = vw[i] + z * B[ij];
                             x[k][i] = xw[i] + u[k][i] * step_size; // Hansen and Ostermeier (2001), Eq. (13)
@@ -209,32 +209,32 @@ namespace especia {
             }
 #ifdef _OPENMP
 #pragma omp parallel for
-            for (Nint_t k = 0; k < population_size; ++k) {
+            for (N_type k = 0; k < population_size; ++k) {
                 y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
                 indexes[k] = k;
             }
 #else // C++-11
             vector<thread> threads; threads.reserve(population_size);
-            for (Nint_t k = 0; k < population_size; ++k) {
+            for (N_type k = 0; k < population_size; ++k) {
                 threads.push_back(
                         thread([k, &f, &constraint, &x, n, &y]() {
                             y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
                         })
                 );
             }
-            for (Nint_t k = 0; k < population_size; ++k) {
+            for (N_type k = 0; k < population_size; ++k) {
                 threads[k].join();
                 indexes[k] = k;
             }
 #endif
             partial_sort(&indexes[0], &indexes[parent_number], &indexes[population_size],
-                         Index_Compare<Real_t, Compare>(y, compare));
+                         Index_Compare<R_type, Compare>(y, compare));
             ++g;
 
             // Check the mutation variance
             underflow = (y[indexes[0]] == y[indexes[parent_number]]);
             if (!underflow)
-                for (Nint_t i = 0, ij = g % n; i < n; ++i, ij += n) {
+                for (N_type i = 0, ij = g % n; i < n; ++i, ij += n) {
                     underflow = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
                     if (!underflow) {
                         break;
@@ -245,9 +245,9 @@ namespace especia {
             }
 
             // Recombine the best individuals
-            for (Nint_t i = 0; i < n; ++i) {
+            for (N_type i = 0; i < n; ++i) {
                 uw[i] = vw[i] = xw[i] = 0.0;
-                for (Nint_t j = 0; j < parent_number; ++j) {
+                for (N_type j = 0; j < parent_number; ++j) {
                     uw[i] += w[j] * u[indexes[j]][i];
                     vw[i] += w[j] * v[indexes[j]][i];
                     xw[i] += w[j] * x[indexes[j]][i];
@@ -257,20 +257,20 @@ namespace especia {
                 xw[i] /= ws;
             }
 
-            Real_t s = 0.0;
-            Real_t t = 0.0;
+            R_type s = 0.0;
+            R_type t = 0.0;
 
             // Adapt the covariance matrix and the step size according to Hansen and Ostermeier (2001)
             // and Hansen et al. (2003)
-            for (Nint_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
+            for (N_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
                 pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i]; // ibd. (2001), Eq. (14)
                 if (ccov > 0.0) {
                     // BD is not used anymore and can be overwritten
-                    valarray<Real_t> &Z = BD;
+                    valarray<R_type> &Z = BD;
 
-                    for (Nint_t j = 0, ij = i0; j <= i; ++j, ++ij) {
+                    for (N_type j = 0, ij = i0; j <= i; ++j, ++ij) {
                         Z[ij] = 0.0;
-                        for (Nint_t k = 0; k < parent_number; ++k) {
+                        for (N_type k = 0; k < parent_number; ++k) {
                             Z[ij] += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
                         // ibd. (2003), Eq. (11)
@@ -290,18 +290,18 @@ namespace especia {
                 // Adjust the condition of the covariance matrix and recompute the
                 // local step sizes
                 if ((t = d[n - 1] / max_covariance_matrix_condition - d[0]) > 0.0) {
-                    for (Nint_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+                    for (N_type i = 0, ii = 0; i < n; ++i, ii += n + 1) {
                         C[ii] += t;
                         d[i] += t;
                     }
                 }
-                for (Nint_t i = 0; i < n; ++i) {
+                for (N_type i = 0; i < n; ++i) {
                     d[i] = sqrt(d[i]);
                 }
             }
 
             // Check if the optimization is completed
-            for (Nint_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+            for (N_type i = 0, ii = 0; i < n; ++i, ii += n + 1) {
                 optimized = (sqr(step_size) * C[ii] <
                              sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
                 if (!optimized) {
@@ -341,34 +341,34 @@ namespace especia {
      * @param[out] z The parameter uncertainties.
      */
     template<class F, class Constraint>
-    void postopti(const F &f, const Constraint &constraint, Nint_t n,
-                  const Real_t x[],
-                  const Real_t d[],
-                  const Real_t B[],
-                  const Real_t C[],
-                  Real_t s,
-                  Real_t z[]) {
+    void postopti(const F &f, const Constraint &constraint, N_type n,
+                  const R_type x[],
+                  const R_type d[],
+                  const R_type B[],
+                  const R_type C[],
+                  R_type s,
+                  R_type z[]) {
         using std::abs;
         using std::sqrt;
         using std::valarray;
         using std::thread;
 
-        const Real_t zx = f(&x[0], n) + constraint.cost(&x[0], n);
+        const R_type zx = f(&x[0], n) + constraint.cost(&x[0], n);
 
-        Real_t a = 0.0;
-        Real_t b = 0.0;
-        Real_t c = s;
+        R_type a = 0.0;
+        R_type b = 0.0;
+        R_type c = s;
 
         do {
             // Compute two steps along the line of least variance in opposite directions
-            valarray<Real_t> p(x, n);
-            valarray<Real_t> q(x, n);
-            for (Nint_t i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
+            valarray<R_type> p(x, n);
+            valarray<R_type> q(x, n);
+            for (N_type i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
                 p[i] += c * B[ij] * d[j];
                 q[i] -= c * B[ij] * d[j];
             }
-            Real_t zp;
-            Real_t zq;
+            R_type zp;
+            R_type zq;
 #ifdef _OPENMP
 #pragma omp parallel
             {
@@ -399,7 +399,7 @@ namespace especia {
             }
         } while (a == 0.0 or b == 0.0); // the computation step is too small or too large
 
-        for (Nint_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+        for (N_type i = 0, ii = 0; i < n; ++i, ii += n + 1) {
             z[i] = s * sqrt(C[ii]);
         }
     }

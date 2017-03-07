@@ -1,4 +1,4 @@
-# Copyright (c) 2016 Ralf Quast
+# Copyright (c) 2017 Ralf Quast
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -64,6 +64,7 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/core/decompose.cxx
         ${MAIN}/cxx/core/decompose.h
         ${MAIN}/cxx/core/deviates.h
+        ${MAIN}/cxx/core/exitcodes.h
         ${MAIN}/cxx/core/model.h
         ${MAIN}/cxx/core/mtwister.h
         ${MAIN}/cxx/core/optimizer.cxx
@@ -91,7 +92,10 @@ add_executable(edat ${MAIN}/cxx/apps/edat.cxx)
 add_executable(elog ${MAIN}/cxx/apps/elog.cxx)
 add_executable(emod ${MAIN}/cxx/apps/emod.cxx)
 add_executable(emes ${MAIN}/cxx/apps/emes.cxx)
-add_executable(etee ${MAIN}/cxx/apps/etee.cxx ${MAIN}/cxx/core/dataio.cxx ${MAIN}/cxx/core/dataio.h)
+add_executable(etee ${MAIN}/cxx/apps/etee.cxx
+        ${MAIN}/cxx/core/dataio.cxx
+        ${MAIN}/cxx/core/dataio.h
+        ${MAIN}/cxx/core/exitcodes.h)
 
 add_system_test(especid_test 159.77 171.89)
 add_system_test(especiv_test 251.04)
@@ -101,15 +105,18 @@ add_system_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
         ${MAIN}/cxx/core/base.h
         ${MAIN}/cxx/core/dataio.cxx
-        ${MAIN}/cxx/core/dataio.h)
+        ${MAIN}/cxx/core/dataio.h
+        ${MAIN}/cxx/core/exitcodes.h)
 add_executable(helicorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/helicorr.cxx
         ${MAIN}/cxx/core/base.h
         ${MAIN}/cxx/core/dataio.cxx
-        ${MAIN}/cxx/core/dataio.h)
+        ${MAIN}/cxx/core/dataio.h
+        ${MAIN}/cxx/core/exitcodes.h)
 add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx
         ${MAIN}/cxx/core/base.h
         ${MAIN}/cxx/core/dataio.cxx
-        ${MAIN}/cxx/core/dataio.h)
+        ${MAIN}/cxx/core/dataio.h
+        ${MAIN}/cxx/core/exitcodes.h)
 
 add_custom_target(util)
 add_dependencies(util airtovac helicorr vactoair)

@@ -1,6 +1,6 @@
 /// @file section.cxx
 /// Class for modeling spectroscopic data sections.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@
 
 #include "section.h"
 
-using especia::Nint_t;
-using especia::Real_t;
+using especia::N_type;
+using especia::R_type;
 
 especia::Section::Section()
         : wav(),
@@ -59,7 +59,7 @@ especia::Section::Section(size_t m)
           n(m) {
 }
 
-especia::Section::Section(size_t m, const Real_t x[], const Real_t y[], const Real_t unc[])
+especia::Section::Section(size_t m, const R_type x[], const R_type y[], const R_type unc[])
         : wav(x, m),
           flx(y, m),
           unc(unc, m),
@@ -77,40 +77,40 @@ especia::Section::Section(size_t m, const Real_t x[], const Real_t y[], const Re
 especia::Section::~Section() {
 }
 
-void especia::Section::continuum(Nint_t m, const Real_t cat[], Real_t cfl[]) const throw(std::runtime_error) {
+void especia::Section::continuum(N_type m, const R_type cat[], R_type cfl[]) const throw(std::runtime_error) {
     using std::fill;
     using std::runtime_error;
     using std::sqrt;
     using std::valarray;
 
     if (m > 0) {
-        valarray<Real_t> b(0.0, m);
-        valarray<Real_t> c(0.0, m);
-        valarray<Real_t> l(1.0, m);
+        valarray<R_type> b(0.0, m);
+        valarray<R_type> c(0.0, m);
+        valarray<R_type> l(1.0, m);
 
-        valarray<valarray<Real_t> > a(b, m);
+        valarray<valarray<R_type> > a(b, m);
 
         // Optimizing the background continuum is a linear optimization problem. Here the normal
         // equations are established.
         for (size_t i = 0; i < n; ++i) {
             if (msk[i]) {
                 // Map the wavelengths onto the interval [-1, 1]
-                const Real_t x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
+                const R_type x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
 
-                Real_t l1 = 1.0;
-                Real_t l2 = 0.0;
+                R_type l1 = 1.0;
+                R_type l2 = 0.0;
 
                 // Compute the higher-order Legendre basis polynomials.
-                for (Nint_t j = 1; j < m; ++j) {
-                    const Real_t l3 = l2;
+                for (N_type j = 1; j < m; ++j) {
+                    const R_type l3 = l2;
 
                     l2 = l1;
                     l1 = ((2 * j - 1) * x * l2 - (j - 1) * l3) / j;
                     l[j] = l1;
                 }
                 // Establish the normal equations.
-                for (Nint_t j = 0; j < m; ++j) {
-                    for (Nint_t k = j; k < m; ++k) {
+                for (N_type j = 0; j < m; ++j) {
+                    for (N_type k = j; k < m; ++k) {
                         a[j][k] += (cat[i] * cat[i] * l[j] * l[k]) / (unc[i] * unc[i]);
                     }
 
@@ -123,11 +123,11 @@ void especia::Section::continuum(Nint_t m, const Real_t cat[], Real_t cfl[]) con
         // W. H. Press, S. A. Teukolsky, W. T. Vetterling, B. P. Flannery (2002).
         //   Numerical Recipes in C: The Art of Scientific Computing.
         //   Cambridge University Press, ISBN 0-521-75033-4.
-        for (Nint_t i = 0; i < m; ++i) {
-            for (Nint_t j = i; j < m; ++j) {
-                Real_t s = a[i][j];
+        for (N_type i = 0; i < m; ++i) {
+            for (N_type j = i; j < m; ++j) {
+                R_type s = a[i][j];
 
-                for (Nint_t k = 0; k < i; ++k) {
+                for (N_type k = 0; k < i; ++k) {
                     s -= a[i][k] * a[j][k];
                 }
                 if (i < j) {
@@ -141,19 +141,19 @@ void especia::Section::continuum(Nint_t m, const Real_t cat[], Real_t cfl[]) con
                 }
             }
         }
-        for (Nint_t i = 0; i < m; ++i) {
-            Real_t s = b[i];
+        for (N_type i = 0; i < m; ++i) {
+            R_type s = b[i];
 
-            for (Nint_t k = 0; k < i; ++k) {
+            for (N_type k = 0; k < i; ++k) {
                 s -= a[i][k] * c[k];
             }
 
             c[i] = s / a[i][i];
         }
-        for (Nint_t i = m - 1; i + 1 > 0; --i) {
-            Real_t s = c[i];
+        for (N_type i = m - 1; i + 1 > 0; --i) {
+            R_type s = c[i];
 
-            for (Nint_t k = i + 1; k < m; ++k) {
+            for (N_type k = i + 1; k < m; ++k) {
                 s -= a[k][i] * c[k];
             }
 
@@ -162,15 +162,15 @@ void especia::Section::continuum(Nint_t m, const Real_t cat[], Real_t cfl[]) con
 
         // Compute the continuum flux.
         for (size_t i = 0; i < n; ++i) {
-            const Real_t x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
+            const R_type x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
 
-            Real_t l1 = 1.0;
-            Real_t l2 = 0.0;
+            R_type l1 = 1.0;
+            R_type l2 = 0.0;
 
             cfl[i] = c[0];
 
-            for (Nint_t k = 1; k < m; ++k) {
-                const Real_t l3 = l2;
+            for (N_type k = 1; k < m; ++k) {
+                const R_type l3 = l2;
 
                 l2 = l1;
                 l1 = ((2 * k - 1) * x * l2 - (k - 1) * l3) / k;
@@ -194,8 +194,8 @@ size_t especia::Section::valid_data_count() const {
     return count;
 }
 
-Real_t especia::Section::cost() const {
-    Real_t cost = 0.0;
+R_type especia::Section::cost() const {
+    R_type cost = 0.0;
 
     for (size_t i = 0; i < n; ++i) {
         if (msk[i]) {
@@ -206,7 +206,7 @@ Real_t especia::Section::cost() const {
     return 0.5 * cost;
 }
 
-void especia::Section::mask(Real_t a, Real_t b) {
+void especia::Section::mask(R_type a, R_type b) {
     for (size_t i = 0; i < n; ++i) {
         if (a <= wav[i] and wav[i] <= b) {
             msk[i] = 0;
@@ -214,13 +214,13 @@ void especia::Section::mask(Real_t a, Real_t b) {
     }
 }
 
-void especia::Section::primitive(Real_t x, Real_t h, Real_t &p, Real_t &q) const {
+void especia::Section::primitive(R_type x, R_type h, R_type &p, R_type &q) const {
     using std::erf; // C++11
     using std::exp;
 
-    const Real_t c = 1.6651092223153955127063292897904020952612;
-    const Real_t d = 3.5449077018110320545963349666822903655951;
-    const Real_t b = 2.0 * h / c;
+    const R_type c = 1.6651092223153955127063292897904020952612;
+    const R_type d = 3.5449077018110320545963349666822903655951;
+    const R_type b = 2.0 * h / c;
 
     x /= b;
 
@@ -228,15 +228,15 @@ void especia::Section::primitive(Real_t x, Real_t h, Real_t &p, Real_t &q) const
     q = -(b * exp(-x * x)) / d;
 }
 
-std::istream &especia::Section::get(std::istream &is, Real_t a, Real_t b) {
+std::istream &especia::Section::get(std::istream &is, R_type a, R_type b) {
     using namespace std;
 
     const size_t room = 20000;
 
     vector<bool> w;
-    vector<Real_t> x;
-    vector<Real_t> y;
-    vector<Real_t> z;
+    vector<R_type> x;
+    vector<R_type> y;
+    vector<R_type> z;
 
     w.reserve(room);
     x.reserve(room);
@@ -254,7 +254,7 @@ std::istream &especia::Section::get(std::istream &is, Real_t a, Real_t b) {
 
         istringstream ist(line);
         bool tw;
-        Real_t tx, ty, tz;
+        R_type tx, ty, tz;
 
         if (ist >> tx >> ty) {
             if (a <= tx and tx <= b) {
@@ -310,14 +310,14 @@ std::istream &especia::Section::get(std::istream &is, Real_t a, Real_t b) {
     return is;
 }
 
-std::ostream &especia::Section::put(std::ostream &os, Real_t a, Real_t b) const {
+std::ostream &especia::Section::put(std::ostream &os, R_type a, R_type b) const {
     using namespace std;
 
     if (os) {
         // The precision.
-        const Nint_t p = 8;
+        const N_type p = 8;
         // The width of the output field.
-        const Nint_t w = 16;
+        const N_type w = 16;
 
         const ios_base::fmtflags f = os.flags();
 
@@ -329,8 +329,8 @@ std::ostream &especia::Section::put(std::ostream &os, Real_t a, Real_t b) const 
         for (size_t i = 0; i < n; ++i)
             if (a <= wav[i] and wav[i] <= b) {
                 // The normalized observed spectral flux and its uncertainty.
-                const Real_t nfl = flx[i] / cfl[i];
-                const Real_t nun = unc[i] / cfl[i];
+                const R_type nfl = flx[i] / cfl[i];
+                const R_type nun = unc[i] / cfl[i];
 
                 os << setw(w) << wav[i]; // 1
                 os << setw(w) << flx[i]; // 2

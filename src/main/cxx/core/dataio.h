@@ -1,6 +1,6 @@
 /// @file dataio.h
 /// Data input and output procedures.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ namespace especia {
      * @return the input stream.
      */
     std::istream &
-    get(std::istream &is, std::valarray<Real_t> &x, std::valarray<Real_t> &y, Nint_t skip = 0);
+    get(std::istream &is, std::valarray<R_type> &x, std::valarray<R_type> &y, N_type skip = 0);
 
     /**
      * Reads spectroscopic data from an input stream.
@@ -54,8 +54,8 @@ namespace especia {
      * @return the input stream.
      */
     std::istream &
-    get(std::istream &is, std::valarray<Real_t> &x, std::valarray<Real_t> &y,
-        std::valarray<Real_t> &z, Nint_t skip = 0);
+    get(std::istream &is, std::valarray<R_type> &x, std::valarray<R_type> &y,
+        std::valarray<R_type> &z, N_type skip = 0);
 
     /**
      * Writes spectroscopic data to an output stream.
@@ -68,8 +68,8 @@ namespace especia {
      * @return the output stream.
      */
     std::ostream &
-    put(std::ostream &os, const std::valarray<Real_t> &x, const std::valarray<Real_t> &y,
-        const std::valarray<Real_t> &z);
+    put(std::ostream &os, const std::valarray<R_type> &x, const std::valarray<R_type> &y,
+        const std::valarray<R_type> &z);
 
 }
 

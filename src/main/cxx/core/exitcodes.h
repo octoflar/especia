@@ -1,5 +1,5 @@
-/// @file edat.cxx
-/// Program to extract the spectroscopic data from an Especia result HTML file
+/// @file exitcodes.h
+/// Exit codes.
 /// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,29 +19,37 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
-#include <iostream>
+#ifndef ESPECIA_EXITCODES_H
+#define ESPECIA_EXITCODES_H
 
-using namespace std;
+namespace especia {
 
-/**
- * Extracts the spectroscopic data from Especia result HTML. Reads from standard
- * input and writes to standard output.
- *
- * @return an exit code.
- *
- * @remark Usage: edat < ISTREAM > OSTREAM
- */
-int main() {
-    bool found = false;
-    string s;
+    /**
+     * Application exit codes.
+     */
+    class Exit_Codes {
+    public:
+        /**
+         * The optimization stopped and failed to reach the required accuracy goal.
+         */
+        static const int OPTMIZATION_STOPPED = 1;
 
-    while (getline(cin, s)) {
-        if (found and s != "</data>") {
-            cout << s << endl;
-        } else {
-            found = (s == "<data>");
-        }
-    }
+        /**
+         * A logical error occurred.
+         */
+        static const int LOGICAL_ERROR = 2;
 
-    return 0;
+        /**
+         * A runtime error occurred.
+         */
+        static const int RUNTIME_ERROR = 3;
+
+        /**
+         * An unspecific exception occurred.
+         */
+        static const int UNSPECIFIC_EXCEPTION = 4;
+    };
+
 }
+
+#endif // ESPECIA_EXITCODES_H

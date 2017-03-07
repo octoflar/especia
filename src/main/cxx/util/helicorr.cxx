@@ -1,6 +1,6 @@
 /// @file helicorr.cxx
 /// Utility to apply a heliocentric (or barycentric) velocity correction
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,20 @@
 
 #include "../core/base.h"
 #include "../core/dataio.h"
+#include "../core/exitcodes.h"
 
 using namespace std;
 
-using especia::Nint_t;
-using especia::Real_t;
+using especia::N_type;
+using especia::R_type;
 
 
+/**
+ * Writes the usage message to an output stream.
+ *
+ * @param os The ouput stream.
+ * @param pname The program name.
+ */
 void write_usage_message(ostream &os, const string &pname) {
     os << "usage: " << pname << " VELOCITY (m s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
 }
@@ -64,17 +71,17 @@ int main(int argc, char *argv[]) {
             throw invalid_argument("Error: an invalid number of arguments was supplied");
         }
 
-        Nint_t skip = 0;
+        N_type skip = 0;
 
         if (argc == 3) {
-            skip = especia::convert<Nint_t>(string(argv[2]));
+            skip = especia::convert<N_type>(string(argv[2]));
         }
 
-        const Real_t v = especia::convert<Real_t>(string(argv[1]));
+        const R_type v = especia::convert<R_type>(string(argv[1]));
 
-        valarray<Real_t> x;
-        valarray<Real_t> y;
-        valarray<Real_t> z;
+        valarray<R_type> x;
+        valarray<R_type> y;
+        valarray<R_type> z;
 
         if (especia::get(cin, x, y, z, skip)) {
             if (v != 0.0) {
@@ -85,15 +92,14 @@ int main(int argc, char *argv[]) {
             throw runtime_error("Error: an input error occurred");
         }
         return 0;
-    } catch (invalid_argument &e) {
+    } catch (logic_error &e) {
         cerr << e.what() << endl;
-        write_usage_message(cout, pname);
-        return 10;
+        return especia::Exit_Codes::LOGICAL_ERROR;
     } catch (runtime_error &e) {
         cerr << e.what() << endl;
-        return 20;
+        return especia::Exit_Codes::RUNTIME_ERROR;
     } catch (exception &e) {
         cerr << e.what() << endl;
-        return 30;
+        return especia::Exit_Codes::UNSPECIFIC_EXCEPTION;
     }
 }

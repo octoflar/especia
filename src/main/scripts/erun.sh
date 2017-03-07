@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 # Runs an Especia result HTML and searches for expected values, if specified
-# Copyright (c) 2016 Ralf Quast
+# Copyright (c) 2017 Ralf Quast
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

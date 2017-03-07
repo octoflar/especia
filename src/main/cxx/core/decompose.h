@@ -1,6 +1,6 @@
 /// @file decompose.h
 /// Symmetric eigenproblem solvers calling LAPACK routines.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        D_Decompose(Nint_t n = 0);
+        D_Decompose(N_type n = 0);
 
         /**
          * Destructor.
@@ -56,23 +56,23 @@ namespace especia {
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(Nint_t n, const Real_t A[], Real_t Z[], Real_t w[]) throw(std::runtime_error);
+        void operator()(N_type n, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(Nint_t n = 0);
+        void resize_workspace(N_type n = 0);
 
-        void transpose(Real_t A[]) const;
+        void transpose(R_type A[]) const;
 
         const char job;
         const char uplo;
 
-        Zint_t n;
-        Zint_t info;
+        Z_type n;
+        Z_type info;
 
-        Zint_t lwork;
-        Zint_t liwork;
-        std::valarray<Real_t> work;
-        std::valarray<Zint_t> iwork;
+        Z_type lwork;
+        Z_type liwork;
+        std::valarray<R_type> work;
+        std::valarray<Z_type> iwork;
 
         static const std::string int_err;
         static const std::string ill_arg;
@@ -89,7 +89,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        R_Decompose(Nint_t n = 0);
+        R_Decompose(N_type n = 0);
 
         /**
          * Destructor.
@@ -104,27 +104,27 @@ namespace especia {
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(Nint_t n, const Real_t A[], Real_t Z[], Real_t w[]) throw(std::runtime_error);
+        void operator()(N_type n, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(Nint_t n = 0);
+        void resize_workspace(N_type n = 0);
 
-        void transpose(Real_t A[]) const;
+        void transpose(R_type A[]) const;
 
         const char job;
         const char range;
         const char uplo;
 
-        Zint_t m;
-        Zint_t n;
-        Zint_t info;
+        Z_type m;
+        Z_type n;
+        Z_type info;
 
-        std::valarray<Zint_t> isupp;
+        std::valarray<Z_type> isupp;
 
-        Zint_t lwork;
-        Zint_t liwork;
-        std::valarray<Real_t> work;
-        std::valarray<Zint_t> iwork;
+        Z_type lwork;
+        Z_type liwork;
+        std::valarray<R_type> work;
+        std::valarray<Z_type> iwork;
 
         static const std::string int_err;
         static const std::string ill_arg;
@@ -141,7 +141,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        X_Decompose(Nint_t n = 0);
+        X_Decompose(N_type n = 0);
 
         /**
          * Destructor.
@@ -156,25 +156,25 @@ namespace especia {
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(Nint_t n, const Real_t A[], Real_t Z[], Real_t w[]) throw(std::runtime_error);
+        void operator()(N_type n, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(Nint_t n = 0);
+        void resize_workspace(N_type n = 0);
 
-        void transpose(Real_t A[]) const;
+        void transpose(R_type A[]) const;
 
         const char job;
         const char range;
         const char uplo;
 
-        Zint_t m;
-        Zint_t n;
-        Zint_t info;
+        Z_type m;
+        Z_type n;
+        Z_type info;
 
-        Zint_t lwork;
-        std::valarray<Real_t> work;
-        std::valarray<Zint_t> iwork;
-        std::valarray<Zint_t> ifail;
+        Z_type lwork;
+        std::valarray<R_type> work;
+        std::valarray<Z_type> iwork;
+        std::valarray<Z_type> ifail;
 
         static const std::string int_err;
         static const std::string ill_arg;

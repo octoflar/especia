@@ -1,6 +1,6 @@
 /// @file dataio.cxx
 /// Data input and output procedures.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -28,11 +28,11 @@
 
 using namespace std;
 
-istream &especia::get(istream &is, valarray<Real_t> &x, valarray<Real_t> &y, Nint_t skip) {
+istream &especia::get(istream &is, valarray<R_type> &x, valarray<R_type> &y, N_type skip) {
     const size_t room = 20000;
 
-    vector<Real_t> u;
-    vector<Real_t> v;
+    vector<R_type> u;
+    vector<R_type> v;
 
     u.reserve(room);
     v.reserve(room);
@@ -43,7 +43,7 @@ istream &especia::get(istream &is, valarray<Real_t> &x, valarray<Real_t> &y, Nin
     while (getline(is, s)) {
         if (skip <= 0) {
             istringstream ist(s);
-            Real_t a, b;
+            R_type a, b;
 
             if (ist >> a >> b) {
                 u.push_back(a);
@@ -75,12 +75,12 @@ istream &especia::get(istream &is, valarray<Real_t> &x, valarray<Real_t> &y, Nin
     return is;
 }
 
-istream &especia::get(istream &is, valarray<Real_t> &x, valarray<Real_t> &y, valarray<Real_t> &z, Nint_t skip) {
+istream &especia::get(istream &is, valarray<R_type> &x, valarray<R_type> &y, valarray<R_type> &z, N_type skip) {
     const size_t room = 20000;
 
-    vector<Real_t> u;
-    vector<Real_t> v;
-    vector<Real_t> w;
+    vector<R_type> u;
+    vector<R_type> v;
+    vector<R_type> w;
 
     u.reserve(room);
     v.reserve(room);
@@ -92,7 +92,7 @@ istream &especia::get(istream &is, valarray<Real_t> &x, valarray<Real_t> &y, val
     while (getline(is, s)) {
         if (skip <= 0) {
             istringstream ist(s);
-            Real_t a, b, c;
+            R_type a, b, c;
 
             if (ist >> a >> b) {
                 u.push_back(a);
@@ -128,10 +128,10 @@ istream &especia::get(istream &is, valarray<Real_t> &x, valarray<Real_t> &y, val
     return is;
 }
 
-ostream &especia::put(ostream &os, const valarray<Real_t> &x, const valarray<Real_t> &y, const valarray<Real_t> &z) {
+ostream &especia::put(ostream &os, const valarray<R_type> &x, const valarray<R_type> &y, const valarray<R_type> &z) {
     if (os) {
-        const Nint_t p = 6;  // precision
-        const Nint_t w = 14; // width
+        const N_type p = 6;  // precision
+        const N_type w = 14; // width
 
         const ios_base::fmtflags f = os.flags();
 

@@ -1,6 +1,6 @@
 /// @file mtwister.h
 /// Mersenne Twister function-like class template.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -62,12 +62,12 @@ namespace especia {
      * @tparam c The parameter c.
      * @tparam l The parameter l.
      */
-    template<Nint_t w, Nint_t n, Nint_t m, Nint_t r,
-            Word_t a,
-            Nint_t u,
-            Nint_t s, Word_t b,
-            Nint_t t, Word_t c,
-            Nint_t l>
+    template<N_type w, N_type n, N_type m, N_type r,
+            W_type a,
+            N_type u,
+            N_type s, W_type b,
+            N_type t, W_type c,
+            N_type l>
     class Mersenne_Twister {
     public:
         /**
@@ -76,7 +76,7 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        Mersenne_Twister(Word_t seed = 5489, Word_t multiplier = 1812433253)
+        Mersenne_Twister(W_type seed = 5489, W_type multiplier = 1812433253)
                 : words(n) {
             reset(seed, multiplier);
         }
@@ -87,7 +87,7 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        Mersenne_Twister(Nint_t seed_count, const Word_t seeds[])
+        Mersenne_Twister(N_type seed_count, const W_type seeds[])
                 : words(n) {
             reset(seed_count, seeds);
         }
@@ -103,11 +103,11 @@ namespace especia {
          *
          * @return a random number in [0, 1].
          */
-        Real_t operator()() {
+        R_type operator()() {
             using std::numeric_limits;
 
             // Division by 2^w - 1.
-            return rand() * (1.0 / Real_t(numeric_limits<Word_t>::max() >> (numeric_limits<Word_t>::digits - w)));
+            return rand() * (1.0 / R_type(numeric_limits<W_type>::max() >> (numeric_limits<W_type>::digits - w)));
         }
 
         /**
@@ -116,14 +116,14 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        void reset(Word_t seed = 5489, Word_t multiplier = 1812433253) {
+        void reset(W_type seed = 5489, W_type multiplier = 1812433253) {
             using std::max;
             using std::numeric_limits;
 
-            words[0] = seed & (numeric_limits<Word_t>::max() >> (numeric_limits<Word_t>::digits - w));
-            for (Nint_t k = 1; k < n; ++k) {
+            words[0] = seed & (numeric_limits<W_type>::max() >> (numeric_limits<W_type>::digits - w));
+            for (N_type k = 1; k < n; ++k) {
                 words[k] = (multiplier * (words[k - 1] ^ (words[k - 1] >> (r - 1))) + k) &
-                           (numeric_limits<Word_t>::max() >> (numeric_limits<Word_t>::digits - w));
+                           (numeric_limits<W_type>::max() >> (numeric_limits<W_type>::digits - w));
             }
 
             i = n;
@@ -135,16 +135,16 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        void reset(Nint_t seed_count, const Word_t seeds[]) {
+        void reset(N_type seed_count, const W_type seeds[]) {
             using std::max;
             using std::numeric_limits;
 
             reset(19650218);
             i = 1;
 
-            for (Nint_t j = 0, k = max(n, seed_count); k > 0; --k) {
+            for (N_type j = 0, k = max(n, seed_count); k > 0; --k) {
                 words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1664525)) + seeds[j] + j) &
-                           (numeric_limits<Word_t>::max() >> (numeric_limits<Word_t>::digits - w));
+                           (numeric_limits<W_type>::max() >> (numeric_limits<W_type>::digits - w));
                 if (++i >= n) {
                     words[0] = words[n - 1];
                     i = 1;
@@ -153,9 +153,9 @@ namespace especia {
                     j = 0;
                 }
             }
-            for (Nint_t k = n - 1; k > 0; --k) {
+            for (N_type k = n - 1; k > 0; --k) {
                 words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1566083941)) - i) &
-                           (numeric_limits<Word_t>::max() >> (numeric_limits<Word_t>::digits - w));
+                           (numeric_limits<W_type>::max() >> (numeric_limits<W_type>::digits - w));
                 if (++i >= n) {
                     words[0] = words[n - 1];
                     i = 1;
@@ -167,13 +167,13 @@ namespace especia {
         }
 
     private:
-        Word_t rand() {
+        W_type rand() {
             if (i == n) {
-                for (Nint_t k = 0; k < n - m; ++k) {
+                for (N_type k = 0; k < n - m; ++k) {
                     twist(k + m, k, k + 1);
                 }
 
-                for (Nint_t k = n - m; k < n - 1; ++k) {
+                for (N_type k = n - m; k < n - 1; ++k) {
                     twist(k + m - n, k, k + 1);
                 }
 
@@ -181,7 +181,7 @@ namespace especia {
                 i = 0;
             }
 
-            Word_t y = words[i];
+            W_type y = words[i];
             ++i;
 
             if (u > 0) {
@@ -195,20 +195,20 @@ namespace especia {
             return y;
         }
 
-        void twist(Nint_t i, Nint_t j, Nint_t k) {
+        void twist(N_type i, N_type j, N_type k) {
             using std::numeric_limits;
 
-            words[j] = words[i] ^ (((words[j] & ((numeric_limits<Word_t>::max()
-                    << (numeric_limits<Word_t>::digits - w + r))
-                    >> (numeric_limits<Word_t>::digits - w))) | (words[k] & (numeric_limits<Word_t>::max()
-                    >> (numeric_limits<Word_t>::digits - r)))) >> 1);
+            words[j] = words[i] ^ (((words[j] & ((numeric_limits<W_type>::max()
+                    << (numeric_limits<W_type>::digits - w + r))
+                    >> (numeric_limits<W_type>::digits - w))) | (words[k] & (numeric_limits<W_type>::max()
+                    >> (numeric_limits<W_type>::digits - r)))) >> 1);
             if ((words[k] & 1ul) == 1ul) {
                 words[j] ^= a;
             }
         }
 
-        std::valarray<Word_t> words;
-        Nint_t i;
+        std::valarray<W_type> words;
+        N_type i;
     };
 
     /**

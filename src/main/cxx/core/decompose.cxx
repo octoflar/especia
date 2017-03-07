@@ -1,6 +1,6 @@
 /// @file decompose.cxx
 /// Symmetric eigenproblem solvers calling the LAPACK routines.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,62 +32,62 @@ using std::string;
 using std::swap;
 using std::valarray;
 
-using especia::Real_t;
-using especia::Zint_t;
+using especia::R_type;
+using especia::Z_type;
 
 /**
  * Interface to LAPACK eigenvalue routines (version 3.0).
  */
 extern "C" {
-Real_t LAPACK_NAME(lamch)(const char &cmach);
+R_type LAPACK_NAME(lamch)(const char &cmach);
 
 void LAPACK_NAME(syevd)(const char &job,
                         const char &uplo,
-                        const Zint_t &n,
-                        Real_t A[], const Zint_t &lda,
-                        Real_t w[],
-                        Real_t work[], const Zint_t &lwork,
-                        Zint_t iwork[], const Zint_t &liwork,
-                        Zint_t &info);
+                        const Z_type &n,
+                        R_type A[], const Z_type &lda,
+                        R_type w[],
+                        R_type work[], const Z_type &lwork,
+                        Z_type iwork[], const Z_type &liwork,
+                        Z_type &info);
 
 void LAPACK_NAME(syevr)(const char &job,
                         const char &range,
                         const char &uplo,
-                        const Zint_t &n,
-                        Real_t A[], const Zint_t &lda,
-                        const Real_t &vl, const Real_t &vu,
-                        const Zint_t &il, const Zint_t &iu,
-                        const Real_t &abstol,
-                        Zint_t &m,
-                        Real_t w[],
-                        Real_t Z[], const Zint_t &ldz,
-                        Zint_t isupp[],
-                        Real_t work[], const Zint_t &lwork,
-                        Zint_t iwork[], const Zint_t &liwork,
-                        Zint_t &info);
+                        const Z_type &n,
+                        R_type A[], const Z_type &lda,
+                        const R_type &vl, const R_type &vu,
+                        const Z_type &il, const Z_type &iu,
+                        const R_type &abstol,
+                        Z_type &m,
+                        R_type w[],
+                        R_type Z[], const Z_type &ldz,
+                        Z_type isupp[],
+                        R_type work[], const Z_type &lwork,
+                        Z_type iwork[], const Z_type &liwork,
+                        Z_type &info);
 
 void LAPACK_NAME(syevx)(const char &job,
                         const char &range,
                         const char &uplo,
-                        const Zint_t &n,
-                        Real_t A[], const Zint_t &lda,
-                        const Real_t &vl, const Real_t &vu,
-                        const Zint_t &il, const Zint_t &iu,
-                        const Real_t &abstol,
-                        Zint_t &m,
-                        Real_t w[],
-                        Real_t Z[], const Zint_t &ldz,
-                        Real_t work[], const Zint_t &lwork,
-                        Zint_t iwork[],
-                        Zint_t ifail[], Zint_t &info);
+                        const Z_type &n,
+                        R_type A[], const Z_type &lda,
+                        const R_type &vl, const R_type &vu,
+                        const Z_type &il, const Z_type &iu,
+                        const R_type &abstol,
+                        Z_type &m,
+                        R_type w[],
+                        R_type Z[], const Z_type &ldz,
+                        R_type work[], const Z_type &lwork,
+                        Z_type iwork[],
+                        Z_type ifail[], Z_type &info);
 }
 
-const Real_t safe_minimum = LAPACK_NAME(lamch)('s');
+const R_type safe_minimum = LAPACK_NAME(lamch)('s');
 
 const string especia::D_Decompose::int_err = "especia::D_Decompose(): Error: internal error in LAPACK routine DSYEVD";
 const string especia::D_Decompose::ill_arg = "especia::D_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
 
-especia::D_Decompose::D_Decompose(Nint_t n)
+especia::D_Decompose::D_Decompose(N_type n)
         : job('V'), uplo('U'), work(1), iwork(1) {
     resize_workspace(n);
 }
@@ -95,10 +95,10 @@ especia::D_Decompose::D_Decompose(Nint_t n)
 especia::D_Decompose::~D_Decompose() {
 }
 
-void especia::D_Decompose::operator()(Nint_t k, const Real_t A[], Real_t Z[], Real_t w[]) throw(runtime_error) {
+void especia::D_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
     copy(&A[0], &A[k * k], Z);
 
-    if (k != static_cast<Nint_t>(n)) {
+    if (k != static_cast<N_type>(n)) {
         resize_workspace(k);
     }
 
@@ -115,17 +115,17 @@ void especia::D_Decompose::operator()(Nint_t k, const Real_t A[], Real_t Z[], Re
     }
 }
 
-void especia::D_Decompose::resize_workspace(Nint_t k) {
-    n = static_cast<Zint_t>(k);
+void especia::D_Decompose::resize_workspace(N_type k) {
+    n = static_cast<Z_type>(k);
 
     // The workspace query.
     LAPACK_NAME(syevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
-        lwork = static_cast<Zint_t>(work[0]);
+        lwork = static_cast<Z_type>(work[0]);
         liwork = iwork[0];
-        work.resize(static_cast<Nint_t>(lwork));
-        iwork.resize(static_cast<Nint_t>(liwork));
+        work.resize(static_cast<N_type>(lwork));
+        iwork.resize(static_cast<N_type>(liwork));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -133,9 +133,9 @@ void especia::D_Decompose::resize_workspace(Nint_t k) {
     }
 }
 
-void especia::D_Decompose::transpose(Real_t A[]) const {
-    for (Zint_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Zint_t j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
+void especia::D_Decompose::transpose(R_type A[]) const {
+    for (Z_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
+        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
             swap(A[ij], A[ji]);
         }
     }
@@ -145,7 +145,7 @@ void especia::D_Decompose::transpose(Real_t A[]) const {
 const string especia::R_Decompose::int_err = "especia::R_Decompose(): Error: internal error in LAPACK routine DSYEVR";
 const string especia::R_Decompose::ill_arg = "especia::R_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVR";
 
-especia::R_Decompose::R_Decompose(Nint_t n)
+especia::R_Decompose::R_Decompose(N_type n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(1) {
     resize_workspace(n);
 }
@@ -153,10 +153,10 @@ especia::R_Decompose::R_Decompose(Nint_t n)
 especia::R_Decompose::~R_Decompose() {
 }
 
-void especia::R_Decompose::operator()(Nint_t k, const Real_t A[], Real_t Z[], Real_t w[]) throw(runtime_error) {
-    valarray<Real_t> C(A, k * k);
+void especia::R_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
+    valarray<R_type> C(A, k * k);
 
-    if (k != static_cast<Nint_t>(n)) {
+    if (k != static_cast<N_type>(n)) {
         resize_workspace(k);
     }
 
@@ -174,19 +174,19 @@ void especia::R_Decompose::operator()(Nint_t k, const Real_t A[], Real_t Z[], Re
     }
 }
 
-void especia::R_Decompose::resize_workspace(Nint_t k) {
-    n = static_cast<Zint_t>(k);
+void especia::R_Decompose::resize_workspace(N_type k) {
+    n = static_cast<Z_type>(k);
 
     // The workspace query.
     LAPACK_NAME(syevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum, m, 0, 0,
                        max(1, n), &isupp[0], &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
-        lwork = static_cast<Zint_t>(work[0]);
+        lwork = static_cast<Z_type>(work[0]);
         liwork = iwork[0];
-        work.resize(static_cast<Nint_t>(lwork));
-        iwork.resize(static_cast<Nint_t>(liwork));
-        isupp.resize(static_cast<Nint_t>(2 * max(1, n)));
+        work.resize(static_cast<N_type>(lwork));
+        iwork.resize(static_cast<N_type>(liwork));
+        isupp.resize(static_cast<N_type>(2 * max(1, n)));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -194,9 +194,9 @@ void especia::R_Decompose::resize_workspace(Nint_t k) {
     }
 }
 
-void especia::R_Decompose::transpose(Real_t A[]) const {
-    for (Zint_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Zint_t j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
+void especia::R_Decompose::transpose(R_type A[]) const {
+    for (Z_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
+        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
             swap(A[ij], A[ji]);
         }
     }
@@ -206,7 +206,7 @@ void especia::R_Decompose::transpose(Real_t A[]) const {
 const string especia::X_Decompose::int_err = "especia::X_Decompose(): Error: internal error in LAPACK routine DSYEVX";
 const string especia::X_Decompose::ill_arg = "especia::X_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVX";
 
-especia::X_Decompose::X_Decompose(Nint_t n)
+especia::X_Decompose::X_Decompose(N_type n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(), ifail() {
     resize_workspace(n);
 }
@@ -214,10 +214,10 @@ especia::X_Decompose::X_Decompose(Nint_t n)
 especia::X_Decompose::~X_Decompose() {
 }
 
-void especia::X_Decompose::operator()(Nint_t k, const Real_t A[], Real_t Z[], Real_t w[]) throw(runtime_error) {
-    valarray<Real_t> C(A, k * k);
+void especia::X_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
+    valarray<R_type> C(A, k * k);
 
-    if (k != static_cast<Nint_t>(n)) {
+    if (k != static_cast<N_type>(n)) {
         resize_workspace(k);
     }
 
@@ -235,18 +235,18 @@ void especia::X_Decompose::operator()(Nint_t k, const Real_t A[], Real_t Z[], Re
     }
 }
 
-void especia::X_Decompose::resize_workspace(Nint_t k) {
-    n = static_cast<Zint_t>(k);
+void especia::X_Decompose::resize_workspace(N_type k) {
+    n = static_cast<Z_type>(k);
 
     // The workspace query.
     LAPACK_NAME(syevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum, m, 0, 0,
                        max(1, n), &work[0], -1, &iwork[0], &ifail[0], info);
 
     if (info == 0) {
-        lwork = static_cast<Zint_t>(work[0]);
-        work.resize(static_cast<Nint_t>(lwork));
-        iwork.resize(static_cast<Nint_t>(5 * n));
-        ifail.resize(static_cast<Nint_t>(n));
+        lwork = static_cast<Z_type>(work[0]);
+        work.resize(static_cast<N_type>(lwork));
+        iwork.resize(static_cast<N_type>(5 * n));
+        ifail.resize(static_cast<N_type>(n));
     } else if (info > 0) {
         throw runtime_error(int_err);
     } else {
@@ -254,9 +254,9 @@ void especia::X_Decompose::resize_workspace(Nint_t k) {
     }
 }
 
-void especia::X_Decompose::transpose(Real_t A[]) const {
-    for (Zint_t i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Zint_t j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
+void especia::X_Decompose::transpose(R_type A[]) const {
+    for (Z_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
+        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
             swap(A[ij], A[ji]);
         }
     }

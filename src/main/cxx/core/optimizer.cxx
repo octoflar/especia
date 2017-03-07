@@ -1,6 +1,6 @@
 /// @file optimizer.cxx
 /// CMA-ES classes for nonlinear function optimization.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -31,39 +31,39 @@ especia::Optimizer::Builder::~Builder() {
 
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(Nint_t n) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(N_type n) {
     this->n = n;
     set_strategy_parameters();
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_parent_number(Nint_t parent_number) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_parent_number(N_type parent_number) {
     this->parent_number = parent_number;
     set_strategy_parameters();
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_population_size(Nint_t population_size) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_population_size(N_type population_size) {
     this->population_size = population_size;
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_covariance_update_modulus(Nint_t update_modulus) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_covariance_update_modulus(N_type update_modulus) {
     this->update_modulus = update_modulus;
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_accuracy_goal(Real_t accuracy_goal) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_accuracy_goal(R_type accuracy_goal) {
     this->accuracy_goal = accuracy_goal;
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_random_seed(Word_t seed) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_random_seed(W_type seed) {
     this->random_seed = seed;
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_stop_generation(Lint_t stop_generation) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_stop_generation(L_type stop_generation) {
     this->stop_generation = stop_generation;
     return *this;
 }
@@ -80,7 +80,7 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
 
     weights.resize(parent_number);
 
-    for (Nint_t i = 0; i < parent_number; ++i) {
+    for (N_type i = 0; i < parent_number; ++i) {
         weights[i] = log((parent_number + 1.0) / (i + 1));
     }
 
@@ -94,12 +94,12 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
     step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
 }
 
-especia::Optimizer::Result::Result(Nint_t n,
-                                   const valarray<Real_t> &x_in,
-                                   const valarray<Real_t> &d_in,
-                                   Real_t s_in)
+especia::Optimizer::Result::Result(N_type n,
+                                   const valarray<R_type> &x_in,
+                                   const valarray<R_type> &d_in,
+                                   R_type s_in)
         : x(x_in), d(d_in), s(s_in), z(0.0, n), B(0.0, sqr(n)), C(0.0, sqr(n)), pc(0.0, n), ps(0.0, n) {
-    for (Nint_t i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+    for (N_type i = 0, ii = 0; i < n; ++i, ii += n + 1) {
         B[ii] = 1.0;
         C[ii] = d[i] * d[i];
     }

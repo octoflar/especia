@@ -1,6 +1,6 @@
 /// @file deviates.h
 /// Function-like class templates for generating various random deviates.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        Normal_Deviate(Word_t seed = 5489)
+        Normal_Deviate(W_type seed = 5489)
                 : uniform_deviate(seed), status(false) {
         }
 
@@ -75,14 +75,14 @@ namespace especia {
          *
          * @return a normal random number.
          */
-        Real_t operator()() {
+        R_type operator()() {
             using std::log;
             using std::sqrt;
 
             status = !status;
 
             if (status) {
-                Real_t t;
+                R_type t;
 
                 do {
                     x = 2.0 * uniform_deviate() - 1.0;
@@ -105,7 +105,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        void reset(Word_t seed = 5489) {
+        void reset(W_type seed = 5489) {
             uniform_deviate.reset(seed);
             status = false;
         }
@@ -123,7 +123,7 @@ namespace especia {
     private:
         U uniform_deviate;
         bool status;
-        Real_t x, y;
+        R_type x, y;
     };
 
 }

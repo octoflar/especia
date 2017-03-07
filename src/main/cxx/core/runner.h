@@ -1,6 +1,6 @@
 /// @file runner.h
 /// The model runner.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@
 #include <vector>
 
 #include "config.h"
+#include "exitcodes.h"
 #include "optimizer.h"
 
 namespace especia {
@@ -101,8 +102,8 @@ namespace especia {
          *
          * @return the accuracy goal.
          */
-        Real_t parse_accuracy_goal() const throw(std::invalid_argument) {
-            return convert<Real_t>(args[5]);
+        R_type parse_accuracy_goal() const throw(std::invalid_argument) {
+            return convert<R_type>(args[5]);
         }
 
         /**
@@ -110,8 +111,8 @@ namespace especia {
          *
          * @return the inititial global step size.
          */
-        Real_t parse_global_step_size() const throw(std::invalid_argument) {
-            return convert<Real_t>(args[4]);
+        R_type parse_global_step_size() const throw(std::invalid_argument) {
+            return convert<R_type>(args[4]);
         }
 
         /**
@@ -119,8 +120,8 @@ namespace especia {
          *
          * @return the parent number.
          */
-        Nint_t parse_parent_number() const throw(std::invalid_argument) {
-            return convert<Nint_t>(args[2]);
+        N_type parse_parent_number() const throw(std::invalid_argument) {
+            return convert<N_type>(args[2]);
         }
 
         /**
@@ -128,8 +129,8 @@ namespace especia {
          *
          * @return the population size.
          */
-        Nint_t parse_population_size() const throw(std::invalid_argument) {
-            return convert<Nint_t>(args[3]);
+        N_type parse_population_size() const throw(std::invalid_argument) {
+            return convert<N_type>(args[3]);
         }
 
         /**
@@ -137,8 +138,8 @@ namespace especia {
          *
          * @return the random seed.
          */
-        Word_t parse_random_seed() const throw(std::invalid_argument) {
-            return convert<Word_t>(args[1]);
+        W_type parse_random_seed() const throw(std::invalid_argument) {
+            return convert<W_type>(args[1]);
         }
 
         /**
@@ -146,8 +147,8 @@ namespace especia {
          *
          * @return the stop generation.
          */
-        Lint_t parse_stop_generation() const throw(std::invalid_argument) {
-            return convert<Lint_t>(args[6]);
+        L_type parse_stop_generation() const throw(std::invalid_argument) {
+            return convert<L_type>(args[6]);
         }
 
         /**
@@ -155,8 +156,8 @@ namespace especia {
          *
          * @return the trace modulus.
          */
-        Nint_t parse_trace_modulus() const throw(std::invalid_argument) {
-            return convert<Nint_t>(args[7]);
+        N_type parse_trace_modulus() const throw(std::invalid_argument) {
+            return convert<N_type>(args[7]);
         }
 
         /**
@@ -187,13 +188,13 @@ namespace especia {
 
             write_command_line(cout);
 
-            const Word_t random_seed = parse_random_seed();
-            const Nint_t parent_number = parse_parent_number();
-            const Nint_t population_size = parse_population_size();
-            const Real_t global_step_size = parse_global_step_size();
-            const Real_t accuracy_goal = parse_accuracy_goal();
-            const Lint_t stop_generation = parse_stop_generation();
-            const Nint_t trace_modulus = parse_trace_modulus();
+            const W_type random_seed = parse_random_seed();
+            const N_type parent_number = parse_parent_number();
+            const N_type population_size = parse_population_size();
+            const R_type global_step_size = parse_global_step_size();
+            const R_type accuracy_goal = parse_accuracy_goal();
+            const L_type stop_generation = parse_stop_generation();
+            const N_type trace_modulus = parse_trace_modulus();
 
             M model;
             model.get(cin, cout);
@@ -242,7 +243,7 @@ namespace especia {
             if (result.is_optimized()) {
                 return 0;
             } else {
-                return 1;
+                return Exit_Codes::OPTMIZATION_STOPPED;
             }
         }
 
@@ -252,7 +253,7 @@ namespace especia {
          *
          * @tparam T The number type.
          */
-        template<class T = Real_t>
+        template<class T = R_type>
         class Tracer {
         public:
             /**
@@ -263,7 +264,7 @@ namespace especia {
              * @param[in] precision The precision of numeric output.
              * @param[in] width The width of the numeric output fields.
              */
-            Tracer(std::ostream &output_stream, Nint_t modulus, Nint_t precision = 4, Nint_t width = 12)
+            Tracer(std::ostream &output_stream, N_type modulus, N_type precision = 4, N_type width = 12)
                     : os(output_stream), m(modulus), p(precision), w(width) {
             }
 
@@ -279,7 +280,7 @@ namespace especia {
              * @param[in] g The generation number.
              * @return @true if tracing is enabled, otherwise @c false.
              */
-            bool is_enabled(Lint_t g) const {
+            bool is_enabled(L_type g) const {
                 return m > 0 and g % m == 0;
             }
 
@@ -291,7 +292,7 @@ namespace especia {
              * @param[in] min_step The minimum step size.
              * @param[in] max_step The maximum step size.
              */
-            void trace(Lint_t g, T y, T min_step, T max_step) const {
+            void trace(L_type g, T y, T min_step, T max_step) const {
                 using std::endl;
                 using std::ios_base;
                 using std::setw;
@@ -314,9 +315,9 @@ namespace especia {
 
         private:
             std::ostream &os;
-            const Nint_t m;
-            const Nint_t p;
-            const Nint_t w;
+            const N_type m;
+            const N_type p;
+            const N_type w;
         };
 
         void write_command_line(std::ostream &os) const;

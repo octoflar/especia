@@ -1,6 +1,6 @@
 /// @file emes.cxx
 /// Program to extract messages from an Especia result HTML file
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal

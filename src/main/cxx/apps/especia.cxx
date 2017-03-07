@@ -1,6 +1,6 @@
 /// @file especia.cxx
 /// Especia for inferring the variation of the fine-structure constant.
-/// Copyright (c) 2016 Ralf Quast
+/// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -65,14 +65,14 @@ int main(int argc, char *argv[]) {
 
     try {
         return especia::Runner(argc, argv).run<Model>();
-    } catch (invalid_argument &e) {
+    } catch (logic_error &e) {
         cerr << e.what() << endl;
-        return 10;
+        return especia::Exit_Codes::LOGICAL_ERROR;
     } catch (runtime_error &e) {
         cerr << e.what() << endl;
-        return 20;
+        return especia::Exit_Codes::RUNTIME_ERROR;
     } catch (exception &e) {
         cerr << e.what() << endl;
-        return 30;
+        return especia::Exit_Codes::UNSPECIFIC_EXCEPTION;
     }
 }
