@@ -23,9 +23,7 @@
 
 #include "decompose.h"
 
-#if !defined(F77NAME)
-#define F77NAME(x) x##_
-#endif
+#define LAPACK_NAME(x) d##x##_
 
 using std::copy;
 using std::max;
@@ -41,50 +39,50 @@ using especia::Z_elem;
  * Interface to LAPACK eigenvalue routines (version 3.0).
  */
 extern "C" {
-R_elem F77NAME(dlamch)(const char &cmach);
+R_elem LAPACK_NAME(lamch)(const char &cmach);
 
-void F77NAME(dsyevd)(const char &job,
-                     const char &uplo,
-                     const Z_elem &n,
-                     R_elem A[], const Z_elem &lda,
-                     R_elem w[],
-                     R_elem work[], const Z_elem &lwork,
-                     Z_elem iwork[], const Z_elem &liwork,
-                     Z_elem &info);
+void LAPACK_NAME(syevd)(const char &job,
+                        const char &uplo,
+                        const Z_elem &n,
+                        R_elem A[], const Z_elem &lda,
+                        R_elem w[],
+                        R_elem work[], const Z_elem &lwork,
+                        Z_elem iwork[], const Z_elem &liwork,
+                        Z_elem &info);
 
-void F77NAME(dsyevr)(const char &job,
-                     const char &range,
-                     const char &uplo,
-                     const Z_elem &n,
-                     R_elem A[], const Z_elem &lda,
-                     const R_elem &vl, const R_elem &vu,
-                     const Z_elem &il, const Z_elem &iu,
-                     const R_elem &abstol,
-                     Z_elem &m,
-                     R_elem w[],
-                     R_elem Z[], const Z_elem &ldz,
-                     Z_elem isupp[],
-                     R_elem work[], const Z_elem &lwork,
-                     Z_elem iwork[], const Z_elem &liwork,
-                     Z_elem &info);
+void LAPACK_NAME(syevr)(const char &job,
+                        const char &range,
+                        const char &uplo,
+                        const Z_elem &n,
+                        R_elem A[], const Z_elem &lda,
+                        const R_elem &vl, const R_elem &vu,
+                        const Z_elem &il, const Z_elem &iu,
+                        const R_elem &abstol,
+                        Z_elem &m,
+                        R_elem w[],
+                        R_elem Z[], const Z_elem &ldz,
+                        Z_elem isupp[],
+                        R_elem work[], const Z_elem &lwork,
+                        Z_elem iwork[], const Z_elem &liwork,
+                        Z_elem &info);
 
-void F77NAME(dsyevx)(const char &job,
-                     const char &range,
-                     const char &uplo,
-                     const Z_elem &n,
-                     R_elem A[], const Z_elem &lda,
-                     const R_elem &vl, const R_elem &vu,
-                     const Z_elem &il, const Z_elem &iu,
-                     const R_elem &abstol,
-                     Z_elem &m,
-                     R_elem w[],
-                     R_elem Z[], const Z_elem &ldz,
-                     R_elem work[], const Z_elem &lwork,
-                     Z_elem iwork[],
-                     Z_elem ifail[], Z_elem &info);
+void LAPACK_NAME(syevx)(const char &job,
+                        const char &range,
+                        const char &uplo,
+                        const Z_elem &n,
+                        R_elem A[], const Z_elem &lda,
+                        const R_elem &vl, const R_elem &vu,
+                        const Z_elem &il, const Z_elem &iu,
+                        const R_elem &abstol,
+                        Z_elem &m,
+                        R_elem w[],
+                        R_elem Z[], const Z_elem &ldz,
+                        R_elem work[], const Z_elem &lwork,
+                        Z_elem iwork[],
+                        Z_elem ifail[], Z_elem &info);
 }
 
-const R_elem safe_minimum = F77NAME(dlamch)('s');
+const R_elem safe_minimum = LAPACK_NAME(lamch)('s');
 
 const string especia::D_Decompose::int_err = "especia::D_Decompose(): Error: internal error in LAPACK routine DSYEVD";
 const string especia::D_Decompose::ill_arg = "especia::D_Decompose(): Error: illegal argument(s) in call to LAPACK routine DSYEVD";
@@ -105,7 +103,7 @@ void especia::D_Decompose::operator()(N_elem k, const R_elem A[], R_elem Z[], R_
     }
 
     // The regular call.
-    F77NAME(dsyevd)(job, uplo, n, &Z[0], max(1, n), w, &work[0], lwork, &iwork[0], liwork, info);
+    LAPACK_NAME(syevd)(job, uplo, n, &Z[0], max(1, n), w, &work[0], lwork, &iwork[0], liwork, info);
 
     if (info == 0) {
         // Transform from column-major into row-major layout.
@@ -121,7 +119,7 @@ void especia::D_Decompose::resize_workspace(N_elem k) {
     n = static_cast<Z_elem>(k);
 
     // The workspace query.
-    F77NAME(dsyevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
+    LAPACK_NAME(syevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
         lwork = static_cast<Z_elem>(work[0]);
@@ -163,8 +161,8 @@ void especia::R_Decompose::operator()(N_elem k, const R_elem A[], R_elem Z[], R_
     }
 
     // The regular call.
-    F77NAME(dsyevr)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
-                    m, w, Z, max(1, n), &isupp[0], &work[0], lwork, &iwork[0], liwork, info);
+    LAPACK_NAME(syevr)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, safe_minimum, m, w, Z,
+                       max(1, n), &isupp[0], &work[0], lwork, &iwork[0], liwork, info);
 
     if (info == 0) {
         // Transform from column-major into row-major layout.
@@ -180,8 +178,8 @@ void especia::R_Decompose::resize_workspace(N_elem k) {
     n = static_cast<Z_elem>(k);
 
     // The workspace query.
-    F77NAME(dsyevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum,
-                    m, 0, 0, max(1, n), &isupp[0], &work[0], -1, &iwork[0], -1, info);
+    LAPACK_NAME(syevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum, m, 0, 0,
+                       max(1, n), &isupp[0], &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
         lwork = static_cast<Z_elem>(work[0]);
@@ -224,8 +222,8 @@ void especia::X_Decompose::operator()(N_elem k, const R_elem A[], R_elem Z[], R_
     }
 
     // The regular call.
-    F77NAME(dsyevx)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
-                    m, w, Z, max(1, n), &work[0], lwork, &iwork[0], &ifail[0], info);
+    LAPACK_NAME(syevx)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum, m, w, Z,
+                       max(1, n), &work[0], lwork, &iwork[0], &ifail[0], info);
 
     if (info == 0) {
         // Transform from column-major into row-major layout.
@@ -241,8 +239,8 @@ void especia::X_Decompose::resize_workspace(N_elem k) {
     n = static_cast<Z_elem>(k);
 
     // The workspace query.
-    F77NAME(dsyevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum,
-                    m, 0, 0, max(1, n), &work[0], -1, &iwork[0], &ifail[0], info);
+    LAPACK_NAME(syevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum, m, 0, 0,
+                       max(1, n), &work[0], -1, &iwork[0], &ifail[0], info);
 
     if (info == 0) {
         lwork = static_cast<Z_elem>(work[0]);
@@ -263,3 +261,5 @@ void especia::X_Decompose::transpose(R_elem A[]) const {
         }
     }
 }
+
+#undef LAPACK_NAME
