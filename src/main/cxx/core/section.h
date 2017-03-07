@@ -61,7 +61,7 @@ namespace especia {
          * @param[in] flx The spectral flux data.
          * @param[in] unc The spectral flux uncertainty data.
          */
-        Section(size_t n, const R_elem wav[], const R_elem flx[], const R_elem unc[]);
+        Section(size_t n, const Real_t wav[], const Real_t flx[], const Real_t unc[]);
 
         /**
          * Destructor.
@@ -76,7 +76,7 @@ namespace especia {
          * @param[in] b The maximum wavelength to read.
          * @return the input stream.
          */
-        std::istream &get(std::istream &is, R_elem a = 0.0, R_elem b = std::numeric_limits<R_elem>::max());
+        std::istream &get(std::istream &is, Real_t a = 0.0, Real_t b = std::numeric_limits<Real_t>::max());
 
         /**
          * Writes a data section to an output stream.
@@ -86,14 +86,14 @@ namespace especia {
          * @param[in] b The maximum wavelength to write.
          * @return the output stream.
          */
-        std::ostream &put(std::ostream &os, R_elem a = 0.0, R_elem b = std::numeric_limits<R_elem>::max()) const;
+        std::ostream &put(std::ostream &os, Real_t a = 0.0, Real_t b = std::numeric_limits<Real_t>::max()) const;
 
         /**
          * Returns the lower wavelength bound of this data section.
          *
          * @return the lower wavelength bound of this data section.
          */
-        R_elem lower_bound() const {
+        Real_t lower_bound() const {
             return wav[0];
         }
 
@@ -102,7 +102,7 @@ namespace especia {
          *
          * @return the central wavelength of this data section.
          */
-        R_elem center() const {
+        Real_t center() const {
             return 0.5 * (lower_bound() + upper_bound());
         }
 
@@ -111,7 +111,7 @@ namespace especia {
          *
          * @return the upper wavelength bound of this data section.
          */
-        R_elem upper_bound() const {
+        Real_t upper_bound() const {
             return (n > 1) ? wav[n - 1] : wav[0];
         }
 
@@ -120,7 +120,7 @@ namespace especia {
          *
          * @return the width of this data section.
          */
-        R_elem width() const {
+        Real_t width() const {
             return upper_bound() - lower_bound();
         }
 
@@ -145,7 +145,7 @@ namespace especia {
          *
          * @return the current value of the cost function.
          */
-        R_elem cost() const;
+        Real_t cost() const;
 
 
         /**
@@ -161,22 +161,22 @@ namespace especia {
          * @return the value of the cost function.
          */
         template<class M>
-        R_elem cost(const M &model, R_elem r, N_elem m) const {
+        Real_t cost(const M &model, Real_t r, Nint_t m) const {
             using std::abs;
             using std::valarray;
 
-            valarray<R_elem> opt(n);
-            valarray<R_elem> atm(n);
-            valarray<R_elem> cat(n);
-            valarray<R_elem> cfl(n);
-            valarray<R_elem> tfl(n);
-            valarray<R_elem> fit(n);
-            valarray<R_elem> res(n);
+            valarray<Real_t> opt(n);
+            valarray<Real_t> atm(n);
+            valarray<Real_t> cat(n);
+            valarray<Real_t> cfl(n);
+            valarray<Real_t> tfl(n);
+            valarray<Real_t> fit(n);
+            valarray<Real_t> res(n);
 
             convolute(model, r, &opt[0], &atm[0], &cat[0]);
             continuum(m, &cat[0], &cfl[0]);
 
-            R_elem cost = 0.0;
+            Real_t cost = 0.0;
 
             for (size_t i = 0; i < n; ++i) {
                 tfl[i] = cfl[i] * atm[i];
@@ -198,7 +198,7 @@ namespace especia {
          * @param[in] a The lower bound of the interval.
          * @param[in] b The upper bound of the interval.
          */
-        void mask(R_elem a, R_elem b);
+        void mask(Real_t a, Real_t b);
 
         /**
          * Applies an optical depth model to this section.
@@ -212,7 +212,7 @@ namespace especia {
          * @return this section.
          */
         template<class M>
-        Section &apply(const M &model, R_elem r, N_elem m) {
+        Section &apply(const M &model, Real_t r, Nint_t m) {
             convolute(model, r, &opt[0], &atm[0], &cat[0]);
             continuum(m, &cat[0], &cfl[0]);
 
@@ -233,7 +233,7 @@ namespace especia {
          * @param[in] cat The evaluated convoluted absorption term.
          * @param[out] cfl The evaluated background continuum flux.
          */
-        void continuum(N_elem m, const R_elem cat[], R_elem cfl[]) const throw(std::runtime_error);
+        void continuum(Nint_t m, const Real_t cat[], Real_t cfl[]) const throw(std::runtime_error);
 
         /**
          * Convolutes a given optical depth model with the instrumental line spread function.
@@ -247,22 +247,22 @@ namespace especia {
          * @param[out] cat The evaluated convoluted absorption term.
          */
         template<class M>
-        void convolute(const M &model, R_elem r, R_elem opt[], R_elem atm[], R_elem cat[]) const {
+        void convolute(const M &model, Real_t r, Real_t opt[], Real_t atm[], Real_t cat[]) const {
             using std::exp;
             using std::valarray;
 
             if (n > 2) {
                 // The half width at half maximum (HWHM) of the instrumental profile.
-                const R_elem h = 0.5 * center() / (r * kilo);
+                const Real_t h = 0.5 * center() / (r * kilo);
                 // The sample spacing.
-                const R_elem w = width() / (n - 1);
+                const Real_t w = width() / (n - 1);
                 // The Gaussian line spread function is truncated at 4 HWHM where it is less than 10E-5.
-                const N_elem m = static_cast<N_elem>(4.0 * (h / w)) + 1;
+                const Nint_t m = static_cast<Nint_t>(4.0 * (h / w)) + 1;
 
-                valarray<R_elem> p(m);
-                valarray<R_elem> q(m);
+                valarray<Real_t> p(m);
+                valarray<Real_t> q(m);
 
-                for (N_elem i = 0; i < m; ++i) {
+                for (Nint_t i = 0; i < m; ++i) {
                     primitive(i * w, h, p[i], q[i]);
                 }
 
@@ -273,13 +273,13 @@ namespace especia {
 
                 // Convolution of the modelled flux with the instrumental line spread function.
                 for (size_t i = 0; i < n; ++i) {
-                    R_elem a = 0.0;
-                    R_elem b = 0.0;
+                    Real_t a = 0.0;
+                    Real_t b = 0.0;
 
-                    for (N_elem j = 0; j + 1 < m; ++j) {
-                        const N_elem k = (i < j + 1) ? 0 : i - j - 1;
-                        const N_elem l = (i + j + 2 > n) ? n - 2 : i + j;
-                        const R_elem d = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
+                    for (Nint_t j = 0; j + 1 < m; ++j) {
+                        const Nint_t k = (i < j + 1) ? 0 : i - j - 1;
+                        const Nint_t l = (i + j + 2 > n) ? n - 2 : i + j;
+                        const Real_t d = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
 
                         a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - j * d);
                         b += (q[j + 1] - q[j]) * d;
@@ -299,22 +299,22 @@ namespace especia {
          * @param[out] p The primitive function of g(x) evaluated at @ x.
          * @param[out] q The primitive function of x g(x) evaluated at @ x.
          */
-        void primitive(R_elem x, R_elem h, R_elem &p, R_elem &q) const;
+        void primitive(Real_t x, Real_t h, Real_t &p, Real_t &q) const;
 
         /**
          * The observed wavelength data (arbitrary units).
          */
-        std::valarray<R_elem> wav;
+        std::valarray<Real_t> wav;
 
         /**
          * The observed spectral flux data (arbitrary units).
          */
-        std::valarray<R_elem> flx;
+        std::valarray<Real_t> flx;
 
         /**
          * The observed spectral flux uncertainty data (arbitrary units).
          */
-        std::valarray<R_elem> unc;
+        std::valarray<Real_t> unc;
 
         /**
          * The selection mask.
@@ -324,37 +324,37 @@ namespace especia {
         /**
          * The evaluated optical depth model.
          */
-        std::valarray<R_elem> opt;
+        std::valarray<Real_t> opt;
 
         /**
          * The evaluated absorption term.
          */
-        std::valarray<R_elem> atm;
+        std::valarray<Real_t> atm;
 
         /**
          * The evaluated convoluted absorption term.
          */
-        std::valarray<R_elem> cat;
+        std::valarray<Real_t> cat;
 
         /**
          * The evaluated background continuum flux.
          */
-        std::valarray<R_elem> cfl;
+        std::valarray<Real_t> cfl;
 
         /**
          * The evaluated spectral flux.
          */
-        std::valarray<R_elem> tfl;
+        std::valarray<Real_t> tfl;
 
         /**
          * The evaluated convoluted spectral flux.
          */
-        std::valarray<R_elem> fit;
+        std::valarray<Real_t> fit;
 
         /**
          * The evaluated residual flux.
          */
-        std::valarray<R_elem> res;
+        std::valarray<Real_t> res;
 
         /**
          * The number of data points.

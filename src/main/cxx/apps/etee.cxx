@@ -26,8 +26,8 @@
 
 using namespace std;
 
-using especia::N_elem;
-using especia::R_elem;
+using especia::Nint_t;
+using especia::Real_t;
 
 
 void write_usage_message(ostream &os, const string &pname) {
@@ -64,15 +64,15 @@ int main(int argc, char *argv[]) {
             throw invalid_argument("Error: an invalid number of arguments was supplied");
         }
 
-        N_elem skip = 0;
+        Nint_t skip = 0;
 
         if (argc == 4) {
-            skip = especia::convert<N_elem>(string(argv[2]));
+            skip = especia::convert<Nint_t>(string(argv[2]));
         }
 
-        valarray<R_elem> x;
-        valarray<R_elem> y;
-        valarray<R_elem> z;
+        valarray<Real_t> x;
+        valarray<Real_t> y;
+        valarray<Real_t> z;
 
         ifstream fxy(argv[1]);
         ifstream fxz(argv[2]);

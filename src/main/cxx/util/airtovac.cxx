@@ -28,8 +28,8 @@
 
 using namespace std;
 
-using especia::N_elem;
-using especia::R_elem;
+using especia::Nint_t;
+using especia::Real_t;
 
 
 /**
@@ -47,14 +47,14 @@ using especia::R_elem;
  *
  * @return the solution to the equation f(x) = c.
  */
-R_elem solve(void f(const R_elem &x, R_elem &y, R_elem &z), R_elem c, R_elem x,
-             R_elem accuracy_goal = 1.0E-8) throw(std::runtime_error) {
+Real_t solve(void f(const Real_t &x, Real_t &y, Real_t &z), Real_t c, Real_t x,
+             Real_t accuracy_goal = 1.0E-8) throw(std::runtime_error) {
     using std::abs;
     using std::runtime_error;
 
-    R_elem d, y, z;
+    Real_t d, y, z;
 
-    for (N_elem i = 0; i < 100; ++i) {
+    for (Nint_t i = 0; i < 100; ++i) {
         f(x, y, z);
         d = (y - c) / z;
         x -= d;
@@ -104,15 +104,15 @@ int main(int argc, char *argv[]) {
             throw invalid_argument("Error: an invalid number of arguments was supplied");
         }
 
-        N_elem skip = 0;
+        Nint_t skip = 0;
 
         if (argc == 2) {
-            skip = especia::convert<N_elem>(string(argv[1]));
+            skip = especia::convert<Nint_t>(string(argv[1]));
         }
 
-        valarray<R_elem> x;
-        valarray<R_elem> y;
-        valarray<R_elem> z;
+        valarray<Real_t> x;
+        valarray<Real_t> y;
+        valarray<Real_t> z;
 
         if (especia::get(cin, x, y, z, skip)) {
             for (size_t i = 0; i < x.size(); ++i) {

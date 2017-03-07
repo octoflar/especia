@@ -62,12 +62,12 @@ namespace especia {
      * @tparam c The parameter c.
      * @tparam l The parameter l.
      */
-    template<N_elem w, N_elem n, N_elem m, N_elem r,
-            W_elem a,
-            N_elem u,
-            N_elem s, W_elem b,
-            N_elem t, W_elem c,
-            N_elem l>
+    template<Nint_t w, Nint_t n, Nint_t m, Nint_t r,
+            Word_t a,
+            Nint_t u,
+            Nint_t s, Word_t b,
+            Nint_t t, Word_t c,
+            Nint_t l>
     class Mersenne_Twister {
     public:
         /**
@@ -76,7 +76,7 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        Mersenne_Twister(W_elem seed = 5489, W_elem multiplier = 1812433253)
+        Mersenne_Twister(Word_t seed = 5489, Word_t multiplier = 1812433253)
                 : words(n) {
             reset(seed, multiplier);
         }
@@ -87,7 +87,7 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        Mersenne_Twister(N_elem seed_count, const W_elem seeds[])
+        Mersenne_Twister(Nint_t seed_count, const Word_t seeds[])
                 : words(n) {
             reset(seed_count, seeds);
         }
@@ -103,11 +103,11 @@ namespace especia {
          *
          * @return a random number in [0, 1].
          */
-        R_elem operator()() {
+        Real_t operator()() {
             using std::numeric_limits;
 
             // Division by 2^w - 1.
-            return rand() * (1.0 / R_elem(numeric_limits<W_elem>::max() >> (numeric_limits<W_elem>::digits - w)));
+            return rand() * (1.0 / Real_t(numeric_limits<Word_t>::max() >> (numeric_limits<Word_t>::digits - w)));
         }
 
         /**
@@ -116,14 +116,14 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        void reset(W_elem seed = 5489, W_elem multiplier = 1812433253) {
+        void reset(Word_t seed = 5489, Word_t multiplier = 1812433253) {
             using std::max;
             using std::numeric_limits;
 
-            words[0] = seed & (numeric_limits<W_elem>::max() >> (numeric_limits<W_elem>::digits - w));
-            for (N_elem k = 1; k < n; ++k) {
+            words[0] = seed & (numeric_limits<Word_t>::max() >> (numeric_limits<Word_t>::digits - w));
+            for (Nint_t k = 1; k < n; ++k) {
                 words[k] = (multiplier * (words[k - 1] ^ (words[k - 1] >> (r - 1))) + k) &
-                           (numeric_limits<W_elem>::max() >> (numeric_limits<W_elem>::digits - w));
+                           (numeric_limits<Word_t>::max() >> (numeric_limits<Word_t>::digits - w));
             }
 
             i = n;
@@ -135,16 +135,16 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        void reset(N_elem seed_count, const W_elem seeds[]) {
+        void reset(Nint_t seed_count, const Word_t seeds[]) {
             using std::max;
             using std::numeric_limits;
 
             reset(19650218);
             i = 1;
 
-            for (N_elem j = 0, k = max(n, seed_count); k > 0; --k) {
+            for (Nint_t j = 0, k = max(n, seed_count); k > 0; --k) {
                 words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1664525)) + seeds[j] + j) &
-                           (numeric_limits<W_elem>::max() >> (numeric_limits<W_elem>::digits - w));
+                           (numeric_limits<Word_t>::max() >> (numeric_limits<Word_t>::digits - w));
                 if (++i >= n) {
                     words[0] = words[n - 1];
                     i = 1;
@@ -153,9 +153,9 @@ namespace especia {
                     j = 0;
                 }
             }
-            for (N_elem k = n - 1; k > 0; --k) {
+            for (Nint_t k = n - 1; k > 0; --k) {
                 words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1566083941)) - i) &
-                           (numeric_limits<W_elem>::max() >> (numeric_limits<W_elem>::digits - w));
+                           (numeric_limits<Word_t>::max() >> (numeric_limits<Word_t>::digits - w));
                 if (++i >= n) {
                     words[0] = words[n - 1];
                     i = 1;
@@ -167,13 +167,13 @@ namespace especia {
         }
 
     private:
-        W_elem rand() {
+        Word_t rand() {
             if (i == n) {
-                for (N_elem k = 0; k < n - m; ++k) {
+                for (Nint_t k = 0; k < n - m; ++k) {
                     twist(k + m, k, k + 1);
                 }
 
-                for (N_elem k = n - m; k < n - 1; ++k) {
+                for (Nint_t k = n - m; k < n - 1; ++k) {
                     twist(k + m - n, k, k + 1);
                 }
 
@@ -181,7 +181,7 @@ namespace especia {
                 i = 0;
             }
 
-            W_elem y = words[i];
+            Word_t y = words[i];
             ++i;
 
             if (u > 0) {
@@ -195,20 +195,20 @@ namespace especia {
             return y;
         }
 
-        void twist(N_elem i, N_elem j, N_elem k) {
+        void twist(Nint_t i, Nint_t j, Nint_t k) {
             using std::numeric_limits;
 
-            words[j] = words[i] ^ (((words[j] & ((numeric_limits<W_elem>::max()
-                    << (numeric_limits<W_elem>::digits - w + r))
-                    >> (numeric_limits<W_elem>::digits - w))) | (words[k] & (numeric_limits<W_elem>::max()
-                    >> (numeric_limits<W_elem>::digits - r)))) >> 1);
+            words[j] = words[i] ^ (((words[j] & ((numeric_limits<Word_t>::max()
+                    << (numeric_limits<Word_t>::digits - w + r))
+                    >> (numeric_limits<Word_t>::digits - w))) | (words[k] & (numeric_limits<Word_t>::max()
+                    >> (numeric_limits<Word_t>::digits - r)))) >> 1);
             if ((words[k] & 1ul) == 1ul) {
                 words[j] ^= a;
             }
         }
 
-        std::valarray<W_elem> words;
-        N_elem i;
+        std::valarray<Word_t> words;
+        Nint_t i;
     };
 
     /**
