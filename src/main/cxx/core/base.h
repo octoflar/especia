@@ -30,12 +30,12 @@
 namespace especia {
 
     /**
-     * The type of natural numbers (1-8 digits) including zero (denoted in maths as set N).
+     * The type of natural numbers (8 decimal digits required) including zero (denoted in maths as set N).
      */
     typedef unsigned long int L_elem;
 
     /**
-     * The type of natural numbers (1-4 digits) including zero (denoted in maths as set N).
+     * The type of natural numbers (4 decimal digits required) including zero (denoted in maths as set N).
      */
     typedef unsigned int N_elem;
 
@@ -50,7 +50,7 @@ namespace especia {
     typedef unsigned long int W_elem;
 
     /**
-     * The type of integral numbers (1-4 digits) including zero (denoted in maths as set Z).
+     * The type of integer numbers (4 decimal digits required) including zero (denoted in maths as set Z).
      */
     typedef int Z_elem;
 
