@@ -20,7 +20,7 @@ The algorithms are explained in
 
 This software enables you to analyse spectroscopic data. Though it has been developed
 for the analysis of astrophysical spectra, it is applicable to spectroscopy in general.
-Read the articles listed below to find out whether this software is of interest to
+Read the notes and articles listed below to find out whether this software is of interest to
 you. If you already have some understanding of these matters, you may want to consult
 the [especia wiki](https://github.com/octoflar/especia/wiki).
 
