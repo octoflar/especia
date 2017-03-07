@@ -30,24 +30,29 @@ namespace especia {
     class Exit_Codes {
     public:
         /**
+         * The optimization stopped due to an underflow of the mutation variance.
+         */
+        static const int OPTIMIZATION_UNDERFLOW = 1;
+
+        /**
          * The optimization stopped and failed to reach the required accuracy goal.
          */
-        static const int OPTMIZATION_STOPPED = 1;
+        static const int OPTIMIZATION_STOPPED = 2;
 
         /**
          * A logical error occurred.
          */
-        static const int LOGICAL_ERROR = 2;
+        static const int LOGICAL_ERROR = 10;
 
         /**
          * A runtime error occurred.
          */
-        static const int RUNTIME_ERROR = 3;
+        static const int RUNTIME_ERROR = 11;
 
         /**
          * An unspecific exception occurred.
          */
-        static const int UNSPECIFIC_EXCEPTION = 4;
+        static const int UNSPECIFIC_EXCEPTION = 12;
     };
 
 }

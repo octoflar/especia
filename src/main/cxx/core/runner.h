@@ -242,8 +242,11 @@ namespace especia {
 
             if (result.is_optimized()) {
                 return 0;
+            }
+            if (result.is_underflow()) {
+                return Exit_Codes::OPTIMIZATION_UNDERFLOW;
             } else {
-                return Exit_Codes::OPTMIZATION_STOPPED;
+                return Exit_Codes::OPTIMIZATION_STOPPED;
             }
         }
 
