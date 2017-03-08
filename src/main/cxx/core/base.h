@@ -42,11 +42,8 @@ namespace especia {
         typedef void (&type)(const T &, T &, T &);
 
     private:
-        /**
-         * Private constructor prevents instantiation.
-         */
         C1() {
-
+            // private constructor prevents instantiation
         }
     };
 
@@ -126,7 +123,7 @@ namespace especia {
      * @throw invalid_argument when the string cannot be converted into a number of requested type.
      */
     template<class T>
-    static T convert(const std::string &s) throw(std::invalid_argument) {
+    T convert(const std::string &s) throw(std::invalid_argument) {
         using std::invalid_argument;
         using std::istringstream;
 
@@ -148,7 +145,7 @@ namespace especia {
      * @return the photon redshift.
      */
     template<class T>
-    static T redshift(const T &v) {
+    T redshift(const T &v) {
         return std::sqrt((T(1) + v / T(299792458)) / (T(1) - v / T(299792458))) - T(1);
     }
 

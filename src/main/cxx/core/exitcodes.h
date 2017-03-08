@@ -55,11 +55,8 @@ namespace especia {
         static const int UNSPECIFIC_EXCEPTION = 12;
 
     private:
-        /**
-         * Private constructor prevents instantiation.
-         */
         Exit_Codes() {
-
+            // private constructor prevents instantiation
         }
     };
 

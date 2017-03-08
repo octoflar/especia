@@ -191,11 +191,8 @@ namespace especia {
         }
 
     private:
-        /**
-         * Private constructor prevents instantiation.
-         */
         Equations() {
-
+            // private constructor prevents instantiation
         }
     };
 
