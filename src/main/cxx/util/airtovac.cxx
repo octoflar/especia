@@ -19,12 +19,11 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
-#include <cmath>
 #include <exception>
 #include <stdexcept>
 
-#include "../core/base.h"
 #include "../core/dataio.h"
+#include "../core/equations.h"
 #include "../core/exitcodes.h"
 
 using namespace std;
@@ -79,7 +78,7 @@ int main(int argc, char *argv[]) {
 
         if (especia::get(cin, x, y, z, skip)) {
             for (size_t i = 0; i < x.size(); ++i) {
-                x[i] = 10.0 / especia::nsolve(especia::edlen66, 10.0 / x[i], 10.0 / x[i], 1.0E-08, 100);
+                x[i] = 10.0 / especia::Equations::solve(especia::Equations::edlen66, 10.0 / x[i], 10.0 / x[i]);
             }
             especia::put(cout, x, y, z);
         } else {

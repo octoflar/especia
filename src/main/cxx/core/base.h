@@ -1,5 +1,5 @@
 /// @file base.h
-/// Basic numerical constants and functions.
+/// Base types, mathematical and physical constants and functions.
 /// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,6 +28,27 @@
 #include <string>
 
 namespace especia {
+
+    /**
+     * The class of continous univariate functions @c f(x) whose derivative exists and is continous.
+     */
+    template<class T>
+    class C1 {
+    public:
+        /**
+         * The first argument is the abscissa @c x, the second argument returns the value of @c f(x),
+         * and the third argument returns the value of the first derivative @c f'(x).
+         */
+        typedef void (&type)(const T &, T &, T &);
+
+    private:
+        /**
+         * Private constructor prevents instantiation.
+         */
+        C1() {
+
+        }
+    };
 
     /**
      * The type of natural numbers (8 decimal digits required) including zero (denoted in maths as set N).
@@ -121,6 +142,17 @@ namespace especia {
     }
 
     /**
+     * Returns the photon redshift as a function of relative radial velocity between observer and emitter.
+     *
+     * @param[in] v The relative radial velocity between observer and emitter (m s-1).
+     * @return the photon redshift.
+     */
+    template<class T>
+    static T redshift(const T &v) {
+        return std::sqrt((T(1) + v / T(speed_of_light)) / (T(299792458) - v / T(speed_of_light))) - T(299792458);
+    }
+
+    /**
      * Returns the square of a number.
      *
      * @tparam T The number type.
@@ -129,203 +161,8 @@ namespace especia {
      * @return the square of the number.
      */
     template<class T>
-    inline
     T sqr(const T &x) {
         return (x == T(0)) ? T(0) : x * x;
-    }
-
-    /**
-     * Solves the equation g(x) = c by means of Newton's method.
-     *
-     * @tparam F The function type.
-     * @tparam T The argument type.
-     *
-     * @param[in] f A function where the first argument is an abscissa value @c x, the second
-     * argument is the value of @c g(x), the third argument is the value of @c g'(x), and the
-     * return value is arbitrary.
-     * @param[in] c The constant on the right-hand side of the equation.
-     * @param[in] x The initial guess of the solution.
-     * @param[in] accuracy_goal The accuracy goal.
-     * @param[in] max_iteration The maximum number of iterations (optional).
-     *
-     * @return the solution to the equation g(x) = c.
-     *
-     * @throw runtime_error when the accuracy goal was not reached within the prescribed number of iterations.
-     */
-    template<class F, class T = R_type>
-    T nsolve(F (&f)(const T &, T &, T &),
-             T c, T x, T accuracy_goal, N_type max_iteration = 100) throw(std::runtime_error) {
-        using std::abs;
-        using std::runtime_error;
-
-        T d, y, z;
-
-        for (N_type i = 0; i < max_iteration; ++i) {
-            f(x, y, z);
-            d = (y - c) / z;
-            x -= d;
-            if (abs(d) < accuracy_goal * x) {
-                return x;
-            }
-        }
-
-        throw runtime_error("especia::nsolve() Error: the required accuracy goal was not reached");
-    }
-
-    /**
-     * Returns the observed photon redshift for a given radial velocity of an emitter with respect to an observer.
-     *
-     * @param[in] v The radial velocity of the emitter with respect to the observer (m s-1).
-     * @return the observed photon redshift.
-     */
-    inline
-    R_type redshift(const R_type &v) {
-        return std::sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light)) - 1.0;
-    }
-
-    /**
-     * Used to convert photon wavelength in vacuum to photon wavelength in air.
-     *
-     * Further reading:
-     *
-     * Donald C. Morton (2000).
-     *   *Atomic Data for Resonance Absorption Lines. II. Wavelengths Longward of the Lyman Limit for Heavy Elements.*
-     *   Astrophys. J. Suppl. Ser., 130, 2, 403.
-     *
-     * K. P. Birch and M. J. Downs (1994)
-     *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
-     *   Metrologia, 31, 4, 315.
-     *
-     * @param[in] x The wavenumber in vacuum (nm-1).
-     * @return the wavenumber in air (nm-1).
-     *
-     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
-     */
-    inline
-    R_type birch94(const R_type &x) {
-        return (1.0 + 8.34254E-05 + 2.406147E-08 / (130.0E-06 - x * x) + 1.5998E-10 / (38.9E-06 - x * x)) * x;
-    }
-
-    /**
-     * Used to convert photon wavelength in vacuum to photon wavelength in air (by means of Newton's method).
-     *
-     * Further reading:
-     *
-     * Donald C. Morton (2000).
-     *   *Atomic Data for Resonance Absorption Lines. II. Wavelengths Longward of the Lyman Limit for Heavy Elements.*
-     *   Astrophys. J. Suppl. Ser., 130, 2, 403.
-     *
-     * K. P. Birch and M. J. Downs (1994)
-     *   *Correction to the Updated Edlén Equation for the Refractive Index of Air*
-     *   Metrologia, 31, 4, 315.
-     *
-     * @param[in] x The wavenumber in vacuum (nm-1).
-     * @param[out] y The wavenumber in air (nm-1).
-     * @param[out] z The derivative of @c y with respect to @c x.
-     *
-     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
-     */
-    inline
-    void birch94(const R_type &x, R_type &y, R_type &z) {
-        const R_type n = 1.0 + 8.34254E-05 + 2.406147E-08 / (130.0E-06 - x * x) + 1.5998E-10 / (38.9E-06 - x * x);
-        const R_type m = (4.812294E-08 * x) / sqr(130.0E-06 - x * x) + (3.1996E-10 * x) / sqr(38.9E-06 - x * x);
-
-        y = x * n;
-        z = n + x * m;
-    }
-
-    /**
-     * Used to convert photon wavelength in vacuum to photon wavelength in air.
-     *
-     * Further reading:
-     *
-     * B. Edlén (1953).
-     *   *The dispersion of standard air.*
-     *   Journal of the Optical Society of America, 43, 5, 339.
-     *
-     * @param[in] x The wavenumber in vacuum (nm-1).
-     * @return the wavenumber in air (nm-1).
-     *
-     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
-     *
-     * @remark This formula is the IAU standard for the vacuum to standard air corrections (see resolution
-     * No. C15, Commission 44, XXI General Assembly in 1991).
-     */
-    inline
-    R_type edlen53(const R_type &x) {
-        return (1.0000643280 + 2.5540E-10 / (0.0000410 - x * x) + 2.949810E-08 / (0.000146 - x * x)) * x;
-    }
-
-    /**
-     * Used to convert photon wavelength in air to photon wavelength in vacuum (by means of Newton's method).
-     *
-     * Further reading:
-     *
-     * B. Edlén (1953).
-     *   *The dispersion of standard air.*
-     *   Journal of the Optical Society of America, 43, 5, 339.
-     *
-     * @param[in] x The wavenumber in vacuum (nm-1).
-     * @param[out] y The wavenumber in air (nm-1).
-     * @param[out] z The derivative of @c y with respect to @c x.
-     *
-     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
-     *
-     * @remark This formula is the IAU standard for the vacuum to standard air corrections (see resolution
-     * No. C15, Commission 44, XXI General Assembly in 1991).
-     */
-    inline
-    void edlen53(const R_type &x, R_type &y, R_type &z) {
-        const R_type n = 1.0000643280 + 2.5540E-10 / (0.0000410 - x * x) + 2.949810E-08 / (0.000146 - x * x);
-        const R_type m = (5.1080E-10 * x) / sqr(0.0000410 - x * x) + (5.89962E-08 * x) / sqr(0.000146 - x * x);
-
-        y = x * n;
-        z = n + x * m;
-    }
-
-    /**
-     * Used to convert photon wavelength in vacuum to photon wavelength in air.
-     *
-     * Further reading:
-     *
-     * B. Edlén (1966).
-     *   *The refractive index of air.*
-     *   Metrologia, 2, 2, 71-80.
-     *   http://dx.doi.org/10.1088/0026-1394/2/2/002
-     *
-     * @param[in] x The wavenumber in vacuum (nm-1).
-     * @return the wavenumber in air (nm-1).
-     *
-     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
-     */
-    inline
-    R_type edlen66(const R_type &x) {
-        return (1.0000834213 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x)) * x;
-    }
-
-    /**
-     * Used to convert photon wavelength in air to photon wavelength in vacuum (by means of Newton's method).
-     *
-     * Further reading:
-     *
-     * B. Edlén (1966).
-     *   *The refractive index of air.*
-     *   Metrologia, 2, 2, 71-80.
-     *   http://dx.doi.org/10.1088/0026-1394/2/2/002
-     *
-     * @param[in] x The wavenumber in vacuum (nm-1).
-     * @param[out] y The wavenumber in air (nm-1).
-     * @param[out] z The derivative of @c y with respect to @c x.
-     *
-     * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
-     */
-    inline
-    void edlen66(const R_type &x, R_type &y, R_type &z) {
-        const R_type n = 1.0000834213 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x);
-        const R_type m = (3.1994E-10 * x) / sqr(0.0000389 - x * x) + (4.81206E-08 * x) / sqr(0.000130 - x * x);
-
-        y = x * n;
-        z = n + x * m;
     }
 
 }

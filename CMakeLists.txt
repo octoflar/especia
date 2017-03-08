@@ -58,7 +58,7 @@ configure_file(${TEST}/resources/virtual_1561.dat  resources/virtual_1561.dat CO
 configure_file(${TEST}/resources/virtual_1657.dat  resources/virtual_1657.dat COPYONLY)
 
 
-set(COMMON_SOURCES
+set(CORE_SOURCES
         ${MAIN}/cxx/core/base.h
         ${MAIN}/cxx/core/config.h
         ${MAIN}/cxx/core/decompose.cxx
@@ -79,13 +79,13 @@ set(COMMON_SOURCES
         ${MAIN}/cxx/core/section.cxx
         ${MAIN}/cxx/core/section.h)
 
-add_executable(especia ${MAIN}/cxx/apps/especia.cxx ${COMMON_SOURCES})
+add_executable(especia ${MAIN}/cxx/apps/especia.cxx ${CORE_SOURCES})
 target_link_libraries(especia ${VECLIB})
-add_executable(especid ${MAIN}/cxx/apps/especid.cxx ${COMMON_SOURCES})
+add_executable(especid ${MAIN}/cxx/apps/especid.cxx ${CORE_SOURCES})
 target_link_libraries(especid ${VECLIB})
-add_executable(especiv ${MAIN}/cxx/apps/especiv.cxx ${COMMON_SOURCES})
+add_executable(especiv ${MAIN}/cxx/apps/especiv.cxx ${CORE_SOURCES})
 target_link_libraries(especiv ${VECLIB})
-add_executable(especix ${MAIN}/cxx/apps/especix.cxx ${COMMON_SOURCES})
+add_executable(especix ${MAIN}/cxx/apps/especix.cxx ${CORE_SOURCES})
 target_link_libraries(especix ${VECLIB})
 add_executable(ecom ${MAIN}/cxx/apps/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/apps/edat.cxx)
@@ -106,6 +106,8 @@ add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
         ${MAIN}/cxx/core/base.h
         ${MAIN}/cxx/core/dataio.cxx
         ${MAIN}/cxx/core/dataio.h
+        ${MAIN}/cxx/core/equations.cxx
+        ${MAIN}/cxx/core/equations.h
         ${MAIN}/cxx/core/exitcodes.h)
 add_executable(helicorr EXCLUDE_FROM_ALL ${MAIN}/cxx/util/helicorr.cxx
         ${MAIN}/cxx/core/base.h
@@ -116,6 +118,8 @@ add_executable(vactoair EXCLUDE_FROM_ALL ${MAIN}/cxx/util/vactoair.cxx
         ${MAIN}/cxx/core/base.h
         ${MAIN}/cxx/core/dataio.cxx
         ${MAIN}/cxx/core/dataio.h
+        ${MAIN}/cxx/core/equations.cxx
+        ${MAIN}/cxx/core/equations.h
         ${MAIN}/cxx/core/exitcodes.h)
 
 add_custom_target(util)
