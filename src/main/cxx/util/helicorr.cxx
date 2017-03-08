@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 
         if (especia::get(cin, x, y, z, skip)) {
             if (v != 0.0) {
-                x = x * especia::doppler(v);
+                x *= 1.0 + especia::redshift(v);
             }
             especia::put(cout, x, y, z);
         } else {

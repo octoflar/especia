@@ -95,6 +95,32 @@ namespace especia {
     const R_type speed_of_light = 299792458.0;
 
     /**
+     * Converts a numerical string into a number.
+     *
+     * @tparam T The number type.
+     *
+     * @param s The string.
+     * @return the number.
+     *
+     * @throw invalid_argument when the string cannot be converted into a number of requested type.
+     */
+    template<class T>
+    static T convert(const std::string &s) throw(std::invalid_argument) {
+        using std::invalid_argument;
+        using std::istringstream;
+
+        istringstream iss(s);
+        T t;
+
+        if (iss >> t) {
+            return t;
+        }
+
+        throw invalid_argument(
+                "especia::convert(): Error: the expression '" + s + "' cannot be converted into a number");
+    }
+
+    /**
      * Returns the square of a number.
      *
      * @tparam T The number type.
@@ -109,14 +135,52 @@ namespace especia {
     }
 
     /**
-     * Returns the Doppler factor for a given radial velocity.
+     * Solves the equation g(x) = c by means of Newton's method.
      *
-     * @param[in] v The radial velocity (m s-1).
-     * @return the Doppler factor.
+     * @tparam F The function type.
+     * @tparam T The argument type.
+     *
+     * @param[in] f A function where the first argument is an abscissa value @c x, the second
+     * argument is the value of @c g(x), the third argument is the value of @c g'(x), and the
+     * return value is arbitrary.
+     * @param[in] c The constant on the right-hand side of the equation.
+     * @param[in] x The initial guess of the solution.
+     * @param[in] accuracy_goal The accuracy goal.
+     * @param[in] max_iteration The maximum number of iterations (optional).
+     *
+     * @return the solution to the equation g(x) = c.
+     *
+     * @throw runtime_error when the accuracy goal was not reached within the prescribed number of iterations.
+     */
+    template<class F, class T = R_type>
+    T nsolve(F (&f)(const T &, T &, T &),
+             T c, T x, T accuracy_goal, N_type max_iteration = 100) throw(std::runtime_error) {
+        using std::abs;
+        using std::runtime_error;
+
+        T d, y, z;
+
+        for (N_type i = 0; i < max_iteration; ++i) {
+            f(x, y, z);
+            d = (y - c) / z;
+            x -= d;
+            if (abs(d) < accuracy_goal * x) {
+                return x;
+            }
+        }
+
+        throw runtime_error("especia::nsolve() Error: the required accuracy goal was not reached");
+    }
+
+    /**
+     * Returns the observed photon redshift for a given radial velocity of an emitter with respect to an observer.
+     *
+     * @param[in] v The radial velocity of the emitter with respect to the observer (m s-1).
+     * @return the observed photon redshift.
      */
     inline
-    R_type doppler(const R_type &v) {
-        return std::sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light));
+    R_type redshift(const R_type &v) {
+        return std::sqrt((1.0 + v / speed_of_light) / (1.0 - v / speed_of_light)) - 1.0;
     }
 
     /**
@@ -262,32 +326,6 @@ namespace especia {
 
         y = x * n;
         z = n + x * m;
-    }
-
-    /**
-     * Converts a numerical string into a number.
-     *
-     * @tparam T The number type.
-     *
-     * @param s The string.
-     * @return the number.
-     *
-     * @throw invalid_argument when the string cannot be converted into a number of requested type.
-     */
-    template<class T>
-    static T convert(const std::string &s) throw(std::invalid_argument) {
-        using std::invalid_argument;
-        using std::istringstream;
-
-        istringstream iss(s);
-        T t;
-
-        if (iss >> t) {
-            return t;
-        }
-
-        throw invalid_argument(
-                "especia::convert(): Error: the expression '" + s + "' cannot be converted into a number");
     }
 
 }
