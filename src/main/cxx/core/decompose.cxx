@@ -84,8 +84,8 @@ void LAPACK_NAME(syevx)(const char &job,
 
 const R_type safe_minimum = LAPACK_NAME(lamch)('s');
 
-const string especia::D_Decompose::int_err = "especia::D_Decompose() Error: internal error in LAPACK";
-const string especia::D_Decompose::ill_arg = "especia::D_Decompose() Error: illegal argument(s) in call to LAPACK";
+const string especia::D_Decompose::MESSAGE_INT_ERR = "especia::D_Decompose() Error: internal error in LAPACK";
+const string especia::D_Decompose::MESSAGE_ILL_ARG = "especia::D_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::D_Decompose::D_Decompose(N_type n)
         : job('V'), uplo('U'), work(1), iwork(1) {
@@ -109,9 +109,9 @@ void especia::D_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_
         // Transform from column-major into row-major layout.
         transpose(Z);
     } else if (info > 0) {
-        throw runtime_error(int_err);
+        throw runtime_error(MESSAGE_INT_ERR);
     } else {
-        throw runtime_error(ill_arg);
+        throw runtime_error(MESSAGE_ILL_ARG);
     }
 }
 
@@ -127,9 +127,9 @@ void especia::D_Decompose::resize_workspace(N_type k) {
         work.resize(static_cast<N_type>(lwork));
         iwork.resize(static_cast<N_type>(liwork));
     } else if (info > 0) {
-        throw runtime_error(int_err);
+        throw runtime_error(MESSAGE_INT_ERR);
     } else {
-        throw runtime_error(ill_arg);
+        throw runtime_error(MESSAGE_ILL_ARG);
     }
 }
 
@@ -142,8 +142,8 @@ void especia::D_Decompose::transpose(R_type A[]) const {
 }
 
 
-const string especia::R_Decompose::int_err = "especia::R_Decompose() Error: internal error in LAPACK";
-const string especia::R_Decompose::ill_arg = "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
+const string especia::R_Decompose::MESSAGE_INT_ERR = "especia::R_Decompose() Error: internal error in LAPACK";
+const string especia::R_Decompose::MESSAGE_ILL_ARG = "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::R_Decompose::R_Decompose(N_type n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(1) {
@@ -168,9 +168,9 @@ void especia::R_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_
         // Transform from column-major into row-major layout.
         transpose(Z);
     } else if (info > 0) {
-        throw runtime_error(int_err);
+        throw runtime_error(MESSAGE_INT_ERR);
     } else {
-        throw runtime_error(ill_arg);
+        throw runtime_error(MESSAGE_ILL_ARG);
     }
 }
 
@@ -188,9 +188,9 @@ void especia::R_Decompose::resize_workspace(N_type k) {
         iwork.resize(static_cast<N_type>(liwork));
         isupp.resize(static_cast<N_type>(2 * max(1, n)));
     } else if (info > 0) {
-        throw runtime_error(int_err);
+        throw runtime_error(MESSAGE_INT_ERR);
     } else {
-        throw runtime_error(ill_arg);
+        throw runtime_error(MESSAGE_ILL_ARG);
     }
 }
 
@@ -203,8 +203,8 @@ void especia::R_Decompose::transpose(R_type A[]) const {
 }
 
 
-const string especia::X_Decompose::int_err = "especia::X_Decompose() Error: internal error in LAPACK";
-const string especia::X_Decompose::ill_arg = "especia::X_Decompose() Error: illegal argument(s) in call to LAPACK";
+const string especia::X_Decompose::MESSAGE_INT_ERR = "especia::X_Decompose() Error: internal error in LAPACK";
+const string especia::X_Decompose::MESSAGE_ILL_ARG = "especia::X_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::X_Decompose::X_Decompose(N_type n)
         : job('V'), range('A'), uplo('U'), work(1), iwork(), ifail() {
@@ -229,9 +229,9 @@ void especia::X_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_
         // Transform from column-major into row-major layout.
         transpose(Z);
     } else if (info > 0) {
-        throw runtime_error(int_err);
+        throw runtime_error(MESSAGE_INT_ERR);
     } else {
-        throw runtime_error(ill_arg);
+        throw runtime_error(MESSAGE_ILL_ARG);
     }
 }
 
@@ -248,9 +248,9 @@ void especia::X_Decompose::resize_workspace(N_type k) {
         iwork.resize(static_cast<N_type>(5 * n));
         ifail.resize(static_cast<N_type>(n));
     } else if (info > 0) {
-        throw runtime_error(int_err);
+        throw runtime_error(MESSAGE_INT_ERR);
     } else {
-        throw runtime_error(ill_arg);
+        throw runtime_error(MESSAGE_ILL_ARG);
     }
 }
 

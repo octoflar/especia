@@ -235,8 +235,8 @@ namespace especia {
                             if (pim.find(pid) == pim.end()) {
                                 pim[pid] = i;
 
-                                if (read(ist, val, lo, up, msk, ref, Profile::parameter_count, '\n', true)) {
-                                    i += Profile::parameter_count;
+                                if (read(ist, val, lo, up, msk, ref, Profile::PARAMETER_COUNT, '\n', true)) {
+                                    i += Profile::PARAMETER_COUNT;
                                     k += 1;
                                 } else {
                                     is.setstate(ios_base::badbit | ios_base::failbit);
@@ -311,7 +311,7 @@ namespace especia {
 
                 // Dereference line parameter references
                 for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i)
-                    for (N_type j = 0; j < Profile::parameter_count; ++j) {
+                    for (N_type j = 0; j < Profile::PARAMETER_COUNT; ++j) {
                         const N_type k = i->second + j;
 
                         while (!ref[k].empty()) {
@@ -515,9 +515,9 @@ namespace especia {
             os << "</table>\n";
             os << "<address>\n";
             os << " Created by Evolutionary spectrum inversion and analysis (Especia).<br>\n";
-            os << " " << PROJECT_LONG_NAME << " " << "<a href=\"" << DOI << "\">" << DOI << "</a>" << "<br>\n";
-            os << " " << SYSTEM << " " << "<br>\n";
-            os << " " << CXX_COMPILER << " " << CXX_COMPILER_VERSION << "<br>\n";
+            os << " " << project_long_name << " " << "<a href=\"" << project_doi << "\">" << project_doi << "</a>" << "<br>\n";
+            os << " " << system_name << " " << "<br>\n";
+            os << " " << cxx_compiler << " " << cxx_compiler_version << "<br>\n";
             os << "</address>\n";
             os << "</body>\n";
             os << "</html>\n";

@@ -74,8 +74,8 @@ namespace especia {
         std::valarray<R_type> work;
         std::valarray<Z_type> iwork;
 
-        static const std::string int_err;
-        static const std::string ill_arg;
+        static const std::string MESSAGE_INT_ERR;
+        static const std::string MESSAGE_ILL_ARG;
     };
 
     /**
@@ -126,8 +126,8 @@ namespace especia {
         std::valarray<R_type> work;
         std::valarray<Z_type> iwork;
 
-        static const std::string int_err;
-        static const std::string ill_arg;
+        static const std::string MESSAGE_INT_ERR;
+        static const std::string MESSAGE_ILL_ARG;
     };
 
     /**
@@ -176,8 +176,8 @@ namespace especia {
         std::valarray<Z_type> iwork;
         std::valarray<Z_type> ifail;
 
-        static const std::string int_err;
-        static const std::string ill_arg;
+        static const std::string MESSAGE_INT_ERR;
+        static const std::string MESSAGE_ILL_ARG;
     };
 
     /**

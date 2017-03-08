@@ -70,8 +70,8 @@ namespace especia {
         const R_type gamma_l;
         const R_type eta;
 
-        static const R_type c_g;
-        static const R_type c_l;
+        static const R_type C_G;
+        static const R_type C_L;
     };
 
 
@@ -119,10 +119,10 @@ namespace especia {
         const R_type eta_i;
         const R_type eta_p;
 
-        static const R_type c_g;
-        static const R_type c_l;
-        static const R_type c_i;
-        static const R_type c_p;
+        static const R_type C_G;
+        static const R_type C_L;
+        static const R_type C_I;
+        static const R_type C_P;
     };
 
     /**
@@ -138,11 +138,6 @@ namespace especia {
      */
     class Many_Multiplet {
     public:
-        /**
-         * The number of parameters.
-         */
-        static const N_type parameter_count = 8;
-
         /**
          * Default constructor.
          */
@@ -187,6 +182,11 @@ namespace especia {
          */
         R_type operator()(const R_type &x) const;
 
+        /**
+         * The number of parameters.
+         */
+        static const N_type PARAMETER_COUNT = 8;
+
     private:
         /**
          * The modified rest wavelength (Angstrom).
@@ -218,11 +218,6 @@ namespace especia {
      */
     class Intergalactic_Doppler {
     public:
-        /**
-         * The number of parameters.
-         */
-        static const N_type parameter_count = 6;
-
         /**
          * Default constructor.
          */
@@ -263,6 +258,11 @@ namespace especia {
          */
         R_type operator()(const R_type &x) const;
 
+        /**
+         * The number of parameters.
+         */
+        static const N_type PARAMETER_COUNT = 6;
+
     private:
         /**
          * The central wavelength (Angstrom).
@@ -292,11 +292,6 @@ namespace especia {
     template<class A>
     class Intergalactic_Voigt {
     public:
-        /**
-         * The number of parameters.
-         */
-        static const N_type parameter_count = 7;
-
         /**
          * Default constructor.
          */
@@ -348,6 +343,11 @@ namespace especia {
             return a * approximation(x - c);
         };
 
+        /**
+         * The number of parameters.
+         */
+        static const N_type PARAMETER_COUNT = 7;
+
     private:
         /**
          * The central wavelength (Angstrom).
@@ -398,7 +398,7 @@ namespace especia {
         Superposition(N_type n, const R_type q[])
                 : profiles() {
             profiles.reserve(n);
-            for (N_type i = 0; i < n; ++i, q += P::parameter_count) {
+            for (N_type i = 0; i < n; ++i, q += P::PARAMETER_COUNT) {
                 profiles.push_back(P(q));
             }
         }

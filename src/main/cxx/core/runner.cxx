@@ -79,7 +79,7 @@ void especia::Runner::write_result_messages(std::ostream &os, const Optimizer::R
 void especia::Runner::write_usage_message(std::ostream &os) const {
     using std::endl;
 
-    os << PROJECT_LONG_NAME << " " << DOI << endl;
+    os << project_long_name << " " << project_doi << endl;
     os << "usage: " << get_program_name() << ": "
        << "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM"
        << endl;
