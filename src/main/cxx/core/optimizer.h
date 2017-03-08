@@ -870,7 +870,7 @@ namespace especia {
         /**
          * The random number generator.
          */
-        Normal_Deviate<MT19937> deviate;
+        Normal_Deviate<Mt19937> deviate;
     };
 
 }

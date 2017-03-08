@@ -32,27 +32,27 @@ namespace especia {
         /**
          * The optimization stopped due to an underflow of the mutation variance.
          */
-        static const int OPTIMIZATION_UNDERFLOW = 1;
+        static const int optimization_underflow = 1;
 
         /**
          * The optimization stopped and failed to reach the required accuracy goal.
          */
-        static const int OPTIMIZATION_STOPPED = 2;
+        static const int optimization_stopped = 2;
 
         /**
          * A logic error occurred.
          */
-        static const int LOGIC_ERROR = 10;
+        static const int logic_error = 10;
 
         /**
          * A runtime error occurred.
          */
-        static const int RUNTIME_ERROR = 11;
+        static const int runtime_error = 11;
 
         /**
          * An unspecific exception occurred.
          */
-        static const int UNSPECIFIC_EXCEPTION = 12;
+        static const int unspecific_exception = 12;
 
     private:
         Exit_Codes() {

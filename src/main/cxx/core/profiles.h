@@ -70,8 +70,8 @@ namespace especia {
         const R_type gamma_l;
         const R_type eta;
 
-        static const R_type C_G;
-        static const R_type C_L;
+        static const R_type c_g;
+        static const R_type c_l;
     };
 
 
@@ -119,10 +119,10 @@ namespace especia {
         const R_type eta_i;
         const R_type eta_p;
 
-        static const R_type C_G;
-        static const R_type C_L;
-        static const R_type C_I;
-        static const R_type C_P;
+        static const R_type c_g;
+        static const R_type c_l;
+        static const R_type c_i;
+        static const R_type c_p;
     };
 
     /**
@@ -185,7 +185,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const N_type PARAMETER_COUNT = 8;
+        static const N_type parameter_count = 8;
 
     private:
         /**
@@ -208,8 +208,8 @@ namespace especia {
          */
         const R_type a;
 
-        static const R_type C0;
-        static const R_type C1;
+        static const R_type c0;
+        static const R_type c1;
     };
 
 
@@ -261,7 +261,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const N_type PARAMETER_COUNT = 6;
+        static const N_type parameter_count = 6;
 
     private:
         /**
@@ -279,8 +279,8 @@ namespace especia {
          */
         const R_type a;
 
-        static const R_type C0;
-        static const R_type C1;
+        static const R_type c0;
+        static const R_type c1;
     };
 
 
@@ -322,9 +322,9 @@ namespace especia {
          * @endparblock
          */
         Intergalactic_Voigt(const R_type q[])
-                : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / C0)),
-                  a(C1 * q[1] * pow(10.0, q[5]) * (q[0] * c)),
-                  approximation(q[4] * c / C0, C2 * q[6] * (q[0] * c)) {
+                : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / c0)),
+                  a(c1 * q[1] * pow(10.0, q[5]) * (q[0] * c)),
+                  approximation(q[4] * c / c0, c2 * q[6] * (q[0] * c)) {
         }
 
         /**
@@ -346,7 +346,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const N_type PARAMETER_COUNT = 7;
+        static const N_type parameter_count = 7;
 
     private:
         /**
@@ -364,20 +364,20 @@ namespace especia {
          */
         const A approximation;
 
-        static const R_type C0;
-        static const R_type C1;
-        static const R_type C2;
+        static const R_type c0;
+        static const R_type c1;
+        static const R_type c2;
     };
 
     template<class A>
-    const R_type Intergalactic_Voigt<A>::C0 = 1.0E-03 * speed_of_light;
+    const R_type Intergalactic_Voigt<A>::c0 = 1.0E-03 * speed_of_light;
 
     template<class A>
-    const R_type Intergalactic_Voigt<A>::C1 = 1.0E-06 * sqr(elementary_charge) /
+    const R_type Intergalactic_Voigt<A>::c1 = 1.0E-06 * sqr(elementary_charge) /
                                               (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
 
     template<class A>
-    const R_type Intergalactic_Voigt<A>::C2 = 1.0E-10 / (4.0 * pi * speed_of_light);
+    const R_type Intergalactic_Voigt<A>::c2 = 1.0E-10 / (4.0 * pi * speed_of_light);
 
 
     /**
@@ -398,7 +398,7 @@ namespace especia {
         Superposition(N_type n, const R_type q[])
                 : profiles() {
             profiles.reserve(n);
-            for (N_type i = 0; i < n; ++i, q += P::PARAMETER_COUNT) {
+            for (N_type i = 0; i < n; ++i, q += P::parameter_count) {
                 profiles.push_back(P(q));
             }
         }

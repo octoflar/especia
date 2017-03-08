@@ -95,12 +95,12 @@ int main(int argc, char *argv[]) {
         return 0;
     } catch (logic_error &e) {
         cerr << e.what() << endl;
-        return especia::Exit_Codes::LOGIC_ERROR;
+        return especia::Exit_Codes::logic_error;
     } catch (runtime_error &e) {
         cerr << e.what() << endl;
-        return especia::Exit_Codes::RUNTIME_ERROR;
+        return especia::Exit_Codes::runtime_error;
     } catch (exception &e) {
         cerr << e.what() << endl;
-        return especia::Exit_Codes::UNSPECIFIC_EXCEPTION;
+        return especia::Exit_Codes::unspecific_exception;
     }
 }

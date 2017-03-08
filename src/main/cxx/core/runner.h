@@ -244,9 +244,9 @@ namespace especia {
                 return 0;
             }
             if (result.is_underflow()) {
-                return Exit_Codes::OPTIMIZATION_UNDERFLOW;
+                return Exit_Codes::optimization_underflow;
             } else {
-                return Exit_Codes::OPTIMIZATION_STOPPED;
+                return Exit_Codes::optimization_stopped;
             }
         }
 

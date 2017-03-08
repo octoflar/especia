@@ -134,10 +134,10 @@ R_type poly_eta_p(const R_type &r) {
 
 
 especia::Pseudo_Voigt::Pseudo_Voigt(const R_type &b, const R_type &d)
-        : u((C_G * b) / (C_L * d)),
+        : u((c_g * b) / (c_l * d)),
           r(1.0 / pow(1.0 + u * (0.07842 + u * (4.47163 + u * (2.42843 + u * (u + 2.69269)))), 0.2)),
-          gamma_g((C_L * d) / (C_G * r)),
-          gamma_l((C_L * d) / (C_L * r)),
+          gamma_g((c_l * d) / (c_g * r)),
+          gamma_l((c_l * d) / (c_l * r)),
           eta(r * (1.36603 - r * (0.47719 - r * 0.11116))) {
 }
 
@@ -148,17 +148,17 @@ R_type especia::Pseudo_Voigt::operator()(const R_type &x) const {
     return (1.0 - eta) * f_g(x, gamma_g) + eta * f_l(x, gamma_l);
 }
 
-const R_type especia::Pseudo_Voigt::C_G = 2.0 * sqrt(log(2.0));
-const R_type especia::Pseudo_Voigt::C_L = 2.0;
+const R_type especia::Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
+const R_type especia::Pseudo_Voigt::c_l = 2.0;
 
 
 especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const R_type &b, const R_type &d)
-        : u(C_G * b + C_L * d),
-          r(C_L * d / u),
-          gamma_g(u * poly_w_g(r) / C_G),
-          gamma_l(u * poly_w_l(r) / C_L),
-          gamma_i(u * poly_w_i(r) / C_I),
-          gamma_p(u * poly_w_p(r) / C_P),
+        : u(c_g * b + c_l * d),
+          r(c_l * d / u),
+          gamma_g(u * poly_w_g(r) / c_g),
+          gamma_l(u * poly_w_l(r) / c_l),
+          gamma_i(u * poly_w_i(r) / c_i),
+          gamma_p(u * poly_w_p(r) / c_p),
           eta_l(poly_eta_l(r)),
           eta_i(poly_eta_i(r)),
           eta_p(poly_eta_p(r)) {
@@ -174,10 +174,10 @@ R_type especia::Extended_Pseudo_Voigt::operator()(const R_type &x) const {
            eta_p * f_p(x, gamma_p);
 }
 
-const R_type especia::Extended_Pseudo_Voigt::C_G = 2.0 * sqrt(log(2.0));
-const R_type especia::Extended_Pseudo_Voigt::C_L = 2.0;
-const R_type especia::Extended_Pseudo_Voigt::C_I = 2.0 * sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
-const R_type especia::Extended_Pseudo_Voigt::C_P = 2.0 * log(sqrt(2.0) + 1.0);
+const R_type especia::Extended_Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
+const R_type especia::Extended_Pseudo_Voigt::c_l = 2.0;
+const R_type especia::Extended_Pseudo_Voigt::c_i = 2.0 * sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
+const R_type especia::Extended_Pseudo_Voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
 
 
 especia::Many_Multiplet::Many_Multiplet()
@@ -186,9 +186,9 @@ especia::Many_Multiplet::Many_Multiplet()
 
 especia::Many_Multiplet::Many_Multiplet(const R_type q[])
         : u(1.0E+08 / (1.0E+08 / q[0] + q[6] * (q[7] * micro) * (q[7] * micro + 2.0))),
-          c(u * (1.0 + q[2]) * (1.0 + q[3] / C0)),
-          b(q[4] * c / C0),
-          a(C1 * q[1] * pow(10.0, q[5]) * (u * c)) {
+          c(u * (1.0 + q[2]) * (1.0 + q[3] / c0)),
+          b(q[4] * c / c0),
+          a(c1 * q[1] * pow(10.0, q[5]) * (u * c)) {
 }
 
 especia::Many_Multiplet::~Many_Multiplet() {
@@ -198,8 +198,8 @@ R_type especia::Many_Multiplet::operator()(const R_type &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
-const R_type especia::Many_Multiplet::C0 = 1.0E-03 * speed_of_light;
-const R_type especia::Many_Multiplet::C1 = 1.0E-06 * sqr(elementary_charge) /
+const R_type especia::Many_Multiplet::c0 = 1.0E-03 * speed_of_light;
+const R_type especia::Many_Multiplet::c1 = 1.0E-06 * sqr(elementary_charge) /
                                            (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
 
 
@@ -208,9 +208,9 @@ especia::Intergalactic_Doppler::Intergalactic_Doppler()
 }
 
 especia::Intergalactic_Doppler::Intergalactic_Doppler(const R_type q[])
-        : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / C0)),
-          b(q[4] * c / C0),
-          a(C1 * q[1] * pow(10.0, q[5]) * (q[0] * c)) {
+        : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / c0)),
+          b(q[4] * c / c0),
+          a(c1 * q[1] * pow(10.0, q[5]) * (q[0] * c)) {
 }
 
 especia::Intergalactic_Doppler::~Intergalactic_Doppler() {
@@ -220,6 +220,6 @@ R_type especia::Intergalactic_Doppler::operator()(const R_type &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
-const R_type especia::Intergalactic_Doppler::C0 = 1.0E-03 * speed_of_light;
-const R_type especia::Intergalactic_Doppler::C1 = 1.0E-06 * sqr(elementary_charge) /
+const R_type especia::Intergalactic_Doppler::c0 = 1.0E-03 * speed_of_light;
+const R_type especia::Intergalactic_Doppler::c1 = 1.0E-06 * sqr(elementary_charge) /
                                                   (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
