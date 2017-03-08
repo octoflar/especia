@@ -1,5 +1,5 @@
-/// @file util.cxx
-/// Utilities
+/// @file equations.cxx
+/// Equations from scientific literature.
 /// Copyright (c) 2017 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
