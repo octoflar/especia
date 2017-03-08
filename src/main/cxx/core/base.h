@@ -149,7 +149,7 @@ namespace especia {
      */
     template<class T>
     static T redshift(const T &v) {
-        return std::sqrt((T(1) + v / T(speed_of_light)) / (T(299792458) - v / T(speed_of_light))) - T(299792458);
+        return std::sqrt((T(1) + v / T(299792458)) / (T(1) - v / T(299792458))) - T(1);
     }
 
     /**
