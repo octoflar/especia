@@ -40,9 +40,9 @@ namespace especia {
         static const int OPTIMIZATION_STOPPED = 2;
 
         /**
-         * A logical error occurred.
+         * A logic error occurred.
          */
-        static const int LOGICAL_ERROR = 10;
+        static const int LOGIC_ERROR = 10;
 
         /**
          * A runtime error occurred.

@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
         return 0;
     } catch (logic_error &e) {
         cerr << e.what() << endl;
-        return especia::Exit_Codes::LOGICAL_ERROR;
+        return especia::Exit_Codes::LOGIC_ERROR;
     } catch (runtime_error &e) {
         cerr << e.what() << endl;
         return especia::Exit_Codes::RUNTIME_ERROR;

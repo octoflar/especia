@@ -72,13 +72,13 @@ int main(int argc, char *argv[]) {
             throw invalid_argument("Error: an invalid number of arguments was supplied");
         }
 
+        const R_type v = especia::convert<R_type>(string(argv[1]));
+
         N_type skip = 0;
 
         if (argc == 3) {
             skip = especia::convert<N_type>(string(argv[2]));
         }
-
-        const R_type v = especia::convert<R_type>(string(argv[1]));
 
         valarray<R_type> x;
         valarray<R_type> y;
@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
         return 0;
     } catch (logic_error &e) {
         cerr << e.what() << endl;
-        return especia::Exit_Codes::LOGICAL_ERROR;
+        return especia::Exit_Codes::LOGIC_ERROR;
     } catch (runtime_error &e) {
         cerr << e.what() << endl;
         return especia::Exit_Codes::RUNTIME_ERROR;

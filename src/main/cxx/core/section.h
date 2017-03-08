@@ -277,8 +277,8 @@ namespace especia {
                     R_type b = 0.0;
 
                     for (N_type j = 0; j + 1 < m; ++j) {
-                        const N_type k = (i < j + 1) ? 0 : i - j - 1;
-                        const N_type l = (i + j + 2 > n) ? n - 2 : i + j;
+                        const size_t k = (i < j + 1) ? 0 : i - j - 1;
+                        const size_t l = (i + j + 2 > n) ? n - 2 : i + j;
                         const R_type d = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
 
                         a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - j * d);

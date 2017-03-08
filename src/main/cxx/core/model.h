@@ -162,7 +162,7 @@ namespace especia {
             }
 
             N_type i = 0;
-            N_type j = 0;
+            size_t j = 0;
 
             while (getline(st, line, end_of_section))
                 if (!st.eof()) {
@@ -426,7 +426,7 @@ namespace especia {
                 const N_type j = i->second;
 
                 const string id = i->first;
-                const N_type px = sec[j].valid_data_count();
+                const size_t px = sec[j].valid_data_count();
                 const R_type st = sec[j].cost();
 
                 os.precision(2);

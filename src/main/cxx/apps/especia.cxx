@@ -57,7 +57,7 @@ using namespace std;
  *
  * @remark Usage: especia SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM
  *
- * @remark A usage message is witten to standard output, if no command line arguments (excluding the
+ * @remark A usage message is written to standard output, if no command line arguments (excluding the
  * program name) are supplied. In this case the returned exit code is zero.
  */
 int main(int argc, char *argv[]) {
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
         return especia::Runner(argc, argv).run<Model>();
     } catch (logic_error &e) {
         cerr << e.what() << endl;
-        return especia::Exit_Codes::LOGICAL_ERROR;
+        return especia::Exit_Codes::LOGIC_ERROR;
     } catch (runtime_error &e) {
         cerr << e.what() << endl;
         return especia::Exit_Codes::RUNTIME_ERROR;

@@ -109,7 +109,7 @@ namespace especia {
         /**
          * Parses the initial global step size.
          *
-         * @return the inititial global step size.
+         * @return the initial global step size.
          */
         R_type parse_global_step_size() const throw(std::invalid_argument) {
             return convert<R_type>(args[4]);
