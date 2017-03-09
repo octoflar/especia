@@ -16,33 +16,35 @@ The method is explained in detail by
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
 
 
-# Getting started 
+# Getting started [![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia)
 
-This software enables you to analyse spectroscopic data. Though it has been developed
+Especia enables you to analyse spectroscopic data. Though it has been developed
 for the analysis of astrophysical spectra, it is applicable to spectroscopy in general.
 Read the notes and articles listed below to find out whether this software is of interest to
 you. If you already have some understanding of these matters, you may want to consult
 the [especia wiki](https://github.com/octoflar/especia/wiki).
 
-Building this software requires [CMake](https://cmake.org) and a compiler that implements
-[C++11](https://en.wikipedia.org/wiki/C%2B%2B11). To build and test this software
-`cd` into the project root directory and type:
+Building Especia requires [CMake](https://cmake.org) and a compiler that implements
+[C++11](https://en.wikipedia.org/wiki/C%2B%2B11). To build and test `cd` into the
+project root directory and type:
 
     mkdir cmake-build-release
     cd cmake-build-release
     cmake -DCMAKE_BUILD_TYPE=Release ..
     make all test
 
-Typing `make install` will complete the build and move all executable files into your
-`$HOME/bin` directory. In case of problems consult the
+Typing `make install` will complete the build and move the executable files into your
+`$HOME/bin` directory. For further information or in case of problems consult the
 [build instructions](https://github.com/octoflar/especia/wiki/Build-instructions).
 
 
-# Versioning
+# Versions
 
 Release versions YYYY.N are numbered by the year of the release follwowed by a
 single-digit number, which enumerates the release within the release year. For
 example, version 2016.1 denotes the first release of the year 2016.
+
+The current version is 2016.1.
 
 
 # Further reading
