@@ -47,7 +47,7 @@ example, version 2016.1 denotes the first release of the year 2016.
 
 # Further reading
 
-Quast, Ralf (2014): *Covariance matrix adaption in evolution strategies.* figshare.
+Quast, Ralf (2014): *Covariance matrix adaption in evolution strategies.* figshare.  
 doi: [10.6084/m9.figshare.994249.v1](https://doi.org/10.6084/m9.figshare.994249.v1).
 
 Quast, Ralf (2014): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.* figshare.
