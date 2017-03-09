@@ -478,7 +478,7 @@ namespace especia {
                 const R_type dx = err[j];
                 const R_type dz = err[j + 2];
                 const R_type dv = err[j + 3];
-                const R_type dw = dx + x * sqrt(sqr((1.0 + v / c) * dz) + sqr((1.0 + z) * dv / c));
+                const R_type dw = dx + x * sqrt(sq((1.0 + v / c) * dz) + sq((1.0 + z) * dv / c));
 
                 os.precision(4);
 

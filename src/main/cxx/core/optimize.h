@@ -302,8 +302,8 @@ namespace especia {
 
             // Check if the optimization is completed
             for (N_type i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-                optimized = (sqr(step_size) * C[ii] <
-                             sqr(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
+                optimized = (sq(step_size) * C[ii] <
+                        sq(accuracy_goal * xw[i]) + 1.0 / max_covariance_matrix_condition);
                 if (!optimized) {
                     break;
                 }

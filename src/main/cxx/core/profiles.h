@@ -373,8 +373,8 @@ namespace especia {
     const R_type Intergalactic_Voigt<A>::c0 = 1.0E-03 * speed_of_light;
 
     template<class A>
-    const R_type Intergalactic_Voigt<A>::c1 = 1.0E-06 * sqr(elementary_charge) /
-                                              (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
+    const R_type Intergalactic_Voigt<A>::c1 = 1.0E-06 * sq(elementary_charge) /
+                                              (4.0 * electric_constant * electron_mass * sq(speed_of_light));
 
     template<class A>
     const R_type Intergalactic_Voigt<A>::c2 = 1.0E-10 / (4.0 * pi * speed_of_light);

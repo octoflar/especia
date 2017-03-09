@@ -192,7 +192,7 @@ namespace especia {
      * @return the square of the number.
      */
     template<class T>
-    T sqr(const T &x) {
+    T sq(const T &x) {
         return x * x;
     }
 

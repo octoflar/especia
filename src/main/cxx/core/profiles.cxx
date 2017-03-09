@@ -32,7 +32,7 @@ using especia::N_type;
 using especia::R_type;
 using especia::micro;
 using especia::pi;
-using especia::sqr;
+using especia::sq;
 using especia::sqrt_of_pi;
 
 
@@ -44,7 +44,7 @@ using especia::sqrt_of_pi;
  * @return the value of the Gaussian at @c x.
  */
 R_type f_g(const R_type &x, const R_type &gamma) {
-    return (1.0 / (sqrt_of_pi * gamma)) * exp(-sqr(x / gamma));
+    return (1.0 / (sqrt_of_pi * gamma)) * exp(-sq(x / gamma));
 }
 
 /**
@@ -55,7 +55,7 @@ R_type f_g(const R_type &x, const R_type &gamma) {
  * @return the value of the Lorentzian at @c x.
  */
 R_type f_l(const R_type &x, const R_type &gamma) {
-    return 1.0 / ((pi * gamma) * (1.0 + sqr(x / gamma)));
+    return 1.0 / ((pi * gamma) * (1.0 + sq(x / gamma)));
 }
 
 /**
@@ -66,7 +66,7 @@ R_type f_l(const R_type &x, const R_type &gamma) {
  * @return the value of the function at @c x.
  */
 R_type f_i(const R_type &x, const R_type &gamma) {
-    return 1.0 / ((2.0 * gamma) * pow(1.0 + sqr(x / gamma), 1.5));
+    return 1.0 / ((2.0 * gamma) * pow(1.0 + sq(x / gamma), 1.5));
 }
 
 /**
@@ -77,7 +77,7 @@ R_type f_i(const R_type &x, const R_type &gamma) {
  * @return the value of the function at @c x.
  */
 R_type f_p(const R_type &x, const R_type &gamma) {
-    return 1.0 / (2.0 * gamma * sqr(cosh(x / gamma)));
+    return 1.0 / (2.0 * gamma * sq(cosh(x / gamma)));
 }
 
 /**
@@ -199,8 +199,8 @@ R_type especia::Many_Multiplet::operator()(const R_type &x) const {
 }
 
 const R_type especia::Many_Multiplet::c0 = 1.0E-03 * speed_of_light;
-const R_type especia::Many_Multiplet::c1 = 1.0E-06 * sqr(elementary_charge) /
-                                           (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
+const R_type especia::Many_Multiplet::c1 = 1.0E-06 * sq(elementary_charge) /
+                                           (4.0 * electric_constant * electron_mass * sq(speed_of_light));
 
 
 especia::Intergalactic_Doppler::Intergalactic_Doppler()
@@ -221,5 +221,5 @@ R_type especia::Intergalactic_Doppler::operator()(const R_type &x) const {
 }
 
 const R_type especia::Intergalactic_Doppler::c0 = 1.0E-03 * speed_of_light;
-const R_type especia::Intergalactic_Doppler::c1 = 1.0E-06 * sqr(elementary_charge) /
-                                                  (4.0 * electric_constant * electron_mass * sqr(speed_of_light));
+const R_type especia::Intergalactic_Doppler::c1 = 1.0E-06 * sq(elementary_charge) /
+                                                  (4.0 * electric_constant * electron_mass * sq(speed_of_light));

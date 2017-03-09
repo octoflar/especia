@@ -84,12 +84,12 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
         weights[i] = log((parent_number + 1.0) / (i + 1));
     }
 
-    wv = sqr(weights.sum()) / weights.apply(sqr).sum();
+    wv = sq(weights.sum()) / weights.apply(sq).sum();
     cs = (wv + 2.0) / (wv + n + 3.0);
     cc = 4.0 / (n + 4.0);
 
     acov = 1.0 / wv;
-    ccov = acov * (2.0 / sqr(n + sqrt(2.0))) + (1.0 - acov) * min(1.0, (2.0 * wv - 1.0) / (sqr(n + 2.0) + wv));
+    ccov = acov * (2.0 / sq(n + sqrt(2.0))) + (1.0 - acov) * min(1.0, (2.0 * wv - 1.0) / (sq(n + 2.0) + wv));
 
     step_size_damping = cs + 1.0 + 2.0 * max(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
 }
@@ -98,7 +98,7 @@ especia::Optimizer::Result::Result(N_type n,
                                    const valarray<R_type> &x_in,
                                    const valarray<R_type> &d_in,
                                    R_type s_in)
-        : x(x_in), d(d_in), s(s_in), z(0.0, n), B(0.0, sqr(n)), C(0.0, sqr(n)), pc(0.0, n), ps(0.0, n) {
+        : x(x_in), d(d_in), s(s_in), z(0.0, n), B(0.0, sq(n)), C(0.0, sq(n)), pc(0.0, n), ps(0.0, n) {
     for (N_type i = 0, ii = 0; i < n; ++i, ii += n + 1) {
         B[ii] = 1.0;
         C[ii] = d[i] * d[i];
