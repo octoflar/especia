@@ -1,4 +1,4 @@
-# Synopsis [![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia)
+# Synopsis
 
 The Evolutionary spectrum inversion and analysis (Especia) file set
 provides ISO C++ code for the inverse modelling and analysis of intergalactic and
@@ -8,11 +8,11 @@ Due to the use of evolution strategies with covariance matrix adaption, the inve
 modelling procedure is highly competitive and capable of calculating the optimal
 spectral decomposition without requiring any particular initialisation.
 
-Further highlights are the modelling and optimisation of the background continuum,
-and a more accurate semi-analytic convolution of the absorption term with the
-instrumental profile.
+Additional highlights are the joint modelling and optimisation of the background
+continuum, and an accurate semi-analytic convolution of the absorption term with
+the instrumental line spread function.
 
-The method is explained by
+The method is explained in detail by
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
 
 
