@@ -150,6 +150,40 @@ namespace especia {
     }
 
     /**
+     * Solves the equation f(x) = c by means of Newton's method.
+     *
+     * @tparam T The number type.
+     *
+     * @param[in] f The function.
+     * @param[in] c The constant on the right-hand side of the equation.
+     * @param[in] x The initial guess of the solution.
+     * @param[in] accuracy_goal The accuracy goal.
+     * @param[in] max_iteration The maximum number of iterations (optional).
+     *
+     * @return the solution to the equation f(x) = c.
+     *
+     * @throw runtime_error when the accuracy goal was not reached within the prescribed number of iterations.
+     */
+    template<class T>
+    T solve(typename C1<T>::type &f, T c, T x, T accuracy_goal, N_type max_iteration = 100) throw(std::runtime_error) {
+        using std::abs;
+        using std::runtime_error;
+
+        T d, y, z;
+
+        for (N_type i = 0; i < max_iteration; ++i) {
+            f(x, y, z);
+            d = (y - c) / z;
+            x -= d;
+            if (abs(d) < accuracy_goal * x) {
+                return x;
+            }
+        }
+
+        throw runtime_error("especia::solve() Error: the required accuracy goal was not reached");
+    }
+
+    /**
      * Returns the square of a number.
      *
      * @tparam T The number type.

@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
 
         if (especia::get(cin, x, y, z, skip)) {
             for (size_t i = 0; i < x.size(); ++i) {
-                x[i] = 10.0 / especia::Equations::solve(especia::Equations::edlen66, 10.0 / x[i], 10.0 / x[i]);
+                x[i] = 10.0 / especia::solve(especia::Equations::edlen66, 10.0 / x[i], 10.0 / x[i], 1.0E-08);
             }
             especia::put(cout, x, y, z);
         } else {
