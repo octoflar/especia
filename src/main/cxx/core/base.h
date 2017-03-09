@@ -113,7 +113,7 @@ namespace especia {
     const R_type speed_of_light = 299792458.0;
 
     /**
-     * Converts a numerical string into a number.
+     * Converts a numeric character string into a number.
      *
      * @tparam T The number type.
      *
