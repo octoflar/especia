@@ -193,7 +193,7 @@ namespace especia {
      */
     template<class T>
     T sqr(const T &x) {
-        return (x == T(0)) ? T(0) : x * x;
+        return x * x;
     }
 
 }
