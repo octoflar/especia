@@ -1,4 +1,4 @@
-[![Evolution strategies applied to the problem of line profile decomposition in QSO spectra](https://ndownloader.figshare.com/files/7764523/preview/7764523/preview.gif)](https://doi.org/10.6084/m9.figshare.994250.v2)
+[![Evolution strategies applied to the problem of line profile decomposition in QSO spectra](https://ndownloader.figshare.com/files/7764523/preview/7764523/preview.gif)](https://doi.org/10.6084/m9.figshare.994250)
 
 # Synopsis
 
@@ -53,10 +53,10 @@ The current version is 2016.1.
 # Further reading
 
 Quast, Ralf (2014): *Covariance matrix adaption in evolution strategies.* figshare.
-doi: [10.6084/m9.figshare.994249.v2](https://doi.org/10.6084/m9.figshare.994249.v2).
+doi: [10.6084/m9.figshare.994249](https://doi.org/10.6084/m9.figshare.994249).
 
 Quast, Ralf (2014): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.* figshare.
-doi: [10.6084/m9.figshare.994250.v2](https://doi.org/10.6084/m9.figshare.994250.v2).
+doi: [10.6084/m9.figshare.994250](https://doi.org/10.6084/m9.figshare.994250).
 
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Astronomy and Astrophysics 431 (3) 1167.
