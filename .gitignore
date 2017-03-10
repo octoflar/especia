@@ -17,5 +17,6 @@ cmake-build/
 cmake-build-debug/
 cmake-build-release/
 
-# ignore literature
+# ignore literature and pictures
+*.gif
 *.pdf
