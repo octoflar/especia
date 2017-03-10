@@ -26,8 +26,8 @@ of these matters, you may want to consult the
 [especia wiki](https://github.com/octoflar/especia/wiki).
 
 Building Especia requires [CMake](https://cmake.org) and a compiler that implements
-[C++11](https://en.wikipedia.org/wiki/C%2B%2B11). To build and test `cd` into the
-project root directory and type:
+[C++11](https://en.wikipedia.org/wiki/C%2B%2B11). To build and test the software
+`cd` into the project root directory and type:
 
     mkdir cmake-build-release
     cd cmake-build-release
