@@ -41,13 +41,13 @@ Typing `make install` will complete the build and move the executable files into
 [build instructions](https://github.com/octoflar/especia/wiki/Build-instructions).
 
 
-# Versions
+# Release versions
 
 Release versions YYYY.N are numbered by the year of the release follwowed by a
 single-digit number, which enumerates the release within the release year. For
 example, version 2016.1 denotes the first release of the year 2016.
 
-The current version is 2016.1.
+The current release version is 2016.1. 
 
 
 # Further reading
