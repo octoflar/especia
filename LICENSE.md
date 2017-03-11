@@ -42,7 +42,7 @@ ENTSTANDEN.
 
 Se concede permiso, de forma gratuita, a cualquier persona que obtenga una
 copia de este software y de los archivos de documentación asociados (el 
-"Software"),para utilizar el Software sin restricción, incluyendo sin
+"Software"), para utilizar el Software sin restricción, incluyendo sin
 limitación los derechos a usar, copiar, modificar, fusionar, publicar, 
 distribuir, sublicenciar, y/o vender copias del Software, y a permitir a las
 personas a las que se les proporcione el Software a hacer lo mismo, sujeto a
