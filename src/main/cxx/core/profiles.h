@@ -183,9 +183,11 @@ namespace especia {
         R_type operator()(const R_type &x) const;
 
         /**
-         * The number of parameters.
+         * Returns the number of parameters.
          */
-        static const N_type parameter_count = 8;
+        static N_type get_parameter_count() {
+            return parameter_count;
+        };
 
     private:
         /**
@@ -207,6 +209,11 @@ namespace especia {
          * The amplitude.
          */
         const R_type a;
+
+        /**
+         * The number of parameters.
+         */
+        static const N_type parameter_count = 8;
 
         static const R_type c0;
         static const R_type c1;
@@ -259,9 +266,11 @@ namespace especia {
         R_type operator()(const R_type &x) const;
 
         /**
-         * The number of parameters.
+         * Returns the number of parameters.
          */
-        static const N_type parameter_count = 6;
+        static N_type get_parameter_count() {
+            return parameter_count;
+        };
 
     private:
         /**
@@ -278,6 +287,11 @@ namespace especia {
          * The amplitude.
          */
         const R_type a;
+
+        /**
+         * The number of parameters.
+         */
+        static const N_type parameter_count = 6;
 
         static const R_type c0;
         static const R_type c1;
@@ -344,9 +358,11 @@ namespace especia {
         };
 
         /**
-         * The number of parameters.
+         * Returns the number of parameters.
          */
-        static const N_type parameter_count = 7;
+        static N_type get_parameter_count() {
+            return parameter_count;
+        };
 
     private:
         /**
@@ -363,6 +379,11 @@ namespace especia {
          * The approximation.
          */
         const A approximation;
+
+        /**
+         * The number of parameters.
+         */
+        static const N_type parameter_count = 7;
 
         static const R_type c0;
         static const R_type c1;
@@ -398,7 +419,7 @@ namespace especia {
         Superposition(N_type n, const R_type q[])
                 : profiles() {
             profiles.reserve(n);
-            for (N_type i = 0; i < n; ++i, q += P::parameter_count) {
+            for (N_type i = 0; i < n; ++i, q += P::get_parameter_count()) {
                 profiles.push_back(P(q));
             }
         }
@@ -418,7 +439,7 @@ namespace especia {
         R_type operator()(const R_type &x) const {
             R_type d = 0.0;
 
-            for (N_type i = 0; i < profiles.size(); ++i) {
+            for (size_t i = 0; i < profiles.size(); ++i) {
                 d += profiles[i](x);
             }
 

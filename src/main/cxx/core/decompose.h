@@ -51,15 +51,15 @@ namespace especia {
         /**
          * Solves a symmetric eigenproblem.
          *
-         * @param[in] n The problem dimension.
+         * @param[in] n_in The problem dimension.
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(N_type n, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
+        void operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(N_type n = 0);
+        void resize_workspace(N_type n_in = 0);
 
         void transpose(R_type A[]) const;
 
@@ -99,15 +99,15 @@ namespace especia {
         /**
          * Solves a symmetric eigenproblem.
          *
-         * @param[in] n The problem dimension.
+         * @param[in] n_in The problem dimension.
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(N_type n, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
+        void operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(N_type n = 0);
+        void resize_workspace(N_type n_in = 0);
 
         void transpose(R_type A[]) const;
 
@@ -151,15 +151,15 @@ namespace especia {
         /**
          * Solves a symmetric eigenproblem.
          *
-         * @param[in] n The problem dimension.
+         * @param[in] n_in The problem dimension.
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(N_type n, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
+        void operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
 
     private:
-        void resize_workspace(N_type n = 0);
+        void resize_workspace(N_type n_in = 0);
 
         void transpose(R_type A[]) const;
 

@@ -95,11 +95,11 @@ especia::D_Decompose::D_Decompose(N_type n)
 especia::D_Decompose::~D_Decompose() {
 }
 
-void especia::D_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
-    copy(&A[0], &A[k * k], Z);
+void especia::D_Decompose::operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
+    copy(&A[0], &A[n_in * n_in], Z);
 
-    if (k != static_cast<N_type>(n)) {
-        resize_workspace(k);
+    if (n_in != static_cast<N_type>(n)) {
+        resize_workspace(n_in);
     }
 
     // The regular call.
@@ -115,8 +115,8 @@ void especia::D_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_
     }
 }
 
-void especia::D_Decompose::resize_workspace(N_type k) {
-    n = static_cast<Z_type>(k);
+void especia::D_Decompose::resize_workspace(N_type n_in) {
+    n = static_cast<Z_type>(n_in);
 
     // The workspace query.
     LAPACK_NAME(syevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
@@ -153,11 +153,11 @@ especia::R_Decompose::R_Decompose(N_type n)
 especia::R_Decompose::~R_Decompose() {
 }
 
-void especia::R_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
-    valarray<R_type> C(A, k * k);
+void especia::R_Decompose::operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
+    valarray<R_type> C(A, n_in * n_in);
 
-    if (k != static_cast<N_type>(n)) {
-        resize_workspace(k);
+    if (n_in != static_cast<N_type>(n)) {
+        resize_workspace(n_in);
     }
 
     // The regular call.
@@ -174,8 +174,8 @@ void especia::R_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_
     }
 }
 
-void especia::R_Decompose::resize_workspace(N_type k) {
-    n = static_cast<Z_type>(k);
+void especia::R_Decompose::resize_workspace(N_type n_in) {
+    n = static_cast<Z_type>(n_in);
 
     // The workspace query.
     LAPACK_NAME(syevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum, m, 0, 0,
@@ -214,11 +214,11 @@ especia::X_Decompose::X_Decompose(N_type n)
 especia::X_Decompose::~X_Decompose() {
 }
 
-void especia::X_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
-    valarray<R_type> C(A, k * k);
+void especia::X_Decompose::operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
+    valarray<R_type> C(A, n_in * n_in);
 
-    if (k != static_cast<N_type>(n)) {
-        resize_workspace(k);
+    if (n_in != static_cast<N_type>(n)) {
+        resize_workspace(n_in);
     }
 
     // The regular call.
@@ -235,8 +235,8 @@ void especia::X_Decompose::operator()(N_type k, const R_type A[], R_type Z[], R_
     }
 }
 
-void especia::X_Decompose::resize_workspace(N_type k) {
-    n = static_cast<Z_type>(k);
+void especia::X_Decompose::resize_workspace(N_type n_in) {
+    n = static_cast<Z_type>(n_in);
 
     // The workspace query.
     LAPACK_NAME(syevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum, m, 0, 0,

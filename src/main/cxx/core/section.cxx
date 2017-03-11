@@ -44,34 +44,34 @@ especia::Section::Section()
           n(0) {
 }
 
-especia::Section::Section(size_t m)
-        : wav(0.0, m),
-          flx(0.0, m),
-          unc(0.0, m),
-          msk(true, m),
-          opt(0.0, m),
-          atm(0.0, m),
-          cat(0.0, m),
-          cfl(0.0, m),
-          tfl(0.0, m),
-          fit(0.0, m),
-          res(0.0, m),
-          n(m) {
+especia::Section::Section(size_t n_in)
+        : wav(0.0, n_in),
+          flx(0.0, n_in),
+          unc(0.0, n_in),
+          msk(true, n_in),
+          opt(0.0, n_in),
+          atm(0.0, n_in),
+          cat(0.0, n_in),
+          cfl(0.0, n_in),
+          tfl(0.0, n_in),
+          fit(0.0, n_in),
+          res(0.0, n_in),
+          n(n_in) {
 }
 
-especia::Section::Section(size_t m, const R_type x[], const R_type y[], const R_type unc[])
-        : wav(x, m),
-          flx(y, m),
-          unc(unc, m),
-          msk(true, m),
-          opt(0.0, m),
-          atm(0.0, m),
-          cat(0.0, m),
-          cfl(0.0, m),
-          tfl(0.0, m),
-          fit(0.0, m),
-          res(0.0, m),
-          n(m) {
+especia::Section::Section(size_t n_in, const R_type x[], const R_type y[], const R_type unc[])
+        : wav(x, n_in),
+          flx(y, n_in),
+          unc(unc, n_in),
+          msk(true, n_in),
+          opt(0.0, n_in),
+          atm(0.0, n_in),
+          cat(0.0, n_in),
+          cfl(0.0, n_in),
+          tfl(0.0, n_in),
+          fit(0.0, n_in),
+          res(0.0, n_in),
+          n(n_in) {
 }
 
 especia::Section::~Section() {

@@ -48,20 +48,20 @@ namespace especia {
         /**
          * Constructs a new instance of this class for a certain number of data points.
          *
-         * @param[in] n The number of data points.
+         * @param[in] n_in The number of data points.
          */
-        Section(size_t n);
+        Section(size_t n_in);
 
         /**
          * Constructs a new instance of this class for a certain number of data points,
          * with given wavelength, flux, and uncertainty data.
          *
-         * @param[in] n The number of data points.
+         * @param[in] n_in The number of data points.
          * @param[in] wav The wavelength data.
          * @param[in] flx The spectral flux data.
          * @param[in] unc The spectral flux uncertainty data.
          */
-        Section(size_t n, const R_type wav[], const R_type flx[], const R_type unc[]);
+        Section(size_t n_in, const R_type wav[], const R_type flx[], const R_type unc[]);
 
         /**
          * Destructor.
@@ -94,7 +94,7 @@ namespace especia {
          * @return the lower wavelength bound of this data section.
          */
         R_type lower_bound() const {
-            return wav[0];
+            return n > 0 ? wav[0] : 0.0;
         }
 
         /**
@@ -112,7 +112,7 @@ namespace especia {
          * @return the upper wavelength bound of this data section.
          */
         R_type upper_bound() const {
-            return (n > 1) ? wav[n - 1] : wav[0];
+            return (n > 0) ? wav[n - 1] : 0.0;
         }
 
         /**
