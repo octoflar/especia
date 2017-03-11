@@ -1,4 +1,4 @@
-[![Evolution strategies applied to the problem of line profile decomposition in QSO spectra](https://ndownloader.figshare.com/files/7764523/preview/7764523/preview.gif)](https://doi.org/10.6084/m9.figshare.994250)
+<iframe src="https://widgets.figshare.com/articles/994250/embed?show_title=0" width="640" height="480" frameborder="0"></iframe>
 
 # Synopsis
 
