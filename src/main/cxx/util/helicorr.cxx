@@ -52,7 +52,8 @@ void write_usage_message(ostream &os, const string &pname) {
  * @c argv[0] The program name.
  *
  * @c argv[1] The velocity of the observer relative to the heliocenter (or
- * barycenter) of the solar system (m s-1).
+ * barycenter) of the solar system (m s-1) projected along the line of sight
+ * toward the observed object.
  *
  * @c argv[2] The number of lines to skip (optional, default = 0).
  * @endparblock
