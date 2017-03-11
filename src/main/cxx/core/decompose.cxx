@@ -33,12 +33,18 @@ using std::valarray;
 using especia::R_type;
 using especia::Z_type;
 
+
 #define LAPACK_NAME(x) d##x##_
 
-/**
- * Interface to LAPACK eigenvalue routines (version 3.0).
- */
 extern "C" {
+/**
+ * Returns a machine parameter.
+ *
+ * @param cmach The name of the machine parameter.
+ * @return the value of the machine parameter.
+ */
+R_type LAPACK_NAME(lamch)(const char &cmach);
+
 /**
  * DSYEVD computes all eigenvalues and, optionally, eigenvectors of a
  * real symmetric matrix A. If eigenvectors are desired, it uses a
@@ -122,14 +128,6 @@ void LAPACK_NAME(syevx)(const char &job,
                         Z_type iwork[],
                         Z_type ifail[],
                         Z_type &info);
-
-/**
- * Inquires machine parameters.
- *
- * @param cmach The name of the machine parameter.
- * @return the value of the machine parameter.
- */
-R_type LAPACK_NAME(lamch)(const char &cmach);
 }
 
 
