@@ -439,7 +439,7 @@ namespace especia {
         R_type operator()(const R_type &x) const {
             R_type d = 0.0;
 
-            for (size_t i = 0; i < profiles.size(); ++i) {
+            for (N_type i = 0; i < profiles.size(); ++i) {
                 d += profiles[i](x);
             }
 
