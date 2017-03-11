@@ -208,7 +208,7 @@ namespace especia {
                         "especia::Runner::run() Error: an error occurred while reading the model definition");
             }
 
-            Optimizer optimizer = Optimizer::Builder().
+            const Optimizer optimizer = Optimizer::Builder().
                     with_problem_dimension(model.get_parameter_count()).
                     with_parent_number(parent_number).
                     with_population_size(population_size).
@@ -223,12 +223,12 @@ namespace especia {
             cout << "<!--" << endl;
             cout << "<log>" << endl;
 
-            Optimizer::Result result = optimizer.minimize(model,
-                                                          model.get_initial_parameter_values(),
-                                                          model.get_initial_local_step_sizes(),
-                                                          global_step_size,
-                                                          model.get_constraint(),
-                                                          Tracer<>(cout, trace_modulus));
+            const Optimizer::Result result = optimizer.minimize(model,
+                                                                model.get_initial_parameter_values(),
+                                                                model.get_initial_local_step_sizes(),
+                                                                global_step_size,
+                                                                model.get_constraint(),
+                                                                Tracer<>(cout, trace_modulus));
 
             cout << "</log>" << endl;
             cout << "-->" << endl;

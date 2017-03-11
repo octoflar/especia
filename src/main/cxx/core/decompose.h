@@ -41,7 +41,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        D_Decompose(N_type n = 0);
+        D_Decompose(N_type n);
 
         /**
          * Destructor.
@@ -51,28 +51,23 @@ namespace especia {
         /**
          * Solves a symmetric eigenproblem.
          *
-         * @param[in] n_in The problem dimension.
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
+        void operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::runtime_error);
 
     private:
-        void resize_workspace(N_type n_in = 0);
+        void allocate_workspace();
 
         void transpose(R_type A[]) const;
 
-        const char job;
-        const char uplo;
-
-        Z_type n;
-        Z_type info;
-
+        Z_type m;
         Z_type lwork;
         Z_type liwork;
-        std::valarray<R_type> work;
-        std::valarray<Z_type> iwork;
+
+        mutable std::valarray<R_type> work;
+        mutable std::valarray<Z_type> iwork;
 
         static const std::string message_int_err;
         static const std::string message_ill_arg;
@@ -89,7 +84,7 @@ namespace especia {
          *
          * @param[in] n The problem dimension.
          */
-        R_Decompose(N_type n = 0);
+        R_Decompose(N_type n);
 
         /**
          * Destructor.
@@ -99,32 +94,24 @@ namespace especia {
         /**
          * Solves a symmetric eigenproblem.
          *
-         * @param[in] n_in The problem dimension.
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
+        void operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::runtime_error);
 
     private:
-        void resize_workspace(N_type n_in = 0);
+        void allocate_workspace();
 
         void transpose(R_type A[]) const;
 
-        const char job;
-        const char range;
-        const char uplo;
-
         Z_type m;
-        Z_type n;
-        Z_type info;
-
-        std::valarray<Z_type> isupp;
-
         Z_type lwork;
         Z_type liwork;
-        std::valarray<R_type> work;
-        std::valarray<Z_type> iwork;
+
+        mutable std::valarray<R_type> work;
+        mutable std::valarray<Z_type> iwork;
+        mutable std::valarray<Z_type> isupp;
 
         static const std::string message_int_err;
         static const std::string message_ill_arg;
@@ -151,30 +138,23 @@ namespace especia {
         /**
          * Solves a symmetric eigenproblem.
          *
-         * @param[in] n_in The problem dimension.
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
          */
-        void operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(std::runtime_error);
+        void operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::runtime_error);
 
     private:
-        void resize_workspace(N_type n_in = 0);
+        void allocate_workspace();
 
         void transpose(R_type A[]) const;
 
-        const char job;
-        const char range;
-        const char uplo;
-
         Z_type m;
-        Z_type n;
-        Z_type info;
-
         Z_type lwork;
-        std::valarray<R_type> work;
-        std::valarray<Z_type> iwork;
-        std::valarray<Z_type> ifail;
+
+        mutable std::valarray<R_type> work;
+        mutable std::valarray<Z_type> iwork;
+        mutable std::valarray<Z_type> ifail;
 
         static const std::string message_int_err;
         static const std::string message_ill_arg;

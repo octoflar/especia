@@ -103,7 +103,7 @@ namespace especia {
          *
          * @return a random number in [0, 1].
          */
-        R_type operator()() {
+        R_type operator()() const {
             using std::numeric_limits;
 
             // Division by 2^w - 1.
@@ -167,7 +167,7 @@ namespace especia {
         }
 
     private:
-        W_type rand() {
+        W_type rand() const {
             if (i == n) {
                 for (N_type k = 0; k < n - m; ++k) {
                     twist(k + m, k, k + 1);
@@ -195,7 +195,7 @@ namespace especia {
             return y;
         }
 
-        void twist(N_type i, N_type j, N_type k) {
+        void twist(N_type i, N_type j, N_type k) const {
             using std::numeric_limits;
 
             words[j] = words[i] ^ (((words[j] & ((numeric_limits<W_type>::max()
@@ -207,8 +207,8 @@ namespace especia {
             }
         }
 
-        std::valarray<W_type> words;
-        N_type i;
+        mutable std::valarray<W_type> words;
+        mutable N_type i;
     };
 
     /**

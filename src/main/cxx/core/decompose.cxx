@@ -82,31 +82,28 @@ void LAPACK_NAME(syevx)(const char &job,
                         Z_type ifail[], Z_type &info);
 }
 
-const R_type safe_minimum = LAPACK_NAME(lamch)('s');
+const R_type safe = LAPACK_NAME(lamch)('s');
 
 const string especia::D_Decompose::message_int_err = "especia::D_Decompose() Error: internal error in LAPACK";
 const string especia::D_Decompose::message_ill_arg = "especia::D_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::D_Decompose::D_Decompose(N_type n)
-        : job('V'), uplo('U'), work(1), iwork(1) {
-    resize_workspace(n);
+        : m(Z_type(n)), work(1), iwork(1) {
+    allocate_workspace();
 }
 
 especia::D_Decompose::~D_Decompose() {
 }
 
-void especia::D_Decompose::operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
-    copy(&A[0], &A[n_in * n_in], Z);
+void especia::D_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) const throw(runtime_error) {
+    copy(&A[0], &A[m * m], Z);
 
-    if (n_in != static_cast<N_type>(n)) {
-        resize_workspace(n_in);
-    }
-
-    // The regular call.
-    LAPACK_NAME(syevd)(job, uplo, n, &Z[0], max(1, n), w, &work[0], lwork, &iwork[0], liwork, info);
+    Z_type info = 0;
+    // Regular call
+    LAPACK_NAME(syevd)('V', 'U', m, &Z[0], m, w, &work[0], lwork, &iwork[0], liwork, info);
 
     if (info == 0) {
-        // Transform from column-major into row-major layout.
+        // Convert from column-major into row-major layout
         transpose(Z);
     } else if (info > 0) {
         throw runtime_error(message_int_err);
@@ -115,16 +112,16 @@ void especia::D_Decompose::operator()(N_type n_in, const R_type A[], R_type Z[],
     }
 }
 
-void especia::D_Decompose::resize_workspace(N_type n_in) {
-    n = static_cast<Z_type>(n_in);
+void especia::D_Decompose::allocate_workspace() {
+    Z_type info = 0;
 
-    // The workspace query.
-    LAPACK_NAME(syevd)(job, uplo, n, 0, max(1, n), 0, &work[0], -1, &iwork[0], -1, info);
+    // Workspace query
+    LAPACK_NAME(syevd)('V', 'U', m, 0, m, 0, &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
         lwork = static_cast<Z_type>(work[0]);
-        liwork = iwork[0];
         work.resize(static_cast<N_type>(lwork));
+        liwork = iwork[0];
         iwork.resize(static_cast<N_type>(liwork));
     } else if (info > 0) {
         throw runtime_error(message_int_err);
@@ -134,8 +131,8 @@ void especia::D_Decompose::resize_workspace(N_type n_in) {
 }
 
 void especia::D_Decompose::transpose(R_type A[]) const {
-    for (Z_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
+    for (Z_type i = 0, i0 = 0; i < m; ++i, i0 += m) {
+        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += m) {
             swap(A[ij], A[ji]);
         }
     }
@@ -146,48 +143,49 @@ const string especia::R_Decompose::message_int_err = "especia::R_Decompose() Err
 const string especia::R_Decompose::message_ill_arg = "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::R_Decompose::R_Decompose(N_type n)
-        : job('V'), range('A'), uplo('U'), work(1), iwork(1) {
-    resize_workspace(n);
+        : m(Z_type(n)), work(1), iwork(1), isupp(2 * max(N_type(1), n)) {
+    allocate_workspace();
 }
 
 especia::R_Decompose::~R_Decompose() {
 }
 
-void especia::R_Decompose::operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
-    valarray<R_type> C(A, n_in * n_in);
+void especia::R_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) const throw(runtime_error) {
+    valarray<R_type> C(A, m * m);
 
-    if (n_in != static_cast<N_type>(n)) {
-        resize_workspace(n_in);
-    }
+    Z_type i = 0;
+    Z_type k = 0;
 
-    // The regular call.
-    LAPACK_NAME(syevr)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, safe_minimum, m, w, Z,
-                       max(1, n), &isupp[0], &work[0], lwork, &iwork[0], liwork, info);
+    // Regular call
+    LAPACK_NAME(syevr)('V', 'A', 'U',
+                       m, &C[0], m, 0.0, 0.0, 0, 0, safe, k, w, Z, m, &isupp[0], &work[0], lwork, &iwork[0], liwork,
+                       i);
 
-    if (info == 0) {
-        // Transform from column-major into row-major layout.
+    if (i == 0) {
+        // Convert from column-major into row-major layout
         transpose(Z);
-    } else if (info > 0) {
+    } else if (i > 0) {
         throw runtime_error(message_int_err);
     } else {
         throw runtime_error(message_ill_arg);
     }
 }
 
-void especia::R_Decompose::resize_workspace(N_type n_in) {
-    n = static_cast<Z_type>(n_in);
+void especia::R_Decompose::allocate_workspace() {
+    Z_type i = 0;
+    Z_type k = 0;
 
-    // The workspace query.
-    LAPACK_NAME(syevr)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, safe_minimum, m, 0, 0,
-                       max(1, n), &isupp[0], &work[0], -1, &iwork[0], -1, info);
+    // Workspace query
+    LAPACK_NAME(syevr)('V', 'A', 'U',
+                       m, 0, m, 0.0, 0.0, 0, 0, safe, k, 0, 0, m, &isupp[0], &work[0], -1, &iwork[0], -1,
+                       i);
 
-    if (info == 0) {
+    if (i == 0) {
         lwork = static_cast<Z_type>(work[0]);
-        liwork = iwork[0];
         work.resize(static_cast<N_type>(lwork));
+        liwork = iwork[0];
         iwork.resize(static_cast<N_type>(liwork));
-        isupp.resize(static_cast<N_type>(2 * max(1, n)));
-    } else if (info > 0) {
+    } else if (i > 0) {
         throw runtime_error(message_int_err);
     } else {
         throw runtime_error(message_ill_arg);
@@ -195,8 +193,8 @@ void especia::R_Decompose::resize_workspace(N_type n_in) {
 }
 
 void especia::R_Decompose::transpose(R_type A[]) const {
-    for (Z_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
+    for (Z_type i = 0, i0 = 0; i < m; ++i, i0 += m) {
+        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += m) {
             swap(A[ij], A[ji]);
         }
     }
@@ -207,47 +205,47 @@ const string especia::X_Decompose::message_int_err = "especia::X_Decompose() Err
 const string especia::X_Decompose::message_ill_arg = "especia::X_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::X_Decompose::X_Decompose(N_type n)
-        : job('V'), range('A'), uplo('U'), work(1), iwork(), ifail() {
-    resize_workspace(n);
+        : m(Z_type(n)), work(1), iwork(5 * n), ifail(n) {
+    allocate_workspace();
 }
 
 especia::X_Decompose::~X_Decompose() {
 }
 
-void especia::X_Decompose::operator()(N_type n_in, const R_type A[], R_type Z[], R_type w[]) throw(runtime_error) {
-    valarray<R_type> C(A, n_in * n_in);
+void especia::X_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) const throw(runtime_error) {
+    valarray<R_type> C(A, m * m);
 
-    if (n_in != static_cast<N_type>(n)) {
-        resize_workspace(n_in);
-    }
+    Z_type i = 0;
+    Z_type k = 0;
 
-    // The regular call.
-    LAPACK_NAME(syevx)(job, range, uplo, n, &C[0], max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum, m, w, Z,
-                       max(1, n), &work[0], lwork, &iwork[0], &ifail[0], info);
+    // Regular call
+    LAPACK_NAME(syevx)('V', 'A', 'U',
+                       m, &C[0], m, 0.0, 0.0, 0, 0, 2.0 * safe, k, w, Z, m, &work[0], lwork, &iwork[0], &ifail[0],
+                       i);
 
-    if (info == 0) {
-        // Transform from column-major into row-major layout.
+    if (i == 0) {
+        // Convert from column-major into row-major layout.
         transpose(Z);
-    } else if (info > 0) {
+    } else if (i > 0) {
         throw runtime_error(message_int_err);
     } else {
         throw runtime_error(message_ill_arg);
     }
 }
 
-void especia::X_Decompose::resize_workspace(N_type n_in) {
-    n = static_cast<Z_type>(n_in);
+void especia::X_Decompose::allocate_workspace() {
+    Z_type i = 0;
+    Z_type k = 0;
 
-    // The workspace query.
-    LAPACK_NAME(syevx)(job, range, uplo, n, 0, max(1, n), 0.0, 0.0, 0, 0, 2.0 * safe_minimum, m, 0, 0,
-                       max(1, n), &work[0], -1, &iwork[0], &ifail[0], info);
+    // Workspace query
+    LAPACK_NAME(syevx)('V', 'A', 'U',
+                       m, 0, m, 0.0, 0.0, 0, 0, 2.0 * safe, k, 0, 0, m, &work[0], -1, &iwork[0], &ifail[0],
+                       i);
 
-    if (info == 0) {
+    if (i == 0) {
         lwork = static_cast<Z_type>(work[0]);
         work.resize(static_cast<N_type>(lwork));
-        iwork.resize(static_cast<N_type>(5 * n));
-        ifail.resize(static_cast<N_type>(n));
-    } else if (info > 0) {
+    } else if (i > 0) {
         throw runtime_error(message_int_err);
     } else {
         throw runtime_error(message_ill_arg);
@@ -255,8 +253,8 @@ void especia::X_Decompose::resize_workspace(N_type n_in) {
 }
 
 void especia::X_Decompose::transpose(R_type A[]) const {
-    for (Z_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
+    for (Z_type i = 0, i0 = 0; i < m; ++i, i0 += m) {
+        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += m) {
             swap(A[ij], A[ji]);
         }
     }

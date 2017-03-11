@@ -729,7 +729,7 @@ namespace especia {
          *
          * @tparam F The function type.
          * @tparam Constraint The constraint type.
-         * @tparam Tracer The tracer type.
+         * @tparam Tracing The tracer type.
          *
          * @param[in] f The objective function.
          * @param[in] x The initial parameter values.
@@ -740,13 +740,13 @@ namespace especia {
          *
          * @return the maximization result.
          */
-        template<class F, class Constraint, class Tracer>
+        template<class F, class Constraint, class Tracing>
         Result maximize(const F &f,
                         const std::valarray<R_type> &x,
                         const std::valarray<R_type> &d,
                         const R_type s,
                         const Constraint &constraint = No_Constraint<>(),
-                        const Tracer &tracer = No_Tracing<>()) {
+                        const Tracing &tracer = No_Tracing<>()) const {
             return optimize(f, x, d, s, constraint, tracer, std::greater<R_type>());
         }
 
@@ -755,7 +755,7 @@ namespace especia {
          *
          * @tparam F The function type.
          * @tparam Constraint The constraint type.
-         * @tparam Tracer The tracer type.
+         * @tparam Tracing The tracer type.
          *
          * @param[in] f The objective function.
          * @param[in] x The initial parameter values.
@@ -766,13 +766,13 @@ namespace especia {
          *
          * @return the minimization result.
          */
-        template<class F, class Constraint, class Tracer>
+        template<class F, class Constraint, class Tracing>
         Result minimize(const F &f,
                         const std::valarray<R_type> &x,
                         const std::valarray<R_type> &d,
                         const R_type s,
                         const Constraint &constraint = No_Constraint<>(),
-                        const Tracer &tracer = No_Tracing<>()) {
+                        const Tracing &tracer = No_Tracing<>()) const {
             return optimize(f, x, d, s, constraint, tracer, std::less<R_type>());
         }
 
@@ -789,7 +789,7 @@ namespace especia {
          *
          * @tparam F The function type.
          * @tparam Constraint The constraint type.
-         * @tparam Tracer The tracer type.
+         * @tparam Tracing The tracer type.
          * @tparam Compare The fitness comparator type.
          *
          * @param[in] f The objective function.
@@ -802,14 +802,14 @@ namespace especia {
          *
          * @return the optimization result.
          */
-        template<class F, class Constraint, class Tracer, class Compare>
+        template<class F, class Constraint, class Tracing, class Compare>
         Result optimize(const F &f,
                         const std::valarray<R_type> &x,
                         const std::valarray<R_type> &d,
                         const R_type s,
                         const Constraint &constraint,
-                        const Tracer &tracer,
-                        const Compare &compare) {
+                        const Tracing &tracer,
+                        const Compare &compare) const {
             using especia::optimize;
             using especia::postopti;
 
@@ -865,12 +865,12 @@ namespace especia {
         /**
          * The eigenvalue decomposition strategy.
          */
-        Decompose decompose;
+        const Decompose decompose;
 
         /**
          * The random number generator.
          */
-        Normal_Deviate<Mt19937> deviate;
+        const Normal_Deviate<Mt19937> deviate;
     };
 
 }

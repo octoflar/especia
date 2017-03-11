@@ -75,7 +75,7 @@ namespace especia {
          *
          * @return a normal random number.
          */
-        R_type operator()() {
+        R_type operator()() const {
             using std::log;
             using std::sqrt;
 
@@ -121,9 +121,10 @@ namespace especia {
         }
 
     private:
-        U uniform_deviate;
-        bool status;
-        R_type x, y;
+        const U uniform_deviate;
+
+        mutable bool status;
+        mutable R_type x, y;
     };
 
 }

@@ -95,7 +95,7 @@ namespace especia {
      * @tparam Deviate The strategy to generate random normal deviates.
      * @tparam Decompose The strategy to perform the symmetric eigenvalue decomposition.
      * @tparam Compare The strategy to compare fitness.
-     * @tparam Tracer The tracer type.
+     * @tparam Tracing The tracer type.
      *
      * @param[in] f The model function.
      * @param[in] constraint The prior constraint on the parameter values.
@@ -127,7 +127,7 @@ namespace especia {
      * @param[in] compare The comparator to compare fitness.
      * @param[in] tracer The tracer.
      */
-    template<class F, class Constraint, class Deviate, class Decompose, class Compare, class Tracer>
+    template<class F, class Constraint, class Deviate, class Decompose, class Compare, class Tracing>
     void optimize(const F &f,
                   const Constraint &constraint,
                   N_type n,
@@ -153,7 +153,7 @@ namespace especia {
                   R_type &yw,
                   bool &optimized,
                   bool &underflow,
-                  Deviate &deviate, Decompose &decompose, const Compare &compare, Tracer &tracer) {
+                  const Deviate &deviate, const Decompose &decompose, const Compare &compare, const Tracing &tracer) {
         using std::accumulate;
         using std::exp;
         using std::inner_product;
@@ -285,7 +285,7 @@ namespace especia {
             if (ccov > 0.0 and g % update_modulus == 0) {
                 // Decompose the covariance matrix and sort its eigenvalues in ascending
                 // order, along with eigenvectors
-                decompose(n, C, B, d);
+                decompose(C, B, d);
 
                 // Adjust the condition of the covariance matrix and recompute the
                 // local step sizes
