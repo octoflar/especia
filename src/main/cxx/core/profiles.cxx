@@ -43,7 +43,7 @@ using especia::sqrt_of_pi;
  * @param[in] gamma The width (arbitrary unit).
  * @return the value of the Gaussian at @c x.
  */
-R_type f_g(const R_type &x, const R_type &gamma) {
+static R_type f_g(const R_type &x, const R_type &gamma) {
     return (1.0 / (sqrt_of_pi * gamma)) * exp(-sq(x / gamma));
 }
 
@@ -54,7 +54,7 @@ R_type f_g(const R_type &x, const R_type &gamma) {
  * @param[in] gamma The width (arbitrary unit).
  * @return the value of the Lorentzian at @c x.
  */
-R_type f_l(const R_type &x, const R_type &gamma) {
+static R_type f_l(const R_type &x, const R_type &gamma) {
     return 1.0 / ((pi * gamma) * (1.0 + sq(x / gamma)));
 }
 
@@ -65,7 +65,7 @@ R_type f_l(const R_type &x, const R_type &gamma) {
  * @param[in] gamma The width (arbitrary unit).
  * @return the value of the function at @c x.
  */
-R_type f_i(const R_type &x, const R_type &gamma) {
+static R_type f_i(const R_type &x, const R_type &gamma) {
     return 1.0 / ((2.0 * gamma) * pow(1.0 + sq(x / gamma), 1.5));
 }
 
@@ -76,7 +76,7 @@ R_type f_i(const R_type &x, const R_type &gamma) {
  * @param[in] gamma The width (arbitrary unit).
  * @return the value of the function at @c x.
  */
-R_type f_p(const R_type &x, const R_type &gamma) {
+static R_type f_p(const R_type &x, const R_type &gamma) {
     return 1.0 / (2.0 * gamma * sq(cosh(x / gamma)));
 }
 
@@ -93,7 +93,7 @@ R_type f_p(const R_type &x, const R_type &gamma) {
  * @param[in] h6 The coefficient for the monomial of degree 6.
  * @return the value of the polynomial at @c x.
  */
-R_type poly(const R_type &x,
+static R_type poly(const R_type &x,
             const R_type &h0,
             const R_type &h1,
             const R_type &h2,
@@ -104,31 +104,31 @@ R_type poly(const R_type &x,
     return h0 + x * (h1 + x * (h2 + x * (h3 + x * (h4 + x * (h5 + x * h6)))));
 }
 
-R_type poly_w_g(const R_type &r) {
+static R_type poly_w_g(const R_type &r) {
     return 1.0 - r * poly(r, 0.66000, 0.15021, -1.24984, 4.74052, -9.48291, 8.48252, -2.95553);
 }
 
-R_type poly_w_l(const R_type &r) {
+static R_type poly_w_l(const R_type &r) {
     return 1.0 - (1.0 - r) * poly(r, -0.42179, -1.25693, 10.30003, -23.45651, 29.14158, -16.50453, 3.19974);
 }
 
-R_type poly_w_i(const R_type &r) {
+static R_type poly_w_i(const R_type &r) {
     return poly(r, 1.19913, 1.43021, -15.36331, 47.06071, -73.61822, 57.92559, -17.80614);
 }
 
-R_type poly_w_p(const R_type &r) {
+static R_type poly_w_p(const R_type &r) {
     return poly(r, 1.10186, -0.47745, -0.68688, 2.76622, -4.55466, 4.05475, -1.26571);
 }
 
-R_type poly_eta_l(const R_type &r) {
+static R_type poly_eta_l(const R_type &r) {
     return r * (1.0 + (1.0 - r) * poly(r, -0.30165, -1.38927, 9.31550, -24.10743, 34.96491, -21.18862, 3.70290));
 }
 
-R_type poly_eta_i(const R_type &r) {
+static R_type poly_eta_i(const R_type &r) {
     return (r * (1.0 - r)) * poly(r, 0.25437, -0.14107, 3.23653, -11.09215, 22.10544, -24.12407, 9.76947);
 }
 
-R_type poly_eta_p(const R_type &r) {
+static R_type poly_eta_p(const R_type &r) {
     return (r * (1.0 - r)) * poly(r, 1.01579, 1.50429, -9.21815, 23.59717, -39.71134, 32.83023, -10.02142);
 }
 

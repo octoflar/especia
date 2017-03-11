@@ -23,8 +23,6 @@
 
 #include "decompose.h"
 
-#define LAPACK_NAME(x) d##x##_
-
 using std::copy;
 using std::max;
 using std::runtime_error;
@@ -35,57 +33,111 @@ using std::valarray;
 using especia::R_type;
 using especia::Z_type;
 
+#define LAPACK_NAME(x) d##x##_
+
 /**
  * Interface to LAPACK eigenvalue routines (version 3.0).
  */
 extern "C" {
-R_type LAPACK_NAME(lamch)(const char &cmach);
-
+/**
+ * DSYEVD computes all eigenvalues and, optionally, eigenvectors of a
+ * real symmetric matrix A. If eigenvectors are desired, it uses a
+ * divide and conquer algorithm.
+ *
+ * The divide and conquer algorithm makes very mild assumptions about
+ * floating point arithmetic. It will work on machines with a guard
+ * digit in add/subtract, or on those binary machines without guard
+ * digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or
+ * Cray-2. It could conceivably fail on hexadecimal or decimal machines
+ * without guard digits, but we know of none.
+ */
 void LAPACK_NAME(syevd)(const char &job,
                         const char &uplo,
                         const Z_type &n,
-                        R_type A[], const Z_type &lda,
+                        R_type A[],
+                        const Z_type &lda,
                         R_type w[],
-                        R_type work[], const Z_type &lwork,
-                        Z_type iwork[], const Z_type &liwork,
+                        R_type work[],
+                        const Z_type &lwork,
+                        Z_type iwork[],
+                        const Z_type &liwork,
                         Z_type &info);
 
+/**
+ * DSYEVR computes selected eigenvalues and, optionally, eigenvectors
+ * of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
+ * selected by specifying either a range of values or a range of
+ * indices for the desired eigenvalues.
+ *
+ * Normal execution of DSTEMR may create NaNs and infinities and
+ * hence may abort due to a floating point exception in environments
+ * which do not handle NaNs and infinities in the ieee standard default
+ * manner.
+ */
 void LAPACK_NAME(syevr)(const char &job,
                         const char &range,
                         const char &uplo,
                         const Z_type &n,
-                        R_type A[], const Z_type &lda,
-                        const R_type &vl, const R_type &vu,
-                        const Z_type &il, const Z_type &iu,
+                        R_type A[],
+                        const Z_type &lda,
+                        const R_type &vl,
+                        const R_type &vu,
+                        const Z_type &il,
+                        const Z_type &iu,
                         const R_type &abstol,
                         Z_type &m,
                         R_type w[],
-                        R_type Z[], const Z_type &ldz,
+                        R_type Z[],
+                        const Z_type &ldz,
                         Z_type isupp[],
-                        R_type work[], const Z_type &lwork,
-                        Z_type iwork[], const Z_type &liwork,
+                        R_type work[],
+                        const Z_type &lwork,
+                        Z_type iwork[],
+                        const Z_type &liwork,
                         Z_type &info);
 
+/**
+ * DSYEVX computes selected eigenvalues and, optionally, eigenvectors
+ * of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
+ * selected by specifying either a range of values or a range of indices
+ * for the desired eigenvalues.
+ */
 void LAPACK_NAME(syevx)(const char &job,
                         const char &range,
                         const char &uplo,
                         const Z_type &n,
-                        R_type A[], const Z_type &lda,
-                        const R_type &vl, const R_type &vu,
-                        const Z_type &il, const Z_type &iu,
+                        R_type A[],
+                        const Z_type &lda,
+                        const R_type &vl,
+                        const R_type &vu,
+                        const Z_type &il,
+                        const Z_type &iu,
                         const R_type &abstol,
                         Z_type &m,
                         R_type w[],
-                        R_type Z[], const Z_type &ldz,
-                        R_type work[], const Z_type &lwork,
+                        R_type Z[],
+                        const Z_type &ldz,
+                        R_type work[],
+                        const Z_type &lwork,
                         Z_type iwork[],
-                        Z_type ifail[], Z_type &info);
+                        Z_type ifail[],
+                        Z_type &info);
+
+/**
+ * Inquires machine parameters.
+ *
+ * @param cmach The name of the machine parameter.
+ * @return the value of the machine parameter.
+ */
+R_type LAPACK_NAME(lamch)(const char &cmach);
 }
 
-const R_type safe = LAPACK_NAME(lamch)('s');
 
-const string especia::D_Decompose::message_int_err = "especia::D_Decompose() Error: internal error in LAPACK";
-const string especia::D_Decompose::message_ill_arg = "especia::D_Decompose() Error: illegal argument(s) in call to LAPACK";
+/**
+ * The safe minimum, such that its reciprocal does not overflow.
+ */
+static const R_type safe = LAPACK_NAME(lamch)('S');
+
 
 especia::D_Decompose::D_Decompose(N_type n)
         : m(Z_type(n)), work(1), iwork(1) {
@@ -99,11 +151,10 @@ void especia::D_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) 
     copy(&A[0], &A[m * m], Z);
 
     Z_type info = 0;
-    // Regular call
     LAPACK_NAME(syevd)('V', 'U', m, &Z[0], m, w, &work[0], lwork, &iwork[0], liwork, info);
 
     if (info == 0) {
-        // Convert from column-major into row-major layout
+        // To convert from column-major into row-major layout
         transpose(Z);
     } else if (info > 0) {
         throw runtime_error(message_int_err);
@@ -115,7 +166,6 @@ void especia::D_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) 
 void especia::D_Decompose::allocate_workspace() {
     Z_type info = 0;
 
-    // Workspace query
     LAPACK_NAME(syevd)('V', 'U', m, 0, m, 0, &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
@@ -138,9 +188,9 @@ void especia::D_Decompose::transpose(R_type A[]) const {
     }
 }
 
+const string especia::D_Decompose::message_int_err = "especia::D_Decompose() Error: internal error in LAPACK";
+const string especia::D_Decompose::message_ill_arg = "especia::D_Decompose() Error: illegal argument(s) in call to LAPACK";
 
-const string especia::R_Decompose::message_int_err = "especia::R_Decompose() Error: internal error in LAPACK";
-const string especia::R_Decompose::message_ill_arg = "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::R_Decompose::R_Decompose(N_type n)
         : m(Z_type(n)), work(1), iwork(1), isupp(2 * max(N_type(1), n)) {
@@ -156,13 +206,12 @@ void especia::R_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) 
     Z_type i = 0;
     Z_type k = 0;
 
-    // Regular call
     LAPACK_NAME(syevr)('V', 'A', 'U',
                        m, &C[0], m, 0.0, 0.0, 0, 0, safe, k, w, Z, m, &isupp[0], &work[0], lwork, &iwork[0], liwork,
                        i);
 
     if (i == 0) {
-        // Convert from column-major into row-major layout
+        // To convert from column-major into row-major layout
         transpose(Z);
     } else if (i > 0) {
         throw runtime_error(message_int_err);
@@ -175,7 +224,6 @@ void especia::R_Decompose::allocate_workspace() {
     Z_type i = 0;
     Z_type k = 0;
 
-    // Workspace query
     LAPACK_NAME(syevr)('V', 'A', 'U',
                        m, 0, m, 0.0, 0.0, 0, 0, safe, k, 0, 0, m, &isupp[0], &work[0], -1, &iwork[0], -1,
                        i);
@@ -200,9 +248,9 @@ void especia::R_Decompose::transpose(R_type A[]) const {
     }
 }
 
+const string especia::R_Decompose::message_int_err = "especia::R_Decompose() Error: internal error in LAPACK";
+const string especia::R_Decompose::message_ill_arg = "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
 
-const string especia::X_Decompose::message_int_err = "especia::X_Decompose() Error: internal error in LAPACK";
-const string especia::X_Decompose::message_ill_arg = "especia::X_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 especia::X_Decompose::X_Decompose(N_type n)
         : m(Z_type(n)), work(1), iwork(5 * n), ifail(n) {
@@ -218,13 +266,12 @@ void especia::X_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) 
     Z_type i = 0;
     Z_type k = 0;
 
-    // Regular call
     LAPACK_NAME(syevx)('V', 'A', 'U',
                        m, &C[0], m, 0.0, 0.0, 0, 0, 2.0 * safe, k, w, Z, m, &work[0], lwork, &iwork[0], &ifail[0],
                        i);
 
     if (i == 0) {
-        // Convert from column-major into row-major layout.
+        // To convert from column-major into row-major layout
         transpose(Z);
     } else if (i > 0) {
         throw runtime_error(message_int_err);
@@ -237,7 +284,6 @@ void especia::X_Decompose::allocate_workspace() {
     Z_type i = 0;
     Z_type k = 0;
 
-    // Workspace query
     LAPACK_NAME(syevx)('V', 'A', 'U',
                        m, 0, m, 0.0, 0.0, 0, 0, 2.0 * safe, k, 0, 0, m, &work[0], -1, &iwork[0], &ifail[0],
                        i);
@@ -259,5 +305,8 @@ void especia::X_Decompose::transpose(R_type A[]) const {
         }
     }
 }
+
+const string especia::X_Decompose::message_int_err = "especia::X_Decompose() Error: internal error in LAPACK";
+const string especia::X_Decompose::message_ill_arg = "especia::X_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 #undef LAPACK_NAME
