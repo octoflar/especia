@@ -130,7 +130,6 @@ void LAPACK_NAME(syevx)(const char &job,
                         Z_type &info);
 }
 
-
 /**
  * The safe minimum, such that its reciprocal does not overflow.
  */
