@@ -41,21 +41,21 @@ set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 include_directories(${CMAKE_BINARY_DIR})
 
-configure_file(${MAIN}/cxx/core/config.h.in ${CMAKE_BINARY_DIR}/config.h @ONLY)
+configure_file(${MAIN}/cxx/core/config.h.in config.h @ONLY)
 configure_file(${MAIN}/scripts/erun.sh erun.sh COPYONLY)
 
-configure_file(${TEST}/resources/especia_test.html resources/especia_test.html COPYONLY)
-configure_file(${TEST}/resources/especid_test.html resources/especid_test.html COPYONLY)
-configure_file(${TEST}/resources/especiv_test.html resources/especiv_test.html COPYONLY)
-configure_file(${TEST}/resources/especix_test.html resources/especix_test.html COPYONLY)
-configure_file(${TEST}/resources/stis.md           resources/stis.md COPYONLY)
-configure_file(${TEST}/resources/stis_1216.dat     resources/stis_1216.dat COPYONLY)
-configure_file(${TEST}/resources/uves.md           resources/uves.md COPYONLY)
-configure_file(${TEST}/resources/uves_3460.dat     resources/uves_3460.dat COPYONLY)
-configure_file(${TEST}/resources/uves_5800.dat     resources/uves_5800.dat COPYONLY)
-configure_file(${TEST}/resources/virtual.md        resources/virtual.md COPYONLY)
-configure_file(${TEST}/resources/virtual_1561.dat  resources/virtual_1561.dat COPYONLY)
-configure_file(${TEST}/resources/virtual_1657.dat  resources/virtual_1657.dat COPYONLY)
+configure_file(${TEST}/resources/test1.html  resources/test1.html COPYONLY)
+configure_file(${TEST}/resources/test2.html  resources/test2.html COPYONLY)
+configure_file(${TEST}/resources/test3.html  resources/test3.html COPYONLY)
+configure_file(${TEST}/resources/test4.html  resources/test4.html COPYONLY)
+configure_file(${TEST}/resources/ci.md       resources/ci.md COPYONLY)
+configure_file(${TEST}/resources/hi.md       resources/hi.md COPYONLY)
+configure_file(${TEST}/resources/mm.md       resources/mm.md COPYONLY)
+configure_file(${TEST}/resources/stis121.dat resources/stis121.dat COPYONLY)
+configure_file(${TEST}/resources/uves346.dat resources/uves346.dat COPYONLY)
+configure_file(${TEST}/resources/uves580.dat resources/uves580.dat COPYONLY)
+configure_file(${TEST}/resources/virt156.dat resources/virt156.dat COPYONLY)
+configure_file(${TEST}/resources/virt166.dat resources/virt166.dat COPYONLY)
 
 
 set(CORE_SOURCES
@@ -97,10 +97,10 @@ add_executable(etee ${MAIN}/cxx/apps/etee.cxx
         ${MAIN}/cxx/core/dataio.h
         ${MAIN}/cxx/core/exitcodes.h)
 
-add_system_test(especid_test 159.77 171.89)
-add_system_test(especiv_test 251.04)
-add_system_test(especix_test 251.46)
-add_system_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
+add_system_test(test1 159.77 171.89)
+add_system_test(test2 251.04)
+add_system_test(test3 251.46)
+add_system_test(test4 103.91 258.67 213.20 223.51 238.06 196.48)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
         ${MAIN}/cxx/core/base.h

@@ -24,6 +24,7 @@
 #include "decompose.h"
 
 using std::copy;
+using std::invalid_argument;
 using std::max;
 using std::runtime_error;
 using std::string;
@@ -144,7 +145,8 @@ especia::D_Decompose::D_Decompose(N_type n)
 especia::D_Decompose::~D_Decompose() {
 }
 
-void especia::D_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) const throw(runtime_error) {
+void especia::D_Decompose::operator()(const R_type A[], R_type Z[],
+                                      R_type w[]) const throw(invalid_argument, runtime_error) {
     copy(&A[0], &A[m * m], Z);
 
     Z_type info = 0;
@@ -156,7 +158,7 @@ void especia::D_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) 
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
-        throw runtime_error(message_ill_arg);
+        throw invalid_argument(message_ill_arg);
     }
 }
 
@@ -173,7 +175,7 @@ void especia::D_Decompose::allocate_workspace() {
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
-        throw runtime_error(message_ill_arg);
+        throw invalid_argument(message_ill_arg);
     }
 }
 
@@ -197,43 +199,44 @@ especia::R_Decompose::R_Decompose(N_type n)
 especia::R_Decompose::~R_Decompose() {
 }
 
-void especia::R_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) const throw(runtime_error) {
+void especia::R_Decompose::operator()(const R_type A[], R_type Z[],
+                                      R_type w[]) const throw(invalid_argument, runtime_error) {
     valarray<R_type> C(A, m * m);
 
-    Z_type i = 0;
-    Z_type k = 0;
+    Z_type info = 0;
+    Z_type mvec = 0;
 
     LAPACK_NAME(syevr)('V', 'A', 'U',
-                       m, &C[0], m, 0.0, 0.0, 0, 0, safe, k, w, Z, m, &isupp[0], &work[0], lwork, &iwork[0], liwork,
-                       i);
+                       m, &C[0], m, 0.0, 0.0, 0, 0, safe, mvec, w, Z, m, &isupp[0], &work[0], lwork, &iwork[0], liwork,
+                       info);
 
-    if (i == 0) {
+    if (info == 0) {
         // To convert from column-major into row-major layout
         transpose(Z);
-    } else if (i > 0) {
+    } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
-        throw runtime_error(message_ill_arg);
+        throw invalid_argument(message_ill_arg);
     }
 }
 
 void especia::R_Decompose::allocate_workspace() {
-    Z_type i = 0;
-    Z_type k = 0;
+    Z_type info = 0;
+    Z_type mvec = 0;
 
     LAPACK_NAME(syevr)('V', 'A', 'U',
-                       m, 0, m, 0.0, 0.0, 0, 0, safe, k, 0, 0, m, &isupp[0], &work[0], -1, &iwork[0], -1,
-                       i);
+                       m, 0, m, 0.0, 0.0, 0, 0, 0.0, mvec, 0, 0, m, &isupp[0], &work[0], -1, &iwork[0], -1,
+                       info);
 
-    if (i == 0) {
+    if (info == 0) {
         lwork = static_cast<Z_type>(work[0]);
         work.resize(static_cast<N_type>(lwork));
         liwork = iwork[0];
         iwork.resize(static_cast<N_type>(liwork));
-    } else if (i > 0) {
+    } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
-        throw runtime_error(message_ill_arg);
+        throw invalid_argument(message_ill_arg);
     }
 }
 
@@ -257,41 +260,42 @@ especia::X_Decompose::X_Decompose(N_type n)
 especia::X_Decompose::~X_Decompose() {
 }
 
-void especia::X_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) const throw(runtime_error) {
+void especia::X_Decompose::operator()(const R_type A[], R_type Z[],
+                                      R_type w[]) const throw(invalid_argument, runtime_error) {
     valarray<R_type> C(A, m * m);
 
-    Z_type i = 0;
-    Z_type k = 0;
+    Z_type info = 0;
+    Z_type mvec = 0;
 
     LAPACK_NAME(syevx)('V', 'A', 'U',
-                       m, &C[0], m, 0.0, 0.0, 0, 0, 2.0 * safe, k, w, Z, m, &work[0], lwork, &iwork[0], &ifail[0],
-                       i);
+                       m, &C[0], m, 0.0, 0.0, 0, 0, 2.0 * safe, mvec, w, Z, m, &work[0], lwork, &iwork[0], &ifail[0],
+                       info);
 
-    if (i == 0) {
+    if (info == 0) {
         // To convert from column-major into row-major layout
         transpose(Z);
-    } else if (i > 0) {
+    } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
-        throw runtime_error(message_ill_arg);
+        throw invalid_argument(message_ill_arg);
     }
 }
 
 void especia::X_Decompose::allocate_workspace() {
-    Z_type i = 0;
-    Z_type k = 0;
+    Z_type info = 0;
+    Z_type mvec = 0;
 
     LAPACK_NAME(syevx)('V', 'A', 'U',
-                       m, 0, m, 0.0, 0.0, 0, 0, 2.0 * safe, k, 0, 0, m, &work[0], -1, &iwork[0], &ifail[0],
-                       i);
+                       m, 0, m, 0.0, 0.0, 0, 0, 0.0, mvec, 0, 0, m, &work[0], -1, &iwork[0], &ifail[0],
+                       info);
 
-    if (i == 0) {
+    if (info == 0) {
         lwork = static_cast<Z_type>(work[0]);
         work.resize(static_cast<N_type>(lwork));
-    } else if (i > 0) {
+    } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
-        throw runtime_error(message_ill_arg);
+        throw invalid_argument(message_ill_arg);
     }
 }
 

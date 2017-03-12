@@ -13,33 +13,33 @@ matrix:
   include:
     - os: osx
       env:
-        - TEST="especid_test"
+        - TEST="test1"
     - os: osx
       env:
-        - TEST="especiv_test"
+        - TEST="test2"
     - os: osx
       env:
-        - TEST="especix_test"
+        - TEST="test3"
     - os: osx
       env:
-        - TEST="especia_test"
+        - TEST="test4"
     - os: linux
       env:
-        - TEST="especid_test"
+        - TEST="test1"
       dist: trusty
       sudo: required
     - os: linux
       env:
-        - TEST="especiv_test"
+        - TEST="test2"
       dist: trusty
       sudo: required
     - os: linux
       env:
-        - TEST="especix_test"
+        - TEST="test3"
       dist: trusty
       sudo: required
     - os: linux
       env:
-        - TEST="especia_test"
+        - TEST="test4"
       dist: trusty
       sudo: required

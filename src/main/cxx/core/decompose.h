@@ -54,8 +54,12 @@ namespace especia {
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
+         *
+         * @throw invalid_argument when LAPACK was called with illegal arguments.
+         * @throw runtime_error when an internal LAPACK error occurred.
          */
-        void operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::runtime_error);
+        void
+        operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
         void allocate_workspace();
@@ -97,8 +101,12 @@ namespace especia {
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
+         *
+         * @throw invalid_argument when LAPACK was called with illegal arguments.
+         * @throw runtime_error when an internal LAPACK error occurred.
          */
-        void operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::runtime_error);
+        void
+        operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
         void allocate_workspace();
@@ -141,8 +149,12 @@ namespace especia {
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
          * @param[out] w The eigenvalues.
+         *
+         * @throw invalid_argument when LAPACK was called with illegal arguments.
+         * @throw runtime_error when an internal LAPACK error occurred.
          */
-        void operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::runtime_error);
+        void
+        operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
         void allocate_workspace();
