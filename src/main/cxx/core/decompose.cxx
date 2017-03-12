@@ -35,7 +35,9 @@ using especia::R_type;
 using especia::Z_type;
 
 
-#define LAPACK_NAME(x) D##x##_
+#define LAPACK_NAME_DOUBLE(x) d##x##_
+#define LAPACK_NAME_SINGLE(x) s##x##_
+#define LAPACK_NAME_R_TYPE(x) LAPACK_NAME_DOUBLE(x)
 
 extern "C" {
 /**
@@ -44,7 +46,7 @@ extern "C" {
  * @param cmach The name of the machine parameter.
  * @return the value of the machine parameter.
  */
-R_type LAPACK_NAME(LAMCH)(const char &cmach);
+R_type LAPACK_NAME_R_TYPE(lamch)(const char &cmach);
 
 /**
  * DSYEVD computes all eigenvalues and, optionally, eigenvectors of a
@@ -58,17 +60,17 @@ R_type LAPACK_NAME(LAMCH)(const char &cmach);
  * Cray-2. It could conceivably fail on hexadecimal or decimal machines
  * without guard digits, but we know of none.
  */
-void LAPACK_NAME(SYEVD)(const char &job,
-                        const char &uplo,
-                        const Z_type &n,
-                        R_type A[],
-                        const Z_type &lda,
-                        R_type w[],
-                        R_type work[],
-                        const Z_type &lwork,
-                        Z_type iwork[],
-                        const Z_type &liwork,
-                        Z_type &info);
+void LAPACK_NAME_R_TYPE(syevd)(const char &job,
+                               const char &uplo,
+                               const Z_type &n,
+                               R_type A[],
+                               const Z_type &lda,
+                               R_type w[],
+                               R_type work[],
+                               const Z_type &lwork,
+                               Z_type iwork[],
+                               const Z_type &liwork,
+                               Z_type &info);
 
 /**
  * DSYEVR computes selected eigenvalues and, optionally, eigenvectors
@@ -81,27 +83,27 @@ void LAPACK_NAME(SYEVD)(const char &job,
  * which do not handle NaNs and infinities in the ieee standard default
  * manner.
  */
-void LAPACK_NAME(SYEVR)(const char &job,
-                        const char &range,
-                        const char &uplo,
-                        const Z_type &n,
-                        R_type A[],
-                        const Z_type &lda,
-                        const R_type &vl,
-                        const R_type &vu,
-                        const Z_type &il,
-                        const Z_type &iu,
-                        const R_type &abstol,
-                        Z_type &m,
-                        R_type w[],
-                        R_type Z[],
-                        const Z_type &ldz,
-                        Z_type isupp[],
-                        R_type work[],
-                        const Z_type &lwork,
-                        Z_type iwork[],
-                        const Z_type &liwork,
-                        Z_type &info);
+void LAPACK_NAME_R_TYPE(syevr)(const char &job,
+                               const char &range,
+                               const char &uplo,
+                               const Z_type &n,
+                               R_type A[],
+                               const Z_type &lda,
+                               const R_type &vl,
+                               const R_type &vu,
+                               const Z_type &il,
+                               const Z_type &iu,
+                               const R_type &abstol,
+                               Z_type &m,
+                               R_type w[],
+                               R_type Z[],
+                               const Z_type &ldz,
+                               Z_type isupp[],
+                               R_type work[],
+                               const Z_type &lwork,
+                               Z_type iwork[],
+                               const Z_type &liwork,
+                               Z_type &info);
 
 /**
  * DSYEVX computes selected eigenvalues and, optionally, eigenvectors
@@ -109,32 +111,32 @@ void LAPACK_NAME(SYEVR)(const char &job,
  * selected by specifying either a range of values or a range of indices
  * for the desired eigenvalues.
  */
-void LAPACK_NAME(SYEVX)(const char &job,
-                        const char &range,
-                        const char &uplo,
-                        const Z_type &n,
-                        R_type A[],
-                        const Z_type &lda,
-                        const R_type &vl,
-                        const R_type &vu,
-                        const Z_type &il,
-                        const Z_type &iu,
-                        const R_type &abstol,
-                        Z_type &m,
-                        R_type w[],
-                        R_type Z[],
-                        const Z_type &ldz,
-                        R_type work[],
-                        const Z_type &lwork,
-                        Z_type iwork[],
-                        Z_type ifail[],
-                        Z_type &info);
+void LAPACK_NAME_R_TYPE(syevx)(const char &job,
+                               const char &range,
+                               const char &uplo,
+                               const Z_type &n,
+                               R_type A[],
+                               const Z_type &lda,
+                               const R_type &vl,
+                               const R_type &vu,
+                               const Z_type &il,
+                               const Z_type &iu,
+                               const R_type &abstol,
+                               Z_type &m,
+                               R_type w[],
+                               R_type Z[],
+                               const Z_type &ldz,
+                               R_type work[],
+                               const Z_type &lwork,
+                               Z_type iwork[],
+                               Z_type ifail[],
+                               Z_type &info);
 }
 
 /**
  * The safe minimum, such that its reciprocal does not overflow.
  */
-static const R_type safe = LAPACK_NAME(LAMCH)('S');
+static const R_type safe = LAPACK_NAME_R_TYPE(lamch)('S');
 
 
 especia::D_Decompose::D_Decompose(N_type n)
@@ -150,7 +152,7 @@ void especia::D_Decompose::operator()(const R_type A[], R_type Z[],
     copy(&A[0], &A[m * m], Z);
 
     Z_type info = 0;
-    LAPACK_NAME(SYEVD)('V', 'U', m, &Z[0], m, w, &work[0], lwork, &iwork[0], liwork, info);
+    LAPACK_NAME_R_TYPE(syevd)('V', 'U', m, &Z[0], m, w, &work[0], lwork, &iwork[0], liwork, info);
 
     if (info == 0) {
         // To convert from column-major into row-major layout
@@ -165,7 +167,7 @@ void especia::D_Decompose::operator()(const R_type A[], R_type Z[],
 void especia::D_Decompose::allocate_workspace() {
     Z_type info = 0;
 
-    LAPACK_NAME(SYEVD)('V', 'U', m, 0, m, 0, &work[0], -1, &iwork[0], -1, info);
+    LAPACK_NAME_R_TYPE(syevd)('V', 'U', m, 0, m, 0, &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
         lwork = static_cast<Z_type>(work[0]);
@@ -192,7 +194,7 @@ const string especia::D_Decompose::message_ill_arg = "especia::D_Decompose() Err
 
 
 especia::R_Decompose::R_Decompose(N_type n)
-        : m(Z_type(n)), work(1), iwork(1), isupp(2 * max(N_type(1), n)) {
+        : m(Z_type(n)), work(1), iwork(1), isupp(2 * max(N_type(1), n)), awork(n * n) {
     allocate_workspace();
 }
 
@@ -201,14 +203,14 @@ especia::R_Decompose::~R_Decompose() {
 
 void especia::R_Decompose::operator()(const R_type A[], R_type Z[],
                                       R_type w[]) const throw(invalid_argument, runtime_error) {
-    valarray<R_type> C(A, m * m);
+    copy(&A[0], &A[m * m], &awork[0]);
 
     Z_type info = 0;
     Z_type mvec = 0;
 
-    LAPACK_NAME(SYEVR)('V', 'A', 'U',
-                       m, &C[0], m, 0.0, 0.0, 0, 0, safe, mvec, w, Z, m, &isupp[0], &work[0], lwork, &iwork[0], liwork,
-                       info);
+    LAPACK_NAME_R_TYPE(syevr)('V', 'A', 'U', m, &awork[0], m, 0.0, 0.0, 0, 0, safe, mvec, w, Z, m,
+                              &isupp[0], &work[0], lwork, &iwork[0], liwork,
+                              info);
 
     if (info == 0) {
         // To convert from column-major into row-major layout
@@ -224,9 +226,9 @@ void especia::R_Decompose::allocate_workspace() {
     Z_type info = 0;
     Z_type mvec = 0;
 
-    LAPACK_NAME(SYEVR)('V', 'A', 'U',
-                       m, 0, m, 0.0, 0.0, 0, 0, 0.0, mvec, 0, 0, m, &isupp[0], &work[0], -1, &iwork[0], -1,
-                       info);
+    LAPACK_NAME_R_TYPE(syevr)('V', 'A', 'U', m, 0, m, 0.0, 0.0, 0, 0, 0.0, mvec, 0, 0, m,
+                              &isupp[0], &work[0], -1, &iwork[0], -1,
+                              info);
 
     if (info == 0) {
         lwork = static_cast<Z_type>(work[0]);
@@ -253,7 +255,7 @@ const string especia::R_Decompose::message_ill_arg = "especia::R_Decompose() Err
 
 
 especia::X_Decompose::X_Decompose(N_type n)
-        : m(Z_type(n)), work(1), iwork(5 * n), ifail(n) {
+        : m(Z_type(n)), work(1), iwork(5 * n), ifail(n), awork(n * n) {
     allocate_workspace();
 }
 
@@ -262,14 +264,14 @@ especia::X_Decompose::~X_Decompose() {
 
 void especia::X_Decompose::operator()(const R_type A[], R_type Z[],
                                       R_type w[]) const throw(invalid_argument, runtime_error) {
-    valarray<R_type> C(A, m * m);
+    copy(&A[0], &A[m * m], &awork[0]);
 
     Z_type info = 0;
     Z_type mvec = 0;
 
-    LAPACK_NAME(SYEVX)('V', 'A', 'U',
-                       m, &C[0], m, 0.0, 0.0, 0, 0, 2.0 * safe, mvec, w, Z, m, &work[0], lwork, &iwork[0], &ifail[0],
-                       info);
+    LAPACK_NAME_R_TYPE(syevx)('V', 'A', 'U', m, &awork[0], m, 0.0, 0.0, 0, 0, 2.0 * safe, mvec, w, Z, m,
+                              &work[0], lwork, &iwork[0], &ifail[0],
+                              info);
 
     if (info == 0) {
         // To convert from column-major into row-major layout
@@ -285,9 +287,9 @@ void especia::X_Decompose::allocate_workspace() {
     Z_type info = 0;
     Z_type mvec = 0;
 
-    LAPACK_NAME(SYEVX)('V', 'A', 'U',
-                       m, 0, m, 0.0, 0.0, 0, 0, 0.0, mvec, 0, 0, m, &work[0], -1, &iwork[0], &ifail[0],
-                       info);
+    LAPACK_NAME_R_TYPE(syevx)('V', 'A', 'U', m, 0, m, 0.0, 0.0, 0, 0, 0.0, mvec, 0, 0, m,
+                              &work[0], -1, &iwork[0], &ifail[0],
+                              info);
 
     if (info == 0) {
         lwork = static_cast<Z_type>(work[0]);
@@ -310,4 +312,6 @@ void especia::X_Decompose::transpose(R_type A[]) const {
 const string especia::X_Decompose::message_int_err = "especia::X_Decompose() Error: internal error in LAPACK";
 const string especia::X_Decompose::message_ill_arg = "especia::X_Decompose() Error: illegal argument(s) in call to LAPACK";
 
-#undef LAPACK_NAME
+#undef LAPACK_NAME_R_TYPE
+#undef LAPACK_NAME_SINGLE
+#undef LAPACK_NAME_DOUBLE

@@ -32,7 +32,7 @@ namespace especia {
 
     /**
      * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
-     * DSYEVD (divide and conquer).
+     * @c DSYEVD (divide and conquer).
      */
     class D_Decompose {
     public:
@@ -105,7 +105,7 @@ namespace especia {
 
     /**
      * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
-     * DSYEVR (relatively robust representations).
+     * @c DSYEVR (relatively robust representations).
      */
     class R_Decompose {
     public:
@@ -177,13 +177,18 @@ namespace especia {
          */
         mutable std::valarray<Z_type> isupp;
 
+        /**
+         * A workspace array.
+         */
+        mutable std::valarray<R_type> awork;
+
         static const std::string message_int_err;
         static const std::string message_ill_arg;
     };
 
     /**
      * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
-     * DSYEVX (inverse iteration).
+     * @c DSYEVX (inverse iteration).
      */
     class X_Decompose {
     public:
@@ -249,6 +254,11 @@ namespace especia {
          * A workspace array.
          */
         mutable std::valarray<Z_type> ifail;
+
+        /**
+         * A workspace array.
+         */
+        mutable std::valarray<R_type> awork;
 
         static const std::string message_int_err;
         static const std::string message_ill_arg;
