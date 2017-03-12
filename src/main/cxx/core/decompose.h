@@ -42,9 +42,9 @@ namespace especia {
         /**
          * Constructs a new instance of this class for the problem dimension supplied as argument.
          *
-         * @param[in] n_in The problem dimension.
+         * @param[in] m The problem dimension.
          */
-        D_Decompose(N_type n_in);
+        D_Decompose(N_type m);
 
         /**
          * Destructor.
@@ -80,7 +80,7 @@ namespace especia {
         /**
          * The problem dimension.
          */
-        Z_type n;
+        const Z_type n;
 
         /**
          * A workspace size.
@@ -119,9 +119,9 @@ namespace especia {
         /**
          * Constructs a new instance of this class for the problem dimension supplied as argument.
          *
-         * @param[in] n_in The problem dimension.
+         * @param[in] m The problem dimension.
          */
-        R_Decompose(N_type n_in);
+        R_Decompose(N_type m);
 
         /**
          * Destructor.
@@ -157,7 +157,7 @@ namespace especia {
         /**
          * The problem dimension.
          */
-        Z_type n;
+        const Z_type n;
 
         /**
          * A workspace size.
@@ -208,9 +208,9 @@ namespace especia {
         /**
          * Constructs a new instance of this class for the problem dimension supplied as argument.
          *
-         * @param[in] n_in The problem dimension.
+         * @param[in] m The problem dimension.
          */
-        X_Decompose(N_type n_in = 0);
+        X_Decompose(N_type m = 0);
 
         /**
          * Destructor.
@@ -246,7 +246,7 @@ namespace especia {
         /**
          * The problem dimension.
          */
-        Z_type n;
+        const Z_type n;
 
         /**
          * A workspace size.

@@ -139,8 +139,8 @@ static const Z_type iu = 0;
 static const R_type safe_minimum = LAPACK_NAME_R_TYPE(lamch)('S');
 
 
-especia::D_Decompose::D_Decompose(N_type n_in)
-        : n(Z_type(n_in)), work(1), iwork(1) {
+especia::D_Decompose::D_Decompose(N_type m)
+        : n(Z_type(m)), work(1), iwork(1) {
     allocate_workspace();
 }
 
@@ -192,8 +192,8 @@ const string especia::D_Decompose::message_int_err = "especia::D_Decompose() Err
 const string especia::D_Decompose::message_ill_arg = "especia::D_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 
-especia::R_Decompose::R_Decompose(N_type n_in)
-        : n(Z_type(n_in)), work(1), iwork(1), isupp(2 * max(N_type(1), n_in)), awork(n_in * n_in) {
+especia::R_Decompose::R_Decompose(N_type m)
+        : n(Z_type(m)), work(1), iwork(1), isupp(2 * max(N_type(1), m)), awork(m * m) {
     allocate_workspace();
 }
 
@@ -253,8 +253,8 @@ const string especia::R_Decompose::message_int_err = "especia::R_Decompose() Err
 const string especia::R_Decompose::message_ill_arg = "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 
-especia::X_Decompose::X_Decompose(N_type n_in)
-        : n(Z_type(n_in)), work(1), iwork(5 * n_in), ifail(n_in), awork(n_in * n_in) {
+especia::X_Decompose::X_Decompose(N_type m)
+        : n(Z_type(m)), work(1), iwork(5 * m), ifail(m), awork(m * m) {
     allocate_workspace();
 }
 
