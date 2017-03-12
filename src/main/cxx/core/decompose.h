@@ -252,7 +252,7 @@ namespace especia {
         mutable std::valarray<R_type> work;
 
         /**
-         * A integer workspace array.
+         * The integer workspace array.
          */
         mutable std::valarray<Z_type> iwork;
 
