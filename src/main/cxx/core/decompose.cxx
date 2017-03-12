@@ -35,7 +35,7 @@ using especia::R_type;
 using especia::Z_type;
 
 
-#define LAPACK_NAME(x) d##x##_
+#define LAPACK_NAME(x) D##x##_
 
 extern "C" {
 /**
@@ -44,7 +44,7 @@ extern "C" {
  * @param cmach The name of the machine parameter.
  * @return the value of the machine parameter.
  */
-R_type LAPACK_NAME(lamch)(const char &cmach);
+R_type LAPACK_NAME(LAMCH)(const char &cmach);
 
 /**
  * DSYEVD computes all eigenvalues and, optionally, eigenvectors of a
@@ -58,7 +58,7 @@ R_type LAPACK_NAME(lamch)(const char &cmach);
  * Cray-2. It could conceivably fail on hexadecimal or decimal machines
  * without guard digits, but we know of none.
  */
-void LAPACK_NAME(syevd)(const char &job,
+void LAPACK_NAME(SYEVD)(const char &job,
                         const char &uplo,
                         const Z_type &n,
                         R_type A[],
@@ -81,7 +81,7 @@ void LAPACK_NAME(syevd)(const char &job,
  * which do not handle NaNs and infinities in the ieee standard default
  * manner.
  */
-void LAPACK_NAME(syevr)(const char &job,
+void LAPACK_NAME(SYEVR)(const char &job,
                         const char &range,
                         const char &uplo,
                         const Z_type &n,
@@ -109,7 +109,7 @@ void LAPACK_NAME(syevr)(const char &job,
  * selected by specifying either a range of values or a range of indices
  * for the desired eigenvalues.
  */
-void LAPACK_NAME(syevx)(const char &job,
+void LAPACK_NAME(SYEVX)(const char &job,
                         const char &range,
                         const char &uplo,
                         const Z_type &n,
@@ -134,7 +134,7 @@ void LAPACK_NAME(syevx)(const char &job,
 /**
  * The safe minimum, such that its reciprocal does not overflow.
  */
-static const R_type safe = LAPACK_NAME(lamch)('S');
+static const R_type safe = LAPACK_NAME(LAMCH)('S');
 
 
 especia::D_Decompose::D_Decompose(N_type n)
@@ -150,7 +150,7 @@ void especia::D_Decompose::operator()(const R_type A[], R_type Z[],
     copy(&A[0], &A[m * m], Z);
 
     Z_type info = 0;
-    LAPACK_NAME(syevd)('V', 'U', m, &Z[0], m, w, &work[0], lwork, &iwork[0], liwork, info);
+    LAPACK_NAME(SYEVD)('V', 'U', m, &Z[0], m, w, &work[0], lwork, &iwork[0], liwork, info);
 
     if (info == 0) {
         // To convert from column-major into row-major layout
@@ -165,7 +165,7 @@ void especia::D_Decompose::operator()(const R_type A[], R_type Z[],
 void especia::D_Decompose::allocate_workspace() {
     Z_type info = 0;
 
-    LAPACK_NAME(syevd)('V', 'U', m, 0, m, 0, &work[0], -1, &iwork[0], -1, info);
+    LAPACK_NAME(SYEVD)('V', 'U', m, 0, m, 0, &work[0], -1, &iwork[0], -1, info);
 
     if (info == 0) {
         lwork = static_cast<Z_type>(work[0]);
@@ -206,7 +206,7 @@ void especia::R_Decompose::operator()(const R_type A[], R_type Z[],
     Z_type info = 0;
     Z_type mvec = 0;
 
-    LAPACK_NAME(syevr)('V', 'A', 'U',
+    LAPACK_NAME(SYEVR)('V', 'A', 'U',
                        m, &C[0], m, 0.0, 0.0, 0, 0, safe, mvec, w, Z, m, &isupp[0], &work[0], lwork, &iwork[0], liwork,
                        info);
 
@@ -224,7 +224,7 @@ void especia::R_Decompose::allocate_workspace() {
     Z_type info = 0;
     Z_type mvec = 0;
 
-    LAPACK_NAME(syevr)('V', 'A', 'U',
+    LAPACK_NAME(SYEVR)('V', 'A', 'U',
                        m, 0, m, 0.0, 0.0, 0, 0, 0.0, mvec, 0, 0, m, &isupp[0], &work[0], -1, &iwork[0], -1,
                        info);
 
@@ -267,7 +267,7 @@ void especia::X_Decompose::operator()(const R_type A[], R_type Z[],
     Z_type info = 0;
     Z_type mvec = 0;
 
-    LAPACK_NAME(syevx)('V', 'A', 'U',
+    LAPACK_NAME(SYEVX)('V', 'A', 'U',
                        m, &C[0], m, 0.0, 0.0, 0, 0, 2.0 * safe, mvec, w, Z, m, &work[0], lwork, &iwork[0], &ifail[0],
                        info);
 
@@ -285,7 +285,7 @@ void especia::X_Decompose::allocate_workspace() {
     Z_type info = 0;
     Z_type mvec = 0;
 
-    LAPACK_NAME(syevx)('V', 'A', 'U',
+    LAPACK_NAME(SYEVX)('V', 'A', 'U',
                        m, 0, m, 0.0, 0.0, 0, 0, 0.0, mvec, 0, 0, m, &work[0], -1, &iwork[0], &ifail[0],
                        info);
 

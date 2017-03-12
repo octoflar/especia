@@ -37,7 +37,7 @@ namespace especia {
     class D_Decompose {
     public:
         /**
-         * Constructs a new instance of this class.
+         * Constructs a new instance of this class for the problem dimension supplied as argument.
          *
          * @param[in] n The problem dimension.
          */
@@ -62,15 +62,41 @@ namespace especia {
         operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
+        /**
+         * Queries and allocates the optimal workspace.
+         */
         void allocate_workspace();
 
+        /**
+         * Transposes a matrix. Called to convert from column-major into row-major layout.
+         *
+         * @param[in,out] A The matrix.
+         */
         void transpose(R_type A[]) const;
 
+        /**
+         * The problem dimension.
+         */
         Z_type m;
+
+        /**
+         * A workspace size.
+         */
         Z_type lwork;
+
+        /**
+         * A workspace size.
+         */
         Z_type liwork;
 
+        /**
+         * A workspace array.
+         */
         mutable std::valarray<R_type> work;
+
+        /**
+         * A workspace array.
+         */
         mutable std::valarray<Z_type> iwork;
 
         static const std::string message_int_err;
@@ -84,7 +110,7 @@ namespace especia {
     class R_Decompose {
     public:
         /**
-         * Constructs a new instance of this class.
+         * Constructs a new instance of this class for the problem dimension supplied as argument.
          *
          * @param[in] n The problem dimension.
          */
@@ -109,16 +135,46 @@ namespace especia {
         operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
+        /**
+         * Queries and allocates the optimal workspace.
+         */
         void allocate_workspace();
 
+        /**
+         * Transposes a matrix. Called to convert from column-major into row-major layout.
+         *
+         * @param[in,out] A The matrix.
+         */
         void transpose(R_type A[]) const;
 
+        /**
+         * The problem dimension.
+         */
         Z_type m;
+
+        /**
+         * A workspace size.
+         */
         Z_type lwork;
+
+        /**
+         * A workspace size.
+         */
         Z_type liwork;
 
+        /**
+         * A workspace array.
+         */
         mutable std::valarray<R_type> work;
+
+        /**
+         * A workspace array.
+         */
         mutable std::valarray<Z_type> iwork;
+
+        /**
+         * A workspace array.
+         */
         mutable std::valarray<Z_type> isupp;
 
         static const std::string message_int_err;
@@ -132,7 +188,7 @@ namespace especia {
     class X_Decompose {
     public:
         /**
-         * Constructs a new instance of this class.
+         * Constructs a new instance of this class for the problem dimension supplied as argument.
          *
          * @param[in] n The problem dimension.
          */
@@ -157,15 +213,41 @@ namespace especia {
         operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
+        /**
+         * Queries and allocates the optimal workspace.
+         */
         void allocate_workspace();
 
+        /**
+         * Transposes a matrix. Called to convert from column-major into row-major layout.
+         *
+         * @param[in,out] A The matrix.
+         */
         void transpose(R_type A[]) const;
 
+        /**
+         * The problem dimension.
+         */
         Z_type m;
+
+        /**
+         * A workspace size.
+         */
         Z_type lwork;
 
+        /**
+         * A workspace array.
+         */
         mutable std::valarray<R_type> work;
+
+        /**
+         * A workspace array.
+         */
         mutable std::valarray<Z_type> iwork;
+
+        /**
+         * A workspace array.
+         */
         mutable std::valarray<Z_type> ifail;
 
         static const std::string message_int_err;
