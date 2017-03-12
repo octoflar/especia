@@ -152,16 +152,18 @@ namespace especia {
          * Returns the value of the cost function as a function of a given optical depth
          * model.
          *
-         * @tparam M The type of optical depth model.
+         * @tparam T The type of optical depth model.
          *
-         * @param[in] model The optical depth model.
+         * @param[in] tau The optical depth model.
          * @param[in] r The spectral resolution of the instrument.
          * @param[in] m The number of Legendre basis polynomials to model the background continuum.
          *
          * @return the value of the cost function.
+         *
+         * @remark this method is thread safe, if the optical depth model is.
          */
-        template<class M>
-        R_type cost(const M &model, R_type r, N_type m) const {
+        template<class T>
+        R_type cost(const T &tau, R_type r, N_type m) const {
             using std::abs;
             using std::valarray;
 
@@ -173,7 +175,7 @@ namespace especia {
             valarray<R_type> fit(n);
             valarray<R_type> res(n);
 
-            convolute(model, r, &opt[0], &atm[0], &cat[0]);
+            convolute(tau, r, &opt[0], &atm[0], &cat[0]);
             continuum(m, &cat[0], &cfl[0]);
 
             R_type cost = 0.0;
@@ -203,17 +205,17 @@ namespace especia {
         /**
          * Applies an optical depth model to this section.
          *
-         * @tparam M The type of optical depth model.
+         * @tparam T The type of optical depth model.
          *
-         * @param[in] model The optical depth model.
+         * @param[in] tau The optical depth model.
          * @param[in] r The spectral resolution of the instrument.
          * @param[in] m The number of Legendre basis polynomials to model the background continuum.
          *
          * @return this section.
          */
-        template<class M>
-        Section &apply(const M &model, R_type r, N_type m) {
-            convolute(model, r, &opt[0], &atm[0], &cat[0]);
+        template<class T>
+        Section &apply(const T &tau, R_type r, N_type m) {
+            convolute(tau, r, &opt[0], &atm[0], &cat[0]);
             continuum(m, &cat[0], &cfl[0]);
 
             for (size_t i = 0; i < n; ++i) {
@@ -238,16 +240,16 @@ namespace especia {
         /**
          * Convolutes a given optical depth model with the instrumental line spread function.
          *
-         * @tparam M The type of optical depth model.
+         * @tparam T The type of optical depth model.
          *
-         * @param[in] model The optical depth model.
+         * @param[in] tau The optical depth model.
          * @param[in] r The spectral resolution of the instrument.
          * @param[out] opt The evaluated optical depth.
          * @param[out] atm The evaluated absorption term.
          * @param[out] cat The evaluated convoluted absorption term.
          */
-        template<class M>
-        void convolute(const M &model, R_type r, R_type opt[], R_type atm[], R_type cat[]) const {
+        template<class T>
+        void convolute(const T &tau, R_type r, R_type opt[], R_type atm[], R_type cat[]) const {
             using std::exp;
             using std::valarray;
 
@@ -267,7 +269,7 @@ namespace especia {
                 }
 
                 for (size_t i = 0; i < n; ++i) {
-                    opt[i] = model(wav[i]);
+                    opt[i] = tau(wav[i]);
                     atm[i] = exp(-opt[i]);
                 }
 

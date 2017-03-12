@@ -39,6 +39,8 @@ namespace especia {
      * T. Ida, M. Ando, H. Toraya (2000).
      *   *Extended pseudo-Voigt function for approximating the Voigt profile.*
      *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898.
+     *
+     * @remark This class is thread safe.
      */
     class Pseudo_Voigt {
     public:
@@ -84,6 +86,8 @@ namespace especia {
      * T. Ida, M. Ando, H. Toraya (2000)
      *   *Extended pseudo-Voigt function for approximating the Voigt profile.*
      *   J. Appl. Chryst., 33, 1311, ISSN 0021-8898.
+     *
+     * @remark This class is thread safe.
      */
     class Extended_Pseudo_Voigt {
     public:
@@ -135,6 +139,8 @@ namespace especia {
      *   *Probing the variability of the fine-structure constant with the VLT/UVES.*
      *   Astronomy and Astrophysics, 415, L7.
      *   http://dx.doi.org/10.1051/0004-6361:20040013
+     *
+     * @remark This class is thread safe.
      */
     class Many_Multiplet {
     public:
@@ -222,6 +228,8 @@ namespace especia {
 
     /**
      * The Doppler profile to model intergalactic absorption lines.
+     *
+     * @remark This class is thread safe.
      */
     class Intergalactic_Doppler {
     public:
@@ -302,6 +310,8 @@ namespace especia {
      * The Voigt profile to model intergalactic spectral lines.
      *
      * @tparam A The strategy to approximate the Voigt function.
+     *
+     * @remark This class is thread safe.
      */
     template<class A>
     class Intergalactic_Voigt {
@@ -405,6 +415,8 @@ namespace especia {
      * The superposition of many profiles.
      *
      * @tparam P The profile type.
+     *
+     * @remark This class is thread safe, if the profile type is thead safe.
      */
     template<class P>
     class Superposition {
