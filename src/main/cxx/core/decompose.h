@@ -32,16 +32,19 @@ namespace especia {
 
     /**
      * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
-     * @c DSYEVD (divide and conquer).
+     * @c [DS]SYEVD (divide and conquer).
+     *
+     * The divide and conquer algorithm makes very mild assumptions about
+     * floating point arithmetic.
      */
     class D_Decompose {
     public:
         /**
          * Constructs a new instance of this class for the problem dimension supplied as argument.
          *
-         * @param[in] n The problem dimension.
+         * @param[in] n_in The problem dimension.
          */
-        D_Decompose(N_type n);
+        D_Decompose(N_type n_in);
 
         /**
          * Destructor.
@@ -53,7 +56,7 @@ namespace especia {
          *
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
-         * @param[out] w The eigenvalues.
+         * @param[out] w The eigenvalues, in ascending order.
          *
          * @throw invalid_argument when LAPACK was called with illegal arguments.
          * @throw runtime_error when an internal LAPACK error occurred.
@@ -77,7 +80,7 @@ namespace especia {
         /**
          * The problem dimension.
          */
-        Z_type m;
+        Z_type n;
 
         /**
          * A workspace size.
@@ -105,16 +108,20 @@ namespace especia {
 
     /**
      * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
-     * @c DSYEVR (relatively robust representations).
+     * @c [DS]SYEVR (relatively robust representations).
+     *
+     * Normal execution may create NaN and infinities and hence may abort
+     * due to a floating point exception in environments, which do not
+     * handle NaN and infinities in the IEEE standard default manner.
      */
     class R_Decompose {
     public:
         /**
          * Constructs a new instance of this class for the problem dimension supplied as argument.
          *
-         * @param[in] n The problem dimension.
+         * @param[in] n_in The problem dimension.
          */
-        R_Decompose(N_type n);
+        R_Decompose(N_type n_in);
 
         /**
          * Destructor.
@@ -126,7 +133,7 @@ namespace especia {
          *
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
-         * @param[out] w The eigenvalues.
+         * @param[out] w The eigenvalues, in ascending order.
          *
          * @throw invalid_argument when LAPACK was called with illegal arguments.
          * @throw runtime_error when an internal LAPACK error occurred.
@@ -150,7 +157,7 @@ namespace especia {
         /**
          * The problem dimension.
          */
-        Z_type m;
+        Z_type n;
 
         /**
          * A workspace size.
@@ -182,22 +189,28 @@ namespace especia {
          */
         mutable std::valarray<R_type> awork;
 
+        /**
+         * The absolute accuracy of eigenvalues computed. Yields the most accurate results
+         * when set to the 'safe minimum'.
+         */
+        static const R_type abstol;
+
         static const std::string message_int_err;
         static const std::string message_ill_arg;
     };
 
     /**
      * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
-     * @c DSYEVX (inverse iteration).
+     * @c [DS]SYEVX (inverse iteration).
      */
     class X_Decompose {
     public:
         /**
          * Constructs a new instance of this class for the problem dimension supplied as argument.
          *
-         * @param[in] n The problem dimension.
+         * @param[in] n_in The problem dimension.
          */
-        X_Decompose(N_type n = 0);
+        X_Decompose(N_type n_in = 0);
 
         /**
          * Destructor.
@@ -209,7 +222,7 @@ namespace especia {
          *
          * @param[in] A The symmetric matrix (row-major, lower triangular).
          * @param[out] Z The transformation matrix (row-major).
-         * @param[out] w The eigenvalues.
+         * @param[out] w The eigenvalues, in ascending order.
          *
          * @throw invalid_argument when LAPACK was called with illegal arguments.
          * @throw runtime_error when an internal LAPACK error occurred.
@@ -233,7 +246,7 @@ namespace especia {
         /**
          * The problem dimension.
          */
-        Z_type m;
+        Z_type n;
 
         /**
          * A workspace size.
@@ -259,6 +272,12 @@ namespace especia {
          * A workspace array.
          */
         mutable std::valarray<R_type> awork;
+
+        /**
+         * The absolute accuracy of eigenvalues computed. Yields the most accurate results
+         * when set to twice the 'safe minimum'.
+         */
+        static const R_type abstol;
 
         static const std::string message_int_err;
         static const std::string message_ill_arg;
