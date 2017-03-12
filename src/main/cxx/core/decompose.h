@@ -213,7 +213,7 @@ namespace especia {
          *
          * @param[in] m The problem dimension.
          */
-        X_Decompose(N_type m = 0);
+        X_Decompose(N_type m);
 
         /**
          * Destructor.
@@ -252,7 +252,7 @@ namespace especia {
         mutable std::valarray<R_type> work;
 
         /**
-         * A integer workspace array.
+         * The integer workspace array.
          */
         mutable std::valarray<Z_type> iwork;
 
