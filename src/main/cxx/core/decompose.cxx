@@ -152,7 +152,7 @@ static const R_type safe_minimum = LAPACK_NAME_R_TYPE(lamch)('S');
 
 especia::D_Decompose::D_Decompose(N_type m)
         : n(Z_type(m)), work(), iwork() {
-    query_workspace(n, lwork, liwork);
+    lapack_inquire(n, lwork, liwork);
 
     work.resize(lwork);
     iwork.resize(liwork);
@@ -166,11 +166,11 @@ void especia::D_Decompose::operator()(const R_type A[],
                                       R_type w[]) const throw(invalid_argument, runtime_error) {
     copy(&A[0], &A[n * n], Z);
 
-    decompose(Z, w);
+    lapack_do(Z, w);
     transpose(n, Z);
 }
 
-void especia::D_Decompose::decompose(R_type Z[], R_type w[]) const {
+void especia::D_Decompose::lapack_do(R_type Z[], R_type w[]) const {
     Z_type info = 0;
 
     LAPACK_NAME_R_TYPE(syevd)(job, uplo, n, &Z[0], n, w, &work[0], lwork, &iwork[0], liwork, info);
@@ -184,7 +184,7 @@ void especia::D_Decompose::decompose(R_type Z[], R_type w[]) const {
     }
 }
 
-void especia::D_Decompose::query_workspace(Z_type n, Z_type &lwork, Z_type &liwork) {
+void especia::D_Decompose::lapack_inquire(Z_type n, Z_type &lwork, Z_type &liwork) {
     Z_type info;
     R_type work;
 
@@ -205,7 +205,7 @@ const string especia::D_Decompose::message_ill_arg = "especia::D_Decompose() Err
 
 especia::R_Decompose::R_Decompose(N_type m)
         : n(Z_type(m)), work(), iwork(), isupp(2 * max<N_type>(1, m)), awork(m * m) {
-    query_workspace(n, lwork, liwork);
+    lapack_inquire(n, lwork, liwork);
 
     work.resize(lwork);
     iwork.resize(liwork);
@@ -219,11 +219,11 @@ void especia::R_Decompose::operator()(const R_type A[],
                                       R_type w[]) const throw(invalid_argument, runtime_error) {
     copy(&A[0], &A[n * n], &awork[0]);
 
-    decompose(Z, w);
+    lapack_do(Z, w);
     transpose(n, Z);
 }
 
-void especia::R_Decompose::decompose(R_type Z[], R_type w[]) const {
+void especia::R_Decompose::lapack_do(R_type Z[], R_type w[]) const {
     Z_type m = 0;
     Z_type info = 0;
 
@@ -240,7 +240,7 @@ void especia::R_Decompose::decompose(R_type Z[], R_type w[]) const {
     }
 }
 
-void especia::R_Decompose::query_workspace(Z_type n, Z_type &lwork, Z_type &liwork) {
+void especia::R_Decompose::lapack_inquire(Z_type n, Z_type &lwork, Z_type &liwork) {
     Z_type info;
     Z_type m;
     R_type work;
@@ -265,7 +265,7 @@ const string especia::R_Decompose::message_ill_arg = "especia::R_Decompose() Err
 
 especia::X_Decompose::X_Decompose(N_type m)
         : n(Z_type(m)), work(), iwork(5 * m), ifail(m), awork(m * m) {
-    query_workspace(n, lwork);
+    lapack_inquire(n, lwork);
 
     work.resize(lwork);
 }
@@ -278,11 +278,11 @@ void especia::X_Decompose::operator()(const R_type A[],
                                       R_type w[]) const throw(invalid_argument, runtime_error) {
     copy(&A[0], &A[n * n], &awork[0]);
 
-    decompose(Z, w);
+    lapack_do(Z, w);
     transpose(n, Z);
 }
 
-void especia::X_Decompose::decompose(R_type Z[], R_type w[]) const {
+void especia::X_Decompose::lapack_do(R_type Z[], R_type w[]) const {
     Z_type m = 0;
     Z_type info = 0;
 
@@ -299,7 +299,7 @@ void especia::X_Decompose::decompose(R_type Z[], R_type w[]) const {
     }
 }
 
-void especia::X_Decompose::query_workspace(Z_type n, Z_type &lwork) {
+void especia::X_Decompose::lapack_inquire(Z_type n, Z_type &lwork) {
     Z_type info;
     Z_type m;
     R_type work;

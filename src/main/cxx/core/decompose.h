@@ -67,7 +67,7 @@ namespace especia {
         operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
-        void decompose(R_type Z[], R_type w[]) const;
+        void lapack_do(R_type Z[], R_type w[]) const;
 
         /**
          * The problem dimension.
@@ -75,33 +75,33 @@ namespace especia {
         const Z_type n;
 
         /**
-         * A workspace size.
+         * The numeric workspace size.
          */
         Z_type lwork;
 
         /**
-         * A workspace size.
+         * The integer workspace size.
          */
         Z_type liwork;
 
         /**
-         * A workspace array.
+         * The numeric workspace array.
          */
         mutable std::valarray<R_type> work;
 
         /**
-         * A workspace array.
+         * The integer workspace array.
          */
         mutable std::valarray<Z_type> iwork;
 
         /**
-         * Queries the workspace.
+         * Queries the optimal workspace size.
          *
          * @param[in] n The problem dimension.
          * @param[out] lwork The size of the numeric workspace.
          * @param[out] liwork The size of the integer workspace.
          */
-        static void query_workspace(Z_type n, Z_type &lwork, Z_type &liwork);
+        static void lapack_inquire(Z_type n, Z_type &lwork, Z_type &liwork);
 
         static const std::string message_int_err;
         static const std::string message_ill_arg;
@@ -144,7 +144,7 @@ namespace especia {
         operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
-        void decompose(R_type Z[], R_type w[]) const;
+        void lapack_do(R_type Z[], R_type w[]) const;
 
         /**
          * The problem dimension.
@@ -152,22 +152,22 @@ namespace especia {
         const Z_type n;
 
         /**
-         * A workspace size.
+         * The numeric workspace size.
          */
         Z_type lwork;
 
         /**
-         * A workspace size.
+         * The integer workspace size.
          */
         Z_type liwork;
 
         /**
-         * A workspace array.
+         * The numeric workspace array.
          */
         mutable std::valarray<R_type> work;
 
         /**
-         * A workspace array.
+         * The ineteger workspace array.
          */
         mutable std::valarray<Z_type> iwork;
 
@@ -182,13 +182,13 @@ namespace especia {
         mutable std::valarray<R_type> awork;
 
         /**
-         * Queries the workspace.
+         * Queries the optimal workspace size.
          *
          * @param[in] n The problem dimension.
          * @param[out] lwork The size of the numeric workspace.
          * @param[out] liwork The size of the integer workspace.
          */
-        static void query_workspace(Z_type n, Z_type &lwork, Z_type &liwork);
+        static void lapack_inquire(Z_type n, Z_type &lwork, Z_type &liwork);
 
         /**
          * The absolute accuracy of eigenvalues computed. Yields the most accurate results
@@ -234,7 +234,7 @@ namespace especia {
         operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
-        void decompose(R_type Z[], R_type w[]) const;
+        void lapack_do(R_type Z[], R_type w[]) const;
 
         /**
          * The problem dimension.
@@ -242,17 +242,17 @@ namespace especia {
         const Z_type n;
 
         /**
-         * A workspace size.
+         * The numeric workspace size.
          */
         Z_type lwork;
 
         /**
-         * A workspace array.
+         * The numeric workspace array.
          */
         mutable std::valarray<R_type> work;
 
         /**
-         * A workspace array.
+         * A integer workspace array.
          */
         mutable std::valarray<Z_type> iwork;
 
@@ -267,12 +267,12 @@ namespace especia {
         mutable std::valarray<R_type> awork;
 
         /**
-         * Queries the workspace.
+         * Inquires the optimal workspace size.
          *
          * @param[in] n The problem dimension.
          * @param[out] lwork The size of the numeric workspace.
          */
-        static void query_workspace(Z_type n, Z_type &lwork);
+        static void lapack_inquire(Z_type n, Z_type &lwork);
 
         /**
          * The absolute accuracy of eigenvalues computed. Yields the most accurate results
