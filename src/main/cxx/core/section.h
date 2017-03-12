@@ -160,7 +160,7 @@ namespace especia {
          *
          * @return the value of the cost function.
          *
-         * @remark this method is thread safe, if the optical depth model is.
+         * @remark calling this method is thread safe, if the optical depth model is thread safe.
          */
         template<class T>
         R_type cost(const T &tau, R_type r, N_type m) const {
