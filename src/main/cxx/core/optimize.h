@@ -171,20 +171,21 @@ namespace especia {
         const R_type ws = accumulate(w, w + parent_number, 0.0);
         const R_type cw = ws / sqrt(inner_product(w, w + parent_number, w, 0.0));
 
+        valarray<R_type> uw(n);
+        valarray<R_type> vw(n);
+        valarray<valarray<R_type>> u(uw, population_size);
+        valarray<valarray<R_type>> v = u;
+        valarray<valarray<R_type>> x = u;
+
+        valarray<R_type> y(population_size);
+        valarray<N_type> indexes(population_size);
+
+        valarray<R_type> BD(B, n * n);
+
         while (g < stop_generation) {
-            valarray<R_type> uw(n);
-            valarray<R_type> vw(n);
-            valarray<valarray<R_type> > u(uw, population_size);
-            valarray<valarray<R_type> > v = u;
-            valarray<valarray<R_type> > x = u;
-
-            valarray<R_type> y(population_size);
-            valarray<N_type> indexes(population_size);
-
-            valarray<R_type> BD(B, n * n);
             for (N_type j = 0; j < n; ++j) {
                 for (N_type i = 0, ij = j; i < n; ++i, ij += n) {
-                    BD[ij] *= d[j];
+                    BD[ij] = B[ij] * d[j];
                 }
             }
 

@@ -28,7 +28,6 @@ using std::invalid_argument;
 using std::max;
 using std::runtime_error;
 using std::string;
-using std::swap;
 using std::valarray;
 
 using especia::R_type;
@@ -40,8 +39,14 @@ using especia::Z_type;
 #define LAPACK_NAME_R_TYPE(x) LAPACK_NAME_DOUBLE(x)
 
 extern "C" {
+/**
+ * Interface to LAPACK routine @c [DS]LAMCH.
+ */
 R_type LAPACK_NAME_R_TYPE(lamch)(const char &cmach);
 
+/**
+ * Interface to LAPACK routine @c [DS]SYEVD.
+ */
 void LAPACK_NAME_R_TYPE(syevd)(const char &job,
                                const char &uplo,
                                const Z_type &n,
@@ -54,6 +59,9 @@ void LAPACK_NAME_R_TYPE(syevd)(const char &job,
                                const Z_type &liwork,
                                Z_type &info);
 
+/**
+ * Interface to LAPACK routine @c [DS]SYEVR.
+ */
 void LAPACK_NAME_R_TYPE(syevr)(const char &job,
                                const char &range,
                                const char &uplo,
@@ -76,6 +84,9 @@ void LAPACK_NAME_R_TYPE(syevr)(const char &job,
                                const Z_type &liwork,
                                Z_type &info);
 
+/**
+ * Interface to LAPACK routine @c [DS]SYEVX.
+ */
 void LAPACK_NAME_R_TYPE(syevx)(const char &job,
                                const char &range,
                                const char &uplo,
@@ -99,63 +110,73 @@ void LAPACK_NAME_R_TYPE(syevx)(const char &job,
 }
 
 /**
- * The job parameter (here: compute eigenvalues and eigenvectors).
+ * The LAPACK job parameter (here: compute eigenvalues and eigenvectors).
  */
 static const char job = 'V';
 
 /**
- * The range parameter (here: compute all eigenvalues and eigenvectors).
+ * The LAPACK range parameter (here: compute all eigenvalues and eigenvectors).
  */
 static const char range = 'A';
 
 /**
- * The matrix parameter (here: use the upper triangular part)
+ * The LAPACK matrix store parameter (here: use the upper triangular part)
  */
 static const char uplo = 'U';
 
 /**
- * The lower range limit (here: not used).
+ * The LAPACK lower range limit (here: not used).
  */
 static const R_type vl = 0.0;
 
 /**
- * The upper range limit (here: not used).
+ * The LAPACK upper range limit (here: not used).
  */
 static const R_type vu = 0.0;
 
 /**
- * The lower range index (here: not used).
+ * The LAPACK lower range index (here: not used).
  */
 static const Z_type il = 0;
 
 /**
- * The upper range index (here: not used).
+ * The LAPACK upper range index (here: not used).
  */
 static const Z_type iu = 0;
 
 /**
- * The minimum positive real number such that its reciprocal does not overflow.
+ * The LAPACK minimum positive real number such that its reciprocal does not overflow.
  */
 static const R_type safe_minimum = LAPACK_NAME_R_TYPE(lamch)('S');
 
 
 especia::D_Decompose::D_Decompose(N_type m)
-        : n(Z_type(m)), work(1), iwork(1) {
-    allocate_workspace();
+        : n(Z_type(m)), work(), iwork() {
+    query_workspace(n, lwork, liwork);
+
+    work.resize(lwork);
+    iwork.resize(liwork);
 }
 
 especia::D_Decompose::~D_Decompose() {
 }
 
-void especia::D_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) const throw(invalid_argument, runtime_error) {
+void especia::D_Decompose::operator()(const R_type A[],
+                                      R_type Z[],
+                                      R_type w[]) const throw(invalid_argument, runtime_error) {
     copy(&A[0], &A[n * n], Z);
 
+    decompose(Z, w);
+    transpose(n, Z);
+}
+
+void especia::D_Decompose::decompose(R_type Z[], R_type w[]) const {
     Z_type info = 0;
+
     LAPACK_NAME_R_TYPE(syevd)(job, uplo, n, &Z[0], n, w, &work[0], lwork, &iwork[0], liwork, info);
 
     if (info == 0) {
-        // To convert from column-major into row-major layout
-        transpose(Z);
+        // ok
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
@@ -163,28 +184,18 @@ void especia::D_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) 
     }
 }
 
-void especia::D_Decompose::allocate_workspace() {
-    Z_type info = 0;
+void especia::D_Decompose::query_workspace(Z_type n, Z_type &lwork, Z_type &liwork) {
+    Z_type info;
+    R_type work;
 
-    LAPACK_NAME_R_TYPE(syevd)(job, uplo, n, 0, n, 0, &work[0], -1, &iwork[0], -1, info);
+    LAPACK_NAME_R_TYPE(syevd)(job, uplo, n, 0, n, 0, &work, -1, &liwork, -1, info);
 
     if (info == 0) {
-        lwork = static_cast<Z_type>(work[0]);
-        work.resize(static_cast<N_type>(lwork));
-        liwork = iwork[0];
-        iwork.resize(static_cast<N_type>(liwork));
+        lwork = static_cast<Z_type>(work);
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
         throw invalid_argument(message_ill_arg);
-    }
-}
-
-void especia::D_Decompose::transpose(R_type A[]) const {
-    for (Z_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
-            swap(A[ij], A[ji]);
-        }
     }
 }
 
@@ -193,16 +204,26 @@ const string especia::D_Decompose::message_ill_arg = "especia::D_Decompose() Err
 
 
 especia::R_Decompose::R_Decompose(N_type m)
-        : n(Z_type(m)), work(1), iwork(1), isupp(2 * max(N_type(1), m)), awork(m * m) {
-    allocate_workspace();
+        : n(Z_type(m)), work(), iwork(), isupp(2 * max<N_type>(1, m)), awork(m * m) {
+    query_workspace(n, lwork, liwork);
+
+    work.resize(lwork);
+    iwork.resize(liwork);
 }
 
 especia::R_Decompose::~R_Decompose() {
 }
 
-void especia::R_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) const throw(invalid_argument, runtime_error) {
+void especia::R_Decompose::operator()(const R_type A[],
+                                      R_type Z[],
+                                      R_type w[]) const throw(invalid_argument, runtime_error) {
     copy(&A[0], &A[n * n], &awork[0]);
 
+    decompose(Z, w);
+    transpose(n, Z);
+}
+
+void especia::R_Decompose::decompose(R_type Z[], R_type w[]) const {
     Z_type m = 0;
     Z_type info = 0;
 
@@ -211,8 +232,7 @@ void especia::R_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) 
                               info);
 
     if (info == 0) {
-        // To convert from column-major into row-major layout
-        transpose(Z);
+        // ok
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
@@ -220,31 +240,21 @@ void especia::R_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) 
     }
 }
 
-void especia::R_Decompose::allocate_workspace() {
-    Z_type m = 0;
-    Z_type info = 0;
+void especia::R_Decompose::query_workspace(Z_type n, Z_type &lwork, Z_type &liwork) {
+    Z_type info;
+    Z_type m;
+    R_type work;
 
     LAPACK_NAME_R_TYPE(syevr)(job, range, uplo, n, 0, n, vl, vu, il, iu, abstol, m, 0, 0, n,
-                              &isupp[0], &work[0], -1, &iwork[0], -1,
+                              0, &work, -1, &liwork, -1,
                               info);
 
     if (info == 0) {
-        lwork = static_cast<Z_type>(work[0]);
-        work.resize(static_cast<N_type>(lwork));
-        liwork = iwork[0];
-        iwork.resize(static_cast<N_type>(liwork));
+        lwork = static_cast<Z_type>(work);
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
         throw invalid_argument(message_ill_arg);
-    }
-}
-
-void especia::R_Decompose::transpose(R_type A[]) const {
-    for (Z_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
-            swap(A[ij], A[ji]);
-        }
     }
 }
 
@@ -254,16 +264,25 @@ const string especia::R_Decompose::message_ill_arg = "especia::R_Decompose() Err
 
 
 especia::X_Decompose::X_Decompose(N_type m)
-        : n(Z_type(m)), work(1), iwork(5 * m), ifail(m), awork(m * m) {
-    allocate_workspace();
+        : n(Z_type(m)), work(), iwork(5 * m), ifail(m), awork(m * m) {
+    query_workspace(n, lwork);
+
+    work.resize(lwork);
 }
 
 especia::X_Decompose::~X_Decompose() {
 }
 
-void especia::X_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) const throw(invalid_argument, runtime_error) {
+void especia::X_Decompose::operator()(const R_type A[],
+                                      R_type Z[],
+                                      R_type w[]) const throw(invalid_argument, runtime_error) {
     copy(&A[0], &A[n * n], &awork[0]);
 
+    decompose(Z, w);
+    transpose(n, Z);
+}
+
+void especia::X_Decompose::decompose(R_type Z[], R_type w[]) const {
     Z_type m = 0;
     Z_type info = 0;
 
@@ -272,8 +291,7 @@ void especia::X_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) 
                               info);
 
     if (info == 0) {
-        // To convert from column-major into row-major layout
-        transpose(Z);
+        // ok
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
@@ -281,29 +299,21 @@ void especia::X_Decompose::operator()(const R_type A[], R_type Z[], R_type w[]) 
     }
 }
 
-void especia::X_Decompose::allocate_workspace() {
-    Z_type m = 0;
-    Z_type info = 0;
+void especia::X_Decompose::query_workspace(Z_type n, Z_type &lwork) {
+    Z_type info;
+    Z_type m;
+    R_type work;
 
     LAPACK_NAME_R_TYPE(syevx)(job, range, uplo, n, 0, n, vl, vu, il, iu, abstol, m, 0, 0, n,
-                              &work[0], -1, &iwork[0], &ifail[0],
+                              &work, -1, 0, 0,
                               info);
 
     if (info == 0) {
-        lwork = static_cast<Z_type>(work[0]);
-        work.resize(static_cast<N_type>(lwork));
+        lwork = static_cast<Z_type>(work);
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
         throw invalid_argument(message_ill_arg);
-    }
-}
-
-void especia::X_Decompose::transpose(R_type A[]) const {
-    for (Z_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (Z_type j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
-            swap(A[ij], A[ji]);
-        }
     }
 }
 

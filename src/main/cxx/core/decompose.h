@@ -34,8 +34,10 @@ namespace especia {
      * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
      * @c [DS]SYEVD (divide and conquer).
      *
-     * The divide and conquer algorithm makes very mild assumptions about
-     * floating point arithmetic.
+     * @remark The divide and conquer algorithm makes very mild assumptions
+     * about floating point arithmetics.
+     *
+     * @remark This algorithm is O(n^3).
      */
     class D_Decompose {
     public:
@@ -65,17 +67,7 @@ namespace especia {
         operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
-        /**
-         * Queries and allocates the optimal workspace.
-         */
-        void allocate_workspace();
-
-        /**
-         * Transposes a matrix. Called to convert from column-major into row-major layout.
-         *
-         * @param[in,out] A The matrix.
-         */
-        void transpose(R_type A[]) const;
+        void decompose(R_type Z[], R_type w[]) const;
 
         /**
          * The problem dimension.
@@ -102,6 +94,15 @@ namespace especia {
          */
         mutable std::valarray<Z_type> iwork;
 
+        /**
+         * Queries the workspace.
+         *
+         * @param[in] n The problem dimension.
+         * @param[out] lwork The size of the numeric workspace.
+         * @param[out] liwork The size of the integer workspace.
+         */
+        static void query_workspace(Z_type n, Z_type &lwork, Z_type &liwork);
+
         static const std::string message_int_err;
         static const std::string message_ill_arg;
     };
@@ -110,9 +111,10 @@ namespace especia {
      * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
      * @c [DS]SYEVR (relatively robust representations).
      *
-     * Normal execution may create NaN and infinities and hence may abort
-     * due to a floating point exception in environments, which do not
-     * handle NaN and infinities in the IEEE standard default manner.
+     * @attention Requires an environment that implements IEEE arithmetics and
+     * handles NaN and infinities in the default manner.
+     *
+     * @remark This algorithm is O(n^2).
      */
     class R_Decompose {
     public:
@@ -142,17 +144,7 @@ namespace especia {
         operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
-        /**
-         * Queries and allocates the optimal workspace.
-         */
-        void allocate_workspace();
-
-        /**
-         * Transposes a matrix. Called to convert from column-major into row-major layout.
-         *
-         * @param[in,out] A The matrix.
-         */
-        void transpose(R_type A[]) const;
+        void decompose(R_type Z[], R_type w[]) const;
 
         /**
          * The problem dimension.
@@ -190,6 +182,15 @@ namespace especia {
         mutable std::valarray<R_type> awork;
 
         /**
+         * Queries the workspace.
+         *
+         * @param[in] n The problem dimension.
+         * @param[out] lwork The size of the numeric workspace.
+         * @param[out] liwork The size of the integer workspace.
+         */
+        static void query_workspace(Z_type n, Z_type &lwork, Z_type &liwork);
+
+        /**
          * The absolute accuracy of eigenvalues computed. Yields the most accurate results
          * when set to the 'safe minimum'.
          */
@@ -202,6 +203,8 @@ namespace especia {
     /**
      * Class to solve symmetric eigenproblems. Calls the LAPACK driver routine
      * @c [DS]SYEVX (inverse iteration).
+     *
+     * @remark This algorithm is O(n^3).
      */
     class X_Decompose {
     public:
@@ -231,17 +234,7 @@ namespace especia {
         operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
-        /**
-         * Queries and allocates the optimal workspace.
-         */
-        void allocate_workspace();
-
-        /**
-         * Transposes a matrix. Called to convert from column-major into row-major layout.
-         *
-         * @param[in,out] A The matrix.
-         */
-        void transpose(R_type A[]) const;
+        void decompose(R_type Z[], R_type w[]) const;
 
         /**
          * The problem dimension.
@@ -274,6 +267,14 @@ namespace especia {
         mutable std::valarray<R_type> awork;
 
         /**
+         * Queries the workspace.
+         *
+         * @param[in] n The problem dimension.
+         * @param[out] lwork The size of the numeric workspace.
+         */
+        static void query_workspace(Z_type n, Z_type &lwork);
+
+        /**
          * The absolute accuracy of eigenvalues computed. Yields the most accurate results
          * when set to twice the 'safe minimum'.
          */
@@ -284,7 +285,7 @@ namespace especia {
     };
 
     /**
-     * The selected algorithm to solve symmetric eigenproblems.
+     * The default algorithm to solve symmetric eigenproblems.
      */
     typedef R_Decompose Decompose;
 
