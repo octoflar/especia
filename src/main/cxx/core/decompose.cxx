@@ -144,11 +144,6 @@ static const Z_type il = 0;
  */
 static const Z_type iu = 0;
 
-/**
- * The LAPACK minimum positive real number such that its reciprocal does not overflow.
- */
-static const R_type safe_minimum = LAPACK_NAME_R_TYPE(lamch)('S');
-
 
 especia::D_Decompose::D_Decompose(N_type m)
         : n(Z_type(m)), work(), iwork() {
@@ -258,7 +253,7 @@ void especia::R_Decompose::lapack_inquire(Z_type n, Z_type &lwork, Z_type &liwor
     }
 }
 
-const R_type especia::R_Decompose::abstol = safe_minimum;
+const R_type especia::R_Decompose::abstol = LAPACK_NAME_R_TYPE(lamch)('S');
 const string especia::R_Decompose::message_int_err = "especia::R_Decompose() Error: internal error in LAPACK";
 const string especia::R_Decompose::message_ill_arg = "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
 
@@ -317,7 +312,7 @@ void especia::X_Decompose::lapack_inquire(Z_type n, Z_type &lwork) {
     }
 }
 
-const R_type especia::X_Decompose::abstol = R_type(2) * safe_minimum;
+const R_type especia::X_Decompose::abstol = R_type(2) * LAPACK_NAME_R_TYPE(lamch)('S');
 const string especia::X_Decompose::message_int_err = "especia::X_Decompose() Error: internal error in LAPACK";
 const string especia::X_Decompose::message_ill_arg = "especia::X_Decompose() Error: illegal argument(s) in call to LAPACK";
 
