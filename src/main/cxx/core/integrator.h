@@ -41,7 +41,7 @@ namespace especia {
      *   ACM Trans. Math. Software 17, 218-232.
      *   https://doi.org/10.1145/108556.108580
      *
-     * @tparam T The real number type.
+     * @tparam T The quadrature number type.
      *
      * @remark The quadrature weight and abscissa values are defined with a
      * precision of 48 decimal digits.
@@ -51,10 +51,25 @@ namespace especia {
     public:
 
         /**
-         * Mnemonics for the recursive monotone stable quadrature formulas.
+         * The recursive monotone stable quadrature formulas.
          */
         enum Formula {
-            Q13, Q19, Q27, Q41
+            /**
+             * The formula for integration with 13 quadrature points.
+             */
+            Q13,
+            /**
+             * The formula for integration with 19 quadrature points.
+             */
+            Q19,
+            /**
+             * The formula for integration with 27 quadrature points.
+             */
+            Q27,
+            /**
+             * The formula for integration with 41 quadrature points.
+             */
+            Q41
         };
 
         /**
