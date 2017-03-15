@@ -34,6 +34,7 @@
 #include <vector>
 
 #include "config.h"
+#include "integrator.h"
 #include "profiles.h"
 #include "readline.h"
 #include "section.h"

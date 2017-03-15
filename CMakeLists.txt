@@ -65,6 +65,7 @@ set(CORE_SOURCES
         ${MAIN}/cxx/core/decompose.h
         ${MAIN}/cxx/core/deviates.h
         ${MAIN}/cxx/core/exitcodes.h
+        ${MAIN}/cxx/core/integrator.h
         ${MAIN}/cxx/core/model.h
         ${MAIN}/cxx/core/mtwister.h
         ${MAIN}/cxx/core/optimizer.cxx
