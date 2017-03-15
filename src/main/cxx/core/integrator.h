@@ -41,10 +41,8 @@ namespace especia {
      *   ACM Trans. Math. Software 17, 218-232.
      *   https://doi.org/10.1145/108556.108580
      *
-     * @tparam T The quadrature number type.
-     *
-     * @remark The quadrature weight and abscissa values are defined with a
-     * precision of 48 decimal digits.
+     * @tparam T The number type used for quadrature calculations. The quadrature weight
+     * and abscissa values are defined with a precision of 48 decimal digits.
      */
     template<class T = R_type>
     class Integrator {
