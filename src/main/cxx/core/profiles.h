@@ -138,7 +138,7 @@ namespace especia {
      * R. Quast, D. Reimers and S. A. Levshakov (2004).
      *   *Probing the variability of the fine-structure constant with the VLT/UVES.*
      *   Astronomy and Astrophysics, 415, L7.
-     *   http://dx.doi.org/10.1051/0004-6361:20040013
+     *   https://dx.doi.org/10.1051/0004-6361:20040013
      *
      * @remark This class is thread safe.
      */
