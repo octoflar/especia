@@ -88,7 +88,7 @@ namespace especia {
         }
 
         /**
-         * Computes the value of the integral of a function for the limits supplied as argument.
+         * Computes the value of the integral of a function, with the limits supplied as argument.
          *
          * @tparam F The function type.
          *
