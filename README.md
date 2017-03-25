@@ -60,4 +60,6 @@ Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applie
 Astronomy and Astrophysics 431 (3) 1167.
 doi: [10.1051/0004-6361:20041601](http://dx.doi.org/10.1051/0004-6361:20041601).
 
+<iframe src="https://widgets.figshare.com/articles/994249/embed?show_title=0" width="480" height="360" frameborder="0"></iframe>
+
 <iframe src="https://widgets.figshare.com/articles/994250/embed?show_title=0" width="480" height="360" frameborder="0"></iframe>
