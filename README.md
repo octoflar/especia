@@ -1,5 +1,3 @@
-<iframe src="https://widgets.figshare.com/articles/994250/embed?show_title=0" width="480" height="360" frameborder="0"></iframe>
-  
 # Synopsis
 
 The Evolutionary spectrum inversion and analysis (Especia) file set
@@ -52,8 +50,12 @@ The current release version is 2016.1.
 
 # Further reading
 
+<iframe src="https://widgets.figshare.com/articles/994249/embed?show_title=0" width="480" height="360" frameborder="0"></iframe>
+
 Quast, Ralf (2014): *Covariance matrix adaption in evolution strategies.* figshare.
 doi: [10.6084/m9.figshare.994249](https://doi.org/10.6084/m9.figshare.994249).
+
+<iframe src="https://widgets.figshare.com/articles/994250/embed?show_title=0" width="480" height="360" frameborder="0"></iframe>
 
 Quast, Ralf (2014): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.* figshare.
 doi: [10.6084/m9.figshare.994250](https://doi.org/10.6084/m9.figshare.994250).
