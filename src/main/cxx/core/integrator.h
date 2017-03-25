@@ -22,6 +22,9 @@
 #ifndef INTEGRATOR_H
 #define INTEGRATOR_H
 
+#include <cmath>
+#include <utility>
+
 #include "base.h"
 
 namespace especia {
@@ -115,121 +118,150 @@ namespace especia {
         }
 
     private:
-        friend class Interval;
+        friend class Integral;
 
-        class Interval {
+        template<class F>
+        class Integral {
         public:
 
-            Interval(T a_in, T b_in)
-                    : a(a_in), b(b_in), c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), ym(21), yn(21) {
+            Integral(const F &f, T a, T b)
+                    : f(f), a(a), b(b), c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yr(21) {
             }
 
-            ~Interval() {
+            ~Integral() {
 
             }
 
-            template<class F>
-            Interval lower_half(const F &f) const {
-                Interval interval(a, c);
+            void integrate(Formula q) {
+                using std::abs;
 
-                interval.yn[0] = ym[2];
-                interval.yn[1] = ym[7];
-                interval.yn[2] = ym[1];
-                interval.yn[4] = f(interval.c + xi[4] * interval.h);
-                interval.yn[5] = f(interval.c + xi[5] * interval.h);
-                interval.yn[6] = ym[0];
-                interval.ym[0] = ym[2];
-                interval.ym[1] = ym[8];
-                interval.ym[2] = ym[3];
-                interval.ym[3] = ym[4];
-                interval.ym[4] = ym[5];
-                interval.ym[5] = ym[9];
-                interval.ym[6] = ym[6];
-                if (m > 10) {
-                    interval.yn[3] = ym[10];
-                    interval.ym[7] = ym[11];
-                    interval.ym[8] = ym[12];
-                    interval.ym[9] = ym[13];
-                    if (m > 14) {
-                        interval.yn[7] = ym[15];
-                        interval.yn[8] = ym[14];
-                        interval.yn[9] = f(interval.c + xi[9] * interval.h);
-                        interval.yn[10] = ym[16];
-                        interval.ym[10] = ym[17];
-                        interval.ym[11] = ym[18];
-                        interval.ym[12] = ym[19];
-                        interval.ym[13] = ym[20];
-                        interval.n = 11;
-                        interval.m = 14;
+                abserr = compute(q);
+                result = compute(q + 1);
+                abserr = abs(result - abserr);
+            }
+
+            std::pair<Integral, Integral> split() const {
+                Integral lower_part(a, c);
+                Integral upper_part(c, b);
+
+                lower_part.yr[0] = yl[2];
+                lower_part.yr[1] = yl[7];
+                lower_part.yr[2] = yl[1];
+                lower_part.yr[4] = f(lower_part.c + xi[4] * lower_part.h);
+                lower_part.yr[5] = f(lower_part.c + xi[5] * lower_part.h);
+                lower_part.yr[6] = yl[0];
+                lower_part.yl[0] = yl[2];
+                lower_part.yl[1] = yl[8];
+                lower_part.yl[2] = yl[3];
+                lower_part.yl[3] = yl[4];
+                lower_part.yl[4] = yl[5];
+                lower_part.yl[5] = yl[9];
+                lower_part.yl[6] = yl[6];
+                if (nl > 10) {
+                    lower_part.yr[3] = yl[10];
+                    lower_part.yl[7] = yl[11];
+                    lower_part.yl[8] = yl[12];
+                    lower_part.yl[9] = yl[13];
+                    if (nl > 14) {
+                        lower_part.yr[7] = yl[15];
+                        lower_part.yr[8] = yl[14];
+                        lower_part.yr[9] = f(lower_part.c + xi[9] * lower_part.h);
+                        lower_part.yr[10] = yl[16];
+                        lower_part.yl[10] = yl[17];
+                        lower_part.yl[11] = yl[18];
+                        lower_part.yl[12] = yl[19];
+                        lower_part.yl[13] = yl[20];
+                        lower_part.nr = 11;
+                        lower_part.nl = 14;
                     } else {
-                        interval.n = 7;
-                        interval.m = 10;
+                        lower_part.nr = 7;
+                        lower_part.nl = 10;
                     }
                 } else {
-                    interval.yn[3] = f(interval.c + xi[3] * interval.h);
-                    interval.n = 7;
-                    interval.m = 7;
+                    lower_part.yr[3] = f(lower_part.c + xi[3] * lower_part.h);
+                    lower_part.nr = 7;
+                    lower_part.nl = 7;
                 }
 
-                return interval;
-            }
-
-            template<class F>
-            Interval upper_half(const F &f) const {
-                Interval interval(c, b);
-
-                interval.ym[0] = yn[2];
-                interval.ym[1] = yn[7];
-                interval.ym[2] = yn[1];
-                interval.ym[4] = f(interval.c - xi[4] * interval.h);
-                interval.ym[5] = f(interval.c - xi[5] * interval.h);
-                interval.ym[6] = yn[0];
-                interval.yn[0] = yn[2];
-                interval.yn[1] = yn[8];
-                interval.yn[2] = yn[3];
-                interval.yn[3] = yn[4];
-                interval.yn[4] = yn[5];
-                interval.yn[5] = yn[9];
-                interval.yn[6] = yn[6];
-                if (n > 10) {
-                    interval.ym[3] = yn[10];
-                    interval.yn[7] = yn[11];
-                    interval.yn[8] = yn[12];
-                    interval.yn[9] = yn[13];
-                    if (n > 14) {
-                        interval.ym[7] = yn[15];
-                        interval.ym[8] = yn[14];
-                        interval.ym[9] = f(interval.c - xi[9] * interval.h);
-                        interval.ym[10] = yn[16];
-                        interval.yn[10] = yn[17];
-                        interval.yn[11] = yn[18];
-                        interval.yn[12] = yn[19];
-                        interval.yn[13] = yn[20];
-                        interval.m = 11;
-                        interval.n = 14;
+                upper_part.yl[0] = yr[2];
+                upper_part.yl[1] = yr[7];
+                upper_part.yl[2] = yr[1];
+                upper_part.yl[4] = f(upper_part.c - xi[4] * upper_part.h);
+                upper_part.yl[5] = f(upper_part.c - xi[5] * upper_part.h);
+                upper_part.yl[6] = yr[0];
+                upper_part.yr[0] = yr[2];
+                upper_part.yr[1] = yr[8];
+                upper_part.yr[2] = yr[3];
+                upper_part.yr[3] = yr[4];
+                upper_part.yr[4] = yr[5];
+                upper_part.yr[5] = yr[9];
+                upper_part.yr[6] = yr[6];
+                if (nr > 10) {
+                    upper_part.yl[3] = yr[10];
+                    upper_part.yr[7] = yr[11];
+                    upper_part.yr[8] = yr[12];
+                    upper_part.yr[9] = yr[13];
+                    if (nr > 14) {
+                        upper_part.yl[7] = yr[15];
+                        upper_part.yl[8] = yr[14];
+                        upper_part.yl[9] = f(upper_part.c - xi[9] * upper_part.h);
+                        upper_part.yl[10] = yr[16];
+                        upper_part.yr[10] = yr[17];
+                        upper_part.yr[11] = yr[18];
+                        upper_part.yr[12] = yr[19];
+                        upper_part.yr[13] = yr[20];
+                        upper_part.nl = 11;
+                        upper_part.nr = 14;
                     } else {
-                        interval.m = 7;
-                        interval.n = 10;
+                        upper_part.nl = 7;
+                        upper_part.nr = 10;
                     }
                 } else {
-                    interval.ym[3] = f(interval.c - xi[3] * interval.h);
-                    interval.m = 7;
-                    interval.n = 7;
+                    upper_part.yl[3] = f(upper_part.c - xi[3] * upper_part.h);
+                    upper_part.nl = 7;
+                    upper_part.nr = 7;
                 }
 
-                return interval;
+                return std::make_pair(lower_part, upper_part);
             }
 
+        private:
+            T compute(Formula q) {
+                const size_t m = mw[q];
+                const size_t n = nw[q];
+
+                T result = T(0.0);
+
+                for (size_t i = 0; i < n; ++i) {
+                    if (i >= nl) {
+                        yl[i] = f(c - h * xi[i]);
+                    }
+                    if (i >= nr) {
+                        yr[i] = f(c + h * xi[i]);
+                    }
+                    result += (yl[i] + yr[i]) * wi[m + i];
+                }
+                if (nl < n) {
+                    nl = n;
+                }
+                if (nr < n) {
+                    nr = n;
+                }
+
+                return result * h;
+            }
+
+            const F f;
             const T a;
             const T b;
             const T c;
             const T h;
 
-            std::valarray<T> ym;
-            std::valarray<T> yn;
+            std::valarray<T> yl;
+            std::valarray<T> yr;
 
-            size_t m = 0;
-            size_t n = 0;
+            size_t nl = 0;
+            size_t nr = 0;
 
             T result = T(0.0);
             T abserr = T(0.0);
