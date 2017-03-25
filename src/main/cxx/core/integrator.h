@@ -43,6 +43,8 @@ namespace especia {
      *
      * @tparam T The number type used for quadrature calculations. The quadrature weight
      * and abscissa values are defined with a precision of 48 decimal digits.
+     *
+     * @todo - work in progress
      */
     template<class T = R_type>
     class Integrator {
@@ -55,19 +57,19 @@ namespace especia {
             /**
              * The formula for integration with 13 quadrature points.
              */
-            Q13,
+                    Q13,
             /**
              * The formula for integration with 19 quadrature points.
              */
-            Q19,
+                    Q19,
             /**
              * The formula for integration with 27 quadrature points.
              */
-            Q27,
+                    Q27,
             /**
              * The formula for integration with 41 quadrature points.
              */
-            Q41
+                    Q41
         };
 
         /**
@@ -113,6 +115,126 @@ namespace especia {
         }
 
     private:
+        friend class Interval;
+
+        class Interval {
+        public:
+
+            Interval(T a_in, T b_in)
+                    : a(a_in), b(b_in), c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), ym(21), yn(21) {
+            }
+
+            ~Interval() {
+
+            }
+
+            template<class F>
+            Interval lower_half(const F &f) const {
+                Interval interval(a, c);
+
+                interval.yn[0] = ym[2];
+                interval.yn[1] = ym[7];
+                interval.yn[2] = ym[1];
+                interval.yn[4] = f(interval.c + xi[4] * interval.h);
+                interval.yn[5] = f(interval.c + xi[5] * interval.h);
+                interval.yn[6] = ym[0];
+                interval.ym[0] = ym[2];
+                interval.ym[1] = ym[8];
+                interval.ym[2] = ym[3];
+                interval.ym[3] = ym[4];
+                interval.ym[4] = ym[5];
+                interval.ym[5] = ym[9];
+                interval.ym[6] = ym[6];
+                if (m > 10) {
+                    interval.yn[3] = ym[10];
+                    interval.ym[7] = ym[11];
+                    interval.ym[8] = ym[12];
+                    interval.ym[9] = ym[13];
+                    if (m > 14) {
+                        interval.yn[7] = ym[15];
+                        interval.yn[8] = ym[14];
+                        interval.yn[9] = f(interval.c + xi[9] * interval.h);
+                        interval.yn[10] = ym[16];
+                        interval.ym[10] = ym[17];
+                        interval.ym[11] = ym[18];
+                        interval.ym[12] = ym[19];
+                        interval.ym[13] = ym[20];
+                        interval.n = 11;
+                        interval.m = 14;
+                    } else {
+                        interval.n = 7;
+                        interval.m = 10;
+                    }
+                } else {
+                    interval.yn[3] = f(interval.c + xi[3] * interval.h);
+                    interval.n = 7;
+                    interval.m = 7;
+                }
+
+                return interval;
+            }
+
+            template<class F>
+            Interval upper_half(const F &f) const {
+                Interval interval(c, b);
+
+                interval.ym[0] = yn[2];
+                interval.ym[1] = yn[7];
+                interval.ym[2] = yn[1];
+                interval.ym[4] = f(interval.c - xi[4] * interval.h);
+                interval.ym[5] = f(interval.c - xi[5] * interval.h);
+                interval.ym[6] = yn[0];
+                interval.yn[0] = yn[2];
+                interval.yn[1] = yn[8];
+                interval.yn[2] = yn[3];
+                interval.yn[3] = yn[4];
+                interval.yn[4] = yn[5];
+                interval.yn[5] = yn[9];
+                interval.yn[6] = yn[6];
+                if (n > 10) {
+                    interval.ym[3] = yn[10];
+                    interval.yn[7] = yn[11];
+                    interval.yn[8] = yn[12];
+                    interval.yn[9] = yn[13];
+                    if (n > 14) {
+                        interval.ym[7] = yn[15];
+                        interval.ym[8] = yn[14];
+                        interval.ym[9] = f(interval.c - xi[9] * interval.h);
+                        interval.ym[10] = yn[16];
+                        interval.yn[10] = yn[17];
+                        interval.yn[11] = yn[18];
+                        interval.yn[12] = yn[19];
+                        interval.yn[13] = yn[20];
+                        interval.m = 11;
+                        interval.n = 14;
+                    } else {
+                        interval.m = 7;
+                        interval.n = 10;
+                    }
+                } else {
+                    interval.ym[3] = f(interval.c - xi[3] * interval.h);
+                    interval.m = 7;
+                    interval.n = 7;
+                }
+
+                return interval;
+            }
+
+            const T a;
+            const T b;
+            const T c;
+            const T h;
+
+            std::valarray<T> ym;
+            std::valarray<T> yn;
+
+            size_t m = 0;
+            size_t n = 0;
+
+            T result = T(0.0);
+            T abserr = T(0.0);
+        };
+
         /**
          * The selected quadrature formula.
          */
