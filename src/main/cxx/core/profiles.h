@@ -273,11 +273,13 @@ namespace especia {
          */
         R_type operator()(const R_type &x) const;
 
-        /// @todo - work in progress
         template<class Integrate>
         R_type equivalent_width(const Integrate &integrator) const {
-            return integrator.integrate(
-                    [this](R_type x) -> R_type { return R_type(1) - std::exp(-this->operator()(x)); }, 0.0, 1.0);
+            const R_type x = c;
+            const R_type y = c + b * 5.0;
+
+            return 2.0 * integrator.integrate(
+                    [this](R_type x) -> R_type { return 1.0 - std::exp(-this->operator()(x)); }, x, y);
         }
 
         /**

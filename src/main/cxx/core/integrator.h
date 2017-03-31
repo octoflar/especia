@@ -22,8 +22,9 @@
 #ifndef INTEGRATOR_H
 #define INTEGRATOR_H
 
+#include <algorithm>
 #include <cmath>
-#include <utility>
+#include <vector>
 
 #include "base.h"
 
@@ -46,8 +47,6 @@ namespace especia {
      *
      * @tparam T The number type used for quadrature calculations. The quadrature weight
      * and abscissa values are defined with a precision of 48 decimal digits.
-     *
-     * @todo - work in progress
      */
     template<class T = R_type>
     class Integrator {
@@ -76,11 +75,12 @@ namespace especia {
         };
 
         /**
-         * Constructs a new integrator, based on the formula supplied as argument.
+         * Constructs a new integrator, based on the formulas supplied as argument.
          *
-         * @param q
+         * @param[in] p The formula with less quadrature points.
+         * @param[in] q The formula with more quadrature points.
          */
-        Integrator(Formula q = Q27) : q(q) {
+        Integrator(Formula p = Q13, Formula q = Q19) : p(p), q(q) {
         }
 
         /**
@@ -98,135 +98,145 @@ namespace especia {
          * @param[in] f The function.
          * @param[in] a The lower limit of integration.
          * @param[in] b The upper limit of integration.
+         * @param[in] accuracy_goal The (absolute) accuracy goal.
+         * @param[in] max_iteration The maximum number of iterations,
          * @return the value of the integral.
          */
         template<class F>
-        T integrate(const F &f, T a, T b) {
-            const size_t m = mw[q];
-            const size_t n = nw[q];
+        T integrate(const F &f, T a, T b, T accuracy_goal = T(1.0E-6), size_t max_iteration = 100) {
+            Partition<F, Part<F>> partition(f, a, b, p, q);
 
-            const T c = T(0.5) * (a + b);
-            const T h = T(0.5) * (b - a);
-
-            T result = T(0.0);
-
-            for (size_t i = 0; i < n; ++i) {
-                result += (f(c - h * xi[i]) + f(c + h * xi[i])) * wi[m + i];
+            for (size_t i = 0; i < max_iteration; ++i) {
+                if (partition.get_absolute_error() < accuracy_goal) {
+                    break;
+                }
+                partition.refine();
             }
 
-            return result * h;
+            return partition.get_result();
         }
 
     private:
-        friend class Integral;
-
+        /**
+         * A part of a numerical integral.
+         *
+         * @tparam F The function type.
+         */
         template<class F>
-        class Integral {
+        class Part {
         public:
-
-            Integral(const F &f, T a, T b)
-                    : f(f), a(a), b(b), c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yr(21) {
-            }
-
-            ~Integral() {
-
-            }
-
-            void integrate(Formula q) {
+            Part(const F &f, T a, T b, Formula p, Formula q)
+                    : f(f), a(a), b(b), p(p), q(q), c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yu(21) {
                 using std::abs;
 
-                abserr = compute(q);
-                result = compute(q + 1);
-                abserr = abs(result - abserr);
+                result = evaluate(q);
+                absolute_error = abs(result - evaluate(p));
             }
 
-            std::pair<Integral, Integral> split() const {
-                Integral lower_part(a, c);
-                Integral upper_part(c, b);
+            ~Part() {
 
-                lower_part.yr[0] = yl[2];
-                lower_part.yr[1] = yl[7];
-                lower_part.yr[2] = yl[1];
-                lower_part.yr[4] = f(lower_part.c + xi[4] * lower_part.h);
-                lower_part.yr[5] = f(lower_part.c + xi[5] * lower_part.h);
-                lower_part.yr[6] = yl[0];
-                lower_part.yl[0] = yl[2];
-                lower_part.yl[1] = yl[8];
-                lower_part.yl[2] = yl[3];
-                lower_part.yl[3] = yl[4];
-                lower_part.yl[4] = yl[5];
-                lower_part.yl[5] = yl[9];
-                lower_part.yl[6] = yl[6];
+            }
+
+            T get_absolute_error() const {
+                return absolute_error;
+            }
+
+            T get_result() const {
+                return result;
+            }
+
+            Part *lower_half() const {
+                Part *half = new Part(f, a, c, p, q);
+
+                half->yu[0] = yl[2];
+                half->yu[1] = yl[7];
+                half->yu[2] = yl[1];
+                half->yu[4] = f(half->c + xi[4] * half->h);
+                half->yu[5] = f(half->c + xi[5] * half->h);
+                half->yu[6] = yl[0];
+                half->yl[0] = yl[2];
+                half->yl[1] = yl[8];
+                half->yl[2] = yl[3];
+                half->yl[3] = yl[4];
+                half->yl[4] = yl[5];
+                half->yl[5] = yl[9];
+                half->yl[6] = yl[6];
                 if (nl > 10) {
-                    lower_part.yr[3] = yl[10];
-                    lower_part.yl[7] = yl[11];
-                    lower_part.yl[8] = yl[12];
-                    lower_part.yl[9] = yl[13];
+                    half->yu[3] = yl[10];
+                    half->yl[7] = yl[11];
+                    half->yl[8] = yl[12];
+                    half->yl[9] = yl[13];
                     if (nl > 14) {
-                        lower_part.yr[7] = yl[15];
-                        lower_part.yr[8] = yl[14];
-                        lower_part.yr[9] = f(lower_part.c + xi[9] * lower_part.h);
-                        lower_part.yr[10] = yl[16];
-                        lower_part.yl[10] = yl[17];
-                        lower_part.yl[11] = yl[18];
-                        lower_part.yl[12] = yl[19];
-                        lower_part.yl[13] = yl[20];
-                        lower_part.nr = 11;
-                        lower_part.nl = 14;
+                        half->yu[7] = yl[15];
+                        half->yu[8] = yl[14];
+                        half->yu[9] = f(half->c + xi[9] * half->h);
+                        half->yu[10] = yl[16];
+                        half->yl[10] = yl[17];
+                        half->yl[11] = yl[18];
+                        half->yl[12] = yl[19];
+                        half->yl[13] = yl[20];
+                        half->nu = 11;
+                        half->nl = 14;
                     } else {
-                        lower_part.nr = 7;
-                        lower_part.nl = 10;
+                        half->nu = 7;
+                        half->nl = 10;
                     }
                 } else {
-                    lower_part.yr[3] = f(lower_part.c + xi[3] * lower_part.h);
-                    lower_part.nr = 7;
-                    lower_part.nl = 7;
+                    half->yu[3] = f(half->c + xi[3] * half->h);
+                    half->nu = 7;
+                    half->nl = 7;
                 }
 
-                upper_part.yl[0] = yr[2];
-                upper_part.yl[1] = yr[7];
-                upper_part.yl[2] = yr[1];
-                upper_part.yl[4] = f(upper_part.c - xi[4] * upper_part.h);
-                upper_part.yl[5] = f(upper_part.c - xi[5] * upper_part.h);
-                upper_part.yl[6] = yr[0];
-                upper_part.yr[0] = yr[2];
-                upper_part.yr[1] = yr[8];
-                upper_part.yr[2] = yr[3];
-                upper_part.yr[3] = yr[4];
-                upper_part.yr[4] = yr[5];
-                upper_part.yr[5] = yr[9];
-                upper_part.yr[6] = yr[6];
-                if (nr > 10) {
-                    upper_part.yl[3] = yr[10];
-                    upper_part.yr[7] = yr[11];
-                    upper_part.yr[8] = yr[12];
-                    upper_part.yr[9] = yr[13];
-                    if (nr > 14) {
-                        upper_part.yl[7] = yr[15];
-                        upper_part.yl[8] = yr[14];
-                        upper_part.yl[9] = f(upper_part.c - xi[9] * upper_part.h);
-                        upper_part.yl[10] = yr[16];
-                        upper_part.yr[10] = yr[17];
-                        upper_part.yr[11] = yr[18];
-                        upper_part.yr[12] = yr[19];
-                        upper_part.yr[13] = yr[20];
-                        upper_part.nl = 11;
-                        upper_part.nr = 14;
+                return half;
+            }
+
+            Part *upper_half() const {
+                Part *half = new Part(f, c, b, p, q);
+
+                half->yl[0] = yu[2];
+                half->yl[1] = yu[7];
+                half->yl[2] = yu[1];
+                half->yl[4] = f(half->c - xi[4] * half->h);
+                half->yl[5] = f(half->c - xi[5] * half->h);
+                half->yl[6] = yu[0];
+                half->yu[0] = yu[2];
+                half->yu[1] = yu[8];
+                half->yu[2] = yu[3];
+                half->yu[3] = yu[4];
+                half->yu[4] = yu[5];
+                half->yu[5] = yu[9];
+                half->yu[6] = yu[6];
+                if (nu > 10) {
+                    half->yl[3] = yu[10];
+                    half->yu[7] = yu[11];
+                    half->yu[8] = yu[12];
+                    half->yu[9] = yu[13];
+                    if (nu > 14) {
+                        half->yl[7] = yu[15];
+                        half->yl[8] = yu[14];
+                        half->yl[9] = f(half->c - xi[9] * half->h);
+                        half->yl[10] = yu[16];
+                        half->yu[10] = yu[17];
+                        half->yu[11] = yu[18];
+                        half->yu[12] = yu[19];
+                        half->yu[13] = yu[20];
+                        half->nl = 11;
+                        half->nu = 14;
                     } else {
-                        upper_part.nl = 7;
-                        upper_part.nr = 10;
+                        half->nl = 7;
+                        half->nu = 10;
                     }
                 } else {
-                    upper_part.yl[3] = f(upper_part.c - xi[3] * upper_part.h);
-                    upper_part.nl = 7;
-                    upper_part.nr = 7;
+                    half->yl[3] = f(half->c - xi[3] * half->h);
+                    half->nl = 7;
+                    half->nu = 7;
                 }
 
-                return std::make_pair(lower_part, upper_part);
+                return half;
             }
 
         private:
-            T compute(Formula q) {
+            T evaluate(Formula q) {
                 const size_t m = mw[q];
                 const size_t n = nw[q];
 
@@ -236,39 +246,141 @@ namespace especia {
                     if (i >= nl) {
                         yl[i] = f(c - h * xi[i]);
                     }
-                    if (i >= nr) {
-                        yr[i] = f(c + h * xi[i]);
+                    if (i >= nu) {
+                        yu[i] = f(c + h * xi[i]);
                     }
-                    result += (yl[i] + yr[i]) * wi[m + i];
+                    result += (yl[i] + yu[i]) * wi[m + i];
                 }
                 if (nl < n) {
                     nl = n;
                 }
-                if (nr < n) {
-                    nr = n;
+                if (nu < n) {
+                    nu = n;
                 }
 
                 return result * h;
             }
 
-            const F f;
+            const F &f;
             const T a;
             const T b;
+            const Formula p;
+            const Formula q;
+
             const T c;
             const T h;
 
             std::valarray<T> yl;
-            std::valarray<T> yr;
+            std::valarray<T> yu;
 
             size_t nl = 0;
-            size_t nr = 0;
+            size_t nu = 0;
 
-            T result = T(0.0);
-            T abserr = T(0.0);
+            T result;
+            T absolute_error;
         };
 
         /**
-         * The selected quadrature formula.
+         * Compares two numerical integral parts.
+         *
+         * @tparam P The part type.
+         */
+        template<class P>
+        class Part_Compare {
+        public:
+            /**
+             * Compares two numerical integration parts.
+             * @param p The first part.
+             * @param q The other part.
+             * @return @c true, if the absolute error of the first part is less than that of the other part.
+             */
+            bool operator()(const P *p, const P *q) const {
+                return p->get_absolute_error() < q->get_absolute_error();
+            }
+        };
+
+        /**
+         * The partion of a numerical integral.
+         *
+         * @tparam F The function type.
+         * @tparam P The part type.
+         */
+        template<class F, class P>
+        class Partition {
+        public:
+            Partition(const F &f, T a, T b, Formula p, Formula q) : part_compare(Part_Compare<P>()), parts() {
+                using std::make_heap;
+                using std::push_heap;
+
+                P *part = new P(f, a, b, p, q);
+                make_heap(parts.begin(), parts.end(), part_compare);
+                push_part(part);
+            }
+
+            ~Partition() {
+                for (auto part : parts) {
+                    delete part;
+                }
+            }
+
+            T get_absolute_error() const {
+                T absolute_error = T(0.0);
+
+                for (auto part : parts) {
+                    absolute_error += part->get_absolute_error();
+                }
+
+                return absolute_error;
+            }
+
+            T get_result() const {
+                T result = T(0.0);
+
+                for (auto part : parts) {
+                    result += part->get_result();
+                }
+
+                return result;
+            }
+
+            void refine() {
+                P *popped = pop_part();
+                push_part(popped->lower_half());
+                push_part(popped->upper_half());
+
+                delete popped;
+            }
+
+        private:
+            P *pop_part() {
+                using std::pop_heap;
+
+                P *popped = parts.front();
+                pop_heap(parts.begin(), parts.end(), part_compare);
+                parts.pop_back();
+
+                return popped;
+            }
+
+            void push_part(P *part) {
+                using std::push_heap;
+
+                parts.push_back(part);
+                push_heap(parts.begin(), parts.end(), part_compare);
+            }
+
+            const Part_Compare<P> part_compare;
+
+            std::vector<P *> parts;
+        };
+
+        /**
+         * The selected quadrature formula with less points.
+         */
+        const Formula p;
+
+        /**
+         * The selected quadrature formula with more points.
          */
         const Formula q;
 
