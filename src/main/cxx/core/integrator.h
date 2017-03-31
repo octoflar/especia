@@ -281,7 +281,7 @@ namespace especia {
         };
 
         /**
-         * Compares two numerical integral parts.
+         * Compares two integral parts.
          *
          * @tparam P The part type.
          */
@@ -289,7 +289,8 @@ namespace especia {
         class Part_Compare {
         public:
             /**
-             * Compares two numerical integration parts.
+             * Compares two integral parts.
+             *
              * @param p The first part.
              * @param q The other part.
              * @return @c true, if the absolute error of the first part is less than that of the other part.
