@@ -135,7 +135,7 @@ namespace especia {
             }
 
             T get_absolute_error() const {
-                return absolute_error;
+                return abserr;
             }
 
             T get_result() const {
@@ -240,13 +240,14 @@ namespace especia {
             Part(const Part *parent, T a, T b)
                     : f(parent->f), a(a), b(b), p(parent->p), q(parent->q),
                       c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yu(21) {
+                // do not evaluate
             }
 
             void evaluate() {
                 using std::abs;
 
                 result = evaluate(q);
-                absolute_error = abs(result - evaluate(p));
+                abserr = abs(result - evaluate(p));
             }
 
             T evaluate(Formula q) {
@@ -291,8 +292,8 @@ namespace especia {
             size_t nl = 0;
             size_t nu = 0;
 
-            T absolute_error = T(0.0);
             T result = T(0.0);
+            T abserr = T(0.0);
         };
 
         /**
@@ -521,5 +522,11 @@ namespace especia {
     };
 
 }
+
+/// @todo - write a test
+///
+/// Integrator<double> integrator;
+/// double result = integrator.integrate([](double x) -> double { return sin(x) * sin(x); }, 0.0, 564 * especia::pi);
+/// expected result = 885.929
 
 #endif // INTEGRATOR_H
