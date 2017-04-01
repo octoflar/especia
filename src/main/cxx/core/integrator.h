@@ -127,6 +127,7 @@ namespace especia {
         public:
             Part(const F &f, T a, T b, Formula p, Formula q)
                     : f(f), a(a), b(b), p(p), q(q), c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yu(21) {
+                evaluate();
             }
 
             ~Part() {
@@ -134,17 +135,15 @@ namespace especia {
             }
 
             T get_absolute_error() const {
-                using std::abs;
-
-                return abs(evaluate(q) - evaluate(p));
+                return absolute_error;
             }
 
             T get_result() const {
-                return evaluate(q);
+                return result;
             }
 
             Part *lower_half() const {
-                Part *half = new Part(f, a, c, p, q);
+                Part *half = new Part(this, a, c);
 
                 half->yu[0] = yl[2];
                 half->yu[1] = yl[7];
@@ -185,11 +184,13 @@ namespace especia {
                     half->nl = 7;
                 }
 
+                half->evaluate();
+
                 return half;
             }
 
             Part *upper_half() const {
-                Part *half = new Part(f, c, b, p, q);
+                Part *half = new Part(this, c, b);
 
                 half->yl[0] = yu[2];
                 half->yl[1] = yu[7];
@@ -230,11 +231,25 @@ namespace especia {
                     half->nu = 7;
                 }
 
+                half->evaluate();
+
                 return half;
             }
 
         private:
-            T evaluate(Formula q) const {
+            Part(const Part *parent, T a, T b)
+                    : f(parent->f), a(a), b(b), p(parent->p), q(parent->q),
+                      c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yu(21) {
+            }
+
+            void evaluate() {
+                using std::abs;
+
+                result = evaluate(q);
+                absolute_error = abs(result - evaluate(p));
+            }
+
+            T evaluate(Formula q) {
                 const size_t m = Integrator::mw[q];
                 const size_t n = Integrator::nw[q];
 
@@ -270,11 +285,14 @@ namespace especia {
             const T c;
             const T h;
 
-            mutable std::valarray<T> yl;
-            mutable std::valarray<T> yu;
+            std::valarray<T> yl;
+            std::valarray<T> yu;
 
-            mutable size_t nl = 0;
-            mutable size_t nu = 0;
+            size_t nl = 0;
+            size_t nu = 0;
+
+            T absolute_error = T(0.0);
+            T result = T(0.0);
         };
 
         /**
