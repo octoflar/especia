@@ -127,10 +127,6 @@ namespace especia {
         public:
             Part(const F &f, T a, T b, Formula p, Formula q)
                     : f(f), a(a), b(b), p(p), q(q), c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yu(21) {
-                using std::abs;
-
-                result = evaluate(q);
-                absolute_error = abs(result - evaluate(p));
             }
 
             ~Part() {
@@ -138,11 +134,13 @@ namespace especia {
             }
 
             T get_absolute_error() const {
-                return absolute_error;
+                using std::abs;
+
+                return abs(evaluate(q) - evaluate(p));
             }
 
             T get_result() const {
-                return result;
+                return evaluate(q);
             }
 
             Part *lower_half() const {
@@ -151,8 +149,8 @@ namespace especia {
                 half->yu[0] = yl[2];
                 half->yu[1] = yl[7];
                 half->yu[2] = yl[1];
-                half->yu[4] = f(half->c + xi[4] * half->h);
-                half->yu[5] = f(half->c + xi[5] * half->h);
+                half->yu[4] = f(half->c + Integrator::xi[4] * half->h);
+                half->yu[5] = f(half->c + Integrator::xi[5] * half->h);
                 half->yu[6] = yl[0];
                 half->yl[0] = yl[2];
                 half->yl[1] = yl[8];
@@ -169,7 +167,7 @@ namespace especia {
                     if (nl > 14) {
                         half->yu[7] = yl[15];
                         half->yu[8] = yl[14];
-                        half->yu[9] = f(half->c + xi[9] * half->h);
+                        half->yu[9] = f(half->c + Integrator::xi[9] * half->h);
                         half->yu[10] = yl[16];
                         half->yl[10] = yl[17];
                         half->yl[11] = yl[18];
@@ -182,7 +180,7 @@ namespace especia {
                         half->nl = 10;
                     }
                 } else {
-                    half->yu[3] = f(half->c + xi[3] * half->h);
+                    half->yu[3] = f(half->c + Integrator::xi[3] * half->h);
                     half->nu = 7;
                     half->nl = 7;
                 }
@@ -196,8 +194,8 @@ namespace especia {
                 half->yl[0] = yu[2];
                 half->yl[1] = yu[7];
                 half->yl[2] = yu[1];
-                half->yl[4] = f(half->c - xi[4] * half->h);
-                half->yl[5] = f(half->c - xi[5] * half->h);
+                half->yl[4] = f(half->c - Integrator::xi[4] * half->h);
+                half->yl[5] = f(half->c - Integrator::xi[5] * half->h);
                 half->yl[6] = yu[0];
                 half->yu[0] = yu[2];
                 half->yu[1] = yu[8];
@@ -214,7 +212,7 @@ namespace especia {
                     if (nu > 14) {
                         half->yl[7] = yu[15];
                         half->yl[8] = yu[14];
-                        half->yl[9] = f(half->c - xi[9] * half->h);
+                        half->yl[9] = f(half->c - Integrator::xi[9] * half->h);
                         half->yl[10] = yu[16];
                         half->yu[10] = yu[17];
                         half->yu[11] = yu[18];
@@ -227,7 +225,7 @@ namespace especia {
                         half->nu = 10;
                     }
                 } else {
-                    half->yl[3] = f(half->c - xi[3] * half->h);
+                    half->yl[3] = f(half->c - Integrator::xi[3] * half->h);
                     half->nl = 7;
                     half->nu = 7;
                 }
@@ -236,20 +234,22 @@ namespace especia {
             }
 
         private:
-            T evaluate(Formula q) {
-                const size_t m = mw[q];
-                const size_t n = nw[q];
+            T evaluate(Formula q) const {
+                const size_t m = Integrator::mw[q];
+                const size_t n = Integrator::nw[q];
 
                 T result = T(0.0);
-
+#ifdef _OPENMP
+#pragma omp parallel for reduction(+:result)
+#endif
                 for (size_t i = 0; i < n; ++i) {
                     if (i >= nl) {
-                        yl[i] = f(c - h * xi[i]);
+                        yl[i] = f(c - h * Integrator::xi[i]);
                     }
                     if (i >= nu) {
-                        yu[i] = f(c + h * xi[i]);
+                        yu[i] = f(c + h * Integrator::xi[i]);
                     }
-                    result += (yl[i] + yu[i]) * wi[m + i];
+                    result += (yl[i] + yu[i]) * Integrator::wi[m + i];
                 }
                 if (nl < n) {
                     nl = n;
@@ -270,14 +270,11 @@ namespace especia {
             const T c;
             const T h;
 
-            std::valarray<T> yl;
-            std::valarray<T> yu;
+            mutable std::valarray<T> yl;
+            mutable std::valarray<T> yu;
 
-            size_t nl = 0;
-            size_t nu = 0;
-
-            T result;
-            T absolute_error;
+            mutable size_t nl = 0;
+            mutable size_t nu = 0;
         };
 
         /**
