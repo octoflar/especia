@@ -98,6 +98,11 @@ add_executable(etee ${MAIN}/cxx/apps/etee.cxx
         ${MAIN}/cxx/core/dataio.h
         ${MAIN}/cxx/core/exitcodes.h)
 
+add_unit_test(integrator_test
+        ${MAIN}/cxx/core/base.h
+        ${MAIN}/cxx/core/integrator.h
+        ${TEST}/cxx/core/integrator_test.cxx)
+
 add_system_test(test1 159.77 171.89)
 add_system_test(test2 251.04)
 add_system_test(test3 251.46)

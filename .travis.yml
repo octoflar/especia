@@ -7,7 +7,8 @@ script:
   - mkdir cmake-build-release
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - make -j clean all util
+  - make -j clean all util unittests
+  - ctest --verbose --label-regex unit
   - ctest --verbose --tests-regex "$TEST"
 matrix:
   include:

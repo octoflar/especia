@@ -23,4 +23,16 @@ function(add_system_test NAME EXPECTED_VALUES)
     set_tests_properties(${NAME} PROPERTIES LABELS system TIMEOUT 3600)
 endfunction()
 
+function(add_unit_test NAME)
+    add_executable(${NAME}
+            EXCLUDE_FROM_ALL
+            ${ARGN}
+            ${TEST}/cxx/unittest.h)
+    add_test(NAME ${NAME} COMMAND ${NAME})
+    set_tests_properties(${NAME} PROPERTIES LABELS unit TIMEOUT 60)
+    add_dependencies(unittests ${NAME})
+endfunction()
+
+add_custom_target(unittests)
+
 enable_testing()
