@@ -35,4 +35,6 @@ endfunction()
 
 add_custom_target(unittests)
 
+add_custom_target(rununittests ctest --label-regex unit)
+
 enable_testing()
