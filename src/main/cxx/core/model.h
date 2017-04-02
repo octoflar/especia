@@ -65,7 +65,7 @@ namespace especia {
             }
 
             /**
-             * Destructor.
+             * The destructor.
              */
             ~Bounded_Constraint() {
             }

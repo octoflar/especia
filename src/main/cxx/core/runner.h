@@ -66,7 +66,7 @@ namespace especia {
         Runner(int argc, char *argv[]);
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Runner();
 
@@ -260,7 +260,7 @@ namespace especia {
         class Tracer {
         public:
             /**
-             * Constructor.
+             * The constructor.
              *
              * @param[in] output_stream The output stream.
              * @param[in] modulus The trace modulus.
@@ -272,7 +272,7 @@ namespace especia {
             }
 
             /**
-             * Destructor.
+             * The destructor.
              */
             ~Tracer() {
             }

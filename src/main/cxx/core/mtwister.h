@@ -93,7 +93,7 @@ namespace especia {
         }
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Mersenne_Twister() {
         };

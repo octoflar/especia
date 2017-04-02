@@ -53,7 +53,7 @@ namespace especia {
         Pseudo_Voigt(const R_type &b = 1.0, const R_type &d = 1.0);
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Pseudo_Voigt();
 
@@ -100,7 +100,7 @@ namespace especia {
         Extended_Pseudo_Voigt(const R_type &b = 1.0, const R_type &d = 1.0);
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Extended_Pseudo_Voigt();
 
@@ -176,7 +176,7 @@ namespace especia {
         Many_Multiplet(const R_type q[]);
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Many_Multiplet();
 
@@ -270,7 +270,7 @@ namespace especia {
         Intergalactic_Doppler(const R_type q[]);
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Intergalactic_Doppler();
 
@@ -370,7 +370,7 @@ namespace especia {
         }
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Intergalactic_Voigt() {
         }
@@ -464,7 +464,7 @@ namespace especia {
         }
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Superposition() {
         }

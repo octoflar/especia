@@ -43,13 +43,13 @@ namespace especia {
     class No_Constraint {
     public:
         /**
-         * Constructor.
+         * The constructor.
          */
         No_Constraint() {
         }
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~No_Constraint() {
         }
@@ -87,13 +87,13 @@ namespace especia {
     public:
 
         /**
-         * Constructor.
+         * The constructor.
          */
         No_Tracing() {
         }
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~No_Tracing() {
         }
@@ -147,7 +147,7 @@ namespace especia {
             Builder();
 
             /**
-             * Destructor.
+             * The destructor.
              */
             ~Builder();
 
@@ -425,7 +425,7 @@ namespace especia {
         class Result {
         public:
             /**
-             * Destructor.
+             * The destructor.
              */
             ~Result();
 
@@ -539,7 +539,7 @@ namespace especia {
 
         private:
             /**
-             * Constructor.
+             * The constructor.
              *
              * @param[in] n The problem dimension.
              * @param[in] x The initial parameter values.
@@ -720,7 +720,7 @@ namespace especia {
         };
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Optimizer();
 

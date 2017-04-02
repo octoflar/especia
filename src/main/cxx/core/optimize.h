@@ -54,7 +54,7 @@ namespace especia {
         }
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Index_Compare() {
         }

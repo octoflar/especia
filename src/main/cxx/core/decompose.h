@@ -49,7 +49,7 @@ namespace especia {
         D_Decompose(N_type m);
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~D_Decompose();
 
@@ -126,7 +126,7 @@ namespace especia {
         R_Decompose(N_type m);
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~R_Decompose();
 
@@ -216,7 +216,7 @@ namespace especia {
         X_Decompose(N_type m);
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~X_Decompose();
 

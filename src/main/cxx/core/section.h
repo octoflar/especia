@@ -64,7 +64,7 @@ namespace especia {
         Section(size_t n_in, const R_type wav[], const R_type flx[], const R_type unc[]);
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Section();
 

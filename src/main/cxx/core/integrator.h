@@ -85,7 +85,7 @@ namespace especia {
         }
 
         /**
-         * Destructor.
+         * The destructor.
          */
         ~Integrator() {
 
