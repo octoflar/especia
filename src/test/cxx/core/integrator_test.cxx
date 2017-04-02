@@ -60,7 +60,8 @@ private:
         run(test_integrate_cos);
         run(test_integrate_sin);
         run(test_integrate_sin_sq);
-        run(test_integrate_exp);
+        run(test_integrate_line_profile);
+        run(test_integrate_profile__infinite);
     }
 
     static void test_integrate_cos() {
@@ -109,7 +110,7 @@ private:
         assertions.assert_equals("test_integrate_sin_sq", 4.740589, result, 1.0E-06);
     }
 
-    static void test_integrate_exp() {
+    static void test_integrate_line_profile() {
         using std::exp;
         using especia::Integrator;
         using especia::pi;
@@ -119,10 +120,27 @@ private:
         const Integrator<double> integrator;
 
         const double a = 0.0;
-        const double b = 1.0E+02;
-        const double result = integrator.integrate([](double x) -> double { return 1.0 - exp(-exp(-sq(x) / 2.0)); }, a, b);
+        const double b = 4.0;
+        const double result = integrator.integrate([](double x) -> double { return 1.0 - exp(-exp(-sq(x))); }, a, b);
 
-        assertions.assert_equals("test_integrate_exp", 0.908734, result, 1.0E-06);
+        assertions.assert_equals("test_integrate_profile", 0.642572, result, 1.0E-06);
+    }
+
+    static void test_integrate_profile__infinite() {
+        using std::exp;
+        using std::log;
+        using especia::Integrator;
+        using especia::pi;
+        using especia::sq;
+
+        const Assertions assertions;
+        const Integrator<double> integrator;
+
+        const double a = 0.0;
+        const double b = 1.0;
+        const double result = integrator.integrate([](double u) -> double { return (1.0 - exp(-exp(-sq(log(u))))) / u; }, a, b);
+
+        assertions.assert_equals("test_integrate_profile__infinite", 0.642572, result, 1.0E-06);
     }
 };
 
