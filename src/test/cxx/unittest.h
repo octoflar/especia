@@ -92,15 +92,15 @@ protected:
         using std::cerr;
         using std::endl;
 
-        if (actual != expected) {
+        if (actual == expected) { // NaN safe
+            conditional_success_message(name);
+        } else {
             if (message_on_failure) {
                 cerr << "Unit test: failed assertion '" << name << "'\n";
                 cerr << "    Expected result: " << expected << "\n";
                 cerr << "    Actual   result: " << actual << endl;
             }
             conditional_stop(name);
-        } else {
-            conditional_success_message(name);
         }
     }
 
@@ -111,7 +111,9 @@ protected:
         using std::cerr;
         using std::endl;
 
-        if (abs(actual - expected) > tolerance) {
+        if (abs(actual - expected) < tolerance) { // NaN safe
+            conditional_success_message(name);
+        } else {
             if (message_on_failure) {
                 cerr << "Unit test: failed assertion '" << name << "'\n";
                 cerr << "    Expected result: " << expected << "\n";
@@ -119,8 +121,6 @@ protected:
                 cerr << "    Expected tolerance: " << tolerance << endl;
             }
             conditional_stop(name);
-        } else {
-            conditional_success_message(name);
         }
     }
 
