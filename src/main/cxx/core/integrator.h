@@ -24,6 +24,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <valarray>
 #include <vector>
 
 #include "base.h"
@@ -103,7 +104,7 @@ namespace especia {
          * @return the value of the integral.
          */
         template<class F>
-        T integrate(const F &f, T a, T b, T accuracy_goal = T(1.0E-6), size_t max_iteration = 100) {
+        T integrate(const F &f, T a, T b, T accuracy_goal = T(1.0E-6), size_t max_iteration = 100) const {
             Partition<F, Part<F>> partition(f, a, b, p, q);
 
             for (size_t i = 0; i < max_iteration; ++i) {
