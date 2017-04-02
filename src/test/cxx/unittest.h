@@ -38,7 +38,7 @@ public:
         virtual ~Assertion_Error() {
         }
 
-        virtual const char* what() const _NOEXCEPT {
+        virtual const char* what() const noexcept {
             return text.c_str();
         }
 
