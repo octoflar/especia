@@ -24,7 +24,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <limits>
 #include <valarray>
 #include <vector>
 
@@ -135,10 +134,9 @@ namespace especia {
         template<class F>
         T integrate_semi_infinite(const F &f, T accuracy_goal = T(1.0E-6), size_t max_iteration = 100) const {
             using std::log;
-            using std::numeric_limits;
 
-            return integrate([&f](T u) -> T { return f(-log(u)) / u; },
-                             numeric_limits<T>::epsilon() /* NaN safe */, T(1.0), accuracy_goal, max_iteration);
+            return integrate([&f](T u) -> T { return u > T(0.0) ? f(-log(u)) / u : T(0.0); },
+                             T(0.0), T(1.0), accuracy_goal, max_iteration);
         }
 
     private:
