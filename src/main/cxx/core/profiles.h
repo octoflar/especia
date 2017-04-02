@@ -181,12 +181,21 @@ namespace especia {
         ~Many_Multiplet();
 
         /**
-         * Returns the value of the Doppler profile at a given wavelength.
+         * Returns the value of the profile at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom)
-         * @return the value of the Doppler profile at @c x.
+         * @return the value of the profile at @c x.
          */
         R_type operator()(const R_type &x) const;
+
+        /**
+         * Returns the central wavelength of the profile.
+         *
+         * @return the central wavelength of the profile (Angstrom).
+         */
+        R_type get_center() const {
+            return c;
+        }
 
         /**
          * Returns the number of parameters.
@@ -266,20 +275,20 @@ namespace especia {
         ~Intergalactic_Doppler();
 
         /**
-         * Returns the value of the Doppler profile at a given wavelength.
+         * Returns the value of the profile at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom)
-         * @return the value of the Doppler profile at @c x.
+         * @return the value of the profile at @c x.
          */
         R_type operator()(const R_type &x) const;
 
-        template<class Integrate>
-        R_type equivalent_width(const Integrate &integrator) const {
-            const R_type x = c;
-            const R_type y = c + b * 5.0;
-
-            return 2.0 * integrator.integrate(
-                    [this](R_type x) -> R_type { return 1.0 - std::exp(-this->operator()(x)); }, x, y);
+        /**
+         * Returns the central wavelength of the profile.
+         *
+         * @return the central wavelength of the profile (Angstrom).
+         */
+        R_type get_center() const {
+            return c;
         }
 
         /**
@@ -367,14 +376,23 @@ namespace especia {
         }
 
         /**
-         * Returns the value of the Voigt profile at a given wavelength.
+         * Returns the value of the profile at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom)
-         * @return the value of the Voigt profile at @c x.
+         * @return the value of the profile at @c x.
          */
         R_type operator()(const R_type &x) const {
             return a * approximation(x - c);
         };
+
+        /**
+         * Returns the central wavelength of the profile.
+         *
+         * @return the central wavelength of the profile (Angstrom).
+         */
+        R_type get_center() const {
+            return c;
+        }
 
         /**
          * Returns the number of parameters.
@@ -470,6 +488,7 @@ namespace especia {
     private:
         std::vector<P> profiles;
     };
+
 
     /**
      * Truncates the support of a given profile function.
