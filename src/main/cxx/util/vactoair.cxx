@@ -59,6 +59,8 @@ using especia::R_type;
  * @remark Usage: vactoair [SKIP] < ISTREAM > OSTREAM
  */
 int main(int argc, char *argv[]) {
+    using especia::Equations;
+
     const string pname(argv[0]);
 
     try {
@@ -78,7 +80,7 @@ int main(int argc, char *argv[]) {
 
         if (especia::get(cin, x, y, z, skip)) {
             for (size_t i = 0; i < x.size(); ++i) {
-                x[i] = 10.0 / especia::Equations::edlen66(10.0 / x[i]);
+                x[i] = R_type(10.0) / Equations::edlen66(R_type(10.0) / x[i]);
             }
             especia::put(cout, x, y, z);
         } else {
