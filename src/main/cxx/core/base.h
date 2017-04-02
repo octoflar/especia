@@ -74,14 +74,14 @@ namespace especia {
     typedef int Z_type;
 
     /**
-     * Pi. <https://www.wolframalpha.com/input/?i=pi+to+42+digits>
+     * Pi. <https://www.wolframalpha.com/input/?i=pi+to+48+digits>
      */
-    const R_type pi = 3.14159265358979323846264338327950288419717;
+    const R_type pi = 3.14159265358979323846264338327950288419716939938;
 
     /**
-     * The square root of Pi. <https://www.wolframalpha.com/input/?i=square+root+of+pi+to+42+digits>
+     * The square root of Pi. <https://www.wolframalpha.com/input/?i=square+root+of+pi+to+48+digits>
      */
-    const R_type sqrt_of_pi = 1.77245385090551602729816748334114518279755;
+    const R_type sqrt_of_pi = 1.77245385090551602729816748334114518279754945612;
 
     /**
      * The electric constant (F m-1). *NIST SP 961 (Sept/2015)*
