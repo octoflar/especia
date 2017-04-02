@@ -24,6 +24,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <valarray>
 #include <vector>
 
@@ -100,7 +101,7 @@ namespace especia {
          * @param[in] a The lower limit of integration.
          * @param[in] b The upper limit of integration.
          * @param[in] accuracy_goal The (absolute) accuracy goal.
-         * @param[in] max_iteration The maximum number of iterations,
+         * @param[in] max_iteration The maximum number of iterations.
          * @return the value of the integral.
          */
         template<class F>
@@ -115,6 +116,29 @@ namespace especia {
             }
 
             return partition.get_result();
+        }
+
+        /**
+         * Computes the value of the semi-infinite integral of a function, i.e.
+         * @f[ \int_{0}^{\infty} f(x) dx @f].
+         *
+         * Makes the variable transformation @f[ x = exp(-u) @f] and computes
+         * @f[ \int_{0}^{1} \frac{f(-log(u))}{u} du @f].
+         *
+         * @tparam F The function type.
+         *
+         * @param[in] f The function. To be integrable @c f must vanish at infinity.
+         * @param[in] accuracy_goal The (absolute) accuracy goal.
+         * @param[in] max_iteration The maximum number of iterations.
+         * @return the value of the semi-infinite integral.
+         */
+        template<class F>
+        T integrate_semi_infinite(const F &f, T accuracy_goal = T(1.0E-6), size_t max_iteration = 100) const {
+            using std::log;
+            using std::numeric_limits;
+
+            return integrate([&f](T u) -> T {
+                return f(-log(u)) / u; }, numeric_limits<T>::epsilon(), T(1.0), accuracy_goal, max_iteration);
         }
 
     private:
@@ -136,7 +160,7 @@ namespace especia {
             }
 
             T get_absolute_error() const {
-                return abserr;
+                return absolute_error;
             }
 
             T get_result() const {
@@ -248,7 +272,7 @@ namespace especia {
                 using std::abs;
 
                 result = evaluate(q);
-                abserr = abs(result - evaluate(p));
+                absolute_error = abs(result - evaluate(p));
             }
 
             T evaluate(Formula q) {
@@ -293,8 +317,8 @@ namespace especia {
             size_t nl = 0;
             size_t nu = 0;
 
+            T absolute_error = T(0.0);
             T result = T(0.0);
-            T abserr = T(0.0);
         };
 
         /**
@@ -521,13 +545,6 @@ namespace especia {
     const size_t Integrator<T>::nw[] = {
             7, 10, 14, 21
     };
-
 }
-
-/// @todo - write a test
-///
-/// Integrator<double> integrator;
-/// double result = integrator.integrate([](double x) -> double { return sin(x) * sin(x); }, 0.0, 564 * especia::pi);
-/// expected result = 885.929
 
 #endif // INTEGRATOR_H

@@ -23,36 +23,99 @@
 #define ESPECIA_UNITTEST_H_H
 
 #include <cmath>
+#include <exception>
 #include <iostream>
-#include <stdexcept>
 #include <string>
 
-using std::runtime_error;
-using std::string;
 
-
-class Assertions {
+class Unit_Test {
 public:
+    class Assertion_Error : public std::exception {
+    public:
+        Assertion_Error(std::string description) : exception(), text(description) {
+        }
 
-    Assertions() {
+        virtual ~Assertion_Error() {
+        }
+
+        virtual const char* what() const _NOEXCEPT {
+            return text.c_str();
+        }
+
+    private:
+        std::string text;
+    };
+
+    virtual ~Unit_Test() {
 
     }
 
-    ~Assertions() {
+    void run_testsuite() throw(Assertion_Error) {
+        before_all();
+        run_all();
+        after_all();
+    }
 
+protected:
+    Unit_Test() {
+
+    }
+
+    virtual void before_all() {
+
+    }
+
+    virtual void after_all() {
+
+    }
+
+    virtual void before() {
+
+    }
+
+    virtual void after() {
+
+    }
+
+    template<class C, class T>
+    void run(C class_pointer, T test_pointer) {
+        before();
+        (class_pointer->*test_pointer)();
+        after();
+    }
+
+    virtual void run_all() = 0;
+
+    template<class T>
+    void assert_equals(const std::string &name,
+                       const T &expected, const T &actual) const throw(Assertion_Error) {
+        using std::cerr;
+        using std::endl;
+
+        if (actual != expected) {
+            if (message_on_failure) {
+                cerr << "Unit test: failed assertion '" << name << "'\n";
+                cerr << "    Expected result: " << expected << "\n";
+                cerr << "    Actual   result: " << actual << endl;
+            }
+            conditional_stop(name);
+        } else {
+            conditional_success_message(name);
+        }
     }
 
     template<class T>
-    void assert_equals(const string &name, const T &expected, const T &actual, const T &tolerance) const {
+    void assert_equals(const std::string &name,
+                       const T &expected, const T &actual, const T &tolerance) const throw(Assertion_Error) {
         using std::abs;
         using std::cerr;
         using std::endl;
 
         if (abs(actual - expected) > tolerance) {
             if (message_on_failure) {
-                cerr << "Assertions: assertion '" << name << "' failed" << std::endl;
-                cerr << "    Expected result: " << expected << endl;
-                cerr << "    Actual   result: " << actual << endl;
+                cerr << "Unit test: failed assertion '" << name << "'\n";
+                cerr << "    Expected result: " << expected << "\n";
+                cerr << "    Actual   result: " << actual << "\n";
                 cerr << "    Expected tolerance: " << tolerance << endl;
             }
             conditional_stop(name);
@@ -62,18 +125,18 @@ public:
     }
 
 private:
-    void conditional_stop(const string &name) const throw(runtime_error) {
+    void conditional_stop(const std::string &name) const throw(Assertion_Error) {
         if (stop_on_failure) {
-            throw runtime_error("Assertions: assertion '" + name + "' failed");
+            throw Assertion_Error("Unit test: failed assertion '" + name + "'");
         }
     }
 
-    void conditional_success_message(const string &name) const {
+    void conditional_success_message(const std::string &name) const {
         using std::cout;
         using std::endl;
 
         if (message_on_success) {
-            cout << "Assertions: assertion '" << name << "' passed" << endl;
+            cout << "Unit test: passed assertion '" << name << "'" << endl;
         }
     }
 

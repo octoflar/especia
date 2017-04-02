@@ -23,130 +23,75 @@
 #include "../../../main/cxx/core/integrator.h"
 #include "../unittest.h"
 
+using especia::Integrator;
 
-class Integrator_Test {
-public:
-    void run_testsuite() throw(runtime_error) {
-        before_all();
-        run_all();
-        after_all();
-    }
 
+class Integrator_Test : public Unit_Test {
 private:
-    void before_all() {
 
-    }
-
-    void after_all() {
-
-    }
-
-    void before() {
-
-    }
-
-    void after() {
-
-    }
-
-    template<class T>
-    void run(const T &test) {
-        before();
-        test();
-        after();
-    }
-
-    void run_all() throw(runtime_error) {
-        run(test_integrate_cos);
-        run(test_integrate_sin);
-        run(test_integrate_sin_sq);
-        run(test_integrate_line_profile);
-        run(test_integrate_profile__infinite);
-    }
-
-    static void test_integrate_cos() {
+    void test_integrate_cos() const {
         using std::cos;
-        using especia::Integrator;
         using especia::pi;
 
-        const Assertions assertions;
-        const Integrator<double> integrator;
+        const double result = integrator.integrate([](double x) -> double { return cos(x); }, 0.0, pi);
 
-        const double a = 0.0;
-        const double b = pi;
-        const double result = integrator.integrate([](double x) -> double { return cos(x); }, a, b);
-
-        assertions.assert_equals("test_integrate_cos", 0.0, result, 1.0E-06);
+        assert_equals("test_integrate_cos", 0.0, result, 1.0E-06);
     }
 
-    static void test_integrate_sin() {
+    void test_integrate_sin() {
         using std::sin;
-        using especia::Integrator;
         using especia::pi;
 
-        const Assertions assertions;
-        const Integrator<double> integrator;
+        const double result = integrator.integrate([](double x) -> double { return sin(x); }, 0.0, pi);
 
-        const double a = 0.0;
-        const double b = pi;
-        const double result = integrator.integrate([](double x) -> double { return sin(x); }, a, b);
-
-        assertions.assert_equals("test_integrate_sin", 2.0, result, 1.0E-06);
+        assert_equals("test_integrate_sin", 2.0, result, 1.0E-06);
     }
 
-    static void test_integrate_sin_sq() {
+    void test_integrate_sin_sq() {
         using std::sin;
-        using especia::Integrator;
         using especia::pi;
         using especia::sq;
 
-        const Assertions assertions;
-        const Integrator<double> integrator;
+        const double result = integrator.integrate([](double x) -> double { return sq(sin(x)); }, 0.0, sq(pi));
 
-        const double a = 0.0;
-        const double b = sq(pi);
-        const double result = integrator.integrate([](double x) -> double { return sq(sin(x)); }, a, b);
-
-        assertions.assert_equals("test_integrate_sin_sq", 4.740589, result, 1.0E-06);
+        assert_equals("test_integrate_sin_sq", 4.740589, result, 1.0E-06);
     }
 
-    static void test_integrate_line_profile() {
+    void test_integrate_optical_depth() {
         using std::exp;
-        using especia::Integrator;
-        using especia::pi;
         using especia::sq;
 
-        const Assertions assertions;
-        const Integrator<double> integrator;
+        const double result = integrator.integrate(
+                [](double x) -> double { return 1.0 - exp(-exp(-sq(x))); }, 0.0, 4.0);
 
-        const double a = 0.0;
-        const double b = 4.0;
-        const double result = integrator.integrate([](double x) -> double { return 1.0 - exp(-exp(-sq(x))); }, a, b);
-
-        assertions.assert_equals("test_integrate_profile", 0.642572, result, 1.0E-06);
+        assert_equals("test_integrate_optical_depth", 0.642572, result, 1.0E-06);
     }
 
-    static void test_integrate_profile__infinite() {
+    void test_integrate_optical_depth_semi_infinite() {
         using std::exp;
         using std::log;
-        using especia::Integrator;
-        using especia::pi;
         using especia::sq;
 
-        const Assertions assertions;
-        const Integrator<double> integrator;
+        const double result = integrator.integrate_semi_infinite(
+                [](double x) -> double { return 1.0 - exp(-exp(-sq(x))); });
 
-        const double a = 0.0;
-        const double b = 1.0;
-        const double result = integrator.integrate([](double u) -> double { return (1.0 - exp(-exp(-sq(log(u))))) / u; }, a, b);
-
-        assertions.assert_equals("test_integrate_profile__infinite", 0.642572, result, 1.0E-06);
+        assert_equals("test_integrate_optical_depth_semi_infinite", 0.642572, result, 1.0E-06);
     }
+
+    void run_all() {
+        run(this, &Integrator_Test::test_integrate_cos);
+        run(this, &Integrator_Test::test_integrate_sin);
+        run(this, &Integrator_Test::test_integrate_sin_sq);
+        run(this, &Integrator_Test::test_integrate_optical_depth);
+        run(this, &Integrator_Test::test_integrate_optical_depth_semi_infinite);
+    }
+
+    Integrator<double_t> integrator;
 };
 
 
 int main() {
-    using std::cout;
+    using std::cerr;
     using std::endl;
 
     Integrator_Test test;
@@ -154,8 +99,8 @@ int main() {
     try {
         test.run_testsuite();
         return 0;
-    } catch (runtime_error &e) {
-        cout << e.what() << endl;
+    } catch (std::exception &e) {
+        cerr << e.what() << endl;
         return 1;
     }
 }
