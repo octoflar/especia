@@ -96,7 +96,7 @@ protected:
             conditional_success_message(name);
         } else {
             if (message_on_failure) {
-                cerr << "Failed ... " << name << "\n";
+                cerr << "Failed: " << name << "\n";
                 cerr << "    Expected result: " << expected << "\n";
                 cerr << "    Actual   result: " << actual << endl;
             }
@@ -115,7 +115,7 @@ protected:
             conditional_success_message(name);
         } else {
             if (message_on_failure) {
-                cerr << "Failed ... " << name << "\n";
+                cerr << "Failed: " << name << "\n";
                 cerr << "    Expected result: " << expected << "\n";
                 cerr << "    Actual   result: " << actual << "\n";
                 cerr << "    Expected tolerance: " << tolerance << endl;
@@ -127,7 +127,7 @@ protected:
 private:
     void conditional_stop(const std::string &name) const throw(Assertion_Error) {
         if (stop_on_failure) {
-            throw Assertion_Error("Failed ... " + name);
+            throw Assertion_Error("Failed: " + name);
         }
     }
 
@@ -136,7 +136,7 @@ private:
         using std::endl;
 
         if (message_on_success) {
-            cout << "Passed ... " << name << endl;
+            cout << "Passed: " << name << endl;
         }
     }
 
