@@ -122,7 +122,7 @@ namespace especia {
          * Computes the value of the semi-infinite integral of a function, i.e.
          * @f[ \int_{0}^{\infty} f(x) dx @f].
          *
-         * Makes the variable transformation @f[ x = exp(-u) @f] and computes
+         * Makes the variable transformation @f[ u = exp(-x) @f] and computes
          * @f[ \int_{0}^{1} \frac{f(-log(u))}{u} du @f].
          *
          * @tparam F The integrand type.
