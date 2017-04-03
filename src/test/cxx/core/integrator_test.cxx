@@ -69,7 +69,6 @@ private:
 
     void test_integrate_optical_depth_semi_infinite() {
         using std::exp;
-        using std::log;
         using especia::sq;
 
         const double result = integrator.integrate_semi_infinite(
