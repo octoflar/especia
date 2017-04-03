@@ -21,10 +21,12 @@ The method is explained in detail by
 Especia enables you to analyse spectroscopic data. Though it has been developed
 for the analysis of astrophysical spectra, it is, in principle, applicable to
 spectroscopy in general. Read the notes and articles listed below to find out
-whether this software is of interest to you. If you already have some understanding
-of these matters, you may want to consult the 
+whether this software is of interest to you.
+
+If you already have some understanding of these matters, you may want to consult the 
 [especia wiki](https://github.com/octoflar/especia/wiki)
-before you clone or download the source code from GitHub.
+before you clone or download the [source code](https://github.com/octoflar/especia)
+from GitHub.
 
 Building Especia requires [CMake](https://cmake.org) and a compiler that implements
 [C++11](https://en.wikipedia.org/wiki/C%2B%2B11). To build and test the Especia
