@@ -122,8 +122,8 @@ namespace especia {
          * Computes the value of the semi-infinite integral of a function, i.e.
          * @f[ \int_{0}^{\infty} f(x) dx @f].
          *
-         * Makes the variable transformation @f[ u = exp(-x) @f] and computes
-         * @f[ \int_{0}^{1} \frac{f(-log(u))}{u} du @f].
+         * Makes the variable transformation @f$ u = \exp(-x) @f$ and computes
+         * @f[ \int_{0}^{1} \frac{f(-\log(u))}{u} du @f].
          *
          * @tparam F The integrand type.
          *
@@ -132,7 +132,8 @@ namespace especia {
          * @param[in] max_iteration The maximum number of iterations.
          * @return the value of the semi-infinite integral.
          *
-         * @attention The integrand must rapidly converge to zero at infinity.
+         * @attention The integrand must converge rapidly (faster than @f$ 1/x @f$) to zero at infinity
+         * @f[ \lim_{x\to\infty} \frac{f(x)}{x} = 0 @f].
          */
         template<class F>
         T integrate_semi_infinite(const F &f, T accuracy_goal = T(1.0E-6), size_t max_iteration = 100) const {
