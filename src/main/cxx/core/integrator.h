@@ -127,16 +127,18 @@ namespace especia {
          *
          * @tparam F The integrand type.
          *
-         * @param[in] f The integrand. To be integrable @c f must vanish at infinity.
+         * @param[in] f The integrand.
          * @param[in] accuracy_goal The (absolute) accuracy goal.
          * @param[in] max_iteration The maximum number of iterations.
          * @return the value of the semi-infinite integral.
+         *
+         * @attention The integrand must rapidly converge to zero at infinity.
          */
         template<class F>
         T integrate_semi_infinite(const F &f, T accuracy_goal = T(1.0E-6), size_t max_iteration = 100) const {
             using std::log;
 
-            return integrate([&f](T u) -> T { return u > T(0.0) ? f(-log(u)) / u : T(0.0); },
+            return integrate([&f](T u) -> T { return u > T(0.0) ? f(-log(u)) / u : T(0.0); }, // infinity maps to zero
                              T(0.0), T(1.0), accuracy_goal, max_iteration);
         }
 
@@ -144,7 +146,7 @@ namespace especia {
         /**
          * A part of a numerical integral.
          *
-         * @tparam F The function type.
+         * @tparam F The integrand type.
          */
         template<class F>
         class Part {
