@@ -35,7 +35,7 @@ private:
 
         const double result = integrator.integrate([](double x) -> double { return cos(x); }, 0.0, pi);
 
-        assert_equals("test_integrate_cos", 0.0, result, 1.0E-06);
+        assert_equals(0.0, result, 1.0E-06, "integrate cosine");
     }
 
     void test_integrate_sin() {
@@ -44,7 +44,7 @@ private:
 
         const double result = integrator.integrate([](double x) -> double { return sin(x); }, 0.0, pi);
 
-        assert_equals("test_integrate_sin", 2.0, result, 1.0E-06);
+        assert_equals(2.0, result, 1.0E-06, "integrate sine");
     }
 
     void test_integrate_sin_sq() {
@@ -54,7 +54,7 @@ private:
 
         const double result = integrator.integrate([](double x) -> double { return sq(sin(x)); }, 0.0, sq(pi));
 
-        assert_equals("test_integrate_sin_sq", 4.740589, result, 1.0E-06);
+        assert_equals(4.740589, result, 1.0E-06, "integrate sine squared");
     }
 
     void test_integrate_optical_depth() {
@@ -64,7 +64,7 @@ private:
         const double result = integrator.integrate(
                 [](double x) -> double { return 1.0 - exp(-exp(-sq(x))); }, 0.0, 4.0);
 
-        assert_equals("test_integrate_optical_depth", 0.642572, result, 1.0E-06);
+        assert_equals(0.642572, result, 1.0E-06, "integrate optical depth");
     }
 
     void test_integrate_optical_depth_semi_infinite() {
@@ -75,7 +75,7 @@ private:
         const double result = integrator.integrate_semi_infinite(
                 [](double x) -> double { return 1.0 - exp(-exp(-sq(x))); });
 
-        assert_equals("test_integrate_optical_depth_semi_infinite", 0.642572, result, 1.0E-06);
+        assert_equals(0.642572, result, 1.0E-06, "integrate optical depth (semi-infinite)");
     }
 
     void run_all() {
