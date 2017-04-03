@@ -152,6 +152,7 @@ protected:
      * @param name The assertion name.
      * @param expected The expected value.
      * @param actual The actual value.
+     * @throw an @c Assertion_Error if requested.
      */
     template<class T>
     void assert_equals(const T &expected, const T &actual,
@@ -161,16 +162,13 @@ protected:
         using std::stringstream;
 
         if (actual == expected) { // NaN safe
-            conditional_success_message(name);
+            handle_passed(name);
         } else {
             stringstream what;
             what << "Failed: " << name << "\n";
             what << "    Expected result: " << expected << "\n";
             what << "    Actual   result: " << actual;
-            if (message_on_failure) {
-                cerr << what.str() << endl;
-            }
-            conditional_throw(what.str());
+            handle_failed(what.str());
         }
     }
 
@@ -183,71 +181,81 @@ protected:
      * @param actual The actual value.
      * @param tolerance The (absolute) tolerance.
      * @param name The assertion name.
+     * @throw an @c Assertion_Error if requested.
      */
     template<class T>
     void assert_equals(const T &expected, const T &actual, const T &tolerance,
                        const std::string &name = "unnamed assertion") const throw(Assertion_Error) {
         using std::abs;
-        using std::cerr;
-        using std::endl;
         using std::stringstream;
 
         if (abs(actual - expected) < tolerance) { // NaN safe
-            conditional_success_message(name);
+            handle_passed(name);
         } else {
             stringstream what;
             what << "Failed: " << name << "\n";
             what << "    Expected result: " << expected << "\n";
             what << "    Actual   result: " << actual << "\n";
             what << "    Expected tolerance: " << tolerance;
-            if (message_on_failure) {
-                cerr << what.str() << endl;
-            }
-            conditional_throw(what.str());
+            handle_failed(what.str());
         }
     }
 
 private:
     /**
-     * Throws an assertion error when an assertion is failed, if requested.
+     * Handles a failed assertion.
      *
      * @param what A description of the failed assertion.
      * @throw an @c Assertion_Error if requested.
      */
-    void conditional_throw(const std::string &what) const throw(Assertion_Error) {
-        if (throw_on_failure) {
+    void handle_failed(const std::string &what) const throw(Assertion_Error) {
+        using std::endl;
+
+        if (message_on_failed) {
+            err << what << endl;
+        }
+        if (throw_on_failed) {
             throw Assertion_Error(what);
         }
     }
 
     /**
-     * Issues a success message when an assertion is passed, if requested.
+     * Handles a passed assertion.
      *
      * @param name The name of the passed assertion.
      */
-    void conditional_success_message(const std::string &name) const {
-        using std::cout;
+    void handle_passed(const std::string &name) const {
         using std::endl;
 
-        if (message_on_success) {
-            cout << "Passed: " << name << endl;
+        if (message_on_passed) {
+            out << "Passed: " << name << endl;
         }
     }
 
     /**
-     * Issue a message when an assertion is failed?
+     * Issue a message when an assertion failed?
      */
-    bool message_on_failure = false;
+    bool message_on_failed = false;
 
     /**
-     * Issue a message when an assertion is passed?
+     * Issue a message when an assertion passed?
      */
-    bool message_on_success = true;
+    bool message_on_passed = true;
 
     /**
-     * Throw an exception when an assertion is failed?
+     * Throw an exception when an assertion failed?
      */
-    bool throw_on_failure = true;
+    bool throw_on_failed = true;
+
+    /**
+     * The output stream for error messages.
+     */
+    std::ostream &err = std::cerr;
+
+    /**
+     * The output stream for other messages.
+     */
+    std::ostream &out = std::cout;
 };
 
 #endif // ESPECIA_UNITTEST_H_H
