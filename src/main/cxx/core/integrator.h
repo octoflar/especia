@@ -310,7 +310,7 @@ namespace especia {
             }
 
             /**
-             * Evaluates the result and its absolute error of this part.
+             * Evaluates the integration result of this part and its absolute error.
              */
             void evaluate() {
                 using std::abs;
@@ -320,9 +320,9 @@ namespace especia {
             }
 
             /**
-             * Evaluates the result of this part using the quadrature formula suppleid as argument.
+             * Evaluates the integration result of this part using the quadrature formula supplied as argument.
              *
-             * @param q The quadrature rule.
+             * @param q The quadrature formula.
              * @return the result.
              */
             T evaluate(Formula q) {
