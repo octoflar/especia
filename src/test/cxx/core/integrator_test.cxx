@@ -86,7 +86,7 @@ private:
         run(this, &Integrator_Test::test_integrate_optical_depth_semi_infinite);
     }
 
-    Integrator<double_t> integrator;
+    Integrator<double> integrator;
 };
 
 
