@@ -66,6 +66,41 @@ public:
 
 protected:
     /**
+     * The type of exception thrown when an assertion fails.
+     */
+    class Assertion_Error : public std::exception {
+    public:
+        /**
+         * The constructor.
+         *
+         * @param what A description of the failed assertion.
+         */
+        Assertion_Error(std::string what) : exception(), what_happened(what) {
+        }
+
+        /**
+         * The destructor.
+         */
+        virtual ~Assertion_Error() {
+        }
+
+        /**
+         * Returns a description of the failed assertion.
+         *
+         * @return the description of the failed assertion.
+         */
+        virtual const char* what() const noexcept {
+            return what_happened.c_str();
+        }
+
+    private:
+        /**
+         * The description of the failed assertion.
+         */
+        std::string what_happened;
+    };
+
+    /**
      * The constructor.
      */
     Unit_Test() {
@@ -179,41 +214,6 @@ protected:
     }
 
 private:
-    /**
-     * The type of exception thrown when an assertion fails.
-     */
-    class Assertion_Error : public std::exception {
-    public:
-        /**
-         * The constructor.
-         *
-         * @param what A description of the failed assertion.
-         */
-        Assertion_Error(std::string what) : exception(), what_happened(what) {
-        }
-
-        /**
-         * The destructor.
-         */
-        virtual ~Assertion_Error() {
-        }
-
-        /**
-         * Returns a description of the failed assertion.
-         *
-         * @return the description of the failed assertion.
-         */
-        virtual const char* what() const noexcept {
-            return what_happened.c_str();
-        }
-
-    private:
-        /**
-         * The description of the failed assertion.
-         */
-        std::string what_happened;
-    };
-
     /**
      * Handles a failed assertion.
      *
