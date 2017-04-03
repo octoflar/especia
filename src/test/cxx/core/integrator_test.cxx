@@ -91,16 +91,5 @@ private:
 
 
 int main() {
-    using std::cerr;
-    using std::endl;
-
-    Integrator_Test test;
-
-    try {
-        test.run_testsuite();
-        return 0;
-    } catch (std::exception &e) {
-        cerr << e.what() << endl;
-        return 1;
-    }
+    return Integrator_Test().run_testsuite();
 }
