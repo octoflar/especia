@@ -92,11 +92,12 @@ namespace especia {
         }
 
         /**
-         * Computes the value of the integral of a function, with the limits supplied as argument.
+         * Computes the integral of a function, with the limits supplied as argument, i.e.
+         * @f[ \int_{a}^{b} f(x) dx @f].
          *
-         * @tparam F The function type.
+         * @tparam F The integrand type.
          *
-         * @param[in] f The function.
+         * @param[in] f The integrand.
          * @param[in] a The lower limit of integration.
          * @param[in] b The upper limit of integration.
          * @param[in] accuracy_goal The (absolute) accuracy goal.
@@ -124,9 +125,9 @@ namespace especia {
          * Makes the variable transformation @f[ x = exp(-u) @f] and computes
          * @f[ \int_{0}^{1} \frac{f(-log(u))}{u} du @f].
          *
-         * @tparam F The function type.
+         * @tparam F The integrand type.
          *
-         * @param[in] f The function. To be integrable @c f must vanish at infinity.
+         * @param[in] f The integrand. To be integrable @c f must vanish at infinity.
          * @param[in] accuracy_goal The (absolute) accuracy goal.
          * @param[in] max_iteration The maximum number of iterations.
          * @return the value of the semi-infinite integral.
@@ -148,124 +149,166 @@ namespace especia {
         template<class F>
         class Part {
         public:
+            /**
+             * The constructor.
+             *
+             * @param f The integrand.
+             * @param a The lower limit of integration.
+             * @param b The upper limit of integration.
+             * @param p The formula with less quadrature points.
+             * @param q The formula with more quadrature points.
+             */
             Part(const F &f, T a, T b, Formula p, Formula q)
                     : f(f), a(a), b(b), p(p), q(q), c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yu(21) {
                 evaluate();
             }
 
+            /**
+             * The destructor.
+             */
             ~Part() {
 
             }
 
+            /**
+             * Returns the absolute error of the integration result of this part.
+             *
+             * @return the absolute error of the integration result.
+             */
             T get_absolute_error() const {
                 return absolute_error;
             }
 
+            /**
+             * Returns the integration result of this part.
+             *
+             * @return the integration result.
+             */
             T get_result() const {
                 return result;
             }
 
-            Part *lower_half() const {
-                Part *half = new Part(this, a, c);
+            /**
+             * Creates a new part from the lower half of this part.
+             *
+             * @return the lower half part.
+             */
+            Part *lower_part() const {
+                Part *part = new Part(this, a, c);
 
-                half->yu[0] = yl[2];
-                half->yu[1] = yl[7];
-                half->yu[2] = yl[1];
-                half->yu[4] = f(half->c + Integrator::xi[4] * half->h);
-                half->yu[5] = f(half->c + Integrator::xi[5] * half->h);
-                half->yu[6] = yl[0];
-                half->yl[0] = yl[2];
-                half->yl[1] = yl[8];
-                half->yl[2] = yl[3];
-                half->yl[3] = yl[4];
-                half->yl[4] = yl[5];
-                half->yl[5] = yl[9];
-                half->yl[6] = yl[6];
+                part->yu[0] = yl[2];
+                part->yu[1] = yl[7];
+                part->yu[2] = yl[1];
+                part->yu[4] = f(part->c + Integrator::xi[4] * part->h);
+                part->yu[5] = f(part->c + Integrator::xi[5] * part->h);
+                part->yu[6] = yl[0];
+                part->yl[0] = yl[2];
+                part->yl[1] = yl[8];
+                part->yl[2] = yl[3];
+                part->yl[3] = yl[4];
+                part->yl[4] = yl[5];
+                part->yl[5] = yl[9];
+                part->yl[6] = yl[6];
                 if (nl > 10) {
-                    half->yu[3] = yl[10];
-                    half->yl[7] = yl[11];
-                    half->yl[8] = yl[12];
-                    half->yl[9] = yl[13];
+                    part->yu[3] = yl[10];
+                    part->yl[7] = yl[11];
+                    part->yl[8] = yl[12];
+                    part->yl[9] = yl[13];
                     if (nl > 14) {
-                        half->yu[7] = yl[15];
-                        half->yu[8] = yl[14];
-                        half->yu[9] = f(half->c + Integrator::xi[9] * half->h);
-                        half->yu[10] = yl[16];
-                        half->yl[10] = yl[17];
-                        half->yl[11] = yl[18];
-                        half->yl[12] = yl[19];
-                        half->yl[13] = yl[20];
-                        half->nu = 11;
-                        half->nl = 14;
+                        part->yu[7] = yl[15];
+                        part->yu[8] = yl[14];
+                        part->yu[9] = f(part->c + Integrator::xi[9] * part->h);
+                        part->yu[10] = yl[16];
+                        part->yl[10] = yl[17];
+                        part->yl[11] = yl[18];
+                        part->yl[12] = yl[19];
+                        part->yl[13] = yl[20];
+                        part->nu = 11;
+                        part->nl = 14;
                     } else {
-                        half->nu = 7;
-                        half->nl = 10;
+                        part->nu = 7;
+                        part->nl = 10;
                     }
                 } else {
-                    half->yu[3] = f(half->c + Integrator::xi[3] * half->h);
-                    half->nu = 7;
-                    half->nl = 7;
+                    part->yu[3] = f(part->c + Integrator::xi[3] * part->h);
+                    part->nu = 7;
+                    part->nl = 7;
                 }
 
-                half->evaluate();
+                part->evaluate();
 
-                return half;
+                return part;
             }
 
-            Part *upper_half() const {
-                Part *half = new Part(this, c, b);
+            /**
+             * Creates a new part from the upper half of this part.
+             *
+             * @return the upper half part.
+             */
+            Part *upper_part() const {
+                Part *part = new Part(this, c, b);
 
-                half->yl[0] = yu[2];
-                half->yl[1] = yu[7];
-                half->yl[2] = yu[1];
-                half->yl[4] = f(half->c - Integrator::xi[4] * half->h);
-                half->yl[5] = f(half->c - Integrator::xi[5] * half->h);
-                half->yl[6] = yu[0];
-                half->yu[0] = yu[2];
-                half->yu[1] = yu[8];
-                half->yu[2] = yu[3];
-                half->yu[3] = yu[4];
-                half->yu[4] = yu[5];
-                half->yu[5] = yu[9];
-                half->yu[6] = yu[6];
+                part->yl[0] = yu[2];
+                part->yl[1] = yu[7];
+                part->yl[2] = yu[1];
+                part->yl[4] = f(part->c - Integrator::xi[4] * part->h);
+                part->yl[5] = f(part->c - Integrator::xi[5] * part->h);
+                part->yl[6] = yu[0];
+                part->yu[0] = yu[2];
+                part->yu[1] = yu[8];
+                part->yu[2] = yu[3];
+                part->yu[3] = yu[4];
+                part->yu[4] = yu[5];
+                part->yu[5] = yu[9];
+                part->yu[6] = yu[6];
                 if (nu > 10) {
-                    half->yl[3] = yu[10];
-                    half->yu[7] = yu[11];
-                    half->yu[8] = yu[12];
-                    half->yu[9] = yu[13];
+                    part->yl[3] = yu[10];
+                    part->yu[7] = yu[11];
+                    part->yu[8] = yu[12];
+                    part->yu[9] = yu[13];
                     if (nu > 14) {
-                        half->yl[7] = yu[15];
-                        half->yl[8] = yu[14];
-                        half->yl[9] = f(half->c - Integrator::xi[9] * half->h);
-                        half->yl[10] = yu[16];
-                        half->yu[10] = yu[17];
-                        half->yu[11] = yu[18];
-                        half->yu[12] = yu[19];
-                        half->yu[13] = yu[20];
-                        half->nl = 11;
-                        half->nu = 14;
+                        part->yl[7] = yu[15];
+                        part->yl[8] = yu[14];
+                        part->yl[9] = f(part->c - Integrator::xi[9] * part->h);
+                        part->yl[10] = yu[16];
+                        part->yu[10] = yu[17];
+                        part->yu[11] = yu[18];
+                        part->yu[12] = yu[19];
+                        part->yu[13] = yu[20];
+                        part->nl = 11;
+                        part->nu = 14;
                     } else {
-                        half->nl = 7;
-                        half->nu = 10;
+                        part->nl = 7;
+                        part->nu = 10;
                     }
                 } else {
-                    half->yl[3] = f(half->c - Integrator::xi[3] * half->h);
-                    half->nl = 7;
-                    half->nu = 7;
+                    part->yl[3] = f(part->c - Integrator::xi[3] * part->h);
+                    part->nl = 7;
+                    part->nu = 7;
                 }
 
-                half->evaluate();
+                part->evaluate();
 
-                return half;
+                return part;
             }
 
         private:
+            /**
+             * Constructs a new part from a parent part.
+             *
+             * @param parent The parent part.
+             * @param a The lower limit of integration.
+             * @param b The upper limit of integration.
+             */
             Part(const Part *parent, T a, T b)
                     : f(parent->f), a(a), b(b), p(parent->p), q(parent->q),
                       c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yu(21) {
                 // do not evaluate
             }
 
+            /**
+             * Evaluates the result and its absolute error of this part.
+             */
             void evaluate() {
                 using std::abs;
 
@@ -273,6 +316,12 @@ namespace especia {
                 absolute_error = abs(result - evaluate(p));
             }
 
+            /**
+             * Evaluates the result of this part using the quadrature formula suppleid as argument.
+             *
+             * @param q The quadrature rule.
+             * @return the result.
+             */
             T evaluate(Formula q) {
                 const size_t m = Integrator::mw[q];
                 const size_t n = Integrator::nw[q];
@@ -300,27 +349,74 @@ namespace especia {
                 return result * h;
             }
 
+            /**
+             * The integrand.
+             */
             const F &f;
+
+            /**
+             * The lower limit of integration.
+             */
             const T a;
+
+            /**
+             * The upper limit of integration.
+             */
             const T b;
+
+            /**
+             * The selected formula with less quadrature points.
+             */
             const Formula p;
+
+            /**
+             * The selected formula with more quadrature points.
+             */
             const Formula q;
 
+            /**
+             * The center of the interval of integration.
+             */
             const T c;
+
+            /**
+             * The width of the interval of integration.
+             */
             const T h;
 
+            /**
+             * The integrand values for the lower half interval of integration.
+             */
             std::valarray<T> yl;
+
+            /**
+             * The integrand values for the upper half interval of integration.
+             */
             std::valarray<T> yu;
 
+            /**
+             * The number of evaluated integrand values for the lower half interval.
+             */
             size_t nl = 0;
+
+            /**
+             * The number of evaluated integrand values for the upper half interval.
+             */
             size_t nu = 0;
 
+            /**
+             * The absolute error of the integration result.
+             */
             T absolute_error = T(0.0);
+
+            /**
+             * The integration result.
+             */
             T result = T(0.0);
         };
 
         /**
-         * Compares two integral parts.
+         * Compares the absolute error of two parts of a numerical integration.
          *
          * @tparam P The part type.
          */
@@ -328,7 +424,7 @@ namespace especia {
         class Part_Compare {
         public:
             /**
-             * Compares two integral parts.
+             * Compares the absolute error of two parts of a numerical integration.
              *
              * @param p The first part.
              * @param q The other part.
@@ -340,14 +436,23 @@ namespace especia {
         };
 
         /**
-         * The partion of a numerical integral.
+         * A partition of a numerical integral into a complete set of disjoint parts.
          *
-         * @tparam F The function type.
+         * @tparam F The integrand type.
          * @tparam P The part type.
          */
         template<class F, class P>
         class Partition {
         public:
+            /**
+             * The constructor.
+             *
+             * @param f The integrand.
+             * @param a The lower limit of integration.
+             * @param b The upper limit of integration.
+             * @param p The formula with less quadrature points.
+             * @param q The formula with more quadrature points.
+             */
             Partition(const F &f, T a, T b, Formula p, Formula q) : part_compare(Part_Compare<P>()), parts() {
                 using std::make_heap;
                 using std::push_heap;
@@ -357,12 +462,20 @@ namespace especia {
                 push_part(part);
             }
 
+            /**
+             * The destructor.
+             */
             ~Partition() {
                 for (auto part : parts) {
                     delete part;
                 }
             }
 
+            /**
+             * Returns the absolute error of the integration result for this partition.
+             *
+             * @return the absolute error of the integration result.
+             */
             T get_absolute_error() const {
                 T absolute_error = T(0.0);
 
@@ -373,6 +486,11 @@ namespace especia {
                 return absolute_error;
             }
 
+            /**
+             * Returns the integration result for this partition.
+             *
+             * @return the integration result.
+             */
             T get_result() const {
                 T result = T(0.0);
 
@@ -383,15 +501,23 @@ namespace especia {
                 return result;
             }
 
+            /**
+             * Refines this partition.
+             */
             void refine() {
                 P *popped = pop_part();
-                push_part(popped->lower_half());
-                push_part(popped->upper_half());
+                push_part(popped->lower_part());
+                push_part(popped->upper_part());
 
                 delete popped;
             }
 
         private:
+            /**
+             * Removes the part with the largest absolute error of integration from the partition.
+             *
+             * @return the part with the largest absolute error.
+             */
             P *pop_part() {
                 using std::pop_heap;
 
@@ -402,6 +528,11 @@ namespace especia {
                 return popped;
             }
 
+            /**
+             * Adds a new part to the partition.
+             *
+             * @param part The part.
+             */
             void push_part(P *part) {
                 using std::push_heap;
 
@@ -409,8 +540,14 @@ namespace especia {
                 push_heap(parts.begin(), parts.end(), part_compare);
             }
 
+            /**
+             * Compares the absolute error of integration of two parts.
+             */
             const Part_Compare<P> part_compare;
 
+            /**
+             * The parts of this partition.
+             */
             std::vector<P *> parts;
         };
 
