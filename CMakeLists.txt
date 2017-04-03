@@ -41,7 +41,7 @@ set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 include_directories(${CMAKE_BINARY_DIR})
 
-configure_file(${MAIN}/cxx/core/config.h.in config.h @ONLY)
+configure_file(${MAIN}/cxx/config.h.in config.h @ONLY)
 configure_file(${MAIN}/scripts/erun.sh erun.sh COPYONLY)
 
 configure_file(${TEST}/resources/test1.html  resources/test1.html COPYONLY)
@@ -60,7 +60,6 @@ configure_file(${TEST}/resources/virt166.dat resources/virt166.dat COPYONLY)
 
 set(CORE_SOURCES
         ${MAIN}/cxx/core/base.h
-        ${MAIN}/cxx/core/config.h
         ${MAIN}/cxx/core/decompose.cxx
         ${MAIN}/cxx/core/decompose.h
         ${MAIN}/cxx/core/deviates.h
