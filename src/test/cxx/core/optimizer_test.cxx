@@ -31,17 +31,13 @@ using especia::Optimizer;
 class Optimizer_Test : public Unit_Test {
 private:
 
-    void before() {
+    void before_all() {
         builder.with_problem_dimension(10).
                 with_population_size(8).
                 with_parent_number(4).
                 with_accuracy_goal(1.0E-06).
                 with_stop_generation(2000).
                 with_random_seed(31415);
-    }
-
-    void after() {
-        builder.with_defaults();
     }
 
     void test_minimize_sphere() {
