@@ -31,6 +31,16 @@ especia::Optimizer::Builder::~Builder() {
 
 }
 
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_defaults() {
+    return with_problem_dimension().
+            with_population_size().
+            with_parent_number().
+            with_covariance_update_modulus().
+            with_accuracy_goal().
+            with_stop_generation().
+            with_random_seed();
+}
+
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(N_type n) {
     this->n = n;
     set_strategy_parameters();

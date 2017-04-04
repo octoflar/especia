@@ -276,6 +276,13 @@ namespace especia {
             }
 
             /**
+              * Configures default settings.
+              *
+              * @return the problem dimension.
+              */
+            Builder &with_defaults();
+
+            /**
              * Configures the problem dimension.
              *
              * @param[in] n The problem dimension.
@@ -321,7 +328,7 @@ namespace especia {
              * @param[in] seed The random seed.
              * @return this builder.
              */
-            Builder &with_random_seed(W_type seed = 27182);
+            Builder &with_random_seed(W_type seed = 57721);
 
             /**
              * Configures the stop generation.
@@ -374,7 +381,7 @@ namespace especia {
             /**
               * The random seed.
               */
-            W_type random_seed = 27182;
+            W_type random_seed = 57721;
 
             /**
              * The stop generation.
@@ -745,8 +752,8 @@ namespace especia {
                         const std::valarray<R_type> &x,
                         const std::valarray<R_type> &d,
                         const R_type s,
-                        const Constraint &constraint = No_Constraint<>(),
-                        const Tracing &tracer = No_Tracing<>()) const {
+                        const Constraint &constraint = No_Constraint<R_type>(),
+                        const Tracing &tracer = No_Tracing<R_type>()) const {
             return optimize(f, x, d, s, constraint, tracer, std::greater<R_type>());
         }
 
@@ -771,8 +778,8 @@ namespace especia {
                         const std::valarray<R_type> &x,
                         const std::valarray<R_type> &d,
                         const R_type s,
-                        const Constraint &constraint = No_Constraint<>(),
-                        const Tracing &tracer = No_Tracing<>()) const {
+                        const Constraint &constraint = No_Constraint<R_type >(),
+                        const Tracing &tracer = No_Tracing<R_type >()) const {
             return optimize(f, x, d, s, constraint, tracer, std::less<R_type>());
         }
 

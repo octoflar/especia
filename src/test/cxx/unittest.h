@@ -161,9 +161,9 @@ protected:
      *
      * @tparam T The value type.
      *
-     * @param name The assertion name.
      * @param expected The expected value.
      * @param actual The actual value.
+     * @param name The assertion name.
      * @throw an @c Assertion_Error if requested.
      */
     template<class T>
@@ -211,6 +211,30 @@ protected:
             what << "    Expected tolerance: " << tolerance;
             handle_failed(what.str());
         }
+    }
+
+    /**
+     * Asserts @c false.
+     *
+     * @param actual The actual value.
+     * @param name The assertion name.
+     * @throw an @c Assertion_Error if requested.
+     */
+    void assert_false(const bool actual,
+                     const std::string &name = "unnamed assertion") const throw(Assertion_Error) {
+        assert_equals(false, actual, name);
+    }
+
+    /**
+     * Asserts @c true.
+     *
+     * @param actual The actual value.
+     * @param name The assertion name.
+     * @throw an @c Assertion_Error if requested.
+     */
+    void assert_true(const bool actual,
+                     const std::string &name = "unnamed assertion") const throw(Assertion_Error) {
+        assert_equals(true, actual, name);
     }
 
 private:
