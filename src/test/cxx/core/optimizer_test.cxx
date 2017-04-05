@@ -90,18 +90,19 @@ private:
         const Optimizer optimizer = builder.with_stop_generation(200).build();
         const Optimizer::Result result = optimizer.minimize(sphere, x, d, s, No_Constraint<>(), No_Tracing<>());
 
-        assert_true(result.is_optimized(), "test minimize sphere: optimized");
-        assert_equals(0.0, result.get_fitness(), 1.0E-10, "test minimize sphere: fitness");
-        assert_equals(0.0, result.get_parameter_values()[0], 1.0E-06, "test minimize sphere: parameter 0");
-        assert_equals(0.0, result.get_parameter_values()[1], 1.0E-06, "test minimize sphere: parameter 1");
-        assert_equals(0.0, result.get_parameter_values()[2], 1.0E-06, "test minimize sphere: parameter 2");
-        assert_equals(0.0, result.get_parameter_values()[3], 1.0E-06, "test minimize sphere: parameter 3");
-        assert_equals(0.0, result.get_parameter_values()[4], 1.0E-06, "test minimize sphere: parameter 4");
-        assert_equals(0.0, result.get_parameter_values()[5], 1.0E-06, "test minimize sphere: parameter 5");
-        assert_equals(0.0, result.get_parameter_values()[6], 1.0E-06, "test minimize sphere: parameter 6");
-        assert_equals(0.0, result.get_parameter_values()[7], 1.0E-06, "test minimize sphere: parameter 7");
-        assert_equals(0.0, result.get_parameter_values()[8], 1.0E-06, "test minimize sphere: parameter 8");
-        assert_equals(0.0, result.get_parameter_values()[9], 1.0E-06, "test minimize sphere: parameter 9");
+        assert_true(result.is_optimized(), "test minimize sphere (optimized)");
+        assert_false(result.is_underflow(), "test minimize sphere (underflow)");
+        assert_equals(0.0, result.get_fitness(), 1.0E-10, "test minimize sphere (fitness)");
+        assert_equals(0.0, result.get_parameter_values()[0], 1.0E-06, "test minimize sphere (0)");
+        assert_equals(0.0, result.get_parameter_values()[1], 1.0E-06, "test minimize sphere (1)");
+        assert_equals(0.0, result.get_parameter_values()[2], 1.0E-06, "test minimize sphere (2)");
+        assert_equals(0.0, result.get_parameter_values()[3], 1.0E-06, "test minimize sphere (3)");
+        assert_equals(0.0, result.get_parameter_values()[4], 1.0E-06, "test minimize sphere (4)");
+        assert_equals(0.0, result.get_parameter_values()[5], 1.0E-06, "test minimize sphere (5)");
+        assert_equals(0.0, result.get_parameter_values()[6], 1.0E-06, "test minimize sphere (6)");
+        assert_equals(0.0, result.get_parameter_values()[7], 1.0E-06, "test minimize sphere (7)");
+        assert_equals(0.0, result.get_parameter_values()[8], 1.0E-06, "test minimize sphere (8)");
+        assert_equals(0.0, result.get_parameter_values()[9], 1.0E-06, "test minimize sphere (9)");
     }
 
     void test_minimize_cigar() {
@@ -115,18 +116,19 @@ private:
         const Optimizer optimizer = builder.with_stop_generation(400).build();
         const Optimizer::Result result = optimizer.minimize(cigar, x, d, s, No_Constraint<>(), No_Tracing<>());
 
-        assert_true(result.is_optimized(), "test minimize cigar: optimized");
-        assert_equals(0.0, result.get_fitness(), 1.0E-10, "test minimize cigar: fitness");
-        assert_equals(0.0, result.get_parameter_values()[0], 1.0E-06, "test minimize cigar: parameter 0");
-        assert_equals(0.0, result.get_parameter_values()[1], 1.0E-06, "test minimize cigar: parameter 1");
-        assert_equals(0.0, result.get_parameter_values()[2], 1.0E-06, "test minimize cigar: parameter 2");
-        assert_equals(0.0, result.get_parameter_values()[3], 1.0E-06, "test minimize cigar: parameter 3");
-        assert_equals(0.0, result.get_parameter_values()[4], 1.0E-06, "test minimize cigar: parameter 4");
-        assert_equals(0.0, result.get_parameter_values()[5], 1.0E-06, "test minimize cigar: parameter 5");
-        assert_equals(0.0, result.get_parameter_values()[6], 1.0E-06, "test minimize cigar: parameter 6");
-        assert_equals(0.0, result.get_parameter_values()[7], 1.0E-06, "test minimize cigar: parameter 7");
-        assert_equals(0.0, result.get_parameter_values()[8], 1.0E-06, "test minimize cigar: parameter 8");
-        assert_equals(0.0, result.get_parameter_values()[9], 1.0E-06, "test minimize cigar: parameter 9");
+        assert_true(result.is_optimized(), "test minimize cigar (optimized)");
+        assert_false(result.is_underflow(), "test minimize cigar (underflow)");
+        assert_equals(0.0, result.get_fitness(), 1.0E-10, "test minimize cigar (fitness)");
+        assert_equals(0.0, result.get_parameter_values()[0], 1.0E-06, "test minimize cigar (0)");
+        assert_equals(0.0, result.get_parameter_values()[1], 1.0E-06, "test minimize cigar (1)");
+        assert_equals(0.0, result.get_parameter_values()[2], 1.0E-06, "test minimize cigar (2)");
+        assert_equals(0.0, result.get_parameter_values()[3], 1.0E-06, "test minimize cigar (3)");
+        assert_equals(0.0, result.get_parameter_values()[4], 1.0E-06, "test minimize cigar (4)");
+        assert_equals(0.0, result.get_parameter_values()[5], 1.0E-06, "test minimize cigar (5)");
+        assert_equals(0.0, result.get_parameter_values()[6], 1.0E-06, "test minimize cigar (6)");
+        assert_equals(0.0, result.get_parameter_values()[7], 1.0E-06, "test minimize cigar (7)");
+        assert_equals(0.0, result.get_parameter_values()[8], 1.0E-06, "test minimize cigar (8)");
+        assert_equals(0.0, result.get_parameter_values()[9], 1.0E-06, "test minimize cigar (9)");
     }
 
     void test_minimize_rosenbrock() {
@@ -140,18 +142,19 @@ private:
         const Optimizer optimizer = builder.with_stop_generation(400).build();
         const Optimizer::Result result = optimizer.minimize(rosenbrock, x, d, s, No_Constraint<>(), No_Tracing<>());
 
-        assert_true(result.is_optimized(), "test minimize rosenbrock: optimized");
-        assert_equals(0.0, result.get_fitness(), 1.0E-10, "test minimize rosenbrock: fitness");
-        assert_equals(1.0, result.get_parameter_values()[0], 1.0E-06, "test minimize Rosenbrock: parameter 0");
-        assert_equals(1.0, result.get_parameter_values()[1], 1.0E-06, "test minimize Rosenbrock: parameter 1");
-        assert_equals(1.0, result.get_parameter_values()[2], 1.0E-06, "test minimize Rosenbrock: parameter 2");
-        assert_equals(1.0, result.get_parameter_values()[3], 1.0E-06, "test minimize Rosenbrock: parameter 3");
-        assert_equals(1.0, result.get_parameter_values()[4], 1.0E-06, "test minimize Rosenbrock: parameter 4");
-        assert_equals(1.0, result.get_parameter_values()[5], 1.0E-06, "test minimize Rosenbrock: parameter 5");
-        assert_equals(1.0, result.get_parameter_values()[6], 1.0E-06, "test minimize Rosenbrock: parameter 6");
-        assert_equals(1.0, result.get_parameter_values()[7], 1.0E-06, "test minimize Rosenbrock: parameter 7");
-        assert_equals(1.0, result.get_parameter_values()[8], 1.0E-06, "test minimize Rosenbrock: parameter 8");
-        assert_equals(1.0, result.get_parameter_values()[9], 1.0E-06, "test minimize Rosenbrock: parameter 9");
+        assert_true(result.is_optimized(), "test minimize Rosenbrock (optimized)");
+        assert_false(result.is_underflow(), "test minimize Rosenbrock (underflow)");
+        assert_equals(0.0, result.get_fitness(), 1.0E-10, "test minimize Rosenbrock (fitness)");
+        assert_equals(1.0, result.get_parameter_values()[0], 1.0E-06, "test minimize Rosenbrock (0)");
+        assert_equals(1.0, result.get_parameter_values()[1], 1.0E-06, "test minimize Rosenbrock (1)");
+        assert_equals(1.0, result.get_parameter_values()[2], 1.0E-06, "test minimize Rosenbrock (2)");
+        assert_equals(1.0, result.get_parameter_values()[3], 1.0E-06, "test minimize Rosenbrock (3)");
+        assert_equals(1.0, result.get_parameter_values()[4], 1.0E-06, "test minimize Rosenbrock (4)");
+        assert_equals(1.0, result.get_parameter_values()[5], 1.0E-06, "test minimize Rosenbrock (5)");
+        assert_equals(1.0, result.get_parameter_values()[6], 1.0E-06, "test minimize Rosenbrock (6)");
+        assert_equals(1.0, result.get_parameter_values()[7], 1.0E-06, "test minimize Rosenbrock (7)");
+        assert_equals(1.0, result.get_parameter_values()[8], 1.0E-06, "test minimize Rosenbrock (8)");
+        assert_equals(1.0, result.get_parameter_values()[9], 1.0E-06, "test minimize Rosenbrock (9)");
     }
 
     void run_all() {
