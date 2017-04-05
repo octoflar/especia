@@ -79,6 +79,7 @@ private:
         return 1.0E+06 * sq(x[0]) + y;
     }
 
+    /// [The Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function)
     static R_type rosenbrock(const R_type x[], N_type n) {
         using especia::sq;
 
@@ -91,10 +92,23 @@ private:
         return y;
     }
 
+    static R_type different_powers(const R_type x[], N_type n) {
+        using std::abs;
+        using std::pow;
+
+        R_type y = 0.0;
+
+        for (N_type i = 0; i < n - 1; ++i) {
+            y += pow(abs(x[i]), 2.0 + (10 * i) / (n - 1.0));
+        }
+
+        return y;
+    }
+
     void before() {
         builder.with_problem_dimension(10).
                 with_population_size(40).
-                with_parent_number(10).
+                with_parent_number(20).
                 with_accuracy_goal(1.0E-06).
                 with_random_seed(31415);
     }
@@ -233,12 +247,27 @@ private:
         assert_equals(1.0, result.get_parameter_values()[9], 1.0E-06, "test minimize Rosenbrock (9)");
     }
 
+    void test_minimize_different_powers() {
+        using especia::No_Constraint;
+        using especia::No_Tracing;
+
+        const valarray<R_type> x(1.0, 10);
+        const valarray<R_type> d(1.0, 10);
+        const R_type s = 1.0;
+
+        const Optimizer optimizer = builder.with_stop_generation(400).build();
+        const Optimizer::Result result = optimizer.minimize(different_powers, x, d, s);
+
+        assert_equals(0.0, result.get_fitness(), 1.0E-16, "test minimize different powers");
+    }
+
     void run_all() {
         run(this, &Optimizer_Test::test_minimize_sphere);
         run(this, &Optimizer_Test::test_minimize_ellipsoid);
         run(this, &Optimizer_Test::test_minimize_cigar);
         run(this, &Optimizer_Test::test_minimize_tablet);
         run(this, &Optimizer_Test::test_minimize_rosenbrock);
+        run(this, &Optimizer_Test::test_minimize_different_powers);
     }
 
     Optimizer::Builder builder;
