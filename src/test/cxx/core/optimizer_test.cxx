@@ -43,6 +43,18 @@ private:
         return y;
     }
 
+    static R_type ellipsoid(const R_type x[], N_type n) {
+        using especia::sq;
+
+        R_type y = 0.0;
+
+        for (N_type i = 0; i < n; ++i) {
+            y += std::pow(1.0E+06, i / (n - 1.0)) * sq(x[i]);
+        }
+
+        return y;
+    }
+
     static R_type cigar(const R_type x[], N_type n) {
         using especia::sq;
 
@@ -53,6 +65,18 @@ private:
         }
 
         return 1.0E+06 * y + sq(x[0]);
+    }
+
+    static R_type tablet(const R_type x[], N_type n) {
+        using especia::sq;
+
+        R_type y = 0.0;
+
+        for (N_type i = 1; i < n; ++i) {
+            y += sq(x[i]);
+        }
+
+        return 1.0E+06 * sq(x[0]) + y;
     }
 
     static R_type rosenbrock(const R_type x[], N_type n) {
@@ -105,6 +129,32 @@ private:
         assert_equals(0.0, result.get_parameter_values()[9], 1.0E-06, "test minimize sphere (9)");
     }
 
+    void test_minimize_ellipsoid() {
+        using especia::No_Constraint;
+        using especia::No_Tracing;
+
+        const valarray<R_type> x(1.0, 10);
+        const valarray<R_type> d(1.0, 10);
+        const R_type s = 1.0;
+
+        const Optimizer optimizer = builder.with_stop_generation(400).build();
+        const Optimizer::Result result = optimizer.minimize(ellipsoid, x, d, s);
+
+        assert_true(result.is_optimized(), "test minimize ellipsoid (optimized)");
+        assert_false(result.is_underflow(), "test minimize ellipsoid (underflow)");
+        assert_equals(0.0, result.get_fitness(), 1.0E-10, "test minimize ellipsoid (fitness)");
+        assert_equals(0.0, result.get_parameter_values()[0], 1.0E-06, "test minimize ellipsoid (0)");
+        assert_equals(0.0, result.get_parameter_values()[1], 1.0E-06, "test minimize ellipsoid (1)");
+        assert_equals(0.0, result.get_parameter_values()[2], 1.0E-06, "test minimize ellipsoid (2)");
+        assert_equals(0.0, result.get_parameter_values()[3], 1.0E-06, "test minimize ellipsoid (3)");
+        assert_equals(0.0, result.get_parameter_values()[4], 1.0E-06, "test minimize ellipsoid (4)");
+        assert_equals(0.0, result.get_parameter_values()[5], 1.0E-06, "test minimize ellipsoid (5)");
+        assert_equals(0.0, result.get_parameter_values()[6], 1.0E-06, "test minimize ellipsoid (6)");
+        assert_equals(0.0, result.get_parameter_values()[7], 1.0E-06, "test minimize ellipsoid (7)");
+        assert_equals(0.0, result.get_parameter_values()[8], 1.0E-06, "test minimize ellipsoid (8)");
+        assert_equals(0.0, result.get_parameter_values()[9], 1.0E-06, "test minimize ellipsoid (9)");
+    }
+
     void test_minimize_cigar() {
         using especia::No_Constraint;
         using especia::No_Tracing;
@@ -129,6 +179,32 @@ private:
         assert_equals(0.0, result.get_parameter_values()[7], 1.0E-06, "test minimize cigar (7)");
         assert_equals(0.0, result.get_parameter_values()[8], 1.0E-06, "test minimize cigar (8)");
         assert_equals(0.0, result.get_parameter_values()[9], 1.0E-06, "test minimize cigar (9)");
+    }
+
+    void test_minimize_tablet() {
+        using especia::No_Constraint;
+        using especia::No_Tracing;
+
+        const valarray<R_type> x(1.0, 10);
+        const valarray<R_type> d(1.0, 10);
+        const R_type s = 1.0;
+
+        const Optimizer optimizer = builder.with_stop_generation(400).build();
+        const Optimizer::Result result = optimizer.minimize(tablet, x, d, s);
+
+        assert_true(result.is_optimized(), "test minimize tablet (optimized)");
+        assert_false(result.is_underflow(), "test minimize tablet (underflow)");
+        assert_equals(0.0, result.get_fitness(), 1.0E-10, "test minimize tablet (fitness)");
+        assert_equals(0.0, result.get_parameter_values()[0], 1.0E-06, "test minimize tablet (0)");
+        assert_equals(0.0, result.get_parameter_values()[1], 1.0E-06, "test minimize tablet (1)");
+        assert_equals(0.0, result.get_parameter_values()[2], 1.0E-06, "test minimize tablet (2)");
+        assert_equals(0.0, result.get_parameter_values()[3], 1.0E-06, "test minimize tablet (3)");
+        assert_equals(0.0, result.get_parameter_values()[4], 1.0E-06, "test minimize tablet (4)");
+        assert_equals(0.0, result.get_parameter_values()[5], 1.0E-06, "test minimize tablet (5)");
+        assert_equals(0.0, result.get_parameter_values()[6], 1.0E-06, "test minimize tablet (6)");
+        assert_equals(0.0, result.get_parameter_values()[7], 1.0E-06, "test minimize tablet (7)");
+        assert_equals(0.0, result.get_parameter_values()[8], 1.0E-06, "test minimize tablet (8)");
+        assert_equals(0.0, result.get_parameter_values()[9], 1.0E-06, "test minimize tablet (9)");
     }
 
     void test_minimize_rosenbrock() {
@@ -159,7 +235,9 @@ private:
 
     void run_all() {
         run(this, &Optimizer_Test::test_minimize_sphere);
+        run(this, &Optimizer_Test::test_minimize_ellipsoid);
         run(this, &Optimizer_Test::test_minimize_cigar);
+        run(this, &Optimizer_Test::test_minimize_tablet);
         run(this, &Optimizer_Test::test_minimize_rosenbrock);
     }
 
