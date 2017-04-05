@@ -88,7 +88,7 @@ private:
         const R_type s = 1.0;
 
         const Optimizer optimizer = builder.with_stop_generation(200).build();
-        const Optimizer::Result result = optimizer.minimize(sphere, x, d, s, No_Constraint<>(), No_Tracing<>());
+        const Optimizer::Result result = optimizer.minimize(sphere, x, d, s);
 
         assert_true(result.is_optimized(), "test minimize sphere (optimized)");
         assert_false(result.is_underflow(), "test minimize sphere (underflow)");
@@ -114,7 +114,7 @@ private:
         const R_type s = 1.0;
 
         const Optimizer optimizer = builder.with_stop_generation(400).build();
-        const Optimizer::Result result = optimizer.minimize(cigar, x, d, s, No_Constraint<>(), No_Tracing<>());
+        const Optimizer::Result result = optimizer.minimize(cigar, x, d, s);
 
         assert_true(result.is_optimized(), "test minimize cigar (optimized)");
         assert_false(result.is_underflow(), "test minimize cigar (underflow)");
@@ -136,11 +136,11 @@ private:
         using especia::No_Tracing;
 
         const valarray<R_type> x(0.0, 10);
-        const valarray<R_type> d(0.1, 10);
-        const R_type s = 1.0;
+        const valarray<R_type> d(1.0, 10);
+        const R_type s = 0.1;
 
         const Optimizer optimizer = builder.with_stop_generation(400).build();
-        const Optimizer::Result result = optimizer.minimize(rosenbrock, x, d, s, No_Constraint<>(), No_Tracing<>());
+        const Optimizer::Result result = optimizer.minimize(rosenbrock, x, d, s);
 
         assert_true(result.is_optimized(), "test minimize Rosenbrock (optimized)");
         assert_false(result.is_underflow(), "test minimize Rosenbrock (underflow)");

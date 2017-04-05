@@ -751,10 +751,21 @@ namespace especia {
         Result maximize(const F &f,
                         const std::valarray<R_type> &x,
                         const std::valarray<R_type> &d,
-                        const R_type s,
-                        const Constraint &constraint = No_Constraint<R_type>(),
-                        const Tracing &tracer = No_Tracing<R_type>()) const {
+                        const R_type &s,
+                        const Constraint &constraint,
+                        const Tracing &tracer) const {
             return optimize(f, x, d, s, constraint, tracer, std::greater<R_type>());
+        }
+
+        /**
+         * @overload
+         */
+        template<class F>
+        Result maximize(const F &f,
+                        const std::valarray<R_type> &x,
+                        const std::valarray<R_type> &d,
+                        const R_type &s) const {
+            return optimize(f, x, d, s, No_Constraint<R_type>(), No_Tracing<R_type>(), std::greater<R_type>());
         }
 
         /**
@@ -777,10 +788,21 @@ namespace especia {
         Result minimize(const F &f,
                         const std::valarray<R_type> &x,
                         const std::valarray<R_type> &d,
-                        const R_type s,
-                        const Constraint &constraint = No_Constraint<R_type >(),
-                        const Tracing &tracer = No_Tracing<R_type >()) const {
+                        const R_type &s,
+                        const Constraint &constraint,
+                        const Tracing &tracer) const {
             return optimize(f, x, d, s, constraint, tracer, std::less<R_type>());
+        }
+
+        /**
+         * @overload
+         */
+        template<class F>
+        Result minimize(const F &f,
+                        const std::valarray<R_type> &x,
+                        const std::valarray<R_type> &d,
+                        const R_type &s) const {
+            return optimize(f, x, d, s, No_Constraint<R_type>(), No_Tracing<R_type>(), std::less<R_type>());
         }
 
     private:
@@ -813,7 +835,7 @@ namespace especia {
         Result optimize(const F &f,
                         const std::valarray<R_type> &x,
                         const std::valarray<R_type> &d,
-                        const R_type s,
+                        const R_type &s,
                         const Constraint &constraint,
                         const Tracing &tracer,
                         const Compare &compare) const {
