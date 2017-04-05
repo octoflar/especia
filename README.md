@@ -30,7 +30,7 @@ from GitHub.
 
 Building Especia requires [CMake](https://cmake.org) and a compiler that implements
 [C++11](https://en.wikipedia.org/wiki/C%2B%2B11). To build and test the Especia
-`cd` into the project root directory and type:
+software `cd` into the project root directory and type:
 
     mkdir cmake-build-release
     cd cmake-build-release
