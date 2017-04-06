@@ -118,9 +118,6 @@ private:
     }
 
     void test_minimize_sphere() {
-        using especia::No_Constraint;
-        using especia::No_Tracing;
-
         const valarray<R_type> x(1.0, 10);
         const valarray<R_type> d(1.0, 10);
         const R_type s = 1.0;
@@ -144,9 +141,6 @@ private:
     }
 
     void test_minimize_ellipsoid() {
-        using especia::No_Constraint;
-        using especia::No_Tracing;
-
         const valarray<R_type> x(1.0, 10);
         const valarray<R_type> d(1.0, 10);
         const R_type s = 1.0;
@@ -170,9 +164,6 @@ private:
     }
 
     void test_minimize_cigar() {
-        using especia::No_Constraint;
-        using especia::No_Tracing;
-
         const valarray<R_type> x(1.0, 10);
         const valarray<R_type> d(1.0, 10);
         const R_type s = 1.0;
@@ -196,9 +187,6 @@ private:
     }
 
     void test_minimize_tablet() {
-        using especia::No_Constraint;
-        using especia::No_Tracing;
-
         const valarray<R_type> x(1.0, 10);
         const valarray<R_type> d(1.0, 10);
         const R_type s = 1.0;
@@ -222,9 +210,6 @@ private:
     }
 
     void test_minimize_rosenbrock() {
-        using especia::No_Constraint;
-        using especia::No_Tracing;
-
         const valarray<R_type> x(0.0, 10);
         const valarray<R_type> d(1.0, 10);
         const R_type s = 0.1;
@@ -248,9 +233,6 @@ private:
     }
 
     void test_minimize_different_powers() {
-        using especia::No_Constraint;
-        using especia::No_Tracing;
-
         const valarray<R_type> x(1.0, 10);
         const valarray<R_type> d(1.0, 10);
         const R_type s = 1.0;
