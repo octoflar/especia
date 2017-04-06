@@ -7,46 +7,47 @@ script:
   - mkdir cmake-build-release
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - make -j "$TASK"
+  - make -j clean all util
+  - make "$TEST"
 matrix:
   include:
     - os: osx
       env:
-        - TASK="clean unittests"
+        - TEST="unittests"
     - os: osx
       env:
-        - TASK="clean all util test1"
+        - TEST="test1"
     - os: osx
       env:
-        - TASK="clean all util test2"
+        - TEST="test2"
     - os: osx
       env:
-        - TASK="clean all util test3"
+        - TEST="test3"
     - os: osx
       env:
-        - TASK="clean all util test4"
+        - TEST="test4"
     - os: linux
       env:
-        - TASK="clean unittests"
+        - TEST="unittests"
       dist: trusty
       sudo: required
     - os: linux
       env:
-        - TASK="clean all util test1"
+        - TEST="test1"
       dist: trusty
       sudo: required
     - os: linux
       env:
-        - TASK="clean all util test2"
+        - TEST="test2"
       dist: trusty
       sudo: required
     - os: linux
       env:
-        - TASK="clean all util test3"
+        - TEST="test3"
       dist: trusty
       sudo: required
     - os: linux
       env:
-        - TASK="clean all util test4"
+        - TEST="test4"
       dist: trusty
       sudo: required
