@@ -21,7 +21,10 @@
 function(add_system_test NAME EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ${SHELL} erun.sh resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
     set_tests_properties(${NAME} PROPERTIES LABELS system TIMEOUT 3600)
+    add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
+
+add_custom_target(systemtests ctest --output-on-failure --label-regex system)
 
 function(add_unit_test NAME)
     add_executable(${NAME}
@@ -33,8 +36,6 @@ function(add_unit_test NAME)
     add_dependencies(unittests ${NAME})
 endfunction()
 
-add_custom_target(unittests)
-
-add_custom_target(rununittests ctest --label-regex unit)
+add_custom_target(unittests ctest --output-on-failure --label-regex unit)
 
 enable_testing()

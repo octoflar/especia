@@ -7,11 +7,13 @@ script:
   - mkdir cmake-build-release
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - make -j clean all util unittests
-  - ctest --verbose --label-regex unit
-  - ctest --verbose --tests-regex "$TEST"
+  - make -j clean all util
+  - make "$TEST"
 matrix:
   include:
+    - os: osx
+      env:
+        - TEST="unittests"
     - os: osx
       env:
         - TEST="test1"
@@ -24,6 +26,11 @@ matrix:
     - os: osx
       env:
         - TEST="test4"
+    - os: linux
+      env:
+        - TEST="unittests"
+      dist: trusty
+      sudo: required
     - os: linux
       env:
         - TEST="test1"
