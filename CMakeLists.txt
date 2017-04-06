@@ -44,10 +44,10 @@ include_directories(${CMAKE_BINARY_DIR})
 configure_file(${MAIN}/cxx/config.h.in config.h @ONLY)
 configure_file(${MAIN}/scripts/erun.sh erun.sh COPYONLY)
 
-configure_file(${TEST}/resources/test1.html  resources/test1.html COPYONLY)
-configure_file(${TEST}/resources/test2.html  resources/test2.html COPYONLY)
-configure_file(${TEST}/resources/test3.html  resources/test3.html COPYONLY)
-configure_file(${TEST}/resources/test4.html  resources/test4.html COPYONLY)
+configure_file(${TEST}/resources/especid_test.html resources/especid_test.html COPYONLY)
+configure_file(${TEST}/resources/especiv_test.html resources/especiv_test.html COPYONLY)
+configure_file(${TEST}/resources/especix_test.html resources/especix_test.html COPYONLY)
+configure_file(${TEST}/resources/especia_test.html resources/especia.html COPYONLY)
 configure_file(${TEST}/resources/stis121.dat resources/stis121.dat COPYONLY)
 configure_file(${TEST}/resources/uves346.dat resources/uves346.dat COPYONLY)
 configure_file(${TEST}/resources/uves580.dat resources/uves580.dat COPYONLY)
@@ -110,10 +110,10 @@ add_unit_test(optimizer_test
         ${TEST}/cxx/core/optimizer_test.cxx)
 target_link_libraries(optimizer_test ${VECLIB})
 
-add_system_test(test1 159.77 171.89)
-add_system_test(test2 251.04)
-add_system_test(test3 251.46)
-add_system_test(test4 103.91 258.67 213.20 223.51 238.06 196.48)
+add_system_test(especid_test 159.77 171.89)
+add_system_test(especiv_test 251.04)
+add_system_test(especix_test 251.46)
+add_system_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
         ${MAIN}/cxx/core/base.h
