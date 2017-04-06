@@ -24,7 +24,7 @@ function(add_system_test NAME EXPECTED_VALUES)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
 
-add_custom_target(systemtests ctest --output-on-failure --label-regex system)
+add_custom_target(systemtests ctest --verbose --label-regex system)
 
 function(add_unit_test NAME)
     add_executable(${NAME}
