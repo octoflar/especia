@@ -53,14 +53,11 @@ The current release version is 2016.1.
 
 # Further reading
 
-<iframe src="https://widgets.figshare.com/articles/994250/embed?show_title=0" width="480" height="360" frameborder="0"></iframe>
+Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
+Astronomy and Astrophysics 431 (3) 1167.
+doi: [10.1051/0004-6361:20041601](http://dx.doi.org/10.1051/0004-6361:20041601).
 
 Quast, Ralf (2014): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.* figshare.
 doi: [10.6084/m9.figshare.994250](https://doi.org/10.6084/m9.figshare.994250).
 
-Quast, Ralf (2014): *Covariance matrix adaption in evolution strategies.* figshare.
-doi: [10.6084/m9.figshare.994249](https://doi.org/10.6084/m9.figshare.994249).
-
-Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
-Astronomy and Astrophysics 431 (3) 1167.
-doi: [10.1051/0004-6361:20041601](http://dx.doi.org/10.1051/0004-6361:20041601).
+<iframe src="https://widgets.figshare.com/articles/994250/embed?show_title=0" width="480" height="360" frameborder="0"></iframe>
