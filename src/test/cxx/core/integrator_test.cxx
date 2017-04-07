@@ -29,7 +29,7 @@ using especia::Integrator;
 class Integrator_Test : public Unit_Test {
 private:
 
-    void test_integrate_cos() const {
+    void test_integrate_cos() {
         using std::cos;
         using especia::pi;
 
