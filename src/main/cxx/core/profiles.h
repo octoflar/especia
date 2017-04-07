@@ -603,7 +603,6 @@ namespace especia {
      * @return @f$ f(x, b) @f$, if @f$ |x| < c * b @f$, zero otherwise.
      */
     template<class F>
-    inline
     R_type truncate(const F &f, const R_type &x, const R_type &b, const R_type &c) {
         using std::abs;
 
