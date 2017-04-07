@@ -50,7 +50,7 @@ namespace especia {
          * @param[in] b The width of the Gaussian (arbitrary unit).
          * @param[in] d The width of the Lorentzian (arbitrary unit).
          */
-        Pseudo_Voigt(const R_type &b = 1.0, const R_type &d = 1.0);
+        Pseudo_Voigt(const R_type &b = 0.5, const R_type &d = 0.5);
 
         /**
          * The destructor.
@@ -97,7 +97,7 @@ namespace especia {
          * @param[in] b The width of the Gaussian (arbitrary unit).
          * @param[in] d The width of the Lorentzian (arbitrary unit).
          */
-        Extended_Pseudo_Voigt(const R_type &b = 1.0, const R_type &d = 1.0);
+        Extended_Pseudo_Voigt(const R_type &b = 0.5, const R_type &d = 0.5);
 
         /**
          * The destructor.
@@ -366,7 +366,7 @@ namespace especia {
          * Default constructor.
          */
         Intergalactic_Voigt()
-                : z(1.0), a(0.0), c(0.0), approximation(1.0, 1.0) {
+                : z(1.0), a(1.0), c(0.0), approximation(1.0, 1.0) {
         };
 
         /**
@@ -529,21 +529,78 @@ namespace especia {
         }
 
     private:
+        /**
+         * The line profiles.
+         */
         std::vector<P> profiles;
     };
 
 
     /**
-     * Truncates the support of a given profile function.
+     * Calculates the equivalent width of a profile.
+     *
+     * @tparam Integrate The strategy to integrate the line profile.
+     */
+    template<class Integrate>
+    class Equivalent_Width_Calculator {
+    public:
+        /**
+         * The default constructor.
+         */
+        Equivalent_Width_Calculator() : integrator(Integrate()) {
+
+        }
+
+        /**
+         * Constructs a new equivalent width calculator using the integrator supplied as argument.
+         *
+         * @param integrator The integrator.
+         */
+        Equivalent_Width_Calculator(const Integrate &integrator) : integrator(integrator) {
+
+        }
+
+        /**
+         * The destructor.
+         */
+        ~Equivalent_Width_Calculator() {
+
+        }
+
+        /**
+         * Calculates the equivalent width of the profile supplied as argument.
+         *
+         * @tparam P The profile type.
+         *
+         * @param p The profile
+         * @return
+         */
+        template<class P>
+        R_type calculate(const P &p) {
+            using std::exp;
+
+            return 2.0 * integrator.integrate_semi_infinite(
+                    [&p](double x) -> double { return 1.0 - exp(-p(x - p.get_center())); }) / p.get_redshift_factor();
+        }
+
+    private:
+        /**
+         * The strategy to integrate the line profile.
+         */
+        const Integrate integrator;
+    };
+
+
+    /**
+     * Truncates the support of a function.
      *
      * @tparam F The function type.
      *
      * @param[in] f The function.
-     * @param[in] x The wavelength relative to the center of the profile.
-     * @param[in] b The width of the profile.
-     * @param[in] c The truncation parameter.
-     * @return the value of the profile function at @c x, if the absolute value
-     *         of @c x is less than @c c widths, zero otherwise.
+     * @param[in] x The abscissa.
+     * @param[in] b The truncation width.
+     * @param[in] c The truncation multiplier.
+     * @return @f$ f(x, b) @f$, if @f$ |x| < c * b @f$, zero otherwise.
      */
     template<class F>
     inline

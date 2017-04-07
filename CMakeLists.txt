@@ -109,6 +109,12 @@ add_unit_test(optimizer_test
         ${MAIN}/cxx/core/optimizer.cxx
         ${TEST}/cxx/core/optimizer_test.cxx)
 target_link_libraries(optimizer_test ${VECLIB})
+add_unit_test(profiles_test
+        ${MAIN}/cxx/core/base.h
+        ${MAIN}/cxx/core/integrator.h
+        ${MAIN}/cxx/core/profiles.h
+        ${MAIN}/cxx/core/profiles.cxx
+        ${TEST}/cxx/core/profiles_test.cxx)
 
 add_system_test(especid_test 159.77 171.89)
 add_system_test(especiv_test 251.04)
