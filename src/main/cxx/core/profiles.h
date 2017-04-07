@@ -198,6 +198,15 @@ namespace especia {
         }
 
         /**
+         * Returns the redshift factor of the profile due to cosmology and proper motion.
+         *
+         * @return the redshift factor.
+         */
+        R_type get_redshift_factor() const {
+            return z;
+        }
+
+        /**
          * Returns the number of parameters.
          */
         static N_type get_parameter_count() {
@@ -209,6 +218,11 @@ namespace especia {
          * The modified rest wavelength (Angstrom).
          */
         const R_type u;
+
+        /**
+         * The redshift factor due to cosmology and proper motion.
+         */
+        const R_type z;
 
         /**
          * The central wavelength (Angstrom).
@@ -292,6 +306,15 @@ namespace especia {
         }
 
         /**
+         * Returns the redshift factor of the profile due to cosmology and proper motion.
+         *
+         * @return the redshift factor.
+         */
+        R_type get_redshift_factor() const {
+            return z;
+        }
+
+        /**
          * Returns the number of parameters.
          */
         static N_type get_parameter_count() {
@@ -299,6 +322,11 @@ namespace especia {
         };
 
     private:
+        /**
+         * The redshift factor due to cosmology and proper motion.
+         */
+        const R_type z;
+
         /**
          * The central wavelength (Angstrom).
          */
@@ -338,7 +366,7 @@ namespace especia {
          * Default constructor.
          */
         Intergalactic_Voigt()
-                : a(0.0), c(0.0), approximation(1.0, 1.0) {
+                : z(1.0), a(0.0), c(0.0), approximation(1.0, 1.0) {
         };
 
         /**
@@ -364,7 +392,8 @@ namespace especia {
          * @endparblock
          */
         Intergalactic_Voigt(const R_type q[])
-                : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / c0)),
+                : z((1.0 + q[2]) * (1.0 + q[3] / c0)),
+                  c(q[0] * z),
                   a(c1 * q[1] * pow(10.0, q[5]) * (q[0] * c)),
                   approximation(q[4] * c / c0, c2 * q[6] * (q[0] * c)) {
         }
@@ -395,6 +424,15 @@ namespace especia {
         }
 
         /**
+         * Returns the redshift factor of the profile due to cosmology and proper motion.
+         *
+         * @return the redshift factor.
+         */
+        R_type get_redshift_factor() const {
+            return z;
+        }
+
+        /**
          * Returns the number of parameters.
          */
         static N_type get_parameter_count() {
@@ -402,6 +440,11 @@ namespace especia {
         };
 
     private:
+        /**
+         * The redshift factor due to cosmology and proper motion.
+         */
+        const R_type z;
+
         /**
          * The central wavelength (Angstrom).
          */

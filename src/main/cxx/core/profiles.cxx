@@ -181,12 +181,13 @@ const R_type especia::Extended_Pseudo_Voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
 
 
 especia::Many_Multiplet::Many_Multiplet()
-        : u(0.0), c(0.0), b(1.0), a(0.0) {
+        : u(0.0), z(1.0), c(0.0), b(1.0), a(0.0) {
 }
 
 especia::Many_Multiplet::Many_Multiplet(const R_type q[])
         : u(1.0E+08 / (1.0E+08 / q[0] + q[6] * (q[7] * micro) * (q[7] * micro + 2.0))),
-          c(u * (1.0 + q[2]) * (1.0 + q[3] / c0)),
+          z((1.0 + q[2]) * (1.0 + q[3] / c0)),
+          c(u * z),
           b(q[4] * c / c0),
           a(c1 * q[1] * pow(10.0, q[5]) * (u * c)) {
 }
@@ -204,11 +205,12 @@ const R_type especia::Many_Multiplet::c1 = 1.0E-06 * sq(elementary_charge) /
 
 
 especia::Intergalactic_Doppler::Intergalactic_Doppler()
-        : c(0.0), b(1.0), a(0.0) {
+        : z(1.0), c(0.0), b(1.0), a(0.0) {
 }
 
 especia::Intergalactic_Doppler::Intergalactic_Doppler(const R_type q[])
-        : c(q[0] * (1.0 + q[2]) * (1.0 + q[3] / c0)),
+        : z((1.0 + q[2]) * (1.0 + q[3] / c0)),
+          c(q[0] * z),
           b(q[4] * c / c0),
           a(c1 * q[1] * pow(10.0, q[5]) * (q[0] * c)) {
 }
