@@ -183,7 +183,7 @@ namespace especia {
         /**
          * Returns the value of the profile at a given wavelength.
          *
-         * @param[in] x The wavelength (Angstrom)
+         * @param[in] x The wavelength (Angstrom).
          * @return the value of the profile at @c x.
          */
         R_type operator()(const R_type &x) const;
@@ -291,7 +291,7 @@ namespace especia {
         /**
          * Returns the value of the profile at a given wavelength.
          *
-         * @param[in] x The wavelength (Angstrom)
+         * @param[in] x The wavelength (Angstrom).
          * @return the value of the profile at @c x.
          */
         R_type operator()(const R_type &x) const;
@@ -407,7 +407,7 @@ namespace especia {
         /**
          * Returns the value of the profile at a given wavelength.
          *
-         * @param[in] x The wavelength (Angstrom)
+         * @param[in] x The wavelength (Angstrom).
          * @return the value of the profile at @c x.
          */
         R_type operator()(const R_type &x) const {
@@ -515,7 +515,7 @@ namespace especia {
         /**
          * Returns the value of the profile superpositon at a given wavelength.
          *
-         * @param[in] x The wavelength (Angstrom)
+         * @param[in] x The wavelength (Angstrom).
          * @return the value of the profile superposition at @c x.
          */
         R_type operator()(const R_type &x) const {
@@ -552,7 +552,7 @@ namespace especia {
         }
 
         /**
-         * Constructs a new equivalent width calculator using the integrator supplied as argument.
+         * Constructs a new instance of this class using the integrator supplied as argument.
          *
          * @param integrator The integrator.
          */
@@ -572,8 +572,8 @@ namespace especia {
          *
          * @tparam P The profile type.
          *
-         * @param p The profile
-         * @return the equivalent width (Angstrom)
+         * @param p The profile.
+         * @return the equivalent width (Angstrom).
          */
         template<class P>
         R_type calculate(const P &p) const {
