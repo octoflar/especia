@@ -573,14 +573,14 @@ namespace especia {
          * @tparam P The profile type.
          *
          * @param p The profile
-         * @return
+         * @return the equivalent width (Angstrom)
          */
         template<class P>
-        R_type calculate(const P &p) {
+        R_type calculate(const P &p) const {
             using std::exp;
 
             return 2.0 * integrator.integrate_semi_infinite(
-                    [&p](double x) -> double { return 1.0 - exp(-p(x - p.get_center())); }) / p.get_redshift_factor();
+                    [&p](double x) -> double { return 1.0 - exp(-p(x + p.get_center())); }) / p.get_redshift_factor();
         }
 
     private:
