@@ -45,7 +45,7 @@ private:
 
         const R_type result = calculator.calculate(Many_Multiplet());
 
-        assert_equals(0.698785, result, 1.0E-06, "equivalent width (many-multiplet Doppler)");
+        assert_equals(0.698785, result, 1.0E-06, "equivalent width (many-multiplet)");
     }
 
     void test_equivalent_width_intergalactic_voigt() {
