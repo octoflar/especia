@@ -42,14 +42,18 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_defaults() {
 }
 
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(N_type n) {
-    this->n = n;
-    set_strategy_parameters();
+    if (n != this->n) {
+        this->n = n;
+        set_strategy_parameters();
+    }
     return *this;
 }
 
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_parent_number(N_type parent_number) {
-    this->parent_number = parent_number;
-    set_strategy_parameters();
+    if (parent_number != this->parent_number) {
+        this->parent_number = parent_number;
+        set_strategy_parameters();
+    }
     return *this;
 }
 
