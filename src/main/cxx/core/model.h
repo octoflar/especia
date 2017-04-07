@@ -463,9 +463,12 @@ namespace especia {
 #if defined(ESPECIA_MANY_MULTIPLET_ANALYSIS)
             os << "      <td>&Delta;&alpha;/&alpha;<br>(10<sup>-6</sup>)</td>\n";
 #endif
+            os << "      <td>Equivalent<br>Width<br>(&Aring;)</td>\n";
             os << "    </tr>\n";
             os << "  </thead>\n";
             os << "  <tbody align=\"left\">\n";
+
+            const Equivalent_Width_Calculator<Integrator<R_type>> calculator;
 
             for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i) {
                 const N_type j = i->second;
@@ -480,6 +483,7 @@ namespace especia {
                 const R_type dz = err[j + 2];
                 const R_type dv = err[j + 3];
                 const R_type dw = dx + x * sqrt(sq((1.0 + v / c) * dz) + sq((1.0 + z) * dv / c));
+                const R_type ew = calculator.calculate(Profile(&val[j]));
 
                 os.precision(4);
 
@@ -509,6 +513,9 @@ namespace especia {
                 put_parameter(os, ios_base::fixed, 3, j + 7);
                 os << "</td>\n";
 #endif
+                os << "      <td>";
+                put_parameter(os, ios_base::scientific, 2, ew);
+                os << "</td>\n";
                 os << "    </tr>\n";
             }
 
@@ -607,6 +614,21 @@ namespace especia {
         }
 
     private:
+        std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, N_type p, R_type parameter) const {
+            using namespace std;
+
+            const ios_base::fmtflags fmt = os.flags();
+
+            os.setf(f, ios_base::floatfield);
+            os.precision(p);
+
+            os << parameter;
+
+            os.flags(fmt);
+
+            return os;
+        }
+
         std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, N_type p, N_type parameter_index) const {
             using namespace std;
 
