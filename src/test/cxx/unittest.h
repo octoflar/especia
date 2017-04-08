@@ -159,15 +159,16 @@ protected:
     /**
      * Asserts equality of two values.
      *
-     * @tparam T The value type.
+     * @tparam E The expected type.
+     * @tparam A The actual type.
      *
      * @param expected The expected value.
      * @param actual The actual value.
      * @param name The assertion name.
      * @throw an @c Assertion_Error if requested.
      */
-    template<class T>
-    void assert_equals(const T &expected, const T &actual,
+    template<class E, class A>
+    void assert_equals(const E &expected, const A &actual,
                        const std::string &name = "unnamed assertion") const throw(Assertion_Error) {
         using std::cerr;
         using std::endl;
@@ -187,7 +188,8 @@ protected:
     /**
      * Asserts equality of two values with some (absolute) tolerance.
      *
-     * @tparam T The value type.
+     * @tparam E The expected type.
+     * @tparam A The actual type.
      *
      * @param expected The expected value.
      * @param actual The actual value.
@@ -195,8 +197,8 @@ protected:
      * @param name The assertion name.
      * @throw an @c Assertion_Error if requested.
      */
-    template<class T>
-    void assert_equals(const T &expected, const T &actual, const T &tolerance,
+    template<class E, class A>
+    void assert_equals(const E &expected, const A &actual, const E &tolerance,
                        const std::string &name = "unnamed assertion") const throw(Assertion_Error) {
         using std::abs;
         using std::stringstream;
