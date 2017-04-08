@@ -23,7 +23,6 @@
 #define ESPECIA_PROFILES_H
 
 #include <cmath>
-#include <cstddef>
 #include <vector>
 
 #include "base.h"
@@ -394,7 +393,7 @@ namespace especia {
         Intergalactic_Voigt(const R_type q[])
                 : z((1.0 + q[2]) * (1.0 + q[3] / c0)),
                   c(q[0] * z),
-                  a(c1 * q[1] * pow(10.0, q[5]) * (q[0] * c)),
+                  a(c1 * q[1] * std::pow(10.0, q[5]) * (q[0] * c)),
                   approximation(q[4] * c / c0, c2 * q[6] * (q[0] * c)) {
         }
 
@@ -498,8 +497,7 @@ namespace especia {
          * @param[in] q The vector of parameter values. The semantics of parameter values and the
          *              number of parameters per component are defined by the profile type.
          */
-        Superposition(N_type n, const R_type q[])
-                : profiles() {
+        Superposition(N_type n, const R_type q[]) : profiles() {
             profiles.reserve(n);
             for (N_type i = 0; i < n; ++i, q += T::get_parameter_count()) {
                 profiles.push_back(T(q));
