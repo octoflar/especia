@@ -579,8 +579,10 @@ namespace especia {
         R_type calculate(const P &p) const {
             using std::exp;
 
-            return 2.0 * integrator.integrate_semi_infinite(
-                    [&p](double x) -> double { return 1.0 - exp(-p(x + p.get_center())); }) / p.get_redshift_factor();
+            const R_type integral = integrator.integrate_semi_infinite(
+                    [&p](R_type x) -> R_type { return 1.0 - exp(-p(x + p.get_center())); });
+
+            return 2.0 * integral / p.get_redshift_factor();
         }
 
     private:
@@ -606,7 +608,7 @@ namespace especia {
     R_type truncate(const F &f, const R_type &x, const R_type &b, const R_type &c) {
         using std::abs;
 
-        return abs(x) < c * b ? f(x, b) : 0.0;
+        return abs(x) < c * b ? f(x, b) : R_type(0.0);
     }
 }
 
