@@ -591,25 +591,6 @@ namespace especia {
          */
         const Integrate integrator;
     };
-
-
-    /**
-     * Truncates the support of a function.
-     *
-     * @tparam F The function type.
-     *
-     * @param[in] f The function.
-     * @param[in] x The abscissa.
-     * @param[in] b The truncation width.
-     * @param[in] c The truncation multiplier.
-     * @return @f$ f(x, b) @f$, if @f$ |x| < c * b @f$, zero otherwise.
-     */
-    template<class F>
-    R_type truncate(const F &f, const R_type &x, const R_type &b, const R_type &c) {
-        using std::abs;
-
-        return abs(x) < c * b ? f(x, b) : R_type(0.0);
-    }
 }
 
 #endif // ESPECIA_PROFILES_H
