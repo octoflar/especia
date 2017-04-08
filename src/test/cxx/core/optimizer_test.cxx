@@ -64,7 +64,7 @@ private:
             y += sq(x[i]);
         }
 
-        return 1.0E+06 * y + sq(x[0]);
+        return R_type(1.0E+06) * y + sq(x[0]);
     }
 
     static R_type tablet(const R_type x[], N_type n) {
@@ -76,7 +76,7 @@ private:
             y += sq(x[i]);
         }
 
-        return 1.0E+06 * sq(x[0]) + y;
+        return R_type(1.0E+06) * sq(x[0]) + y;
     }
 
     /// [The Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function)
