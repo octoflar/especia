@@ -486,7 +486,7 @@ namespace especia {
      *
      * @tparam T The profile type.
      *
-     * @remark This class is thread safe, if the profile type is thead safe.
+     * @remark This class is thread safe, if the profile type is thread safe.
      */
     template<class T>
     class Superposition {
