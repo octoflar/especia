@@ -48,7 +48,7 @@ namespace especia {
     /**
      * The type of binary numbers (32 binary digits required).
      */
-    typedef unsigned word;
+    typedef unsigned long word;
 
     /**
      * The class of continuous univariate functions @c f(x) whose derivative exists and is continous.

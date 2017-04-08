@@ -208,8 +208,8 @@ namespace especia {
         /**
          * Returns the number of parameters.
          */
-        static natural get_parameter_count() {
-            return parameter_count;
+        static natural parameter_count() {
+            return n;
         };
 
     private:
@@ -241,7 +241,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const natural parameter_count = 8;
+        static const natural n = 8;
 
         static const real c0;
         static const real c1;
@@ -316,8 +316,8 @@ namespace especia {
         /**
          * Returns the number of parameters.
          */
-        static natural get_parameter_count() {
-            return parameter_count;
+        static natural parameter_count() {
+            return n;
         };
 
     private:
@@ -344,7 +344,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const natural parameter_count = 6;
+        static const natural n = 6;
 
         static const real c0;
         static const real c1;
@@ -434,8 +434,8 @@ namespace especia {
         /**
          * Returns the number of parameters.
          */
-        static natural get_parameter_count() {
-            return parameter_count;
+        static natural parameter_count() {
+            return n;
         };
 
     private:
@@ -462,7 +462,7 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const natural parameter_count = 7;
+        static const natural n = 7;
 
         static const real c0;
         static const real c1;
@@ -499,7 +499,7 @@ namespace especia {
          */
         Superposition(natural n, const real q[]) : profiles() {
             profiles.reserve(n);
-            for (natural i = 0; i < n; ++i, q += T::get_parameter_count()) {
+            for (natural i = 0; i < n; ++i, q += T::parameter_count()) {
                 profiles.push_back(T(q));
             }
         }

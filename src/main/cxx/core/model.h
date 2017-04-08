@@ -236,8 +236,8 @@ namespace especia {
                             if (pim.find(pid) == pim.end()) {
                                 pim[pid] = i;
 
-                                if (read(ist, val, lo, up, msk, ref, Profile::get_parameter_count(), '\n', true)) {
-                                    i += Profile::get_parameter_count();
+                                if (read(ist, val, lo, up, msk, ref, Profile::parameter_count(), '\n', true)) {
+                                    i += Profile::parameter_count();
                                     k += 1;
                                 } else {
                                     is.setstate(ios_base::badbit | ios_base::failbit);
@@ -312,7 +312,7 @@ namespace especia {
 
                 // Dereference line parameter references
                 for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i)
-                    for (natural j = 0; j < Profile::get_parameter_count(); ++j) {
+                    for (natural j = 0; j < Profile::parameter_count(); ++j) {
                         const natural k = i->second + j;
 
                         while (!ref[k].empty()) {
