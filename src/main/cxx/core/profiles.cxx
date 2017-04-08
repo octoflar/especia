@@ -80,27 +80,8 @@ static R_type f_p(const R_type &x, const R_type &gamma) {
     return 1.0 / (2.0 * gamma * sq(cosh(x / gamma)));
 }
 
-/**
- * An univariate polynomial of degree 6.
- *
- * @param[in] x The abscissa value.
- * @param[in] h0 The coefficient for the monomial of degree 0.
- * @param[in] h1 The coefficient for the monomial of degree 1.
- * @param[in] h2 The coefficient for the monomial of degree 2.
- * @param[in] h3 The coefficient for the monomial of degree 3.
- * @param[in] h4 The coefficient for the monomial of degree 4.
- * @param[in] h5 The coefficient for the monomial of degree 5.
- * @param[in] h6 The coefficient for the monomial of degree 6.
- * @return the value of the polynomial at @c x.
- */
-static R_type poly(const R_type &x,
-            const R_type &h0,
-            const R_type &h1,
-            const R_type &h2,
-            const R_type &h3,
-            const R_type &h4,
-            const R_type &h5,
-            const R_type &h6) {
+template<class T>
+static T poly(const T &x, const T &h0, const T &h1, const T &h2, const T &h3, const T &h4, const T &h5, const T &h6) {
     return h0 + x * (h1 + x * (h2 + x * (h3 + x * (h4 + x * (h5 + x * h6)))));
 }
 
@@ -130,6 +111,11 @@ static R_type poly_eta_i(const R_type &r) {
 
 static R_type poly_eta_p(const R_type &r) {
     return (r * (1.0 - r)) * poly(r, 1.01579, 1.50429, -9.21815, 23.59717, -39.71134, 32.83023, -10.02142);
+}
+
+template<class F>
+static R_type truncate(const F &f, const R_type &x, const R_type &b, const R_type &c) {
+    return abs(x) < c * b ? f(x, b) : R_type(0.0);
 }
 
 
