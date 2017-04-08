@@ -181,10 +181,10 @@ namespace especia {
         ~Many_Multiplet();
 
         /**
-         * Returns the value of the profile at a given wavelength.
+         * Returns the optical depth of the profile at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom).
-         * @return the value of the profile at @c x.
+         * @return the optical depth of the profile at @c x.
          */
         R_type operator()(const R_type &x) const;
 
@@ -289,10 +289,10 @@ namespace especia {
         ~Intergalactic_Doppler();
 
         /**
-         * Returns the value of the profile at a given wavelength.
+         * Returns the optical depth of the profile at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom).
-         * @return the value of the profile at @c x.
+         * @return the optical depth of the profile at @c x.
          */
         R_type operator()(const R_type &x) const;
 
@@ -405,10 +405,10 @@ namespace especia {
         }
 
         /**
-         * Returns the value of the profile at a given wavelength.
+         * Returns the optical depth of the profile at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom).
-         * @return the value of the profile at @c x.
+         * @return the optical depth of the profile at @c x.
          */
         R_type operator()(const R_type &x) const {
             return a * approximation(x - c);
@@ -482,13 +482,13 @@ namespace especia {
 
 
     /**
-     * The superposition of many profiles.
+     * The superposition of many optical depth profiles.
      *
-     * @tparam P The profile type.
+     * @tparam T The profile type.
      *
      * @remark This class is thread safe, if the profile type is thead safe.
      */
-    template<class P>
+    template<class T>
     class Superposition {
     public:
         /**
@@ -501,8 +501,8 @@ namespace especia {
         Superposition(N_type n, const R_type q[])
                 : profiles() {
             profiles.reserve(n);
-            for (N_type i = 0; i < n; ++i, q += P::get_parameter_count()) {
-                profiles.push_back(P(q));
+            for (N_type i = 0; i < n; ++i, q += T::get_parameter_count()) {
+                profiles.push_back(T(q));
             }
         }
 
@@ -513,10 +513,10 @@ namespace especia {
         }
 
         /**
-         * Returns the value of the profile superpositon at a given wavelength.
+         * Returns the optical depth of the profile superposition at a given wavelength.
          *
          * @param[in] x The wavelength (Angstrom).
-         * @return the value of the profile superposition at @c x.
+         * @return the optical depth of the profile superposition at @c x.
          */
         R_type operator()(const R_type &x) const {
             R_type d = 0.0;
@@ -532,12 +532,12 @@ namespace especia {
         /**
          * The line profiles.
          */
-        std::vector<P> profiles;
+        std::vector<T> profiles;
     };
 
 
     /**
-     * Calculates the equivalent width of a profile.
+     * Calculates the equivalent width of an optical depth profile.
      *
      * @tparam Integrate The strategy to integrate the line profile.
      */
@@ -568,21 +568,21 @@ namespace especia {
         }
 
         /**
-         * Calculates the equivalent width of the profile supplied as argument.
+         * Calculates the equivalent width of an optical depth profile.
          *
-         * @tparam P The profile type.
+         * @tparam T The profile type.
          *
-         * @param p The profile.
+         * @param t The profile.
          * @return the equivalent width (milli Angstrom).
          */
-        template<class P>
-        R_type calculate(const P &p) const {
+        template<class T>
+        R_type calculate(const T &t) const {
             using std::exp;
 
             const R_type integral = integrator.integrate_semi_infinite(
-                    [&p](R_type x) -> R_type { return kilo * (1.0 - exp(-p(x + p.get_center()))); });
+                    [&t](R_type x) -> R_type { return kilo * (1.0 - exp(-t(x + t.get_center()))); });
 
-            return 2.0 * integral / p.get_redshift_factor();
+            return 2.0 * integral / t.get_redshift_factor();
         }
 
     private:
