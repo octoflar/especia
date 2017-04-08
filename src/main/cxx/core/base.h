@@ -22,7 +22,6 @@
 #ifndef ESPECIA_BASE_H
 #define ESPECIA_BASE_H
 
-#include <algorithm>
 #include <cmath>
 #include <sstream>
 #include <stdexcept>
@@ -190,24 +189,6 @@ namespace especia {
     template<class T = real>
     T sq(const T &x) {
         return x * x;
-    }
-
-    /**
-     * Transposes a square matrix.
-     *
-     * @tparam N The matrix dimension number type.
-     * @tparam T The matrix type.
-     *
-     * @param[in] n The matrix dimension.
-     * @param[in,out] a The square matrix (and its transpose).
-     */
-    template<class N, class T>
-    void transpose(N n, T a) {
-        for (N i = 0, i0 = 0; i < n; ++i, i0 += n) {
-            for (N j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
-                std::swap(a[ij], a[ji]);
-            }
-        }
     }
 
 }

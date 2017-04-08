@@ -20,6 +20,7 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
 #include <algorithm>
+#include <utility>
 
 #include "decompose.h"
 
@@ -28,6 +29,7 @@ using std::invalid_argument;
 using std::max;
 using std::runtime_error;
 using std::string;
+using std::swap;
 using std::valarray;
 
 using especia::real;
@@ -143,6 +145,24 @@ static const integer il = 0;
  * The LAPACK upper range index (here: not used).
  */
 static const integer iu = 0;
+
+/**
+ * Transposes a square matrix.
+ *
+ * @tparam N The matrix dimension number type.
+ * @tparam T The matrix type.
+ *
+ * @param[in] n The matrix dimension.
+ * @param[in,out] a The square matrix (and its transpose).
+ */
+template<class N, class T>
+void transpose(N n, T a) {
+    for (N i = 0, i0 = 0; i < n; ++i, i0 += n) {
+        for (N j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
+            swap(a[ij], a[ji]);
+        }
+    }
+}
 
 
 especia::D_Decompose::D_Decompose(natural m)

@@ -109,13 +109,13 @@ namespace especia {
             Partition<F, Part<F>> partition(f, a, b, p, q);
 
             for (size_t i = 0; i < max_iteration; ++i) {
-                if (partition.get_absolute_error() < accuracy_goal) {
+                if (partition.absolute_error() < accuracy_goal) {
                     break;
                 }
                 partition.refine();
             }
 
-            return partition.get_result();
+            return partition.result();
         }
 
         /**
@@ -178,8 +178,8 @@ namespace especia {
              *
              * @return the absolute error of the integration result.
              */
-            T get_absolute_error() const {
-                return absolute_error;
+            T absolute_error() const {
+                return err;
             }
 
             /**
@@ -187,8 +187,8 @@ namespace especia {
              *
              * @return the integration result.
              */
-            T get_result() const {
-                return result;
+            T result() const {
+                return res;
             }
 
             /**
@@ -315,8 +315,8 @@ namespace especia {
             void evaluate() {
                 using std::abs;
 
-                result = evaluate(q);
-                absolute_error = abs(result - evaluate(p));
+                res = evaluate(q);
+                err = abs(res - evaluate(p));
             }
 
             /**
@@ -410,12 +410,12 @@ namespace especia {
             /**
              * The absolute error of the integration result.
              */
-            T absolute_error = T(0.0);
+            T err = T(0.0);
 
             /**
              * The integration result.
              */
-            T result = T(0.0);
+            T res = T(0.0);
         };
 
         /**
@@ -434,7 +434,7 @@ namespace especia {
              * @return @c true, if the absolute error of the first part is less than that of the other part.
              */
             bool operator()(const P *p, const P *q) const {
-                return p->get_absolute_error() < q->get_absolute_error();
+                return p->absolute_error() < q->absolute_error();
             }
         };
 
@@ -462,7 +462,7 @@ namespace especia {
 
                 P *part = new P(f, a, b, p, q);
                 make_heap(parts.begin(), parts.end(), part_compare);
-                push_part(part);
+                add_part(part);
             }
 
             /**
@@ -479,14 +479,14 @@ namespace especia {
              *
              * @return the absolute error of the integration result.
              */
-            T get_absolute_error() const {
-                T absolute_error = T(0.0);
+            T absolute_error() const {
+                T err = T(0.0);
 
                 for (auto part : parts) {
-                    absolute_error += part->get_absolute_error();
+                    err += part->absolute_error();
                 }
 
-                return absolute_error;
+                return err;
             }
 
             /**
@@ -494,14 +494,14 @@ namespace especia {
              *
              * @return the integration result.
              */
-            T get_result() const {
-                T result = T(0.0);
+            T result() const {
+                T res = T(0.0);
 
                 for (auto part : parts) {
-                    result += part->get_result();
+                    res += part->result();
                 }
 
-                return result;
+                return res;
             }
 
             /**
@@ -509,8 +509,8 @@ namespace especia {
              */
             void refine() {
                 P *popped = pop_part();
-                push_part(popped->new_lower_part());
-                push_part(popped->new_upper_part());
+                add_part(popped->new_lower_part());
+                add_part(popped->new_upper_part());
 
                 delete popped;
             }
@@ -536,7 +536,7 @@ namespace especia {
              *
              * @param part The part.
              */
-            void push_part(P *part) {
+            void add_part(P *part) {
                 using std::push_heap;
 
                 parts.push_back(part);
