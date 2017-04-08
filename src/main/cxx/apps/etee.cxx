@@ -52,7 +52,7 @@ void write_usage_message(ostream &os, const string &pname) {
  *
  * @c argv[2] The path name of the flux uncertainty data file.
  *
- * @c argv[3] The number of lines to skip (optional, default = 0).
+ * @c argv[3] The number of lines to skip at the beginning (optional, default = 0).
  * @endparblock
  * @return an exit code.
  *

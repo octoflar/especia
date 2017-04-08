@@ -55,7 +55,7 @@ void write_usage_message(ostream &os, const string &pname) {
  * barycenter) of the solar system (m s-1) projected along the line of sight
  * toward the observed object.
  *
- * @c argv[2] The number of lines to skip (optional, default = 0).
+ * @c argv[2] The number of lines to skip at the beginning (optional, default = 0).
  * @endparblock
  * @return an exit code.
  *

@@ -52,7 +52,7 @@ using especia::real;
  * @parblock
  * @c argv[0] The program name.
  *
- * @c argv[1] The number of lines to skip (optional, default = 0).
+ * @c argv[1] The number of lines to skip at the beginning (optional, default = 0).
  * @endparblock
  * @return an exit code.
  *
