@@ -259,8 +259,6 @@ namespace especia {
             }
 
             R_type s = 0.0;
-            R_type t = 0.0;
-
             // Adapt the covariance matrix and the step size according to Hansen and Ostermeier (2001)
             // and Hansen et al. (2003)
             for (N_type i = 0, i0 = 0; i < n; ++i, i0 += n) {
@@ -288,6 +286,7 @@ namespace especia {
                 // order, along with eigenvectors
                 decompose(C, B, d);
 
+                R_type t;
                 // Adjust the condition of the covariance matrix and recompute the
                 // local step sizes
                 if ((t = d[n - 1] / max_covariance_matrix_condition - d[0]) > 0.0) {

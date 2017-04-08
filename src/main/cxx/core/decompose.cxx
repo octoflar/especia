@@ -149,8 +149,8 @@ especia::D_Decompose::D_Decompose(N_type m)
         : n(Z_type(m)), work(), iwork() {
     lapack_inquire(n, lwork, liwork);
 
-    work.resize(lwork);
-    iwork.resize(liwork);
+    work.resize((size_t) lwork);
+    iwork.resize((size_t) liwork);
 }
 
 especia::D_Decompose::~D_Decompose() {
@@ -202,8 +202,8 @@ especia::R_Decompose::R_Decompose(N_type m)
         : n(Z_type(m)), work(), iwork(), isupp(2 * max<N_type>(1, m)), awork(m * m) {
     lapack_inquire(n, lwork, liwork);
 
-    work.resize(lwork);
-    iwork.resize(liwork);
+    work.resize((size_t) lwork);
+    iwork.resize((size_t) liwork);
 }
 
 especia::R_Decompose::~R_Decompose() {
@@ -262,7 +262,7 @@ especia::X_Decompose::X_Decompose(N_type m)
         : n(Z_type(m)), work(), iwork(5 * m), ifail(m), awork(m * m) {
     lapack_inquire(n, lwork);
 
-    work.resize(lwork);
+    work.resize((size_t) lwork);
 }
 
 especia::X_Decompose::~X_Decompose() {

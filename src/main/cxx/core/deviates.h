@@ -100,26 +100,6 @@ namespace especia {
             }
         }
 
-        /**
-         * Resets this functor with a seed.
-         *
-         * @param[in] seed The seed.
-         */
-        void reset(W_type seed = 5489) {
-            uniform_deviate.reset(seed);
-            status = false;
-        }
-
-        /**
-         * Resets this functor with another instance.
-         *
-         * @param[in] u The other instance.
-         */
-        void reset(const U &u) {
-            uniform_deviate = u;
-            status = false;
-        }
-
     private:
         const U uniform_deviate;
 
