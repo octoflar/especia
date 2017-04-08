@@ -51,7 +51,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        Normal_Deviate(W_type seed = 5489)
+        Normal_Deviate(Word seed = 5489)
                 : uniform_deviate(seed), status(false) {
         }
 
@@ -75,14 +75,14 @@ namespace especia {
          *
          * @return a normal random number.
          */
-        R_type operator()() const {
+        Real operator()() const {
             using std::log;
             using std::sqrt;
 
             status = !status;
 
             if (status) {
-                R_type t;
+                Real t;
 
                 do {
                     x = 2.0 * uniform_deviate() - 1.0;
@@ -104,7 +104,7 @@ namespace especia {
         const U uniform_deviate;
 
         mutable bool status;
-        mutable R_type x, y;
+        mutable Real x, y;
     };
 
 }

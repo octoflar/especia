@@ -30,8 +30,8 @@ using std::runtime_error;
 using std::string;
 using std::valarray;
 
-using especia::R_type;
-using especia::Z_type;
+using especia::Real;
+using especia::Integer;
 
 
 #define LAPACK_NAME_DOUBLE(x) d##x##_
@@ -42,22 +42,22 @@ extern "C" {
 /**
  * Interface to LAPACK routine @c [DS]LAMCH.
  */
-R_type LAPACK_NAME_R_TYPE(lamch)(const char &cmach);
+Real LAPACK_NAME_R_TYPE(lamch)(const char &cmach);
 
 /**
  * Interface to LAPACK routine @c [DS]SYEVD.
  */
 void LAPACK_NAME_R_TYPE(syevd)(const char &job,
                                const char &uplo,
-                               const Z_type &n,
-                               R_type A[],
-                               const Z_type &lda,
-                               R_type w[],
-                               R_type work[],
-                               const Z_type &lwork,
-                               Z_type iwork[],
-                               const Z_type &liwork,
-                               Z_type &info);
+                               const Integer &n,
+                               Real A[],
+                               const Integer &lda,
+                               Real w[],
+                               Real work[],
+                               const Integer &lwork,
+                               Integer iwork[],
+                               const Integer &liwork,
+                               Integer &info);
 
 /**
  * Interface to LAPACK routine @c [DS]SYEVR.
@@ -65,24 +65,24 @@ void LAPACK_NAME_R_TYPE(syevd)(const char &job,
 void LAPACK_NAME_R_TYPE(syevr)(const char &job,
                                const char &range,
                                const char &uplo,
-                               const Z_type &n,
-                               R_type A[],
-                               const Z_type &lda,
-                               const R_type &vl,
-                               const R_type &vu,
-                               const Z_type &il,
-                               const Z_type &iu,
-                               const R_type &abstol,
-                               Z_type &m,
-                               R_type w[],
-                               R_type Z[],
-                               const Z_type &ldz,
-                               Z_type isupp[],
-                               R_type work[],
-                               const Z_type &lwork,
-                               Z_type iwork[],
-                               const Z_type &liwork,
-                               Z_type &info);
+                               const Integer &n,
+                               Real A[],
+                               const Integer &lda,
+                               const Real &vl,
+                               const Real &vu,
+                               const Integer &il,
+                               const Integer &iu,
+                               const Real &abstol,
+                               Integer &m,
+                               Real w[],
+                               Real Z[],
+                               const Integer &ldz,
+                               Integer isupp[],
+                               Real work[],
+                               const Integer &lwork,
+                               Integer iwork[],
+                               const Integer &liwork,
+                               Integer &info);
 
 /**
  * Interface to LAPACK routine @c [DS]SYEVX.
@@ -90,23 +90,23 @@ void LAPACK_NAME_R_TYPE(syevr)(const char &job,
 void LAPACK_NAME_R_TYPE(syevx)(const char &job,
                                const char &range,
                                const char &uplo,
-                               const Z_type &n,
-                               R_type A[],
-                               const Z_type &lda,
-                               const R_type &vl,
-                               const R_type &vu,
-                               const Z_type &il,
-                               const Z_type &iu,
-                               const R_type &abstol,
-                               Z_type &m,
-                               R_type w[],
-                               R_type Z[],
-                               const Z_type &ldz,
-                               R_type work[],
-                               const Z_type &lwork,
-                               Z_type iwork[],
-                               Z_type ifail[],
-                               Z_type &info);
+                               const Integer &n,
+                               Real A[],
+                               const Integer &lda,
+                               const Real &vl,
+                               const Real &vu,
+                               const Integer &il,
+                               const Integer &iu,
+                               const Real &abstol,
+                               Integer &m,
+                               Real w[],
+                               Real Z[],
+                               const Integer &ldz,
+                               Real work[],
+                               const Integer &lwork,
+                               Integer iwork[],
+                               Integer ifail[],
+                               Integer &info);
 }
 
 /**
@@ -127,26 +127,26 @@ static const char uplo = 'U';
 /**
  * The LAPACK lower range limit (here: not used).
  */
-static const R_type vl = 0.0;
+static const Real vl = 0.0;
 
 /**
  * The LAPACK upper range limit (here: not used).
  */
-static const R_type vu = 0.0;
+static const Real vu = 0.0;
 
 /**
  * The LAPACK lower range index (here: not used).
  */
-static const Z_type il = 0;
+static const Integer il = 0;
 
 /**
  * The LAPACK upper range index (here: not used).
  */
-static const Z_type iu = 0;
+static const Integer iu = 0;
 
 
-especia::D_Decompose::D_Decompose(N_type m)
-        : n(Z_type(m)), work(), iwork() {
+especia::D_Decompose::D_Decompose(Natural m)
+        : n(Integer(m)), work(), iwork() {
     lapack_inquire(n, lwork, liwork);
 
     work.resize((size_t) lwork);
@@ -156,17 +156,17 @@ especia::D_Decompose::D_Decompose(N_type m)
 especia::D_Decompose::~D_Decompose() {
 }
 
-void especia::D_Decompose::operator()(const R_type A[],
-                                      R_type Z[],
-                                      R_type w[]) const throw(invalid_argument, runtime_error) {
+void especia::D_Decompose::operator()(const Real A[],
+                                      Real Z[],
+                                      Real w[]) const throw(invalid_argument, runtime_error) {
     copy(&A[0], &A[n * n], Z);
 
     lapack_do(Z, w);
     transpose(n, Z);
 }
 
-void especia::D_Decompose::lapack_do(R_type Z[], R_type w[]) const {
-    Z_type info = 0;
+void especia::D_Decompose::lapack_do(Real Z[], Real w[]) const {
+    Integer info = 0;
 
     LAPACK_NAME_R_TYPE(syevd)(job, uplo, n, &Z[0], n, w, &work[0], lwork, &iwork[0], liwork, info);
 
@@ -179,14 +179,14 @@ void especia::D_Decompose::lapack_do(R_type Z[], R_type w[]) const {
     }
 }
 
-void especia::D_Decompose::lapack_inquire(Z_type n, Z_type &lwork, Z_type &liwork) {
-    Z_type info;
-    R_type work;
+void especia::D_Decompose::lapack_inquire(Integer n, Integer &lwork, Integer &liwork) {
+    Integer info;
+    Real work;
 
     LAPACK_NAME_R_TYPE(syevd)(job, uplo, n, 0, n, 0, &work, -1, &liwork, -1, info);
 
     if (info == 0) {
-        lwork = static_cast<Z_type>(work);
+        lwork = static_cast<Integer>(work);
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
@@ -198,8 +198,8 @@ const string especia::D_Decompose::message_int_err = "especia::D_Decompose() Err
 const string especia::D_Decompose::message_ill_arg = "especia::D_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 
-especia::R_Decompose::R_Decompose(N_type m)
-        : n(Z_type(m)), work(), iwork(), isupp(2 * max<N_type>(1, m)), awork(m * m) {
+especia::R_Decompose::R_Decompose(Natural m)
+        : n(Integer(m)), work(), iwork(), isupp(2 * max<Natural>(1, m)), awork(m * m) {
     lapack_inquire(n, lwork, liwork);
 
     work.resize((size_t) lwork);
@@ -209,18 +209,18 @@ especia::R_Decompose::R_Decompose(N_type m)
 especia::R_Decompose::~R_Decompose() {
 }
 
-void especia::R_Decompose::operator()(const R_type A[],
-                                      R_type Z[],
-                                      R_type w[]) const throw(invalid_argument, runtime_error) {
+void especia::R_Decompose::operator()(const Real A[],
+                                      Real Z[],
+                                      Real w[]) const throw(invalid_argument, runtime_error) {
     copy(&A[0], &A[n * n], &awork[0]);
 
     lapack_do(Z, w);
     transpose(n, Z);
 }
 
-void especia::R_Decompose::lapack_do(R_type Z[], R_type w[]) const {
-    Z_type m = 0;
-    Z_type info = 0;
+void especia::R_Decompose::lapack_do(Real Z[], Real w[]) const {
+    Integer m = 0;
+    Integer info = 0;
 
     LAPACK_NAME_R_TYPE(syevr)(job, range, uplo, n, &awork[0], n, vl, vu, il, iu, abstol, m, w, Z, n,
                               &isupp[0], &work[0], lwork, &iwork[0], liwork,
@@ -235,17 +235,17 @@ void especia::R_Decompose::lapack_do(R_type Z[], R_type w[]) const {
     }
 }
 
-void especia::R_Decompose::lapack_inquire(Z_type n, Z_type &lwork, Z_type &liwork) {
-    Z_type info;
-    Z_type m;
-    R_type work;
+void especia::R_Decompose::lapack_inquire(Integer n, Integer &lwork, Integer &liwork) {
+    Integer info;
+    Integer m;
+    Real work;
 
     LAPACK_NAME_R_TYPE(syevr)(job, range, uplo, n, 0, n, vl, vu, il, iu, abstol, m, 0, 0, n,
                               0, &work, -1, &liwork, -1,
                               info);
 
     if (info == 0) {
-        lwork = static_cast<Z_type>(work);
+        lwork = static_cast<Integer>(work);
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
@@ -253,13 +253,13 @@ void especia::R_Decompose::lapack_inquire(Z_type n, Z_type &lwork, Z_type &liwor
     }
 }
 
-const R_type especia::R_Decompose::abstol = LAPACK_NAME_R_TYPE(lamch)('S');
+const Real especia::R_Decompose::abstol = LAPACK_NAME_R_TYPE(lamch)('S');
 const string especia::R_Decompose::message_int_err = "especia::R_Decompose() Error: internal error in LAPACK";
 const string especia::R_Decompose::message_ill_arg = "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 
-especia::X_Decompose::X_Decompose(N_type m)
-        : n(Z_type(m)), work(), iwork(5 * m), ifail(m), awork(m * m) {
+especia::X_Decompose::X_Decompose(Natural m)
+        : n(Integer(m)), work(), iwork(5 * m), ifail(m), awork(m * m) {
     lapack_inquire(n, lwork);
 
     work.resize((size_t) lwork);
@@ -268,18 +268,18 @@ especia::X_Decompose::X_Decompose(N_type m)
 especia::X_Decompose::~X_Decompose() {
 }
 
-void especia::X_Decompose::operator()(const R_type A[],
-                                      R_type Z[],
-                                      R_type w[]) const throw(invalid_argument, runtime_error) {
+void especia::X_Decompose::operator()(const Real A[],
+                                      Real Z[],
+                                      Real w[]) const throw(invalid_argument, runtime_error) {
     copy(&A[0], &A[n * n], &awork[0]);
 
     lapack_do(Z, w);
     transpose(n, Z);
 }
 
-void especia::X_Decompose::lapack_do(R_type Z[], R_type w[]) const {
-    Z_type m = 0;
-    Z_type info = 0;
+void especia::X_Decompose::lapack_do(Real Z[], Real w[]) const {
+    Integer m = 0;
+    Integer info = 0;
 
     LAPACK_NAME_R_TYPE(syevx)(job, range, uplo, n, &awork[0], n, vl, vu, il, iu, abstol, m, w, Z, n,
                               &work[0], lwork, &iwork[0], &ifail[0],
@@ -294,17 +294,17 @@ void especia::X_Decompose::lapack_do(R_type Z[], R_type w[]) const {
     }
 }
 
-void especia::X_Decompose::lapack_inquire(Z_type n, Z_type &lwork) {
-    Z_type info;
-    Z_type m;
-    R_type work;
+void especia::X_Decompose::lapack_inquire(Integer n, Integer &lwork) {
+    Integer info;
+    Integer m;
+    Real work;
 
     LAPACK_NAME_R_TYPE(syevx)(job, range, uplo, n, 0, n, vl, vu, il, iu, abstol, m, 0, 0, n,
                               &work, -1, 0, 0,
                               info);
 
     if (info == 0) {
-        lwork = static_cast<Z_type>(work);
+        lwork = static_cast<Integer>(work);
     } else if (info > 0) {
         throw runtime_error(message_int_err);
     } else {
@@ -312,7 +312,7 @@ void especia::X_Decompose::lapack_inquire(Z_type n, Z_type &lwork) {
     }
 }
 
-const R_type especia::X_Decompose::abstol = R_type(2) * LAPACK_NAME_R_TYPE(lamch)('S');
+const Real especia::X_Decompose::abstol = Real(2) * LAPACK_NAME_R_TYPE(lamch)('S');
 const string especia::X_Decompose::message_int_err = "especia::X_Decompose() Error: internal error in LAPACK";
 const string especia::X_Decompose::message_ill_arg = "especia::X_Decompose() Error: illegal argument(s) in call to LAPACK";
 

@@ -28,8 +28,8 @@ using std::log;
 using std::pow;
 using std::sqrt;
 
-using especia::N_type;
-using especia::R_type;
+using especia::Natural;
+using especia::Real;
 using especia::micro;
 using especia::pi;
 using especia::sq;
@@ -43,7 +43,7 @@ using especia::sqrt_of_pi;
  * @param[in] gamma The width (arbitrary unit).
  * @return the value of the Gaussian at @c x.
  */
-static R_type f_g(const R_type &x, const R_type &gamma) {
+static Real f_g(const Real &x, const Real &gamma) {
     return (1.0 / (sqrt_of_pi * gamma)) * exp(-sq(x / gamma));
 }
 
@@ -54,7 +54,7 @@ static R_type f_g(const R_type &x, const R_type &gamma) {
  * @param[in] gamma The width (arbitrary unit).
  * @return the value of the Lorentzian at @c x.
  */
-static R_type f_l(const R_type &x, const R_type &gamma) {
+static Real f_l(const Real &x, const Real &gamma) {
     return 1.0 / ((pi * gamma) * (1.0 + sq(x / gamma)));
 }
 
@@ -65,7 +65,7 @@ static R_type f_l(const R_type &x, const R_type &gamma) {
  * @param[in] gamma The width (arbitrary unit).
  * @return the value of the function at @c x.
  */
-static R_type f_i(const R_type &x, const R_type &gamma) {
+static Real f_i(const Real &x, const Real &gamma) {
     return 1.0 / ((2.0 * gamma) * pow(1.0 + sq(x / gamma), 1.5));
 }
 
@@ -76,7 +76,7 @@ static R_type f_i(const R_type &x, const R_type &gamma) {
  * @param[in] gamma The width (arbitrary unit).
  * @return the value of the function at @c x.
  */
-static R_type f_p(const R_type &x, const R_type &gamma) {
+static Real f_p(const Real &x, const Real &gamma) {
     return 1.0 / (2.0 * gamma * sq(cosh(x / gamma)));
 }
 
@@ -85,41 +85,41 @@ static T poly(const T &x, const T &h0, const T &h1, const T &h2, const T &h3, co
     return h0 + x * (h1 + x * (h2 + x * (h3 + x * (h4 + x * (h5 + x * h6)))));
 }
 
-static R_type poly_w_g(const R_type &r) {
+static Real poly_w_g(const Real &r) {
     return 1.0 - r * poly(r, 0.66000, 0.15021, -1.24984, 4.74052, -9.48291, 8.48252, -2.95553);
 }
 
-static R_type poly_w_l(const R_type &r) {
+static Real poly_w_l(const Real &r) {
     return 1.0 - (1.0 - r) * poly(r, -0.42179, -1.25693, 10.30003, -23.45651, 29.14158, -16.50453, 3.19974);
 }
 
-static R_type poly_w_i(const R_type &r) {
+static Real poly_w_i(const Real &r) {
     return poly(r, 1.19913, 1.43021, -15.36331, 47.06071, -73.61822, 57.92559, -17.80614);
 }
 
-static R_type poly_w_p(const R_type &r) {
+static Real poly_w_p(const Real &r) {
     return poly(r, 1.10186, -0.47745, -0.68688, 2.76622, -4.55466, 4.05475, -1.26571);
 }
 
-static R_type poly_eta_l(const R_type &r) {
+static Real poly_eta_l(const Real &r) {
     return r * (1.0 + (1.0 - r) * poly(r, -0.30165, -1.38927, 9.31550, -24.10743, 34.96491, -21.18862, 3.70290));
 }
 
-static R_type poly_eta_i(const R_type &r) {
+static Real poly_eta_i(const Real &r) {
     return (r * (1.0 - r)) * poly(r, 0.25437, -0.14107, 3.23653, -11.09215, 22.10544, -24.12407, 9.76947);
 }
 
-static R_type poly_eta_p(const R_type &r) {
+static Real poly_eta_p(const Real &r) {
     return (r * (1.0 - r)) * poly(r, 1.01579, 1.50429, -9.21815, 23.59717, -39.71134, 32.83023, -10.02142);
 }
 
 template<class F>
-static R_type truncate(const F &f, const R_type &x, const R_type &b, const R_type &c) {
-    return abs(x) < c * b ? f(x, b) : R_type(0.0);
+static Real truncate(const F &f, const Real &x, const Real &b, const Real &c) {
+    return abs(x) < c * b ? f(x, b) : Real(0.0);
 }
 
 
-especia::Pseudo_Voigt::Pseudo_Voigt(const R_type &b, const R_type &d)
+especia::Pseudo_Voigt::Pseudo_Voigt(const Real &b, const Real &d)
         : u((c_g * b) / (c_l * d)),
           r(1.0 / pow(1.0 + u * (0.07842 + u * (4.47163 + u * (2.42843 + u * (u + 2.69269)))), 0.2)),
           gamma_g((c_l * d) / (c_g * r)),
@@ -130,15 +130,15 @@ especia::Pseudo_Voigt::Pseudo_Voigt(const R_type &b, const R_type &d)
 especia::Pseudo_Voigt::~Pseudo_Voigt() {
 }
 
-R_type especia::Pseudo_Voigt::operator()(const R_type &x) const {
+Real especia::Pseudo_Voigt::operator()(const Real &x) const {
     return (1.0 - eta) * f_g(x, gamma_g) + eta * f_l(x, gamma_l);
 }
 
-const R_type especia::Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
-const R_type especia::Pseudo_Voigt::c_l = 2.0;
+const Real especia::Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
+const Real especia::Pseudo_Voigt::c_l = 2.0;
 
 
-especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const R_type &b, const R_type &d)
+especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const Real &b, const Real &d)
         : u(c_g * b + c_l * d),
           r(c_l * d / u),
           gamma_g(u * poly_w_g(r) / c_g),
@@ -153,24 +153,24 @@ especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const R_type &b, const R_t
 especia::Extended_Pseudo_Voigt::~Extended_Pseudo_Voigt() {
 }
 
-R_type especia::Extended_Pseudo_Voigt::operator()(const R_type &x) const {
+Real especia::Extended_Pseudo_Voigt::operator()(const Real &x) const {
     return (1.0 - eta_l - eta_i - eta_p) * f_g(x, gamma_g) +
            eta_l * f_l(x, gamma_l) +
            eta_i * f_i(x, gamma_i) +
            eta_p * f_p(x, gamma_p);
 }
 
-const R_type especia::Extended_Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
-const R_type especia::Extended_Pseudo_Voigt::c_l = 2.0;
-const R_type especia::Extended_Pseudo_Voigt::c_i = 2.0 * sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
-const R_type especia::Extended_Pseudo_Voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
+const Real especia::Extended_Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
+const Real especia::Extended_Pseudo_Voigt::c_l = 2.0;
+const Real especia::Extended_Pseudo_Voigt::c_i = 2.0 * sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
+const Real especia::Extended_Pseudo_Voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
 
 
 especia::Many_Multiplet::Many_Multiplet()
         : u(0.0), z(1.0), c(0.0), b(0.5), a(1.0) {
 }
 
-especia::Many_Multiplet::Many_Multiplet(const R_type q[])
+especia::Many_Multiplet::Many_Multiplet(const Real q[])
         : u(1.0E+08 / (1.0E+08 / q[0] + q[6] * (q[7] * micro) * (q[7] * micro + 2.0))),
           z((1.0 + q[2]) * (1.0 + q[3] / c0)),
           c(u * z),
@@ -181,12 +181,12 @@ especia::Many_Multiplet::Many_Multiplet(const R_type q[])
 especia::Many_Multiplet::~Many_Multiplet() {
 }
 
-R_type especia::Many_Multiplet::operator()(const R_type &x) const {
+Real especia::Many_Multiplet::operator()(const Real &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
-const R_type especia::Many_Multiplet::c0 = 1.0E-03 * speed_of_light;
-const R_type especia::Many_Multiplet::c1 = 1.0E-06 * sq(elementary_charge) /
+const Real especia::Many_Multiplet::c0 = 1.0E-03 * speed_of_light;
+const Real especia::Many_Multiplet::c1 = 1.0E-06 * sq(elementary_charge) /
                                            (4.0 * electric_constant * electron_mass * sq(speed_of_light));
 
 
@@ -194,7 +194,7 @@ especia::Intergalactic_Doppler::Intergalactic_Doppler()
         : z(1.0), c(0.0), b(0.5), a(1.0) {
 }
 
-especia::Intergalactic_Doppler::Intergalactic_Doppler(const R_type q[])
+especia::Intergalactic_Doppler::Intergalactic_Doppler(const Real q[])
         : z((1.0 + q[2]) * (1.0 + q[3] / c0)),
           c(q[0] * z),
           b(q[4] * c / c0),
@@ -204,10 +204,10 @@ especia::Intergalactic_Doppler::Intergalactic_Doppler(const R_type q[])
 especia::Intergalactic_Doppler::~Intergalactic_Doppler() {
 }
 
-R_type especia::Intergalactic_Doppler::operator()(const R_type &x) const {
+Real especia::Intergalactic_Doppler::operator()(const Real &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
-const R_type especia::Intergalactic_Doppler::c0 = 1.0E-03 * speed_of_light;
-const R_type especia::Intergalactic_Doppler::c1 = 1.0E-06 * sq(elementary_charge) /
+const Real especia::Intergalactic_Doppler::c0 = 1.0E-03 * speed_of_light;
+const Real especia::Intergalactic_Doppler::c1 = 1.0E-06 * sq(elementary_charge) /
                                                   (4.0 * electric_constant * electron_mass * sq(speed_of_light));

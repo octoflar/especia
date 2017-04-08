@@ -27,8 +27,8 @@
 
 using namespace std;
 
-using especia::N_type;
-using especia::R_type;
+using especia::Natural;
+using especia::Real;
 
 /**
  * Writes the usage message to an output stream.
@@ -70,15 +70,15 @@ int main(int argc, char *argv[]) {
             throw invalid_argument("Error: an invalid number of arguments was supplied");
         }
 
-        N_type skip = 0;
+        Natural skip = 0;
 
         if (argc == 4) {
-            skip = especia::convert<N_type>(string(argv[2]));
+            skip = especia::convert<Natural>(string(argv[2]));
         }
 
-        valarray<R_type> x;
-        valarray<R_type> y;
-        valarray<R_type> z;
+        valarray<Real> x;
+        valarray<Real> y;
+        valarray<Real> z;
 
         ifstream fxy(argv[1]);
         ifstream fxz(argv[2]);

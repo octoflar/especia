@@ -26,8 +26,8 @@
 
 #include "section.h"
 
-using especia::N_type;
-using especia::R_type;
+using especia::Natural;
+using especia::Real;
 
 especia::Section::Section()
         : wav(),
@@ -59,7 +59,7 @@ especia::Section::Section(size_t n_in)
           n(n_in) {
 }
 
-especia::Section::Section(size_t n_in, const R_type x[], const R_type y[], const R_type unc[])
+especia::Section::Section(size_t n_in, const Real x[], const Real y[], const Real unc[])
         : wav(x, n_in),
           flx(y, n_in),
           unc(unc, n_in),
@@ -77,40 +77,40 @@ especia::Section::Section(size_t n_in, const R_type x[], const R_type y[], const
 especia::Section::~Section() {
 }
 
-void especia::Section::continuum(N_type m, const R_type cat[], R_type cfl[]) const throw(std::runtime_error) {
+void especia::Section::continuum(Natural m, const Real cat[], Real cfl[]) const throw(std::runtime_error) {
     using std::fill;
     using std::runtime_error;
     using std::sqrt;
     using std::valarray;
 
     if (m > 0) {
-        valarray<R_type> b(0.0, m);
-        valarray<R_type> c(0.0, m);
-        valarray<R_type> l(1.0, m);
+        valarray<Real> b(0.0, m);
+        valarray<Real> c(0.0, m);
+        valarray<Real> l(1.0, m);
 
-        valarray<valarray<R_type> > a(b, m);
+        valarray<valarray<Real> > a(b, m);
 
         // Optimizing the background continuum is a linear optimization problem. Here the normal
         // equations are established.
         for (size_t i = 0; i < n; ++i) {
             if (msk[i]) {
                 // Map the wavelengths onto the interval [-1, 1]
-                const R_type x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
+                const Real x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
 
-                R_type l1 = 1.0;
-                R_type l2 = 0.0;
+                Real l1 = 1.0;
+                Real l2 = 0.0;
 
                 // Compute the higher-order Legendre basis polynomials.
-                for (N_type j = 1; j < m; ++j) {
-                    const R_type l3 = l2;
+                for (Natural j = 1; j < m; ++j) {
+                    const Real l3 = l2;
 
                     l2 = l1;
                     l1 = ((2 * j - 1) * x * l2 - (j - 1) * l3) / j;
                     l[j] = l1;
                 }
                 // Establish the normal equations.
-                for (N_type j = 0; j < m; ++j) {
-                    for (N_type k = j; k < m; ++k) {
+                for (Natural j = 0; j < m; ++j) {
+                    for (Natural k = j; k < m; ++k) {
                         a[j][k] += (cat[i] * cat[i] * l[j] * l[k]) / (unc[i] * unc[i]);
                     }
 
@@ -123,11 +123,11 @@ void especia::Section::continuum(N_type m, const R_type cat[], R_type cfl[]) con
         // W. H. Press, S. A. Teukolsky, W. T. Vetterling, B. P. Flannery (2002).
         //   Numerical Recipes in C: The Art of Scientific Computing.
         //   Cambridge University Press, ISBN 0-521-75033-4.
-        for (N_type i = 0; i < m; ++i) {
-            for (N_type j = i; j < m; ++j) {
-                R_type s = a[i][j];
+        for (Natural i = 0; i < m; ++i) {
+            for (Natural j = i; j < m; ++j) {
+                Real s = a[i][j];
 
-                for (N_type k = 0; k < i; ++k) {
+                for (Natural k = 0; k < i; ++k) {
                     s -= a[i][k] * a[j][k];
                 }
                 if (i < j) {
@@ -141,19 +141,19 @@ void especia::Section::continuum(N_type m, const R_type cat[], R_type cfl[]) con
                 }
             }
         }
-        for (N_type i = 0; i < m; ++i) {
-            R_type s = b[i];
+        for (Natural i = 0; i < m; ++i) {
+            Real s = b[i];
 
-            for (N_type k = 0; k < i; ++k) {
+            for (Natural k = 0; k < i; ++k) {
                 s -= a[i][k] * c[k];
             }
 
             c[i] = s / a[i][i];
         }
-        for (N_type i = m - 1; i + 1 > 0; --i) {
-            R_type s = c[i];
+        for (Natural i = m - 1; i + 1 > 0; --i) {
+            Real s = c[i];
 
-            for (N_type k = i + 1; k < m; ++k) {
+            for (Natural k = i + 1; k < m; ++k) {
                 s -= a[k][i] * c[k];
             }
 
@@ -162,15 +162,15 @@ void especia::Section::continuum(N_type m, const R_type cat[], R_type cfl[]) con
 
         // Compute the continuum flux.
         for (size_t i = 0; i < n; ++i) {
-            const R_type x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
+            const Real x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
 
-            R_type l1 = 1.0;
-            R_type l2 = 0.0;
+            Real l1 = 1.0;
+            Real l2 = 0.0;
 
             cfl[i] = c[0];
 
-            for (N_type k = 1; k < m; ++k) {
-                const R_type l3 = l2;
+            for (Natural k = 1; k < m; ++k) {
+                const Real l3 = l2;
 
                 l2 = l1;
                 l1 = ((2 * k - 1) * x * l2 - (k - 1) * l3) / k;
@@ -194,8 +194,8 @@ size_t especia::Section::valid_data_count() const {
     return count;
 }
 
-R_type especia::Section::cost() const {
-    R_type cost = 0.0;
+Real especia::Section::cost() const {
+    Real cost = 0.0;
 
     for (size_t i = 0; i < n; ++i) {
         if (msk[i]) {
@@ -206,7 +206,7 @@ R_type especia::Section::cost() const {
     return 0.5 * cost;
 }
 
-void especia::Section::mask(R_type a, R_type b) {
+void especia::Section::mask(Real a, Real b) {
     for (size_t i = 0; i < n; ++i) {
         if (a <= wav[i] and wav[i] <= b) {
             msk[i] = 0;
@@ -214,13 +214,13 @@ void especia::Section::mask(R_type a, R_type b) {
     }
 }
 
-void especia::Section::primitive(R_type x, R_type h, R_type &p, R_type &q) const {
+void especia::Section::primitive(Real x, Real h, Real &p, Real &q) const {
     using std::erf; // C++11
     using std::exp;
 
-    const R_type c = 1.6651092223153955127063292897904020952612;
-    const R_type d = 3.5449077018110320545963349666822903655951;
-    const R_type b = 2.0 * h / c;
+    const Real c = 1.6651092223153955127063292897904020952612;
+    const Real d = 3.5449077018110320545963349666822903655951;
+    const Real b = 2.0 * h / c;
 
     x /= b;
 
@@ -228,15 +228,15 @@ void especia::Section::primitive(R_type x, R_type h, R_type &p, R_type &q) const
     q = -(b * exp(-x * x)) / d;
 }
 
-std::istream &especia::Section::get(std::istream &is, R_type a, R_type b) {
+std::istream &especia::Section::get(std::istream &is, Real a, Real b) {
     using namespace std;
 
     const size_t room = 20000;
 
     vector<bool> w;
-    vector<R_type> x;
-    vector<R_type> y;
-    vector<R_type> z;
+    vector<Real> x;
+    vector<Real> y;
+    vector<Real> z;
 
     w.reserve(room);
     x.reserve(room);
@@ -254,7 +254,7 @@ std::istream &especia::Section::get(std::istream &is, R_type a, R_type b) {
 
         istringstream ist(line);
         bool tw;
-        R_type tx, ty, tz;
+        Real tx, ty, tz;
 
         if (ist >> tx >> ty) {
             if (a <= tx and tx <= b) {
@@ -310,14 +310,14 @@ std::istream &especia::Section::get(std::istream &is, R_type a, R_type b) {
     return is;
 }
 
-std::ostream &especia::Section::put(std::ostream &os, R_type a, R_type b) const {
+std::ostream &especia::Section::put(std::ostream &os, Real a, Real b) const {
     using namespace std;
 
     if (os) {
         // The precision.
-        const N_type p = 8;
+        const Natural p = 8;
         // The width of the output field.
-        const N_type w = 16;
+        const Natural w = 16;
 
         const ios_base::fmtflags f = os.flags();
 
@@ -329,8 +329,8 @@ std::ostream &especia::Section::put(std::ostream &os, R_type a, R_type b) const 
         for (size_t i = 0; i < n; ++i)
             if (a <= wav[i] and wav[i] <= b) {
                 // The normalized observed spectral flux and its uncertainty.
-                const R_type nfl = flx[i] / cfl[i];
-                const R_type nun = unc[i] / cfl[i];
+                const Real nfl = flx[i] / cfl[i];
+                const Real nun = unc[i] / cfl[i];
 
                 os << setw(w) << wav[i]; // 1
                 os << setw(w) << flx[i]; // 2

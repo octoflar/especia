@@ -28,11 +28,11 @@
 
 using namespace std;
 
-istream &especia::get(istream &is, valarray<R_type> &x, valarray<R_type> &y, N_type skip) {
+istream &especia::get(istream &is, valarray<Real> &x, valarray<Real> &y, Natural skip) {
     const size_t room = 20000;
 
-    vector<R_type> u;
-    vector<R_type> v;
+    vector<Real> u;
+    vector<Real> v;
 
     u.reserve(room);
     v.reserve(room);
@@ -43,7 +43,7 @@ istream &especia::get(istream &is, valarray<R_type> &x, valarray<R_type> &y, N_t
     while (getline(is, s)) {
         if (skip <= 0) {
             istringstream ist(s);
-            R_type a, b;
+            Real a, b;
 
             if (ist >> a >> b) {
                 u.push_back(a);
@@ -75,12 +75,12 @@ istream &especia::get(istream &is, valarray<R_type> &x, valarray<R_type> &y, N_t
     return is;
 }
 
-istream &especia::get(istream &is, valarray<R_type> &x, valarray<R_type> &y, valarray<R_type> &z, N_type skip) {
+istream &especia::get(istream &is, valarray<Real> &x, valarray<Real> &y, valarray<Real> &z, Natural skip) {
     const size_t room = 20000;
 
-    vector<R_type> u;
-    vector<R_type> v;
-    vector<R_type> w;
+    vector<Real> u;
+    vector<Real> v;
+    vector<Real> w;
 
     u.reserve(room);
     v.reserve(room);
@@ -92,7 +92,7 @@ istream &especia::get(istream &is, valarray<R_type> &x, valarray<R_type> &y, val
     while (getline(is, s)) {
         if (skip <= 0) {
             istringstream ist(s);
-            R_type a, b, c;
+            Real a, b, c;
 
             if (ist >> a >> b) {
                 u.push_back(a);
@@ -128,10 +128,10 @@ istream &especia::get(istream &is, valarray<R_type> &x, valarray<R_type> &y, val
     return is;
 }
 
-ostream &especia::put(ostream &os, const valarray<R_type> &x, const valarray<R_type> &y, const valarray<R_type> &z) {
+ostream &especia::put(ostream &os, const valarray<Real> &x, const valarray<Real> &y, const valarray<Real> &z) {
     if (os) {
-        const N_type p = 6;  // precision
-        const N_type w = 14; // width
+        const Natural p = 6;  // precision
+        const Natural w = 14; // width
 
         const ios_base::fmtflags f = os.flags();
 

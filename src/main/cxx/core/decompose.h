@@ -46,7 +46,7 @@ namespace especia {
          *
          * @param[in] m The problem dimension.
          */
-        D_Decompose(N_type m);
+        D_Decompose(Natural m);
 
         /**
          * The destructor.
@@ -64,35 +64,35 @@ namespace especia {
          * @throw runtime_error when an internal LAPACK error occurred.
          */
         void
-        operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
+        operator()(const Real A[], Real Z[], Real w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
-        void lapack_do(R_type Z[], R_type w[]) const;
+        void lapack_do(Real Z[], Real w[]) const;
 
         /**
          * The problem dimension.
          */
-        const Z_type n;
+        const Integer n;
 
         /**
          * The numeric workspace size.
          */
-        Z_type lwork;
+        Integer lwork;
 
         /**
          * The integer workspace size.
          */
-        Z_type liwork;
+        Integer liwork;
 
         /**
          * The numeric workspace array.
          */
-        mutable std::valarray<R_type> work;
+        mutable std::valarray<Real> work;
 
         /**
          * The integer workspace array.
          */
-        mutable std::valarray<Z_type> iwork;
+        mutable std::valarray<Integer> iwork;
 
         /**
          * Queries the optimal workspace size.
@@ -101,7 +101,7 @@ namespace especia {
          * @param[out] lwork The size of the numeric workspace.
          * @param[out] liwork The size of the integer workspace.
          */
-        static void lapack_inquire(Z_type n, Z_type &lwork, Z_type &liwork);
+        static void lapack_inquire(Integer n, Integer &lwork, Integer &liwork);
 
         static const std::string message_int_err;
         static const std::string message_ill_arg;
@@ -123,7 +123,7 @@ namespace especia {
          *
          * @param[in] m The problem dimension.
          */
-        R_Decompose(N_type m);
+        R_Decompose(Natural m);
 
         /**
          * The destructor.
@@ -141,45 +141,45 @@ namespace especia {
          * @throw runtime_error when an internal LAPACK error occurred.
          */
         void
-        operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
+        operator()(const Real A[], Real Z[], Real w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
-        void lapack_do(R_type Z[], R_type w[]) const;
+        void lapack_do(Real Z[], Real w[]) const;
 
         /**
          * The problem dimension.
          */
-        const Z_type n;
+        const Integer n;
 
         /**
          * The numeric workspace size.
          */
-        Z_type lwork;
+        Integer lwork;
 
         /**
          * The integer workspace size.
          */
-        Z_type liwork;
+        Integer liwork;
 
         /**
          * The numeric workspace array.
          */
-        mutable std::valarray<R_type> work;
+        mutable std::valarray<Real> work;
 
         /**
          * The ineteger workspace array.
          */
-        mutable std::valarray<Z_type> iwork;
+        mutable std::valarray<Integer> iwork;
 
         /**
          * A workspace array.
          */
-        mutable std::valarray<Z_type> isupp;
+        mutable std::valarray<Integer> isupp;
 
         /**
          * A workspace array.
          */
-        mutable std::valarray<R_type> awork;
+        mutable std::valarray<Real> awork;
 
         /**
          * Queries the optimal workspace size.
@@ -188,13 +188,13 @@ namespace especia {
          * @param[out] lwork The size of the numeric workspace.
          * @param[out] liwork The size of the integer workspace.
          */
-        static void lapack_inquire(Z_type n, Z_type &lwork, Z_type &liwork);
+        static void lapack_inquire(Integer n, Integer &lwork, Integer &liwork);
 
         /**
          * The absolute accuracy of eigenvalues computed. Yields the most accurate results
          * when set to the 'safe minimum'.
          */
-        static const R_type abstol;
+        static const Real abstol;
 
         static const std::string message_int_err;
         static const std::string message_ill_arg;
@@ -213,7 +213,7 @@ namespace especia {
          *
          * @param[in] m The problem dimension.
          */
-        X_Decompose(N_type m);
+        X_Decompose(Natural m);
 
         /**
          * The destructor.
@@ -231,40 +231,40 @@ namespace especia {
          * @throw runtime_error when an internal LAPACK error occurred.
          */
         void
-        operator()(const R_type A[], R_type Z[], R_type w[]) const throw(std::invalid_argument, std::runtime_error);
+        operator()(const Real A[], Real Z[], Real w[]) const throw(std::invalid_argument, std::runtime_error);
 
     private:
-        void lapack_do(R_type Z[], R_type w[]) const;
+        void lapack_do(Real Z[], Real w[]) const;
 
         /**
          * The problem dimension.
          */
-        const Z_type n;
+        const Integer n;
 
         /**
          * The numeric workspace size.
          */
-        Z_type lwork;
+        Integer lwork;
 
         /**
          * The numeric workspace array.
          */
-        mutable std::valarray<R_type> work;
+        mutable std::valarray<Real> work;
 
         /**
          * The integer workspace array.
          */
-        mutable std::valarray<Z_type> iwork;
+        mutable std::valarray<Integer> iwork;
 
         /**
          * A workspace array.
          */
-        mutable std::valarray<Z_type> ifail;
+        mutable std::valarray<Integer> ifail;
 
         /**
          * A workspace array.
          */
-        mutable std::valarray<R_type> awork;
+        mutable std::valarray<Real> awork;
 
         /**
          * Inquires the optimal workspace size.
@@ -272,13 +272,13 @@ namespace especia {
          * @param[in] n The problem dimension.
          * @param[out] lwork The size of the numeric workspace.
          */
-        static void lapack_inquire(Z_type n, Z_type &lwork);
+        static void lapack_inquire(Integer n, Integer &lwork);
 
         /**
          * The absolute accuracy of eigenvalues computed. Yields the most accurate results
          * when set to twice the 'safe minimum'.
          */
-        static const R_type abstol;
+        static const Real abstol;
 
         static const std::string message_int_err;
         static const std::string message_ill_arg;

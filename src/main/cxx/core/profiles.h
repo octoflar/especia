@@ -49,7 +49,7 @@ namespace especia {
          * @param[in] b The width of the Gaussian (arbitrary unit).
          * @param[in] d The width of the Lorentzian (arbitrary unit).
          */
-        Pseudo_Voigt(const R_type &b = 0.5, const R_type &d = 0.5);
+        Pseudo_Voigt(const Real &b = 0.5, const Real &d = 0.5);
 
         /**
          * The destructor.
@@ -62,17 +62,17 @@ namespace especia {
          * @param[in] x The abscissa value (arbitrary unit).
          * @return the value of the pseudo-Voigt approximation at @c x.
          */
-        R_type operator()(const R_type &x) const;
+        Real operator()(const Real &x) const;
 
     private:
-        const R_type u;
-        const R_type r;
-        const R_type gamma_g;
-        const R_type gamma_l;
-        const R_type eta;
+        const Real u;
+        const Real r;
+        const Real gamma_g;
+        const Real gamma_l;
+        const Real eta;
 
-        static const R_type c_g;
-        static const R_type c_l;
+        static const Real c_g;
+        static const Real c_l;
     };
 
 
@@ -96,7 +96,7 @@ namespace especia {
          * @param[in] b The width of the Gaussian (arbitrary unit).
          * @param[in] d The width of the Lorentzian (arbitrary unit).
          */
-        Extended_Pseudo_Voigt(const R_type &b = 0.5, const R_type &d = 0.5);
+        Extended_Pseudo_Voigt(const Real &b = 0.5, const Real &d = 0.5);
 
         /**
          * The destructor.
@@ -109,23 +109,23 @@ namespace especia {
          * @param[in] x The abscissa value (arbitrary unit).
          * @return the value of the extended pseudo-Voigt approximation at @c x.
          */
-        R_type operator()(const R_type &x) const;
+        Real operator()(const Real &x) const;
 
     private:
-        const R_type u;
-        const R_type r;
-        const R_type gamma_g;
-        const R_type gamma_l;
-        const R_type gamma_i;
-        const R_type gamma_p;
-        const R_type eta_l;
-        const R_type eta_i;
-        const R_type eta_p;
+        const Real u;
+        const Real r;
+        const Real gamma_g;
+        const Real gamma_l;
+        const Real gamma_i;
+        const Real gamma_p;
+        const Real eta_l;
+        const Real eta_i;
+        const Real eta_p;
 
-        static const R_type c_g;
-        static const R_type c_l;
-        static const R_type c_i;
-        static const R_type c_p;
+        static const Real c_g;
+        static const Real c_l;
+        static const Real c_i;
+        static const Real c_p;
     };
 
     /**
@@ -172,7 +172,7 @@ namespace especia {
          * @c q[7] The variation of the fine-structure constant (1E-6)
          * @endparblock
          */
-        Many_Multiplet(const R_type q[]);
+        Many_Multiplet(const Real q[]);
 
         /**
          * The destructor.
@@ -185,14 +185,14 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom).
          * @return the optical depth of the profile at @c x.
          */
-        R_type operator()(const R_type &x) const;
+        Real operator()(const Real &x) const;
 
         /**
          * Returns the central wavelength of the profile.
          *
          * @return the central wavelength of the profile (Angstrom).
          */
-        R_type get_center() const {
+        Real center() const {
             return c;
         }
 
@@ -201,14 +201,14 @@ namespace especia {
          *
          * @return the redshift factor.
          */
-        R_type get_redshift_factor() const {
+        Real redshift_factor() const {
             return z;
         }
 
         /**
          * Returns the number of parameters.
          */
-        static N_type get_parameter_count() {
+        static Natural get_parameter_count() {
             return parameter_count;
         };
 
@@ -216,35 +216,35 @@ namespace especia {
         /**
          * The modified rest wavelength (Angstrom).
          */
-        const R_type u;
+        const Real u;
 
         /**
          * The redshift factor due to cosmology and proper motion.
          */
-        const R_type z;
+        const Real z;
 
         /**
          * The central wavelength (Angstrom).
          */
-        const R_type c;
+        const Real c;
 
         /**
          * The Doppler width (Angstrom).
          */
-        const R_type b;
+        const Real b;
 
         /**
          * The amplitude.
          */
-        const R_type a;
+        const Real a;
 
         /**
          * The number of parameters.
          */
-        static const N_type parameter_count = 8;
+        static const Natural parameter_count = 8;
 
-        static const R_type c0;
-        static const R_type c1;
+        static const Real c0;
+        static const Real c1;
     };
 
 
@@ -280,7 +280,7 @@ namespace especia {
          * @c q[5] The decadic logarithm of the particle column number density (cm-2)
          * @endparblock
          */
-        Intergalactic_Doppler(const R_type q[]);
+        Intergalactic_Doppler(const Real q[]);
 
         /**
          * The destructor.
@@ -293,14 +293,14 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom).
          * @return the optical depth of the profile at @c x.
          */
-        R_type operator()(const R_type &x) const;
+        Real operator()(const Real &x) const;
 
         /**
          * Returns the central wavelength of the profile.
          *
          * @return the central wavelength of the profile (Angstrom).
          */
-        R_type get_center() const {
+        Real center() const {
             return c;
         }
 
@@ -309,14 +309,14 @@ namespace especia {
          *
          * @return the redshift factor.
          */
-        R_type get_redshift_factor() const {
+        Real redshift_factor() const {
             return z;
         }
 
         /**
          * Returns the number of parameters.
          */
-        static N_type get_parameter_count() {
+        static Natural get_parameter_count() {
             return parameter_count;
         };
 
@@ -324,30 +324,30 @@ namespace especia {
         /**
          * The redshift factor due to cosmology and proper motion.
          */
-        const R_type z;
+        const Real z;
 
         /**
          * The central wavelength (Angstrom).
          */
-        const R_type c;
+        const Real c;
 
         /**
          * The Doppler width (Angstrom).
          */
-        const R_type b;
+        const Real b;
 
         /**
          * The amplitude.
          */
-        const R_type a;
+        const Real a;
 
         /**
          * The number of parameters.
          */
-        static const N_type parameter_count = 6;
+        static const Natural parameter_count = 6;
 
-        static const R_type c0;
-        static const R_type c1;
+        static const Real c0;
+        static const Real c1;
     };
 
 
@@ -390,7 +390,7 @@ namespace especia {
          * @c q[6] The damping constant (s-1)
          * @endparblock
          */
-        Intergalactic_Voigt(const R_type q[])
+        Intergalactic_Voigt(const Real q[])
                 : z((1.0 + q[2]) * (1.0 + q[3] / c0)),
                   c(q[0] * z),
                   a(c1 * q[1] * std::pow(10.0, q[5]) * (q[0] * c)),
@@ -409,7 +409,7 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom).
          * @return the optical depth of the profile at @c x.
          */
-        R_type operator()(const R_type &x) const {
+        Real operator()(const Real &x) const {
             return a * approximation(x - c);
         };
 
@@ -418,7 +418,7 @@ namespace especia {
          *
          * @return the central wavelength of the profile (Angstrom).
          */
-        R_type get_center() const {
+        Real center() const {
             return c;
         }
 
@@ -427,14 +427,14 @@ namespace especia {
          *
          * @return the redshift factor.
          */
-        R_type get_redshift_factor() const {
+        Real redshift_factor() const {
             return z;
         }
 
         /**
          * Returns the number of parameters.
          */
-        static N_type get_parameter_count() {
+        static Natural get_parameter_count() {
             return parameter_count;
         };
 
@@ -442,17 +442,17 @@ namespace especia {
         /**
          * The redshift factor due to cosmology and proper motion.
          */
-        const R_type z;
+        const Real z;
 
         /**
          * The central wavelength (Angstrom).
          */
-        const R_type c;
+        const Real c;
 
         /**
          * The amplitude.
          */
-        const R_type a;
+        const Real a;
 
         /**
          * The approximation.
@@ -462,22 +462,22 @@ namespace especia {
         /**
          * The number of parameters.
          */
-        static const N_type parameter_count = 7;
+        static const Natural parameter_count = 7;
 
-        static const R_type c0;
-        static const R_type c1;
-        static const R_type c2;
+        static const Real c0;
+        static const Real c1;
+        static const Real c2;
     };
 
     template<class A>
-    const R_type Intergalactic_Voigt<A>::c0 = 1.0E-03 * speed_of_light;
+    const Real Intergalactic_Voigt<A>::c0 = 1.0E-03 * speed_of_light;
 
     template<class A>
-    const R_type Intergalactic_Voigt<A>::c1 = 1.0E-06 * sq(elementary_charge) /
+    const Real Intergalactic_Voigt<A>::c1 = 1.0E-06 * sq(elementary_charge) /
                                               (4.0 * electric_constant * electron_mass * sq(speed_of_light));
 
     template<class A>
-    const R_type Intergalactic_Voigt<A>::c2 = 1.0E-10 / (4.0 * pi * speed_of_light);
+    const Real Intergalactic_Voigt<A>::c2 = 1.0E-10 / (4.0 * pi * speed_of_light);
 
 
     /**
@@ -497,9 +497,9 @@ namespace especia {
          * @param[in] q The vector of parameter values. The semantics of parameter values and the
          *              number of parameters per component are defined by the profile type.
          */
-        Superposition(N_type n, const R_type q[]) : profiles() {
+        Superposition(Natural n, const Real q[]) : profiles() {
             profiles.reserve(n);
-            for (N_type i = 0; i < n; ++i, q += T::get_parameter_count()) {
+            for (Natural i = 0; i < n; ++i, q += T::get_parameter_count()) {
                 profiles.push_back(T(q));
             }
         }
@@ -516,10 +516,10 @@ namespace especia {
          * @param[in] x The wavelength (Angstrom).
          * @return the optical depth of the profile superposition at @c x.
          */
-        R_type operator()(const R_type &x) const {
-            R_type d = 0.0;
+        Real operator()(const Real &x) const {
+            Real d = 0.0;
 
-            for (N_type i = 0; i < profiles.size(); ++i) {
+            for (Natural i = 0; i < profiles.size(); ++i) {
                 d += profiles[i](x);
             }
 
@@ -574,13 +574,13 @@ namespace especia {
          * @return the equivalent width (milli Angstrom).
          */
         template<class T>
-        R_type calculate(const T &t) const {
+        Real calculate(const T &t) const {
             using std::exp;
 
-            const R_type integral = integrator.integrate_semi_infinite(
-                    [&t](R_type x) -> R_type { return kilo * (1.0 - exp(-t(x + t.get_center()))); });
+            const Real integral = integrator.integrate_semi_infinite(
+                    [&t](Real x) -> Real { return kilo * (1.0 - exp(-t(x + t.center()))); });
 
-            return 2.0 * integral / t.get_redshift_factor();
+            return 2.0 * integral / t.redshift_factor();
         }
 
     private:

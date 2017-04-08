@@ -23,82 +23,82 @@
 #include "../../../main/cxx/core/optimizer.h"
 #include "../unittest.h"
 
-using especia::N_type;
-using especia::R_type;
+using especia::Natural;
+using especia::Real;
 using especia::Optimizer;
 
 
 class Optimizer_Test : public Unit_Test {
 private:
 
-    static R_type sphere(const R_type x[], N_type n) {
+    static Real sphere(const Real x[], Natural n) {
         using especia::sq;
 
-        R_type y = 0.0;
+        Real y = 0.0;
 
-        for (N_type i = 0; i < n; ++i) {
+        for (Natural i = 0; i < n; ++i) {
             y += sq(x[i]);
         }
 
         return y;
     }
 
-    static R_type ellipsoid(const R_type x[], N_type n) {
+    static Real ellipsoid(const Real x[], Natural n) {
         using especia::sq;
 
-        R_type y = 0.0;
+        Real y = 0.0;
 
-        for (N_type i = 0; i < n; ++i) {
+        for (Natural i = 0; i < n; ++i) {
             y += std::pow(1.0E+06, i / (n - 1.0)) * sq(x[i]);
         }
 
         return y;
     }
 
-    static R_type cigar(const R_type x[], N_type n) {
+    static Real cigar(const Real x[], Natural n) {
         using especia::sq;
 
-        R_type y = 0.0;
+        Real y = 0.0;
 
-        for (N_type i = 1; i < n; ++i) {
+        for (Natural i = 1; i < n; ++i) {
             y += sq(x[i]);
         }
 
-        return R_type(1.0E+06) * y + sq(x[0]);
+        return Real(1.0E+06) * y + sq(x[0]);
     }
 
-    static R_type tablet(const R_type x[], N_type n) {
+    static Real tablet(const Real x[], Natural n) {
         using especia::sq;
 
-        R_type y = 0.0;
+        Real y = 0.0;
 
-        for (N_type i = 1; i < n; ++i) {
+        for (Natural i = 1; i < n; ++i) {
             y += sq(x[i]);
         }
 
-        return R_type(1.0E+06) * sq(x[0]) + y;
+        return Real(1.0E+06) * sq(x[0]) + y;
     }
 
     /// [The Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function)
-    static R_type rosenbrock(const R_type x[], N_type n) {
+    static Real rosenbrock(const Real x[], Natural n) {
         using especia::sq;
 
-        R_type y = 0.0;
+        Real y = 0.0;
 
-        for (N_type i = 0; i < n - 1; ++i) {
+        for (Natural i = 0; i < n - 1; ++i) {
             y += 100.0 * sq(x[i + 1] - sq(x[i])) + sq(1.0 - x[i]);
         }
 
         return y;
     }
 
-    static R_type different_powers(const R_type x[], N_type n) {
+    static Real different_powers(const Real x[], Natural n) {
         using std::abs;
         using std::pow;
 
-        R_type y = 0.0;
+        Real y = 0.0;
 
-        for (N_type i = 0; i < n - 1; ++i) {
+        for (Natural i = 0; i < n - 1; ++i) {
             y += pow(abs(x[i]), 2.0 + (10 * i) / (n - 1.0));
         }
 
@@ -118,9 +118,9 @@ private:
     }
 
     void test_minimize_sphere() {
-        const valarray<R_type> x(1.0, 10);
-        const valarray<R_type> d(1.0, 10);
-        const R_type s = 1.0;
+        const valarray<Real> x(1.0, 10);
+        const valarray<Real> d(1.0, 10);
+        const Real s = 1.0;
 
         const Optimizer optimizer = builder.with_stop_generation(200).build();
         const Optimizer::Result result = optimizer.minimize(sphere, x, d, s);
@@ -141,9 +141,9 @@ private:
     }
 
     void test_minimize_ellipsoid() {
-        const valarray<R_type> x(1.0, 10);
-        const valarray<R_type> d(1.0, 10);
-        const R_type s = 1.0;
+        const valarray<Real> x(1.0, 10);
+        const valarray<Real> d(1.0, 10);
+        const Real s = 1.0;
 
         const Optimizer optimizer = builder.with_stop_generation(400).build();
         const Optimizer::Result result = optimizer.minimize(ellipsoid, x, d, s);
@@ -164,9 +164,9 @@ private:
     }
 
     void test_minimize_cigar() {
-        const valarray<R_type> x(1.0, 10);
-        const valarray<R_type> d(1.0, 10);
-        const R_type s = 1.0;
+        const valarray<Real> x(1.0, 10);
+        const valarray<Real> d(1.0, 10);
+        const Real s = 1.0;
 
         const Optimizer optimizer = builder.with_stop_generation(400).build();
         const Optimizer::Result result = optimizer.minimize(cigar, x, d, s);
@@ -187,9 +187,9 @@ private:
     }
 
     void test_minimize_tablet() {
-        const valarray<R_type> x(1.0, 10);
-        const valarray<R_type> d(1.0, 10);
-        const R_type s = 1.0;
+        const valarray<Real> x(1.0, 10);
+        const valarray<Real> d(1.0, 10);
+        const Real s = 1.0;
 
         const Optimizer optimizer = builder.with_stop_generation(400).build();
         const Optimizer::Result result = optimizer.minimize(tablet, x, d, s);
@@ -210,9 +210,9 @@ private:
     }
 
     void test_minimize_rosenbrock() {
-        const valarray<R_type> x(0.0, 10);
-        const valarray<R_type> d(1.0, 10);
-        const R_type s = 0.1;
+        const valarray<Real> x(0.0, 10);
+        const valarray<Real> d(1.0, 10);
+        const Real s = 0.1;
 
         const Optimizer optimizer = builder.with_stop_generation(400).build();
         const Optimizer::Result result = optimizer.minimize(rosenbrock, x, d, s);
@@ -233,9 +233,9 @@ private:
     }
 
     void test_minimize_different_powers() {
-        const valarray<R_type> x(1.0, 10);
-        const valarray<R_type> d(1.0, 10);
-        const R_type s = 1.0;
+        const valarray<Real> x(1.0, 10);
+        const valarray<Real> d(1.0, 10);
+        const Real s = 1.0;
 
         const Optimizer optimizer = builder.with_stop_generation(400).build();
         const Optimizer::Result result = optimizer.minimize(different_powers, x, d, s);

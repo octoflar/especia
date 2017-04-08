@@ -62,12 +62,12 @@ namespace especia {
      * @tparam c The parameter c.
      * @tparam l The parameter l.
      */
-    template<N_type w, N_type n, N_type m, N_type r,
-            W_type a,
-            N_type u,
-            N_type s, W_type b,
-            N_type t, W_type c,
-            N_type l>
+    template<Natural w, Natural n, Natural m, Natural r,
+            Word a,
+            Natural u,
+            Natural s, Word b,
+            Natural t, Word c,
+            Natural l>
     class Mersenne_Twister {
     public:
         /**
@@ -76,7 +76,7 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        Mersenne_Twister(W_type seed = 5489, W_type multiplier = 1812433253)
+        Mersenne_Twister(Word seed = 5489, Word multiplier = 1812433253)
                 : words(n) {
             reset(seed, multiplier);
         }
@@ -87,7 +87,7 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        Mersenne_Twister(N_type seed_count, const W_type seeds[])
+        Mersenne_Twister(Natural seed_count, const Word seeds[])
                 : words(n) {
             reset(seed_count, seeds);
         }
@@ -103,11 +103,11 @@ namespace especia {
          *
          * @return a random number in [0, 1].
          */
-        R_type operator()() const {
+        Real operator()() const {
             using std::numeric_limits;
 
             // Division by 2^w - 1.
-            return rand() * (1.0 / R_type(numeric_limits<W_type>::max() >> (numeric_limits<W_type>::digits - w)));
+            return rand() * (1.0 / Real(numeric_limits<Word>::max() >> (numeric_limits<Word>::digits - w)));
         }
 
         /**
@@ -116,14 +116,14 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        void reset(W_type seed = 5489, W_type multiplier = 1812433253) {
+        void reset(Word seed = 5489, Word multiplier = 1812433253) {
             using std::max;
             using std::numeric_limits;
 
-            words[0] = seed & (numeric_limits<W_type>::max() >> (numeric_limits<W_type>::digits - w));
-            for (N_type k = 1; k < n; ++k) {
+            words[0] = seed & (numeric_limits<Word>::max() >> (numeric_limits<Word>::digits - w));
+            for (Natural k = 1; k < n; ++k) {
                 words[k] = (multiplier * (words[k - 1] ^ (words[k - 1] >> (r - 1))) + k) &
-                           (numeric_limits<W_type>::max() >> (numeric_limits<W_type>::digits - w));
+                           (numeric_limits<Word>::max() >> (numeric_limits<Word>::digits - w));
             }
 
             i = n;
@@ -135,16 +135,16 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        void reset(N_type seed_count, const W_type seeds[]) {
+        void reset(Natural seed_count, const Word seeds[]) {
             using std::max;
             using std::numeric_limits;
 
             reset(19650218);
             i = 1;
 
-            for (N_type j = 0, k = max(n, seed_count); k > 0; --k) {
+            for (Natural j = 0, k = max(n, seed_count); k > 0; --k) {
                 words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1664525)) + seeds[j] + j) &
-                           (numeric_limits<W_type>::max() >> (numeric_limits<W_type>::digits - w));
+                           (numeric_limits<Word>::max() >> (numeric_limits<Word>::digits - w));
                 if (++i >= n) {
                     words[0] = words[n - 1];
                     i = 1;
@@ -153,9 +153,9 @@ namespace especia {
                     j = 0;
                 }
             }
-            for (N_type k = n - 1; k > 0; --k) {
+            for (Natural k = n - 1; k > 0; --k) {
                 words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1566083941)) - i) &
-                           (numeric_limits<W_type>::max() >> (numeric_limits<W_type>::digits - w));
+                           (numeric_limits<Word>::max() >> (numeric_limits<Word>::digits - w));
                 if (++i >= n) {
                     words[0] = words[n - 1];
                     i = 1;
@@ -167,13 +167,13 @@ namespace especia {
         }
 
     private:
-        W_type rand() const {
+        Word rand() const {
             if (i == n) {
-                for (N_type k = 0; k < n - m; ++k) {
+                for (Natural k = 0; k < n - m; ++k) {
                     twist(k + m, k, k + 1);
                 }
 
-                for (N_type k = n - m; k < n - 1; ++k) {
+                for (Natural k = n - m; k < n - 1; ++k) {
                     twist(k + m - n, k, k + 1);
                 }
 
@@ -181,7 +181,7 @@ namespace especia {
                 i = 0;
             }
 
-            W_type y = words[i];
+            Word y = words[i];
             ++i;
 
             if (u > 0) {
@@ -195,20 +195,20 @@ namespace especia {
             return y;
         }
 
-        void twist(N_type i, N_type j, N_type k) const {
+        void twist(Natural i, Natural j, Natural k) const {
             using std::numeric_limits;
 
-            words[j] = words[i] ^ (((words[j] & ((numeric_limits<W_type>::max()
-                    << (numeric_limits<W_type>::digits - w + r))
-                    >> (numeric_limits<W_type>::digits - w))) | (words[k] & (numeric_limits<W_type>::max()
-                    >> (numeric_limits<W_type>::digits - r)))) >> 1);
+            words[j] = words[i] ^ (((words[j] & ((numeric_limits<Word>::max()
+                    << (numeric_limits<Word>::digits - w + r))
+                    >> (numeric_limits<Word>::digits - w))) | (words[k] & (numeric_limits<Word>::max()
+                    >> (numeric_limits<Word>::digits - r)))) >> 1);
             if ((words[k] & 1ul) == 1ul) {
                 words[j] ^= a;
             }
         }
 
-        mutable std::valarray<W_type> words;
-        mutable N_type i;
+        mutable std::valarray<Word> words;
+        mutable Natural i;
     };
 
     /**

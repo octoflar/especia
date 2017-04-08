@@ -39,7 +39,7 @@ namespace especia {
      *
      * @tparam T The number type.
      */
-    template<class T = R_type>
+    template<class T = Real>
     class No_Constraint {
     public:
         /**
@@ -61,7 +61,7 @@ namespace especia {
          * @param[in] n The number of parameters to test.
          * @return always @c false.
          */
-        bool is_violated(const T x[], N_type n) const {
+        bool is_violated(const T x[], Natural n) const {
             return false;
         }
 
@@ -72,7 +72,7 @@ namespace especia {
          * @param[in] n The number of parameters to take account of.
          * @return always zero.
          */
-        T cost(const T x[], N_type n) const {
+        T cost(const T x[], Natural n) const {
             return T(0);
         }
     };
@@ -82,7 +82,7 @@ namespace especia {
      *
      * @tparam T The number type.
      */
-    template<class T = R_type>
+    template<class T = Real>
     class No_Tracing {
     public:
 
@@ -104,7 +104,7 @@ namespace especia {
          * @param[in] g The generation number.
          * @return always @c false.
          */
-        bool is_enabled(L_type g) const {
+        bool is_enabled(Natural g) const {
             return false;
         }
 
@@ -116,7 +116,7 @@ namespace especia {
          * @param[in] min_step The minimum step size.
          * @param[in] max_step The maximum step size.
          */
-        void trace(L_type g, T y, T min_step, T max_step) const {
+        void trace(Natural g, T y, T min_step, T max_step) const {
         }
     };
 
@@ -163,7 +163,7 @@ namespace especia {
               *
               * @return the problem dimension.
               */
-            N_type get_problem_dimension() const {
+            Natural get_problem_dimension() const {
                 return n;
             }
 
@@ -172,7 +172,7 @@ namespace especia {
              *
              * @return the parent number.
              */
-            N_type get_parent_number() const {
+            Natural get_parent_number() const {
                 return parent_number;
             }
 
@@ -181,7 +181,7 @@ namespace especia {
              *
              * @return the population size.
              */
-            N_type get_population_size() const {
+            Natural get_population_size() const {
                 return population_size;
             }
 
@@ -190,7 +190,7 @@ namespace especia {
              *
              * @return the covariance matrix update modulus.
              */
-            N_type get_covariance_update_modulus() const {
+            Natural get_covariance_update_modulus() const {
                 return update_modulus;
             }
 
@@ -199,7 +199,7 @@ namespace especia {
              *
              * @return the accuracy goal.
              */
-            R_type get_accuracy_goal() const {
+            Real get_accuracy_goal() const {
                 return accuracy_goal;
             }
 
@@ -208,7 +208,7 @@ namespace especia {
              *
              * @return the random seed.
              */
-            W_type get_random_seed() const {
+            Word get_random_seed() const {
                 return random_seed;
             }
 
@@ -217,7 +217,7 @@ namespace especia {
              *
              * @return the stop generation.
              */
-            L_type get_stop_generation() const {
+            Natural get_stop_generation() const {
                 return stop_generation;
             }
 
@@ -226,7 +226,7 @@ namespace especia {
              *
              * @return the recombination weights.
              */
-            const std::valarray<R_type> &get_weights() const {
+            const std::valarray<Real> &get_weights() const {
                 return weights;
             }
 
@@ -235,7 +235,7 @@ namespace especia {
              *
              * @return the step size cumulation rate.
              */
-            R_type get_step_size_cumulation_rate() const {
+            Real get_step_size_cumulation_rate() const {
                 return cs;
             }
 
@@ -244,7 +244,7 @@ namespace especia {
              *
              * @return the distribution cumulation rate.
              */
-            R_type get_distribution_cumulation_rate() const {
+            Real get_distribution_cumulation_rate() const {
                 return cc;
             }
 
@@ -253,7 +253,7 @@ namespace especia {
              *
              * @return the covariance matrix adaption rate.
              */
-            R_type get_covariance_matrix_adaption_rate() const {
+            Real get_covariance_matrix_adaption_rate() const {
                 return ccov;
             }
 
@@ -262,7 +262,7 @@ namespace especia {
              *
              * @return the covariance matrix adaption mixing.
              */
-            R_type get_covariance_matrix_adaption_mixing() const {
+            Real get_covariance_matrix_adaption_mixing() const {
                 return acov;
             }
 
@@ -271,7 +271,7 @@ namespace especia {
              *
              * @return the step size damping.
              */
-            R_type get_step_size_damping() const {
+            Real get_step_size_damping() const {
                 return step_size_damping;
             }
 
@@ -288,7 +288,7 @@ namespace especia {
              * @param[in] n The problem dimension.
              * @return this builder.
              */
-            Builder &with_problem_dimension(N_type n = 1);
+            Builder &with_problem_dimension(Natural n = 1);
 
             /**
              * Configures the parent number.
@@ -296,7 +296,7 @@ namespace especia {
              * @param[in] parent_number The parent number.
              * @return this builder.
              */
-            Builder &with_parent_number(N_type parent_number = 4);
+            Builder &with_parent_number(Natural parent_number = 4);
 
             /**
              * Configures the population size.
@@ -304,7 +304,7 @@ namespace especia {
              * @param[in] population_size The population size.
              * @return this builder.
              */
-            Builder &with_population_size(N_type population_size = 8);
+            Builder &with_population_size(Natural population_size = 8);
 
             /**
              * Configures the covariance matrix update modulus.
@@ -312,7 +312,7 @@ namespace especia {
              * @param[in] update_modulus The update modulus.
              * @return this builder.
              */
-            Builder &with_covariance_update_modulus(N_type update_modulus = 1);
+            Builder &with_covariance_update_modulus(Natural update_modulus = 1);
 
             /**
              * Configures the accuracy goal.
@@ -320,7 +320,7 @@ namespace especia {
              * @param[in] accuracy_goal The accuracy goal.
              * @return this builder.
              */
-            Builder &with_accuracy_goal(R_type accuracy_goal = 1.0E-04);
+            Builder &with_accuracy_goal(Real accuracy_goal = 1.0E-04);
 
             /**
              * Configures the random seed.
@@ -328,7 +328,7 @@ namespace especia {
              * @param[in] seed The random seed.
              * @return this builder.
              */
-            Builder &with_random_seed(W_type seed = 57721);
+            Builder &with_random_seed(Word seed = 57721);
 
             /**
              * Configures the stop generation.
@@ -336,7 +336,7 @@ namespace especia {
              * @param[in] stop_generation The stop generation.
              * @return this builder.
              */
-            Builder &with_stop_generation(L_type stop_generation = 1000);
+            Builder &with_stop_generation(Natural stop_generation = 1000);
 
         private:
             /**
@@ -344,7 +344,7 @@ namespace especia {
              *
              * @return a pointer to the recombination weights.
              */
-            const R_type *get_weights_pointer() const {
+            const Real *get_weights_pointer() const {
                 return &weights[0];
             }
 
@@ -356,72 +356,72 @@ namespace especia {
             /**
              * The problem dimension.
              */
-            N_type n = 1;
+            Natural n = 1;
 
             /**
              * The parent number.
              */
-            N_type parent_number = 4;
+            Natural parent_number = 4;
 
             /**
              * The population size.
              */
-            N_type population_size = 8;
+            Natural population_size = 8;
 
             /**
              * The covariance matrix update modulus.
              */
-            N_type update_modulus = 1;
+            Natural update_modulus = 1;
 
             /**
              * The accuracy goal.
              */
-            R_type accuracy_goal = 1.0E-4;
+            Real accuracy_goal = 1.0E-4;
 
             /**
               * The random seed.
               */
-            W_type random_seed = 57721;
+            Word random_seed = 57721;
 
             /**
              * The stop generation.
              */
-            L_type stop_generation = 1000;
+            Natural stop_generation = 1000;
 
             /**
              * The recombination weights.
              */
-            std::valarray<R_type> weights;
+            std::valarray<Real> weights;
 
             /**
              * The variance of the recombination weights.
              */
-            R_type wv;
+            Real wv;
 
             /**
              * The step size cumulation rate.
              */
-            R_type cs;
+            Real cs;
 
             /**
              * The distribution cumulation rate.
              */
-            R_type cc;
+            Real cc;
 
             /**
              * The covariance matrix adaption mixing.
              */
-            R_type acov;
+            Real acov;
 
             /**
              * The covariance matrix adaption rate.
              */
-            R_type ccov;
+            Real ccov;
 
             /**
              * The step size damping.
              */
-            R_type step_size_damping;
+            Real step_size_damping;
 
             friend class Optimizer;
         };
@@ -441,7 +441,7 @@ namespace especia {
              *
              * @return the covariance matrix.
              */
-            const std::valarray<R_type> &get_covariance_matrix() const {
+            const std::valarray<Real> &get_covariance_matrix() const {
                 return C;
             }
 
@@ -450,7 +450,7 @@ namespace especia {
              *
              * @return the distribution cumulation path.
              */
-            const std::valarray<R_type> &get_distribution_cumulation_path() const {
+            const std::valarray<Real> &get_distribution_cumulation_path() const {
                 return pc;
             }
 
@@ -459,7 +459,7 @@ namespace especia {
              *
              * @return the optimized fitness.
              */
-            R_type get_fitness() const {
+            Real get_fitness() const {
                 return y;
             }
 
@@ -468,7 +468,7 @@ namespace especia {
              *
              * @return the final generation number.
              */
-            L_type get_generation_number() const {
+            Natural get_generation_number() const {
                 return g;
             }
 
@@ -477,7 +477,7 @@ namespace especia {
              *
              * @return the final global step size.
              */
-            R_type get_global_step_size() const {
+            Real get_global_step_size() const {
                 return s;
             }
 
@@ -486,7 +486,7 @@ namespace especia {
              *
              * @return the final local step sizes.
              */
-            const std::valarray<R_type> &get_local_step_sizes() const {
+            const std::valarray<Real> &get_local_step_sizes() const {
                 return d;
             }
 
@@ -495,7 +495,7 @@ namespace especia {
              *
              * @return the optimized parameter values.
              */
-            const std::valarray<R_type> &get_parameter_values() const {
+            const std::valarray<Real> &get_parameter_values() const {
                 return x;
             }
 
@@ -504,7 +504,7 @@ namespace especia {
              *
              * @return the parameter uncertainties.
              */
-            const std::valarray<R_type> &get_parameter_uncertainties() const {
+            const std::valarray<Real> &get_parameter_uncertainties() const {
                 return z;
             }
 
@@ -513,7 +513,7 @@ namespace especia {
              *
              * @return the final rotation matrix.
              */
-            const std::valarray<R_type> &get_rotation_matrix() const {
+            const std::valarray<Real> &get_rotation_matrix() const {
                 return B;
             }
 
@@ -522,7 +522,7 @@ namespace especia {
              *
              * @return the step size cumulation path.
              */
-            const std::valarray<R_type> &get_step_size_cumulation_path() const {
+            const std::valarray<Real> &get_step_size_cumulation_path() const {
                 return ps;
             }
 
@@ -553,14 +553,14 @@ namespace especia {
              * @param[in] d The initial local step sizes.
              * @param[in] s The initial global step size.
              */
-            Result(N_type n, const std::valarray<R_type> &x, const std::valarray<R_type> &d, R_type s);
+            Result(Natural n, const std::valarray<Real> &x, const std::valarray<Real> &d, Real s);
 
             /**
              * Returns a pointer to the covariance matrix.
              *
              * @return a pointer to the covariance matrix.
              */
-            R_type *get_covariance_matrix_pointer() {
+            Real *get_covariance_matrix_pointer() {
                 return &C[0];
             }
 
@@ -569,7 +569,7 @@ namespace especia {
              *
              * @return a pointer to the distribution cumulation path.
              */
-            R_type *get_distribution_cumulation_path_pointer() {
+            Real *get_distribution_cumulation_path_pointer() {
                 return &pc[0];
             }
 
@@ -578,7 +578,7 @@ namespace especia {
              *
              * @return a reference to the fitness.
              */
-            R_type &__fitness() {
+            Real &__fitness() {
                 return y;
             }
 
@@ -587,7 +587,7 @@ namespace especia {
              *
              * @return a reference to the generation number.
              */
-            L_type &__generation_number() {
+            Natural &__generation_number() {
                 return g;
             }
 
@@ -596,7 +596,7 @@ namespace especia {
              *
              * @return a reference to the global step size.
              */
-            R_type &__global_step_size() {
+            Real &__global_step_size() {
                 return s;
             }
 
@@ -605,7 +605,7 @@ namespace especia {
              *
              * @return a pointer to the local step sizes.
              */
-            R_type *get_local_step_sizes_pointer() {
+            Real *get_local_step_sizes_pointer() {
                 return &d[0];
             }
 
@@ -614,7 +614,7 @@ namespace especia {
              *
              * @return a pointer to the parameter values.
              */
-            R_type *get_parameter_values_pointer() {
+            Real *get_parameter_values_pointer() {
                 return &x[0];
             }
 
@@ -623,7 +623,7 @@ namespace especia {
              *
              * @return a pointer to the parameter uncertainties.
              */
-            R_type *get_parameter_uncertainties_pointer() {
+            Real *get_parameter_uncertainties_pointer() {
                 return &z[0];
             }
 
@@ -632,7 +632,7 @@ namespace especia {
              *
              * @return a pointer to the rotation matrix.
              */
-            R_type *get_rotation_matrix_pointer() {
+            Real *get_rotation_matrix_pointer() {
                 return &B[0];
             }
 
@@ -641,7 +641,7 @@ namespace especia {
              *
              * @return a pointer to the step size cumulation path.
              */
-            R_type *get_step_size_cumulation_path_pointer() {
+            Real *get_step_size_cumulation_path_pointer() {
                 return &ps[0];
             }
 
@@ -666,47 +666,47 @@ namespace especia {
             /**
              * The optimized parameter values.
              */
-            std::valarray<R_type> x;
+            std::valarray<Real> x;
 
             /**
              * The final local step sizes.
              */
-            std::valarray<R_type> d;
+            std::valarray<Real> d;
 
             /**
              * The final global step size.
              */
-            R_type s;
+            Real s;
 
             /**
              * The parameter uncertainties.
              */
-            std::valarray<R_type> z;
+            std::valarray<Real> z;
 
             /**
              * The optimized fitness.
              */
-            R_type y;
+            Real y;
 
             /**
              * The final covariance matrix.
              */
-            std::valarray<R_type> C;
+            std::valarray<Real> C;
 
             /**
              * The final rotation matrix.
              */
-            std::valarray<R_type> B;
+            std::valarray<Real> B;
 
             /**
              * The distribution cumulation path.
              */
-            std::valarray<R_type> pc;
+            std::valarray<Real> pc;
 
             /**
              * The step size cumulation path.
              */
-            std::valarray<R_type> ps;
+            std::valarray<Real> ps;
 
             /**
              * The optimization status flag.
@@ -721,7 +721,7 @@ namespace especia {
             /**
              * The final generation number.
              */
-            L_type g;
+            Natural g;
 
             friend class Optimizer;
         };
@@ -749,12 +749,12 @@ namespace especia {
          */
         template<class F, class Constraint, class Tracing>
         Result maximize(const F &f,
-                        const std::valarray<R_type> &x,
-                        const std::valarray<R_type> &d,
-                        const R_type &s,
+                        const std::valarray<Real> &x,
+                        const std::valarray<Real> &d,
+                        const Real &s,
                         const Constraint &constraint,
                         const Tracing &tracer) const {
-            return optimize(f, x, d, s, constraint, tracer, std::greater<R_type>());
+            return optimize(f, x, d, s, constraint, tracer, std::greater<Real>());
         }
 
         /**
@@ -762,10 +762,10 @@ namespace especia {
          */
         template<class F>
         Result maximize(const F &f,
-                        const std::valarray<R_type> &x,
-                        const std::valarray<R_type> &d,
-                        const R_type &s) const {
-            return optimize(f, x, d, s, No_Constraint<R_type>(), No_Tracing<R_type>(), std::greater<R_type>());
+                        const std::valarray<Real> &x,
+                        const std::valarray<Real> &d,
+                        const Real &s) const {
+            return optimize(f, x, d, s, No_Constraint<Real>(), No_Tracing<Real>(), std::greater<Real>());
         }
 
         /**
@@ -786,12 +786,12 @@ namespace especia {
          */
         template<class F, class Constraint, class Tracing>
         Result minimize(const F &f,
-                        const std::valarray<R_type> &x,
-                        const std::valarray<R_type> &d,
-                        const R_type &s,
+                        const std::valarray<Real> &x,
+                        const std::valarray<Real> &d,
+                        const Real &s,
                         const Constraint &constraint,
                         const Tracing &tracer) const {
-            return optimize(f, x, d, s, constraint, tracer, std::less<R_type>());
+            return optimize(f, x, d, s, constraint, tracer, std::less<Real>());
         }
 
         /**
@@ -799,10 +799,10 @@ namespace especia {
          */
         template<class F>
         Result minimize(const F &f,
-                        const std::valarray<R_type> &x,
-                        const std::valarray<R_type> &d,
-                        const R_type &s) const {
-            return optimize(f, x, d, s, No_Constraint<R_type>(), No_Tracing<R_type>(), std::less<R_type>());
+                        const std::valarray<Real> &x,
+                        const std::valarray<Real> &d,
+                        const Real &s) const {
+            return optimize(f, x, d, s, No_Constraint<Real>(), No_Tracing<Real>(), std::less<Real>());
         }
 
     private:
@@ -833,16 +833,16 @@ namespace especia {
          */
         template<class F, class Constraint, class Tracing, class Compare>
         Result optimize(const F &f,
-                        const std::valarray<R_type> &x,
-                        const std::valarray<R_type> &d,
-                        const R_type &s,
+                        const std::valarray<Real> &x,
+                        const std::valarray<Real> &d,
+                        const Real &s,
                         const Constraint &constraint,
                         const Tracing &tracer,
                         const Compare &compare) const {
             using especia::optimize;
             using especia::postopti;
 
-            const N_type n = config.get_problem_dimension();
+            const Natural n = config.get_problem_dimension();
 
             Result result(n, x, d, s);
 
