@@ -62,12 +62,12 @@ namespace especia {
      * @tparam c The parameter c.
      * @tparam l The parameter l.
      */
-    template<Natural w, Natural n, Natural m, Natural r,
-            Word a,
-            Natural u,
-            Natural s, Word b,
-            Natural t, Word c,
-            Natural l>
+    template<natural w, natural n, natural m, natural r,
+            word a,
+            natural u,
+            natural s, word b,
+            natural t, word c,
+            natural l>
     class Mersenne_Twister {
     public:
         /**
@@ -76,7 +76,7 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        Mersenne_Twister(Word seed = 5489, Word multiplier = 1812433253)
+        Mersenne_Twister(word seed = 5489, word multiplier = 1812433253)
                 : words(n) {
             reset(seed, multiplier);
         }
@@ -87,7 +87,7 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        Mersenne_Twister(Natural seed_count, const Word seeds[])
+        Mersenne_Twister(natural seed_count, const word seeds[])
                 : words(n) {
             reset(seed_count, seeds);
         }
@@ -103,11 +103,11 @@ namespace especia {
          *
          * @return a random number in [0, 1].
          */
-        Real operator()() const {
+        real operator()() const {
             using std::numeric_limits;
 
             // Division by 2^w - 1.
-            return rand() * (1.0 / Real(numeric_limits<Word>::max() >> (numeric_limits<Word>::digits - w)));
+            return rand() * (1.0 / real(numeric_limits<word>::max() >> (numeric_limits<word>::digits - w)));
         }
 
         /**
@@ -116,14 +116,14 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        void reset(Word seed = 5489, Word multiplier = 1812433253) {
+        void reset(word seed = 5489, word multiplier = 1812433253) {
             using std::max;
             using std::numeric_limits;
 
-            words[0] = seed & (numeric_limits<Word>::max() >> (numeric_limits<Word>::digits - w));
-            for (Natural k = 1; k < n; ++k) {
+            words[0] = seed & (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
+            for (natural k = 1; k < n; ++k) {
                 words[k] = (multiplier * (words[k - 1] ^ (words[k - 1] >> (r - 1))) + k) &
-                           (numeric_limits<Word>::max() >> (numeric_limits<Word>::digits - w));
+                           (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
             }
 
             i = n;
@@ -135,16 +135,16 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        void reset(Natural seed_count, const Word seeds[]) {
+        void reset(natural seed_count, const word seeds[]) {
             using std::max;
             using std::numeric_limits;
 
             reset(19650218);
             i = 1;
 
-            for (Natural j = 0, k = max(n, seed_count); k > 0; --k) {
+            for (natural j = 0, k = max(n, seed_count); k > 0; --k) {
                 words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1664525)) + seeds[j] + j) &
-                           (numeric_limits<Word>::max() >> (numeric_limits<Word>::digits - w));
+                           (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
                 if (++i >= n) {
                     words[0] = words[n - 1];
                     i = 1;
@@ -153,9 +153,9 @@ namespace especia {
                     j = 0;
                 }
             }
-            for (Natural k = n - 1; k > 0; --k) {
+            for (natural k = n - 1; k > 0; --k) {
                 words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1566083941)) - i) &
-                           (numeric_limits<Word>::max() >> (numeric_limits<Word>::digits - w));
+                           (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
                 if (++i >= n) {
                     words[0] = words[n - 1];
                     i = 1;
@@ -167,13 +167,13 @@ namespace especia {
         }
 
     private:
-        Word rand() const {
+        word rand() const {
             if (i == n) {
-                for (Natural k = 0; k < n - m; ++k) {
+                for (natural k = 0; k < n - m; ++k) {
                     twist(k + m, k, k + 1);
                 }
 
-                for (Natural k = n - m; k < n - 1; ++k) {
+                for (natural k = n - m; k < n - 1; ++k) {
                     twist(k + m - n, k, k + 1);
                 }
 
@@ -181,7 +181,7 @@ namespace especia {
                 i = 0;
             }
 
-            Word y = words[i];
+            word y = words[i];
             ++i;
 
             if (u > 0) {
@@ -195,20 +195,20 @@ namespace especia {
             return y;
         }
 
-        void twist(Natural i, Natural j, Natural k) const {
+        void twist(natural i, natural j, natural k) const {
             using std::numeric_limits;
 
-            words[j] = words[i] ^ (((words[j] & ((numeric_limits<Word>::max()
-                    << (numeric_limits<Word>::digits - w + r))
-                    >> (numeric_limits<Word>::digits - w))) | (words[k] & (numeric_limits<Word>::max()
-                    >> (numeric_limits<Word>::digits - r)))) >> 1);
+            words[j] = words[i] ^ (((words[j] & ((numeric_limits<word>::max()
+                    << (numeric_limits<word>::digits - w + r))
+                    >> (numeric_limits<word>::digits - w))) | (words[k] & (numeric_limits<word>::max()
+                    >> (numeric_limits<word>::digits - r)))) >> 1);
             if ((words[k] & 1ul) == 1ul) {
                 words[j] ^= a;
             }
         }
 
-        mutable std::valarray<Word> words;
-        mutable Natural i;
+        mutable std::valarray<word> words;
+        mutable natural i;
     };
 
     /**

@@ -33,27 +33,27 @@ namespace especia {
     /**
      * The type of integer numbers including zero (denoted in maths as set Z).
      */
-    typedef int Integer;
+    typedef int integer;
 
     /**
      * The type of natural numbers including zero (denoted in maths as set N).
      */
-    typedef unsigned Natural;
+    typedef unsigned natural;
 
     /**
      * The type of real numbers (denoted in maths as set R).
      */
-    typedef double Real;
+    typedef double real;
 
     /**
      * The type of binary numbers (32 binary digits required).
      */
-    typedef unsigned Word;
+    typedef unsigned word;
 
     /**
      * The class of continuous univariate functions @c f(x) whose derivative exists and is continous.
      */
-    template<class T = Real>
+    template<class T = real>
     class C1 {
     public:
         /**
@@ -71,42 +71,42 @@ namespace especia {
     /**
      * Pi. <https://www.wolframalpha.com/input/?i=pi+to+49+digits>
      */
-    const Real pi = 3.141592653589793238462643383279502884197169399375L;
+    const real pi = real(3.141592653589793238462643383279502884197169399375L);
 
     /**
      * The square root of Pi. <https://www.wolframalpha.com/input/?i=square+root+of+pi+to+49+digits>
      */
-    const Real sqrt_of_pi = 1.772453850905516027298167483341145182797549456123L;
+    const real sqrt_of_pi = real(1.772453850905516027298167483341145182797549456123L);
 
     /**
      * The electric constant (F m-1). *NIST SP 961 (Sept/2015)*
      */
-    const Real electric_constant = 8.854187817E-12;
+    const real electric_constant = 8.854187817E-12;
 
     /**
      * The electron mass (kg). *NIST SP 961 (Sept/2015)*
      */
-    const Real electron_mass = 9.10938356E-31;
+    const real electron_mass = 9.10938356E-31;
 
     /**
      * The elementary charge (C). *NIST SP 961 (Sept/2015)*
      */
-    const Real elementary_charge = 1.6021766208E-19;
+    const real elementary_charge = 1.6021766208E-19;
 
     /**
      * SI prefix. The spectral resolution of an instrument is expressed in units of this number.
      */
-    const Real kilo = 1.0E+03;
+    const real kilo = 1.0E+03;
 
     /**
      * SI prefix. Variation of the fine-structure constant is expressed in units of this number.
      */
-    const Real micro = 1.0E-06;
+    const real micro = 1.0E-06;
 
     /**
      * The speed of light in vacuum (m s-1). *NIST SP 961 (Sept/2015)*
      */
-    const Real speed_of_light = 299792458.0;
+    const real speed_of_light = 299792458.0;
 
     /**
      * Converts a numeric character string into a number.
@@ -140,7 +140,7 @@ namespace especia {
      * @param[in] v The relative radial velocity between observer and emitter (m s-1).
      * @return the photon redshift.
      */
-    template<class T = Real>
+    template<class T = real>
     T redshift(const T &v) {
         return std::sqrt((T(1.0) + v / T(299792458.0)) / (T(1) - v / T(299792458.0))) - T(1.0);
     }
@@ -160,14 +160,14 @@ namespace especia {
      *
      * @throw runtime_error when the accuracy goal was not reached within the prescribed number of iterations.
      */
-    template<class T = Real>
-    T solve(typename C1<T>::type &f, T c, T x, T accuracy_goal, Natural max_iteration = 100) throw(std::runtime_error) {
+    template<class T = real>
+    T solve(typename C1<T>::type &f, T c, T x, T accuracy_goal, natural max_iteration = 100) throw(std::runtime_error) {
         using std::abs;
         using std::runtime_error;
 
         T d, y, z;
 
-        for (Natural i = 0; i < max_iteration; ++i) {
+        for (natural i = 0; i < max_iteration; ++i) {
             f(x, y, z);
             d = (y - c) / z;
             x -= d;
@@ -187,7 +187,7 @@ namespace especia {
      * @param[in] x The number.
      * @return the square of the number.
      */
-    template<class T = Real>
+    template<class T = real>
     T sq(const T &x) {
         return x * x;
     }

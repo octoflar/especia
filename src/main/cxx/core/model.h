@@ -50,7 +50,7 @@ namespace especia {
          *
          * @tparam T The number type.
          */
-        template<class T = Real>
+        template<class T = real>
         class Bounded_Constraint {
         public:
             /**
@@ -60,7 +60,7 @@ namespace especia {
              * @param[in] upper_bounds The upper bounds.
              * @param[in] n The number of bounds.
              */
-            Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], Natural n)
+            Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], natural n)
                     : a(lower_bounds, n), b(upper_bounds, n) {
             }
 
@@ -77,8 +77,8 @@ namespace especia {
              * @param[in] n The number of parameters to test.
              * @return @c true, if the parameter vector violates the constraint.
              */
-            bool is_violated(const T x[], Natural n) const {
-                for (Natural i = 0; i < n; ++i) {
+            bool is_violated(const T x[], natural n) const {
+                for (natural i = 0; i < n; ++i) {
                     if (x[i] < a[i] || x[i] > b[i]) {
                         return true;
                     }
@@ -93,7 +93,7 @@ namespace especia {
              * @param[in] n The number of parameters to take account of.
              * @return always zero.
              */
-            T cost(const T x[], Natural n) const {
+            T cost(const T x[], natural n) const {
                 return T(0);
             }
 
@@ -109,7 +109,7 @@ namespace especia {
                           char end_of_section = '}') {
             using namespace std;
 
-            typedef map<string, Natural>::const_iterator id_index_map_ci;
+            typedef map<string, natural>::const_iterator id_index_map_ci;
 
             const char errmsg[] = "especia::Model<>::get(): Error: ";
             const char dlimsg[] = "duplicate line identifier";
@@ -122,19 +122,19 @@ namespace especia {
 
             vector<especia::Section> sec;
 
-            vector<Natural> isc;
-            vector<Natural> nle;
-            vector<Natural> nli;
+            vector<natural> isc;
+            vector<natural> nle;
+            vector<natural> nli;
 
-            vector<Real> val;
-            vector<Real> lo;
-            vector<Real> up;
+            vector<real> val;
+            vector<real> lo;
+            vector<real> up;
 
             vector<bool> msk;
-            vector<Natural> ind;
+            vector<natural> ind;
 
-            map<string, Natural> pim;
-            map<string, Natural> sim;
+            map<string, natural> pim;
+            map<string, natural> sim;
 
             vector<string> ref;
 
@@ -162,7 +162,7 @@ namespace especia {
                 st << line << '\n';
             }
 
-            Natural i = 0;
+            natural i = 0;
             size_t j = 0;
 
             while (getline(st, line, end_of_section))
@@ -173,8 +173,8 @@ namespace especia {
                         istringstream ist(line.substr(j + 1));
 
                         string sid, pid, fn, s2;
-                        Real a, b;
-                        Natural p;
+                        real a, b;
+                        natural p;
 
                         // Parse section head
                         if (ist >> sid >> fn >> a >> b >> p and getline(ist, s2)) {
@@ -229,7 +229,7 @@ namespace especia {
                             return is;
                         }
 
-                        Natural k = 0;
+                        natural k = 0;
 
                         // Read profile function parameter specification
                         while (ist >> pid)
@@ -263,7 +263,7 @@ namespace especia {
 
             if (!st.bad() and st.eof()) {
                 // Index independent parameters
-                for (Natural i = 0, k = 0; i < msk.size(); ++i)
+                for (natural i = 0, k = 0; i < msk.size(); ++i)
                     if (msk[i] and ref[i].empty()) {
                         if (lo[i] > up[i])
                             swap(lo[i], up[i]);
@@ -278,11 +278,11 @@ namespace especia {
 
                 // Dereference resolution parameter references
                 for (id_index_map_ci i = sim.begin(); i != sim.end(); ++i) {
-                    const Natural j = isc[i->second];
+                    const natural j = isc[i->second];
 
                     while (!ref[j].empty()) {
                         if (sim.find(ref[j]) != sim.end()) {
-                            const Natural k = isc[sim[ref[j]]];
+                            const natural k = isc[sim[ref[j]]];
 
                             if (j != k) {
                                 if (ref[k].empty()) {
@@ -312,12 +312,12 @@ namespace especia {
 
                 // Dereference line parameter references
                 for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i)
-                    for (Natural j = 0; j < Profile::get_parameter_count(); ++j) {
-                        const Natural k = i->second + j;
+                    for (natural j = 0; j < Profile::get_parameter_count(); ++j) {
+                        const natural k = i->second + j;
 
                         while (!ref[k].empty()) {
                             if (pim.find(ref[k]) != pim.end()) {
-                                const Natural l = pim[ref[k]] + j;
+                                const natural l = pim[ref[k]] + j;
 
                                 if (k != l) {
                                     if (ref[l].empty()) {
@@ -345,8 +345,8 @@ namespace especia {
                         }
                     }
 
-                const Natural m = sec.size();
-                const Natural n = msk.size();
+                const natural m = sec.size();
+                const natural n = msk.size();
 
                 this->sec = sec;
 
@@ -388,7 +388,7 @@ namespace especia {
         std::ostream &put(std::ostream &os) const {
             using namespace std;
 
-            typedef map<string, Natural>::const_iterator id_index_map_ci;
+            typedef map<string, natural>::const_iterator id_index_map_ci;
 
             const ios_base::fmtflags fmt = os.flags();
 
@@ -424,11 +424,11 @@ namespace especia {
             os << "  <tbody align=\"left\">\n";
 
             for (id_index_map_ci i = sim.begin(); i != sim.end(); ++i) {
-                const Natural j = i->second;
+                const natural j = i->second;
 
                 const string id = i->first;
                 const size_t px = sec[j].valid_data_count();
-                const Real st = sec[j].cost();
+                const real st = sec[j].cost();
 
                 os.precision(2);
 
@@ -468,22 +468,22 @@ namespace especia {
             os << "  </thead>\n";
             os << "  <tbody align=\"left\">\n";
 
-            const Equivalent_Width_Calculator<Integrator<Real>> calculator;
+            const Equivalent_Width_Calculator<Integrator<real>> calculator;
 
             for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i) {
-                const Natural j = i->second;
+                const natural j = i->second;
                 const string id = i->first;
 
-                const Real c = 1.0E-3 * speed_of_light;
-                const Real x = val[j];
-                const Real z = val[j + 2];
-                const Real v = val[j + 3];
-                const Real w = x * (1.0 + z) * (1.0 + v / c);
-                const Real dx = err[j];
-                const Real dz = err[j + 2];
-                const Real dv = err[j + 3];
-                const Real dw = dx + x * sqrt(sq((1.0 + v / c) * dz) + sq((1.0 + z) * dv / c));
-                const Real ew = calculator.calculate(Profile(&val[j]));
+                const real c = 1.0E-3 * speed_of_light;
+                const real x = val[j];
+                const real z = val[j + 2];
+                const real v = val[j + 3];
+                const real w = x * (1.0 + z) * (1.0 + v / c);
+                const real dx = err[j];
+                const real dz = err[j + 2];
+                const real dv = err[j + 3];
+                const real dw = dx + x * sqrt(sq((1.0 + v / c) * dz) + sq((1.0 + z) * dv / c));
+                const real ew = calculator.calculate(Profile(&val[j]));
 
                 os.precision(4);
 
@@ -536,12 +536,12 @@ namespace especia {
             return os;
         }
 
-        Real operator()(const Real x[], Natural n) const {
+        real operator()(const real x[], natural n) const {
             return cost(x, n);
         }
 
-        void set(const Real x[], const Real z[]) {
-            for (Natural i = 0; i < val.size(); ++i) {
+        void set(const real x[], const real z[]) {
+            for (natural i = 0; i < val.size(); ++i) {
                 if (msk[i]) {
                     val[i] = x[ind[i]];
                     err[i] = z[ind[i]];
@@ -549,35 +549,35 @@ namespace especia {
                     err[i] = 0.0;
                 }
             }
-            for (Natural i = 0; i < sec.size(); ++i) {
+            for (natural i = 0; i < sec.size(); ++i) {
                 sec[i].apply(Superposition<Profile>(nli[i], &val[isc[i] + 1]), val[isc[i]], nle[i]);
             }
         }
 
-        Real cost(const Real x[], Natural n) const {
+        real cost(const real x[], natural n) const {
             using std::valarray;
 
-            valarray<Real> y = val;
-            for (Natural i = 0; i < y.size(); ++i) {
+            valarray<real> y = val;
+            for (natural i = 0; i < y.size(); ++i) {
                 if (msk[i]) {
                     y[i] = x[ind[i]];
                 }
             }
-            Real d = 0.0;
-            for (Natural i = 0; i < sec.size(); ++i) {
+            real d = 0.0;
+            for (natural i = 0; i < sec.size(); ++i) {
                 d += sec[i].cost(Superposition<Profile>(nli[i], &y[isc[i] + 1]), y[isc[i]], nle[i]);
             }
             return d;
         }
 
-        Natural get_parameter_count() const {
+        natural get_parameter_count() const {
             return ind.max() + 1;
         }
 
-        std::valarray<Real> get_initial_parameter_values() const {
-            std::valarray<Real> x(get_parameter_count());
+        std::valarray<real> get_initial_parameter_values() const {
+            std::valarray<real> x(get_parameter_count());
 
-            for (Natural i = 0, j = 0; i < msk.size(); ++i) {
+            for (natural i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
                     x[j++] = 0.5 * (lo[i] + up[i]);
                 }
@@ -586,10 +586,10 @@ namespace especia {
             return x;
         }
 
-        std::valarray<Real> get_initial_local_step_sizes() const {
-            std::valarray<Real> z(get_parameter_count());
+        std::valarray<real> get_initial_local_step_sizes() const {
+            std::valarray<real> z(get_parameter_count());
 
-            for (Natural i = 0, j = 0; i < msk.size(); ++i) {
+            for (natural i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
                     z[j++] = 0.5 * (up[i] - lo[i]);
                 }
@@ -598,11 +598,11 @@ namespace especia {
             return z;
         }
 
-        Bounded_Constraint<Real> get_constraint() const {
-            std::valarray<Real> a(get_parameter_count());
-            std::valarray<Real> b(get_parameter_count());
+        Bounded_Constraint<real> get_constraint() const {
+            std::valarray<real> a(get_parameter_count());
+            std::valarray<real> b(get_parameter_count());
 
-            for (Natural i = 0, j = 0; i < msk.size(); ++i) {
+            for (natural i = 0, j = 0; i < msk.size(); ++i) {
                 if (msk[i] and ind[i] == j) {
                     a[j] = lo[i];
                     b[j] = up[i];
@@ -610,11 +610,11 @@ namespace especia {
                 }
             }
 
-            return Bounded_Constraint<Real>(&a[0], &b[0], get_parameter_count());
+            return Bounded_Constraint<real>(&a[0], &b[0], get_parameter_count());
         }
 
     private:
-        std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, Natural p, Real parameter) const {
+        std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, natural p, real parameter) const {
             using namespace std;
 
             const ios_base::fmtflags fmt = os.flags();
@@ -629,7 +629,7 @@ namespace especia {
             return os;
         }
 
-        std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, Natural p, Natural parameter_index) const {
+        std::ostream &put_parameter(std::ostream &os, std::ios_base::fmtflags f, natural p, natural parameter_index) const {
             using namespace std;
 
             const ios_base::fmtflags fmt = os.flags();
@@ -648,20 +648,20 @@ namespace especia {
 
         std::vector<especia::Section> sec;
 
-        std::valarray<Natural> isc;
-        std::valarray<Natural> nle;
-        std::valarray<Natural> nli;
+        std::valarray<natural> isc;
+        std::valarray<natural> nle;
+        std::valarray<natural> nli;
 
-        std::valarray<Real> val;
-        std::valarray<Real> err;
-        std::valarray<Real> lo;
-        std::valarray<Real> up;
+        std::valarray<real> val;
+        std::valarray<real> err;
+        std::valarray<real> lo;
+        std::valarray<real> up;
 
         std::valarray<bool> msk;
-        std::valarray<Natural> ind;
+        std::valarray<natural> ind;
 
-        std::map<std::string, Natural> sim;
-        std::map<std::string, Natural> pim;
+        std::map<std::string, natural> sim;
+        std::map<std::string, natural> pim;
     };
 
 }

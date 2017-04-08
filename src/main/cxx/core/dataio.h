@@ -40,7 +40,7 @@ namespace especia {
      * @return the input stream.
      */
     std::istream &
-    get(std::istream &is, std::valarray<Real> &x, std::valarray<Real> &y, Natural skip = 0);
+    get(std::istream &is, std::valarray<real> &x, std::valarray<real> &y, natural skip = 0);
 
     /**
      * Reads spectroscopic data from an input stream.
@@ -54,8 +54,8 @@ namespace especia {
      * @return the input stream.
      */
     std::istream &
-    get(std::istream &is, std::valarray<Real> &x, std::valarray<Real> &y,
-        std::valarray<Real> &z, Natural skip = 0);
+    get(std::istream &is, std::valarray<real> &x, std::valarray<real> &y,
+        std::valarray<real> &z, natural skip = 0);
 
     /**
      * Writes spectroscopic data to an output stream.
@@ -68,8 +68,8 @@ namespace especia {
      * @return the output stream.
      */
     std::ostream &
-    put(std::ostream &os, const std::valarray<Real> &x, const std::valarray<Real> &y,
-        const std::valarray<Real> &z);
+    put(std::ostream &os, const std::valarray<real> &x, const std::valarray<real> &y,
+        const std::valarray<real> &z);
 
 }
 

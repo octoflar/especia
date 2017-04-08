@@ -28,11 +28,11 @@
 
 using namespace std;
 
-istream &especia::get(istream &is, valarray<Real> &x, valarray<Real> &y, Natural skip) {
+istream &especia::get(istream &is, valarray<real> &x, valarray<real> &y, natural skip) {
     const size_t room = 20000;
 
-    vector<Real> u;
-    vector<Real> v;
+    vector<real> u;
+    vector<real> v;
 
     u.reserve(room);
     v.reserve(room);
@@ -43,7 +43,7 @@ istream &especia::get(istream &is, valarray<Real> &x, valarray<Real> &y, Natural
     while (getline(is, s)) {
         if (skip <= 0) {
             istringstream ist(s);
-            Real a, b;
+            real a, b;
 
             if (ist >> a >> b) {
                 u.push_back(a);
@@ -75,12 +75,12 @@ istream &especia::get(istream &is, valarray<Real> &x, valarray<Real> &y, Natural
     return is;
 }
 
-istream &especia::get(istream &is, valarray<Real> &x, valarray<Real> &y, valarray<Real> &z, Natural skip) {
+istream &especia::get(istream &is, valarray<real> &x, valarray<real> &y, valarray<real> &z, natural skip) {
     const size_t room = 20000;
 
-    vector<Real> u;
-    vector<Real> v;
-    vector<Real> w;
+    vector<real> u;
+    vector<real> v;
+    vector<real> w;
 
     u.reserve(room);
     v.reserve(room);
@@ -92,7 +92,7 @@ istream &especia::get(istream &is, valarray<Real> &x, valarray<Real> &y, valarra
     while (getline(is, s)) {
         if (skip <= 0) {
             istringstream ist(s);
-            Real a, b, c;
+            real a, b, c;
 
             if (ist >> a >> b) {
                 u.push_back(a);
@@ -128,10 +128,10 @@ istream &especia::get(istream &is, valarray<Real> &x, valarray<Real> &y, valarra
     return is;
 }
 
-ostream &especia::put(ostream &os, const valarray<Real> &x, const valarray<Real> &y, const valarray<Real> &z) {
+ostream &especia::put(ostream &os, const valarray<real> &x, const valarray<real> &y, const valarray<real> &z) {
     if (os) {
-        const Natural p = 6;  // precision
-        const Natural w = 14; // width
+        const natural p = 6;  // precision
+        const natural w = 14; // width
 
         const ios_base::fmtflags f = os.flags();
 

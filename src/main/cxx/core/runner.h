@@ -102,8 +102,8 @@ namespace especia {
          *
          * @return the accuracy goal.
          */
-        Real parse_accuracy_goal() const throw(std::invalid_argument) {
-            return convert<Real>(args[5]);
+        real parse_accuracy_goal() const throw(std::invalid_argument) {
+            return convert<real>(args[5]);
         }
 
         /**
@@ -111,8 +111,8 @@ namespace especia {
          *
          * @return the initial global step size.
          */
-        Real parse_global_step_size() const throw(std::invalid_argument) {
-            return convert<Real>(args[4]);
+        real parse_global_step_size() const throw(std::invalid_argument) {
+            return convert<real>(args[4]);
         }
 
         /**
@@ -120,8 +120,8 @@ namespace especia {
          *
          * @return the parent number.
          */
-        Natural parse_parent_number() const throw(std::invalid_argument) {
-            return convert<Natural>(args[2]);
+        natural parse_parent_number() const throw(std::invalid_argument) {
+            return convert<natural>(args[2]);
         }
 
         /**
@@ -129,8 +129,8 @@ namespace especia {
          *
          * @return the population size.
          */
-        Natural parse_population_size() const throw(std::invalid_argument) {
-            return convert<Natural>(args[3]);
+        natural parse_population_size() const throw(std::invalid_argument) {
+            return convert<natural>(args[3]);
         }
 
         /**
@@ -138,8 +138,8 @@ namespace especia {
          *
          * @return the random seed.
          */
-        Word parse_random_seed() const throw(std::invalid_argument) {
-            return convert<Word>(args[1]);
+        word parse_random_seed() const throw(std::invalid_argument) {
+            return convert<word>(args[1]);
         }
 
         /**
@@ -147,8 +147,8 @@ namespace especia {
          *
          * @return the stop generation.
          */
-        Natural parse_stop_generation() const throw(std::invalid_argument) {
-            return convert<Natural>(args[6]);
+        natural parse_stop_generation() const throw(std::invalid_argument) {
+            return convert<natural>(args[6]);
         }
 
         /**
@@ -156,8 +156,8 @@ namespace especia {
          *
          * @return the trace modulus.
          */
-        Natural parse_trace_modulus() const throw(std::invalid_argument) {
-            return convert<Natural>(args[7]);
+        natural parse_trace_modulus() const throw(std::invalid_argument) {
+            return convert<natural>(args[7]);
         }
 
         /**
@@ -188,13 +188,13 @@ namespace especia {
 
             write_command_line(cout);
 
-            const Word random_seed = parse_random_seed();
-            const Natural parent_number = parse_parent_number();
-            const Natural population_size = parse_population_size();
-            const Real global_step_size = parse_global_step_size();
-            const Real accuracy_goal = parse_accuracy_goal();
-            const Natural stop_generation = parse_stop_generation();
-            const Natural trace_modulus = parse_trace_modulus();
+            const word random_seed = parse_random_seed();
+            const natural parent_number = parse_parent_number();
+            const natural population_size = parse_population_size();
+            const real global_step_size = parse_global_step_size();
+            const real accuracy_goal = parse_accuracy_goal();
+            const natural stop_generation = parse_stop_generation();
+            const natural trace_modulus = parse_trace_modulus();
 
             M model;
             model.get(cin, cout);
@@ -256,7 +256,7 @@ namespace especia {
          *
          * @tparam T The number type.
          */
-        template<class T = Real>
+        template<class T = real>
         class Tracer {
         public:
             /**
@@ -267,7 +267,7 @@ namespace especia {
              * @param[in] precision The precision of numeric output.
              * @param[in] width The width of the numeric output fields.
              */
-            Tracer(std::ostream &output_stream, Natural modulus, Natural precision = 4, Natural width = 12)
+            Tracer(std::ostream &output_stream, natural modulus, natural precision = 4, natural width = 12)
                     : os(output_stream), m(modulus), p(precision), w(width) {
             }
 
@@ -283,7 +283,7 @@ namespace especia {
              * @param[in] g The generation number.
              * @return @true if tracing is enabled, otherwise @c false.
              */
-            bool is_enabled(Natural g) const {
+            bool is_enabled(natural g) const {
                 return m > 0 and g % m == 0;
             }
 
@@ -295,7 +295,7 @@ namespace especia {
              * @param[in] min_step The minimum step size.
              * @param[in] max_step The maximum step size.
              */
-            void trace(Natural g, T y, T min_step, T max_step) const {
+            void trace(natural g, T y, T min_step, T max_step) const {
                 using std::endl;
                 using std::ios_base;
                 using std::setw;
@@ -318,9 +318,9 @@ namespace especia {
 
         private:
             std::ostream &os;
-            const Natural m;
-            const Natural p;
-            const Natural w;
+            const natural m;
+            const natural p;
+            const natural w;
         };
 
         void write_command_line(std::ostream &os) const;

@@ -28,8 +28,8 @@
 
 using namespace std;
 
-using especia::Natural;
-using especia::Real;
+using especia::natural;
+using especia::real;
 
 
 /**
@@ -73,17 +73,17 @@ int main(int argc, char *argv[]) {
             throw invalid_argument("Error: an invalid number of arguments was supplied");
         }
 
-        const Real v = especia::convert<Real>(string(argv[1]));
+        const real v = especia::convert<real>(string(argv[1]));
 
-        Natural skip = 0;
+        natural skip = 0;
 
         if (argc == 3) {
-            skip = especia::convert<Natural>(string(argv[2]));
+            skip = especia::convert<natural>(string(argv[2]));
         }
 
-        valarray<Real> x;
-        valarray<Real> y;
-        valarray<Real> z;
+        valarray<real> x;
+        valarray<real> y;
+        valarray<real> z;
 
         if (especia::get(cin, x, y, z, skip)) {
             if (v != 0.0) {

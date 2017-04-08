@@ -24,7 +24,7 @@
 #include "../../../main/cxx/core/profiles.h"
 #include "../unittest.h"
 
-using especia::Real;
+using especia::real;
 using especia::Equivalent_Width_Calculator;
 using especia::Integrator;
 
@@ -35,7 +35,7 @@ private:
     void test_equivalent_width_intergalactic_doppler() {
         using especia::Intergalactic_Doppler;
 
-        const Real result = calculator.calculate(Intergalactic_Doppler());
+        const real result = calculator.calculate(Intergalactic_Doppler());
 
         assert_equals(698.785, result, 1.0E-03, "equivalent width (intergalactic Doppler)");
     }
@@ -43,7 +43,7 @@ private:
     void test_equivalent_width_many_multiplet() {
         using especia::Many_Multiplet;
 
-        const Real result = calculator.calculate(Many_Multiplet());
+        const real result = calculator.calculate(Many_Multiplet());
 
         assert_equals(698.785, result, 1.0E-03, "equivalent width (many-multiplet)");
     }
@@ -52,7 +52,7 @@ private:
         using especia::Intergalactic_Voigt;
         using especia::Pseudo_Voigt;
 
-        const Real result = calculator.calculate(Intergalactic_Voigt<Pseudo_Voigt>());
+        const real result = calculator.calculate(Intergalactic_Voigt<Pseudo_Voigt>());
 
         assert_equals(928.452, result, 1.0E-03, "equivalent width (intergalactic Voigt)");
     }
@@ -61,7 +61,7 @@ private:
         using especia::Intergalactic_Voigt;
         using especia::Extended_Pseudo_Voigt;
 
-        const Real result = calculator.calculate(Intergalactic_Voigt<Extended_Pseudo_Voigt>());
+        const real result = calculator.calculate(Intergalactic_Voigt<Extended_Pseudo_Voigt>());
 
         assert_equals(928.510, result, 1.0E-03, "equivalent width (intergalactic Voigt, extended)");
     }
@@ -73,7 +73,7 @@ private:
         run(this, &Profiles_Test::test_equivalent_width_intergalactic_voigt_extended);
     }
 
-    Equivalent_Width_Calculator<Integrator<Real>> calculator;
+    Equivalent_Width_Calculator<Integrator<real>> calculator;
 };
 
 

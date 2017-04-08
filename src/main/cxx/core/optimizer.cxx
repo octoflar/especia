@@ -41,7 +41,7 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_defaults() {
             with_random_seed();
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(Natural n) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(natural n) {
     if (n != this->n) {
         this->n = n;
         set_strategy_parameters();
@@ -49,7 +49,7 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_parent_number(Natural parent_number) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_parent_number(natural parent_number) {
     if (parent_number != this->parent_number) {
         this->parent_number = parent_number;
         set_strategy_parameters();
@@ -57,27 +57,27 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_parent_number(Nat
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_population_size(Natural population_size) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_population_size(natural population_size) {
     this->population_size = population_size;
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_covariance_update_modulus(Natural update_modulus) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_covariance_update_modulus(natural update_modulus) {
     this->update_modulus = update_modulus;
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_accuracy_goal(Real accuracy_goal) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_accuracy_goal(real accuracy_goal) {
     this->accuracy_goal = accuracy_goal;
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_random_seed(Word seed) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_random_seed(word seed) {
     this->random_seed = seed;
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_stop_generation(Natural stop_generation) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_stop_generation(natural stop_generation) {
     this->stop_generation = stop_generation;
     return *this;
 }
@@ -94,7 +94,7 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
 
     weights.resize(parent_number);
 
-    for (Natural i = 0; i < parent_number; ++i) {
+    for (natural i = 0; i < parent_number; ++i) {
         weights[i] = log((parent_number + 1.0) / (i + 1));
     }
 
@@ -103,17 +103,17 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
     cc = 4.0 / (n + 4.0);
 
     acov = 1.0 / wv;
-    ccov = acov * (2.0 / sq(n + sqrt(2.0))) + (1.0 - acov) * min<Real>(1.0, (2.0 * wv - 1.0) / (sq(n + 2.0) + wv));
+    ccov = acov * (2.0 / sq(n + sqrt(2.0))) + (1.0 - acov) * min<real>(1.0, (2.0 * wv - 1.0) / (sq(n + 2.0) + wv));
 
-    step_size_damping = cs + 1.0 + 2.0 * max<Real>(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
+    step_size_damping = cs + 1.0 + 2.0 * max<real>(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
 }
 
-especia::Optimizer::Result::Result(Natural n,
-                                   const valarray<Real> &x_in,
-                                   const valarray<Real> &d_in,
-                                   Real s_in)
+especia::Optimizer::Result::Result(natural n,
+                                   const valarray<real> &x_in,
+                                   const valarray<real> &d_in,
+                                   real s_in)
         : x(x_in), d(d_in), s(s_in), z(0.0, n), B(0.0, sq(n)), C(0.0, sq(n)), pc(0.0, n), ps(0.0, n) {
-    for (Natural i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+    for (natural i = 0, ii = 0; i < n; ++i, ii += n + 1) {
         B[ii] = 1.0;
         C[ii] = d[i] * d[i];
     }
