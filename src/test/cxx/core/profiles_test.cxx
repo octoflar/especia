@@ -37,7 +37,7 @@ private:
 
         const R_type result = calculator.calculate(Intergalactic_Doppler());
 
-        assert_equals(0.698785, result, 1.0E-06, "equivalent width (intergalactic Doppler)");
+        assert_equals(698.785, result, 1.0E-03, "equivalent width (intergalactic Doppler)");
     }
 
     void test_equivalent_width_many_multiplet() {
@@ -45,7 +45,7 @@ private:
 
         const R_type result = calculator.calculate(Many_Multiplet());
 
-        assert_equals(0.698785, result, 1.0E-06, "equivalent width (many-multiplet)");
+        assert_equals(698.785, result, 1.0E-03, "equivalent width (many-multiplet)");
     }
 
     void test_equivalent_width_intergalactic_voigt() {
@@ -54,7 +54,7 @@ private:
 
         const R_type result = calculator.calculate(Intergalactic_Voigt<Pseudo_Voigt>());
 
-        assert_equals(0.928452, result, 1.0E-06, "equivalent width (intergalactic Voigt)");
+        assert_equals(928.452, result, 1.0E-03, "equivalent width (intergalactic Voigt)");
     }
 
     void test_equivalent_width_intergalactic_voigt_extended() {
@@ -63,7 +63,7 @@ private:
 
         const R_type result = calculator.calculate(Intergalactic_Voigt<Extended_Pseudo_Voigt>());
 
-        assert_equals(0.928510, result, 1.0E-06, "equivalent width (intergalactic Voigt, extended)");
+        assert_equals(928.510, result, 1.0E-03, "equivalent width (intergalactic Voigt, extended)");
     }
 
     void run_all() {

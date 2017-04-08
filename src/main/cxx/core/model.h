@@ -460,7 +460,7 @@ namespace especia {
             os << "      <td>Radial<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
             os << "      <td>Broadening<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
             os << "      <td>Log. Column<br>Density<br>(cm<sup>-2</sup>)</td>\n";
-            os << "      <td>Equivalent<br>Width<br>(&Aring;)</td>\n";
+            os << "      <td>Equivalent<br>Width<br>(m&Aring;)</td>\n";
 #if defined(ESPECIA_MANY_MULTIPLET_ANALYSIS)
             os << "      <td>&Delta;&alpha;/&alpha;<br>(10<sup>-6</sup>)</td>\n";
 #endif
@@ -509,7 +509,7 @@ namespace especia {
                 put_parameter(os, ios_base::fixed, 3, j + 5);
                 os << "</td>\n";
                 os << "      <td>";
-                put_parameter(os, ios_base::scientific, 2, ew);
+                put_parameter(os, ios_base::fixed, 1, ew);
                 os << "</td>\n";
 #if defined(ESPECIA_MANY_MULTIPLET_ANALYSIS)
                 os << "      <td>";
