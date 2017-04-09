@@ -301,6 +301,8 @@ namespace especia {
             /**
              * Configures the population size.
              *
+             * @attention The population size must be greater than or equal to twice the parent number.
+             *
              * @param[in] population_size The population size.
              * @return this builder.
              */
