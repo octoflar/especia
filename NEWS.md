@@ -4,7 +4,7 @@ The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
 Version 2017.1 provides new features and enhancements:
 
-* The equivalent width of each line is calculated and listed in the
+* The rest equivalent width of each line is calculated and listed in the
 result table.
 * Equations and equation solvers to convert photon wavelength in vacuum
 to photon wavelength in standard air (and vice versa) were added to the
