@@ -517,8 +517,8 @@ namespace especia {
         real operator()(const real &x) const {
             real d = 0.0;
 
-            for (auto profile : profiles) {
-                d += profile(x);
+            for (natural i = 0; i < profiles.size(); ++i) {
+                d += profiles[i](x);
             }
 
             return d;
