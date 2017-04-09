@@ -564,7 +564,7 @@ namespace especia {
         }
 
         /**
-         * Calculates the equivalent width of an optical depth profile.
+         * Calculates the rest equivalent width of an optical depth profile.
          *
          * @tparam T The profile type.
          *
