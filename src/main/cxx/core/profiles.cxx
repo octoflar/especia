@@ -120,10 +120,10 @@ static real poly_eta_p(const real &r) {
 
 
 especia::Pseudo_Voigt::Pseudo_Voigt(const real &b, const real &d)
-        : u((c_g * b) / (c_l * d)),
+        : u((c_g * b) / d),
           r(1.0 / pow(1.0 + u * (0.07842 + u * (4.47163 + u * (2.42843 + u * (u + 2.69269)))), 0.2)),
-          gamma_g((c_l * d) / (c_g * r)),
-          gamma_l((c_l * d) / (c_l * r)),
+          gamma_g(d / (c_g * r)),
+          gamma_l(d / r),
           eta(r * (1.36603 - r * (0.47719 - r * 0.11116))) {
 }
 
@@ -134,15 +134,14 @@ real especia::Pseudo_Voigt::operator()(const real &x) const {
     return (1.0 - eta) * f_g(x, gamma_g) + eta * f_l(x, gamma_l);
 }
 
-const real especia::Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
-const real especia::Pseudo_Voigt::c_l = 2.0;
+const real especia::Pseudo_Voigt::c_g = sqrt(log(2.0));
 
 
 especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const real &b, const real &d)
-        : u(c_g * b + c_l * d),
-          r(c_l * d / u),
+        : u(c_g * b + d),
+          r(d / u),
           gamma_g(u * poly_w_g(r) / c_g),
-          gamma_l(u * poly_w_l(r) / c_l),
+          gamma_l(u * poly_w_l(r)),
           gamma_i(u * poly_w_i(r) / c_i),
           gamma_p(u * poly_w_p(r) / c_p),
           eta_l(poly_eta_l(r)),
@@ -160,10 +159,9 @@ real especia::Extended_Pseudo_Voigt::operator()(const real &x) const {
            eta_p * f_p(x, gamma_p);
 }
 
-const real especia::Extended_Pseudo_Voigt::c_g = 2.0 * sqrt(log(2.0));
-const real especia::Extended_Pseudo_Voigt::c_l = 2.0;
-const real especia::Extended_Pseudo_Voigt::c_i = 2.0 * sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
-const real especia::Extended_Pseudo_Voigt::c_p = 2.0 * log(sqrt(2.0) + 1.0);
+const real especia::Extended_Pseudo_Voigt::c_g = sqrt(log(2.0));
+const real especia::Extended_Pseudo_Voigt::c_i = sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
+const real especia::Extended_Pseudo_Voigt::c_p = log(sqrt(2.0) + 1.0);
 
 
 especia::Many_Multiplet::Many_Multiplet()

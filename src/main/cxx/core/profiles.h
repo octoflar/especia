@@ -72,7 +72,6 @@ namespace especia {
         const real eta;
 
         static const real c_g;
-        static const real c_l;
     };
 
 
@@ -123,7 +122,6 @@ namespace especia {
         const real eta_p;
 
         static const real c_g;
-        static const real c_l;
         static const real c_i;
         static const real c_p;
     };
