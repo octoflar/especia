@@ -151,7 +151,7 @@ namespace especia {
          *
          * @param[in] q
          * @parblock
-         * The vector of parameter values. Its components are:
+         * The parameter values. The parameters are:
          *
          * @c q[0] The rest wavelength (Angstrom)
          *
@@ -263,7 +263,7 @@ namespace especia {
          *
          * @param[in] q
          * @parblock
-         * The vector of parameter values. Its components are:
+         * The parameter values. The parameters are:
          *
          * @c q[0] The rest wavelength (Angstrom)
          *
@@ -371,7 +371,7 @@ namespace especia {
          *
          * @param[in] q
          * @parblock
-         * The vector of parameter values. Its components are:
+         * The parameter values. The parameters are:
          *
          * @c q[0] The rest wavelength (Angstrom)
          *
@@ -492,8 +492,8 @@ namespace especia {
          * Constructs a new superposition of profiles with the parameter values specified.
          *
          * @param[in] n The number of profiles.
-         * @param[in] q The vector of parameter values. The semantics of parameter values and the
-         *              number of parameters per component are defined by the profile type.
+         * @param[in] q The parameter values. The semantics of parameter values and the
+         * number of parameters per component are defined by the profile type.
          */
         Superposition(natural n, const real q[]) : profiles() {
             profiles.reserve(n);
@@ -517,8 +517,8 @@ namespace especia {
         real operator()(const real &x) const {
             real d = 0.0;
 
-            for (natural i = 0; i < profiles.size(); ++i) {
-                d += profiles[i](x);
+            for (auto profile : profiles) {
+                d += profile(x);
             }
 
             return d;
