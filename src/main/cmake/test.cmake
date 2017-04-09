@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 function(add_system_test NAME EXPECTED_VALUES)
-    add_test(NAME ${NAME} COMMAND ${SHELL} erun.sh resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
+    add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
     set_tests_properties(${NAME} PROPERTIES LABELS system TIMEOUT 3600)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
