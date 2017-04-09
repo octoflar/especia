@@ -288,7 +288,7 @@ namespace especia {
              * @param[in] n The problem dimension.
              * @return this builder.
              */
-            Builder &with_problem_dimension(natural n = 1);
+            Builder &with_problem_dimension(natural n = 10);
 
             /**
              * Configures the parent number.
@@ -296,7 +296,7 @@ namespace especia {
              * @param[in] parent_number The parent number.
              * @return this builder.
              */
-            Builder &with_parent_number(natural parent_number = 4);
+            Builder &with_parent_number(natural parent_number = 20);
 
             /**
              * Configures the population size.
@@ -306,7 +306,7 @@ namespace especia {
              * @param[in] population_size The population size.
              * @return this builder.
              */
-            Builder &with_population_size(natural population_size = 8);
+            Builder &with_population_size(natural population_size = 40);
 
             /**
              * Configures the covariance matrix update modulus.
@@ -322,7 +322,7 @@ namespace especia {
              * @param[in] accuracy_goal The accuracy goal.
              * @return this builder.
              */
-            Builder &with_accuracy_goal(real accuracy_goal = 1.0E-04);
+            Builder &with_accuracy_goal(real accuracy_goal = 1.0E-06);
 
             /**
              * Configures the random seed.
@@ -330,7 +330,7 @@ namespace especia {
              * @param[in] seed The random seed.
              * @return this builder.
              */
-            Builder &with_random_seed(word seed = 57721);
+            Builder &with_random_seed(word seed = 57787);
 
             /**
              * Configures the stop generation.
@@ -358,17 +358,17 @@ namespace especia {
             /**
              * The problem dimension.
              */
-            natural n = 1;
+            natural n = 10;
 
             /**
              * The parent number.
              */
-            natural parent_number = 4;
+            natural parent_number = 20;
 
             /**
              * The population size.
              */
-            natural population_size = 8;
+            natural population_size = 40;
 
             /**
              * The covariance matrix update modulus.
@@ -378,12 +378,12 @@ namespace especia {
             /**
              * The accuracy goal.
              */
-            real accuracy_goal = 1.0E-4;
+            real accuracy_goal = 1.0E-6;
 
             /**
               * The random seed.
               */
-            word random_seed = 57721;
+            word random_seed = 57787;
 
             /**
              * The stop generation.

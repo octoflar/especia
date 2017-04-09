@@ -51,7 +51,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        Normal_Deviate(word seed = 5489)
+        Normal_Deviate(word seed = 57787)
                 : uniform_deviate(seed), status(false) {
         }
 
