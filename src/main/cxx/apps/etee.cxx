@@ -33,15 +33,15 @@ using especia::real;
 /**
  * Writes the usage message to an output stream.
  *
- * @param os The ouput stream.
- * @param pname The program name.
+ * @param os The output stream.
+ * @param program_name The program name.
  */
-void write_usage_message(ostream &os, const string &pname) {
-    os << "usage: " << pname << " FLUX UNCERTAINTY [SKIP] > OSTREAM" << endl;
+void write_usage_message(ostream &os, const string &program_name) {
+    os << "usage: " << program_name << " {flux file} {uncertainty file} [lines to skip] [> {target file}]" << endl;
 }
 
 /**
- * Utility to merge separated spectral flux and uncertainty data columns.
+ * Utility to merge separate spectral flux and uncertainty data files.
  *
  * @param argc The number of command line arguments supplied.
  * @param argv The command line arguments:
@@ -56,13 +56,13 @@ void write_usage_message(ostream &os, const string &pname) {
  * @endparblock
  * @return an exit code.
  *
- * @remark Usage: etee FLUX UNCERTAINTY [SKIP] > OSTREAM
+ * @remark Usage: etee {flux file} {uncertainty file} [lines to skip] [> {target file}]
  */
 int main(int argc, char *argv[]) {
-    const string pname(argv[0]);
+    const string program_name(argv[0]);
 
     if (argc == 1) {
-        write_usage_message(cout, pname);
+        write_usage_message(cout, program_name);
         return 0;
     }
     try {

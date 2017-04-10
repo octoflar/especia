@@ -55,7 +55,7 @@ using namespace std;
  *
  * @return an exit code
  *
- * @remark Usage: especia SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM
+ * @remark Usage: especia {seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]
  *
  * @remark A usage message is written to standard output, if no command line arguments (excluding the
  * program name) are supplied. In this case the returned exit code is zero.

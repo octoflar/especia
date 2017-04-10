@@ -56,7 +56,7 @@ using especia::real;
  * @endparblock
  * @return an exit code.
  *
- * @remark Usage: vactoair [SKIP] < ISTREAM > OSTREAM
+ * @remark Usage: vactoair [lines to skip] < {source file} [> {target file}]
  */
 int main(int argc, char *argv[]) {
     using especia::Equations;

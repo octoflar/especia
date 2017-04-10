@@ -39,7 +39,7 @@ using especia::real;
  * @param pname The program name.
  */
 void write_usage_message(ostream &os, const string &pname) {
-    os << "usage: " << pname << " VELOCITY (m s-1) [SKIP] < ISTREAM > OSTREAM" << endl;
+    os << "usage: " << pname << " {velocity (m s-1)} [skip] < {source data file} [> {target data file}]" << endl;
 }
 
 /**
@@ -59,13 +59,13 @@ void write_usage_message(ostream &os, const string &pname) {
  * @endparblock
  * @return an exit code.
  *
- * @remark Usage: helicorr VELOCITY (m s-1) [SKIP] < ISTREAM > OSTREAM
+ * @remark Usage: helicorr {velocity (m s-1)} [lines to skip] < {source file} [> {target file}]
  */
 int main(int argc, char *argv[]) {
-    const string pname(argv[0]);
+    const string program_name(argv[0]);
 
     if (argc == 1) {
-        write_usage_message(cout, pname);
+        write_usage_message(cout, program_name);
         return 0;
     }
     try {

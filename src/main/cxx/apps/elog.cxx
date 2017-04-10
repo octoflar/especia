@@ -29,7 +29,7 @@ using namespace std;
  *
  * @return an exit code.
  *
- * @remark Usage: elog < ISTREAM > OSTREAM
+ * @remark Usage: elog < {result file} [> {target file}]
  */
 int main() {
     bool found = false;

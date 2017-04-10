@@ -56,12 +56,12 @@ using especia::real;
  * @endparblock
  * @return an exit code.
  *
- * @remark Usage: airtovac [SKIP] < ISTREAM > OSTREAM
+ * @remark Usage: airtovac [lines to skip] < {source file} [> {target file}]
  */
 int main(int argc, char *argv[]) {
     using especia::Equations;
 
-    const string pname(argv[0]);
+    const string program_name(argv[0]);
 
     try {
         if (argc != 1 and argc != 2) {

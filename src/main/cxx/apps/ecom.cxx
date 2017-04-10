@@ -29,7 +29,7 @@ using namespace std;
  *
  * @return an exit code.
  *
- * @remark Usage: ecom < ISTREAM > OSTREAM
+ * @remark Usage: ecom < {result file} [> {target file}]
  */
 int main() {
     bool found = false;

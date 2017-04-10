@@ -81,6 +81,6 @@ void especia::Runner::write_usage_message(std::ostream &os) const {
 
     os << project_long_name << " " << project_doi << endl;
     os << "usage: " << get_program_name() << ": "
-       << "SEED PARENTS POPULATION INISTEP ACCURACY STOPGEN TRACE < ISTREAM > OSTREAM"
+       << "{seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]"
        << endl;
 }

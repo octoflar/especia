@@ -24,12 +24,12 @@
 using namespace std;
 
 /**
- * Extracts the spectroscopic data from Especia result HTML. Reads from standard
+ * Extracts the section data from Especia result HTML. Reads from standard
  * input and writes to standard output.
  *
  * @return an exit code.
  *
- * @remark Usage: edat < ISTREAM > OSTREAM
+ * @remark Usage: edat < {result file} [> {target file}]
  */
 int main() {
     bool found = false;
