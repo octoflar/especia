@@ -51,7 +51,6 @@ using namespace std;
  *
  * @c argv[7] The trace modulus.
  * @endparblock
- *
  * @return an exit code
  *
  * @remark Usage: especix {seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]
