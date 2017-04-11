@@ -105,10 +105,10 @@ namespace especia {
          * @return the value of the integral.
          */
         template<class F>
-        T integrate(const F &f, T a, T b, T accuracy_goal = T(1.0E-6), size_t max_iteration = 100) const {
+        T integrate(const F &f, T a, T b, T accuracy_goal = T(1.0E-6), natural max_iteration = 100) const {
             Partition<F, Part<F>> partition(f, a, b, p, q);
 
-            for (size_t i = 0; i < max_iteration; ++i) {
+            for (natural i = 0; i < max_iteration; ++i) {
                 if (partition.absolute_error() < accuracy_goal) {
                     break;
                 }
@@ -136,7 +136,7 @@ namespace especia {
          * @f[ \lim_{x\to\infty} \frac{f(x)}{x} = 0 @f].
          */
         template<class F>
-        T integrate_semi_infinite(const F &f, T accuracy_goal = T(1.0E-6), size_t max_iteration = 100) const {
+        T integrate_semi_infinite(const F &f, T accuracy_goal = T(1.0E-6), natural max_iteration = 100) const {
             using std::log;
 
             return integrate([&f](T u) -> T { return u > T(0.0) ? f(-log(u)) / u : T(0.0); }, // infinity maps to zero
@@ -326,14 +326,14 @@ namespace especia {
              * @return the result.
              */
             T evaluate(Formula q) {
-                const size_t m = Integrator::mw[q];
-                const size_t n = Integrator::nw[q];
+                const natural m = Integrator::mw[q];
+                const natural n = Integrator::nw[q];
 
                 T result = T(0.0);
 #ifdef _OPENMP
 #pragma omp parallel for reduction(+:result)
 #endif
-                for (size_t i = 0; i < n; ++i) {
+                for (natural i = 0; i < n; ++i) {
                     if (i >= nl) {
                         yl[i] = f(c - h * Integrator::xi[i]);
                     }
@@ -400,12 +400,12 @@ namespace especia {
             /**
              * The number of evaluated integrand values for the lower half interval.
              */
-            size_t nl = 0;
+            natural nl = 0;
 
             /**
              * The number of evaluated integrand values for the upper half interval.
              */
-            size_t nu = 0;
+            natural nu = 0;
 
             /**
              * The absolute error of the integration result.
@@ -577,12 +577,12 @@ namespace especia {
         /**
          * The start indices into the quadrature weights.
          */
-        static const size_t mw[];
+        static const natural mw[];
 
         /**
          * The number of quadrature weights.
          */
-        static const size_t nw[];
+        static const natural nw[];
     };
 
     template<class T>
@@ -675,12 +675,12 @@ namespace especia {
     };
 
     template<class T>
-    const size_t Integrator<T>::mw[] = {
+    const natural Integrator<T>::mw[] = {
             0, 7, 17, 31
     };
 
     template<class T>
-    const size_t Integrator<T>::nw[] = {
+    const natural Integrator<T>::nw[] = {
             7, 10, 14, 21
     };
 }

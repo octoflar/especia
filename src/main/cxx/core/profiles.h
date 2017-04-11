@@ -498,7 +498,7 @@ namespace especia {
         Superposition(natural n, const real q[]) : profiles() {
             profiles.reserve(n);
             for (natural i = 0; i < n; ++i, q += T::parameter_count()) {
-                profiles.push_back(T(q));
+                profiles.emplace_back(q);
             }
         }
 
@@ -515,13 +515,13 @@ namespace especia {
          * @return the optical depth of the profile superposition at @c x.
          */
         real operator()(const real &x) const {
-            real d = 0.0;
+            real t = 0.0;
 
-            for (natural i = 0; i < profiles.size(); ++i) {
-                d += profiles[i](x);
+            for (const T &profile : profiles) {
+                t += profile(x);
             }
 
-            return d;
+            return t;
         }
 
     private:

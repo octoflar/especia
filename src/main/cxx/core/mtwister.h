@@ -76,8 +76,7 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        Mersenne_Twister(word seed = 57787, word multiplier = 1812433253)
-                : words(n) {
+        Mersenne_Twister(word seed = 57787, word multiplier = 1812433253) : words(n) {
             reset(seed, multiplier);
         }
 
@@ -87,8 +86,7 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        Mersenne_Twister(natural seed_count, const word seeds[])
-                : words(n) {
+        Mersenne_Twister(natural seed_count, const word seeds[]) : words(n) {
             reset(seed_count, seeds);
         }
 

@@ -165,8 +165,7 @@ static void transpose(N n, T a) {
 }
 
 
-especia::D_Decompose::D_Decompose(natural m)
-        : n(integer(m)), work(), iwork() {
+especia::D_Decompose::D_Decompose(natural m) : n(integer(m)), work(), iwork() {
     lapack_inquire(n, lwork, liwork);
 
     work.resize(static_cast<size_t>(lwork));
@@ -278,8 +277,7 @@ const string especia::R_Decompose::message_ill_arg =
         "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 
-especia::X_Decompose::X_Decompose(natural m)
-        : n(integer(m)), work(), iwork(5 * m), ifail(m), awork(m * m) {
+especia::X_Decompose::X_Decompose(natural m) : n(integer(m)), work(), iwork(5 * m), ifail(m), awork(m * m) {
     lapack_inquire(n, lwork);
 
     work.resize(static_cast<size_t>(lwork));
