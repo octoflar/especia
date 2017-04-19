@@ -175,17 +175,16 @@ namespace especia {
             valarray<real> fit(n);
             valarray<real> res(n);
 
-            convolute(tau, r, &opt[0], &atm[0], &cat[0]);
-            continuum(m, &cat[0], &cfl[0]);
+            convolute(tau, r, opt, atm, cat);
+            continuum(m, cat, cfl);
+
+            tfl = cfl * atm;
+            fit = cfl * cat;
+            res = (flx - fit) / unc;
 
             real cost = 0.0;
 
             for (size_t i = 0; i < n; ++i) {
-                tfl[i] = cfl[i] * atm[i];
-                fit[i] = cfl[i] * cat[i];
-
-                res[i] = (flx[i] - fit[i]) / unc[i];
-
                 if (msk[i]) {
                     cost += res[i] * res[i];
                 }
@@ -215,15 +214,13 @@ namespace especia {
          */
         template<class T>
         Section &apply(const T &tau, real r, natural m) {
-            convolute(tau, r, &opt[0], &atm[0], &cat[0]);
-            continuum(m, &cat[0], &cfl[0]);
+            convolute(tau, r, opt, atm, cat);
+            continuum(m, cat, cfl);
 
-            for (size_t i = 0; i < n; ++i) {
-                tfl[i] = cfl[i] * atm[i];
-                fit[i] = cfl[i] * cat[i];
+            tfl = cfl * atm;
+            fit = cfl * cat;
+            res = (flx - fit) / unc;
 
-                res[i] = (flx[i] - fit[i]) / unc[i];
-            }
             return *this;
         }
 
@@ -235,7 +232,7 @@ namespace especia {
          * @param[in] cat The evaluated convoluted absorption term.
          * @param[out] cfl The evaluated background continuum flux.
          */
-        void continuum(natural m, const real cat[], real cfl[]) const throw(std::runtime_error);
+        void continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const throw(std::runtime_error);
 
         /**
          * Convolutes a given optical depth model with the instrumental line spread function.
@@ -249,7 +246,7 @@ namespace especia {
          * @param[out] cat The evaluated convoluted absorption term.
          */
         template<class T>
-        void convolute(const T &tau, real r, real opt[], real atm[], real cat[]) const {
+        void convolute(const T &tau, real r, std::valarray<real> &opt, std::valarray<real> &atm, std::valarray<real> &cat) const {
             using std::exp;
             using std::valarray;
 
@@ -270,8 +267,8 @@ namespace especia {
 
                 for (size_t i = 0; i < n; ++i) {
                     opt[i] = tau(wav[i]);
-                    atm[i] = exp(-opt[i]);
                 }
+                atm = exp(-opt);
 
                 // Convolution of the modelled flux with the instrumental line spread function.
                 for (size_t i = 0; i < n; ++i) {

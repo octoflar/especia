@@ -77,7 +77,7 @@ especia::Section::Section(size_t n_in, const real x[], const real y[], const rea
 especia::Section::~Section() {
 }
 
-void especia::Section::continuum(natural m, const real cat[], real cfl[]) const throw(std::runtime_error) {
+void especia::Section::continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const throw(std::runtime_error) {
     using std::fill;
     using std::runtime_error;
     using std::sqrt;
@@ -86,35 +86,34 @@ void especia::Section::continuum(natural m, const real cat[], real cfl[]) const 
     if (m > 0) {
         valarray<real> b(0.0, m);
         valarray<real> c(0.0, m);
-        valarray<real> l(1.0, m);
+        valarray<valarray<real>> l(valarray<real>(1.0, n), m);
 
-        valarray<valarray<real> > a(b, m);
+        valarray<valarray<real>> a(b, m);
 
         // Optimizing the background continuum is a linear optimization problem. Here the normal
         // equations are established.
         for (size_t i = 0; i < n; ++i) {
+            // Map the wavelengths onto the interval [-1, 1]
+            const real x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
+
+            real l1 = 1.0;
+            real l2 = 0.0;
+
+            // Compute the higher-order Legendre basis polynomials.
+            for (natural j = 1; j < m; ++j) {
+                const real l3 = l2;
+
+                l2 = l1;
+                l1 = ((2 * j - 1) * x * l2 - (j - 1) * l3) / j;
+                l[j][i] = l1;
+            }
+            // Establish the normal equations.
             if (msk[i]) {
-                // Map the wavelengths onto the interval [-1, 1]
-                const real x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
-
-                real l1 = 1.0;
-                real l2 = 0.0;
-
-                // Compute the higher-order Legendre basis polynomials.
-                for (natural j = 1; j < m; ++j) {
-                    const real l3 = l2;
-
-                    l2 = l1;
-                    l1 = ((2 * j - 1) * x * l2 - (j - 1) * l3) / j;
-                    l[j] = l1;
-                }
-                // Establish the normal equations.
                 for (natural j = 0; j < m; ++j) {
                     for (natural k = j; k < m; ++k) {
-                        a[j][k] += (cat[i] * cat[i] * l[j] * l[k]) / (unc[i] * unc[i]);
+                        a[j][k] += (cat[i] * cat[i] * l[j][i] * l[k][i]) / (unc[i] * unc[i]);
                     }
-
-                    b[j] += (flx[i] * cat[i] * l[j]) / (unc[i] * unc[i]);
+                    b[j] += (flx[i] * cat[i] * l[j][i]) / (unc[i] * unc[i]);
                 }
             }
         }
@@ -161,21 +160,10 @@ void especia::Section::continuum(natural m, const real cat[], real cfl[]) const 
         }
 
         // Compute the continuum flux.
-        for (size_t i = 0; i < n; ++i) {
-            const real x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
+        cfl = 0.0;
 
-            real l1 = 1.0;
-            real l2 = 0.0;
-
-            cfl[i] = c[0];
-
-            for (natural k = 1; k < m; ++k) {
-                const real l3 = l2;
-
-                l2 = l1;
-                l1 = ((2 * k - 1) * x * l2 - (k - 1) * l3) / k;
-                cfl[i] += c[k] * l1;
-            }
+        for (natural k = 0; k < m; ++k) {
+            cfl += c[k] * l[k];
         }
     } else {
         fill(&cfl[0], &cfl[n], 1.0);
@@ -225,7 +213,7 @@ void especia::Section::primitive(real x, real h, real &p, real &q) const {
     x /= b;
 
     p = 0.5 * erf(x);
-    q = -(b * exp(-x * x)) / d;
+    q = -(b * exp(-sq(x))) / d;
 }
 
 std::istream &especia::Section::get(std::istream &is, real a, real b) {
