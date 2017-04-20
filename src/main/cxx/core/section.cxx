@@ -95,7 +95,8 @@ void especia::Section::continuum(natural m, const std::valarray<real> &cat,
         l[1] = 2.0 * (wav - lower_bound()) / width() - 1.0;
         // ... the higher-order terms are given by Bonnet’s recursion formula
         for (natural j = 1; j + 1 < m; ++j) {
-            l[j + 1] = (real(2 * j + 1) * l[1] * l[j] - real(j) * l[j - 1]) / real(j + 1);
+            l[j + 1] = (static_cast<real>(2 * j + 1) * l[1] * l[j] -
+                    static_cast<real>(j) * l[j - 1]) / static_cast<real>(j + 1);
         }
 
         // Optimizing the background continuum is a linear optimization problem. Here the normal
