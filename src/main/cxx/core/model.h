@@ -550,7 +550,7 @@ namespace especia {
                 }
             }
             for (natural i = 0; i < sec.size(); ++i) {
-                sec[i].apply(Superposition<Profile>(nli[i], &val[isc[i] + 1]), val[isc[i]], nle[i]);
+                sec[i].apply(nle[i], val[isc[i]], Superposition<Profile>(nli[i], &val[isc[i] + 1]));
             }
         }
 

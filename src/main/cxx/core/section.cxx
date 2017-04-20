@@ -77,7 +77,8 @@ especia::Section::Section(size_t n_in, const real x[], const real y[], const rea
 especia::Section::~Section() {
 }
 
-void especia::Section::continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const throw(std::runtime_error) {
+void especia::Section::continuum(natural m, const std::valarray<real> &cat,
+                                 std::valarray<real> &cfl) const throw(std::runtime_error) {
     using std::fill;
     using std::runtime_error;
     using std::sqrt;
@@ -86,28 +87,20 @@ void especia::Section::continuum(natural m, const std::valarray<real> &cat, std:
     if (m > 0) {
         valarray<real> b(0.0, m);
         valarray<real> c(0.0, m);
-        valarray<valarray<real>> l(valarray<real>(1.0, n), m);
-
         valarray<valarray<real>> a(b, m);
+        valarray<valarray<real>> l(valarray<real>(0.0, n), m);
+
+        // Compute the Legendre basis polynomials. The first two terms are ...
+        l[0] = 1.0;
+        l[1] = 2.0 * (wav - lower_bound()) / width() - 1.0;
+        // ... the other terms follow from Bonnet’s recursion formula
+        for (natural j = 1; j + 1 < m; ++j) {
+            l[j + 1] = ((2 * j + 1) * l[1] * l[j] - j * l[j - 1]) / (j + 1);
+        }
 
         // Optimizing the background continuum is a linear optimization problem. Here the normal
         // equations are established.
         for (size_t i = 0; i < n; ++i) {
-            // Map the wavelengths onto the interval [-1, 1]
-            const real x = 2.0 * (wav[i] - wav[0]) / width() - 1.0;
-
-            real l1 = 1.0;
-            real l2 = 0.0;
-
-            // Compute the higher-order Legendre basis polynomials.
-            for (natural j = 1; j < m; ++j) {
-                const real l3 = l2;
-
-                l2 = l1;
-                l1 = ((2 * j - 1) * x * l2 - (j - 1) * l3) / j;
-                l[j][i] = l1;
-            }
-            // Establish the normal equations.
             if (msk[i]) {
                 for (natural j = 0; j < m; ++j) {
                     for (natural k = j; k < m; ++k) {
@@ -159,10 +152,10 @@ void especia::Section::continuum(natural m, const std::valarray<real> &cat, std:
             c[i] = s / a[i][i];
         }
 
-        // Compute the continuum flux.
-        cfl = 0.0;
-
-        for (natural k = 0; k < m; ++k) {
+        // Compute the continuum flux. The first Legendre term is constant ...
+        cfl = c[0];
+        // ... the other terms
+        for (natural k = 1; k < m; ++k) {
             cfl += c[k] * l[k];
         }
     } else {

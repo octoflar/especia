@@ -175,7 +175,7 @@ namespace especia {
             valarray<real> fit(n);
             valarray<real> res(n);
 
-            convolute(tau, r, opt, atm, cat);
+            convolute(r, tau, opt, atm, cat);
             continuum(m, cat, cfl);
 
             tfl = cfl * atm;
@@ -202,19 +202,19 @@ namespace especia {
         void mask(real a, real b);
 
         /**
-         * Applies an optical depth model to this section.
+         * Applies an optical depth and background continuum model to this section.
          *
          * @tparam T The type of optical depth model.
          *
-         * @param[in] tau The optical depth model.
-         * @param[in] r The spectral resolution of the instrument.
          * @param[in] m The number of Legendre basis polynomials to model the background continuum.
+         * @param[in] r The spectral resolution of the instrument.
+         * @param[in] tau The optical depth model.
          *
          * @return this section.
          */
         template<class T>
-        Section &apply(const T &tau, real r, natural m) {
-            convolute(tau, r, opt, atm, cat);
+        Section &apply(natural m, real r, const T &tau) {
+            convolute(r, tau, opt, atm, cat);
             continuum(m, cat, cfl);
 
             tfl = cfl * atm;
@@ -232,21 +232,23 @@ namespace especia {
          * @param[in] cat The evaluated convoluted absorption term.
          * @param[out] cfl The evaluated background continuum flux.
          */
-        void continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const throw(std::runtime_error);
+        void continuum(natural m, const std::valarray<real> &cat,
+                       std::valarray<real> &cfl) const throw(std::runtime_error);
 
         /**
          * Convolutes a given optical depth model with the instrumental line spread function.
          *
          * @tparam T The type of optical depth model.
          *
-         * @param[in] tau The optical depth model.
          * @param[in] r The spectral resolution of the instrument.
+         * @param[in] tau The optical depth model.
          * @param[out] opt The evaluated optical depth.
          * @param[out] atm The evaluated absorption term.
          * @param[out] cat The evaluated convoluted absorption term.
          */
         template<class T>
-        void convolute(const T &tau, real r, std::valarray<real> &opt, std::valarray<real> &atm, std::valarray<real> &cat) const {
+        void convolute(real r, const T &tau, std::valarray<real> &opt, std::valarray<real> &atm,
+                       std::valarray<real> &cat) const {
             using std::exp;
             using std::valarray;
 
