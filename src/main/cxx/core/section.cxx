@@ -93,20 +93,26 @@ void especia::Section::continuum(natural m, const std::valarray<real> &cat,
         // Compute the Legendre basis polynomials. The first two terms are ...
         l[0] = 1.0;
         l[1] = 2.0 * (wav - lower_bound()) / width() - 1.0;
-        // ... the other terms follow from Bonnet’s recursion formula
+        // ... the higher-order terms are given by Bonnet’s recursion formula
         for (natural j = 1; j + 1 < m; ++j) {
-            l[j + 1] = ((2 * j + 1) * l[1] * l[j] - j * l[j - 1]) / (j + 1);
+            l[j + 1] = (real(2 * j + 1) * l[1] * l[j] - real(j) * l[j - 1]) / real(j + 1);
         }
 
         // Optimizing the background continuum is a linear optimization problem. Here the normal
         // equations are established.
-        for (size_t i = 0; i < n; ++i) {
-            if (msk[i]) {
-                for (natural j = 0; j < m; ++j) {
-                    for (natural k = j; k < m; ++k) {
-                        a[j][k] += (cat[i] * cat[i] * l[j][i] * l[k][i]) / (unc[i] * unc[i]);
+        for (natural j = 0; j < m; ++j) {
+            const valarray<real> &lj = l[j];
+            for (natural k = j; k < m; ++k) {
+                const valarray<real> &lk = l[k];
+                for (size_t i = 0; i < n; ++i) {
+                    if (msk[i]) {
+                        a[j][k] += (cat[i] * cat[i] * lj[i] * lk[i]) / (unc[i] * unc[i]);
                     }
-                    b[j] += (flx[i] * cat[i] * l[j][i]) / (unc[i] * unc[i]);
+                }
+            }
+            for (size_t i = 0; i < n; ++i) {
+                if (msk[i]) {
+                    b[j] += (flx[i] * cat[i] * lj[i]) / (unc[i] * unc[i]);
                 }
             }
         }
