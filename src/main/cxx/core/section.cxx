@@ -90,10 +90,10 @@ void especia::Section::continuum(natural m, const std::valarray<real> &cat,
         valarray<valarray<real>> a(b, m);
         valarray<valarray<real>> l(valarray<real>(0.0, n), m);
 
-        // Compute the Legendre basis polynomials. The first two terms are ...
+        // Compute the Legendre basis polynomials. The first two terms are unity and identity.
         l[0] = 1.0;
         l[1] = 2.0 * (wav - lower_bound()) / width() - 1.0;
-        // ... the higher-order terms are given by Bonnet’s recursion formula
+        // The higher-order terms are obtained from Bonnet’s recursion formula
         for (natural j = 1; j + 1 < m; ++j) {
             l[j + 1] = (static_cast<real>(2 * j + 1) * l[1] * l[j] -
                     static_cast<real>(j) * l[j - 1]) / static_cast<real>(j + 1);
@@ -159,9 +159,9 @@ void especia::Section::continuum(natural m, const std::valarray<real> &cat,
             c[i] = s / a[i][i];
         }
 
-        // Compute the continuum flux. The first Legendre term is constant ...
+        // Compute the continuum flux. The first Legendre term is a constant.
         cfl = c[0];
-        // ... the other terms
+        // The other terms depend on the abcissa value.
         for (natural k = 1; k < m; ++k) {
             cfl += c[k] * l[k];
         }
