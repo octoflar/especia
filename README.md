@@ -60,4 +60,4 @@ doi: [10.1051/0004-6361:20041601](http://dx.doi.org/10.1051/0004-6361:20041601).
 Quast, Ralf (2014): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.* figshare.
 doi: [10.6084/m9.figshare.994250](https://doi.org/10.6084/m9.figshare.994250).
 
-<iframe src="https://widgets.figshare.com/articles/994250/embed?show_title=0" width="480" height="360" frameborder="0"></iframe>
+<iframe src="https://widgets.figshare.com/articles/994250/embed?show_title=0" width="640" height="480" frameborder="0"></iframe>
