@@ -95,25 +95,26 @@ void especia::Section::continuum(natural m, const std::valarray<real> &cat,
         l[1] = 2.0 * (wav - lower_bound()) / width() - 1.0;
         // The higher-order terms are obtained from Bonnet’s recursion formula
         for (natural j = 1; j + 1 < m; ++j) {
-            l[j + 1] = (static_cast<real>(2 * j + 1) * l[1] * l[j] -
-                    static_cast<real>(j) * l[j - 1]) / static_cast<real>(j + 1);
+            l[j + 1] = (real(2 * j + 1) * l[1] * l[j] - real(j) * l[j - 1]) / real(j + 1);
         }
 
         // Optimizing the background continuum is a linear optimization problem. Here the normal
         // equations are established.
+        const valarray<real> p = (cat * cat) / (unc * unc);
+        const valarray<real> q = (flx * cat) / (unc * unc);
         for (natural j = 0; j < m; ++j) {
             const valarray<real> &lj = l[j];
             for (natural k = j; k < m; ++k) {
                 const valarray<real> &lk = l[k];
                 for (size_t i = 0; i < n; ++i) {
                     if (msk[i]) {
-                        a[j][k] += (cat[i] * cat[i] * lj[i] * lk[i]) / (unc[i] * unc[i]);
+                        a[j][k] += p[i] * lj[i] * lk[i];
                     }
                 }
             }
             for (size_t i = 0; i < n; ++i) {
                 if (msk[i]) {
-                    b[j] += (flx[i] * cat[i] * lj[i]) / (unc[i] * unc[i]);
+                    b[j] += q[i] * lj[i];
                 }
             }
         }
