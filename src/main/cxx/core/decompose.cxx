@@ -175,7 +175,7 @@ especia::D_Decompose::D_Decompose(natural m) : n(integer(m)), work(), iwork() {
 especia::D_Decompose::~D_Decompose() {
 }
 
-void especia::D_Decompose::operator()(const real A[], real Z[], real w[]) const throw(invalid_argument, runtime_error) {
+void especia::D_Decompose::operator()(const real A[], real Z[], real w[]) const {
     copy(&A[0], &A[n * n], Z);
 
     lapack_do(Z, w);
@@ -228,7 +228,7 @@ especia::R_Decompose::R_Decompose(natural m)
 especia::R_Decompose::~R_Decompose() {
 }
 
-void especia::R_Decompose::operator()(const real A[], real Z[], real w[]) const throw(invalid_argument, runtime_error) {
+void especia::R_Decompose::operator()(const real A[], real Z[], real w[]) const {
     copy(&A[0], &A[n * n], &awork[0]);
 
     lapack_do(Z, w);
@@ -286,7 +286,7 @@ especia::X_Decompose::X_Decompose(natural m) : n(integer(m)), work(), iwork(5 * 
 especia::X_Decompose::~X_Decompose() {
 }
 
-void especia::X_Decompose::operator()(const real A[], real Z[], real w[]) const throw(invalid_argument, runtime_error) {
+void especia::X_Decompose::operator()(const real A[], real Z[], real w[]) const {
     copy(&A[0], &A[n * n], &awork[0]);
 
     lapack_do(Z, w);

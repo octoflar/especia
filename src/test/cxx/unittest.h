@@ -168,8 +168,7 @@ protected:
      * @throw an @c Assertion_Error if requested.
      */
     template<class E, class A>
-    void assert_equals(const E &expected, const A &actual,
-                       const std::string &name = "unnamed assertion") const throw(Assertion_Error) {
+    void assert_equals(const E &expected, const A &actual, const std::string &name = "unnamed assertion") const {
         using std::cerr;
         using std::endl;
         using std::stringstream;
@@ -199,7 +198,7 @@ protected:
      */
     template<class E, class A>
     void assert_equals(const E &expected, const A &actual, const E &tolerance,
-                       const std::string &name = "unnamed assertion") const throw(Assertion_Error) {
+                       const std::string &name = "unnamed assertion") const {
         using std::abs;
         using std::stringstream;
 
@@ -222,8 +221,7 @@ protected:
      * @param name The assertion name.
      * @throw an @c Assertion_Error if requested.
      */
-    void assert_false(const bool actual,
-                     const std::string &name = "unnamed assertion") const throw(Assertion_Error) {
+    void assert_false(const bool actual, const std::string &name = "unnamed assertion") const {
         assert_equals(false, actual, name);
     }
 
@@ -235,7 +233,7 @@ protected:
      * @throw an @c Assertion_Error if requested.
      */
     void assert_true(const bool actual,
-                     const std::string &name = "unnamed assertion") const throw(Assertion_Error) {
+                     const std::string &name = "unnamed assertion") const {
         assert_equals(true, actual, name);
     }
 
@@ -246,7 +244,7 @@ private:
      * @param what A description of the failed assertion.
      * @throw an @c Assertion_Error if requested.
      */
-    void handle_failed(const std::string &what) const throw(Assertion_Error) {
+    void handle_failed(const std::string &what) const {
         using std::endl;
 
         if (message_on_failed) {

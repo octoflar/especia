@@ -102,7 +102,7 @@ namespace especia {
          *
          * @return the accuracy goal.
          */
-        real parse_accuracy_goal() const throw(std::invalid_argument) {
+        real parse_accuracy_goal() const {
             return convert<real>(args[5]);
         }
 
@@ -111,7 +111,7 @@ namespace especia {
          *
          * @return the initial global step size.
          */
-        real parse_global_step_size() const throw(std::invalid_argument) {
+        real parse_global_step_size() const {
             return convert<real>(args[4]);
         }
 
@@ -120,7 +120,7 @@ namespace especia {
          *
          * @return the parent number.
          */
-        natural parse_parent_number() const throw(std::invalid_argument) {
+        natural parse_parent_number() const {
             return convert<natural>(args[2]);
         }
 
@@ -129,7 +129,7 @@ namespace especia {
          *
          * @return the population size.
          */
-        natural parse_population_size() const throw(std::invalid_argument) {
+        natural parse_population_size() const {
             return convert<natural>(args[3]);
         }
 
@@ -138,7 +138,7 @@ namespace especia {
          *
          * @return the random seed.
          */
-        word parse_random_seed() const throw(std::invalid_argument) {
+        word parse_random_seed() const {
             return convert<word>(args[1]);
         }
 
@@ -147,7 +147,7 @@ namespace especia {
          *
          * @return the stop generation.
          */
-        natural parse_stop_generation() const throw(std::invalid_argument) {
+        natural parse_stop_generation() const {
             return convert<natural>(args[6]);
         }
 
@@ -156,7 +156,7 @@ namespace especia {
          *
          * @return the trace modulus.
          */
-        natural parse_trace_modulus() const throw(std::invalid_argument) {
+        natural parse_trace_modulus() const {
             return convert<natural>(args[7]);
         }
 
@@ -170,7 +170,7 @@ namespace especia {
          * @throw runtime_error when a runtime error occurred.
          */
         template<class M>
-        int run() throw(std::invalid_argument, std::runtime_error) {
+        int run() {
             using std::cin;
             using std::cout;
             using std::endl;

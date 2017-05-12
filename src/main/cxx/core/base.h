@@ -118,7 +118,7 @@ namespace especia {
      * @throw invalid_argument when the string cannot be converted into a number of requested type.
      */
     template<class T>
-    T convert(const std::string &s) throw(std::invalid_argument) {
+    T convert(const std::string &s) {
         using std::invalid_argument;
         using std::istringstream;
 
@@ -160,7 +160,7 @@ namespace especia {
      * @throw runtime_error when the accuracy goal was not reached within the prescribed number of iterations.
      */
     template<class T = real>
-    T solve(typename C1<T>::type &f, T c, T x, T accuracy_goal, natural max_iteration = 100) throw(std::runtime_error) {
+    T solve(typename C1<T>::type &f, T c, T x, T accuracy_goal, natural max_iteration = 100) {
         using std::abs;
         using std::runtime_error;
 

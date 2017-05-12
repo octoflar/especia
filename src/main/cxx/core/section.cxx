@@ -77,8 +77,7 @@ especia::Section::Section(size_t n_in, const real x[], const real y[], const rea
 especia::Section::~Section() {
 }
 
-void especia::Section::continuum(natural m, const std::valarray<real> &cat,
-                                 std::valarray<real> &cfl) const throw(std::runtime_error) {
+void especia::Section::continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const {
     using std::fill;
     using std::runtime_error;
     using std::sqrt;

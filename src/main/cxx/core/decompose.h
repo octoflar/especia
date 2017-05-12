@@ -64,7 +64,7 @@ namespace especia {
          * @throw runtime_error when an internal LAPACK error occurred.
          */
         void
-        operator()(const real A[], real Z[], real w[]) const throw(std::invalid_argument, std::runtime_error);
+        operator()(const real A[], real Z[], real w[]) const;
 
     private:
         void lapack_do(real Z[], real w[]) const;
@@ -141,7 +141,7 @@ namespace especia {
          * @throw runtime_error when an internal LAPACK error occurred.
          */
         void
-        operator()(const real A[], real Z[], real w[]) const throw(std::invalid_argument, std::runtime_error);
+        operator()(const real A[], real Z[], real w[]) const;
 
     private:
         void lapack_do(real Z[], real w[]) const;
@@ -231,7 +231,7 @@ namespace especia {
          * @throw runtime_error when an internal LAPACK error occurred.
          */
         void
-        operator()(const real A[], real Z[], real w[]) const throw(std::invalid_argument, std::runtime_error);
+        operator()(const real A[], real Z[], real w[]) const;
 
     private:
         void lapack_do(real Z[], real w[]) const;

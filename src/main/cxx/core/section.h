@@ -232,8 +232,7 @@ namespace especia {
          * @param[in] cat The evaluated convoluted absorption term.
          * @param[out] cfl The evaluated background continuum flux.
          */
-        void continuum(natural m, const std::valarray<real> &cat,
-                       std::valarray<real> &cfl) const throw(std::runtime_error);
+        void continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const;
 
         /**
          * Convolutes a given optical depth model with the instrumental line spread function.
