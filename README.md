@@ -1,4 +1,4 @@
-<iframe src="https://widgets.figshare.com/articles/994250/embed?show_title=1" width="800" height="600" frameborder="0">
+<iframe src="https://widgets.figshare.com/articles/994250/embed?show_title=0" width="800" height="600" frameborder="0">
 </iframe>
 
 # Synopsis
