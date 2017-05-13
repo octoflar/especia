@@ -281,7 +281,7 @@ namespace especia {
                         const size_t l = (i + j + 2 > n) ? n - 2 : i + j;
                         const real d = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
 
-                        a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - j * d);
+                        a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - real(j) * d);
                         b += (q[j + 1] - q[j]) * d;
                     }
 
