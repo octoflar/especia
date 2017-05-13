@@ -87,14 +87,14 @@ void especia::Section::continuum(natural m, const std::valarray<real> &cat, std:
         valarray<real> b(0.0, m);
         valarray<real> c(0.0, m);
         valarray<valarray<real>> a(b, m);
-        valarray<valarray<real>> l(valarray<real>(0.0, n), m);
+        valarray<valarray<real>> l(valarray<real>(1.0, n), m);
 
-        // Compute the Legendre basis polynomials. The first two terms are unity and identity.
-        l[0] = 1.0;
-        l[1] = 2.0 * (wav - lower_bound()) / width() - 1.0;
-        // The higher-order terms are obtained from Bonnet’s recursion formula
-        for (natural j = 1; j + 1 < m; ++j) {
-            l[j + 1] = (real(2 * j + 1) * l[1] * l[j] - real(j) * l[j - 1]) / real(j + 1);
+        if (m > 1) {
+            l[1] = 2.0 * (wav - lower_bound()) / width() - 1.0;
+            // Bonnet’s recursion formula
+            for (natural j = 1; j + 1 < m; ++j) {
+                l[j + 1] = (real(2 * j + 1) * l[1] * l[j] - real(j) * l[j - 1]) / real(j + 1);
+            }
         }
 
         // Optimizing the background continuum is a linear optimization problem. Here the normal
