@@ -17,6 +17,5 @@ cmake-build/
 cmake-build-debug/
 cmake-build-release/
 
-# ignore literature and pictures
-*.gif
-*.pdf
+# ignore the sandbox
+sandbox/
