@@ -1,8 +1,5 @@
-<div style="position:relative; padding-bottom:75%; height:0; overflow:hidden; width:100%; height:auto">
-    <iframe style="position:absolute; top:0; left:0; width:100%; height:100%"
-            src="https://widgets.figshare.com/articles/994250/embed?show_title=0"
-            width="640" height="480" frameborder="0"></iframe>
-</div>
+
+<div align="center"><img align="middle" src="https://ndownloader.figshare.com/files/8443229/preview/8443229/preview.gif"></div>
 
 # Synopsis
 
