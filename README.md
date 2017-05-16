@@ -66,5 +66,5 @@ Astronomy and Astrophysics 431 (3) 1167.
 Quast, Ralf (2017): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580345.svg)](https://doi.org/10.5281/zenodo.580345)
 
-Quast, Ralf (2017): *Covariance matrix adaption in evolution strategies.*  
+Quast, Ralf (2017): *Covariance matrix adaption in evolution strategies.*
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580344.svg)](https://doi.org/10.5281/zenodo.580344)
