@@ -1,5 +1,5 @@
 
-<div align="center"><img src="https://ndownloader.figshare.com/files/8443229/preview/8443229/preview.gif" width="640" height="480"></div>
+<div align="center"><img src="https://ndownloader.figshare.com/files/8443229/preview/8443229/preview.gif"></div>
 
 # Synopsis
 
