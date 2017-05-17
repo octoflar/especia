@@ -52,7 +52,7 @@ Release versions YYYY.N are numbered by the year of the release follwowed by a
 single-digit number, which enumerates the release within the release year. For
 example, version 2016.1 denotes the first release of the year 2016.
 
-The current release version is 2016.1. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580346.svg)](https://doi.org/10.5281/zenodo.580346)
+The latest release version is 2016.1. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580346.svg)](https://doi.org/10.5281/zenodo.580346)
 
 
 # Further reading
