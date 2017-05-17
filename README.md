@@ -16,9 +16,7 @@ spectral decomposition without requiring any particular initialisation.
 
 Additional highlights are the joint modelling and optimisation of the background
 continuum, and an accurate semi-analytic convolution of the absorption term with
-the instrumental line spread function.
-
-The method is explained in detail by
+the instrumental line spread function. The method is explained in detail by
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
 
 
@@ -54,7 +52,7 @@ Release versions YYYY.N are numbered by the year of the release follwowed by a
 single-digit number, which enumerates the release within the release year. For
 example, version 2016.1 denotes the first release of the year 2016.
 
-The current release version is 2016.1. 
+The current release version is 2016.1. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580346.svg)](https://doi.org/10.5281/zenodo.580346)
 
 
 # Further reading
