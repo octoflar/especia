@@ -34,7 +34,7 @@ of the new `emod` utility.
 * The cross-platform [CMake](https://cmake.org) replaces GNU make to simplify
 the build and installation processes.
 
-# New in 2016.1
+# New in 2016.1 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580346.svg)](https://doi.org/10.5281/zenodo.580346)
 
 Version 2016.1 is the initial public release. The original source from 2006
 was adapted to C++11 coding standards and some compiler warnings were

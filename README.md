@@ -1,8 +1,8 @@
 <a href="https://doi.org/10.5281/zenodo.580345"><img
-        alt="Evolution strategies applied to the problem of line profile decomposition in QSO spectra (DOI 10.5281/zenodo.580345)"
+        alt="Evolution strategies applied to the problem of line profile decomposition in QSO spectra"
         src="https://zenodo.org/record/580345/files/fit.gif"
         style="display:block; margin:auto"
-        title="Evolution strategies applied to the problem of line profile decomposition in QSO spectra (DOI 10.5281/zenodo.580345)"></a>
+        title="This animation illustrates the decomposition of an ensemble of absorption lines into individual model components by means of an evolution strategy (ES) with covariance matrix adaption (CMA). Even after random initialisation, the CMA-ES eventually finds the optimal parametric decomposition of the spectrum (blue curve)."></a>
 
 # Synopsis
 
@@ -29,8 +29,8 @@ whether this software is of interest to you.
 
 If you already have some understanding of these matters, you may want to consult the 
 [especia wiki](https://github.com/octoflar/especia/wiki)
-before you clone or download the [source code](https://github.com/octoflar/especia)
-from GitHub.
+before you clone the [source code reposirory](https://github.com/octoflar/especia)
+or download a release version.
 
 Building Especia requires [CMake](https://cmake.org) and a compiler that implements
 [C++11](https://en.wikipedia.org/wiki/C%2B%2B11). To build and test the Especia
@@ -50,9 +50,8 @@ Typing `make install` will complete the build and move the executable files into
 
 Release versions YYYY.N are numbered by the year of the release follwowed by a
 single-digit number, which enumerates the release within the release year. For
-example, version 2016.1 denotes the first release of the year 2016.
-
-The latest release version is 2016.1. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580346.svg)](https://doi.org/10.5281/zenodo.580346)
+example, version 2016.1 denotes the first release of the year 2016. The latest 
+release version is 2016.1. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580346.svg)](https://doi.org/10.5281/zenodo.580346)
 
 
 # Further reading
