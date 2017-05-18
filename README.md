@@ -58,12 +58,12 @@ release version is 2016.1 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.58
 
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Astronomy and Astrophysics 431 (3) 1167.
-[DOI 10.1051/0004-6361:20041601](http://doi.org/10.1051/0004-6361:20041601)
+[DOI 10.1051/0004-6361:20041601](http://doi.org/10.1051/0004-6361:20041601).
 
 Quast, Ralf (2017): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Zenodo.
-[DOI 10.5281/zenodo.580345](https://doi.org/10.5281/zenodo.580345)
+[DOI 10.5281/zenodo.580345](https://doi.org/10.5281/zenodo.580345).
 
 Quast, Ralf (2017): *Covariance matrix adaption in evolution strategies.*
 Zenodo.
-[DOI 10.5281/zenodo.580344](https://doi.org/10.5281/zenodo.580344)
+[DOI 10.5281/zenodo.580344](https://doi.org/10.5281/zenodo.580344).
