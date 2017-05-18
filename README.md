@@ -51,19 +51,19 @@ Typing `make install` will complete the build and move the executable files into
 Release versions YYYY.N are numbered by the year of the release follwowed by a
 single-digit number, which enumerates the release within the release year. For
 example, version 2016.1 denotes the first release of the year 2016. The latest 
-release version is 2016.1. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580346.svg)](https://doi.org/10.5281/zenodo.580346)
+release version is 2016.1 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580346.svg)](https://doi.org/10.5281/zenodo.580346)
 
 
 # Further reading
 
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Astronomy and Astrophysics 431 (3) 1167.
-[DOI 10.1051/0004-6361:20041601](http://dx.doi.org/10.1051/0004-6361:20041601)
+[DOI 10.1051/0004-6361:20041601](http://doi.org/10.1051/0004-6361:20041601)
 
 Quast, Ralf (2017): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
-Zenodo. 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580345.svg)](https://doi.org/10.5281/zenodo.580345)
+Zenodo.
+[DOI 10.5281/zenodo.580345](https://doi.org/10.5281/zenodo.580345)
 
 Quast, Ralf (2017): *Covariance matrix adaption in evolution strategies.*
 Zenodo.
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580344.svg)](https://doi.org/10.5281/zenodo.580344)
+[DOI 10.5281/zenodo.580344](https://doi.org/10.5281/zenodo.580344)
