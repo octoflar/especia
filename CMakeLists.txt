@@ -26,8 +26,8 @@ include(src/main/cmake/veclib_required.cmake)
 include(src/main/cmake/openmp_optional.cmake)
 
 project(especia VERSION 2017.1 LANGUAGES C CXX)
-project_doi(10.6084/m9.figshare.4167999.v14)
 project_tag(snapshot)
+project_url(https://github.com/octoflar/especia)
 
 set(CMAKE_CONFIGURATION_TYPES Release Debug)
 set(CMAKE_CXX_STANDARD 11)
