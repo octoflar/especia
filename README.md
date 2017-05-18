@@ -2,7 +2,7 @@
         alt="Evolution strategies applied to the problem of line profile decomposition in QSO spectra"
         src="https://zenodo.org/record/580345/files/fit.gif"
         style="display:block; margin:auto"
-        title="This animation illustrates the decomposition of an ensemble of absorption lines into individual model components by means of an evolution strategy (ES) with covariance matrix adaption (CMA). Even after random initialisation, the CMA-ES eventually finds the optimal parametric decomposition of the spectrum (blue curve)."></a>
+        title="This animation illustrates the decomposition of an ensemble of absorption lines into individual model components by means of an evolution strategy (ES) with covariance matrix adaption (CMA). Even after random initialisation, the CMA-ES eventually finds the optimal parametric decomposition of the spectrum."></a>
 
 # Synopsis
 
@@ -30,7 +30,7 @@ whether this software is of interest to you.
 If you already have some understanding of these matters, you may want to consult the 
 [especia wiki](https://github.com/octoflar/especia/wiki)
 before you clone the [source code reposirory](https://github.com/octoflar/especia)
-or download a release version.
+or download a [release version](https://github.com/octoflar/especia/releases).
 
 Building Especia requires [CMake](https://cmake.org) and a compiler that implements
 [C++11](https://en.wikipedia.org/wiki/C%2B%2B11). To build and test the Especia
@@ -46,24 +46,24 @@ Typing `make install` will complete the build and move the executable files into
 [build instructions](https://github.com/octoflar/especia/wiki/Build-instructions).
 
 
-# Release versions [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580346.svg)](https://doi.org/10.5281/zenodo.580346)
+# Release versions
 
-Release versions YYYY.N are numbered by the year of the release follwowed by a
-single-digit number, which enumerates the release within the release year. For
-example, version 2016.1 denotes the first release of the year 2016. The latest 
-release version is 2016.1.
+[Release versions](https://github.com/octoflar/especia/releases) YYYY.N are numbered
+by the year of the release followed by a single-digit number, which enumerates the
+release within the release year. For example, version 2016.1 denotes the first release
+of the year 2016. The latest release version is [2016.1](https://github.com/octoflar/especia/releases/tag/2016.1).
 
 
 # Further reading
 
-Quast, Ralf; Baade, Robert; Reimers, Dieter (2005): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
+Quast, Ralf; Baade, Robert; Reimers, Dieter (2005). *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Astronomy and Astrophysics 431 (3) 1167.
 [DOI 10.1051/0004-6361:20041601](http://doi.org/10.1051/0004-6361:20041601).
 
-Quast, Ralf (2017): *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
+Quast, Ralf (2017). *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Zenodo.
 [DOI 10.5281/zenodo.580345](https://doi.org/10.5281/zenodo.580345).
 
-Quast, Ralf (2017): *Covariance matrix adaption in evolution strategies.*
+Quast, Ralf (2017). *Covariance matrix adaption in evolution strategies.*
 Zenodo.
 [DOI 10.5281/zenodo.580344](https://doi.org/10.5281/zenodo.580344).

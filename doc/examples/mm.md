@@ -1886,5 +1886,5 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 
 ## References
 
-Quast, Ralf; Reimers, Dieter; Levshakov, Sergei A. (2004): *Probing the variability of the fine-structure constant with the VLT/UVES.*
-Astronomy and Astrophysics 415 (2) L7. doi: [10.1051/0004-6361:20040013](http://dx.doi.org/10.1051/0004-6361:20040013).
+Quast, Ralf; Reimers, Dieter; Levshakov, Sergei A. (2004). *Probing the variability of the fine-structure constant with the VLT/UVES.*
+Astronomy and Astrophysics 415 (2) L7. [DOI 10.1051/0004-6361:20040013](http://dx.doi.org/10.1051/0004-6361:20040013).

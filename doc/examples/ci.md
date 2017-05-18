@@ -291,6 +291,6 @@ parameters of the CI 1656 lines are tied to those of CI 1560.
 
 ## References
 
-Quast, Ralf; Baade, Robert; Reimers, Dieter (2002): *Fine-structure diagnostics of neutral carbon toward HE 0515-4414.* 
-Astronomy and Astrophysics 386 (3) 796. doi: [10.1051/0004-6361:20020342](http://dx.doi.org/10.1051/0004-6361:20020342).
+Quast, Ralf; Baade, Robert; Reimers, Dieter (2002). *Fine-structure diagnostics of neutral carbon toward HE 0515-4414.* 
+Astronomy and Astrophysics 386 (3) 796. [DOI 10.1051/0004-6361:20020342](http://dx.doi.org/10.1051/0004-6361:20020342).
 

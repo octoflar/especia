@@ -155,5 +155,5 @@ Voigt profiles are used here. The line parameters are:
 
 ## References
 
-Reimers, Dieter; Baade, Robert; Quast, Ralf; Levshakov, Sergei A. (2002): *Detection of molecular hydrogen at z = 1.15 toward HE 0515-4414.* 
-Astronomy and Astrophysics 410 (3) 785. doi: [10.1051/0004-6361:20031313](http://dx.doi.org/10.1051/0004-6361:20031313).
+Reimers, Dieter; Baade, Robert; Quast, Ralf; Levshakov, Sergei A. (2002). *Detection of molecular hydrogen at z = 1.15 toward HE 0515-4414.* 
+Astronomy and Astrophysics 410 (3) 785. [DOI 10.1051/0004-6361:20031313](http://dx.doi.org/10.1051/0004-6361:20031313).
