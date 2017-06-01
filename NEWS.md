@@ -36,7 +36,6 @@ the build and installation processes.
 
 # New in 2016.1
 
-Version 2016.1 is the initial public release. The original source from 2006
-was adapted to C++11 coding standards and some compiler warnings were
-eliminated.
-
+Version 2016.1 is the initial public release. The source code is almost
+identical to the source code of February 2006, except for a few lines of code
+that were adapted to C++11 standards to eliminate compiler errors and warnings.
