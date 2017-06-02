@@ -183,7 +183,7 @@ namespace especia {
             res = (flx - fit) / unc;
 
             real cost = 0.0;
-
+            // @todo - vectorize
             for (size_t i = 0; i < n; ++i) {
                 if (msk[i]) {
                     cost += res[i] * res[i];
@@ -263,10 +263,12 @@ namespace especia {
                 valarray<real> q(m);
 
                 for (natural i = 0; i < m; ++i) {
+                    // @todo - vectorize
                     primitive(i * w, h, p[i], q[i]);
                 }
 
                 for (size_t i = 0; i < n; ++i) {
+                    // @todo - vectorize
                     opt[i] = tau(wav[i]);
                 }
                 atm = exp(-opt);
@@ -276,6 +278,7 @@ namespace especia {
                     real a = 0.0;
                     real b = 0.0;
 
+                    // @todo - vectorize, if possible
                     for (natural j = 0; j + 1 < m; ++j) {
                         const size_t k = (i < j + 1) ? 0 : i - j - 1;
                         const size_t l = (i + j + 2 > n) ? n - 2 : i + j;

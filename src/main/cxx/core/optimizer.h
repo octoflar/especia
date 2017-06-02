@@ -60,6 +60,8 @@ namespace especia {
          * @param[in] x The parameter vector.
          * @param[in] n The number of parameters to test.
          * @return always @c false.
+         *
+         * @todo - replace C-style arrays
          */
         bool is_violated(const T x[], natural n) const {
             return false;
@@ -71,6 +73,8 @@ namespace especia {
          * @param[in] x The parameter vector.
          * @param[in] n The number of parameters to take account of.
          * @return always zero.
+         *
+         * @todo - replace C-style arrays
          */
         T cost(const T x[], natural n) const {
             return T(0);

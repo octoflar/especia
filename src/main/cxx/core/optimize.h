@@ -126,6 +126,8 @@ namespace especia {
      * @param[in] decompose The eigenvalue decomposition.
      * @param[in] compare The comparator to compare fitness.
      * @param[in] tracer The tracer.
+     *
+     * @todo - replace C-style arrays
      */
     template<class F, class Constraint, class Deviate, class Decompose, class Compare, class Tracing>
     void optimize(const F &f,
@@ -339,6 +341,8 @@ namespace especia {
      * @param[in] B The covariance matrix.
      * @param[in] s The global step size.
      * @param[out] z The parameter uncertainties.
+     *
+     * @todo - replace C-style arrays
      */
     template<class F, class Constraint>
     void postopti(const F &f, const Constraint &constraint, natural n,

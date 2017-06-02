@@ -61,6 +61,8 @@ namespace especia {
          *
          * @param[in] x The abscissa value (arbitrary unit).
          * @return the value of the pseudo-Voigt approximation at @c x.
+         *
+         * @todo - vectorize
          */
         real operator()(const real &x) const;
 
@@ -107,6 +109,8 @@ namespace especia {
          *
          * @param[in] x The abscissa value (arbitrary unit).
          * @return the value of the extended pseudo-Voigt approximation at @c x.
+         *
+         * @todo - vectorize
          */
         real operator()(const real &x) const;
 
@@ -182,6 +186,8 @@ namespace especia {
          *
          * @param[in] x The wavelength (Angstrom).
          * @return the optical depth of the profile at @c x.
+         *
+         * @todo - vectorize
          */
         real operator()(const real &x) const;
 
@@ -290,6 +296,8 @@ namespace especia {
          *
          * @param[in] x The wavelength (Angstrom).
          * @return the optical depth of the profile at @c x.
+         *
+         * @todo - vectorize
          */
         real operator()(const real &x) const;
 
@@ -406,6 +414,8 @@ namespace especia {
          *
          * @param[in] x The wavelength (Angstrom).
          * @return the optical depth of the profile at @c x.
+         *
+         * @todo - vectorize
          */
         real operator()(const real &x) const {
             return a * approximation(x - c);
@@ -513,6 +523,8 @@ namespace especia {
          *
          * @param[in] x The wavelength (Angstrom).
          * @return the optical depth of the profile superposition at @c x.
+         *
+         * @todo - vectorize
          */
         real operator()(const real &x) const {
             real t = 0.0;

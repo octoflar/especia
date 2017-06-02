@@ -41,6 +41,10 @@
 
 namespace especia {
 
+    /**
+     *
+     * @todo The whole class needs a cleanup.
+     */
     template<class Profile>
     class Model {
     public:
@@ -558,6 +562,7 @@ namespace especia {
             using std::valarray;
 
             valarray<real> y = val;
+            // @todo - vectorize
             for (natural i = 0; i < y.size(); ++i) {
                 if (msk[i]) {
                     y[i] = x[ind[i]];
