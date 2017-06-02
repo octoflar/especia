@@ -26,7 +26,7 @@ include(src/main/cmake/veclib_required.cmake)
 include(src/main/cmake/openmp_optional.cmake)
 
 project(especia VERSION 2017.1 LANGUAGES C CXX)
-project_tag(snapshot)
+project_version_tag(snapshot)
 project_url(https://github.com/octoflar/especia)
 
 set(CMAKE_CONFIGURATION_TYPES Release Debug)
@@ -41,8 +41,8 @@ set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 include_directories(${CMAKE_BINARY_DIR})
 
-configure_file(${MAIN}/cxx/config.h.in config.h @ONLY)
-configure_file(${MAIN}/scripts/erun.sh erun COPYONLY)
+configure_file(${MAIN}/cxx/config.h config.h @ONLY)
+configure_file(${MAIN}/scripts/erun erun COPYONLY)
 
 configure_file(${TEST}/resources/especid_test.html resources/especid_test.html COPYONLY)
 configure_file(${TEST}/resources/especiv_test.html resources/especiv_test.html COPYONLY)
@@ -154,7 +154,6 @@ install(TARGETS especia especid especiv especix ecom edat elog emod emes etee
         DESTINATION $ENV{HOME}/bin
         CONFIGURATIONS Release)
 
-install(PROGRAMS ${MAIN}/scripts/erun.sh
+install(PROGRAMS ${MAIN}/scripts/erun
         DESTINATION $ENV{HOME}/bin
-        CONFIGURATIONS Release
-        RENAME erun)
+        CONFIGURATIONS Release)

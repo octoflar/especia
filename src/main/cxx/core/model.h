@@ -527,7 +527,7 @@ namespace especia {
             os << "</table>\n";
             os << "<address>\n";
             os << " Created by Evolutionary spectrum inversion and analysis (Especia).<br>\n";
-            os << " " << project_long_name << " " << "<a href=\"" << project_url << "\">" << project_url << "</a>" << "<br>\n";
+            os << " " << project_long_name << " " << "<a href=\"" << project_reference << "\">" << project_reference << "</a>" << "<br>\n";
             os << " " << system_name << " " << "<br>\n";
             os << " " << cxx_compiler << " " << cxx_compiler_version << "<br>\n";
             os << "</address>\n";

@@ -79,7 +79,7 @@ void especia::Runner::write_result_messages(std::ostream &os, const Optimizer::R
 void especia::Runner::write_usage_message(std::ostream &os) const {
     using std::endl;
 
-    os << project_long_name << " " << project_url << endl;
+    os << project_long_name << " " << project_reference << endl;
     os << "usage: " << get_program_name() << ": "
        << "{seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]"
        << endl;

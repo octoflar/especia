@@ -18,11 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+function(project_doi DOI)
+    set(PROJECT_DOI ${DOI} PARENT_SCOPE)
+endfunction()
+
 function(project_url URL)
     set(PROJECT_URL ${URL} PARENT_SCOPE)
 endfunction()
 
-function(project_tag TAG)
+function(project_version_tag TAG)
     if (${TAG} STREQUAL snapshot)
         find_program(GIT git)
         if (GIT)
@@ -32,10 +36,10 @@ function(project_tag TAG)
                     RESULT_VARIABLE STATUS
                     ERROR_QUIET)
             if (${STATUS} EQUAL 0)
-                set(PROJECT_TAG ${ID} PARENT_SCOPE)
+                set(PROJECT_VERSION_TAG ${ID} PARENT_SCOPE)
             endif ()
         endif ()
     else ()
-        set(PROJECT_TAG ${TAG} PARENT_SCOPE)
+        set(PROJECT_VERSION_TAG ${TAG} PARENT_SCOPE)
     endif ()
 endfunction()

@@ -37,19 +37,29 @@ namespace especia {
     const std::string project_version = "@PROJECT_VERSION@";
 
     /**
-     * The project tag.
+     * The project digital object identifier (DOI).
      */
-    const std::string project_tag = "@PROJECT_TAG@";
+    const std::string project_doi = "@PROJECT_DOI@";
+
+    /**
+     * The project version control tag.
+     */
+    const std::string project_version_tag = "@PROJECT_VERSION_TAG@";
 
     /**
      * The project name and version identifier.
      */
-    const std::string project_long_name = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_TAG@";
+    const std::string project_long_name = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@";
 
     /**
      * The project URL.
      */
     const std::string project_url = "@PROJECT_URL@";
+
+    /**
+     * The project reference identifier. Either the project DOI, if defined, or the project URL.
+     */
+    const std::string project_reference = project_doi.empty() ? project_url : project_doi;
 
     /**
      * The composite name of the operating system the project is compiled for.
@@ -65,7 +75,6 @@ namespace especia {
      * The version of the Fortran compiler used to compile the project.
      */
     const std::string cxx_compiler_version = "@CMAKE_CXX_COMPILER_VERSION@";
-
 }
 
 #endif // ESPECIA_CONFIG_H
