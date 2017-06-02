@@ -25,12 +25,12 @@ improved in terms of accuracy and speed.
 * Comment lines in spectrum data files are permitted now. Comment lines
 must start with a hash mark `#`, an exclamation mark `!`, or a percent
 sign `%` in the first column.
-* The command line typed to invoke Especia is included in the result HTML
+* The command line typed to invoke Especia is included with the result HTML
 file within a comment block. The command line can be extracted from the
-result file by means of the new `ecom` utility.
+result file by means of the new `ecom` application.
 * The model definition is included in the result HTML file within a comment
 block. The model definition can be extracted from the result file by means
-of the new `emod` utility.
+of the new `emod` application.
 * The cross-platform [CMake](https://cmake.org) replaces GNU make to simplify
 the build and installation processes.
 
