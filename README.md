@@ -2,7 +2,7 @@
         alt="Evolution strategies applied to the problem of line profile decomposition in QSO spectra"
         src="https://zenodo.org/record/580345/files/fit.gif"
         style="display:block; margin:auto"
-        title="This animation illustrates the decomposition of an ensemble of absorption lines into individual model components by means of an evolution strategy with covariance matrix adaption. Even after random initialisation, the CMA-ES eventually finds the optimal parametric decomposition of the spectrum."></a>
+        title="This animation illustrates the decomposition of an ensemble of absorption lines into individual model components by means of an evolution strategy with covariance matrix adaption. Even after random initialisation, the evolution strategy eventually finds the optimal parametric decomposition of the spectrum."></a>
 
 # Synopsis
 
