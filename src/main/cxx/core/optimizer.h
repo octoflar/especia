@@ -58,12 +58,9 @@ namespace especia {
          * Tests if a given parameter vector violates the constraint.
          *
          * @param[in] x The parameter vector.
-         * @param[in] n The number of parameters to test.
          * @return always @c false.
-         *
-         * @todo - replace C-style arrays
          */
-        bool is_violated(const T x[], natural n) const {
+        bool is_violated(const std::valarray<T> &x) const {
             return false;
         }
 
@@ -71,12 +68,9 @@ namespace especia {
          * Computes the cost associated with the constraint.
          *
          * @param[in] x The parameter vector.
-         * @param[in] n The number of parameters to take account of.
          * @return always zero.
-         *
-         * @todo - replace C-style arrays
          */
-        T cost(const T x[], natural n) const {
+        T cost(const std::valarray<T> &x) const {
             return T(0);
         }
     };
@@ -346,15 +340,6 @@ namespace especia {
 
         private:
             /**
-             * Returns a pointer to the recombination weights.
-             *
-             * @return a pointer to the recombination weights.
-             */
-            const real *get_weights_pointer() const {
-                return &weights[0];
-            }
-
-            /**
              * Calculates strategy parameters like recombination weights, cumulation and adaption rates.
              */
             void set_strategy_parameters();
@@ -562,21 +547,21 @@ namespace especia {
             Result(natural n, const std::valarray<real> &x, const std::valarray<real> &d, real s);
 
             /**
-             * Returns a pointer to the covariance matrix.
+             * Returns a reference to the covariance matrix.
              *
-             * @return a pointer to the covariance matrix.
+             * @return a reference to the covariance matrix.
              */
-            real *get_covariance_matrix_pointer() {
-                return &C[0];
+            std::valarray<real> &__covariance_matrix() {
+                return C;
             }
 
             /**
-             * Returns a pointer to the distribution cumulation path.
+             * Returns a reference to the distribution cumulation path.
              *
-             * @return a pointer to the distribution cumulation path.
+             * @return a reference to the distribution cumulation path.
              */
-            real *get_distribution_cumulation_path_pointer() {
-                return &pc[0];
+            std::valarray<real> &__distribution_cumulation_path() {
+                return pc;
             }
 
             /**
@@ -607,48 +592,48 @@ namespace especia {
             }
 
             /**
-             * Returns a pointer to the local step sizes.
+             * Returns a reference to the local step sizes.
              *
-             * @return a pointer to the local step sizes.
+             * @return a reference to the local step sizes.
              */
-            real *get_local_step_sizes_pointer() {
-                return &d[0];
+            std::valarray<real> &__local_step_sizes() {
+                return d;
             }
 
             /**
-             * Returns a pointer to the parameter values.
+             * Returns a reference to the parameter values.
              *
-             * @return a pointer to the parameter values.
+             * @return a reference to the parameter values.
              */
-            real *get_parameter_values_pointer() {
-                return &x[0];
+            std::valarray<real> &__parameter_values() {
+                return x;
             }
 
             /**
-             * Returns a pointer to the parameter uncertainties.
+             * Returns a reference to the parameter uncertainties.
              *
-             * @return a pointer to the parameter uncertainties.
+             * @return a reference to the parameter uncertainties.
              */
-            real *get_parameter_uncertainties_pointer() {
-                return &z[0];
+            std::valarray<real> &__parameter_uncertainties() {
+                return z;
             }
 
             /**
-             * Returns a pointer to the rotation matrix.
+             * Returns a reference to the rotation matrix.
              *
-             * @return a pointer to the rotation matrix.
+             * @return a reference to the rotation matrix.
              */
-            real *get_rotation_matrix_pointer() {
-                return &B[0];
+            std::valarray<real> &__rotation_matrix() {
+                return B;
             }
 
             /**
-             * Returns a pointer to the step size cumulation path.
+             * Returns a reference to the step size cumulation path.
              *
-             * @return a pointer to the step size cumulation path.
+             * @return a reference to the step size cumulation path.
              */
-            real *get_step_size_cumulation_path_pointer() {
-                return &ps[0];
+            std::valarray<real> &__step_size_cumulation_path() {
+                return ps;
             }
 
             /**
@@ -855,7 +840,7 @@ namespace especia {
             optimize(f, constraint, n,
                      config.get_parent_number(),
                      config.get_population_size(),
-                     config.get_weights_pointer(),
+                     config.get_weights(),
                      config.get_step_size_damping(),
                      config.get_step_size_cumulation_rate(),
                      config.get_distribution_cumulation_rate(),
@@ -865,13 +850,13 @@ namespace especia {
                      config.get_accuracy_goal(),
                      config.get_stop_generation(),
                      result.__generation_number(),
-                     result.get_parameter_values_pointer(),
+                     result.__parameter_values(),
                      result.__global_step_size(),
-                     result.get_local_step_sizes_pointer(),
-                     result.get_rotation_matrix_pointer(),
-                     result.get_covariance_matrix_pointer(),
-                     result.get_step_size_cumulation_path_pointer(),
-                     result.get_distribution_cumulation_path_pointer(),
+                     result.__local_step_sizes(),
+                     result.__rotation_matrix(),
+                     result.__covariance_matrix(),
+                     result.__step_size_cumulation_path(),
+                     result.__distribution_cumulation_path(),
                      result.__fitness(),
                      result.__optimized(),
                      result.__underflow(),
@@ -880,12 +865,12 @@ namespace especia {
 
             if (result.__optimized()) {
                 postopti(f, constraint, n,
-                         result.get_parameter_values_pointer(),
-                         result.get_local_step_sizes_pointer(),
-                         result.get_rotation_matrix_pointer(),
-                         result.get_covariance_matrix_pointer(),
+                         result.__parameter_values(),
+                         result.__local_step_sizes(),
+                         result.__rotation_matrix(),
+                         result.__covariance_matrix(),
                          result.get_global_step_size(),
-                         result.get_parameter_uncertainties_pointer()
+                         result.__parameter_uncertainties()
                 );
             }
 

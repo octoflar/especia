@@ -126,8 +126,6 @@ namespace especia {
      * @param[in] decompose The eigenvalue decomposition.
      * @param[in] compare The comparator to compare fitness.
      * @param[in] tracer The tracer.
-     *
-     * @todo - replace C-style arrays
      */
     template<class F, class Constraint, class Deviate, class Decompose, class Compare, class Tracing>
     void optimize(const F &f,
@@ -135,7 +133,7 @@ namespace especia {
                   natural n,
                   natural parent_number,
                   natural population_size,
-                  const real w[],
+                  std::valarray<real> w,
                   real step_size_damping,
                   real cs,
                   real cc,
@@ -145,20 +143,18 @@ namespace especia {
                   real accuracy_goal,
                   natural stop_generation,
                   natural &g,
-                  real xw[],
+                  std::valarray<real> &xw,
                   real &step_size,
-                  real d[],
-                  real B[],
-                  real C[],
-                  real ps[],
-                  real pc[],
+                  std::valarray<real> &d,
+                  std::valarray<real> &B,
+                  std::valarray<real> &C,
+                  std::valarray<real> &ps,
+                  std::valarray<real> &pc,
                   real &yw,
                   bool &optimized,
                   bool &underflow,
                   const Deviate &deviate, const Decompose &decompose, const Compare &compare, const Tracing &tracer) {
-        using std::accumulate;
         using std::exp;
-        using std::inner_product;
         using std::numeric_limits;
         using std::partial_sort;
         using std::sqrt;
@@ -170,8 +166,8 @@ namespace especia {
         const real max_covariance_matrix_condition = 0.01 / numeric_limits<real>::epsilon();
         const real csu = sqrt(cs * (2.0 - cs));
         const real ccu = sqrt(cc * (2.0 - cc));
-        const real ws = accumulate(w, w + parent_number, 0.0);
-        const real cw = ws / sqrt(inner_product(w, w + parent_number, w, 0.0));
+        const real ws = w.sum();
+        const real cw = ws / sqrt(sq(w).sum());
 
         valarray<real> uw(n);
         valarray<real> vw(n);
@@ -182,7 +178,7 @@ namespace especia {
         valarray<real> y(population_size);
         valarray<natural> indexes(population_size);
 
-        valarray<real> BD(B, n * n);
+        valarray<real> BD(B);
 
         while (g < stop_generation) {
             for (natural j = 0; j < n; ++j) {
@@ -205,7 +201,7 @@ namespace especia {
                             v[k][i] = vw[i] + z * B[ij];
                             x[k][i] = xw[i] + u[k][i] * step_size; // Hansen and Ostermeier (2001), Eq. (13)
                         }
-                    } while (constraint.is_violated(&x[k][0], n));
+                    } while (constraint.is_violated(x[k]));
                     uw = u[k];
                     vw = v[k];
                 }
@@ -213,7 +209,7 @@ namespace especia {
 #ifdef _OPENMP
 #pragma omp parallel for
             for (natural k = 0; k < population_size; ++k) {
-                y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
+                y[k] = f(&x[k][0], n) + constraint.cost(x[k]);
                 indexes[k] = k;
             }
 #else // C++-11
@@ -221,7 +217,7 @@ namespace especia {
             for (natural k = 0; k < population_size; ++k) {
                 threads.push_back(
                         thread([k, &f, &constraint, &x, n, &y]() {
-                            y[k] = f(&x[k][0], n) + constraint.cost(&x[k][0], n);
+                            y[k] = f(&x[k][0], n) + constraint.cost(x[k]);
                         })
                 );
             }
@@ -286,7 +282,7 @@ namespace especia {
             if (ccov > 0.0 and g % update_modulus == 0) {
                 // Decompose the covariance matrix and sort its eigenvalues in ascending
                 // order, along with eigenvectors
-                decompose(C, B, d);
+                decompose(&C[0], &B[0], &d[0]);
 
                 real t;
                 // Adjust the condition of the covariance matrix and recompute the
@@ -311,14 +307,14 @@ namespace especia {
                 }
             }
             if (optimized or tracer.is_enabled(g)) {
-                tracer.trace(g, f(xw, n) + constraint.cost(xw, n), step_size * d[0], step_size * d[n - 1]);
+                tracer.trace(g, f(&xw[0], n) + constraint.cost(xw), step_size * d[0], step_size * d[n - 1]);
             }
             if (optimized) {
                 break;
             }
         }
 
-        yw = f(xw, n) + constraint.cost(xw, n);
+        yw = f(&xw[0], n) + constraint.cost(xw);
     }
 
     /**
@@ -341,23 +337,21 @@ namespace especia {
      * @param[in] B The covariance matrix.
      * @param[in] s The global step size.
      * @param[out] z The parameter uncertainties.
-     *
-     * @todo - replace C-style arrays
      */
     template<class F, class Constraint>
     void postopti(const F &f, const Constraint &constraint, natural n,
-                  const real x[],
-                  const real d[],
-                  const real B[],
-                  const real C[],
+                  const std::valarray<real> &x,
+                  const std::valarray<real> &d,
+                  const std::valarray<real> &B,
+                  const std::valarray<real> &C,
                   real s,
-                  real z[]) {
+                  std::valarray<real> &z) {
         using std::abs;
         using std::sqrt;
         using std::valarray;
         using std::thread;
 
-        const real zx = f(&x[0], n) + constraint.cost(&x[0], n);
+        const real zx = f(&x[0], n) + constraint.cost(x);
 
         real a = 0.0;
         real b = 0.0;
@@ -365,8 +359,8 @@ namespace especia {
 
         do {
             // Compute two steps along the line of least variance in opposite directions
-            valarray<real> p(x, n);
-            valarray<real> q(x, n);
+            valarray<real> p(x);
+            valarray<real> q(x);
             for (natural i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
                 p[i] += c * B[ij] * d[j];
                 q[i] -= c * B[ij] * d[j];
@@ -379,14 +373,14 @@ namespace especia {
 #pragma omp sections
                 {
 #pragma omp section
-                    zp = f(&p[0], n) + constraint.cost(&p[0], n);
+                    zp = f(&p[0], n) + constraint.cost(p);
 #pragma omp section
-                    zq = f(&q[0], n) + constraint.cost(&q[0], n);
+                    zq = f(&q[0], n) + constraint.cost(q);
                 }
             }
 #else // C++-11
-            thread tp([&f, &constraint, &p, n, &zp]() { zp = f(&p[0], n) + constraint.cost(&p[0], n); });
-            thread tq([&f, &constraint, &q, n, &zq]() { zq = f(&q[0], n) + constraint.cost(&q[0], n); });
+            thread tp([&f, &constraint, &p, n, &zp]() { zp = f(&p[0], n) + constraint.cost(p); });
+            thread tq([&f, &constraint, &q, n, &zq]() { zq = f(&q[0], n) + constraint.cost(q); });
             tp.join();
             tq.join();
 #endif

@@ -38,6 +38,8 @@ namespace especia {
      * about floating point arithmetics.
      *
      * @remark This algorithm is O(n^3).
+     *
+     * @todo - replace C-style arrays
      */
     class D_Decompose {
     public:
@@ -115,6 +117,8 @@ namespace especia {
      * handles NaN and infinities in the default manner.
      *
      * @remark This algorithm is O(n^2).
+     *
+     * @todo - replace C-style arrays
      */
     class R_Decompose {
     public:
@@ -167,7 +171,7 @@ namespace especia {
         mutable std::valarray<real> work;
 
         /**
-         * The ineteger workspace array.
+         * The integer workspace array.
          */
         mutable std::valarray<integer> iwork;
 
@@ -205,6 +209,8 @@ namespace especia {
      * @c [DS]SYEVX (inverse iteration).
      *
      * @remark This algorithm is O(n^3).
+     *
+     * @todo - replace C-style arrays
      */
     class X_Decompose {
     public:
