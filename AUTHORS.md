@@ -3,8 +3,8 @@
 The author of this software is [Ralf Quast](https://github.com/octoflar), affiliated (1998 - 2006) with *Universität
 Hamburg, Hamburger Sternwarte, 21029 Hamburg, Germany.* To acknowledge the use of this software, please cite:
 
-Quast, Ralf ({year of release version}). *Evolutionary spectrum inversion and analysis (Especia)* \[Data set\]. Zenodo.
-{DOI of release version}.
+Quast, Ralf (2016). *Evolutionary spectrum inversion and analysis (Especia)* \[Data set\]. Zenodo.
+[DOI 10.5281/zenodo.580346](https://doi.org/10.5281/zenodo.580346).
 
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2005). *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Astronomy and Astrophysics 431 (3) 1167.
