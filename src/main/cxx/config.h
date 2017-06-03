@@ -37,19 +37,14 @@ namespace especia {
     const std::string project_version = "@PROJECT_VERSION@";
 
     /**
-     * The project digital object identifier (DOI).
-     */
-    const std::string project_doi = "@PROJECT_DOI@";
-
-    /**
      * The project version control tag.
      */
     const std::string project_version_tag = "@PROJECT_VERSION_TAG@";
 
     /**
-     * The project name and version identifier.
+     * The project digital object identifier (DOI).
      */
-    const std::string project_long_name = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@";
+    const std::string project_doi = "@PROJECT_DOI@";
 
     /**
      * The project URL.
@@ -59,7 +54,12 @@ namespace especia {
     /**
      * The project reference identifier. Either the project DOI, if defined, or the project URL.
      */
-    const std::string project_reference = project_doi.empty() ? project_url : project_doi;
+    const std::string project_ref = project_doi.empty() ? project_url : project_doi;
+
+    /**
+     * The project name and version identifier.
+     */
+    const std::string project_long_name = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@";
 
     /**
      * The composite name of the operating system the project is compiled for.
