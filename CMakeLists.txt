@@ -28,6 +28,7 @@ include(src/main/cmake/openmp_optional.cmake)
 project(especia VERSION 2017.1 LANGUAGES C CXX)
 project_version_tag(snapshot)
 project_url(https://github.com/octoflar/especia)
+project_doi(https://doi.org/10.5281/zenodo.785071)
 
 set(CMAKE_CONFIGURATION_TYPES Release Debug)
 set(CMAKE_CXX_STANDARD 11)
