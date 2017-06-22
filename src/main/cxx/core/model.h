@@ -62,9 +62,10 @@ namespace especia {
              *
              * @param[in] lower_bounds The lower bounds.
              * @param[in] upper_bounds The upper bounds.
+             * @param[in] n The number of bounds.
              */
-            Bounded_Constraint(const std::valarray<T> &lower_bounds, const std::valarray<T> &upper_bounds)
-                    : a(lower_bounds), b(upper_bounds) {
+            Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], natural n)
+                    : a(lower_bounds, n), b(upper_bounds, n) {
             }
 
             /**
@@ -77,10 +78,11 @@ namespace especia {
              * Tests if a given parameter vector violates the constraint.
              *
              * @param[in] x The parameter vector.
+             * @param[in] n The number of parameters to test.
              * @return @c true, if the parameter vector violates the constraint.
              */
-            bool is_violated(const std::valarray<T> &x) const {
-                for (size_t i = 0; i < x.size(); ++i) {
+            bool is_violated(const T x[], natural n) const {
+                for (natural i = 0; i < n; ++i) {
                     if (x[i] < a[i] || x[i] > b[i]) {
                         return true;
                     }
@@ -92,9 +94,10 @@ namespace especia {
              * Computes the cost associated with the constraint.
              *
              * @param[in] x The parameter vector.
+             * @param[in] n The number of parameters to take account of.
              * @return always zero.
              */
-            T cost(const std::valarray<T> &x) const {
+            T cost(const T x[], natural n) const {
                 return T(0);
             }
 
@@ -612,7 +615,7 @@ namespace especia {
                 }
             }
 
-            return Bounded_Constraint<real>(a, b);
+            return Bounded_Constraint<real>(&a[0], &b[0], get_parameter_count());
         }
 
     private:
