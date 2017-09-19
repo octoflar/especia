@@ -102,7 +102,7 @@ void especia::Optimizer::Builder::with_strategy_parameters() {
     cc = (4.0 + wv / n) / (4.0 + n + 2.0 * wv / n);
 
     acov = 2.0 / (sq(n + 1.3) + wv);
-    ccov = min<real>(1.0 - acov, 2.0 * (wv - 2.0 + 1.0 / wv) / (sq(n + 2.0) +wv));
+    ccov = min<real>(1.0 - acov, 2.0 * (wv - 2.0 + 1.0 / wv) / (sq(n + 2.0) + wv));
     step_size_damping = cs + 1.0 + 2.0 * max<real>(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
 }
 
