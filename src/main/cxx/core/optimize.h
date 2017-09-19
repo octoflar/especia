@@ -283,10 +283,9 @@ namespace especia {
                 // order, along with eigenvectors
                 decompose(C, B, d);
 
-                real t;
-                // Adjust the condition of the covariance matrix and recompute the
-                // local step sizes
-                if ((t = d[n - 1] / max_covariance_matrix_condition - d[0]) > 0.0) {
+                const real t = d[n - 1] / max_covariance_matrix_condition - d[0];
+                // Adjust the condition of the covariance matrix and recompute the local step sizes
+                if (t > 0.0) {
                     for (natural i = 0, ii = 0; i < n; ++i, ii += n + 1) {
                         C[ii] += t;
                         d[i] += t;
