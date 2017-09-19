@@ -262,18 +262,15 @@ namespace especia {
             // Adapt the covariance matrix and the step size according to Hansen and Ostermeier (2001)
             // and Hansen et al. (2003)
             for (natural i = 0, i0 = 0; i < n; ++i, i0 += n) {
-                pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i]; // ibd. (2001), Eq. (14)
                 if (acov > 0.0 or ccov > 0.0) {
-                    // BD is not used anymore and can be overwritten
-                    valarray<real> &Z = BD;
-
+                    pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i]; // ibd. (2001), Eq. (14)
                     for (natural j = 0, ij = i0; j <= i; ++j, ++ij) {
-                        Z[ij] = 0.0;
+                        real Z = 0.0;
                         for (natural k = 0; k < parent_number; ++k) {
-                            Z[ij] += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
+                            Z += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
                         // ibd. (2003), Eq. (11)
-                        C[ij] = (1.0 - acov - ccov) * C[ij] + acov * (pc[i] * pc[j]) + ccov * Z[ij] / ws;
+                        C[ij] = (1.0 - acov - ccov) * C[ij] + acov * (pc[i] * pc[j]) + ccov * Z / ws;
                     }
                 }
                 ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i]; // ibd. (2001), Eq. (16)
