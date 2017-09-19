@@ -263,7 +263,7 @@ namespace especia {
             // and Hansen et al. (2003)
             for (natural i = 0, i0 = 0; i < n; ++i, i0 += n) {
                 pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i]; // ibd. (2001), Eq. (14)
-                if (ccov > 0.0) {
+                if (acov > 0.0 or ccov > 0.0) {
                     // BD is not used anymore and can be overwritten
                     valarray<real> &Z = BD;
 
@@ -273,7 +273,7 @@ namespace especia {
                             Z[ij] += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
                         // ibd. (2003), Eq. (11)
-                        C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) + (1.0 - acov) * Z[ij] / ws);
+                        C[ij] = (1.0 - acov - ccov) * C[ij] + acov * (pc[i] * pc[j]) + ccov * Z[ij] / ws;
                     }
                 }
                 ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i]; // ibd. (2001), Eq. (16)
@@ -281,7 +281,7 @@ namespace especia {
             }
             step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0)); // ibd. (2001), Eq. (17)
 
-            if (ccov > 0.0 and g % update_modulus == 0) {
+            if ((acov > 0.0 or ccov > 0.0) and g % update_modulus == 0) {
                 // Decompose the covariance matrix and sort its eigenvalues in ascending
                 // order, along with eigenvectors
                 decompose(C, B, d);

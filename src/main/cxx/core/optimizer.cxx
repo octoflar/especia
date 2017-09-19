@@ -42,7 +42,7 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_defaults() {
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(natural n) {
     if (n != this->n) {
         this->n = n;
-        with_parent_number(static_cast<natural>(floor(2.0 + 1.5 * log(static_cast<real>(n)))));
+        with_strategy_parameters();
     }
     return *this;
 }
@@ -98,12 +98,11 @@ void especia::Optimizer::Builder::with_strategy_parameters() {
     }
 
     wv = sq(weights.sum()) / weights.apply(sq).sum();
-    cs = (wv + 2.0) / (wv + n + 3.0);
-    cc = 4.0 / (n + 4.0);
+    cs = (2.0 + wv) / (5.0 + n + wv);
+    cc = (4.0 + wv / n) / (4.0 + n + 2.0 * wv / n);
 
-    acov = 1.0 / wv;
-    ccov = acov * (2.0 / sq(n + sqrt(2.0))) + (1.0 - acov) * min<real>(1.0, (2.0 * wv - 1.0) / (sq(n + 2.0) + wv));
-
+    acov = 2.0 / (sq(n + 1.3) + wv);
+    ccov = min<real>(1.0 - acov, 2.0 * (wv - 2.0 + 1.0 / wv) / (sq(n + 2.0) +wv));
     step_size_damping = cs + 1.0 + 2.0 * max<real>(0.0, sqrt((wv - 1.0) / (n + 1.0)) - 1.0);
 }
 

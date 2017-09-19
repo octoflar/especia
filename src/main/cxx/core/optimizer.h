@@ -283,7 +283,7 @@ namespace especia {
             Builder &with_defaults();
 
             /**
-             * Configures the problem dimension and sets parent number and population size to default values.
+             * Configures the problem dimension.
              *
              * @param[in] n The problem dimension.
              * @return this builder.
@@ -291,7 +291,7 @@ namespace especia {
             Builder &with_problem_dimension(natural n = 10);
 
             /**
-             * Configures the parent number and sets the population size to its default value.
+             * Configures the parent number and sets the population size to twice the parent number.
              *
              * @param[in] parent_number The parent number.
              * @return this builder.

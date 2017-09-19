@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especid 27182 10 20 0.5 0.0001 2000 10 < ci.md
+    especid 27182 10 20 1.0 0.0001 10000 10 < ci.md
     
 ## Section: fine-structure multiplet of CI 1560
 
