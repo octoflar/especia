@@ -107,8 +107,7 @@ private:
 
     void before() {
         builder.with_problem_dimension(10).
-                with_population_size(40).
-                with_parent_number(20).
+                with_stop_generation(400).
                 with_accuracy_goal(1.0E-06).
                 with_random_seed(31415);
     }
@@ -122,7 +121,7 @@ private:
         const valarray<real> d(1.0, 10);
         const real s = 1.0;
 
-        const Optimizer optimizer = builder.with_stop_generation(200).build();
+        const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(sphere, x, d, s);
 
         assert_true(result.is_optimized(), "test minimize sphere (optimized)");
@@ -145,7 +144,7 @@ private:
         const valarray<real> d(1.0, 10);
         const real s = 1.0;
 
-        const Optimizer optimizer = builder.with_stop_generation(400).build();
+        const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(ellipsoid, x, d, s);
 
         assert_true(result.is_optimized(), "test minimize ellipsoid (optimized)");
@@ -168,7 +167,7 @@ private:
         const valarray<real> d(1.0, 10);
         const real s = 1.0;
 
-        const Optimizer optimizer = builder.with_stop_generation(400).build();
+        const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(cigar, x, d, s);
 
         assert_true(result.is_optimized(), "test minimize cigar (optimized)");
@@ -191,7 +190,7 @@ private:
         const valarray<real> d(1.0, 10);
         const real s = 1.0;
 
-        const Optimizer optimizer = builder.with_stop_generation(400).build();
+        const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(tablet, x, d, s);
 
         assert_true(result.is_optimized(), "test minimize tablet (optimized)");
@@ -214,7 +213,7 @@ private:
         const valarray<real> d(1.0, 10);
         const real s = 0.1;
 
-        const Optimizer optimizer = builder.with_stop_generation(400).build();
+        const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(rosenbrock, x, d, s);
 
         assert_true(result.is_optimized(), "test minimize Rosenbrock (optimized)");
@@ -237,7 +236,7 @@ private:
         const valarray<real> d(1.0, 10);
         const real s = 1.0;
 
-        const Optimizer optimizer = builder.with_stop_generation(400).build();
+        const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(different_powers, x, d, s);
 
         assert_equals(0.0, result.get_fitness(), 1.0E-16, "test minimize different powers");

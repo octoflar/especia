@@ -24,7 +24,7 @@
 #include "optimizer.h"
 
 especia::Optimizer::Builder::Builder() : weights(parent_number) {
-    set_strategy_parameters();
+    with_strategy_parameters();
 }
 
 especia::Optimizer::Builder::~Builder() {
@@ -33,8 +33,6 @@ especia::Optimizer::Builder::~Builder() {
 
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_defaults() {
     return with_problem_dimension().
-            with_population_size().
-            with_parent_number().
             with_covariance_update_modulus().
             with_accuracy_goal().
             with_stop_generation().
@@ -44,7 +42,7 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_defaults() {
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension(natural n) {
     if (n != this->n) {
         this->n = n;
-        set_strategy_parameters();
+        with_parent_number(static_cast<natural>(floor(2.0 + 1.5 * log(static_cast<real>(n)))));
     }
     return *this;
 }
@@ -52,7 +50,8 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_parent_number(natural parent_number) {
     if (parent_number != this->parent_number) {
         this->parent_number = parent_number;
-        set_strategy_parameters();
+        with_population_size(2 * parent_number);
+        with_strategy_parameters();
     }
     return *this;
 }
@@ -86,7 +85,7 @@ especia::Optimizer especia::Optimizer::Builder::build() {
     return Optimizer(*this);
 }
 
-void especia::Optimizer::Builder::set_strategy_parameters() {
+void especia::Optimizer::Builder::with_strategy_parameters() {
     using std::log;
     using std::max;
     using std::min;
@@ -95,7 +94,7 @@ void especia::Optimizer::Builder::set_strategy_parameters() {
     weights.resize(parent_number);
 
     for (natural i = 0; i < parent_number; ++i) {
-        weights[i] = log((parent_number + 1.0) / (i + 1));
+        weights[i] = log((parent_number + 0.5) / (i + 1));
     }
 
     wv = sq(weights.sum()) / weights.apply(sq).sum();

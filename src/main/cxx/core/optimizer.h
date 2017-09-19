@@ -283,7 +283,7 @@ namespace especia {
             Builder &with_defaults();
 
             /**
-             * Configures the problem dimension.
+             * Configures the problem dimension and sets parent number and population size to default values.
              *
              * @param[in] n The problem dimension.
              * @return this builder.
@@ -291,12 +291,12 @@ namespace especia {
             Builder &with_problem_dimension(natural n = 10);
 
             /**
-             * Configures the parent number.
+             * Configures the parent number and sets the population size to its default value.
              *
              * @param[in] parent_number The parent number.
              * @return this builder.
              */
-            Builder &with_parent_number(natural parent_number = 20);
+            Builder &with_parent_number(natural parent_number);
 
             /**
              * Configures the population size.
@@ -306,7 +306,7 @@ namespace especia {
              * @param[in] population_size The population size.
              * @return this builder.
              */
-            Builder &with_population_size(natural population_size = 40);
+            Builder &with_population_size(natural population_size);
 
             /**
              * Configures the covariance matrix update modulus.
@@ -351,9 +351,9 @@ namespace especia {
             }
 
             /**
-             * Calculates strategy parameters like recombination weights, cumulation and adaption rates.
+             * Configures strategy parameters like recombination weights, cumulation and adaption rates.
              */
-            void set_strategy_parameters();
+            void with_strategy_parameters();
 
             /**
              * The problem dimension.
