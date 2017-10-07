@@ -296,7 +296,7 @@ namespace especia {
              * @param[in] parent_number The parent number.
              * @return this builder.
              */
-            Builder &with_parent_number(natural parent_number);
+            Builder &with_parent_number(natural parent_number = 20);
 
             /**
              * Configures the population size.

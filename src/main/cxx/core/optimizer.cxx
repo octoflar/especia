@@ -33,6 +33,7 @@ especia::Optimizer::Builder::~Builder() {
 
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_defaults() {
     return with_problem_dimension().
+            with_parent_number().
             with_covariance_update_modulus().
             with_accuracy_goal().
             with_stop_generation().
@@ -48,11 +49,16 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_problem_dimension
 }
 
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_parent_number(natural parent_number) {
-    if (parent_number != this->parent_number) {
+    const natural population_size = 2 * parent_number;
+
+    if (this->parent_number != parent_number) {
         this->parent_number = parent_number;
-        with_population_size(2 * parent_number);
         with_strategy_parameters();
     }
+    if (this->population_size != population_size) {
+        with_population_size(population_size);
+    }
+
     return *this;
 }
 
