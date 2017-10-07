@@ -267,24 +267,14 @@ namespace especia {
                 s += ps[i] * ps[i];
             }
             if (acov > 0.0 or ccov > 0.0) {
-                const bool regular = s / (1.0 - pow(1.0 - cs, 2.0 * g)) < n * (2.0 + 4.0 / (n + 1));
-
                 for (natural i = 0, i0 = 0; i < n; ++i, i0 += n) {
-                    if (regular) {
-                        pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i];
-                    } else {
-                        pc[i] = (1.0 - cc) * pc[i];
-                    }
+                    pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i];
                     for (natural j = 0, ij = i0; j <= i; ++j, ++ij) {
                         real Z = 0.0;
                         for (natural k = 0; k < parent_number; ++k) {
                             Z += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
-                        if (regular) {
-                            C[ij] = (1.0 - acov - ccov) * C[ij] + ccov * Z / ws + acov * (pc[i] * pc[j]);
-                        } else {
-                            C[ij] = (1.0 - acov - ccov) * C[ij] + ccov * Z / ws + acov * (pc[i] * pc[j] + sq(ccu) * C[ij]);
-                        }
+                        C[ij] = (1.0 - acov - ccov) * C[ij] + ccov * Z / ws + acov * (pc[i] * pc[j]);
                     }
                 }
                 if (g % update_modulus == 0) {
