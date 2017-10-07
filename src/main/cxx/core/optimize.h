@@ -76,8 +76,8 @@ namespace especia {
     };
 
     /**
-     * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear
-     * function optimization. Based on Hansen and Ostermeier (2001).
+     * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear function optimization.
+     * Based on Hansen (2014, http://www.lri.fr/~hansen/purecmaes.m).
      *
      * Further reading:
      *
@@ -159,6 +159,7 @@ namespace especia {
         using std::inner_product;
         using std::numeric_limits;
         using std::partial_sort;
+        using std::pow;
         using std::sqrt;
         using std::thread;
         using std::valarray;
@@ -259,42 +260,52 @@ namespace especia {
             }
 
             real s = 0.0;
-            // Adapt the covariance matrix and the step size according to Hansen and Ostermeier (2001)
-            // and Hansen et al. (2003)
-            for (natural i = 0, i0 = 0; i < n; ++i, i0 += n) {
-                if (acov > 0.0 or ccov > 0.0) {
-                    pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i]; // ibd. (2001), Eq. (14)
+            // Adapt the covariance matrix and the step size according to Hansen & Ostermeier (2001)
+            // and Hansen et al. (2003). Last modification: 29 April 2014 (http://www.lri.fr/~hansen/purecmaes.m)
+            for (natural i = 0; i < n; ++i) {
+                ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i];
+                s += ps[i] * ps[i];
+            }
+            if (acov > 0.0 or ccov > 0.0) {
+                const bool regular = s / (1.0 - pow(1.0 - cs, 2.0 * g)) < n * (2.0 + 4.0 / (n + 1));
+
+                for (natural i = 0, i0 = 0; i < n; ++i, i0 += n) {
+                    if (regular) {
+                        pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i];
+                    } else {
+                        pc[i] = (1.0 - cc) * pc[i];
+                    }
                     for (natural j = 0, ij = i0; j <= i; ++j, ++ij) {
                         real Z = 0.0;
                         for (natural k = 0; k < parent_number; ++k) {
                             Z += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
-                        // ibd. (2003), Eq. (11)
-                        C[ij] = (1.0 - acov - ccov) * C[ij] + acov * (pc[i] * pc[j]) + ccov * Z / ws;
+                        if (regular) {
+                            C[ij] = (1.0 - acov - ccov) * C[ij] + ccov * Z / ws + acov * (pc[i] * pc[j]);
+                        } else {
+                            C[ij] = (1.0 - acov - ccov) * C[ij] + ccov * Z / ws + acov * (pc[i] * pc[j] + sq(ccu) * C[ij]);
+                        }
                     }
                 }
-                ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i]; // ibd. (2001), Eq. (16)
-                s += ps[i] * ps[i];
-            }
-            step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0)); // ibd. (2001), Eq. (17)
+                if (g % update_modulus == 0) {
+                    // Decompose the covariance matrix and sort its eigenvalues in ascending
+                    // order, along with eigenvectors
+                    decompose(C, B, d);
 
-            if ((acov > 0.0 or ccov > 0.0) and g % update_modulus == 0) {
-                // Decompose the covariance matrix and sort its eigenvalues in ascending
-                // order, along with eigenvectors
-                decompose(C, B, d);
-
-                const real t = d[n - 1] / max_covariance_matrix_condition - d[0];
-                // Adjust the condition of the covariance matrix and recompute the local step sizes
-                if (t > 0.0) {
-                    for (natural i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-                        C[ii] += t;
-                        d[i] += t;
+                    const real t = d[n - 1] / max_covariance_matrix_condition - d[0];
+                    // Adjust the condition of the covariance matrix and recompute the local step sizes
+                    if (t > 0.0) {
+                        for (natural i = 0, ii = 0; i < n; ++i, ii += n + 1) {
+                            C[ii] += t;
+                            d[i] += t;
+                        }
+                    }
+                    for (natural i = 0; i < n; ++i) {
+                        d[i] = sqrt(d[i]);
                     }
                 }
-                for (natural i = 0; i < n; ++i) {
-                    d[i] = sqrt(d[i]);
-                }
             }
+            step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0));
 
             // Check if the optimization is completed
             for (natural i = 0, ii = 0; i < n; ++i, ii += n + 1) {
