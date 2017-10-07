@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especia 27182 40 80 0.5 0.0001 20000 10 < mm.md
+    especia 27182 20 80 0.5 0.0001 10000 10 < mm.md
     
 ## Section: Fe II 1608
 

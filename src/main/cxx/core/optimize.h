@@ -159,7 +159,6 @@ namespace especia {
         using std::inner_product;
         using std::numeric_limits;
         using std::partial_sort;
-        using std::pow;
         using std::sqrt;
         using std::thread;
         using std::valarray;
@@ -274,7 +273,7 @@ namespace especia {
                         for (natural k = 0; k < parent_number; ++k) {
                             Z += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
-                        C[ij] = (1.0 - acov - ccov) * C[ij] + ccov * Z / ws + acov * (pc[i] * pc[j]);
+                        C[ij] = (1.0 - acov - ccov) * C[ij] + acov * (pc[i] * pc[j]) + ccov * (Z / ws);
                     }
                 }
                 if (g % update_modulus == 0) {

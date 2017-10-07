@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especiv 27182 200 400 0.5 0.0001 10000 10 < hi.md
+    especiv 27182 40 160 0.5 0.0001 10000 10 < hi.md
     
 ## Section: sub-damped Lyman-alpha line toward HE 0515-4414
 
