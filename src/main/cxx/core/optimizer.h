@@ -351,7 +351,8 @@ namespace especia {
             }
 
             /**
-             * Configures strategy parameters like recombination weights, cumulation and adaption rates.
+             * Configures strategy parameters like recombination weights, cumulation and adaption rates
+             * according to Hansen (2014, http://www.lri.fr/~hansen/purecmaes.m).
              */
             void with_strategy_parameters();
 
