@@ -22,8 +22,3 @@ matrix:
         - TEST="unittests"
       dist: trusty
       sudo: required
-    - os: linux
-      env:
-        - TEST="systemtests"
-      dist: trusty
-      sudo: required
