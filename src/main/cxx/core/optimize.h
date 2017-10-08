@@ -274,7 +274,7 @@ namespace especia {
                             Z += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
                         // Hansen (2014, http://www.lri.fr/~hansen/purecmaes.m)
-                        C[ij] = (C[ij] + acov * ((pc[i] * pc[j]) - C[ij])) + ccov * (Z / ws - C[ij]);
+                        C[ij] = (C[ij] + acov * (pc[i] * pc[j] - C[ij])) + ccov * (Z / ws - C[ij]);
                     }
                 }
                 if (g % update_modulus == 0) {
