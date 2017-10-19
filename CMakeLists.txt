@@ -42,7 +42,7 @@ set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 include_directories(${CMAKE_BINARY_DIR})
 
-configure_file(${MAIN}/cxx/config.h config.h @ONLY)
+configure_file(${MAIN}/cxx/config.h.in config.h @ONLY)
 configure_file(${MAIN}/scripts/erun erun COPYONLY)
 
 configure_file(${TEST}/resources/especid_test.html resources/especid_test.html COPYONLY)
