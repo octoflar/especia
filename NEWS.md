@@ -14,7 +14,8 @@ not support Open Multiprocessing directives.
 * The spectral resolution of the instrument is expressed in units of
 10<sup>3</sup> which improves the scaling of the optimization problem.
 * The variation of the fine-structure constant Δα/α is calculated in
-units of 10<sup>-6</sup> which improves the scaling of the problem.
+units of 10<sup>-6</sup> which improves the scaling of the optimization
+problem.
 * The extended pseudo-Voigt approximation (Ida, Ando & Toraya 2000) is 
 implemented.
 * The residual sum of squares is replaced with the *cost function*,
