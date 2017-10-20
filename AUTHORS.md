@@ -1,7 +1,8 @@
 # Authors
 
 The author of this software is Ralf Quast
-(![ORCID iD icon](https://orcid.org/sites/default/files/images/orcid_16x16.png) [orcid.org/0000-0002-6857-6503](https://orcid.org/0000-0002-6857-6503))
+(![ORCID iD icon](https://orcid.org/sites/default/files/images/orcid_16x16.png)
+[orcid.org/0000-0002-6857-6503](https://orcid.org/0000-0002-6857-6503)).
 To acknowledge the use of this software, please cite:
 
 Quast, Ralf (2016). *Evolutionary spectrum inversion and analysis (Especia)*. Zenodo.
