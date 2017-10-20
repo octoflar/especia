@@ -1,7 +1,7 @@
 # Authors
 
 The author of this software is Ralf Quast
-(<a href="https://orcid.org/0000-0002-6857-6503" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">orcid.org/0000-0002-6857-6503</a>).
+(![ORCID iD icon](https://orcid.org/sites/default/files/images/orcid_16x16.png) [orcid.org/0000-0002-6857-6503](https://orcid.org/0000-0002-6857-6503))
 To acknowledge the use of this software, please cite:
 
 Quast, Ralf (2016). *Evolutionary spectrum inversion and analysis (Especia)*. Zenodo.
@@ -10,6 +10,3 @@ Quast, Ralf (2016). *Evolutionary spectrum inversion and analysis (Especia)*. Ze
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2005). *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Astronomy and Astrophysics 431 (3) 1167.
 [DOI 10.1051/0004-6361:20041601](http://doi.org/10.1051/0004-6361:20041601).
-
-
-![ORCID iD icon](https://orcid.org/sites/default/files/images/orcid_16x16.png)[orcid.org/0000-0002-6857-6503](https://orcid.org/0000-0002-6857-6503)
