@@ -1,6 +1,6 @@
 # Authors
 
-The author of this software is [Ralf Quast](https://orcid.org/0000-0002-6857-6503), affiliated (1998 - 2006) with *Universität
+The author of this software is [Ralf Quast](https://github.com/octoflar), affiliated (1998 - 2006) with *Universität
 Hamburg, Hamburger Sternwarte, 21029 Hamburg, Germany.* To acknowledge the use of this software, please cite:
 
 Quast, Ralf (2016). *Evolutionary spectrum inversion and analysis (Especia)*. Zenodo.
