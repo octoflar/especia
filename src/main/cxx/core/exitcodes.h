@@ -46,14 +46,14 @@ namespace especia {
         static const int logic_error = 00010;
 
         /**
-         * A runtime error occurred (exit code = 256).
+         * A runtime error occurred (exit code = 16).
          */
-        static const int runtime_error = 00100;
+        static const int runtime_error = 00020;
 
         /**
-         * An unspecific exception occurred (exit code = 2048).
+         * An unspecific exception occurred (exit code = 64).
          */
-        static const int unspecific_exception = 01000;
+        static const int unspecific_exception = 00100;
 
     private:
         Exit_Codes() {
