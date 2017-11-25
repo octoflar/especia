@@ -6,7 +6,7 @@ addons:
 script:
   - mkdir cmake-build-release
   - cd cmake-build-release
-  - cmake -DCMAKE_BUILD_TYPE=Release -DESPECIA_PURE_CMAES_VERSION="$YEAR" ..
+  - cmake -DCMAKE_BUILD_TYPE=Release -DESPECIA_PURE_CMAES_VERSION="$PURE" ..
   - make -j clean all util
   - make "$TEST"
 matrix:
@@ -14,28 +14,28 @@ matrix:
     - os: osx
       env:
         - TEST="unittests"
-        - YEAR="2006"
-    - os: osx
-      env:
-        - TEST="systemtests"
-        - YEAR="2006"
+        - PURE="2014"
     - os: osx
       env:
         - TEST="unittests"
-        - YEAR="2014"
+        - PURE="2006"
     - os: osx
       env:
         - TEST="systemtests"
-        - YEAR="2014"
+        - PURE="2014"
+    - os: osx
+      env:
+        - TEST="systemtests"
+        - PURE="2006"
     - os: linux
       env:
         - TEST="unittests"
-        - YEAR="2006"
+        - PURE="2014"
       dist: trusty
       sudo: required
     - os: linux
       env:
         - TEST="unittests"
-        - YEAR="2014"
+        - PURE="2006"
       dist: trusty
       sudo: required
