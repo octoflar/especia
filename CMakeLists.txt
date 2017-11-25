@@ -34,7 +34,8 @@ set(CMAKE_CONFIGURATION_TYPES Release Debug)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic")
-set(ESPECIA_PURE_CMAES_VERSION 2014)
+set(ESPECIA_PURE_CMAES_VERSION 2014 CACHE STRING
+        "The version of the pure CMA-ES reference implementation (use '2006' to select the original version)")
 
 set_property(DIRECTORY PROPERTY ADDITIONAL_MAKE_CLEAN_FILES config.h)
 
