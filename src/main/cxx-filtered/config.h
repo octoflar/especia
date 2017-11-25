@@ -29,12 +29,6 @@
 namespace especia {
 
     /**
-     * The version of the pure CMA-ES reference implementation. Use '2006' to select the
-     * original version.
-     */
-    const unsigned especia_pure_cmaes_version = @ESPECIA_PURE_CMAES_VERSION@;
-
-    /**
      * The project name.
      */
     const std::string project_name = "@PROJECT_NAME@";
