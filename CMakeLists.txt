@@ -35,6 +35,8 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic")
 
+set_property(DIRECTORY PROPERTY ADDITIONAL_MAKE_CLEAN_FILES config.h)
+
 veclib_required()
 openmp_optional()
 
@@ -42,7 +44,7 @@ set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
 set(TEST ${CMAKE_SOURCE_DIR}/src/test)
 include_directories(${CMAKE_BINARY_DIR})
 
-configure_file(${MAIN}/cxx/config.h.in config.h @ONLY)
+configure_file(${MAIN}/cxx-filtered/config.h config.h @ONLY)
 configure_file(${MAIN}/scripts/erun erun COPYONLY)
 
 configure_file(${TEST}/resources/especid_test.html resources/especid_test.html COPYONLY)
