@@ -60,11 +60,6 @@ namespace especia {
     const std::string project_url = "@PROJECT_URL@";
 
     /**
-     * The project reference identifier. Either the project DOI, if defined, or the project URL.
-     */
-    const std::string project_ref = project_doi.empty() ? project_url : project_doi;
-
-    /**
      * The project name and version identifier.
      */
     const std::string project_long_name =
