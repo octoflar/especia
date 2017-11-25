@@ -50,7 +50,7 @@ namespace especia {
          *
          * @param[in] n_in The number of data points.
          */
-        Section(size_t n_in);
+        explicit Section(size_t n_in);
 
         /**
          * Constructs a new instance of this class for a certain number of data points,
@@ -410,3 +410,4 @@ namespace especia {
 }
 
 #endif // ESPECIA_SECTION_H
+

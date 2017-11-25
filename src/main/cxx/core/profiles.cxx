@@ -126,14 +126,13 @@ especia::Pseudo_Voigt::Pseudo_Voigt(const real &b, const real &d)
           eta(r * (1.36603 - r * (0.47719 - r * 0.11116))) {
 }
 
-especia::Pseudo_Voigt::~Pseudo_Voigt() {
-}
+especia::Pseudo_Voigt::~Pseudo_Voigt() = default;
 
 real especia::Pseudo_Voigt::operator()(const real &x) const {
     return (1.0 - eta) * f_g(x, gamma_g) + eta * f_l(x, gamma_l);
 }
 
-const real especia::Pseudo_Voigt::c_g = sqrt(log(2.0));
+const real especia::Pseudo_Voigt::c_g = sqrt(log(2.0)); // NOLINT
 
 
 especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const real &b, const real &d)
@@ -148,8 +147,7 @@ especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const real &b, const real 
           eta_p(poly_eta_p(r)) {
 }
 
-especia::Extended_Pseudo_Voigt::~Extended_Pseudo_Voigt() {
-}
+especia::Extended_Pseudo_Voigt::~Extended_Pseudo_Voigt() = default;
 
 real especia::Extended_Pseudo_Voigt::operator()(const real &x) const {
     return (1.0 - eta_l - eta_i - eta_p) * f_g(x, gamma_g) +
@@ -158,9 +156,9 @@ real especia::Extended_Pseudo_Voigt::operator()(const real &x) const {
            eta_p * f_p(x, gamma_p);
 }
 
-const real especia::Extended_Pseudo_Voigt::c_g = sqrt(log(2.0));
-const real especia::Extended_Pseudo_Voigt::c_i = sqrt(pow(2.0, 2.0 / 3.0) - 1.0);
-const real especia::Extended_Pseudo_Voigt::c_p = log(sqrt(2.0) + 1.0);
+const real especia::Extended_Pseudo_Voigt::c_g = sqrt(log(2.0)); // NOLINT
+const real especia::Extended_Pseudo_Voigt::c_i = sqrt(pow(2.0, 2.0 / 3.0) - 1.0); // NOLINT
+const real especia::Extended_Pseudo_Voigt::c_p = log(sqrt(2.0) + 1.0); // NOLINT
 
 
 especia::Many_Multiplet::Many_Multiplet()
@@ -175,16 +173,15 @@ especia::Many_Multiplet::Many_Multiplet(const real q[])
           a(c1 * q[1] * pow(10.0, q[5]) * (u * c)) {
 }
 
-especia::Many_Multiplet::~Many_Multiplet() {
-}
+especia::Many_Multiplet::~Many_Multiplet() = default;
 
 real especia::Many_Multiplet::operator()(const real &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
 const real especia::Many_Multiplet::c0 = 1.0E-03 * speed_of_light;
-const real especia::Many_Multiplet::c1 = 1.0E-06 * sq(elementary_charge) /
-                                           (4.0 * electric_constant * electron_mass * sq(speed_of_light));
+const real especia::Many_Multiplet::c1 = 1.0E-06 * sq(elementary_charge) / // NOLINT
+                                                   (4.0 * electric_constant * electron_mass * sq(speed_of_light));
 
 
 especia::Intergalactic_Doppler::Intergalactic_Doppler()
@@ -198,13 +195,12 @@ especia::Intergalactic_Doppler::Intergalactic_Doppler(const real q[])
           a(c1 * q[1] * pow(10.0, q[5]) * (q[0] * c)) {
 }
 
-especia::Intergalactic_Doppler::~Intergalactic_Doppler() {
-}
+especia::Intergalactic_Doppler::~Intergalactic_Doppler() = default;
 
 real especia::Intergalactic_Doppler::operator()(const real &x) const {
     return a * truncate(f_g, x - c, b, 4.0);
 }
 
 const real especia::Intergalactic_Doppler::c0 = 1.0E-03 * speed_of_light;
-const real especia::Intergalactic_Doppler::c1 = 1.0E-06 * sq(elementary_charge) /
-                                                  (4.0 * electric_constant * electron_mass * sq(speed_of_light));
+const real especia::Intergalactic_Doppler::c1 = 1.0E-06 * sq(elementary_charge) / // NOLINT
+                                                          (4.0 * electric_constant * electron_mass * sq(speed_of_light));

@@ -56,9 +56,7 @@ namespace especia {
         static const int unspecific_exception = 00100;
 
     private:
-        Exit_Codes() {
-            // private constructor prevents instantiation
-        }
+        Exit_Codes() = default; // private constructor prevents instantiation
     };
 
 }

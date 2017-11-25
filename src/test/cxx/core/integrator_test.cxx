@@ -77,7 +77,7 @@ private:
         assert_equals(0.642572, result, 1.0E-06, "integrate optical depth (semi-infinite)");
     }
 
-    void run_all() {
+    void run_all() override {
         run(this, &Integrator_Test::test_integrate_cos);
         run(this, &Integrator_Test::test_integrate_sin);
         run(this, &Integrator_Test::test_integrate_sin_sq);

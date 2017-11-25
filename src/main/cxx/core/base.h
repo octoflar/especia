@@ -62,9 +62,7 @@ namespace especia {
         typedef void (&type)(const T &, T &, T &);
 
     private:
-        C1() {
-            // private constructor prevents instantiation
-        }
+        C1() = default; // private constructor prevents instantiation
     };
 
     /**

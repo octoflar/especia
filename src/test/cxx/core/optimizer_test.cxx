@@ -105,14 +105,14 @@ private:
         return y;
     }
 
-    void before() {
+    void before() override {
         builder.with_problem_dimension(10).
                 with_stop_generation(400).
                 with_accuracy_goal(1.0E-06).
                 with_random_seed(31415);
     }
 
-    void after() {
+    void after() override {
         builder.with_defaults();
     }
 
@@ -242,7 +242,7 @@ private:
         assert_equals(0.0, result.get_fitness(), 1.0E-16, "test minimize different powers");
     }
 
-    void run_all() {
+    void run_all() override {
         run(this, &Optimizer_Test::test_minimize_sphere);
         run(this, &Optimizer_Test::test_minimize_ellipsoid);
         run(this, &Optimizer_Test::test_minimize_cigar);

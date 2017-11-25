@@ -27,9 +27,7 @@ especia::Optimizer::Builder::Builder() : weights(parent_number) {
     with_strategy_parameters();
 }
 
-especia::Optimizer::Builder::~Builder() {
-
-}
+especia::Optimizer::Builder::~Builder() = default;
 
 especia::Optimizer::Builder &especia::Optimizer::Builder::with_defaults() {
     return with_problem_dimension().
@@ -143,15 +141,11 @@ especia::Optimizer::Result::Result(natural n,
     g = 0;
 }
 
-especia::Optimizer::Result::~Result() {
-
-}
+especia::Optimizer::Result::~Result() = default;
 
 especia::Optimizer::Optimizer(const especia::Optimizer::Builder &builder)
         : config(builder), decompose(builder.get_problem_dimension()), deviate(builder.get_random_seed()) {
 
 }
 
-especia::Optimizer::~Optimizer() {
-
-}
+especia::Optimizer::~Optimizer() = default;

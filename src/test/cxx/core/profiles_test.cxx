@@ -66,7 +66,7 @@ private:
         assert_equals(928.510, result, 1.0E-03, "equivalent width (intergalactic Voigt, extended)");
     }
 
-    void run_all() {
+    void run_all() override {
         run(this, &Profiles_Test::test_equivalent_width_intergalactic_doppler);
         run(this, &Profiles_Test::test_equivalent_width_many_multiplet);
         run(this, &Profiles_Test::test_equivalent_width_intergalactic_voigt);

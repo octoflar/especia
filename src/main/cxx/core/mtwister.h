@@ -76,7 +76,7 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        Mersenne_Twister(word seed = 57787, word multiplier = 1812433253) : words(n) {
+        explicit Mersenne_Twister(word seed = 57787, word multiplier = 1812433253) : words(n) { // NOLINT
             reset(seed, multiplier);
         }
 
@@ -86,15 +86,14 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        Mersenne_Twister(natural seed_count, const word seeds[]) : words(n) {
+        Mersenne_Twister(natural seed_count, const word seeds[]) : words(n) { // NOLINT
             reset(seed_count, seeds);
         }
 
         /**
          * The destructor.
          */
-        ~Mersenne_Twister() {
-        };
+        ~Mersenne_Twister() = default;
 
         /**
          * Returns a new random number.
@@ -206,7 +205,7 @@ namespace especia {
         }
 
         mutable std::valarray<word> words;
-        mutable natural i;
+        mutable natural i = 0;
     };
 
     /**
@@ -228,3 +227,4 @@ namespace especia {
 }
 
 #endif // ESPECIA_MTWISTER_H
+

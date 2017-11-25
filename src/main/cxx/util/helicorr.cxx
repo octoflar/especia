@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
             throw invalid_argument("Error: an invalid number of arguments was supplied");
         }
 
-        const real v = especia::convert<real>(string(argv[1]));
+        const auto v = especia::convert<real>(string(argv[1]));
 
         natural skip = 0;
 

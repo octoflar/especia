@@ -81,15 +81,13 @@ namespace especia {
          * @param[in] p The formula with less quadrature points.
          * @param[in] q The formula with more quadrature points.
          */
-        Integrator(Formula p = Q13, Formula q = Q19) : p(p), q(q) {
+        explicit Integrator(Formula p = Q13, Formula q = Q19) : p(p), q(q) {
         }
 
         /**
          * The destructor.
          */
-        ~Integrator() {
-
-        }
+        ~Integrator() = default;
 
         /**
          * Computes the integral of a function, with the limits supplied as argument, i.e.
@@ -169,9 +167,7 @@ namespace especia {
             /**
              * The destructor.
              */
-            ~Part() {
-
-            }
+            ~Part() = default;
 
             /**
              * Returns the absolute error of the integration result of this part.
@@ -197,7 +193,7 @@ namespace especia {
              * @return the lower half part.
              */
             Part *new_lower_part() const {
-                Part *part = new Part(this, a, c);
+                auto *part = new Part(this, a, c);
 
                 part->yu[0] = yl[2];
                 part->yu[1] = yl[7];
@@ -249,7 +245,7 @@ namespace especia {
              * @return the upper half part.
              */
             Part *new_upper_part() const {
-                Part *part = new Part(this, c, b);
+                auto *part = new Part(this, c, b);
 
                 part->yl[0] = yu[2];
                 part->yl[1] = yu[7];
@@ -460,7 +456,7 @@ namespace especia {
                 using std::make_heap;
                 using std::push_heap;
 
-                P *part = new P(f, a, b, p, q);
+                auto *part = new P(f, a, b, p, q);
                 make_heap(parts.begin(), parts.end(), part_compare);
                 add_part(part);
             }
@@ -468,7 +464,7 @@ namespace especia {
             /**
              * The destructor.
              */
-            ~Partition() {
+            ~Partition() { // NOLINT
                 for (auto part : parts) {
                     delete part;
                 }
@@ -686,3 +682,4 @@ namespace especia {
 }
 
 #endif // INTEGRATOR_H
+

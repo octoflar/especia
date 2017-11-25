@@ -25,13 +25,11 @@ especia::Runner::Runner(int argc, char *argv[]) {
     using std::string;
 
     for (int i = 0; i < argc; ++i) {
-        args.push_back(string(argv[i]));
+        args.emplace_back(argv[i]);
     }
 }
 
-especia::Runner::~Runner() {
-
-}
+especia::Runner::~Runner() = default;
 
 void especia::Runner::write_command_line(std::ostream &os) const {
     using std::endl;
@@ -41,8 +39,8 @@ void especia::Runner::write_command_line(std::ostream &os) const {
     os << "<!--" << endl;
     os << "<command>" << endl;
 
-    for (size_t i = 0; i < args.size(); ++i) {
-        os << " " << args[i];
+    for (const auto &arg : args) {
+        os << " " << arg;
     }
 
     os << std::endl;

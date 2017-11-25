@@ -274,8 +274,7 @@ namespace especia {
             /**
              * The destructor.
              */
-            ~Tracer() {
-            }
+            ~Tracer() = default;
 
             /**
              * Tests if tracing is enabled.
@@ -338,3 +337,4 @@ namespace especia {
 }
 
 #endif // ESPECIA_RUNNER_H
+

@@ -45,14 +45,12 @@ namespace especia {
         /**
          * The constructor.
          */
-        No_Constraint() {
-        }
+        No_Constraint() = default;
 
         /**
          * The destructor.
          */
-        ~No_Constraint() {
-        }
+        ~No_Constraint() = default;
 
         /**
          * Tests if a given parameter vector violates the constraint.
@@ -89,14 +87,12 @@ namespace especia {
         /**
          * The constructor.
          */
-        No_Tracing() {
-        }
+        No_Tracing() = default;
 
         /**
          * The destructor.
          */
-        ~No_Tracing() {
-        }
+        ~No_Tracing() = default;
 
         /**
          * Tests if tracing is enabled.
@@ -814,7 +810,7 @@ namespace especia {
          *
          * @param[in] builder The build configuration.
          */
-        Optimizer(const Builder &builder);
+        explicit Optimizer(const Builder &builder);
 
         /**
          * Optimizes an objective function.
@@ -908,3 +904,4 @@ namespace especia {
 }
 
 #endif // ESPECIA_OPTIMIZER_H
+

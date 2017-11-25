@@ -20,7 +20,6 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
 #include <algorithm>
-#include <utility>
 
 #include "decompose.h"
 
@@ -172,8 +171,7 @@ especia::D_Decompose::D_Decompose(natural m) : n(integer(m)), work(), iwork() {
     iwork.resize(static_cast<size_t>(liwork));
 }
 
-especia::D_Decompose::~D_Decompose() {
-}
+especia::D_Decompose::~D_Decompose() = default;
 
 void especia::D_Decompose::operator()(const real A[], real Z[], real w[]) const {
     copy(&A[0], &A[n * n], Z);
@@ -200,7 +198,7 @@ void especia::D_Decompose::lapack_inquire(integer n, integer &lwork, integer &li
     integer info;
     real work;
 
-    LAPACK_NAME_R_TYPE(syevd)(job, uplo, n, 0, n, 0, &work, -1, &liwork, -1, info);
+    LAPACK_NAME_R_TYPE(syevd)(job, uplo, n, nullptr, n, nullptr, &work, -1, &liwork, -1, info);
 
     if (info == 0) {
         lwork = static_cast<integer>(work);
@@ -211,9 +209,9 @@ void especia::D_Decompose::lapack_inquire(integer n, integer &lwork, integer &li
     }
 }
 
-const string especia::D_Decompose::message_int_err =
+const string especia::D_Decompose::message_int_err = // NOLINT
         "especia::D_Decompose() Error: internal error in LAPACK";
-const string especia::D_Decompose::message_ill_arg =
+const string especia::D_Decompose::message_ill_arg = // NOLINT
         "especia::D_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 
@@ -225,8 +223,7 @@ especia::R_Decompose::R_Decompose(natural m)
     iwork.resize(static_cast<size_t>(liwork));
 }
 
-especia::R_Decompose::~R_Decompose() {
-}
+especia::R_Decompose::~R_Decompose() = default;
 
 void especia::R_Decompose::operator()(const real A[], real Z[], real w[]) const {
     copy(&A[0], &A[n * n], &awork[0]);
@@ -257,8 +254,8 @@ void especia::R_Decompose::lapack_inquire(integer n, integer &lwork, integer &li
     integer m;
     real work;
 
-    LAPACK_NAME_R_TYPE(syevr)(job, range, uplo, n, 0, n, vl, vu, il, iu, abstol, m, 0, 0, n,
-                              0, &work, -1, &liwork, -1,
+    LAPACK_NAME_R_TYPE(syevr)(job, range, uplo, n, nullptr, n, vl, vu, il, iu, abstol, m, nullptr, nullptr, n,
+                              nullptr, &work, -1, &liwork, -1,
                               info);
 
     if (info == 0) {
@@ -270,10 +267,10 @@ void especia::R_Decompose::lapack_inquire(integer n, integer &lwork, integer &li
     }
 }
 
-const real especia::R_Decompose::abstol = LAPACK_NAME_R_TYPE(lamch)('S');
-const string especia::R_Decompose::message_int_err =
+const real especia::R_Decompose::abstol = LAPACK_NAME_R_TYPE(lamch)('S'); // NOLINT
+const string especia::R_Decompose::message_int_err = // NOLINT
         "especia::R_Decompose() Error: internal error in LAPACK";
-const string especia::R_Decompose::message_ill_arg =
+const string especia::R_Decompose::message_ill_arg = // NOLINT
         "especia::R_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 
@@ -283,8 +280,7 @@ especia::X_Decompose::X_Decompose(natural m) : n(integer(m)), work(), iwork(5 * 
     work.resize(static_cast<size_t>(lwork));
 }
 
-especia::X_Decompose::~X_Decompose() {
-}
+especia::X_Decompose::~X_Decompose() = default;
 
 void especia::X_Decompose::operator()(const real A[], real Z[], real w[]) const {
     copy(&A[0], &A[n * n], &awork[0]);
@@ -315,8 +311,8 @@ void especia::X_Decompose::lapack_inquire(integer n, integer &lwork) {
     integer m;
     real work;
 
-    LAPACK_NAME_R_TYPE(syevx)(job, range, uplo, n, 0, n, vl, vu, il, iu, abstol, m, 0, 0, n,
-                              &work, -1, 0, 0,
+    LAPACK_NAME_R_TYPE(syevx)(job, range, uplo, n, nullptr, n, vl, vu, il, iu, abstol, m, nullptr, nullptr, n,
+                              &work, -1, nullptr, nullptr,
                               info);
 
     if (info == 0) {
@@ -328,10 +324,10 @@ void especia::X_Decompose::lapack_inquire(integer n, integer &lwork) {
     }
 }
 
-const real especia::X_Decompose::abstol = real(2) * LAPACK_NAME_R_TYPE(lamch)('S');
-const string especia::X_Decompose::message_int_err =
+const real especia::X_Decompose::abstol = real(2) * LAPACK_NAME_R_TYPE(lamch)('S'); // NOLINT
+const string especia::X_Decompose::message_int_err = // NOLINT
         "especia::X_Decompose() Error: internal error in LAPACK";
-const string especia::X_Decompose::message_ill_arg =
+const string especia::X_Decompose::message_ill_arg = // NOLINT
         "especia::X_Decompose() Error: illegal argument(s) in call to LAPACK";
 
 #undef LAPACK_NAME_R_TYPE

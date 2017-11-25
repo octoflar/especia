@@ -74,8 +74,7 @@ especia::Section::Section(size_t n_in, const real x[], const real y[], const rea
           n(n_in) {
 }
 
-especia::Section::~Section() {
-}
+especia::Section::~Section() = default;
 
 void especia::Section::continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const {
     using std::fill;
@@ -197,7 +196,7 @@ real especia::Section::cost() const {
 void especia::Section::mask(real a, real b) {
     for (size_t i = 0; i < n; ++i) {
         if (a <= wav[i] and wav[i] <= b) {
-            msk[i] = 0;
+            msk[i] = false;
         }
     }
 }

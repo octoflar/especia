@@ -46,7 +46,7 @@ namespace especia {
          *
          * @param[in] m The problem dimension.
          */
-        D_Decompose(natural m);
+        explicit D_Decompose(natural m);
 
         /**
          * The destructor.
@@ -123,7 +123,7 @@ namespace especia {
          *
          * @param[in] m The problem dimension.
          */
-        R_Decompose(natural m);
+        explicit R_Decompose(natural m);
 
         /**
          * The destructor.
@@ -213,7 +213,7 @@ namespace especia {
          *
          * @param[in] m The problem dimension.
          */
-        X_Decompose(natural m);
+        explicit X_Decompose(natural m);
 
         /**
          * The destructor.
@@ -292,3 +292,4 @@ namespace especia {
 }
 
 #endif // ESPECIA_SYMEIG_H
+

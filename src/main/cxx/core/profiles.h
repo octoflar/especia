@@ -49,7 +49,7 @@ namespace especia {
          * @param[in] b The width of the Gaussian (arbitrary unit).
          * @param[in] d The width of the Lorentzian (arbitrary unit).
          */
-        Pseudo_Voigt(const real &b = 0.5, const real &d = 0.5);
+        explicit Pseudo_Voigt(const real &b = 0.5, const real &d = 0.5);
 
         /**
          * The destructor.
@@ -97,7 +97,7 @@ namespace especia {
          * @param[in] b The width of the Gaussian (arbitrary unit).
          * @param[in] d The width of the Lorentzian (arbitrary unit).
          */
-        Extended_Pseudo_Voigt(const real &b = 0.5, const real &d = 0.5);
+        explicit Extended_Pseudo_Voigt(const real &b = 0.5, const real &d = 0.5);
 
         /**
          * The destructor.
@@ -174,7 +174,7 @@ namespace especia {
          * @c q[7] The variation of the fine-structure constant (1E-6).
          * @endparblock
          */
-        Many_Multiplet(const real q[]);
+        explicit Many_Multiplet(const real q[]);
 
         /**
          * The destructor.
@@ -284,7 +284,7 @@ namespace especia {
          * @c q[5] The decadic logarithm of the particle column number density (cm-2).
          * @endparblock
          */
-        Intergalactic_Doppler(const real q[]);
+        explicit Intergalactic_Doppler(const real q[]);
 
         /**
          * The destructor.
@@ -396,7 +396,7 @@ namespace especia {
          * @c q[6] The damping constant (s-1).
          * @endparblock
          */
-        Intergalactic_Voigt(const real q[])
+        explicit Intergalactic_Voigt(const real q[])
                 : z((1.0 + q[2]) * (1.0 + q[3] / c0)),
                   c(q[0] * z),
                   a(c1 * q[1] * std::pow(10.0, q[5]) * (q[0] * c)),
@@ -406,8 +406,7 @@ namespace especia {
         /**
          * The destructor.
          */
-        ~Intergalactic_Voigt() {
-        }
+        ~Intergalactic_Voigt() = default;
 
         /**
          * Returns the optical depth of the profile at a given wavelength.
@@ -481,8 +480,8 @@ namespace especia {
     const real Intergalactic_Voigt<A>::c0 = 1.0E-03 * speed_of_light;
 
     template<class A>
-    const real Intergalactic_Voigt<A>::c1 = 1.0E-06 * sq(elementary_charge) /
-                                              (4.0 * electric_constant * electron_mass * sq(speed_of_light));
+    const real Intergalactic_Voigt<A>::c1 = 1.0E-06 * sq(elementary_charge) / // NOLINT
+                                                      (4.0 * electric_constant * electron_mass * sq(speed_of_light));
 
     template<class A>
     const real Intergalactic_Voigt<A>::c2 = 1.0E-10 / (4.0 * pi * speed_of_light);
@@ -515,8 +514,7 @@ namespace especia {
         /**
          * The destructor.
          */
-        ~Superposition() {
-        }
+        ~Superposition() = default;
 
         /**
          * Returns the optical depth of the profile superposition at a given wavelength.
@@ -564,16 +562,14 @@ namespace especia {
          *
          * @param integrator The integrator.
          */
-        Equivalent_Width_Calculator(const Integrate &integrator) : integrator(integrator) {
+        explicit Equivalent_Width_Calculator(const Integrate &integrator) : integrator(integrator) {
 
         }
 
         /**
          * The destructor.
          */
-        ~Equivalent_Width_Calculator() {
-
-        }
+        ~Equivalent_Width_Calculator() = default;
 
         /**
          * Calculates the rest equivalent width of an optical depth profile.
@@ -602,3 +598,4 @@ namespace especia {
 }
 
 #endif // ESPECIA_PROFILES_H
+

@@ -51,7 +51,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        Normal_Deviate(word seed = 57787) : uniform_deviate(seed), status(false) {
+        explicit Normal_Deviate(word seed = 57787) : uniform_deviate(seed) {
         }
 
         /**
@@ -59,15 +59,13 @@ namespace especia {
          *
          * @param[in] u The instance of this class to be copied.
          */
-        Normal_Deviate(const U &u)
-                : uniform_deviate(u), status(false) {
+        explicit Normal_Deviate(const U &u) : uniform_deviate(u) {
         }
 
         /**
          * The destructor.
          */
-        ~Normal_Deviate() {
-        }
+        ~Normal_Deviate() = default;
 
         /**
          * Returns a normal random number.
@@ -102,8 +100,9 @@ namespace especia {
     private:
         const U uniform_deviate;
 
-        mutable bool status;
-        mutable real x, y;
+        mutable bool status = false;
+        mutable real x = 0.0;
+        mutable real y = 0.0;
     };
 
 }

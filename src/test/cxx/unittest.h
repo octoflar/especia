@@ -27,6 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <utility>
 
 
 /**
@@ -37,9 +38,7 @@ public:
     /**
      * The destructor.
      */
-    virtual ~Unit_Test() {
-
-    }
+    virtual ~Unit_Test() = default;
 
     /**
      * Runs the testsuite.
@@ -75,21 +74,20 @@ protected:
          *
          * @param what A description of the failed assertion.
          */
-        Assertion_Error(std::string what) : exception(), what_happened(what) {
+        explicit Assertion_Error(std::string what) : exception(), what_happened(std::move(what)) {
         }
 
         /**
          * The destructor.
          */
-        virtual ~Assertion_Error() {
-        }
+        ~Assertion_Error() override = default;
 
         /**
          * Returns a description of the failed assertion.
          *
          * @return the description of the failed assertion.
          */
-        virtual const char* what() const noexcept {
+        const char* what() const noexcept override {
             return what_happened.c_str();
         }
 
@@ -103,9 +101,7 @@ protected:
     /**
      * The constructor.
      */
-    Unit_Test() {
-
-    }
+    Unit_Test() = default;
 
     /**
      * Method called before any test case will be executed.
@@ -251,7 +247,7 @@ private:
             err << what << endl;
         }
         if (throw_on_failed) {
-            throw Assertion_Error(what);
+            throw Assertion_Error(what); // NOLINT
         }
     }
 

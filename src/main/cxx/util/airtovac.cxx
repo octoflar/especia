@@ -80,8 +80,7 @@ int main(int argc, char *argv[]) {
 
         if (especia::get(cin, x, y, z, skip)) {
             for (size_t i = 0; i < x.size(); ++i) {
-                x[i] = real(10.0) / especia::solve(Equations::edlen66, real(10.0) / x[i], real(10.0) / x[i],
-                                                     real(1.0E-08));
+                x[i] = real(10.0) / especia::solve(Equations::edlen66, real(10.0) / x[i], real(10.0) / x[i], real(1.0E-08));
             }
             especia::put(cout, x, y, z);
         } else {
