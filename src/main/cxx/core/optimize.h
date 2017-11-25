@@ -31,6 +31,7 @@
 #include <vector>
 
 #include "base.h"
+#include "config.h"
 
 namespace especia {
 
@@ -265,7 +266,11 @@ namespace especia {
                 ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i]; // Hansen & Ostermeier (2001, Eq. 16)
                 s += ps[i] * ps[i];
             }
+#if ESPECIA_PURE_CMAES_VERSION == 2014
             if (acov > 0.0 or ccov > 0.0) {
+#else
+            if (ccov > 0.0) {
+#endif
                 for (natural i = 0, i0 = 0; i < n; ++i, i0 += n) {
                     pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i]; // Hansen & Ostermeier (2001, Eq. 14)
                     for (natural j = 0, ij = i0; j <= i; ++j, ++ij) {
@@ -273,8 +278,13 @@ namespace especia {
                         for (natural k = 0; k < parent_number; ++k) {
                             Z += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
+#if ESPECIA_PURE_CMAES_VERSION == 2014
                         // Hansen (2014, http://www.lri.fr/~hansen/purecmaes.m)
                         C[ij] = (C[ij] + acov * (pc[i] * pc[j] - C[ij])) + ccov * (Z / ws - C[ij]);
+#else
+                        // Hansen & Ostermeier (2001, Eq. 11)
+                        C[ij] = (1.0 - ccov) * C[ij] + ccov * (acov * (pc[i] * pc[j]) + (1.0 - acov) * Z / ws);
+#endif
                     }
                 }
                 if (g % update_modulus == 0) {

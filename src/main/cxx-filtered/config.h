@@ -22,6 +22,8 @@
 #ifndef ESPECIA_CONFIG_H
 #define ESPECIA_CONFIG_H
 
+#cmakedefine ESPECIA_PURE_CMAES_VERSION @ESPECIA_PURE_CMAES_VERSION@
+
 #include <string>
 
 namespace especia {
