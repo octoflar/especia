@@ -4,6 +4,10 @@ The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
 In addition, Version 2017.1 provides several new features and enhancements:
 
+* Updated default values of strategy parameters like recombination
+weights, and cumulation and adaption rates have been adopted from Nikolaus
+Hansen's [pure CMA-ES](http://www.lri.fr/~hansen/purecmaes.m) reference
+implementation.
 * The rest equivalent width of each line is calculated and listed in the
 result table.
 * Equations and equation solvers to convert photon wavelength in vacuum
