@@ -17,5 +17,6 @@ cmake-build/
 cmake-build-debug/
 cmake-build-release/
 
-# ignore the sandbox
+# ignore literature and the sandbox
+literature/
 sandbox/
