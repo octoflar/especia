@@ -100,7 +100,7 @@ void especia::Optimizer::Builder::with_strategy_parameters() {
     for (natural i = 0; i < parent_number; ++i) {
 #if ESPECIA_PURE_CMAES_VERSION == 2014
         weights[i] = log((parent_number + 0.5) / (i + 1));
-#else
+#else // 2004
         weights[i] = log((parent_number + 1.0) / (i + 1));
 #endif
     }
@@ -113,7 +113,7 @@ void especia::Optimizer::Builder::with_strategy_parameters() {
 
     acov = 2.0 / (sq(n + 1.3) + wv);
     ccov = min<real>(1.0 - acov, 2.0 * (wv - 2.0 + 1.0 / wv) / (sq(n + 2.0) + wv));
-#else
+#else // 2004
     cs = (2.0 + wv) / (3.0 + n + wv);
     cc = 4.0 / (4.0 + n);
 

@@ -35,7 +35,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic")
 set(ESPECIA_PURE_CMAES_VERSION 2014 CACHE STRING
-        "The version of the pure CMA-ES reference implementation ('2006' or '2014')")
+        "The version of the pure CMA-ES reference implementation ('2014' or '2004')")
 
 set_property(DIRECTORY PROPERTY ADDITIONAL_MAKE_CLEAN_FILES config.h)
 
@@ -62,6 +62,7 @@ configure_file(${TEST}/resources/virt166.dat resources/virt166.dat COPYONLY)
 
 set(CORE_SOURCES
         ${MAIN}/cxx/core/base.h
+        config.h
         ${MAIN}/cxx/core/decompose.cxx
         ${MAIN}/cxx/core/decompose.h
         ${MAIN}/cxx/core/deviates.h
@@ -105,6 +106,7 @@ add_unit_test(integrator_test
         ${TEST}/cxx/core/integrator_test.cxx)
 add_unit_test(optimizer_test
         ${MAIN}/cxx/core/base.h
+        config.h
         ${MAIN}/cxx/core/decompose.h
         ${MAIN}/cxx/core/decompose.cxx
         ${MAIN}/cxx/core/deviates.h

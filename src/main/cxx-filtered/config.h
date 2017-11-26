@@ -22,7 +22,7 @@
 #ifndef ESPECIA_CONFIG_H
 #define ESPECIA_CONFIG_H
 
-#cmakedefine ESPECIA_PURE_CMAES_VERSION @ESPECIA_PURE_CMAES_VERSION@
+#cmakedefine ESPECIA_PURE_CMAES_VERSION @ESPECIA_PURE_CMAES_VERSION@ // 2014 or 2004
 
 #include <string>
 
@@ -56,8 +56,7 @@ namespace especia {
     /**
      * The project name and version identifier.
      */
-    const std::string project_long_name =
-            "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@ (@ESPECIA_PURE_CMAES_VERSION@)";
+    const std::string project_long_name = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@ (@ESPECIA_PURE_CMAES_VERSION@)";
 
     /**
      * The composite name of the operating system the project is compiled for.
