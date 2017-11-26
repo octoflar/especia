@@ -1,4 +1,4 @@
-/// @file etee.cxx
+/// @file eeet.cxx
 /// Utility to merge separated spectral flux and uncertainty data
 /// Copyright (c) 2017 Ralf Quast
 ///
@@ -56,7 +56,7 @@ void write_usage_message(ostream &os, const string &program_name) {
  * @endparblock
  * @return an exit code.
  *
- * @remark Usage: etee {flux file} {uncertainty file} [lines to skip] [> {target file}]
+ * @remark Usage: eeet {flux file} {uncertainty file} [lines to skip] [> {target file}]
  */
 int main(int argc, char *argv[]) {
     const string program_name(argv[0]);
