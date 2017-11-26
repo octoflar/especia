@@ -36,6 +36,11 @@ R. Quast, D. Reimers and S. A. Levshakov.
 Astronomy and Astrophysics 415 (2) L7 (2004).
 [DOI 10.1051/0004-6361:20040013](http://doi.org/10.1051/0004-6361:20040013).
 
+*Detection of molecular hydrogen at z = 1.15 toward HE 0515-4414.*
+D. Reimers, R. Baade, R. Quast, S. A. Levshakov.
+Astronomy and Astrophysics 410 (3) 785 (2002).
+[DOI 10.1051/0004-6361:20031313](http://doi.org/10.1051/0004-6361:20031313)
+
 *Fine-structure diagnostics of neutral carbon toward HE 0515-4414.*
 R. Quast, R. Baade and D. Reimers.
 Astronomy and Astrophysics 386 (3) 796 (2002).
