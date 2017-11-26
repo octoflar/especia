@@ -26,6 +26,14 @@ function(project_url URL)
     set(PROJECT_URL ${URL} PARENT_SCOPE)
 endfunction()
 
+function(project_install_prefix PREFIX)
+    if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+        set(CMAKE_INSTALL_PREFIX "${PREFIX}" CACHE PATH
+                "This directory is prepended onto all install directories"
+                FORCE)
+    endif ()
+endfunction()
+
 function(project_version_tag TAG)
     if (${TAG} STREQUAL snapshot)
         find_program(GIT git)
