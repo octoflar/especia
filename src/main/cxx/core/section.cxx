@@ -98,21 +98,20 @@ void especia::Section::continuum(natural m, const std::valarray<real> &cat, std:
 
         // Optimizing the background continuum is a linear optimization problem. Here the normal
         // equations are established.
-        const valarray<real> p = (cat * cat) / (unc * unc);
-        const valarray<real> q = (flx * cat) / (unc * unc);
+        const valarray<real> p = cat / sq(unc);
         for (natural j = 0; j < m; ++j) {
             const valarray<real> &lj = l[j];
             for (natural k = j; k < m; ++k) {
                 const valarray<real> &lk = l[k];
                 for (size_t i = 0; i < n; ++i) {
                     if (msk[i]) {
-                        a[j][k] += p[i] * lj[i] * lk[i];
+                        a[j][k] += cat[i] * p[i] * lj[i] * lk[i];
                     }
                 }
             }
             for (size_t i = 0; i < n; ++i) {
                 if (msk[i]) {
-                    b[j] += q[i] * lj[i];
+                    b[j] += flx[i] * p[i] * lj[i];
                 }
             }
         }
@@ -209,10 +208,8 @@ void especia::Section::primitive(real x, real h, real &p, real &q) const {
     const real d = 3.5449077018110320545963349666822903655951;
     const real b = 2.0 * h / c;
 
-    x /= b;
-
-    p = 0.5 * erf(x);
-    q = -(b * exp(-sq(x))) / d;
+    p = 0.5 * erf(x / b);
+    q = -(b * exp(-sq(x / b))) / d;
 }
 
 std::istream &especia::Section::get(std::istream &is, real a, real b) {

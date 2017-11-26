@@ -22,6 +22,7 @@
 #ifndef ESPECIA_SECTION_H
 #define ESPECIA_SECTION_H
 
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
 #include <iostream>
@@ -150,11 +151,11 @@ namespace especia {
 
         /**
          * Returns the value of the cost function as a function of a given optical depth
-         * model.
+         * function.
          *
-         * @tparam T The type of optical depth model.
+         * @tparam Function The type of optical depth function.
          *
-         * @param[in] tau The optical depth model.
+         * @param[in] tau The optical depth function.
          * @param[in] r The spectral resolution of the instrument.
          * @param[in] m The number of Legendre basis polynomials to model the background continuum.
          *
@@ -162,8 +163,8 @@ namespace especia {
          *
          * @remark calling this method is thread safe, if the optical depth model is thread safe.
          */
-        template<class T>
-        real cost(const T &tau, real r, natural m) const {
+        template<class Function>
+        real cost(const Function &tau, real r, natural m) const {
             using std::abs;
             using std::valarray;
 
@@ -183,10 +184,9 @@ namespace especia {
             res = (flx - fit) / unc;
 
             real cost = 0.0;
-            // @todo - vectorize
             for (size_t i = 0; i < n; ++i) {
                 if (msk[i]) {
-                    cost += res[i] * res[i];
+                    cost += sq(res[i]);
                 }
             }
 
@@ -204,16 +204,16 @@ namespace especia {
         /**
          * Applies an optical depth and background continuum model to this section.
          *
-         * @tparam T The type of optical depth model.
+         * @tparam Function The type of optical depth function.
          *
          * @param[in] m The number of Legendre basis polynomials to model the background continuum.
          * @param[in] r The spectral resolution of the instrument.
-         * @param[in] tau The optical depth model.
+         * @param[in] tau The optical depth function.
          *
          * @return this section.
          */
-        template<class T>
-        Section &apply(natural m, real r, const T &tau) {
+        template<class Function>
+        Section &apply(natural m, real r, const Function &tau) {
             convolute(r, tau, opt, atm, cat);
             continuum(m, cat, cfl);
 
@@ -235,20 +235,21 @@ namespace especia {
         void continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const;
 
         /**
-         * Convolutes a given optical depth model with the instrumental line spread function.
+         * Convolutes a given optical depth function with the instrumental line spread function.
          *
-         * @tparam T The type of optical depth model.
+         * @tparam Function The type of optical depth function.
          *
          * @param[in] r The spectral resolution of the instrument.
-         * @param[in] tau The optical depth model.
+         * @param[in] tau The optical depth function.
          * @param[out] opt The evaluated optical depth.
          * @param[out] atm The evaluated absorption term.
          * @param[out] cat The evaluated convoluted absorption term.
          */
-        template<class T>
-        void convolute(real r, const T &tau, std::valarray<real> &opt, std::valarray<real> &atm,
+        template<class Function>
+        void convolute(real r, const Function &tau, std::valarray<real> &opt, std::valarray<real> &atm,
                        std::valarray<real> &cat) const {
             using std::exp;
+            using std::transform;
             using std::valarray;
 
             if (n > 2) {
@@ -263,14 +264,9 @@ namespace especia {
                 valarray<real> q(m);
 
                 for (natural i = 0; i < m; ++i) {
-                    // @todo - vectorize
                     primitive(i * w, h, p[i], q[i]);
                 }
-
-                for (size_t i = 0; i < n; ++i) {
-                    // @todo - vectorize
-                    opt[i] = tau(wav[i]);
-                }
+                transform(begin(wav), end(wav), begin(opt), tau);
                 atm = exp(-opt);
 
                 // Convolution of the modelled flux with the instrumental line spread function.
@@ -278,7 +274,6 @@ namespace especia {
                     real a = 0.0;
                     real b = 0.0;
 
-                    // @todo - vectorize, if possible
                     for (natural j = 0; j + 1 < m; ++j) {
                         const size_t k = (i < j + 1) ? 0 : i - j - 1;
                         const size_t l = (i + j + 2 > n) ? n - 2 : i + j;
