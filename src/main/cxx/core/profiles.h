@@ -371,7 +371,7 @@ namespace especia {
          * Default constructor.
          */
         Intergalactic_Voigt()
-                : z(1.0), a(1.0), c(0.0), approximation(1.0, 1.0) {
+                : z(1.0), c(0.0), a(1.0), approximation(1.0, 1.0) {
         };
 
         /**

@@ -688,14 +688,14 @@ namespace especia {
             real y;
 
             /**
-             * The final covariance matrix.
-             */
-            std::valarray<real> C;
-
-            /**
              * The final rotation matrix.
              */
             std::valarray<real> B;
+            
+            /**
+             * The final covariance matrix.
+             */
+            std::valarray<real> C;
 
             /**
              * The distribution cumulation path.
