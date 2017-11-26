@@ -574,19 +574,19 @@ namespace especia {
         /**
          * Calculates the rest equivalent width of an optical depth profile.
          *
-         * @tparam T The profile type.
+         * @tparam Function The profile function type.
          *
-         * @param t The profile.
+         * @param f The profile function.
          * @return the equivalent width (milli Angstrom).
          */
-        template<class T>
-        real calculate(const T &t) const {
+        template<class Function>
+        real calculate(const Function &f) const {
             using std::exp;
 
             const real integral = integrator.integrate_semi_infinite(
-                    [&t](real x) -> real { return kilo * (1.0 - exp(-t(x + t.center()))); });
+                    [&f](real x) -> real { return kilo * (1.0 - exp(-f(x + f.center()))); });
 
-            return 2.0 * integral / t.redshift_factor();
+            return 2.0 * integral / f.redshift_factor();
         }
 
     private:
