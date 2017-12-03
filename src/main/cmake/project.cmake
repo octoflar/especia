@@ -22,6 +22,14 @@ function(project_doi DOI)
     set(PROJECT_DOI ${DOI} PARENT_SCOPE)
 endfunction()
 
+function(project_doi_html HTML)
+    set(PROJECT_DOI_HTML ${HTML} PARENT_SCOPE)
+endfunction()
+
+function(project_title TITLE)
+    set(PROJECT_TITLE ${TITLE} PARENT_SCOPE)
+endfunction()
+
 function(project_url URL)
     set(PROJECT_URL ${URL} PARENT_SCOPE)
 endfunction()

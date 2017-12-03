@@ -34,6 +34,11 @@ namespace especia {
     const std::string project_name = "@PROJECT_NAME@";
 
     /**
+     * The project title.
+     */
+    const std::string project_title = "@PROJECT_TITLE@";
+
+    /**
      * The project version.
      */
     const std::string project_version = "@PROJECT_VERSION@";
@@ -47,6 +52,11 @@ namespace especia {
      * The project digital object identifier (DOI).
      */
     const std::string project_doi = "@PROJECT_DOI@";
+
+    /**
+     * A project digital object identifier (DOI) HTML snippet.
+     */
+    const std::string project_doi_html = "@PROJECT_DOI_HTML@";
 
     /**
      * The project URL.

@@ -27,8 +27,11 @@ include(src/main/cmake/openmp_optional.cmake)
 
 project(especia VERSION 2017.1 LANGUAGES C CXX)
 project_version_tag(snapshot)
-project_doi(https://doi.org/10.5281/zenodo.785071)
-project_url(https://github.com/octoflar/especia)
+project_title("Evolutionary spectrum inversion and analysis (Especia)")
+project_doi("https://doi.org/10.5281/zenodo.785071")
+project_doi_html("<a href=\\\"https://doi.org/10.5281/zenodo.785071\\\"><img src=\\\"https://zenodo.org/badge/DOI/10.5281/zenodo.785071.svg\\\" alt=\\\"DOI\\\" style=\\\"vertical-align:text-bottom;\\\"></a>")
+project_url("https://github.com/octoflar/especia")
+
 project_install_prefix($ENV{HOME})
 
 set(CMAKE_CONFIGURATION_TYPES Release Debug)

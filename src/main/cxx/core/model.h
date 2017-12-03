@@ -146,7 +146,7 @@ namespace especia {
             stringstream st;
             string line;
 
-            os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
+            os << "<!DOCTYPE html>\n";
             os << "<html>\n";
             os << "<!--\n";
             os << "<model>\n";
@@ -400,7 +400,7 @@ namespace especia {
             os.setf(ios_base::fixed, ios_base::floatfield);
             os.setf(ios_base::left, ios_base::adjustfield);
 
-            os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
+            os << "<!DOCTYPE html>\n";
             os << "<html>\n";
             os << "<!--\n";
             os << "<data>\n";
@@ -525,12 +525,14 @@ namespace especia {
 
             os << "  </tbody>\n";
             os << "</table>\n";
-            os << "<address>\n";
-            os << " Created by Evolutionary spectrum inversion and analysis (Especia).<br>\n";
-            os << " " << project_long_name << " " << "<a href=\"" << project_doi << "\">" << project_doi << "</a>" << "<br>\n";
-            os << " " << system_name << " " << "<br>\n";
-            os << " " << cxx_compiler << " " << cxx_compiler_version << "<br>\n";
-            os << "</address>\n";
+
+            os << "<address>" << endl;
+            os << " Created by <cite>" << project_title << "</cite>. " << project_doi_html << "<br>" << endl;
+            os << " " << project_long_name << "<br>" << endl;
+            os << " " << system_name << "<br>" << endl;
+            os << " " << cxx_compiler << " " << cxx_compiler_version << "<br>" << endl;
+            os << "</address>" << endl;
+
             os << "</body>\n";
             os << "</html>\n";
 

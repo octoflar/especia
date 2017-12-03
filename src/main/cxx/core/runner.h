@@ -217,7 +217,7 @@ namespace especia {
                     with_random_seed(random_seed).
                     build();
 
-            cout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << endl;
+            cout << "<!DOCTYPE html>" << endl;
             cout << "<html>" << endl;
 
             cout << "<!--" << endl;

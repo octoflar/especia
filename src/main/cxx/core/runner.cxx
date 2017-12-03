@@ -34,7 +34,7 @@ especia::Runner::~Runner() = default;
 void especia::Runner::write_command_line(std::ostream &os) const {
     using std::endl;
 
-    os << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << endl;
+    os << "<!DOCTYPE html>" << endl;
     os << "<html>" << endl;
     os << "<!--" << endl;
     os << "<command>" << endl;
