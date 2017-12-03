@@ -76,6 +76,11 @@ namespace especia {
     const real sqrt_of_pi = real(1.772453850905516027298167483341145182797549456123L);
 
     /**
+     * The square root of the natural logarithm of 2. <https://www.wolframalpha.com/input/?i=sqrt(ln(2))+to+49+digits>
+     */
+    const real sqrt_of_ln_two = real(0.832554611157697756353164644895201047630588852264L);
+
+    /**
      * The electric constant (F m-1). *NIST SP 961 (Sept/2015)*
      */
     const real electric_constant = 8.854187817E-12;

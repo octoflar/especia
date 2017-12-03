@@ -28,6 +28,8 @@
 
 using especia::natural;
 using especia::real;
+using especia::sqrt_of_ln_two;
+using especia::sqrt_of_pi;
 
 especia::Section::Section()
         : wav(),
@@ -204,12 +206,11 @@ void especia::Section::primitive(real x, real h, real &p, real &q) const {
     using std::erf; // C++11
     using std::exp;
 
-    const real c = 1.6651092223153955127063292897904020952612;
-    const real d = 3.5449077018110320545963349666822903655951;
-    const real b = 2.0 * h / c;
+    const real b = h / sqrt_of_ln_two;
+    const real d = b / sqrt_of_pi;
 
     p = 0.5 * erf(x / b);
-    q = -(b * exp(-sq(x / b))) / d;
+    q = 0.5 * exp(-sq(x / b)) * (-d);
 }
 
 std::istream &especia::Section::get(std::istream &is, real a, real b) {

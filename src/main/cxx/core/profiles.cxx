@@ -32,6 +32,7 @@ using especia::real;
 using especia::micro;
 using especia::pi;
 using especia::sq;
+using especia::sqrt_of_ln_two;
 using especia::sqrt_of_pi;
 
 
@@ -156,7 +157,7 @@ real especia::Extended_Pseudo_Voigt::operator()(const real &x) const {
            eta_p * f_p(x, gamma_p);
 }
 
-const real especia::Extended_Pseudo_Voigt::c_g = sqrt(log(2.0)); // NOLINT
+const real especia::Extended_Pseudo_Voigt::c_g = sqrt_of_ln_two;
 const real especia::Extended_Pseudo_Voigt::c_i = sqrt(pow(2.0, 2.0 / 3.0) - 1.0); // NOLINT
 const real especia::Extended_Pseudo_Voigt::c_p = log(sqrt(2.0) + 1.0); // NOLINT
 
