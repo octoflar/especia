@@ -202,7 +202,7 @@ void especia::Section::mask(real a, real b) {
     }
 }
 
-void especia::Section::primitive(real x, real h, real &p, real &q) const {
+void especia::Section::primitive(const real &x, const real &h, real &p, real &q) const {
     using std::erf; // C++11
     using std::exp;
 

@@ -297,7 +297,7 @@ namespace especia {
          * @param[out] p The primitive function of g(x) evaluated at @ x.
          * @param[out] q The primitive function of x g(x) evaluated at @ x.
          */
-        void primitive(real x, real h, real &p, real &q) const;
+        void primitive(const real &x, const real &h, real &p, real &q) const;
 
         /**
          * The observed wavelength data (arbitrary units).
