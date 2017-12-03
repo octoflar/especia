@@ -25,10 +25,6 @@ matrix:
         - PURE_CMAES_VERSION="2014"
     - os: osx
       env:
-        - TEST="integrationtests"
-        - PURE_CMAES_VERSION="2004"
-    - os: osx
-      env:
         - TEST="systemtests"
         - PURE_CMAES_VERSION="2014"
     - os: linux
@@ -39,19 +35,7 @@ matrix:
       sudo: required
     - os: linux
       env:
-        - TEST="unittests"
-        - PURE_CMAES_VERSION="2004"
-      dist: trusty
-      sudo: required
-    - os: linux
-      env:
         - TEST="integrationtests"
         - PURE_CMAES_VERSION="2014"
-      dist: trusty
-      sudo: required
-    - os: linux
-      env:
-        - TEST="integrationtests"
-        - PURE_CMAES_VERSION="2004"
       dist: trusty
       sudo: required
