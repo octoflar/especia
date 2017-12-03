@@ -26,6 +26,14 @@ endfunction()
 
 add_custom_target(systemtests ctest --verbose --label-regex system)
 
+function(add_integration_test NAME EXPECTED_VALUES)
+    add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
+    set_tests_properties(${NAME} PROPERTIES LABELS integration TIMEOUT 3600)
+    add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
+endfunction()
+
+add_custom_target(integrationtests ctest --verbose --label-regex integration)
+
 function(add_unit_test NAME)
     add_executable(${NAME}
             ${ARGN}
