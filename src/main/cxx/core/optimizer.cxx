@@ -98,7 +98,7 @@ void especia::Optimizer::Builder::with_strategy_parameters() {
     weights.resize(parent_number);
 
     for (natural i = 0; i < parent_number; ++i) {
-#if ESPECIA_PURE_CMAES_VERSION != 2004
+#if ESPECIA_PURE_CMAES_VERSION == 2014
         weights[i] = log((parent_number + 0.5) / (i + 1));
 #else // 2004
         weights[i] = log((parent_number + 1.0) / (i + 1));
@@ -107,7 +107,7 @@ void especia::Optimizer::Builder::with_strategy_parameters() {
 
     wv = sq(weights.sum()) / weights.apply(sq).sum();
 
-#if ESPECIA_PURE_CMAES_VERSION != 2004
+#if ESPECIA_PURE_CMAES_VERSION == 2014
     cs = (2.0 + wv) / (5.0 + n + wv);
     cc = (4.0 + wv / n) / (4.0 + n + 2.0 * wv / n);
 
