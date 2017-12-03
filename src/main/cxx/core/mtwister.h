@@ -76,7 +76,7 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        explicit Mersenne_Twister(word seed = 57787, word multiplier = 1812433253) : words(n) { // NOLINT
+        explicit Mersenne_Twister(word seed = 27182, word multiplier = 1812433253) : words(n) { // NOLINT
             reset(seed, multiplier);
         }
 
@@ -113,7 +113,7 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding.
          */
-        void reset(word seed = 57787, word multiplier = 1812433253) {
+        void reset(word seed = 27182, word multiplier = 1812433253) {
             using std::max;
             using std::numeric_limits;
 
