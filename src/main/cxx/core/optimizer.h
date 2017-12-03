@@ -245,20 +245,20 @@ namespace especia {
             }
 
             /**
-             * Returns the covariance matrix adaption rate.
+             * Returns the rank-1 covariance matrix adaption rate.
              *
-             * @return the covariance matrix adaption rate.
+             * @return the rank-1 covariance matrix adaption rate.
              */
-            real get_covariance_matrix_adaption_rate() const {
+            real get_rank_1_covariance_matrix_adaption_rate() const {
                 return ccov;
             }
 
             /**
-             * Returns the covariance matrix adaption mixing.
+             * Returns the rank-µ covariance matrix adaption rate.
              *
-             * @return the covariance matrix adaption mixing.
+             * @return the rank-µ covariance matrix adaption rate.
              */
-            real get_covariance_matrix_adaption_mixing() const {
+            real get_rank_m_covariance_matrix_adaption_rate() const {
                 return acov;
             }
 
@@ -408,12 +408,12 @@ namespace especia {
             real cc;
 
             /**
-             * The covariance matrix adaption mixing.
+             * The rank-µ covariance matrix adaption rate.
              */
             real acov;
 
             /**
-             * The covariance matrix adaption rate.
+             * The rank-1 covariance matrix adaption rate.
              */
             real ccov;
 
@@ -852,8 +852,8 @@ namespace especia {
                      config.get_step_size_damping(),
                      config.get_step_size_cumulation_rate(),
                      config.get_distribution_cumulation_rate(),
-                     config.get_covariance_matrix_adaption_rate(),
-                     config.get_covariance_matrix_adaption_mixing(),
+                     config.get_rank_1_covariance_matrix_adaption_rate(),
+                     config.get_rank_m_covariance_matrix_adaption_rate(),
                      config.get_covariance_update_modulus(),
                      config.get_accuracy_goal(),
                      config.get_stop_generation(),

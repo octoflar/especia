@@ -32,15 +32,10 @@ project_doi("https://doi.org/10.5281/zenodo.785071")
 project_doi_html("<a href=\\\"https://doi.org/10.5281/zenodo.785071\\\"><img src=\\\"https://zenodo.org/badge/DOI/10.5281/zenodo.785071.svg\\\" alt=\\\"DOI\\\" style=\\\"vertical-align:text-bottom;\\\"></a>")
 project_url("https://github.com/octoflar/especia")
 
-project_install_prefix($ENV{HOME})
-
 set(CMAKE_CONFIGURATION_TYPES Release Debug)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic")
-set(ESPECIA_PURE_CMAES_VERSION 2014 CACHE STRING
-        "The version of the pure CMA-ES reference implementation ('2014' or '2004')")
-
 set_property(DIRECTORY PROPERTY ADDITIONAL_MAKE_CLEAN_FILES config.h)
 
 veclib_required()
@@ -156,9 +151,11 @@ add_custom_target(util)
 add_dependencies(util airtovac helicorr vactoair)
 
 add_custom_target(tar
-        COMMAND ${TAR} -f ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_TAG}.tar.bz2 -C ${CMAKE_SOURCE_DIR} --exclude .git --exclude .gitattributes --exclude .gitignore --exclude .travis.yml --exclude _config.yml  -X ${CMAKE_SOURCE_DIR}/.gitignore .
+        COMMAND ${TAR} -f ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_TAG}.tar.bz2 -C ${CMAKE_SOURCE_DIR} --exclude .git --exclude .gitattributes --exclude .gitignore --exclude .travis.yml --exclude _config.yml -X ${CMAKE_SOURCE_DIR}/.gitignore .
         BYPRODUCTS ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_TAG}.tar.bz2
         VERBATIM)
+
+install_prefix($ENV{HOME})
 
 install(TARGETS especia especid especiv especix ecom edat elog emod emes eeet
         RUNTIME

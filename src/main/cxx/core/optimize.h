@@ -107,8 +107,8 @@ namespace especia {
      * @param[in] step_size_damping The step size damping.
      * @param[in] cs The step size cumulation rate.
      * @param[in] cc The distribution cumulation rate.
-     * @param[in] ccov The covariance matrix adaption rate.
-     * @param[in] acov The covariance matrix adaption mixing.
+     * @param[in] ccov The rank-1 covariance matrix adaption rate.
+     * @param[in] acov The rank-µ covariance matrix adaption rate.
      * @param[in] update_modulus The covariance matrix update modulus.
      * @param[in] accuracy_goal The accuracy goal.
      * @param[in] stop_generation The stop generation.
@@ -274,7 +274,7 @@ namespace especia {
                         for (natural k = 0; k < parent_number; ++k) {
                             Z += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
-#if ESPECIA_PURE_CMAES_VERSION == 2014
+#if ESPECIA_PURE_CMAES_VERSION != 2004
                         // Hansen (2014, http://www.lri.fr/~hansen/purecmaes.m)
                         C[ij] = (C[ij] + acov * (pc[i] * pc[j] - C[ij])) + ccov * (Z / ws - C[ij]);
 #else // 2004
