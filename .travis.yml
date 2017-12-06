@@ -16,10 +16,6 @@ matrix:
         - YEAR=2014
     - os: osx
       env:
-        - TEST="unittests"
-        - YEAR=2004
-    - os: osx
-      env:
         - TEST="sanitytests"
         - YEAR=2014
     - os: osx
@@ -38,3 +34,7 @@ matrix:
         - YEAR=2014
       dist: trusty
       sudo: required
+    - os: linux
+      env:
+        - TEST="sanitytests"
+        - YEAR=2004
