@@ -20,11 +20,11 @@ matrix:
         - YEAR=2004
     - os: osx
       env:
-        - TEST="integrationtests"
+        - TEST="sanitytests"
         - YEAR=2014
     - os: osx
       env:
-        - TEST="systemtests"
+        - TEST="stresstests"
         - YEAR=2014
     - os: linux
       env:
@@ -34,7 +34,7 @@ matrix:
       sudo: required
     - os: linux
       env:
-        - TEST="integrationtests"
+        - TEST="sanitytests"
         - YEAR=2014
       dist: trusty
       sudo: required

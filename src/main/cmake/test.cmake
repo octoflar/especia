@@ -18,28 +18,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-function(add_system_test NAME EXPECTED_VALUES)
+function(add_stress_test NAME EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
-    set_tests_properties(${NAME} PROPERTIES LABELS system TIMEOUT 3600)
+    set_tests_properties(${NAME} PROPERTIES LABELS stress TIMEOUT 3600)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
 
-add_custom_target(systemtests ctest --verbose --label-regex system)
+add_custom_target(stresstests ctest --verbose --label-regex stress)
 
-function(add_integration_test NAME EXPECTED_VALUES)
+function(add_sanity_test NAME EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
-    set_tests_properties(${NAME} PROPERTIES LABELS integration TIMEOUT 3600)
+    set_tests_properties(${NAME} PROPERTIES LABELS sanity TIMEOUT 60)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
 
-add_custom_target(integrationtests ctest --verbose --label-regex integration)
+add_custom_target(sanitytests ctest --verbose --label-regex sanity)
 
 function(add_unit_test NAME)
     add_executable(${NAME}
             ${ARGN}
             ${TEST}/cxx/unittest.h)
     add_test(NAME ${NAME} COMMAND ${NAME})
-    set_tests_properties(${NAME} PROPERTIES LABELS unit TIMEOUT 60)
+    set_tests_properties(${NAME} PROPERTIES LABELS unit TIMEOUT 10)
 endfunction()
 
 add_custom_target(unittests ctest --output-on-failure --label-regex unit)
