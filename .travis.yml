@@ -38,3 +38,5 @@ matrix:
       env:
         - TEST="sanitytests"
         - YEAR=2004
+      dist: trusty
+      sudo: required
