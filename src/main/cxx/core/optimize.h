@@ -259,13 +259,8 @@ namespace especia {
                 xw[i] /= ws;
             }
 
-            real s = 0.0;
             // Adapt the covariance matrix and the step size according to Hansen & Ostermeier (2001)
             // and Hansen (2014)
-            for (natural i = 0; i < n; ++i) {
-                ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i]; // Hansen & Ostermeier (2001, Eq. 16)
-                s += ps[i] * ps[i];
-            }
             if (acov > 0.0 or ccov > 0.0) {
                 for (natural i = 0, i0 = 0; i < n; ++i, i0 += n) {
                     pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i]; // Hansen & Ostermeier (2001, Eq. 14)
@@ -298,7 +293,12 @@ namespace especia {
                     }
                 }
             }
-            step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0)); // Hansen & Ostermeier (2001, Eq. 17)
+            for (natural i = 0; i < n; ++i) {
+                ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i]; // Hansen & Ostermeier (2001, Eq. 16)
+            }
+            const real s = inner_product(ps, ps + n, ps, 0.0);
+            // Hansen & Ostermeier (2001, Eq. 17)
+            step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0));
 
             // Check if the optimization is completed
             for (natural i = 0, ii = 0; i < n; ++i, ii += n + 1) {
