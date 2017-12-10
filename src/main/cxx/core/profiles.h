@@ -480,11 +480,11 @@ namespace especia {
     /**
      * The superposition of many optical depth profiles.
      *
-     * @tparam T The profile type.
+     * @tparam Function The profile type.
      *
      * @remark This class is thread safe, if the profile type is thread safe.
      */
-    template<class T>
+    template<class Function>
     class Superposition {
     public:
         /**
@@ -496,7 +496,7 @@ namespace especia {
          */
         Superposition(natural n, const real q[]) : profiles() {
             profiles.reserve(n);
-            for (natural i = 0; i < n; ++i, q += T::parameter_count()) {
+            for (natural i = 0; i < n; ++i, q += Function::parameter_count()) {
                 profiles.emplace_back(q);
             }
         }
@@ -515,7 +515,7 @@ namespace especia {
         real operator()(const real &x) const {
             real t = 0.0;
 
-            for (const T &profile : profiles) {
+            for (const Function &profile : profiles) {
                 t += profile(x);
             }
 
@@ -526,7 +526,7 @@ namespace especia {
         /**
          * The line profiles.
          */
-        std::vector<T> profiles;
+        std::vector<Function> profiles;
     };
 
 
