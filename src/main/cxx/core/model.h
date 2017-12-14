@@ -45,7 +45,7 @@ namespace especia {
      *
      * @todo - the whole class needs a cleanup.
      */
-    template<class Profile>
+    template<class Function>
     class Model {
     public:
 
@@ -240,8 +240,8 @@ namespace especia {
                             if (pim.find(pid) == pim.end()) {
                                 pim[pid] = i;
 
-                                if (read(ist, val, lo, up, msk, ref, Profile::parameter_count(), '\n', true)) {
-                                    i += Profile::parameter_count();
+                                if (read(ist, val, lo, up, msk, ref, Function::parameter_count(), '\n', true)) {
+                                    i += Function::parameter_count();
                                     k += 1;
                                 } else {
                                     is.setstate(ios_base::badbit | ios_base::failbit);
@@ -316,7 +316,7 @@ namespace especia {
 
                 // Dereference line parameter references
                 for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i)
-                    for (natural j = 0; j < Profile::parameter_count(); ++j) {
+                    for (natural j = 0; j < Function::parameter_count(); ++j) {
                         const natural k = i->second + j;
 
                         while (!ref[k].empty()) {
@@ -465,7 +465,7 @@ namespace especia {
             os << "      <td>Broadening<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
             os << "      <td>Log. Column<br>Density<br>(cm<sup>-2</sup>)</td>\n";
             os << "      <td>Equivalent<br>Width<br>(m&Aring;)</td>\n";
-            if (Profile::parameter_count() == 8) {
+            if (Function::parameter_count() == 8) {
                 os << "      <td>&Delta;&alpha;/&alpha;<br>(10<sup>-6</sup>)</td>\n";
             }
             os << "    </tr>\n";
@@ -487,7 +487,7 @@ namespace especia {
                 const real dz = err[j + 2];
                 const real dv = err[j + 3];
                 const real dw = dx + x * sqrt(sq((1.0 + v / c) * dz) + sq((1.0 + z) * dv / c));
-                const real ew = calculator.calculate(Profile(&val[j]));
+                const real ew = calculator.calculate(Function(&val[j]));
 
                 os.precision(4);
 
@@ -515,7 +515,7 @@ namespace especia {
                 os << "      <td>";
                 put_parameter(os, ios_base::fixed, 1, ew);
                 os << "</td>\n";
-                if (Profile::parameter_count() == 8) {
+                if (Function::parameter_count() == 8) {
                     os << "      <td>";
                     put_parameter(os, ios_base::fixed, 3, j + 7);
                     os << "</td>\n";
@@ -556,7 +556,7 @@ namespace especia {
                 }
             }
             for (natural i = 0; i < sec.size(); ++i) {
-                sec[i].apply(nle[i], val[isc[i]], Superposition<Profile>(nli[i], &val[isc[i] + 1]));
+                sec[i].apply(nle[i], val[isc[i]], Superposition<Function>(nli[i], &val[isc[i] + 1]));
             }
         }
 
@@ -571,7 +571,7 @@ namespace especia {
             }
             real d = 0.0;
             for (natural i = 0; i < sec.size(); ++i) {
-                d += sec[i].cost(Superposition<Profile>(nli[i], &y[isc[i] + 1]), y[isc[i]], nle[i]);
+                d += sec[i].cost(Superposition<Function>(nli[i], &y[isc[i] + 1]), y[isc[i]], nle[i]);
             }
             return d;
         }
