@@ -105,7 +105,6 @@ add_unit_test(integrator_test
         ${TEST}/cxx/core/integrator_test.cxx)
 add_unit_test(optimizer_test
         ${MAIN}/cxx/core/base.h
-        config.h
         ${MAIN}/cxx/core/decompose.h
         ${MAIN}/cxx/core/decompose.cxx
         ${MAIN}/cxx/core/deviates.h

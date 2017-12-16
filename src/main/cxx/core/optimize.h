@@ -31,7 +31,6 @@
 #include <vector>
 
 #include "base.h"
-#include "config.h"
 
 namespace especia {
 
