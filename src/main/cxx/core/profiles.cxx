@@ -133,7 +133,7 @@ real especia::Pseudo_Voigt::operator()(const real &x) const {
     return (1.0 - eta) * f_g(x, gamma_g) + eta * f_l(x, gamma_l);
 }
 
-const real especia::Pseudo_Voigt::c_g = sqrt(log(2.0)); // NOLINT
+const real especia::Pseudo_Voigt::c_g = sqrt_of_ln_two;
 
 
 especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const real &b, const real &d)
