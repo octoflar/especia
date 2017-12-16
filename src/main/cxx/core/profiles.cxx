@@ -121,10 +121,11 @@ static real poly_eta_p(const real &r) {
 
 especia::Pseudo_Voigt::Pseudo_Voigt(const real &b, const real &d)
         : u((c_g * b) / d),
-          r(1.0 / pow(1.0 + u * (0.07842 + u * (4.47163 + u * (2.42843 + u * (u + 2.69269)))), 0.2)),
-          gamma_g(d / (c_g * r)),
-          gamma_l(d / r),
-          eta(r * (1.36603 - r * (0.47719 - r * 0.11116))) {
+          h(1.0 / pow(1.0 + u * (0.07842 + u * (4.47163 + u * (2.42843 + u * (u + 2.69296)))), 0.2)),
+          // transposed digits in T. Ida, M. Ando, H. Toraya (2000)                    ^^
+          gamma_g(d / (c_g * h)),
+          gamma_l(d / h),
+          eta(h * (1.36603 - h * (0.47719 - h * 0.11116))) {
 }
 
 especia::Pseudo_Voigt::~Pseudo_Voigt() = default;

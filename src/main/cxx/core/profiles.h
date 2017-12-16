@@ -66,7 +66,7 @@ namespace especia {
 
     private:
         const real u;
-        const real r;
+        const real h;
         const real gamma_g;
         const real gamma_l;
         const real eta;
