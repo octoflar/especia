@@ -145,24 +145,6 @@ static const integer il = 0;
  */
 static const integer iu = 0;
 
-/**
- * Transposes a square matrix.
- *
- * @tparam N The matrix dimension number type.
- * @tparam T The matrix type.
- *
- * @param[in] n The matrix dimension.
- * @param[in,out] a The square matrix (and its transpose).
- */
-template<class N, class T>
-static void transpose(N n, T a) {
-    for (N i = 0, i0 = 0; i < n; ++i, i0 += n) {
-        for (N j = 0, ij = i0, ji = i; j < i; ++j, ++ij, ji += n) {
-            swap(a[ij], a[ji]);
-        }
-    }
-}
-
 
 especia::D_Decompose::D_Decompose(natural m) : n(integer(m)), work(), iwork() {
     lapack_inquire(n, lwork, liwork);
@@ -177,7 +159,6 @@ void especia::D_Decompose::operator()(const real A[], real Z[], real w[]) const 
     copy(&A[0], &A[n * n], Z);
 
     lapack_do(Z, w);
-    transpose(n, Z);
 }
 
 void especia::D_Decompose::lapack_do(real Z[], real w[]) const {
@@ -229,7 +210,6 @@ void especia::R_Decompose::operator()(const real A[], real Z[], real w[]) const 
     copy(&A[0], &A[n * n], &awork[0]);
 
     lapack_do(Z, w);
-    transpose(n, Z);
 }
 
 void especia::R_Decompose::lapack_do(real Z[], real w[]) const {
@@ -286,7 +266,6 @@ void especia::X_Decompose::operator()(const real A[], real Z[], real w[]) const 
     copy(&A[0], &A[n * n], &awork[0]);
 
     lapack_do(Z, w);
-    transpose(n, Z);
 }
 
 void especia::X_Decompose::lapack_do(real Z[], real w[]) const {

@@ -25,7 +25,6 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
-#include <numeric>
 #include <thread>
 #include <valarray>
 #include <vector>
@@ -115,8 +114,8 @@ namespace especia {
      * @param[in,out] xw The parameter values.
      * @param[in,out] step_size The global step size.
      * @param[in,out] d The local step sizes.
-     * @param[in,out] B The rotation matrix.
-     * @param[in,out] C The covariance matrix.
+     * @param[in,out] B The rotation matrix (in column-major layout).
+     * @param[in,out] C The covariance matrix (upper triangular part only, in column-major layout).
      * @param[in,out] ps The step size cumulation path.
      * @param[in,out] pc The distribution cumulation path.
      * @param[out] yw The fitness at @c xw.
@@ -156,7 +155,6 @@ namespace especia {
                   const Deviate &deviate, const Decompose &decompose, const Compare &compare, const Tracing &tracer) {
         using std::accumulate;
         using std::exp;
-        using std::inner_product;
         using std::numeric_limits;
         using std::partial_sort;
         using std::sqrt;
@@ -164,12 +162,12 @@ namespace especia {
         using std::valarray;
         using std::vector;
 
-        const real expected_length = (n - 0.25 + 1.0 / (21 * n)) / sqrt(real(n));
+        const real expected_norm = (n - 0.25 + 1.0 / (21 * n)) / sqrt(real(n));
         const real max_covariance_matrix_condition = 0.01 / numeric_limits<real>::epsilon();
         const real csu = sqrt(cs * (2.0 - cs));
         const real ccu = sqrt(cc * (2.0 - cc));
         const real ws = accumulate(w, w + parent_number, 0.0);
-        const real cw = ws / sqrt(inner_product(w, w + parent_number, w, 0.0));
+        const real cw = ws / norm(parent_number, w);
 
         valarray<real> uw(n);
         valarray<real> vw(n);
@@ -180,26 +178,18 @@ namespace especia {
         valarray<real> y(population_size);
         valarray<natural> indexes(population_size);
 
-        valarray<real> BD(B, n * n);
-
         while (g < stop_generation) {
-            for (natural j = 0; j < n; ++j) {
-                for (natural i = 0, ij = j; i < n; ++i, ij += n) {
-                    BD[ij] = B[ij] * d[j];
-                }
-            }
-
             // Generate a new population of object parameter vectors,
             // sorted indirectly by fitness
             for (natural k = 0; k < population_size; ++k) {
                 uw = 0.0;
                 vw = 0.0;
-                for (natural j = 0; j < n; ++j) {
+                for (natural j = 0, nj = 0; j < n; ++j, nj += n) {
                     do {
                         const real z = deviate();
 
-                        for (natural i = 0, ij = j; i < n; ++i, ij += n) {
-                            u[k][i] = uw[i] + z * BD[ij];
+                        for (natural i = 0, ij = nj; i < n; ++i, ++ij) {
+                            u[k][i] = uw[i] + z * (B[ij] * d[j]);
                             v[k][i] = vw[i] + z * B[ij];
                             x[k][i] = xw[i] + u[k][i] * step_size; // Hansen & Ostermeier (2001, Eq. 13)
                         }
@@ -234,13 +224,6 @@ namespace especia {
 
             // Check the mutation variance
             underflow = (y[indexes[0]] == y[indexes[parent_number]]);
-            if (!underflow)
-                for (natural i = 0, ij = g % n; i < n; ++i, ij += n) {
-                    underflow = (xw[i] == xw[i] + 0.2 * step_size * BD[ij]);
-                    if (!underflow) {
-                        break;
-                    }
-                }
             if (underflow) {
                 break;
             }
@@ -248,10 +231,10 @@ namespace especia {
             // Recombine the best individuals
             for (natural i = 0; i < n; ++i) {
                 uw[i] = vw[i] = xw[i] = 0.0;
-                for (natural j = 0; j < parent_number; ++j) {
-                    uw[i] += w[j] * u[indexes[j]][i];
-                    vw[i] += w[j] * v[indexes[j]][i];
-                    xw[i] += w[j] * x[indexes[j]][i];
+                for (natural k = 0; k < parent_number; ++k) {
+                    uw[i] += w[k] * u[indexes[k]][i];
+                    vw[i] += w[k] * v[indexes[k]][i];
+                    xw[i] += w[k] * x[indexes[k]][i];
                 }
                 uw[i] /= ws;
                 vw[i] /= ws;
@@ -261,15 +244,15 @@ namespace especia {
             // Adapt the covariance matrix and the step size according to Hansen & Ostermeier (2001)
             // and Hansen (2014)
             if (acov > 0.0 or ccov > 0.0) {
-                for (natural i = 0, i0 = 0; i < n; ++i, i0 += n) {
-                    pc[i] = (1.0 - cc) * pc[i] + (ccu * cw) * uw[i]; // Hansen & Ostermeier (2001, Eq. 14)
-                    for (natural j = 0, ij = i0; j <= i; ++j, ++ij) {
-                        real Z = 0.0;
+                for (natural j = 0, nj = 0; j < n; ++j, nj += n) {
+                    pc[j] = (1.0 - cc) * pc[j] + (ccu * cw) * uw[j]; // Hansen & Ostermeier (2001, Eq. 14)
+                    for (natural i = 0, ij = nj; i <= j; ++i, ++ij) {
+                        real z = 0.0;
                         for (natural k = 0; k < parent_number; ++k) {
-                            Z += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
+                            z += w[k] * (u[indexes[k]][i] * u[indexes[k]][j]);
                         }
                         // Hansen (2014, http://www.lri.fr/~hansen/purecmaes.m)
-                        C[ij] = (C[ij] + acov * (pc[i] * pc[j] - C[ij])) + ccov * (Z / ws - C[ij]);
+                        C[ij] = (C[ij] + acov * (pc[i] * pc[j] - C[ij])) + ccov * (z / ws - C[ij]);
                     }
                 }
                 if (g % update_modulus == 0) {
@@ -290,9 +273,8 @@ namespace especia {
             for (natural i = 0; i < n; ++i) {
                 ps[i] = (1.0 - cs) * ps[i] + (csu * cw) * vw[i]; // Hansen & Ostermeier (2001, Eq. 16)
             }
-            const real s = inner_product(ps, ps + n, ps, 0.0);
             // Hansen & Ostermeier (2001, Eq. 17)
-            step_size *= exp((cs / step_size_damping) * (sqrt(s) / expected_length - 1.0));
+            step_size *= exp((cs / step_size_damping) * (norm(n, ps) / expected_norm - 1.0));
 
             // Check if the optimization is completed
             for (natural i = 0, ii = 0; i < n; ++i, ii += n + 1) {
@@ -328,8 +310,8 @@ namespace especia {
      * @param[in] n The number of parameter values.
      * @param[in] x The parameter values.
      * @param[in] d The local step sizes
-     * @param[in] B The rotation matrix.
-     * @param[in] B The covariance matrix.
+     * @param[in] B The rotation matrix (in column-major layout).
+     * @param[in] C The covariance matrix (upper triangular part only, in column-major layout).
      * @param[in] s The global step size.
      * @param[out] z The parameter uncertainties.
      */
@@ -356,7 +338,7 @@ namespace especia {
             // Compute two steps along the line of least variance in opposite directions
             valarray<real> p(x, n);
             valarray<real> q(x, n);
-            for (natural i = 0, j = 0, ij = j; i < n; ++i, ij += n) {
+            for (natural i = 0, j = 0, ij = i; i < n; ++i, ++ij) {
                 p[i] += c * B[ij] * d[j];
                 q[i] -= c * B[ij] * d[j];
             }

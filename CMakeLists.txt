@@ -99,6 +99,12 @@ add_executable(eeet ${MAIN}/cxx/apps/eeet.cxx
         ${MAIN}/cxx/core/dataio.h
         ${MAIN}/cxx/core/exitcodes.h)
 
+add_unit_test(decompose_test
+        ${MAIN}/cxx/core/base.h
+        ${MAIN}/cxx/core/decompose.h
+        ${MAIN}/cxx/core/decompose.cxx
+        ${TEST}/cxx/core/decompose_test.cxx)
+target_link_libraries(decompose_test ${VECLIB})
 add_unit_test(integrator_test
         ${MAIN}/cxx/core/base.h
         ${MAIN}/cxx/core/integrator.h

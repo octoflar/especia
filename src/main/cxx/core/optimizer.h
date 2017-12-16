@@ -436,7 +436,7 @@ namespace especia {
             ~Result();
 
             /**
-             * Returns the covariance matrix.
+             * Returns the covariance matrix (upper triangular part only, in column-major layout).
              *
              * @return the covariance matrix.
              */
@@ -508,7 +508,7 @@ namespace especia {
             }
 
             /**
-             * Returns the final rotation matrix.
+             * Returns the final rotation matrix (in column-major layout).
              *
              * @return the final rotation matrix.
              */
@@ -688,12 +688,12 @@ namespace especia {
             real y;
 
             /**
-             * The final rotation matrix.
+             * The final rotation matrix (in column-major layout).
              */
             std::valarray<real> B;
             
             /**
-             * The final covariance matrix.
+             * The final covariance matrix (upper triangular part only, in column-major layout).
              */
             std::valarray<real> C;
 

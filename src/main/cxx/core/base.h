@@ -23,6 +23,7 @@
 #define ESPECIA_BASE_H
 
 #include <cmath>
+#include <numeric>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -134,6 +135,23 @@ namespace especia {
 
         throw invalid_argument(
                 "especia::convert(): Error: the expression '" + s + "' cannot be converted into a number");
+    }
+
+    /**
+     * Returns the L-2 norm of a vector.
+     *
+     * @tparam T The number type.
+     *
+     * @param[in] x The dimension of the vector.
+     * @param[in] x The vector.
+     * @return the L-2 norm of the vector.
+     */
+    template<class T = real>
+    T norm(natural n, const T x[]) {
+        using std::inner_product;
+        using std::sqrt;
+
+        return sqrt(inner_product(x, x + n, x, T(0.0)));
     }
 
     /**
