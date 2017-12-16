@@ -84,32 +84,32 @@ namespace especia {
     /**
      * The electric constant (F m-1). *NIST SP 961 (Sept/2015)*
      */
-    const real electric_constant = 8.854187817E-12;
+    const real electric_constant = real(8.854187817E-12);
 
     /**
      * The electron mass (kg). *NIST SP 961 (Sept/2015)*
      */
-    const real electron_mass = 9.10938356E-31;
+    const real electron_mass = real(9.10938356E-31);
 
     /**
      * The elementary charge (C). *NIST SP 961 (Sept/2015)*
      */
-    const real elementary_charge = 1.6021766208E-19;
+    const real elementary_charge = real(1.6021766208E-19);
 
     /**
      * SI prefix. The spectral resolution of an instrument is expressed in units of this number.
      */
-    const real kilo = 1.0E+03;
+    const real kilo = real(1.0E+03);
 
     /**
      * SI prefix. Variation of the fine-structure constant is expressed in units of this number.
      */
-    const real micro = 1.0E-06;
+    const real micro = real(1.0E-06);
 
     /**
      * The speed of light in vacuum (m s-1). *NIST SP 961 (Sept/2015)*
      */
-    const real speed_of_light = 299792458.0;
+    const real speed_of_light = real(299792458.0);
 
     /**
      * Converts a numeric character string into a number.
