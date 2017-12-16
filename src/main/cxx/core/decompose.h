@@ -113,6 +113,8 @@ namespace especia {
      *
      * @attention Requires an environment that implements IEEE arithmetics and
      * handles NaN and infinities in the default manner.
+     *
+     * @remark This algorithm is O(n^2).
      */
     class R_Decompose {
     public:
