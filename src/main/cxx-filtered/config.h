@@ -64,7 +64,7 @@ namespace especia {
     /**
      * The project name and version identifier.
      */
-    const std::string project_long_name = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@ (@ESPECIA_PURE_CMAES_VERSION@)";
+    const std::string project_long_name = "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_VERSION_TAG@";
 
     /**
      * The composite name of the operating system the project is compiled for.
