@@ -38,7 +38,7 @@ private:
         const real result = calculator.calculate(Intergalactic_Doppler());
 
         // <https://www.wolframalpha.com/input/?i=NIntegrate%5B1-Exp%5B-1%2F(0.5+Sqrt%5BPi%5D)+Exp%5B-(x%2F0.5)%5E2%5D%5D,+%7Bx,+-Infinity,+Infinity%7D%5D>
-        assert_equals(698.785, result, 1.0E-03, "equivalent width (intergalactic Doppler)");
+        assert_equals(real(698.785), result, real(1.0E-03), "equivalent width (intergalactic Doppler)");
     }
 
     void test_equivalent_width_many_multiplet() {
@@ -47,7 +47,7 @@ private:
         const real result = calculator.calculate(Many_Multiplet());
 
         // <https://www.wolframalpha.com/input/?i=NIntegrate%5B1-Exp%5B-1%2F(0.5+Sqrt%5BPi%5D)+Exp%5B-(x%2F0.5)%5E2%5D%5D,+%7Bx,+-Infinity,+Infinity%7D%5D>
-        assert_equals(698.785, result, 1.0E-03, "equivalent width (many-multiplet)");
+        assert_equals(real(698.785), result, real(1.0E-03), "equivalent width (many-multiplet)");
     }
 
     void test_equivalent_width_intergalactic_voigt() {
@@ -56,7 +56,7 @@ private:
 
         const real result = calculator.calculate(Intergalactic_Voigt<Pseudo_Voigt>());
 
-        assert_equals(878.069, result, 1.0E-03, "equivalent width (intergalactic Voigt)");
+        assert_equals(real(878.069), result, real(1.0E-03), "equivalent width (intergalactic Voigt)");
     }
 
     void test_equivalent_width_intergalactic_voigt_extended() {
@@ -65,7 +65,7 @@ private:
 
         const real result = calculator.calculate(Intergalactic_Voigt<Extended_Pseudo_Voigt>());
 
-        assert_equals(876.901, result, 1.0E-03, "equivalent width (intergalactic Voigt, extended)");
+        assert_equals(real(876.901), result, real(1.0E-03), "equivalent width (intergalactic Voigt, extended)");
     }
 
     void run_all() override {
