@@ -54,6 +54,7 @@ private:
 
         const double result = integrator.integrate([](double x) -> double { return sq(sin(x)); }, 0.0, sq(pi));
 
+        // <https://www.wolframalpha.com/input/?i=integrate%5Bsin%5Bx%5D%5E2,%7Bx,+0,+Pi%5E2%7D%5D>
         assert_equals(4.740589, result, 1.0E-06, "integrate sine squared");
     }
 
@@ -64,6 +65,7 @@ private:
         const double result = integrator.integrate(
                 [](double x) -> double { return 1.0 - exp(-exp(-sq(x))); }, 0.0, 4.0);
 
+        // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+0,+4%7D%5D>
         assert_equals(0.642572, result, 1.0E-06, "integrate optical depth");
     }
 
@@ -74,6 +76,7 @@ private:
         const double result = integrator.integrate_semi_infinite(
                 [](double x) -> double { return 1.0 - exp(-exp(-sq(x))); });
 
+        // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+0,+Infinity%7D%5D>
         assert_equals(0.642572, result, 1.0E-06, "integrate optical depth (semi-infinite)");
     }
 
