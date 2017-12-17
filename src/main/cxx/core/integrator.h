@@ -81,7 +81,7 @@ namespace especia {
          * @param[in] p The formula with less quadrature points.
          * @param[in] q The formula with more quadrature points.
          */
-        explicit Integrator(Formula p = Q13, Formula q = Q19) : p(p), q(q) {
+        explicit Integrator(Formula p = Q27, Formula q = Q41) : p(p), q(q) {
         }
 
         /**
