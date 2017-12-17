@@ -120,11 +120,11 @@ static real poly_eta_p(const real &r) {
 
 
 especia::Pseudo_Voigt::Pseudo_Voigt(const real &b, const real &d)
-        : u((c_g * b) / d),
-          h(1.0 / pow(1.0 + u * (0.07842 + u * (4.47163 + u * (2.42843 + u * (u + 2.69296)))), 0.2)),
-          // transposed digits in T. Ida, M. Ando, H. Toraya (2000)                    ^^
-          gamma_g(d / (c_g * h)),
+        : rho(c_g * b / d),
+          h(1.0 / pow(1.0 + rho * (0.07842 + rho * (4.47163 + rho * (2.42843 + rho * (rho + 2.69296)))), 0.2)),
+          // transposed digits in T. Ida, M. Ando, H. Toraya (2000)                              ^^
           gamma_l(d / h),
+          gamma_g(gamma_l / c_g),
           eta(h * (1.36603 - h * (0.47719 - h * 0.11116))) {
 }
 
@@ -138,15 +138,15 @@ const real especia::Pseudo_Voigt::c_g = sqrt_of_ln_two;
 
 
 especia::Extended_Pseudo_Voigt::Extended_Pseudo_Voigt(const real &b, const real &d)
-        : u(c_g * b + d),
-          r(d / u),
-          gamma_g(u * poly_w_g(r) / c_g),
-          gamma_l(u * poly_w_l(r)),
-          gamma_i(u * poly_w_i(r) / c_i),
-          gamma_p(u * poly_w_p(r) / c_p),
-          eta_l(poly_eta_l(r)),
-          eta_i(poly_eta_i(r)),
-          eta_p(poly_eta_p(r)) {
+        : g(c_g * b + d),
+          rho(d / g),
+          gamma_g(g * poly_w_g(rho) / c_g),
+          gamma_l(g * poly_w_l(rho)),
+          gamma_i(g * poly_w_i(rho) / c_i),
+          gamma_p(g * poly_w_p(rho) / c_p),
+          eta_l(poly_eta_l(rho)),
+          eta_i(poly_eta_i(rho)),
+          eta_p(poly_eta_p(rho)) {
 }
 
 especia::Extended_Pseudo_Voigt::~Extended_Pseudo_Voigt() = default;

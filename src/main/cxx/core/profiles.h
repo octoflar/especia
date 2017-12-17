@@ -65,10 +65,10 @@ namespace especia {
         real operator()(const real &x) const;
 
     private:
-        const real u;
+        const real rho;
         const real h;
-        const real gamma_g;
         const real gamma_l;
+        const real gamma_g;
         const real eta;
 
         static const real c_g;
@@ -111,8 +111,8 @@ namespace especia {
         real operator()(const real &x) const;
 
     private:
-        const real u;
-        const real r;
+        const real g;
+        const real rho;
         const real gamma_g;
         const real gamma_l;
         const real gamma_i;
