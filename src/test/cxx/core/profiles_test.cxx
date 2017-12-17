@@ -54,18 +54,44 @@ private:
         using especia::Intergalactic_Voigt;
         using especia::Pseudo_Voigt;
 
-        const real result = calculator.calculate(Intergalactic_Voigt<Pseudo_Voigt>());
+        const real result = calculator.calculate(Intergalactic_Voigt<Pseudo_Voigt>()) / real(1000.0);
 
-        assert_equals(real(878.069), result, real(1.0E-03), "equivalent width (intergalactic Voigt)");
+        // NIntegrate[1 - Exp[-PDF[PseudoVoigtDistribution[0.5, 0.5/Sqrt[2]], x]], {x, -Infinity, Infinity}]
+        assert_equals(real(0.883048), result, real(1.0E-02), "equivalent width (intergalactic Voigt)");
     }
 
     void test_equivalent_width_intergalactic_voigt_extended() {
         using especia::Intergalactic_Voigt;
         using especia::Extended_Pseudo_Voigt;
 
-        const real result = calculator.calculate(Intergalactic_Voigt<Extended_Pseudo_Voigt>());
+        const real result = calculator.calculate(Intergalactic_Voigt<Extended_Pseudo_Voigt>()) / real(1000.0);
 
-        assert_equals(real(876.901), result, real(1.0E-03), "equivalent width (intergalactic Voigt, extended)");
+        // NIntegrate[1 - Exp[-PDF[PseudoVoigtDistribution[0.5, 0.5/Sqrt[2]], x]], {x, -Infinity, Infinity}]
+        assert_equals(real(0.883048), result, real(1.0E-02), "equivalent width (intergalactic Voigt, extended)");
+    }
+
+    void test_maximum_pseudo_voigt() {
+        using especia::Pseudo_Voigt;
+
+        // <https://www.wolframalpha.com/input/?i=PDF%5BVoigtDistribution%5B0.5,+0.5%2FSqrt%5B2%5D%5D,+0%5D>
+        assert_equals(real(0.482476), Pseudo_Voigt(0.5, 0.5)(0.0), real(1.0E-03),
+                      "Voigt function maximum (pseudo-Voigt approximation)");
+
+        // <https://www.wolframalpha.com/input/?i=PDF%5BVoigtDistribution%5B1.0,+1.0%2FSqrt%5B2%5D%5D,+0%5D>
+        assert_equals(real(0.241238), Pseudo_Voigt(1.0, 1.0)(0.0), real(1.0E-03),
+                      "Voigt function maximum (pseudo-Voigt approximation)");
+    }
+
+    void test_maximum_pseudo_voigt_extended() {
+        using especia::Extended_Pseudo_Voigt;
+
+        // <https://www.wolframalpha.com/input/?i=PDF%5BVoigtDistribution%5B0.5,+0.5%2FSqrt%5B2%5D%5D,+0%5D>
+        assert_equals(real(0.482476), Extended_Pseudo_Voigt(0.5, 0.5)(0.0), real(0.5E-03),
+                      "Voigt function maximum (extended pseudo-Voigt approximation)");
+
+        // <https://www.wolframalpha.com/input/?i=PDF%5BVoigtDistribution%5B1.0,+1.0%2FSqrt%5B2%5D%5D,+0%5D>
+        assert_equals(real(0.241238), Extended_Pseudo_Voigt(1.0, 1.0)(0.0), real(0.5E-03),
+                      "Voigt function maximum (extended pseudo-Voigt approximation)");
     }
 
     void run_all() override {
@@ -73,6 +99,8 @@ private:
         run(this, &Profiles_Test::test_equivalent_width_many_multiplet);
         run(this, &Profiles_Test::test_equivalent_width_intergalactic_voigt);
         run(this, &Profiles_Test::test_equivalent_width_intergalactic_voigt_extended);
+        run(this, &Profiles_Test::test_maximum_pseudo_voigt);
+        run(this, &Profiles_Test::test_maximum_pseudo_voigt_extended);
     }
 
     Equivalent_Width_Calculator<Integrator<real>> calculator;
