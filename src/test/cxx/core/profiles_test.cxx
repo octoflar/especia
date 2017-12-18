@@ -56,8 +56,8 @@ private:
 
         const real result = calculator.calculate(Intergalactic_Voigt<Pseudo_Voigt>()) / real(1000.0);
 
-        // NIntegrate[1 - Exp[-PDF[PseudoVoigtDistribution[0.5, 0.5/Sqrt[2]], x]], {x, -Infinity, Infinity}]
-        assert_equals(real(0.883048), result, real(1.0E-02), "equivalent width (intergalactic Voigt)");
+        // NIntegrate[1 - Exp[-PDF[VoigtDistribution[0.5, 0.5/Sqrt[2]], x]], {x, -Infinity, Infinity}]
+        assert_equals(real(0.881143), result, real(0.5E-02), "equivalent width (intergalactic Voigt)");
     }
 
     void test_equivalent_width_intergalactic_voigt_extended() {
@@ -66,8 +66,8 @@ private:
 
         const real result = calculator.calculate(Intergalactic_Voigt<Extended_Pseudo_Voigt>()) / real(1000.0);
 
-        // NIntegrate[1 - Exp[-PDF[PseudoVoigtDistribution[0.5, 0.5/Sqrt[2]], x]], {x, -Infinity, Infinity}]
-        assert_equals(real(0.883048), result, real(1.0E-02), "equivalent width (intergalactic Voigt, extended)");
+        // NIntegrate[1 - Exp[-PDF[VoigtDistribution[0.5, 0.5/Sqrt[2]], x]], {x, -Infinity, Infinity}]
+        assert_equals(real(0.881143), result, real(0.5E-02), "equivalent width (intergalactic Voigt, extended)");
     }
 
     void test_maximum_pseudo_voigt() {
