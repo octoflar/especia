@@ -52,7 +52,7 @@ function(project_version_tag TAG)
     endif ()
 endfunction()
 
-function(install_prefix PREFIX)
+function(project_install_prefix PREFIX)
     if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
         set(CMAKE_INSTALL_PREFIX "${PREFIX}" CACHE PATH
                 "This directory is prepended onto all install directories"
