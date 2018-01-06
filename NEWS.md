@@ -2,7 +2,7 @@
 
 The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
-In addition, Version 2017.1 provides several new features and enhancements:
+In addition, Version 2018.1 provides several new features and enhancements:
 
 * New default values of strategy parameters like recombination weights,
 and cumulation and adaption rates have been adopted from Nikolaus
