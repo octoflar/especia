@@ -100,7 +100,7 @@ namespace especia {
          * @param[in] g The generation number.
          * @return always @c false.
          */
-        bool is_enabled(natural g) const {
+        bool is_tracing(natural g) const {
             return false;
         }
 
@@ -109,8 +109,8 @@ namespace especia {
          *
          * @param[in] g The generation number.
          * @param[in] y The value of the objective function.
-         * @param[in] min_step The minimum step size.
-         * @param[in] max_step The maximum step size.
+         * @param[in] min_step The minimum mutation step size.
+         * @param[in] max_step The maximum mutation step size.
          */
         void trace(natural g, T y, T min_step, T max_step) const {
         }

@@ -282,7 +282,7 @@ namespace especia {
              * @param[in] g The generation number.
              * @return @true if tracing is enabled, otherwise @c false.
              */
-            bool is_enabled(natural g) const {
+            bool is_tracing(natural g) const {
                 return m > 0 and g % m == 0;
             }
 

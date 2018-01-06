@@ -283,7 +283,7 @@ namespace especia {
                     break;
                 }
             }
-            if (optimized or tracer.is_enabled(g)) {
+            if (optimized or tracer.is_tracing(g)) {
                 tracer.trace(g, f(xw, n) + constraint.cost(xw, n), step_size * d[0], step_size * d[n - 1]);
             }
             if (optimized) {
