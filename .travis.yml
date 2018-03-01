@@ -11,15 +11,15 @@ script:
 matrix:
   include:
     - os: osx
-      osx_image: xcode9
+      osx_image: xcode9.2
       env:
         - TEST="unittests"
     - os: osx
-      osx_image: xcode9
+      osx_image: xcode9.2
       env:
         - TEST="sanitytests"
     - os: osx
-      osx_image: xcode9
+      osx_image: xcode9.2
       env:
         - TEST="stresstests"
     - os: linux
