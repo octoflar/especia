@@ -35,39 +35,39 @@ private:
     void test_equivalent_width_intergalactic_doppler() {
         using especia::Intergalactic_Doppler;
 
-        const real result = calculator.calculate(Intergalactic_Doppler()) / real(1000.0);
+        const real w = calculator.calculate(Intergalactic_Doppler()) / real(1000.0);
 
         // <https://www.wolframalpha.com/input/?i=NIntegrate%5B1-Exp%5B-1%2F(0.5+Sqrt%5BPi%5D)+Exp%5B-(x%2F0.5)%5E2%5D%5D,+%7Bx,+-Infinity,+Infinity%7D%5D>
-        assert_equals(real(0.698785), result, real(1.0E-06), "equivalent width (intergalactic Doppler)");
+        assert_equals(real(0.698785), w, real(1.0E-06), "equivalent width (intergalactic Doppler)");
     }
 
     void test_equivalent_width_many_multiplet() {
         using especia::Many_Multiplet;
 
-        const real result = calculator.calculate(Many_Multiplet()) / real(1000.0);
+        const real w = calculator.calculate(Many_Multiplet()) / real(1000.0);
 
         // <https://www.wolframalpha.com/input/?i=NIntegrate%5B1-Exp%5B-1%2F(0.5+Sqrt%5BPi%5D)+Exp%5B-(x%2F0.5)%5E2%5D%5D,+%7Bx,+-Infinity,+Infinity%7D%5D>
-        assert_equals(real(0.698785), result, real(1.0E-06), "equivalent width (many-multiplet)");
+        assert_equals(real(0.698785), w, real(1.0E-06), "equivalent width (many-multiplet)");
     }
 
     void test_equivalent_width_intergalactic_voigt() {
         using especia::Intergalactic_Voigt;
         using especia::Pseudo_Voigt;
 
-        const real result = calculator.calculate(Intergalactic_Voigt<Pseudo_Voigt>()) / real(1000.0);
+        const real w = calculator.calculate(Intergalactic_Voigt<Pseudo_Voigt>()) / real(1000.0);
 
         // <https://www.wolframalpha.com/input/?i=NIntegrate%5B1+-+Exp%5B-PDF%5BVoigtDistribution%5B0.5,+0.5%2FSqrt%5B2%5D%5D,+x%5D%5D,+%7Bx,+-Infinity,+Infinity%7D%5D>
-        assert_equals(real(0.881143), result, real(3.5E-03), "equivalent width (intergalactic Voigt)");
+        assert_equals(real(0.881143), w, real(3.5E-03), "equivalent width (intergalactic Voigt)");
     }
 
     void test_equivalent_width_intergalactic_voigt_extended() {
         using especia::Intergalactic_Voigt;
         using especia::Extended_Pseudo_Voigt;
 
-        const real result = calculator.calculate(Intergalactic_Voigt<Extended_Pseudo_Voigt>()) / real(1000.0);
+        const real w = calculator.calculate(Intergalactic_Voigt<Extended_Pseudo_Voigt>()) / real(1000.0);
 
         // <https://www.wolframalpha.com/input/?i=NIntegrate%5B1+-+Exp%5B-PDF%5BVoigtDistribution%5B0.5,+0.5%2FSqrt%5B2%5D%5D,+x%5D%5D,+%7Bx,+-Infinity,+Infinity%7D%5D>
-        assert_equals(real(0.881143), result, real(4.5E-03), "equivalent width (intergalactic Voigt, extended)");
+        assert_equals(real(0.881143), w, real(4.5E-03), "equivalent width (intergalactic Voigt, extended)");
     }
 
     void test_maximum_pseudo_voigt() {
@@ -94,6 +94,37 @@ private:
                       "Voigt function maximum (extended pseudo-Voigt approximation)");
     }
 
+    void test_metal_line_doublet() {
+        using especia::Intergalactic_Doppler;
+
+        // Na-D line parameters derived from COS data provided by Martin Wendt (2018)
+        const real q1[] = { real(5890.4917), real(0.01), real(0.0), real(0.0), real(22.141), real(14.573)};
+        const real q2[] = { real(5896.1525), real(0.01), real(0.0), real(0.0), real(41.250), real(14.175)};
+
+        const Intergalactic_Doppler d1(q1);
+        const Intergalactic_Doppler d2(q2);
+
+        const real t1 = d1(real(5890.4917));
+        assert_equals(real(1.490), t1, real(1.0E-03), "optical thickness Na-D doublet (1)");
+
+        const real t2 = d2(real(5896.1525));
+        assert_equals(real(0.320), t2, real(1.0E-03), "optical thickness Na-D doublet (2)");
+
+        const real a1 = exp(-t1);
+        assert_equals(real(0.225), a1, real(1.0E-03), "maximum absorption Na-D doublet (1)");
+
+        const real a2 = exp(-t2);
+        assert_equals(real(0.726), a2, real(1.0E-03), "maximum absorption Na-D doublet (2)");
+
+        // expected equivalent width obtained from trapezoidal summation
+        const real w1 = calculator.calculate(Intergalactic_Doppler(d1)) / real(1000.0);
+        assert_equals(real(0.727156), w1, real(1.0E-6), "equivalent width Na-D doublet (1)");
+
+        // expected equivalent width obtained from trapezoidal summation
+        const real w2 = calculator.calculate(Intergalactic_Doppler(d2)) / real(1000.0);
+        assert_equals(real(0.412598), w2, real(1.0E-6), "equivalent width Na-D doublet (2)");
+    }
+
     void run_all() override {
         run(this, &Profiles_Test::test_equivalent_width_intergalactic_doppler);
         run(this, &Profiles_Test::test_equivalent_width_many_multiplet);
@@ -101,6 +132,7 @@ private:
         run(this, &Profiles_Test::test_equivalent_width_intergalactic_voigt_extended);
         run(this, &Profiles_Test::test_maximum_pseudo_voigt);
         run(this, &Profiles_Test::test_maximum_pseudo_voigt_extended);
+        run(this, &Profiles_Test::test_metal_line_doublet);
     }
 
     Equivalent_Width_Calculator<Integrator<real>> calculator;
