@@ -16,7 +16,8 @@ spectral decomposition without requiring any particular initialisation.
 
 Additional highlights are the joint modelling and optimisation of the background
 continuum, and an accurate semi-analytic convolution of the absorption term with
-the instrumental line spread function. The method is explained in detail by
+the instrumental function that is capable of modelling unresolved narrow lines of
+half the instrumental line spread. The method is explained in detail by
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
 
 
