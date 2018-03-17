@@ -102,7 +102,12 @@ namespace especia {
     const real kilo = real(1.0E+03);
 
     /**
-     * SI prefix. Variation of the fine-structure constant is expressed in units of this number.
+     * SI prefix.
+     */
+    const real milli = real(1.0E-03);
+
+    /**
+     * SI prefix. The variation of the fine-structure constant is expressed in units of this number.
      */
     const real micro = real(1.0E-06);
 
