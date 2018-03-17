@@ -471,7 +471,7 @@ namespace especia {
 
     template<class A>
     const real Intergalactic_Voigt<A>::c1 = 1.0E-06 * sq(elementary_charge) / // NOLINT
-                                                      (4.0 * electric_constant * electron_mass * sq(speed_of_light));
+                                            (4.0 * electric_constant * electron_mass * sq(speed_of_light));
 
     template<class A>
     const real Intergalactic_Voigt<A>::c2 = 1.0E-10 / (4.0 * pi * speed_of_light);
@@ -531,26 +531,67 @@ namespace especia {
 
 
     /**
-     * Calculates the equivalent width of an optical depth profile.
+     * Calculates the convolution of a line profile with an instrumental function.
      *
-     * @tparam Integrate The strategy to integrate the line profile.
+     * @tparam Integrate The strategy to compute the convolution integral.
      */
     template<class Integrate>
-    class Equivalent_Width_Calculator {
+    class Convolutor {
     public:
-        /**
-         * The default constructor.
-         */
-        Equivalent_Width_Calculator() : integrator(Integrate()) {
-
-        }
-
         /**
          * Constructs a new instance of this class using the integrator supplied as argument.
          *
          * @param integrator The integrator.
          */
-        explicit Equivalent_Width_Calculator(const Integrate &integrator) : integrator(integrator) {
+        explicit Convolutor(const Integrate &integrator = Integrate()) : integrator(integrator) {
+        }
+
+        /**
+         * The destructor.
+         */
+        ~Convolutor() = default;
+
+        /**
+         * Calculates the convolution a line profile with an instrumental function, i.e the infinite integral
+         * @f[ I(x) = \int_{-\infty}^{\infty} \exp(-f(x - y)) g(y) dy @f].
+         *
+         * @tparam F The line profile function type.
+         * @tparam G The instrumental function type.
+         *
+         * @param f The line profile function (optical depth profile).
+         * @param g The instrumental function.
+         * @param x The abscissa value.
+         * @return the convolution integral.
+         */
+        template<class F, class G>
+        real convolute(const F &f, const F &g, real x) const {
+            using std::exp;
+
+            return integrator.integrate_infinite([&f, &g, x, this](real y) -> real { return exp(-f(x - y)) * g(y); });
+        }
+
+    private:
+        /**
+         * The strategy to compute the convolution integral.
+         */
+        const Integrate integrator;
+    };
+
+
+    /**
+     * Calculates the equivalent width of a line profile.
+     *
+     * @tparam Integrate The strategy to integrate the line profile.
+     */
+    template<class Integrate, class Convolute=Convolutor<Integrate>>
+    class Equivalent_Width_Calculator {
+    public:
+        /**
+         * Constructs a new instance of this class using the integrator supplied as argument.
+         *
+         * @param integrator The integrator.
+         */
+        explicit Equivalent_Width_Calculator(const Integrate &integrator = Integrate()) : integrator(integrator) {
 
         }
 
@@ -565,16 +606,18 @@ namespace especia {
          * @tparam Function The profile function type.
          *
          * @param f The profile function.
-         * @return the equivalent width (milli Angstrom).
+         * @param f The profile function.
+         * @param prefix The unit prefix.
+         * @return the equivalent width (@c prefix Angstrom).
          */
         template<class Function>
-        real calculate(const Function &f) const {
+        real calculate(const Function &f, const real &prefix = 1.0) const {
             using std::exp;
 
-            const real integral = integrator.integrate_semi_infinite(
-                    [&f](real x) -> real { return kilo * (1.0 - exp(-f(x + f.center()))); });
+            const real integral = integrator.integrate_positive_infinite(
+                    [&f](real x) -> real { return 1.0 - exp(-f(x + f.center())); });
 
-            return 2.0 * integral / f.redshift_factor();
+            return (2.0 / prefix) * integral / f.redshift_factor();
         }
 
     private:
