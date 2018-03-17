@@ -28,6 +28,6 @@ set(RMDIR rm -rf)
 
 set(SHELL sh)
 
-set(TAR tar -cjv)
+set(TAR tar -czv)
 
 set(XARGS xargs)
