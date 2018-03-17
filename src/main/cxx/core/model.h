@@ -487,7 +487,7 @@ namespace especia {
                 const real dz = err[j + 2];
                 const real dv = err[j + 3];
                 const real dw = dx + x * sqrt(sq((1.0 + v / c) * dz) + sq((1.0 + z) * dv / c));
-                const real ew = calculator.calculate(Function(&val[j]));
+                const real ew = calculator.calculate(Function(&val[j]), milli);
 
                 os.precision(4);
 
@@ -513,7 +513,7 @@ namespace especia {
                 put_parameter(os, ios_base::fixed, 3, j + 5);
                 os << "</td>\n";
                 os << "      <td>";
-                put_parameter(os, ios_base::fixed, 1, ew);
+                put_parameter(os, ios_base::fixed, 3, ew);
                 os << "</td>\n";
                 if (Function::parameter_count() == 8) {
                     os << "      <td>";
