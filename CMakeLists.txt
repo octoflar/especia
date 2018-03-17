@@ -157,8 +157,8 @@ add_custom_target(util)
 add_dependencies(util airtovac helicorr vactoair)
 
 add_custom_target(tar
-        COMMAND ${TAR} -f ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_TAG}.tar.bz2 -C ${CMAKE_SOURCE_DIR} --exclude .git --exclude .gitattributes --exclude .gitignore --exclude .travis.yml --exclude _config.yml -X ${CMAKE_SOURCE_DIR}/.gitignore .
-        BYPRODUCTS ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_TAG}.tar.bz2
+        COMMAND ${TAR} -f ${PROJECT_NAME}-${PROJECT_VERSION_TAG}-${PROJECT_TAG}.tar.bz2 -C ${CMAKE_SOURCE_DIR} --exclude .git --exclude .gitattributes --exclude .gitignore --exclude .travis.yml --exclude _config.yml -X ${CMAKE_SOURCE_DIR}/.gitignore .
+        BYPRODUCTS ${PROJECT_NAME}-${PROJECT_VERSION}-${PROJECT_VERSION_TAG}.tar.bz2
         VERBATIM)
 
 
