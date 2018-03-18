@@ -1,6 +1,6 @@
-<a href="https://doi.org/10.5281/zenodo.580345"><img
+<a href="https://doi.org/10.5281/zenodo.785424"><img
         alt="Evolution strategies applied to the problem of line profile decomposition in QSO spectra"
-        src="https://zenodo.org/record/580345/files/fit.gif"
+        src="https://zenodo.org/record/785424/files/fit.gif"
         style="display:block; margin:auto"
         title="This animation illustrates the decomposition of an ensemble of absorption lines into individual model components by means of an evolution strategy with covariance matrix adaption. Even after random initialisation, the evolution strategy eventually finds the optimal parametric decomposition of the spectrum."></a>
 
@@ -62,8 +62,8 @@ Astronomy and Astrophysics 431 (3) 1167.
 
 Quast, Ralf (2017). *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
 Zenodo.
-[DOI 10.5281/zenodo.580345](https://doi.org/10.5281/zenodo.580345).
+[DOI 10.5281/zenodo.785424](https://doi.org/10.5281/zenodo.785424).
 
 Quast, Ralf (2017). *Covariance matrix adaption in evolution strategies.*
 Zenodo.
-[DOI 10.5281/zenodo.580344](https://doi.org/10.5281/zenodo.580344).
+[DOI 10.5281/zenodo.784203](https://doi.org/10.5281/zenodo.784203).
