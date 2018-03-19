@@ -564,7 +564,7 @@ namespace especia {
          * @return the convolution integral.
          */
         template<class F, class G>
-        real convolute(const F &f, const F &g, real x) const {
+        real convolute(const F &f, const G &g, real x) const {
             using std::exp;
 
             return integrator.integrate_infinite([&f, &g, x, this](real y) -> real { return exp(-f(x - y)) * g(y); });
