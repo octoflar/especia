@@ -253,10 +253,11 @@ namespace especia {
             using std::valarray;
 
             if (n > 2) {
+                const natural s = 2;
                 // The half width at half maximum (HWHM) of the instrumental profile.
                 const real h = 0.5 * center() / (r * kilo);
                 // The sample spacing.
-                const real w = width() / (n - 1);
+                const real w = (width() / (n - 1)) / s;
                 // The Gaussian line spread function is truncated at 4 HWHM where it is less than 10E-5.
                 const natural m = static_cast<natural>(4.0 * (h / w)) + 1;
 
@@ -266,25 +267,48 @@ namespace especia {
                 for (natural i = 0; i < m; ++i) {
                     primitive(i * w, h, p[i], q[i]);
                 }
-                transform(begin(wav), end(wav), begin(opt), tau);
-                atm = exp(-opt);
+                const size_t ns = s * (n - 1) + 1;
+                valarray<real> wavs(ns);
+                valarray<real> opts(ns);
+                valarray<real> atms(ns);
+                valarray<real> cats(ns);
+
+                for (size_t i = 0; i + 1 < n; ++i) {
+                    for (natural j = 0; j < s; ++j) {
+                        const real t = real(j) / real(s);
+                        wavs[i * s + j] = (1.0 - t) * wav[i] + t * wav[i + 1];
+                    }
+                }
+                wavs[ns - 1] = wav[n - 1];
+
+                transform(begin(wavs), end(wavs), begin(opts), tau);
+                atms = exp(-opts);
 
                 // Convolution of the modelled flux with the instrumental line spread function.
-                for (size_t i = 0; i < n; ++i) {
+                for (size_t i = 0; i < ns; ++i) {
                     real a = 0.0;
                     real b = 0.0;
 
                     for (natural j = 0; j + 1 < m; ++j) {
                         const size_t k = (i < j + 1) ? 0 : i - j - 1;
-                        const size_t l = (i + j + 2 > n) ? n - 2 : i + j;
-                        const real d = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
+                        const size_t l = (i + j + 2 > ns) ? ns - 2 : i + j;
+                        const real d = (atms[l + 1] - atms[l]) - (atms[k + 1] - atms[k]);
 
-                        a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - real(j) * d);
+                        a += (p[j + 1] - p[j]) * (atms[k + 1] + atms[l] - real(j) * d);
                         b += (q[j + 1] - q[j]) * d;
                     }
 
-                    cat[i] = a + b / w;
+                    cats[i] = a + b / w;
                 }
+
+                for (size_t i = 0; i + 1 < n; ++i) {
+                    opt[i] = opts[i * s];
+                    atm[i] = atms[i * s];
+                    cat[i] = cats[i * s];
+                }
+                opt[n - 1] = opts[ns - 1];
+                atm[n - 1] = atms[ns - 1];
+                cat[n - 1] = cats[ns - 1];
             }
         }
 
