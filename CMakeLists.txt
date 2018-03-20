@@ -128,10 +128,10 @@ add_unit_test(profiles_test
         ${MAIN}/cxx/core/profiles.cxx
         ${TEST}/cxx/core/profiles_test.cxx)
 
-add_sanity_test(especid_test 159.77 171.89)
-add_stress_test(especiv_test 251.04)
-add_stress_test(especix_test 251.46)
-add_stress_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
+add_sanity_test(especid_test 159.93 171.97)
+add_stress_test(especiv_test 250.93)
+add_stress_test(especix_test 251.34)
+add_stress_test(especia_test 103.91 258.94 213.19 223.52 238.21 196.65)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
         ${MAIN}/cxx/core/base.h
