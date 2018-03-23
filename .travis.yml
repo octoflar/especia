@@ -16,3 +16,13 @@ matrix:
     - os: osx
       env:
         - TEST="sanitytests"
+    - os: linux
+      env:
+        - TEST="unittests"
+      dist: trusty
+      sudo: required
+    - os: linux
+      env:
+        - TEST="sanitytests"
+      dist: trusty
+      sudo: required
