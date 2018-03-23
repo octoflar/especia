@@ -53,6 +53,8 @@ configure_file(${TEST}/resources/especid_test.html resources/especid_test.html C
 configure_file(${TEST}/resources/especiv_test.html resources/especiv_test.html COPYONLY)
 configure_file(${TEST}/resources/especix_test.html resources/especix_test.html COPYONLY)
 configure_file(${TEST}/resources/especia_test.html resources/especia_test.html COPYONLY)
+configure_file(${TEST}/resources/supersampling_test.html resources/supersampling_test.html COPYONLY)
+configure_file(${TEST}/resources/spec000.dat resources/spec000.dat COPYONLY)
 configure_file(${TEST}/resources/stis121.dat resources/stis121.dat COPYONLY)
 configure_file(${TEST}/resources/uves346.dat resources/uves346.dat COPYONLY)
 configure_file(${TEST}/resources/uves580.dat resources/uves580.dat COPYONLY)
@@ -132,6 +134,7 @@ add_sanity_test(especid_test 159.77 171.89)
 add_stress_test(especiv_test 251.04)
 add_stress_test(especix_test 251.46)
 add_stress_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
+add_sanity_test(supersampling_test 14.61)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
         ${MAIN}/cxx/core/base.h
