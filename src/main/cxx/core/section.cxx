@@ -213,6 +213,25 @@ void especia::Section::primitive(const real &x, const real &h, real &p, real &q)
     q = 0.5 * exp(-sq(x / b)) * (-d);
 }
 
+void especia::Section::subsample(const std::valarray<real> &source, natural s, std::valarray<real> &target) const {
+    for (natural i = 0, j = 0; j < target.size(); i += s, ++j) {
+        target[j] = source[i];
+    }
+}
+
+void especia::Section::supersample(const std::valarray<real> &source, natural s, std::valarray<real> &target) const {
+    for (natural i = 0, j = 0; i < source.size(); ++i, j += s) {
+        target[j] = source[i];
+    }
+    for (natural k = 1; k < s; ++k) {
+        const real w = real(k) / real(s);
+
+        for (size_t i = 0, j = k; i + 1 < source.size(); ++i, j += s) {
+            target[j] = source[i] + w * (source[i + 1] - source[i]);
+        }
+    }
+}
+
 std::istream &especia::Section::get(std::istream &is, real a, real b) {
     using namespace std;
 

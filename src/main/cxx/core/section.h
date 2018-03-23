@@ -246,19 +246,23 @@ namespace especia {
          * @param[out] cat The evaluated convoluted absorption term.
          */
         template<class Function>
-        void convolute(real r, const Function &tau, std::valarray<real> &opt, std::valarray<real> &atm,
-                       std::valarray<real> &cat) const {
+        void convolute(real r, const Function &tau,
+                       std::valarray<real> &opt, std::valarray<real> &atm, std::valarray<real> &cat) const {
+            using std::ceil;
             using std::exp;
             using std::transform;
             using std::valarray;
 
             if (n > 2) {
-                const natural s = 2;
                 // The half width at half maximum (HWHM) of the instrumental profile.
                 const real h = 0.5 * center() / (r * kilo);
+                // The data spacing.
+                const real d = width() / (n - 1);
+                // The supersampling rate.
+                const natural s = static_cast<natural>(ceil(d / h));
                 // The sample spacing.
-                const real w = (width() / (n - 1)) / s;
-                // The Gaussian line spread function is truncated at 4 HWHM where it is less than 10E-5.
+                const real w = d / s;
+                // The Gaussian line spread function is truncated at 4 HWHM.
                 const natural m = static_cast<natural>(4.0 * (h / w)) + 1;
 
                 valarray<real> p(m);
@@ -267,48 +271,61 @@ namespace especia {
                 for (natural i = 0; i < m; ++i) {
                     primitive(i * w, h, p[i], q[i]);
                 }
-                const size_t ns = s * (n - 1) + 1;
-                valarray<real> wavs(ns);
-                valarray<real> opts(ns);
-                valarray<real> atms(ns);
-                valarray<real> cats(ns);
 
-                for (size_t i = 0; i + 1 < n; ++i) {
-                    for (natural j = 0; j < s; ++j) {
-                        const real t = real(j) / real(s);
-                        wavs[i * s + j] = (1.0 - t) * wav[i] + t * wav[i + 1];
+                if (s == 1) {
+                    transform(begin(wav), end(wav), begin(opt), tau);
+                    atm = exp(-opt);
+
+                    // Convolution of the modelled flux with the instrumental line spread function.
+                    for (size_t i = 0; i < n; ++i) {
+                        real a = 0.0;
+                        real b = 0.0;
+
+                        for (natural j = 0; j + 1 < m; ++j) {
+                            const size_t k = (i < j + 1) ? 0 : i - j - 1;
+                            const size_t l = (i + j + 2 > n) ? n - 2 : i + j;
+                            const real c = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
+
+                            a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - real(j) * c);
+                            b += (q[j + 1] - q[j]) * c;
+                        }
+
+                        cat[i] = a + b / w;
                     }
-                }
-                wavs[ns - 1] = wav[n - 1];
+                } else {
+                    const size_t ns = s * (n - 1) + 1;
 
-                transform(begin(wavs), end(wavs), begin(opts), tau);
-                atms = exp(-opts);
+                    valarray<real> wavs(ns);
+                    valarray<real> opts(ns);
+                    valarray<real> atms(ns);
+                    valarray<real> cats(ns);
 
-                // Convolution of the modelled flux with the instrumental line spread function.
-                for (size_t i = 0; i < ns; ++i) {
-                    real a = 0.0;
-                    real b = 0.0;
+                    supersample(wav, s, wavs);
 
-                    for (natural j = 0; j + 1 < m; ++j) {
-                        const size_t k = (i < j + 1) ? 0 : i - j - 1;
-                        const size_t l = (i + j + 2 > ns) ? ns - 2 : i + j;
-                        const real d = (atms[l + 1] - atms[l]) - (atms[k + 1] - atms[k]);
+                    transform(begin(wavs), end(wavs), begin(opts), tau);
+                    atms = exp(-opts);
 
-                        a += (p[j + 1] - p[j]) * (atms[k + 1] + atms[l] - real(j) * d);
-                        b += (q[j + 1] - q[j]) * d;
+                    // Supersampled convolution of the modelled flux with the instrumental line spread function.
+                    for (size_t i = 0; i < ns; ++i) {
+                        real a = 0.0;
+                        real b = 0.0;
+
+                        for (natural j = 0; j + 1 < m; ++j) {
+                            const size_t k = (i < j + 1) ? 0 : i - j - 1;
+                            const size_t l = (i + j + 2 > ns) ? ns - 2 : i + j;
+                            const real c = (atms[l + 1] - atms[l]) - (atms[k + 1] - atms[k]);
+
+                            a += (p[j + 1] - p[j]) * (atms[k + 1] + atms[l] - real(j) * c);
+                            b += (q[j + 1] - q[j]) * c;
+                        }
+
+                        cats[i] = a + b / w;
                     }
 
-                    cats[i] = a + b / w;
+                    subsample(opts, s, opt);
+                    subsample(atms, s, atm);
+                    subsample(cats, s, cat);
                 }
-
-                for (size_t i = 0; i + 1 < n; ++i) {
-                    opt[i] = opts[i * s];
-                    atm[i] = atms[i * s];
-                    cat[i] = cats[i * s];
-                }
-                opt[n - 1] = opts[ns - 1];
-                atm[n - 1] = atms[ns - 1];
-                cat[n - 1] = cats[ns - 1];
             }
         }
 
@@ -322,6 +339,24 @@ namespace especia {
          * @param[out] q The primitive function of x g(x) evaluated at @ x.
          */
         void primitive(const real &x, const real &h, real &p, real &q) const;
+
+        /**
+         * Subsamples a given data vector.
+         *
+         * @param[in] source The source data vector.
+         * @param[in] s The subsampling rate.
+         * @param[out] target The target data vector (subsampled).
+         */
+        void subsample(const std::valarray<real> &source, natural s, std::valarray<real> &target) const;
+
+        /**
+         * Supersamples a given data vector.
+         *
+         * @param[in] source The source data vector.
+         * @param[in] s The supersampling rate.
+         * @param[out] target The target data vector (supersampled).
+         */
+        void supersample(const std::valarray<real> &source, natural s, std::valarray<real> &target) const;
 
         /**
          * The observed wavelength data (arbitrary units).
