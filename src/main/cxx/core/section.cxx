@@ -202,7 +202,7 @@ void especia::Section::mask(real a, real b) {
     }
 }
 
-void especia::Section::primitive(const real &x, const real &h, real &p, real &q) const {
+void especia::Section::primitive(const real &x, const real &h, real &p, real &q) {
     using std::erf; // C++11
     using std::exp;
 
@@ -213,21 +213,15 @@ void especia::Section::primitive(const real &x, const real &h, real &p, real &q)
     q = 0.5 * exp(-sq(x / b)) * (-d);
 }
 
-void especia::Section::subsample(const std::valarray<real> &source, natural s, std::valarray<real> &target) const {
-    for (natural i = 0, j = 0; j < target.size(); i += s, ++j) {
-        target[j] = source[i];
+void especia::Section::supersample(const std::valarray<real> &source, natural k, std::valarray<real> &target) {
+    for (natural is = 0, it = 0; is < source.size(); ++is, it += k) {
+        target[it] = source[is];
     }
-}
+    for (natural j = 1; j < k; ++j) {
+        const real w = real(j) / real(k);
 
-void especia::Section::supersample(const std::valarray<real> &source, natural s, std::valarray<real> &target) const {
-    for (natural i = 0, j = 0; i < source.size(); ++i, j += s) {
-        target[j] = source[i];
-    }
-    for (natural k = 1; k < s; ++k) {
-        const real w = real(k) / real(s);
-
-        for (size_t i = 0, j = k; i + 1 < source.size(); ++i, j += s) {
-            target[j] = source[i] + w * (source[i + 1] - source[i]);
+        for (size_t is = 0, it = j; is + 1 < source.size(); ++is, it += k) {
+            target[it] = source[is] + w * (source[is + 1] - source[is]);
         }
     }
 }
