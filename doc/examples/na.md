@@ -70,5 +70,5 @@ Doppler profiles are used here. The line parameters are:
 
 ## Thanks
 
-Based on test case provided by Martin Wendt, AIP, Germany.
+Based on a test case provided by Martin Wendt, AIP, Germany.
 
