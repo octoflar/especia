@@ -4,6 +4,8 @@ This software has been developed as part of research funded by the Verbundforsch
 Grant No. 50 OR 9911 1 and by the DFG under Re 353/48. The use of this software in the work listed below (and
 any work not listed) is gratefully acknowledged.
 
+Many thanks for Martin Wendt for providing feedback and test cases. 
+
 ## Work having used this software
 
 *The precision of line position measurements of unresolved quasar absorption lines and its influence on the search for variations of fundamental constants.*
