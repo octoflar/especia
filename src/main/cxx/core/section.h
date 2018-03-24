@@ -51,7 +51,7 @@ namespace especia {
          *
          * @param[in] n_in The number of data points.
          */
-        explicit Section(size_t n_in);
+        explicit Section(const size_t n_in);
 
         /**
          * Constructs a new instance of this class for a certain number of data points,
@@ -62,7 +62,7 @@ namespace especia {
          * @param[in] flx The spectral flux data.
          * @param[in] unc The spectral flux uncertainty data.
          */
-        Section(size_t n_in, const real wav[], const real flx[], const real unc[]);
+        Section(const size_t n_in, const real wav[], const real flx[], const real unc[]);
 
         /**
          * The destructor.
@@ -77,7 +77,7 @@ namespace especia {
          * @param[in] b The maximum wavelength to read.
          * @return the input stream.
          */
-        std::istream &get(std::istream &is, real a = 0.0, real b = std::numeric_limits<real>::max());
+        std::istream &get(std::istream &is, const real a = 0.0, const real b = std::numeric_limits<real>::max());
 
         /**
          * Writes a data section to an output stream.
@@ -87,7 +87,7 @@ namespace especia {
          * @param[in] b The maximum wavelength to write.
          * @return the output stream.
          */
-        std::ostream &put(std::ostream &os, real a = 0.0, real b = std::numeric_limits<real>::max()) const;
+        std::ostream &put(std::ostream &os, const real a = 0.0, const real b = std::numeric_limits<real>::max()) const;
 
         /**
          * Returns the lower wavelength bound of this data section.
@@ -164,7 +164,7 @@ namespace especia {
          * @remark calling this method is thread safe, if the optical depth model is thread safe.
          */
         template<class Function>
-        real cost(const Function &tau, real r, natural m) const {
+        real cost(const Function &tau, const real r, const natural m) const {
             using std::abs;
             using std::valarray;
 
@@ -199,7 +199,7 @@ namespace especia {
          * @param[in] a The lower bound of the interval.
          * @param[in] b The upper bound of the interval.
          */
-        void mask(real a, real b);
+        void mask(const real a, const real b);
 
         /**
          * Applies an optical depth and background continuum model to this section.
@@ -213,7 +213,7 @@ namespace especia {
          * @return this section.
          */
         template<class Function>
-        Section &apply(natural m, real r, const Function &tau) {
+        Section &apply(const natural m, const real r, const Function &tau) {
             convolute(r, tau, opt, atm, cat);
             continuum(m, cat, cfl);
 
@@ -232,7 +232,7 @@ namespace especia {
          * @param[in] cat The evaluated convoluted absorption term.
          * @param[out] cfl The evaluated background continuum flux.
          */
-        void continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const;
+        void continuum(const natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const;
 
         /**
          * Convolutes a given optical depth function with the instrumental line spread function.
@@ -294,7 +294,7 @@ namespace especia {
                         cat[i] = a + b / w;
                     }
                 } else {
-                    // The number of super samples.
+                    // The number of super-samples.
                     const size_t ns = s * (n - 1) + 1;
 
                     valarray<real> wavs(ns);
@@ -346,7 +346,7 @@ namespace especia {
          * @param[in] k The super-sampling factor.
          * @param[out] target The target data vector (super-sampled).
          */
-        static void supersample(const std::valarray<real> &source, natural k, std::valarray<real> &target);
+        static void supersample(const std::valarray<real> &source, const natural k, std::valarray<real> &target);
 
         /**
          * The observed wavelength data (arbitrary units).
