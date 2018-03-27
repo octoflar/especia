@@ -46,7 +46,7 @@ especia::Section::Section()
           n(0) {
 }
 
-especia::Section::Section(size_t n_in)
+especia::Section::Section(const size_t n_in)
         : wav(0.0, n_in),
           flx(0.0, n_in),
           unc(0.0, n_in),
@@ -61,7 +61,7 @@ especia::Section::Section(size_t n_in)
           n(n_in) {
 }
 
-especia::Section::Section(size_t n_in, const real x[], const real y[], const real unc[])
+especia::Section::Section(const size_t n_in, const real x[], const real y[], const real unc[])
         : wav(x, n_in),
           flx(y, n_in),
           unc(unc, n_in),
@@ -78,7 +78,7 @@ especia::Section::Section(size_t n_in, const real x[], const real y[], const rea
 
 especia::Section::~Section() = default;
 
-void especia::Section::continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const {
+void especia::Section::continuum(const natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const {
     using std::fill;
     using std::runtime_error;
     using std::sqrt;
@@ -194,7 +194,7 @@ real especia::Section::cost() const {
     return 0.5 * cost;
 }
 
-void especia::Section::mask(real a, real b) {
+void especia::Section::mask(const real a, const real b) {
     for (size_t i = 0; i < n; ++i) {
         if (a <= wav[i] and wav[i] <= b) {
             msk[i] = false;
@@ -202,7 +202,7 @@ void especia::Section::mask(real a, real b) {
     }
 }
 
-void especia::Section::primitive(const real &x, const real &h, real &p, real &q) const {
+void especia::Section::primitive(const real &x, const real &h, real &p, real &q) {
     using std::erf; // C++11
     using std::exp;
 
@@ -213,7 +213,20 @@ void especia::Section::primitive(const real &x, const real &h, real &p, real &q)
     q = 0.5 * exp(-sq(x / b)) * (-d);
 }
 
-std::istream &especia::Section::get(std::istream &is, real a, real b) {
+void especia::Section::supersample(const std::valarray<real> &source, const natural k, std::valarray<real> &target) {
+    for (natural is = 0, it = 0; is < source.size(); ++is, it += k) {
+        target[it] = source[is];
+    }
+    for (natural j = 1; j < k; ++j) {
+        const real w = real(j) / real(k);
+
+        for (size_t is = 0, it = j; is + 1 < source.size(); ++is, it += k) {
+            target[it] = source[is] + w * (source[is + 1] - source[is]);
+        }
+    }
+}
+
+std::istream &especia::Section::get(std::istream &is, const real a, const real b) {
     using namespace std;
 
     const size_t room = 20000;
@@ -295,7 +308,7 @@ std::istream &especia::Section::get(std::istream &is, real a, real b) {
     return is;
 }
 
-std::ostream &especia::Section::put(std::ostream &os, real a, real b) const {
+std::ostream &especia::Section::put(std::ostream &os, const real a, const real b) const {
     using namespace std;
 
     if (os) {

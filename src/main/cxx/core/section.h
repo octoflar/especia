@@ -51,7 +51,7 @@ namespace especia {
          *
          * @param[in] n_in The number of data points.
          */
-        explicit Section(size_t n_in);
+        explicit Section(const size_t n_in);
 
         /**
          * Constructs a new instance of this class for a certain number of data points,
@@ -62,7 +62,7 @@ namespace especia {
          * @param[in] flx The spectral flux data.
          * @param[in] unc The spectral flux uncertainty data.
          */
-        Section(size_t n_in, const real wav[], const real flx[], const real unc[]);
+        Section(const size_t n_in, const real wav[], const real flx[], const real unc[]);
 
         /**
          * The destructor.
@@ -77,7 +77,7 @@ namespace especia {
          * @param[in] b The maximum wavelength to read.
          * @return the input stream.
          */
-        std::istream &get(std::istream &is, real a = 0.0, real b = std::numeric_limits<real>::max());
+        std::istream &get(std::istream &is, const real a = 0.0, const real b = std::numeric_limits<real>::max());
 
         /**
          * Writes a data section to an output stream.
@@ -87,7 +87,7 @@ namespace especia {
          * @param[in] b The maximum wavelength to write.
          * @return the output stream.
          */
-        std::ostream &put(std::ostream &os, real a = 0.0, real b = std::numeric_limits<real>::max()) const;
+        std::ostream &put(std::ostream &os, const real a = 0.0, const real b = std::numeric_limits<real>::max()) const;
 
         /**
          * Returns the lower wavelength bound of this data section.
@@ -164,7 +164,7 @@ namespace especia {
          * @remark calling this method is thread safe, if the optical depth model is thread safe.
          */
         template<class Function>
-        real cost(const Function &tau, real r, natural m) const {
+        real cost(const Function &tau, const real r, const natural m) const {
             using std::abs;
             using std::valarray;
 
@@ -199,7 +199,7 @@ namespace especia {
          * @param[in] a The lower bound of the interval.
          * @param[in] b The upper bound of the interval.
          */
-        void mask(real a, real b);
+        void mask(const real a, const real b);
 
         /**
          * Applies an optical depth and background continuum model to this section.
@@ -213,7 +213,7 @@ namespace especia {
          * @return this section.
          */
         template<class Function>
-        Section &apply(natural m, real r, const Function &tau) {
+        Section &apply(const natural m, const real r, const Function &tau) {
             convolute(r, tau, opt, atm, cat);
             continuum(m, cat, cfl);
 
@@ -232,7 +232,7 @@ namespace especia {
          * @param[in] cat The evaluated convoluted absorption term.
          * @param[out] cfl The evaluated background continuum flux.
          */
-        void continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const;
+        void continuum(const natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const;
 
         /**
          * Convolutes a given optical depth function with the instrumental line spread function.
@@ -246,8 +246,9 @@ namespace especia {
          * @param[out] cat The evaluated convoluted absorption term.
          */
         template<class Function>
-        void convolute(real r, const Function &tau, std::valarray<real> &opt, std::valarray<real> &atm,
-                       std::valarray<real> &cat) const {
+        void convolute(const real r, const Function &tau,
+                       std::valarray<real> &opt, std::valarray<real> &atm, std::valarray<real> &cat) const {
+            using std::ceil;
             using std::exp;
             using std::transform;
             using std::valarray;
@@ -255,35 +256,74 @@ namespace especia {
             if (n > 2) {
                 // The half width at half maximum (HWHM) of the instrumental profile.
                 const real h = 0.5 * center() / (r * kilo);
-                // The sample spacing.
-                const real w = width() / (n - 1);
-                // The Gaussian line spread function is truncated at 4 HWHM where it is less than 10E-5.
+                // The data spacing.
+                const real d = width() / (n - 1);
+                // The super-sampling factor.
+                const natural s = static_cast<natural>(ceil(d / h));
+                // The super-sampled spacing.
+                const real w = d / s;
+                // The Gaussian line spread function is truncated at 4 HWHM.
                 const natural m = static_cast<natural>(4.0 * (h / w)) + 1;
 
+                // Computation of the instrumental line spread function's primitive terms.
                 valarray<real> p(m);
                 valarray<real> q(m);
-
                 for (natural i = 0; i < m; ++i) {
                     primitive(i * w, h, p[i], q[i]);
                 }
-                transform(begin(wav), end(wav), begin(opt), tau);
-                atm = exp(-opt);
 
-                // Convolution of the modelled flux with the instrumental line spread function.
-                for (size_t i = 0; i < n; ++i) {
-                    real a = 0.0;
-                    real b = 0.0;
+                if (s == 1) {
+                    // Computation of optical depth and absorption term.
+                    transform(begin(wav), end(wav), begin(opt), tau);
+                    atm = exp(-opt);
 
-                    for (natural j = 0; j + 1 < m; ++j) {
-                        const size_t k = (i < j + 1) ? 0 : i - j - 1;
-                        const size_t l = (i + j + 2 > n) ? n - 2 : i + j;
-                        const real d = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
+                    // Convolution of the absorption term with the instrumental line spread function.
+                    for (size_t i = 0; i < n; ++i) {
+                        real a = 0.0;
+                        real b = 0.0;
 
-                        a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - real(j) * d);
-                        b += (q[j + 1] - q[j]) * d;
+                        for (natural j = 0; j + 1 < m; ++j) {
+                            const size_t k = (i < j + 1) ? 0 : i - j - 1;
+                            const size_t l = (i + j + 2 > n) ? n - 2 : i + j;
+                            const real c = (atm[l + 1] - atm[l]) - (atm[k + 1] - atm[k]);
+
+                            a += (p[j + 1] - p[j]) * (atm[k + 1] + atm[l] - real(j) * c);
+                            b += (q[j + 1] - q[j]) * c;
+                        }
+
+                        cat[i] = a + b / w;
                     }
+                } else {
+                    // The number of super-samples.
+                    const size_t ns = s * (n - 1) + 1;
 
-                    cat[i] = a + b / w;
+                    valarray<real> wavs(ns);
+                    valarray<real> opts(ns);
+                    valarray<real> atms(ns);
+                    supersample(wav, s, wavs);
+
+                    // Super-sampled computation of optical depth and absorption term.
+                    transform(begin(wavs), end(wavs), begin(opts), tau);
+                    atms = exp(-opts);
+
+                    // Super-sampled convolution of the absorption term with the instrumental line spread function.
+                    for (size_t is = 0, it = 0; it < n; is += s, ++it) {
+                        real a = 0.0;
+                        real b = 0.0;
+
+                        for (natural j = 0; j + 1 < m; ++j) {
+                            const size_t k = (is < j + 1) ? 0 : is - j - 1;
+                            const size_t l = (is + j + 2 > ns) ? ns - 2 : is + j;
+                            const real c = (atms[l + 1] - atms[l]) - (atms[k + 1] - atms[k]);
+
+                            a += (p[j + 1] - p[j]) * (atms[k + 1] + atms[l] - real(j) * c);
+                            b += (q[j + 1] - q[j]) * c;
+                        }
+
+                        opt[it] = opts[is];
+                        atm[it] = atms[is];
+                        cat[it] = a + b / w;
+                    }
                 }
             }
         }
@@ -297,7 +337,16 @@ namespace especia {
          * @param[out] p The primitive function of g(x) evaluated at @ x.
          * @param[out] q The primitive function of x g(x) evaluated at @ x.
          */
-        void primitive(const real &x, const real &h, real &p, real &q) const;
+        static void primitive(const real &x, const real &h, real &p, real &q);
+
+        /**
+         * Super-samples a given data vector.
+         *
+         * @param[in] source The source data vector.
+         * @param[in] k The super-sampling factor.
+         * @param[out] target The target data vector (super-sampled).
+         */
+        static void supersample(const std::valarray<real> &source, const natural k, std::valarray<real> &target);
 
         /**
          * The observed wavelength data (arbitrary units).
