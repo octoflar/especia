@@ -4,6 +4,9 @@ The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
 In addition, Version 2018.1 provides several new features and enhancements:
 
+* The spectrum model is evaluated at super-samples to compute the
+instrumental convolution, if the spectrum data are not oversampled
+sufficiently.
 * New default values of strategy parameters like recombination weights,
 and cumulation and adaption rates have been adopted from Nikolaus
 Hansen's [pure CMA-ES](http://www.lri.fr/~hansen/purecmaes.m) reference
