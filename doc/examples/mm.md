@@ -26,6 +26,9 @@ To optimize this model type, for instance:
 
     especia 27182 20 40 1.0 0.0001 10000 10 < mm.md
     
+Consult the Especia wiki on [using the software](https://github.com/octoflar/especia/wiki/Using-the-software)
+for further help.
+
 ## Section: Fe II 1608
 
 Many-multiplet Doppler profiles are used here. The line parameters are:
@@ -39,7 +42,7 @@ Many-multiplet Doppler profiles are used here. The line parameters are:
 7. relativistic correction coefficient
 8. variation of the fine-structure constant Δα/α (1E-6)
 
-Consult the Especia tutorial on [model definition files](https://github.com/octoflar/especia/wiki/Model-definition-files)
+Consult the Especia wiki on [model definition files](https://github.com/octoflar/especia/wiki/Model-definition-files)
 for further explanation.
 
 ```

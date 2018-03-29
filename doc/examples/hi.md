@@ -26,6 +26,9 @@ To optimize this model type, for instance:
 
     especiv 27182 200 400 1.0 0.0001 10000 10 < hi.md
     
+Consult the Especia wiki on [using the software](https://github.com/octoflar/especia/wiki/Using-the-software)
+for further help.
+
 ## Section: sub-damped Lyman-alpha line toward HE 0515-4414
 
 Voigt profiles are used here. The line parameters are:
@@ -38,7 +41,7 @@ Voigt profiles are used here. The line parameters are:
 6. decadic logarithm of the particle column number density (cm-2)
 7. damping constant (s-1)
 
-Consult the Especia tutorial on [model definition files](https://github.com/octoflar/especia/wiki/Model-definition-files)
+Consult the Especia wiki on [model definition files](https://github.com/octoflar/especia/wiki/Model-definition-files)
 for further explanation.
 
 ```
