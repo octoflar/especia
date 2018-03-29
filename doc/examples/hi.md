@@ -38,6 +38,9 @@ Voigt profiles are used here. The line parameters are:
 6. decadic logarithm of the particle column number density (cm-2)
 7. damping constant (s-1)
 
+Consult the Especia tutorial on [model definition files](https://github.com/octoflar/especia/wiki/Model-definition-files)
+for further explanation.
+
 ```
 {
 % section 1
