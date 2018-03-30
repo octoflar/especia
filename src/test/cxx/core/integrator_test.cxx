@@ -52,10 +52,9 @@ private:
         using especia::pi;
         using especia::sq;
 
-        const double result = integrator.integrate([](double x) -> double { return sq(sin(x)); }, 0.0, sq(pi));
+        const double result = integrator.integrate([](double x) -> double { return sq(sin(x)); }, 0.0, 2.0 * pi);
 
-        // <https://www.wolframalpha.com/input/?i=integrate%5Bsin%5Bx%5D%5E2,%7Bx,+0,+Pi%5E2%7D%5D>
-        assert_equals(4.740589, result, 0.5E-06, "integrate sine squared");
+        assert_equals(pi, result, 0.5E-06, "integrate sine squared");
     }
 
     void test_integrate_absorption() {
