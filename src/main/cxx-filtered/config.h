@@ -77,7 +77,7 @@ namespace especia {
     const std::string cxx_compiler = "@CMAKE_CXX_COMPILER_ID@";
 
     /**
-     * The version of the Fortran compiler used to compile the project.
+     * The version of the C++ compiler used to compile the project.
      */
     const std::string cxx_compiler_version = "@CMAKE_CXX_COMPILER_VERSION@";
 }
