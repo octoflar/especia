@@ -5,7 +5,7 @@ The source code, documentation, and ancillary files were revised.
 In addition, Version 2018.1 provides several new features and enhancements:
 
 * Especia executes a super-sampled computation of the instrumental convolution
-to improve accuracy when spectrum data are not oversampled.
+to establish accuracy when spectrum data are not oversampled per se.
 * New default values of strategy parameters like recombination weights,
 and cumulation and adaption rates have been adopted from Nikolaus
 Hansen's [pure CMA-ES](http://www.lri.fr/~hansen/purecmaes.m) reference
