@@ -228,8 +228,7 @@ protected:
      * @param name The assertion name.
      * @throw an @c Assertion_Error if requested.
      */
-    void assert_true(const bool actual,
-                     const std::string &name = "unnamed assertion") const {
+    void assert_true(const bool actual, const std::string &name = "unnamed assertion") const {
         assert_equals(true, actual, name);
     }
 
