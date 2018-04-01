@@ -16,9 +16,6 @@ matrix:
     - os: osx
       env:
         - TEST="sanitytests"
-    - os: osx
-      env:
-        - TEST="stresstests"
     - os: linux
       env:
         - TEST="unittests"
@@ -27,10 +24,5 @@ matrix:
     - os: linux
       env:
         - TEST="sanitytests"
-      dist: trusty
-      sudo: required
-    - os: linux
-      env:
-        - TEST="stresstests"
       dist: trusty
       sudo: required
