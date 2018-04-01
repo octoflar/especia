@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especia 27182 20 40 1.0 0.0001 10000 10 < mm.md
+    especia 31415 20 40 1.0 0.0001 10000 10 < mm.md
     
 Consult the Especia wiki on [using the software](https://github.com/octoflar/especia/wiki/Using-the-software)
 for further help.
