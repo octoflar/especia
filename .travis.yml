@@ -16,6 +16,9 @@ matrix:
     - os: osx
       env:
         - TEST="sanitytests"
+    - os: osx
+      env:
+        - TEST="stresstests"
     - os: linux
       env:
         - TEST="unittests"
