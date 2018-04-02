@@ -71,7 +71,8 @@ namespace especia {
     class Mersenne_Twister {
     public:
         /**
-         * Constructs a new instance of this functor from a single seed.
+         * Constructs a new instance of this functor from a single seed using a linear congruential
+         * random number generator.
          *
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding. Refer to Donald E. Knuth (1997, The Art of Computer
@@ -109,7 +110,7 @@ namespace especia {
         }
 
         /**
-         * Resets this algorithm with a single seed using a .
+         * Resets this algorithm with a single seed using a linear congruential random number generator.
          *
          * @param[in] seed The seed.
          * @param[in] multiplier A multiplier used by the seeding. Refer to Donald E. Knuth (1997, The Art of Computer
