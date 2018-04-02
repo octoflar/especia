@@ -29,8 +29,3 @@ matrix:
         - TEST="sanitytests"
       dist: trusty
       sudo: required
-    - os: linux
-      env:
-        - TEST="stresstests"
-      dist: trusty
-      sudo: required
