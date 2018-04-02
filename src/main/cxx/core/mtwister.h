@@ -74,9 +74,10 @@ namespace especia {
          * Constructs a new instance of this functor from a single seed.
          *
          * @param[in] seed The seed.
-         * @param[in] multiplier A multiplier used by the seeding.
+         * @param[in] multiplier A multiplier used by the seeding. Refer to Donald E. Knuth (1997, The Art of Computer
+         * Programming, Seminumerical Algorithms, pp. 106) for suitable values.
          */
-        explicit Mersenne_Twister(word seed = 57721, word multiplier = 1812433253) : words(n) { // NOLINT
+        explicit Mersenne_Twister(const word seed = 5489, const word multiplier = 1812433253) : words(n) { // NOLINT
             reset(seed, multiplier);
         }
 
@@ -108,16 +109,18 @@ namespace especia {
         }
 
         /**
-         * Resets this algorithm with a single seed.
+         * Resets this algorithm with a single seed using a .
          *
          * @param[in] seed The seed.
-         * @param[in] multiplier A multiplier used by the seeding.
+         * @param[in] multiplier A multiplier used by the seeding. Refer to Donald E. Knuth (1997, The Art of Computer
+         * Programming, Seminumerical Algorithms, pp. 106) for suitable values.
          */
-        void reset(word seed = 57721, word multiplier = 1812433253) {
+        void reset(const word seed = 5489, const word multiplier = 1812433253) {
             using std::max;
             using std::numeric_limits;
 
-            words[0] = seed & (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
+            words[0] = (multiplier * (seed ^ (seed >> (r - 1)))) &
+                       (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
             for (natural k = 1; k < n; ++k) {
                 words[k] = (multiplier * (words[k - 1] ^ (words[k - 1] >> (r - 1))) + k) &
                            (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
@@ -132,7 +135,7 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        void reset(natural seed_count, const word seeds[]) {
+        void reset(const natural seed_count, const word seeds[]) {
             using std::max;
             using std::numeric_limits;
 
@@ -192,7 +195,7 @@ namespace especia {
             return y;
         }
 
-        void twist(natural i, natural j, natural k) const {
+        void twist(const natural i, const natural j, const natural k) const {
             using std::numeric_limits;
 
             words[j] = words[i] ^ (((words[j] & ((numeric_limits<word>::max()
