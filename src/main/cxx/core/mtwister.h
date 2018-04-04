@@ -78,7 +78,7 @@ namespace especia {
          * @param[in] multiplier A multiplier used by the seeding. Refer to Donald E. Knuth (1997, The Art of Computer
          * Programming, Seminumerical Algorithms, pp. 106) for suitable values.
          */
-        explicit Mersenne_Twister(const word seed = 57721, const word multiplier = 1812433253) : words(n) { // NOLINT
+        explicit Mersenne_Twister(const word seed = 271828, const word multiplier = 1812433253) : words(n) { // NOLINT
             reset(seed, multiplier);
         }
 
@@ -116,7 +116,7 @@ namespace especia {
          * @param[in] multiplier A multiplier used by the seeding. Refer to Donald E. Knuth (1997, The Art of Computer
          * Programming, Seminumerical Algorithms, pp. 106) for suitable values.
          */
-        void reset(const word seed = 57721, const word multiplier = 1812433253) {
+        void reset(const word seed = 271828, const word multiplier = 1812433253) {
             using std::max;
             using std::numeric_limits;
 

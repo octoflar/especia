@@ -326,7 +326,7 @@ namespace especia {
              * @param[in] seed The random seed.
              * @return this builder.
              */
-            Builder &with_random_seed(word seed = 57721);
+            Builder &with_random_seed(word seed = 271828);
 
             /**
              * Configures the stop generation.
@@ -380,7 +380,7 @@ namespace especia {
             /**
               * The random seed.
               */
-            word random_seed = 57721;
+            word random_seed = 271828;
 
             /**
              * The stop generation.
