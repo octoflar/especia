@@ -4,6 +4,7 @@ The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
 In addition, Version 2018.1 provides several new features and enhancements:
 
+* Improved initialisation of the Mersenne Twister random number generator.
 * Especia executes a super-sampled computation of the instrumental convolution
 to establish accuracy when the spectrum data are not oversampled per se.
 * New default values of strategy parameters like recombination weights,
