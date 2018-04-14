@@ -49,8 +49,7 @@ namespace especia {
          *
          * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
          */
-        inline
-        static real birch94(const real &x) {
+        inline static real birch94(const real &x) {
             return (1.0 + 8.34254E-05 + 2.406147E-08 / (130.0E-06 - x * x) + 1.5998E-10 / (38.9E-06 - x * x)) * x;
         }
 
@@ -92,8 +91,7 @@ namespace especia {
          * @remark This formula is the IAU standard for the vacuum to standard air corrections (see resolution
          * No. C15, Commission 44, XXI General Assembly in 1991).
          */
-        inline
-        static real edlen53(const real &x) {
+        inline static real edlen53(const real &x) {
             return (1.0 + 6.43280E-05 + 2.5540E-10 / (0.0000410 - x * x) + 2.949810E-08 / (0.000146 - x * x)) * x;
         }
 
@@ -132,8 +130,7 @@ namespace especia {
          *
          * @attention The function uses wavenumber (nm-1) := 10.0 / wavelength (Angstrom) as input and output.
          */
-        inline
-        static real edlen66(const real &x) {
+        inline static real edlen66(const real &x) {
             return (1.0 + 8.34213E-05 + 1.5997E-10 / (0.0000389 - x * x) + 2.406030E-08 / (0.000130 - x * x)) * x;
         }
 
