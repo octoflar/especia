@@ -71,8 +71,7 @@ namespace especia {
             /**
              * The destructor.
              */
-            ~Bounded_Constraint() {
-            }
+            ~Bounded_Constraint() = default;
 
             /**
              * Tests if a given parameter vector violates the constraint.
@@ -427,7 +426,7 @@ namespace especia {
             os << "  </thead>\n";
             os << "  <tbody align=\"left\">\n";
 
-            for (id_index_map_ci i = sim.begin(); i != sim.end(); ++i) {
+            for (auto i = sim.begin(); i != sim.end(); ++i) {
                 const natural j = i->second;
 
                 const string id = i->first;
@@ -474,7 +473,7 @@ namespace especia {
 
             const Equivalent_Width_Calculator<Integrator<real>> calculator;
 
-            for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i) {
+            for (auto i = pim.begin(); i != pim.end(); ++i) {
                 const natural j = i->second;
                 const string id = i->first;
 

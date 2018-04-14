@@ -55,8 +55,7 @@ namespace especia {
         /**
          * The destructor.
          */
-        ~Index_Compare() {
-        }
+        ~Index_Compare() = default;
 
         /**
          * The index comparing operator.

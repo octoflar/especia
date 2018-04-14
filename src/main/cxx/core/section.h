@@ -51,7 +51,7 @@ namespace especia {
          *
          * @param[in] n_in The number of data points.
          */
-        explicit Section(const size_t n_in);
+        explicit Section(size_t n_in);
 
         /**
          * Constructs a new instance of this class for a certain number of data points,
@@ -62,7 +62,7 @@ namespace especia {
          * @param[in] flx The spectral flux data.
          * @param[in] unc The spectral flux uncertainty data.
          */
-        Section(const size_t n_in, const real wav[], const real flx[], const real unc[]);
+        Section(size_t n_in, const real wav[], const real flx[], const real unc[]);
 
         /**
          * The destructor.
@@ -77,7 +77,7 @@ namespace especia {
          * @param[in] b The maximum wavelength to read.
          * @return the input stream.
          */
-        std::istream &get(std::istream &is, const real a = 0.0, const real b = std::numeric_limits<real>::max());
+        std::istream &get(std::istream &is, real a = 0.0, real b = std::numeric_limits<real>::max());
 
         /**
          * Writes a data section to an output stream.
@@ -87,7 +87,7 @@ namespace especia {
          * @param[in] b The maximum wavelength to write.
          * @return the output stream.
          */
-        std::ostream &put(std::ostream &os, const real a = 0.0, const real b = std::numeric_limits<real>::max()) const;
+        std::ostream &put(std::ostream &os, real a = 0.0, real b = std::numeric_limits<real>::max()) const;
 
         /**
          * Returns the lower wavelength bound of this data section.
@@ -199,7 +199,7 @@ namespace especia {
          * @param[in] a The lower bound of the interval.
          * @param[in] b The upper bound of the interval.
          */
-        void mask(const real a, const real b);
+        void mask(real a, real b);
 
         /**
          * Applies an optical depth and background continuum model to this section.
@@ -232,7 +232,7 @@ namespace especia {
          * @param[in] cat The evaluated convoluted absorption term.
          * @param[out] cfl The evaluated background continuum flux.
          */
-        void continuum(const natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const;
+        void continuum(natural m, const std::valarray<real> &cat, std::valarray<real> &cfl) const;
 
         /**
          * Convolutes a given optical depth function with the instrumental line spread function.
@@ -258,12 +258,12 @@ namespace especia {
                 const real h = 0.5 * center() / (r * kilo);
                 // The data spacing.
                 const real d = width() / (n - 1);
-                // The super-sampling factor.
-                const natural s = static_cast<natural>(ceil(d / h));
+                // The super-sampling factor. Is greater than one, if the data spacing is greater than the HWHM.
+                const auto s = static_cast<natural>(ceil(d / h));
                 // The super-sampled spacing.
                 const real w = d / s;
                 // The Gaussian line spread function is truncated at 4 HWHM.
-                const natural m = static_cast<natural>(4.0 * (h / w)) + 1;
+                const auto m = static_cast<natural>(4.0 * (h / w)) + 1;
 
                 // Computation of the instrumental line spread function's primitive terms.
                 valarray<real> p(m);
@@ -346,7 +346,7 @@ namespace especia {
          * @param[in] k The super-sampling factor.
          * @param[out] target The target data vector (super-sampled).
          */
-        static void supersample(const std::valarray<real> &source, const natural k, std::valarray<real> &target);
+        static void supersample(const std::valarray<real> &source, natural k, std::valarray<real> &target);
 
         /**
          * The observed wavelength data (arbitrary units).

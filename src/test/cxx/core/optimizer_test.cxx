@@ -34,7 +34,7 @@ private:
     static real sphere(const real x[], natural n) {
         using especia::sq;
 
-        real y = real(0);
+        auto y = real(0);
 
         for (natural i = 0; i < n; ++i) {
             y += sq(x[i]);
@@ -46,7 +46,7 @@ private:
     static real ellipsoid(const real x[], natural n) {
         using especia::sq;
 
-        real y = real(0);
+        auto y = real(0);
 
         for (natural i = 0; i < n; ++i) {
             y += std::pow(real(1.0E+06), real(i) / real(n - 1)) * sq(x[i]);
@@ -58,7 +58,7 @@ private:
     static real cigar(const real x[], natural n) {
         using especia::sq;
 
-        real y = real(0);
+        auto y = real(0);
 
         for (natural i = 1; i < n; ++i) {
             y += sq(x[i]);
@@ -70,7 +70,7 @@ private:
     static real tablet(const real x[], natural n) {
         using especia::sq;
 
-        real y = real(0);
+        auto y = real(0);
 
         for (natural i = 1; i < n; ++i) {
             y += sq(x[i]);
@@ -83,7 +83,7 @@ private:
     static real rosenbrock(const real x[], natural n) {
         using especia::sq;
 
-        real y = real(0);
+        auto y = real(0);
 
         for (natural i = 0; i < n - 1; ++i) {
             y += real(100) * sq(x[i + 1] - sq(x[i])) + sq(real(1) - x[i]);
@@ -96,7 +96,7 @@ private:
         using std::abs;
         using std::pow;
 
-        real y = real(0);
+        auto y = real(0);
 
         for (natural i = 0; i < n - 1; ++i) {
             y += pow(abs(x[i]), real(2) + real(10 * i) / real(n - 1));
@@ -119,7 +119,7 @@ private:
     void test_minimize_sphere() {
         const valarray<real> x(real(1), 10);
         const valarray<real> d(real(1), 10);
-        const real s = real(1);
+        const auto s = real(1);
 
         const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(sphere, x, d, s);
@@ -142,7 +142,7 @@ private:
     void test_minimize_ellipsoid() {
         const valarray<real> x(real(1), 10);
         const valarray<real> d(real(1), 10);
-        const real s = real(1);
+        const auto s = real(1);
 
         const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(ellipsoid, x, d, s);
@@ -165,7 +165,7 @@ private:
     void test_minimize_cigar() {
         const valarray<real> x(real(1), 10);
         const valarray<real> d(real(1), 10);
-        const real s = real(1);
+        const auto s = real(1);
 
         const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(cigar, x, d, s);
@@ -188,7 +188,7 @@ private:
     void test_minimize_tablet() {
         const valarray<real> x(real(1), 10);
         const valarray<real> d(real(1), 10);
-        const real s = real(1);
+        const auto s = real(1);
 
         const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(tablet, x, d, s);
@@ -211,7 +211,7 @@ private:
     void test_minimize_rosenbrock() {
         const valarray<real> x(real(0), 10);
         const valarray<real> d(real(1), 10);
-        const real s = real(0.1);
+        const auto s = real(0.1);
 
         const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(rosenbrock, x, d, s);
@@ -234,7 +234,7 @@ private:
     void test_minimize_different_powers() {
         const valarray<real> x(real(1), 10);
         const valarray<real> d(real(1), 10);
-        const real s = real(1);
+        const auto s = real(1);
 
         const Optimizer optimizer = builder.build();
         const Optimizer::Result result = optimizer.minimize(different_powers, x, d, s);
