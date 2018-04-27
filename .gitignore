@@ -9,6 +9,9 @@
 .project
 .settings/
 
+# Microsoft Visual Code creates
+.vscode/
+
 # Xcode files by convention are in folder
 xcode-build/
 
