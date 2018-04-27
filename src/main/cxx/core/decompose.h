@@ -292,4 +292,3 @@ namespace especia {
 }
 
 #endif // ESPECIA_SYMEIG_H
-
