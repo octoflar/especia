@@ -123,7 +123,7 @@ namespace especia {
             const char synmsg[] = "syntax error";
             const char rnfmsg[] = "reference not found";
 
-            vector<especia::Section> sec;
+            vector<especia::Section> sections;
 
             vector<natural> isc;
             vector<natural> nle;
@@ -136,8 +136,8 @@ namespace especia {
             vector<bool> msk;
             vector<natural> ind;
 
-            map<string, natural> pim;
-            map<string, natural> sim;
+            map<string, natural> profile_name_map;
+            map<string, natural> section_name_map;
 
             vector<string> ref;
 
@@ -181,8 +181,8 @@ namespace especia {
 
                         // Parse section head
                         if (ist >> sid >> fn >> a >> b >> p and getline(ist, s2)) {
-                            if (sim.find(sid) == sim.end()) {
-                                sim[sid] = sec.size();
+                            if (section_name_map.find(sid) == section_name_map.end()) {
+                                section_name_map[sid] = sections.size();
 
                                 ifstream ifs(fn.c_str());
 
@@ -194,7 +194,7 @@ namespace especia {
                                         while (is2 >> a >> b)
                                             s.mask(a, b);
 
-                                        sec.push_back(s);
+                                        sections.push_back(s);
                                         isc.push_back(i);
                                         nle.push_back(p);
                                     } else {
@@ -236,8 +236,8 @@ namespace especia {
 
                         // Read profile function parameter specification
                         while (ist >> pid)
-                            if (pim.find(pid) == pim.end()) {
-                                pim[pid] = i;
+                            if (profile_name_map.find(pid) == profile_name_map.end()) {
+                                profile_name_map[pid] = i;
 
                                 if (read(ist, val, lo, up, msk, ref, Function::parameter_count(), '\n', true)) {
                                     i += Function::parameter_count();
@@ -280,12 +280,12 @@ namespace especia {
                     }
 
                 // Dereference resolution parameter references
-                for (id_index_map_ci i = sim.begin(); i != sim.end(); ++i) {
+                for (id_index_map_ci i = section_name_map.begin(); i != section_name_map.end(); ++i) {
                     const natural j = isc[i->second];
 
                     while (!ref[j].empty()) {
-                        if (sim.find(ref[j]) != sim.end()) {
-                            const natural k = isc[sim[ref[j]]];
+                        if (section_name_map.find(ref[j]) != section_name_map.end()) {
+                            const natural k = isc[section_name_map[ref[j]]];
 
                             if (j != k) {
                                 if (ref[k].empty()) {
@@ -314,13 +314,13 @@ namespace especia {
                 }
 
                 // Dereference line parameter references
-                for (id_index_map_ci i = pim.begin(); i != pim.end(); ++i)
+                for (id_index_map_ci i = profile_name_map.begin(); i != profile_name_map.end(); ++i)
                     for (natural j = 0; j < Function::parameter_count(); ++j) {
                         const natural k = i->second + j;
 
                         while (!ref[k].empty()) {
-                            if (pim.find(ref[k]) != pim.end()) {
-                                const natural l = pim[ref[k]] + j;
+                            if (profile_name_map.find(ref[k]) != profile_name_map.end()) {
+                                const natural l = profile_name_map[ref[k]] + j;
 
                                 if (k != l) {
                                     if (ref[l].empty()) {
@@ -348,10 +348,10 @@ namespace especia {
                         }
                     }
 
-                const natural m = sec.size();
+                const natural m = sections.size();
                 const natural n = msk.size();
 
-                this->sec = sec;
+                this->sections = sections;
 
                 this->isc.resize(m);
                 this->nle.resize(m);
@@ -378,8 +378,8 @@ namespace especia {
                 copy(msk.begin(), msk.end(), &(this->msk[0]));
                 copy(ind.begin(), ind.end(), &(this->ind[0]));
 
-                this->sim = sim;
-                this->pim = pim;
+                this->section_name_map = section_name_map;
+                this->profile_name_map = profile_name_map;
 
                 is.clear(is.rdstate() & ~ios_base::failbit);
             } else
@@ -403,7 +403,7 @@ namespace especia {
             os << "<html>\n";
             os << "<!--\n";
             os << "<data>\n";
-            os << sec;
+            os << sections;
             os << "</data>\n";
             os << "-->\n";
 
@@ -426,19 +426,19 @@ namespace especia {
             os << "  </thead>\n";
             os << "  <tbody align=\"left\">\n";
 
-            for (auto i = sim.begin(); i != sim.end(); ++i) {
+            for (auto i = section_name_map.begin(); i != section_name_map.end(); ++i) {
                 const natural j = i->second;
 
                 const string id = i->first;
-                const size_t px = sec[j].valid_data_count();
-                const real st = sec[j].cost();
+                const size_t px = sections[j].valid_data_count();
+                const real st = sections[j].cost();
 
                 os.precision(2);
 
                 os << "    <tr>\n";
                 os << "      <td>" << id << "</td>\n";
-                os << "      <td>" << sec[j].lower_bound() << "</td>\n";
-                os << "      <td>" << sec[j].upper_bound() << "</td>\n";
+                os << "      <td>" << sections[j].lower_bound() << "</td>\n";
+                os << "      <td>" << sections[j].upper_bound() << "</td>\n";
                 os << "      <td>" << nle[j] << "</td>\n";
                 os << "      <td>";
                 put_parameter(os, ios_base::fixed, 2, isc[j]);
@@ -473,7 +473,7 @@ namespace especia {
 
             const Equivalent_Width_Calculator<Integrator<real>> calculator;
 
-            for (auto i = pim.begin(); i != pim.end(); ++i) {
+            for (auto i = profile_name_map.begin(); i != profile_name_map.end(); ++i) {
                 const natural j = i->second;
                 const string id = i->first;
 
@@ -554,8 +554,8 @@ namespace especia {
                     err[i] = 0.0;
                 }
             }
-            for (natural i = 0; i < sec.size(); ++i) {
-                sec[i].apply(nle[i], val[isc[i]], Superposition<Function>(nli[i], &val[isc[i] + 1]));
+            for (natural i = 0; i < sections.size(); ++i) {
+                sections[i].apply(nle[i], val[isc[i]], Superposition<Function>(nli[i], &val[isc[i] + 1]));
             }
         }
 
@@ -569,8 +569,8 @@ namespace especia {
                 }
             }
             real d = 0.0;
-            for (natural i = 0; i < sec.size(); ++i) {
-                d += sec[i].cost(Superposition<Function>(nli[i], &y[isc[i] + 1]), y[isc[i]], nle[i]);
+            for (natural i = 0; i < sections.size(); ++i) {
+                d += sections[i].cost(Superposition<Function>(nli[i], &y[isc[i] + 1]), y[isc[i]], nle[i]);
             }
             return d;
         }
@@ -651,7 +651,7 @@ namespace especia {
             return os;
         }
 
-        std::vector<especia::Section> sec;
+        std::vector<especia::Section> sections;
 
         std::valarray<natural> isc;
         std::valarray<natural> nle;
@@ -665,8 +665,8 @@ namespace especia {
         std::valarray<bool> msk;
         std::valarray<natural> ind;
 
-        std::map<std::string, natural> sim;
-        std::map<std::string, natural> pim;
+        std::map<std::string, natural> section_name_map;
+        std::map<std::string, natural> profile_name_map;
     };
 
 }
