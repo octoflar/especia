@@ -583,7 +583,7 @@ namespace especia {
      *
      * @tparam Integrate The strategy to integrate the line profile.
      */
-    template<class Integrate, class Convolute=Convolutor<Integrate>>
+    template<class Integrate>
     class Equivalent_Width_Calculator {
     public:
         /**
