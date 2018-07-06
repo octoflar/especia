@@ -296,7 +296,7 @@ namespace especia {
     /**
      * Yields the paramater standard uncertainties.
      *
-     * Computes the standard variance along the minor principal axis from the curvature of a
+     * Computes the standard variance along the major principal axis from the curvature of a
      * parabola through three points around the minimum. The global step size is rescaled to
      * approximate the standard covariance matrix by the product of the squared global step
      * size with the optimized covariance matrix.
@@ -334,10 +334,10 @@ namespace especia {
         real c = s;
 
         do {
-            // Compute two steps along the line of least variance in opposite directions
+            // Compute two steps along the major principal axis in opposite directions
             valarray<real> p(x, n);
             valarray<real> q(x, n);
-            for (natural i = 0, j = 0, ij = i; i < n; ++i, ++ij) {
+            for (natural i = 0, j = n - 1, ij = j * n; i < n; ++i, ++ij) {
                 p[i] += c * B[ij] * d[j];
                 q[i] -= c * B[ij] * d[j];
             }
@@ -364,7 +364,7 @@ namespace especia {
             s = c / sqrt(abs((zp + zq) - (zx + zx)));
 
             // Make a smaller or larger computation step in the next iteration
-            if (abs(zq - zx) < 0.1) {
+            if (abs(0.5 *(zp + zq) - zx) < 0.5) {
                 a = c;
                 c = c * 1.618;
             } else {
