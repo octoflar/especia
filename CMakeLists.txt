@@ -25,7 +25,7 @@ include(src/main/cmake/test.cmake)
 include(src/main/cmake/veclib_required.cmake)
 include(src/main/cmake/openmp_optional.cmake)
 
-project(especia VERSION 2018.1 LANGUAGES C CXX)
+project(especia VERSION 2019.1 LANGUAGES C CXX)
 project_version_tag(snapshot)
 project_title("Evolutionary spectrum inversion and analysis (Especia)")
 project_doi("https://doi.org/10.5281/zenodo.785071")
