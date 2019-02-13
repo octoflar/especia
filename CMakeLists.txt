@@ -131,8 +131,8 @@ add_unit_test(profiles_test
         ${TEST}/cxx/core/profiles_test.cxx)
 
 add_sanity_test(especid_test 159.77 171.89)
-add_stress_test(especiv_test 251.04)
-add_stress_test(especix_test 251.46)
+add_sanity_test(especiv_test 251.04)
+add_sanity_test(especix_test 251.46)
 add_stress_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
 add_sanity_test(supersampling_test 13.89)
 
