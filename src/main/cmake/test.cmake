@@ -24,7 +24,7 @@ function(add_benchmark NAME EXPECTED_VALUES)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
 
-add_custom_target(benchmarks ctest --verbose --label-regex stress)
+add_custom_target(benchmarks ctest --verbose --label-regex benchmark)
 
 function(add_sanity_test NAME EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
