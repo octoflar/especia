@@ -131,10 +131,10 @@ add_unit_test(profiles_test
         ${TEST}/cxx/core/profiles_test.cxx)
 
 add_sanity_test(supersampling_test 13.89)
-add_benchmark(especid_test 159.77 171.89)
-add_benchmark(especiv_test 251.04)
-add_benchmark(especix_test 251.46)
-add_benchmark(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
+add_performance_test(especid_test 159.77 171.89)
+add_performance_test(especiv_test 251.04)
+add_performance_test(especix_test 251.46)
+add_performance_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
         ${MAIN}/cxx/core/base.h

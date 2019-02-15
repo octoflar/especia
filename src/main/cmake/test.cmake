@@ -18,13 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-function(add_benchmark NAME EXPECTED_VALUES)
+function(add_performance_test NAME EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
-    set_tests_properties(${NAME} PROPERTIES LABELS benchmark TIMEOUT 3600)
+    set_tests_properties(${NAME} PROPERTIES LABELS performance TIMEOUT 3600)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
 
-add_custom_target(benchmarks ctest --verbose --label-regex benchmark)
+add_custom_target(performancetests ctest --verbose --label-regex performance)
 
 function(add_sanity_test NAME EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
