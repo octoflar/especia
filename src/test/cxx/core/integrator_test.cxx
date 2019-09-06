@@ -98,7 +98,7 @@ private:
                 [](double x) -> double { return 1.0 - exp(-exp(-sq(x))); });
 
         // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+-Infinity,+Infinity%7D%5D>
-        assert_equals(1.285145, result, 0.5E-06, "integrate absorption (negative-infinite)");
+        assert_equals(1.285145, result, 0.5E-06, "integrate absorption (infinite)");
     }
 
     void run_all() override {
