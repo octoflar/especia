@@ -162,7 +162,7 @@ namespace especia {
         using std::vector;
 
         const real expected_norm = (n - 0.25 + 1.0 / (21 * n)) / sqrt(real(n));
-        const real max_covariance_matrix_condition = 0.0002 / numeric_limits<real>::epsilon();
+        const real max_covariance_matrix_condition = 0.01 / numeric_limits<real>::epsilon();
         const real csu = sqrt(cs * (2.0 - cs));
         const real ccu = sqrt(cc * (2.0 - cc));
         const real ws = accumulate(w, w + parent_number, 0.0);
@@ -296,10 +296,9 @@ namespace especia {
     /**
      * Yields the paramater standard uncertainties.
      *
-     * Computes the standard variance along the major principal axis from the curvature of a
+     * Computes the standard variance along ellipsoid principal axes from the curvature of a
      * parabola through three points around the minimum. The global step size is rescaled to
-     * approximate the standard covariance matrix by the product of the squared global step
-     * size with the optimized covariance matrix.
+     * approximate the standard covariance matrix.
      *
      * @tparam F The function type.
      * @tparam Constraint The constraint type.
@@ -320,61 +319,69 @@ namespace especia {
                   const real d[],
                   const real B[],
                   const real C[],
-                  real s,
+                  const real s,
                   real z[]) {
         using std::abs;
+        using std::exp;
+        using std::log;
         using std::sqrt;
         using std::valarray;
         using std::thread;
 
         const real zx = f(&x[0], n) + constraint.cost(&x[0], n);
-
-        real a = 0.0;
-        real b = 0.0;
-        real c = s;
-
-        do {
-            // Compute two steps along the major principal axis in opposite directions
-            valarray<real> p(x, n);
-            valarray<real> q(x, n);
-            for (natural i = 0, j = n - 1, ij = j * n; i < n; ++i, ++ij) {
-                p[i] += c * B[ij] * d[j];
-                q[i] -= c * B[ij] * d[j];
-            }
-            real zp;
-            real zq;
+        // The rescaled global step sizes
+        valarray<real> g(s, n);
+        
+        for (natural j = 0; j < n; ++j) {
+            real a = 0.0;
+            real b = 0.0;
+            real c = g[j];
+            
+            do {
+                // Compute two steps along a principal axis in opposite directions
+                valarray<real> p(x, n);
+                valarray<real> q(x, n);
+                for (natural i = 0, ij = j * n; i < n; ++i, ++ij) {
+                    p[i] += c * B[ij] * d[j];
+                    q[i] -= c * B[ij] * d[j];
+                }
+                real zp;
+                real zq;
 #ifdef _OPENMP
 #pragma omp parallel
-            {
-#pragma omp sections
                 {
+#pragma omp sections
+                    {
 #pragma omp section
-                    zp = f(&p[0], n) + constraint.cost(&p[0], n);
+                        zp = f(&p[0], n) + constraint.cost(&p[0], n);
 #pragma omp section
-                    zq = f(&q[0], n) + constraint.cost(&q[0], n);
+                        zq = f(&q[0], n) + constraint.cost(&q[0], n);
+                    }
                 }
-            }
 #else // C++-11
-            thread tp([&f, &constraint, &p, n, &zp]() { zp = f(&p[0], n) + constraint.cost(&p[0], n); });
-            thread tq([&f, &constraint, &q, n, &zq]() { zq = f(&q[0], n) + constraint.cost(&q[0], n); });
-            tp.join();
-            tq.join();
+                thread tp([&f, &constraint, &p, n, &zp]() { zp = f(&p[0], n) + constraint.cost(&p[0], n); });
+                thread tq([&f, &constraint, &q, n, &zq]() { zq = f(&q[0], n) + constraint.cost(&q[0], n); });
+                tp.join();
+                tq.join();
 #endif
-            // Compute the rescaled global step size
-            s = c / sqrt(abs((zp + zq) - (zx + zx)));
+                // Compute the rescaled global step size
+                g[j] = c / sqrt(abs((zp + zq) - (zx + zx)));
 
-            // Make a smaller or larger computation step in the next iteration
-            if (abs(0.5 *(zp + zq) - zx) < 0.5) {
-                a = c;
-                c = c * 1.618;
-            } else {
-                b = c;
-                c = c * 0.618;
-            }
-        } while (a == 0.0 or b == 0.0); // the computation step is too small or too large
-
+                // Make a smaller or larger computation step in the next iteration
+                if (abs(0.5 *(zp + zq) - zx) < 0.5) {
+                    a = c;
+                    c = c * 1.618;
+                } else {
+                    b = c;
+                    c = c * 0.618;
+                }
+            } while (a == 0.0 or b == 0.0); // the computation step is too small or too large
+        }
+        // Take the geometric mean to rescale the covariance matrix
+        const real h = exp(g.apply(log).sum() / real(n));
+        
         for (natural i = 0, ii = 0; i < n; ++i, ii += n + 1) {
-            z[i] = s * sqrt(C[ii]);
+            z[i] = h * sqrt(C[ii]);
         }
     }
 
