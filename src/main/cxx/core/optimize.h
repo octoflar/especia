@@ -162,7 +162,7 @@ namespace especia {
         using std::vector;
 
         const real expected_norm = (n - 0.25 + 1.0 / (21 * n)) / sqrt(real(n));
-        const real max_covariance_matrix_condition = 0.01 / numeric_limits<real>::epsilon();
+        const real max_covariance_matrix_condition = 0.0002 / numeric_limits<real>::epsilon();
         const real csu = sqrt(cs * (2.0 - cs));
         const real ccu = sqrt(cc * (2.0 - cc));
         const real ws = accumulate(w, w + parent_number, 0.0);
