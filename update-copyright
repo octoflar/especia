@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# usage: update-copyright [FILE]... 
+set -e
+
+if [ $# -lt 1 ]; then
+    echo "usage: $0 [FILE]..."
+    exit 1
+fi
+
+bindir="$(dirname "${0}")"
+
+for filename in "${@}"; do
+    sed -f ${bindir}/update-copyright.sed -i .backup ${filename}
+done
+
+for filename in "${@}"; do
+    rm -f ${filename}.backup
+done
