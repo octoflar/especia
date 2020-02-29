@@ -1,4 +1,4 @@
-# Copyright (c) 2017 Ralf Quast
+# Copyright (c) 2020 Ralf Quast
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ include(src/main/cmake/test.cmake)
 include(src/main/cmake/veclib_required.cmake)
 include(src/main/cmake/openmp_optional.cmake)
 
-project(especia VERSION 2019.1 LANGUAGES C CXX)
+project(especia VERSION 2020.1 LANGUAGES C CXX)
 project_version_tag(snapshot)
 project_title("Evolutionary spectrum inversion and analysis (Especia)")
 project_doi("https://doi.org/10.5281/zenodo.785071")

@@ -1,6 +1,6 @@
 /// @file section.cxx
 /// Class for modeling spectroscopic data sections.
-/// Copyright (c) 2017 Ralf Quast
+/// Copyright (c) 2020 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal

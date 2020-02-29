@@ -1,9 +1,11 @@
-# New in 2018.1
+# New in 2020.1
 
 The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
-In addition, Version 2018.1 provides several new features and enhancements:
+In addition, Version 2020.1 provides several new features and enhancements:
 
+* Especia uses all principal axes of the mutation ellipsoid to estimate parameter
+uncertainties.
 * Especia executes a super-sampled computation of the instrumental convolution
 to establish accuracy when the spectrum data are not oversampled per se.
 * New default values of strategy parameters like recombination weights,

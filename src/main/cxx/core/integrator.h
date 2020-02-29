@@ -1,6 +1,6 @@
 /// @file integrator.h
 /// Numerical integration.
-/// Copyright (c) 2017 Ralf Quast
+/// Copyright (c) 2020 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -60,19 +60,19 @@ namespace especia {
             /**
              * The formula for integration with 13 quadrature points.
              */
-                    Q13,
+            Q13,
             /**
              * The formula for integration with 19 quadrature points.
              */
-                    Q19,
+            Q19,
             /**
              * The formula for integration with 27 quadrature points.
              */
-                    Q27,
+            Q27,
             /**
              * The formula for integration with 41 quadrature points.
              */
-                    Q41
+            Q41
         };
 
         /**
