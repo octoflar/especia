@@ -75,7 +75,7 @@ namespace especia {
 
     /**
      * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear function optimization.
-     * Based on Hansen (2014, http://www.lri.fr/~hansen/purecmaes.m).
+     * Based on Hansen (2014, http://cma.gforge.inria.fr/purecmaes.m).
      *
      * Further reading:
      *

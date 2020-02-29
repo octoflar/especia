@@ -10,7 +10,7 @@ uncertainties.
 to establish accuracy when the spectrum data are not oversampled per se.
 * New default values of strategy parameters like recombination weights,
 and cumulation and adaption rates have been adopted from Nikolaus
-Hansen's [pure CMA-ES](http://www.lri.fr/~hansen/purecmaes.m) reference
+Hansen's [pure CMA-ES](http://cma.gforge.inria.fr/purecmaes.m) reference
 implementation.
 * The rest equivalent width of each line is calculated and listed in the
 result table.
