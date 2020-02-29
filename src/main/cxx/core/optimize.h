@@ -368,7 +368,7 @@ namespace especia {
                 g[j] = c / sqrt(abs((zp + zq) - (zx + zx)));
 
                 // Make a smaller or larger computation step in the next iteration
-                if (abs(0.5 *(zp + zq) - zx) < 0.5) {
+                if (abs(0.5 * (zp + zq) - zx) < 0.5) {
                     a = c;
                     c = c * 1.618;
                 } else {
