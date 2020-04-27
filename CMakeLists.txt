@@ -130,7 +130,7 @@ add_unit_test(profiles_test
         ${MAIN}/cxx/core/profiles.cxx
         ${TEST}/cxx/core/profiles_test.cxx)
 
-add_sanity_test(supersampling_test 13.89)
+add_performance_test(supersampling_test 13.89)
 add_performance_test(especid_test 159.77 171.89)
 add_performance_test(especiv_test 251.04)
 add_performance_test(especix_test 251.46)

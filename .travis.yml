@@ -15,18 +15,10 @@ matrix:
         - TEST="unittests"
     - os: osx
       env:
-        - TEST="sanitytests"
-    - os: osx
-      env:
         - TEST="performancetests"
     - os: linux
       env:
         - TEST="unittests"
-      dist: trusty
-      sudo: required
-    - os: linux
-      env:
-        - TEST="sanitytests"
       dist: trusty
       sudo: required
     - os: linux
