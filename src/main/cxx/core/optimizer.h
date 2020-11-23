@@ -55,7 +55,7 @@ namespace especia {
          * @param[in] seed The seed.
          * @param[in] selector The sequence selector.
          */
-        explicit Pcg(const longword seed = 0x853c49e6748fea9bull, const longword selector = 0xda3e39cb94b95bdaull >> 1u) : inc((selector << 1u) | 1ull) {
+        explicit Pcg(const longword seed = 9600629759793949339ull, const longword selector = 7863035247680335341ul) : inc((selector << 1u) | 1ull) {
             state = 0ull;
             rand();
             state += seed;
