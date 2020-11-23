@@ -51,6 +51,11 @@ namespace especia {
     typedef unsigned long word;
 
     /**
+     * The type of binary numbers (64 binary digits required).
+     */
+    typedef unsigned long long longword;
+
+    /**
      * The class of continuous univariate functions @c f(x) whose derivative exists and is continous.
      */
     template<class T = real>

@@ -228,6 +228,57 @@ namespace especia {
     typedef Mersenne_Twister<32, 624, 397, 31, 0x9908b0df, 11, 7, 0x9d2c5680,
             15, 0xefc60000, 18> Mt19937;
 
-}
+    /**
+     * A basic PCG algorithm to generate [0,1] uniformly distributed random deviates.
+     * Based on <https://www.pcg-random.org>.
+     *
+     * @tparam m The multiplier.
+     * @tparam i The increment (must always be an odd number).
+     */
+    template<longword m, longword i>
+    class Pcg {
+    public:
+        /**
+         * Constructs a new instance of this functor.
+         *
+         * @param[in] seed The seed.
+         */
+        explicit Pcg(const longword seed = 0x853c49e6748fea9bull) { // NOLINT
+            state = 0ull;
+            rand();
+            state += seed;
+            rand();
+        }
+
+        /**
+         * The destructor.
+         */
+        ~Pcg() = default;
+
+        /**
+         * Returns a new random number.
+         *
+         * @return a random number in [0, 1].
+         */
+        real operator()() const {
+            return rand() / real(0xfffffffful);
+        }
+
+    private:
+        word rand() const {
+            const longword saved = state;
+            state = saved * m + i;
+            const word s = (((saved >> 18u) ^ saved) >> 27u) & 0xfffffffful;
+            const word r = saved >> 59u;
+            return ((s >> r) | (s << ((-r) & 31u))) & 0xfffffffful;
+        }
+      
+        mutable longword state;
+    };
+
+  /**
+   * A predefined PCG algorithm.
+   */
+  typedef Pcg<6364136223846793005ull, 0xda3e39cb94b95bdbull> Pcg32;
 
 #endif // ESPECIA_MTWISTER_H

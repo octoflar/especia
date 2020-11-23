@@ -898,7 +898,7 @@ namespace especia {
         /**
          * The random number generator.
          */
-        const Normal_Deviate<Mt19937> deviate;
+        const Normal_Deviate<Pcg32> deviate;
     };
 
 }
