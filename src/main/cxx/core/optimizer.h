@@ -393,7 +393,7 @@ namespace especia {
              * @param[in] seed The random seed.
              * @return this builder.
              */
-            Builder &with_random_seed(word seed = 271828);
+            Builder &with_random_seed(longword seed = 271828);
 
             /**
              * Configures the stop generation.

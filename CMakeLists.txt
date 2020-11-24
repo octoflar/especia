@@ -71,7 +71,6 @@ set(CORE_SOURCES
         ${MAIN}/cxx/core/exitcodes.h
         ${MAIN}/cxx/core/integrator.h
         ${MAIN}/cxx/core/model.h
-        ${MAIN}/cxx/core/mtwister.h
         ${MAIN}/cxx/core/optimizer.cxx
         ${MAIN}/cxx/core/optimizer.h
         ${MAIN}/cxx/core/optimize.h
@@ -117,7 +116,6 @@ add_unit_test(optimizer_test
         ${MAIN}/cxx/core/decompose.h
         ${MAIN}/cxx/core/decompose.cxx
         ${MAIN}/cxx/core/deviates.h
-        ${MAIN}/cxx/core/mtwister.h
         ${MAIN}/cxx/core/optimize.h
         ${MAIN}/cxx/core/optimizer.h
         ${MAIN}/cxx/core/optimizer.cxx

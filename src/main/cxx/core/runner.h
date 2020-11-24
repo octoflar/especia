@@ -138,8 +138,8 @@ namespace especia {
          *
          * @return the random seed.
          */
-        word parse_random_seed() const {
-            return convert<word>(args[1]);
+        longword parse_random_seed() const {
+            return convert<longword>(args[1]);
         }
 
         /**
@@ -188,7 +188,7 @@ namespace especia {
 
             write_command_line(cout);
 
-            const word random_seed = parse_random_seed();
+            const longword random_seed = parse_random_seed();
             const natural parent_number = parse_parent_number();
             const natural population_size = parse_population_size();
             const real global_step_size = parse_global_step_size();

@@ -75,7 +75,7 @@ especia::Optimizer::Builder &especia::Optimizer::Builder::with_accuracy_goal(rea
     return *this;
 }
 
-especia::Optimizer::Builder &especia::Optimizer::Builder::with_random_seed(word seed) {
+especia::Optimizer::Builder &especia::Optimizer::Builder::with_random_seed(longword seed) {
     this->random_seed = seed;
     return *this;
 }
