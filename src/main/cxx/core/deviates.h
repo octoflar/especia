@@ -51,7 +51,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        explicit Normal_Deviate(word seed = 57787) : uniform_deviate(seed) {
+        explicit Normal_Deviate(word64 seed = 9600629759793949339ull) : uniform_deviate(seed) {
         }
 
         /**

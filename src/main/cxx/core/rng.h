@@ -1,4 +1,4 @@
-/// @file mtwister.h
+/// @file rng.h
 /// Mersenne Twister function-like class template.
 /// Copyright (c) 2020 Ralf Quast
 ///
@@ -19,8 +19,8 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
-#ifndef ESPECIA_MTWISTER_H
-#define ESPECIA_MTWISTER_H
+#ifndef ESPECIA_RNG_H
+#define ESPECIA_RNG_H
 
 #include <algorithm>
 #include <limits>
@@ -29,6 +29,73 @@
 #include "base.h"
 
 namespace especia {
+
+    /**
+     * PCG algorithm  to generate [0,1] uniformly distributed random deviates. Based on
+     * Melissa E. O'Neill (2014) and <https://www.pcg-random.org>.
+     *
+     * Further reading:
+     *
+     * Melissa E. O'Neill (2014).
+     *   *PCG: A Family of Simple Fast Space-Efficient Statistically Good Algorithms for Random Number Generation.*
+     *   <https://www.cs.hmc.edu/tr/hmc-cs-2014-0905.pdf>.
+     *
+     * @tparam m The multiplier.
+     */
+    template<word64 m>
+    class Pcg {
+    public:
+        /**
+         * Constructs a new instance of this functor.
+         *
+         * @param[in] seed The seed.
+         * @param[in] selector The sequence selector.
+         */
+        explicit Pcg(const word64 seed = 9600629759793949339ull, const word64 selector = 7863035247680335341ul) : inc((selector << 1) | 1ull) {
+            state = 0ull;
+            rand();
+            state += seed;
+            rand();
+        }
+
+        /**
+         * The destructor.
+         */
+        ~Pcg() = default;
+
+        /**
+         * Returns a new random number.
+         *
+         * @return a random number in [0, 1].
+         */
+        real operator()() const {
+            return rand() / real(0xfffffffful);
+        }
+
+        word32 rand() const {
+            const word64 saved = state;
+            state = saved * m + inc;
+            const word32 s = (((saved >> 18) ^ saved) >> 27);
+            const word32 r = saved >> 59;
+            return ((s >> r) | (s << ((-r) & 31u)));
+        }
+
+    private:
+        /**
+         * The increment.
+         */
+        const word64 inc;
+      
+        /**
+         * The state.
+         */
+        mutable word64 state;
+    };
+
+    /**
+     * A predefined PCG algorithm.
+     */
+    typedef Pcg<6364136223846793005ull> Pcg32;
 
     /**
      * The Mersenne twister algorithm to generate [0,1] uniformly distributed
@@ -63,32 +130,31 @@ namespace especia {
      * @tparam l The parameter l.
      */
     template<natural w, natural n, natural m, natural r,
-            word a,
+            word32 a,
             natural u,
-            natural s, word b,
-            natural t, word c,
+            natural s, word32 b,
+            natural t, word32 c,
             natural l>
     class Mersenne_Twister {
     public:
         /**
-         * Constructs a new instance of this functor from a single seed using a linear congruential
-         * random number generator.
+         * Constructs a new instance of this functor.
          *
          * @param[in] seed The seed.
-         * @param[in] multiplier A multiplier used by the seeding. Refer to Donald E. Knuth (1997, The Art of Computer
-         * Programming, Seminumerical Algorithms, pp. 106) for suitable values.
          */
-        explicit Mersenne_Twister(const word seed = 271828, const word multiplier = 1812433253) : words(n) { // NOLINT
-            reset(seed, multiplier);
+        explicit Mersenne_Twister(const word64 seed = 9600629759793949339ull) : words(n) { // NOLINT
+            const word32 seeds[] = {word32(seed & 0x00000000ffffffffull), word32(seed & 0xffffffff00000000ull)};
+          
+            reset(2, seeds);
         }
 
         /**
-         * Constructs a new instance of this functor from many seeds.
+         * Constructs a new instance of this functor.
          *
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        Mersenne_Twister(natural seed_count, const word seeds[]) : words(n) { // NOLINT
+        Mersenne_Twister(const natural seed_count, const word32 seeds[]) : words(n) { // NOLINT
             reset(seed_count, seeds);
         }
 
@@ -106,69 +172,10 @@ namespace especia {
             using std::numeric_limits;
 
             // Division by 2^w - 1.
-            return rand() * (1.0 / real(numeric_limits<word>::max() >> (numeric_limits<word>::digits - w)));
+            return rand() * (1.0 / real(numeric_limits<word32>::max() >> (numeric_limits<word32>::digits - w)));
         }
 
-        /**
-         * Resets this algorithm with a single seed using a linear congruential random number generator.
-         *
-         * @param[in] seed The seed.
-         * @param[in] multiplier A multiplier used by the seeding. Refer to Donald E. Knuth (1997, The Art of Computer
-         * Programming, Seminumerical Algorithms, pp. 106) for suitable values.
-         */
-        void reset(const word seed = 271828, const word multiplier = 1812433253) {
-            using std::max;
-            using std::numeric_limits;
-
-            words[0] = (multiplier * (seed ^ (seed >> (r - 1)))) &
-                       (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
-            for (natural k = 1; k < n; ++k) {
-                words[k] = (multiplier * (words[k - 1] ^ (words[k - 1] >> (r - 1))) + k) &
-                           (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
-            }
-
-            i = n;
-        }
-
-        /**
-         * Resets this algorithm with many seeds.
-         *
-         * @param[in] seed_count The number of seeds.
-         * @param[in] seeds The seeds.
-         */
-        void reset(const natural seed_count, const word seeds[]) {
-            using std::max;
-            using std::numeric_limits;
-
-            reset(19650218);
-            i = 1;
-
-            for (natural j = 0, k = max(n, seed_count); k > 0; --k) {
-                words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1664525)) + seeds[j] + j) &
-                           (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
-                if (++i >= n) {
-                    words[0] = words[n - 1];
-                    i = 1;
-                }
-                if (++j >= seed_count) {
-                    j = 0;
-                }
-            }
-            for (natural k = n - 1; k > 0; --k) {
-                words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1566083941)) - i) &
-                           (numeric_limits<word>::max() >> (numeric_limits<word>::digits - w));
-                if (++i >= n) {
-                    words[0] = words[n - 1];
-                    i = 1;
-                }
-            }
-            words[0] = (1ul << (w - 1));
-
-            i = n;
-        }
-
-    private:
-        word rand() const {
+        word32 rand() const {
             if (i == n) {
                 for (natural k = 0; k < n - m; ++k) {
                     twist(k + m, k, k + 1);
@@ -182,7 +189,7 @@ namespace especia {
                 i = 0;
             }
 
-            word y = words[i];
+            word32 y = words[i];
             ++i;
 
             if (u > 0) {
@@ -195,39 +202,97 @@ namespace especia {
 
             return y;
         }
+      
+    private:
+        /**
+         * Resets this algorithm.
+         *
+         * @param[in] seed The seed.
+         * @param[in] multiplier A multiplier used by the seeding. Refer to Donald E. Knuth (1997, The Art of Computer
+         * Programming, Seminumerical Algorithms, pp. 106) for suitable values.
+         */
+        void reset(const word32 seed, const word32 multiplier = 1812433253ul) {
+            using std::numeric_limits;
+
+            words[0] = seed &
+                       (numeric_limits<word32>::max() >> (numeric_limits<word32>::digits - w));
+            for (natural k = 1; k < n; ++k) {
+                words[k] = (multiplier * (words[k - 1] ^ (words[k - 1] >> (r - 1))) + k) &
+                           (numeric_limits<word32>::max() >> (numeric_limits<word32>::digits - w));
+            }
+
+            i = n;
+        }
+
+        /**
+         * Resets this algorithm.
+         *
+         * @param[in] seed_count The number of seeds.
+         * @param[in] seeds The seeds.
+         */
+        void reset(const natural seed_count, const word32 seeds[]) {
+            using std::max;
+            using std::numeric_limits;
+
+            reset(19650218ul);
+            i = 1;
+
+            for (natural j = 0, k = max(n, seed_count); k > 0; --k) {
+                words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1664525ul)) + seeds[j] + j) &
+                           (numeric_limits<word32>::max() >> (numeric_limits<word32>::digits - w));
+                if (++i >= n) {
+                    words[0] = words[n - 1];
+                    i = 1;
+                }
+                if (++j >= seed_count) {
+                    j = 0;
+                }
+            }
+            for (natural k = n - 1; k > 0; --k) {
+                words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1566083941ul)) - i) &
+                           (numeric_limits<word32>::max() >> (numeric_limits<word32>::digits - w));
+                if (++i >= n) {
+                    words[0] = words[n - 1];
+                    i = 1;
+                }
+            }
+            words[0] = (1ul << (w - 1));
+
+            i = n;
+        }
 
         void twist(const natural i, const natural j, const natural k) const {
             using std::numeric_limits;
 
-            words[j] = words[i] ^ (((words[j] & ((numeric_limits<word>::max()
-                    << (numeric_limits<word>::digits - w + r))
-                    >> (numeric_limits<word>::digits - w))) | (words[k] & (numeric_limits<word>::max()
-                    >> (numeric_limits<word>::digits - r)))) >> 1);
+            words[j] = words[i] ^ (((words[j] & ((numeric_limits<word32>::max()
+                    << (numeric_limits<word32>::digits - w + r))
+                    >> (numeric_limits<word32>::digits - w))) | (words[k] & (numeric_limits<word32>::max()
+                    >> (numeric_limits<word32>::digits - r)))) >> 1);
             if ((words[k] & 1ul) == 1ul) {
                 words[j] ^= a;
             }
         }
 
-        mutable std::valarray<word> words;
+        mutable std::valarray<word32> words;
         mutable natural i = 0;
     };
 
     /**
      * A predefined Mersenne twister algorithm.
      */
-    typedef Mersenne_Twister<32, 351, 175, 19, 0xe4bd75f5, 11, 7, 0x655e5280,
-            15, 0xffd58000, 17> Mt11213a;
+    typedef Mersenne_Twister<32, 351, 175, 19, 0xe4bd75f5ul, 11, 7, 0x655e5280ul,
+            15, 0xffd58000ul, 17> Mt11213a;
     /**
      * A predefined Mersenne twister algorithm.
      */
-    typedef Mersenne_Twister<32, 351, 175, 19, 0xccab8ee7, 11, 7, 0x31b6ab00,
-            15, 0xffe50000, 17> Mt11213b;
+    typedef Mersenne_Twister<32, 351, 175, 19, 0xccab8ee7ul, 11, 7, 0x31b6ab00ul,
+            15, 0xffe50000ul, 17> Mt11213b;
     /**
      * A predefined Mersenne twister algorithm.
      */
-    typedef Mersenne_Twister<32, 624, 397, 31, 0x9908b0df, 11, 7, 0x9d2c5680,
-            15, 0xefc60000, 18> Mt19937;
+    typedef Mersenne_Twister<32, 624, 397, 31, 0x9908b0dful, 11, 7, 0x9d2c5680ul,
+            15, 0xefc60000ul, 18> Mt19937;
 
 }
 
-#endif // ESPECIA_MTWISTER_H
+#endif // ESPECIA_RNG_H

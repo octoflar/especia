@@ -78,6 +78,7 @@ set(CORE_SOURCES
         ${MAIN}/cxx/core/profiles.h
         ${MAIN}/cxx/core/readline.cxx
         ${MAIN}/cxx/core/readline.h
+        ${MAIN}/cxx/core/rng.h
         ${MAIN}/cxx/core/runner.cxx
         ${MAIN}/cxx/core/runner.h
         ${MAIN}/cxx/core/section.cxx
@@ -119,7 +120,8 @@ add_unit_test(optimizer_test
         ${MAIN}/cxx/core/optimize.h
         ${MAIN}/cxx/core/optimizer.h
         ${MAIN}/cxx/core/optimizer.cxx
-        ${TEST}/cxx/core/optimizer_test.cxx)
+        ${TEST}/cxx/core/optimizer_test.cxx
+        ${MAIN}/cxx/core/rng.h)
 target_link_libraries(optimizer_test ${VECLIB})
 add_unit_test(profiles_test
         ${MAIN}/cxx/core/base.h
@@ -127,6 +129,10 @@ add_unit_test(profiles_test
         ${MAIN}/cxx/core/profiles.h
         ${MAIN}/cxx/core/profiles.cxx
         ${TEST}/cxx/core/profiles_test.cxx)
+add_unit_test(rng_test
+        ${MAIN}/cxx/core/base.h
+        ${MAIN}/cxx/core/rng.h
+        ${TEST}/cxx/core/rng_test.cxx)
 
 add_performance_test(supersampling_test 13.89)
 add_performance_test(especid_test 159.77 171.89)

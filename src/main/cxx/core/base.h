@@ -22,6 +22,7 @@
 #ifndef ESPECIA_BASE_H
 #define ESPECIA_BASE_H
 
+#include <cinttypes>
 #include <cmath>
 #include <numeric>
 #include <sstream>
@@ -46,14 +47,14 @@ namespace especia {
     typedef double real;
 
     /**
-     * The type of binary numbers (32 binary digits required).
+     * The type of binary numbers wit 32 binary digits.
      */
-    typedef unsigned long word;
+    typedef uint32_t word32;
 
     /**
-     * The type of binary numbers (64 binary digits required).
+     * The type of binary numbers with 64 binary digits.
      */
-    typedef unsigned long long longword;
+    typedef uint64_t word64;
 
     /**
      * The class of continuous univariate functions @c f(x) whose derivative exists and is continous.

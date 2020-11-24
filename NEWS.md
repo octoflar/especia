@@ -4,7 +4,7 @@ The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
 In addition, Version 2020.1 provides several new features and enhancements:
 
-* PCG is used instead of Mersenne Twister. 
+* PCG is included in addition to Mersenne Twister. 
 * Especia uses all principal axes of the mutation ellipsoid to estimate parameter
 uncertainties.
 * Especia executes a super-sampled computation of the instrumental convolution

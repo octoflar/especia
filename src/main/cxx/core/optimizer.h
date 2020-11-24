@@ -27,79 +27,12 @@
 
 #include "decompose.h"
 #include "deviates.h"
-#include "mtwister.h"
 #include "optimize.h"
+#include "rng.h"
 
 using std::valarray;
 
 namespace especia {
-
-    /**
-     * Functor template  to generate [0,1] uniformly distributed random deviates. Based on
-     * Melissa E. O'Neill (2014) and <https://www.pcg-random.org>.
-     *
-     * Further reading:
-     *
-     * Melissa E. O'Neill (2014).
-     *   *PCG: A Family of Simple Fast Space-Efficient Statistically Good Algorithms for Random Number Generation.*
-     *   <https://www.cs.hmc.edu/tr/hmc-cs-2014-0905.pdf>.
-     *
-     * @tparam m The multiplier.
-     */
-    template<longword m>
-    class Pcg {
-    public:
-        /**
-         * Constructs a new instance of this functor.
-         *
-         * @param[in] seed The seed.
-         * @param[in] selector The sequence selector.
-         */
-        explicit Pcg(const longword seed = 9600629759793949339ull, const longword selector = 7863035247680335341ul) : inc((selector << 1u) | 1ull) {
-            state = 0ull;
-            rand();
-            state += seed;
-            rand();
-        }
-
-        /**
-         * The destructor.
-         */
-        ~Pcg() = default;
-
-        /**
-         * Returns a new random number.
-         *
-         * @return a random number in [0, 1].
-         */
-        real operator()() const {
-            return rand() / real(0xfffffffful);
-        }
-
-        word rand() const {
-            const longword saved = state;
-            state = saved * m + inc;
-            const word s = (((saved >> 18u) ^ saved) >> 27u) & 0xfffffffful;
-            const word r = saved >> 59u;
-            return ((s >> r) | (s << ((-r) & 31u))) & 0xfffffffful;
-        }
-
-    private:
-        /**
-         * The increment.
-         */
-        const longword inc;
-      
-        /**
-         * The state.
-         */
-        mutable longword state;
-    };
-
-    /**
-     * A predefined PCG algorithm.
-     */
-    typedef Pcg<6364136223846793005ull> Pcg32;
 
     /**
      * No constraint.
@@ -271,7 +204,7 @@ namespace especia {
              *
              * @return the random seed.
              */
-            word get_random_seed() const {
+            word64 get_random_seed() const {
                 return random_seed;
             }
 
@@ -393,7 +326,7 @@ namespace especia {
              * @param[in] seed The random seed.
              * @return this builder.
              */
-            Builder &with_random_seed(longword seed = 271828);
+            Builder &with_random_seed(word64 seed = 9600629759793949339ull);
 
             /**
              * Configures the stop generation.
@@ -445,9 +378,9 @@ namespace especia {
             real accuracy_goal = 1.0E-6;
 
             /**
-              * The random seed.
-              */
-            word random_seed = 271828;
+             * The random seed.
+             */
+            word64 random_seed = 271828;
 
             /**
              * The stop generation.
@@ -965,7 +898,7 @@ namespace especia {
         /**
          * The random number generator.
          */
-        const Normal_Deviate<Pcg32> deviate;
+        const Normal_Deviate<Mt19937> deviate;
     };
 
 }
