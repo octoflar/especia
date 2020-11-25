@@ -1,5 +1,5 @@
 /// @file rng.h
-/// Mersenne Twister function-like class template.
+/// Function-like class templates to generate random numbers.
 /// Copyright (c) 2020 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -77,7 +77,7 @@ namespace especia {
             state = saved * m + inc;
             const word32 s = (((saved >> 18) ^ saved) >> 27);
             const word32 r = saved >> 59;
-            return ((s >> r) | (s << ((-r) & 31u)));
+            return ((s >> r) | (s << ((-r) & 31ul)));
         }
 
     private:
@@ -93,7 +93,7 @@ namespace especia {
     };
 
     /**
-     * A predefined PCG algorithm.
+     * The PCG-XSH-RR with 64-bit state and 32-bit output.
      */
     typedef Pcg<6364136223846793005ull> Pcg32;
 
@@ -278,17 +278,17 @@ namespace especia {
     };
 
     /**
-     * A predefined Mersenne twister algorithm.
+     * The MT-1121A-32.
      */
     typedef Mersenne_Twister<32, 351, 175, 19, 0xe4bd75f5ul, 11, 7, 0x655e5280ul,
             15, 0xffd58000ul, 17> Mt11213a;
     /**
-     * A predefined Mersenne twister algorithm.
+     * The MT-1121B-32.
      */
     typedef Mersenne_Twister<32, 351, 175, 19, 0xccab8ee7ul, 11, 7, 0x31b6ab00ul,
             15, 0xffe50000ul, 17> Mt11213b;
     /**
-     * A predefined Mersenne twister algorithm.
+     * The MT-19937-32.
      */
     typedef Mersenne_Twister<32, 624, 397, 31, 0x9908b0dful, 11, 7, 0x9d2c5680ul,
             15, 0xefc60000ul, 18> Mt19937;
