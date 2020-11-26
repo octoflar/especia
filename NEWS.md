@@ -5,7 +5,8 @@ The source code, documentation, and ancillary files were revised.
 In addition, Version 2020.1 provides several new features and enhancements:
 
 * Especia now uses 64-bit instead of 32-bit random seeds.
-* PCG is included in addition to Mersenne Twister. 
+* PCG is included with the source code in addition to the Mersenne Twister
+random number generator. 
 * Especia uses all principal axes of the mutation ellipsoid to estimate parameter
 uncertainties.
 * Especia executes a super-sampled computation of the instrumental convolution
