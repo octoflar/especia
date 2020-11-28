@@ -1,4 +1,4 @@
-/// @file rng.h
+/// @file random.h
 /// Function-like class templates to generate random numbers.
 /// Copyright (c) 2020 Ralf Quast
 ///
@@ -19,8 +19,8 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
-#ifndef ESPECIA_RNG_H
-#define ESPECIA_RNG_H
+#ifndef ESPECIA_RANDOM_H
+#define ESPECIA_RANDOM_H
 
 #include <algorithm>
 #include <limits>
@@ -316,4 +316,4 @@ namespace especia {
 
 }
 
-#endif // ESPECIA_RNG_H
+#endif // ESPECIA_RANDOM_H

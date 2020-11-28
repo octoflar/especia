@@ -28,7 +28,7 @@
 #include "decompose.h"
 #include "deviates.h"
 #include "optimize.h"
-#include "rng.h"
+#include "random.h"
 
 using std::valarray;
 

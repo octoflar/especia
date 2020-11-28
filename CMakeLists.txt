@@ -53,7 +53,7 @@ configure_file(${TEST}/resources/especid_test.html resources/especid_test.html C
 configure_file(${TEST}/resources/especiv_test.html resources/especiv_test.html COPYONLY)
 configure_file(${TEST}/resources/especix_test.html resources/especix_test.html COPYONLY)
 configure_file(${TEST}/resources/especia_test.html resources/especia_test.html COPYONLY)
-configure_file(${TEST}/resources/sampling_test.html resources/sampling_test.html COPYONLY)
+configure_file(${TEST}/resources/doublet_test.html resources/doublet_test.html COPYONLY)
 configure_file(${TEST}/resources/spec000.dat resources/spec000.dat COPYONLY)
 configure_file(${TEST}/resources/stis121.dat resources/stis121.dat COPYONLY)
 configure_file(${TEST}/resources/uves346.dat resources/uves346.dat COPYONLY)
@@ -78,7 +78,7 @@ set(CORE_SOURCES
         ${MAIN}/cxx/core/profiles.h
         ${MAIN}/cxx/core/readline.cxx
         ${MAIN}/cxx/core/readline.h
-        ${MAIN}/cxx/core/rng.h
+        ${MAIN}/cxx/core/random.h
         ${MAIN}/cxx/core/runner.cxx
         ${MAIN}/cxx/core/runner.h
         ${MAIN}/cxx/core/section.cxx
@@ -121,7 +121,7 @@ add_unit_test(optimizer_test
         ${MAIN}/cxx/core/optimizer.h
         ${MAIN}/cxx/core/optimizer.cxx
         ${TEST}/cxx/core/optimizer_test.cxx
-        ${MAIN}/cxx/core/rng.h)
+        ${MAIN}/cxx/core/random.h)
 target_link_libraries(optimizer_test ${VECLIB})
 add_unit_test(profiles_test
         ${MAIN}/cxx/core/base.h
@@ -129,12 +129,12 @@ add_unit_test(profiles_test
         ${MAIN}/cxx/core/profiles.h
         ${MAIN}/cxx/core/profiles.cxx
         ${TEST}/cxx/core/profiles_test.cxx)
-add_unit_test(rng_test
+add_unit_test(random_test
         ${MAIN}/cxx/core/base.h
-        ${MAIN}/cxx/core/rng.h
-        ${TEST}/cxx/core/rng_test.cxx)
+        ${MAIN}/cxx/core/random.h
+        ${TEST}/cxx/core/random_test.cxx)
 
-add_integration_test(sampling_test 13.89)
+add_integration_test(doublet_test 13.89)
 add_performance_test(especid_test 159.77 171.89)
 add_performance_test(especiv_test 251.04)
 add_performance_test(especix_test 251.46)
