@@ -32,7 +32,7 @@ function(add_integration_test NAME EXPECTED_VALUES)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
 
-add_custom_target(sanitytests ctest --verbose --label-regex sanity)
+add_custom_target(integrationtests ctest --verbose --label-regex sanity)
 
 function(add_unit_test NAME)
     add_executable(${NAME}
