@@ -26,7 +26,6 @@
 using especia::natural;
 using especia::real;
 using especia::Optimizer;
-using especia::Pcg32;
 
 class Optimizer_Test : public Unit_Test {
 private:
@@ -114,17 +113,6 @@ private:
 
     void after() override {
         builder.with_defaults();
-    }
-
-    void test_pcg() {
-      const Pcg32 pcg(42ull, 54ull);
-      
-      assert_equals(0xa15c02b7ul, pcg.rand(), "test PCG (0)");
-      assert_equals(0x7b47f409ul, pcg.rand(), "test PCG (1)");
-      assert_equals(0xba1d3330ul, pcg.rand(), "test PCG (2)");
-      assert_equals(0x83d2f293ul, pcg.rand(), "test PCG (3)");
-      assert_equals(0xbfa4784bul, pcg.rand(), "test PCG (4)");
-      assert_equals(0xcbed606eul, pcg.rand(), "test PCG (5)");
     }
   
     void test_minimize_sphere() {
@@ -254,7 +242,6 @@ private:
     }
 
     void run_all() override {
-        run(this, &Optimizer_Test::test_pcg);
         run(this, &Optimizer_Test::test_minimize_sphere);
         run(this, &Optimizer_Test::test_minimize_ellipsoid);
         run(this, &Optimizer_Test::test_minimize_cigar);

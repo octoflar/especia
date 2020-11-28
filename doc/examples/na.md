@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especid 9600629759793949339 10 20 2.0 0.0001 1000 10 < na.md
+    especid 9600629759793949339 10 20 1.0 0.0001 1000 10 < na.md
 
 Consult the Especia wiki on [using the software](https://github.com/octoflar/especia/wiki/Using-the-software)
 for further help.

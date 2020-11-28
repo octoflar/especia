@@ -64,14 +64,19 @@ namespace especia {
         ~Pcg() = default;
 
         /**
-         * Returns a new random number.
+         * Returns a new real-valued  random number in the interval  [0, 1].
          *
-         * @return a random number in [0, 1].
+         * @return a real-valued random number in [0, 1].
          */
         real operator()() const {
             return rand() / real(0xfffffffful);
         }
 
+        /**
+         * Returns a new random word.
+         *
+         * @return a random word.
+         */
         word32 rand() const {
             const word64 saved = state;
             state = saved * m + inc;
@@ -95,7 +100,7 @@ namespace especia {
     /**
      * The PCG-XSH-RR with 64-bit state and 32-bit output.
      */
-    typedef Pcg<6364136223846793005ull> Pcg32;
+    typedef Pcg<6364136223846793005ull> Pcg_32;
 
     /**
      * The Mersenne twister algorithm to generate [0,1] uniformly distributed
@@ -123,18 +128,25 @@ namespace especia {
      * @tparam r The parameter r.
      * @tparam a The parameter a.
      * @tparam u The parameter u.
+     * @tparam d The parameter d.
      * @tparam s The parameter s.
      * @tparam b The parameter b.
      * @tparam t The parameter t.
      * @tparam c The parameter c.
      * @tparam l The parameter l.
+     * @tparam mult1 The first multiplier (used for initialisation).
+     * @tparam mult2 The second multiplier (used for initialisation).
+     * @tparam mult3 The third multiplier (used for initialisation).
      */
     template<natural w, natural n, natural m, natural r,
-            word32 a,
-            natural u,
-            natural s, word32 b,
-            natural t, word32 c,
-            natural l>
+            word64 a,
+            natural u, word64 d,
+            natural s, word64 b,
+            natural t, word64 c,
+            natural l,
+            word64 mult1,
+            word64 mult2,
+            word64 mult3>
     class Mersenne_Twister {
     public:
         /**
@@ -143,7 +155,7 @@ namespace especia {
          * @param[in] seed The seed.
          */
         explicit Mersenne_Twister(const word64 seed = 9600629759793949339ull) : words(n) { // NOLINT
-            const word32 seeds[] = {word32(seed & 0x00000000ffffffffull), word32(seed & 0xffffffff00000000ull)};
+            const word64 seeds[] = {seed & 0x00000000ffffffffull, seed & 0xffffffff00000000ull};
           
             reset(2, seeds);
         }
@@ -154,7 +166,7 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        Mersenne_Twister(const natural seed_count, const word32 seeds[]) : words(n) { // NOLINT
+        Mersenne_Twister(const natural seed_count, const word64 seeds[]) : words(n) { // NOLINT
             reset(seed_count, seeds);
         }
 
@@ -164,18 +176,25 @@ namespace especia {
         ~Mersenne_Twister() = default;
 
         /**
-         * Returns a new random number.
+         * Returns a new real-valued  random number in the interval  [0, 1].
          *
-         * @return a random number in [0, 1].
+         * @return a real-valued random number in [0, 1].
          */
         real operator()() const {
             using std::numeric_limits;
-
-            // Division by 2^w - 1.
-            return rand() * (1.0 / real(numeric_limits<word32>::max() >> (numeric_limits<word32>::digits - w)));
+            // the effective maximum mantissa value for a real number
+            const real max_real_mant =
+                numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - (w < numeric_limits<real>::digits ? w : numeric_limits<real>::digits));
+            
+            return (w < numeric_limits<real>::digits ? rand() : rand() >> (w - numeric_limits<real>::digits)) * (1.0 / max_real_mant);
         }
 
-        word32 rand() const {
+        /**
+         * Returns a new  random word.
+         *
+         * @return a random word.
+         */
+        word64 rand() const {
             if (i == n) {
                 for (natural k = 0; k < n - m; ++k) {
                     twist(k + m, k, k + 1);
@@ -189,13 +208,10 @@ namespace especia {
                 i = 0;
             }
 
-            word32 y = words[i];
+            word64 y = words[i];
             ++i;
 
-            if (u > 0) {
-                y ^= (y >> u);
-            }
-
+            y ^= (y >> u) & d;
             y ^= (y << s) & b;
             y ^= (y << t) & c;
             y ^= (y >> l);
@@ -208,17 +224,15 @@ namespace especia {
          * Resets this algorithm.
          *
          * @param[in] seed The seed.
-         * @param[in] multiplier A multiplier used by the seeding. Refer to Donald E. Knuth (1997, The Art of Computer
-         * Programming, Seminumerical Algorithms, pp. 106) for suitable values.
          */
-        void reset(const word32 seed, const word32 multiplier = 1812433253ul) {
+        void reset(const word64 seed) {
             using std::numeric_limits;
 
             words[0] = seed &
-                       (numeric_limits<word32>::max() >> (numeric_limits<word32>::digits - w));
+                       (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
             for (natural k = 1; k < n; ++k) {
-                words[k] = (multiplier * (words[k - 1] ^ (words[k - 1] >> (r - 1))) + k) &
-                           (numeric_limits<word32>::max() >> (numeric_limits<word32>::digits - w));
+                words[k] = (mult1 * (words[k - 1] ^ (words[k - 1] >> (w - 2))) + k) &
+                           (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
             }
 
             i = n;
@@ -230,16 +244,16 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        void reset(const natural seed_count, const word32 seeds[]) {
+        void reset(const natural seed_count, const word64 seeds[]) {
             using std::max;
             using std::numeric_limits;
 
-            reset(19650218ul);
+            reset(19650218ull);
             i = 1;
 
             for (natural j = 0, k = max(n, seed_count); k > 0; --k) {
-                words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1664525ul)) + seeds[j] + j) &
-                           (numeric_limits<word32>::max() >> (numeric_limits<word32>::digits - w));
+                words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (w - 2))) * mult2)) + seeds[j] + j) &
+                           (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
                 if (++i >= n) {
                     words[0] = words[n - 1];
                     i = 1;
@@ -249,8 +263,8 @@ namespace especia {
                 }
             }
             for (natural k = n - 1; k > 0; --k) {
-                words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (r - 1))) * 1566083941ul)) - i) &
-                           (numeric_limits<word32>::max() >> (numeric_limits<word32>::digits - w));
+                words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (w - 2))) * mult3)) - i) &
+                           (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
                 if (++i >= n) {
                     words[0] = words[n - 1];
                     i = 1;
@@ -264,34 +278,41 @@ namespace especia {
         void twist(const natural i, const natural j, const natural k) const {
             using std::numeric_limits;
 
-            words[j] = words[i] ^ (((words[j] & ((numeric_limits<word32>::max()
-                    << (numeric_limits<word32>::digits - w + r))
-                    >> (numeric_limits<word32>::digits - w))) | (words[k] & (numeric_limits<word32>::max()
-                    >> (numeric_limits<word32>::digits - r)))) >> 1);
-            if ((words[k] & 1ul) == 1ul) {
+            words[j] = words[i] ^ (((words[j] & ((numeric_limits<word64>::max()
+                    << (numeric_limits<word64>::digits - w + r))
+                    >> (numeric_limits<word64>::digits - w))) | (words[k] & (numeric_limits<word64>::max()
+                    >> (numeric_limits<word64>::digits - r)))) >> 1);
+            if ((words[k] & 1ull) == 1ull) {
                 words[j] ^= a;
             }
         }
 
-        mutable std::valarray<word32> words;
+        mutable std::valarray<word64> words;
         mutable natural i = 0;
     };
 
     /**
      * The MT-1121A-32.
      */
-    typedef Mersenne_Twister<32, 351, 175, 19, 0xe4bd75f5ul, 11, 7, 0x655e5280ul,
-            15, 0xffd58000ul, 17> Mt11213a;
+    typedef Mersenne_Twister<32, 351, 175, 19, 0xe4bd75f5ull, 11, 0xffffffffull, 7, 0x655e5280ull,
+            15, 0xffd58000ull, 17, 1812433253ull, 1664525ull, 1566083941ull> Mt11213a_32;
     /**
      * The MT-1121B-32.
      */
-    typedef Mersenne_Twister<32, 351, 175, 19, 0xccab8ee7ul, 11, 7, 0x31b6ab00ul,
-            15, 0xffe50000ul, 17> Mt11213b;
+    typedef Mersenne_Twister<32, 351, 175, 19, 0xccab8ee7ull, 11, 0xffffffffull, 7, 0x31b6ab00ull,
+            15, 0xffe50000ull, 17, 1812433253ull, 1664525ull, 1566083941ull> Mt11213b_32;
     /**
      * The MT-19937-32.
      */
-    typedef Mersenne_Twister<32, 624, 397, 31, 0x9908b0dful, 11, 7, 0x9d2c5680ul,
-            15, 0xefc60000ul, 18> Mt19937;
+    typedef Mersenne_Twister<32, 624, 397, 31, 0x9908b0dfull, 11, 0xffffffffull, 7, 0x9d2c5680ull,
+            15, 0xefc60000ull, 18, 1812433253ul, 1664525ull, 1566083941ull> Mt19937_32;
+
+    /**
+     * The MT-19937-64.
+     */
+    typedef Mersenne_Twister<64, 312, 156, 31, 0xB5026F5AA96619E9ull, 29, 0x5555555555555555ull, 17, 0x71D67FFFEDA60000ull,
+            37, 0xFFF7EEE000000000ull, 43, 6364136223846793005ull, 3935559000370003845ull, 2862933555777941757ull> Mt19937_64;
+
 
 }
 

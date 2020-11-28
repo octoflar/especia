@@ -22,27 +22,40 @@
 #include "../../../main/cxx/core/rng.h"
 #include "../unittest.h"
 
-using especia::Mt19937;
-using especia::Pcg32;
-using especia::word32;
+using especia::Mt19937_32;
+using especia::Mt19937_64;
+using especia::Pcg_32;
+using especia::word64;
 
 class Rng_Test : public Unit_Test {
 private:
 
-    void test_mt() {
-      const word32 seeds[] = {0x123, 0x234, 0x345, 0x456};
-      const Mt19937 mt(4, seeds);
+    void test_mt19937_32() {
+      const word64 seeds[] = {0x123ull, 0x234ull, 0x345ull, 0x456ull};
+      const Mt19937_32 mt(4, seeds);
 
-      assert_equals(1067595299ul, mt.rand(), "test MT-19937-32 (0)");
-      assert_equals(955945823ul, mt.rand(), "test MT-19937-32 (1)");
-      assert_equals(477289528ul, mt.rand(), "test MT-19937-32 (2)");
-      assert_equals(4107218783ul, mt.rand(), "test MT-19937-32 (3)");
-      assert_equals(4228976476ul, mt.rand(), "test MT-19937-32 (4)");
-      assert_equals(3344332714ul, mt.rand(), "test MT-19937-32 (5)");
+      assert_equals(1067595299ull, mt.rand(), "test MT-19937-32 (0)");
+      assert_equals(955945823ull, mt.rand(), "test MT-19937-32 (1)");
+      assert_equals(477289528ull, mt.rand(), "test MT-19937-32 (2)");
+      assert_equals(4107218783ull, mt.rand(), "test MT-19937-32 (3)");
+      assert_equals(4228976476ull, mt.rand(), "test MT-19937-32 (4)");
+      assert_equals(3344332714ull, mt.rand(), "test MT-19937-32 (5)");
+    }
+  
+    void test_mt19937_64() {
+      const word64 seeds[] = {0x12345ull, 0x23456ull, 0x34567ull, 0x45678ull};
+      const Mt19937_64 mt(4, seeds);
+
+      assert_equals(7266447313870364031ull, mt.rand(), "test MT-19937-64 (0)");
+      assert_equals(4946485549665804864ull, mt.rand(), "test MT-19937-64 (1)");
+      assert_equals(16945909448695747420ull, mt.rand(), "test MT-19937-64 (2)");
+      assert_equals(16394063075524226720ull, mt.rand(), "test MT-19937-64 (3)");
+      assert_equals(4873882236456199058ull, mt.rand(), "test MT-19937-64 (4)");
+      assert_equals(14877448043947020171ull, mt.rand(), "test MT-19937-64 (5)");
     }
 
     void test_pcg() {
-      const Pcg32 pcg(42ull, 54ull);
+      const Pcg_32 pcg(42ull, 54ull);
       
       assert_equals(0xa15c02b7ul, pcg.rand(), "test PCG-XSH-RR-64-32 (0)");
       assert_equals(0x7b47f409ul, pcg.rand(), "test PCG-XSH-RR-64-32 (1)");
@@ -54,7 +67,8 @@ private:
   
     
     void run_all() override {
-        run(this, &Rng_Test::test_mt);
+        run(this, &Rng_Test::test_mt19937_32);
+        run(this, &Rng_Test::test_mt19937_64);
         run(this, &Rng_Test::test_pcg);
     }
 };
