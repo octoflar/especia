@@ -53,7 +53,7 @@ configure_file(${TEST}/resources/especid_test.html resources/especid_test.html C
 configure_file(${TEST}/resources/especiv_test.html resources/especiv_test.html COPYONLY)
 configure_file(${TEST}/resources/especix_test.html resources/especix_test.html COPYONLY)
 configure_file(${TEST}/resources/especia_test.html resources/especia_test.html COPYONLY)
-configure_file(${TEST}/resources/supersampling_test.html resources/supersampling_test.html COPYONLY)
+configure_file(${TEST}/resources/sampling_test.html resources/sampling_test.html COPYONLY)
 configure_file(${TEST}/resources/spec000.dat resources/spec000.dat COPYONLY)
 configure_file(${TEST}/resources/stis121.dat resources/stis121.dat COPYONLY)
 configure_file(${TEST}/resources/uves346.dat resources/uves346.dat COPYONLY)
@@ -134,7 +134,7 @@ add_unit_test(rng_test
         ${MAIN}/cxx/core/rng.h
         ${TEST}/cxx/core/rng_test.cxx)
 
-add_performance_test(supersampling_test 13.89)
+add_performance_test(sampling_test 13.89)
 add_performance_test(especid_test 159.77 171.89)
 add_performance_test(especiv_test 251.04)
 add_performance_test(especix_test 251.46)
