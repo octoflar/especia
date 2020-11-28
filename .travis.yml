@@ -15,9 +15,14 @@ matrix:
         - TEST="unittests"
     - os: osx
       env:
-        - TEST="performancetests"
+        - TEST="integrationtests"
     - os: linux
       env:
         - TEST="unittests"
+      dist: bionic
+      sudo: required
+    - os: linux
+      env:
+        - TEST="integrationtests"
       dist: bionic
       sudo: required

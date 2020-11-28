@@ -26,7 +26,7 @@ endfunction()
 
 add_custom_target(performancetests ctest --verbose --label-regex performance)
 
-function(add_sanity_test NAME EXPECTED_VALUES)
+function(add_integration_test NAME EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
     set_tests_properties(${NAME} PROPERTIES LABELS sanity TIMEOUT 300)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
