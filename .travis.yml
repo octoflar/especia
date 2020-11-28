@@ -19,10 +19,10 @@ matrix:
     - os: linux
       env:
         - TEST="unittests"
-      dist: trusty
+      dist: bionic
       sudo: required
     - os: linux
       env:
         - TEST="performancetests"
-      dist: trusty
+      dist: bionic
       sudo: required
