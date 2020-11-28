@@ -135,7 +135,7 @@ add_unit_test(rng_test
         ${TEST}/cxx/core/rng_test.cxx)
 
 add_integration_test(sampling_test 13.89)
-add_integration_test(especid_test 159.77 171.89)
+add_performance_test(especid_test 159.77 171.89)
 add_performance_test(especiv_test 251.04)
 add_performance_test(especix_test 251.46)
 add_performance_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
