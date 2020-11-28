@@ -21,8 +21,3 @@ matrix:
         - TEST="unittests"
       dist: bionic
       sudo: required
-    - os: linux
-      env:
-        - TEST="performancetests"
-      dist: bionic
-      sudo: required
