@@ -23,12 +23,12 @@ matrix:
     - os: linux
       env:
         - TEST="unittests"
-      dist: bionic
+      dist: focal
       sudo: required
     - os: linux
       env:
         - TEST="integrationtests"
-      dist: bionic
+      dist: focal
       sudo: required
       
 after_success: 
