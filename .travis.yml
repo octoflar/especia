@@ -3,6 +3,7 @@ addons:
   homebrew:
     packages:
       - gcovr
+    update: false
   apt:
     packages:
       - gcovr
