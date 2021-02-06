@@ -2,12 +2,14 @@ language: cpp
 addons:
   apt:
     packages:
-      - liblapack-dev
+#      - liblapack-dev
+      - intel-mkl
 script:
   - mkdir cmake-build-release
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make -j clean all util $TEST
+  
 matrix:
   include:
     - os: osx
