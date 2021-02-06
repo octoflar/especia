@@ -16,7 +16,7 @@ the instrumental function. The method is explained in detail by
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
 
 
-# Getting started [![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia)
+# Getting started [![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia) [![codecov](https://codecov.io/gh/octoflar/especia/branch/master/graph/badge.svg?token=664S3W9UFQ)](https://codecov.io/gh/octoflar/especia)
 
 Especia enables you to analyse spectroscopic data. Though it has been developed
 for the analysis of astrophysical spectra, it is, in principle, applicable to
