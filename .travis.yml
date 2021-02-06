@@ -3,14 +3,12 @@ addons:
   apt:
     packages:
       - intel-mkl
-      - gcovr
-      
+      - gcovr     
 script:
   - mkdir cmake-build-release
   - cd cmake-build-release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make -j clean all util $TEST
-  
 matrix:
   include:
     - os: osx
@@ -31,6 +29,6 @@ matrix:
         - TEST="integrationtests"
       dist: focal
       sudo: required
-      
 after_success: 
   - bash <(curl -s https://codecov.io/bash)
+  
