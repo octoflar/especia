@@ -4,6 +4,8 @@ addons:
     packages:
 #      - liblapack-dev
       - intel-mkl
+      - gcovr
+      
 script:
   - mkdir cmake-build-release
   - cd cmake-build-release
