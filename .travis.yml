@@ -16,9 +16,11 @@ matrix:
     - os: osx
       env:
         - TEST="unittests"
+      osx_image: xcode12.2
     - os: osx
       env:
         - TEST="integrationtests"
+      osx_image: xcode12.2
     - os: linux
       env:
         - TEST="unittests"
