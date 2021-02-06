@@ -1,9 +1,12 @@
 language: cpp
 addons:
+  homebrew:
+    packages:
+      - gcovr
   apt:
     packages:
+      - gcovr
       - intel-mkl
-      - gcovr     
 script:
   - mkdir cmake-build-release
   - cd cmake-build-release
