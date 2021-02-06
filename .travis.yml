@@ -2,7 +2,6 @@ language: cpp
 addons:
   apt:
     packages:
-      - gcovr
       - intel-mkl
 script:
   - mkdir cmake-build-release
@@ -29,6 +28,3 @@ matrix:
         - TEST="integrationtests"
       dist: focal
       sudo: required
-after_success: 
-  - bash <(curl -s https://codecov.io/bash)
-  
