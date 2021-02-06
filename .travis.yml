@@ -2,7 +2,6 @@ language: cpp
 addons:
   apt:
     packages:
-#      - liblapack-dev
       - intel-mkl
       - gcovr
       
