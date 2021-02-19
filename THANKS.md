@@ -1,9 +1,9 @@
 # Acknowledgements
 
-This software has been developed as part of research funded by the Verbundforschung of the BMBF/DLR under
-Grant No. 50 OR 9911 1 and by the DFG under Re 353/48. The use of this software in the work listed below (and
-any work not listed) is gratefully acknowledged. Particular thanks for Martin Wendt for providing feedback
-and test cases. 
+The beginnings of this software have been developed as part of research funded by the Verbundforschung
+of the BMBF/DLR under Grant No. 50 OR 9911 1 and by the DFG under Re 353/48. The use of this software in the
+work listed below (and any work not listed) is gratefully acknowledged. Particular thanks for Martin Wendt
+for providing feedback and test cases. 
 
 ## Work having used this software
 
