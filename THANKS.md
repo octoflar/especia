@@ -6,6 +6,10 @@ work listed below (and any work not listed) is gratefully acknowledged. Particul
 for providing feedback and test cases. 
 
 ## Work having used this software
+*MusE GAs FLOw and Wind (MEGAFLOW) V. The dust/metallicity-anisotropy of the Circum-Galactic Medium.*
+M. Wendt, F.N. Bouché, J. Zabl, I. Schroetter, S. Muzahid.
+Monthly Notices of the Royal Astronomical Society, Advanced Access (2021).
+[DOI 10.1093/mnras/stab049](https://doi.org/10.1093/mnras/stab049).
 
 *The precision of line position measurements of unresolved quasar absorption lines and its influence on the search for variations of fundamental constants.*
 N. Prause and D. Reimers.
