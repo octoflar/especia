@@ -5,7 +5,7 @@ of the BMBF/DLR under Grant No. 50 OR 9911 1 and by the DFG under Re 353/48. The
 work listed below (and any work not listed) is gratefully acknowledged. Particular thanks for Martin Wendt
 for providing feedback and test cases.
 
-This software is developed with CLion and AppCode. I very much appreciate [JetBrains](https://jb.gg/OpenSource) 
+This software is developed with AppCode and CLion. I very much appreciate [JetBrains](https://jb.gg/OpenSource) 
 for supporting this project with an Open Source license for the JetBrains All Products Pack.
 
 ## Work having used this software
