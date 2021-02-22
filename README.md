@@ -54,7 +54,7 @@ The latest release version is [2016.1](https://github.com/octoflar/especia/relea
 
 # Thanks
 
-This software is developed with CLion and AppCode. I very much appreciate [JetBrains](https://jb.gg/OpenSource) 
+This software is developed with AppCode and CLion. I very much appreciate [JetBrains](https://jb.gg/OpenSource) 
 for supporting this project with an Open Source license for the JetBrains All Products Pack.
 
 # Further reading
