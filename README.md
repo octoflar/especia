@@ -52,6 +52,10 @@ number, which enumerates the release within the release year. For example, versi
 denotes the first release of the year 2016.
 The latest release version is [2016.1](https://github.com/octoflar/especia/releases/tag/2016.1).
 
+# Thanks
+
+This software is developed with CLion and AppCode. I very much appreciate [JetBrains](https://jb.gg/OpenSource) 
+for supporting this project with an Open Source license for the JetBrains All Products Pack.
 
 # Further reading
 
@@ -65,4 +69,4 @@ Zenodo.
 
 Quast, Ralf (2017). *Covariance matrix adaption in evolution strategies.*
 Zenodo.  
-[DOI 10.5281/zenodo.784203](https://doi.org/10.5281/zenodo.784203).  
+[DOI 10.5281/zenodo.784203](https://doi.org/10.5281/zenodo.784203).
