@@ -3,9 +3,13 @@
 The beginnings of this software have been developed as part of research funded by the Verbundforschung
 of the BMBF/DLR under Grant No. 50 OR 9911 1 and by the DFG under Re 353/48. The use of this software in the
 work listed below (and any work not listed) is gratefully acknowledged. Particular thanks for Martin Wendt
-for providing feedback and test cases. 
+for providing feedback and test cases.
+
+This software is developed with CLion and AppCode. Many thanks for [JetBrains](https://jb.gg/OpenSource) 
+for supporting this project with an Open Source license for the JetBrains All Products Pack.
 
 ## Work having used this software
+
 *MusE GAs FLOw and Wind (MEGAFLOW) V. The dust/metallicity-anisotropy of the Circum-Galactic Medium.*  
 M. Wendt, F.N. Bouché, J. Zabl, I. Schroetter, S. Muzahid.  
 Monthly Notices of the Royal Astronomical Society, Advanced Access (2021).  
