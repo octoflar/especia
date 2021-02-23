@@ -38,8 +38,7 @@ improved in terms of accuracy and speed.
 * Comment lines in spectrum data files are permitted now. Comment lines
 must start with a hash mark `#`, an exclamation mark `!`, or a percent
 sign `%` in the first column.
-* The new `erun` application runs the command line included with a result
-HTML file.
+* The new `erun` script runs the command included with a result HTML file.
 * The command line typed to invoke Especia is included with the result HTML
 file within a comment block. The command line can be extracted from the
 result file by means of the new `ecom` application.
