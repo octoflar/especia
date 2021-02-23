@@ -1,8 +1,8 @@
-# New in 2020.1
+# New in 2021.1
 
 The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
-In addition, Version 2020.1 provides several new features and enhancements:
+In addition, Version 2021.1 provides several new features and enhancements:
 
 * Especia now uses 64-bit instead of 32-bit seeds to initialialize the Mersenne
 Twister random number generator.
