@@ -126,7 +126,9 @@ namespace especia {
          * @param[in] seed The seed.
          */
         explicit Melg(const word64 seed) : state(N + 1) { // NOLINT
-            reset(seed);
+            const word64 seeds[] = {seed & 0x00000000ffffffffull, seed & 0xffffffff00000000ull};
+
+            reset(2, seeds);
         }
 
         /**
