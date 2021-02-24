@@ -40,9 +40,9 @@ namespace especia {
      *   *PCG: A Family of Simple Fast Space-Efficient Statistically Good Algorithms for Random Number Generation.*
      *   <https://www.cs.hmc.edu/tr/hmc-cs-2014-0905.pdf>.
      *
-     * @tparam m The multiplier.
+     * @tparam mult The multiplier.
      */
-    template<word64 m>
+    template<word64 mult>
     class Pcg {
     public:
         /**
@@ -79,7 +79,7 @@ namespace especia {
          */
         word32 rand() const {
             const word64 saved = state;
-            state = saved * m + inc;
+            state = saved * mult + inc;
             const word32 s = (((saved >> 18) ^ saved) >> 27);
             const word32 r = saved >> 59;
             return ((s >> r) | (s << ((-r) & 31ul)));
@@ -90,7 +90,7 @@ namespace especia {
          * The increment.
          */
         const word64 inc;
-      
+
         /**
          * The state.
          */
@@ -101,6 +101,194 @@ namespace especia {
      * The PCG-XSH-RR with 64-bit state and 32-bit output.
      */
     typedef Pcg<6364136223846793005ull> Pcg_32;
+
+
+    /**
+     * A maximally equidistributed F2-linear generator (MELG). This MELG is formally
+     * designated 'MELG19937-64'. It has a state of 2,496 bytes and yields a 64-bit
+     * output word.
+     *
+     * Further reading:
+     *
+     * S. Harase and T. Kimoto (2018).
+     * Implementing 64-bit maximally equidistributed F2-linear generators with Mersenne prime period.
+     * ACM Transactions on Mathematical Software, 44, 3, 30.
+     * <http://doi.acm.org/10.1145/3159444>, <http://arxiv.org/abs/1505.06582>
+     *
+     * @tparam w The the number of bits in a word.
+     */
+    template<natural w>
+    class Melg {
+    public:
+        /**
+         * Constructs a new instance of this functor.
+         *
+         * @param[in] seed The seed.
+         */
+        explicit Melg(const word64 seed) : state(N + 1) { // NOLINT
+            reset(seed);
+        }
+
+        /**
+         * Constructs a new instance of this functor.
+         *
+         * @param[in] seed_count The number of seeds.
+         * @param[in] seeds The seeds.
+         */
+        Melg(const natural seed_count, const word64 seeds[]) : state(N + 1) { // NOLINT
+            reset(seed_count, seeds);
+        }
+
+        /**
+         * The destructor.
+         */
+        ~Melg() = default;
+
+        /**
+         * Returns a new real-valued  random number in the interval  [0, 1].
+         *
+         * @return a real-valued random number in [0, 1].
+         */
+        real operator()() const {
+            using std::numeric_limits;
+            // the effective maximum mantissa value for a real number
+            const real max_real_mantissa =
+                    numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - (w < numeric_limits<real>::digits ? w : numeric_limits<real>::digits));
+
+            return (w < numeric_limits<real>::digits ? rand() : rand() >> (w - numeric_limits<real>::digits)) * (1.0 / max_real_mantissa);
+        }
+
+        /**
+         * Returns a new  random word.
+         *
+         * @return a random word.
+         */
+        word64 rand() const {
+            word64 next = 0ull;
+
+            switch (state_c) {
+                case 1:
+                    next = twist1(state_i, state_i + 1);
+                    twist2(next, state_i + M);
+                    next = twist3(next, state_i, state_i + L);
+                    state_i++;
+                    if (state_i == N - M) {
+                        state_c = 2;
+                    }
+                    break;
+                case 2:
+                    next = twist1(state_i, state_i + 1);
+                    twist2(next, state_i + M - N);
+                    next = twist3(next, state_i, state_i + L);
+                    state_i++;
+                    if (state_i == N - L) {
+                        state_c = 3;
+                    }
+                    break;
+                case 3:
+                    next = twist1(state_i, state_i + 1);
+                    twist2(next, state_i + M - N);
+                    next = twist3(next, state_i, state_i - (N - L));
+                    state_i++;
+                    if (state_i == N - 1) {
+                        state_c = 4;
+                    }
+                    break;
+                case 4:
+                    next = twist1(N - 1, 0);
+                    twist2(next, M - 1);
+                    next = twist3(next, N - 1, state_i - (N - L));
+                    state_i = 0;
+                    state_c = 1;
+                    break;
+            }
+
+            return next;
+        }
+
+    private:
+        /**
+         * Resets this algorithm.
+         *
+         * @param[in] seed The seed.
+         */
+        void reset(const word64 seed) {
+            state[0] = seed;
+
+            for (state_i = 1; state_i < N + 1; state_i++) {
+                state[state_i] = (state[state_i - 1] ^ (state[state_i - 1] >> 62)) * 6364136223846793005ull + state_i;
+            }
+
+            state_i = 0;
+            state_c = 1;
+        }
+
+        /**
+         * Resets this algorithm.
+         *
+         * @param[in] seed_count The number of seeds.
+         * @param[in] seeds The seeds.
+         */
+        void reset(const natural seed_count, const word64 seeds[]) {
+            using std::max;
+
+            reset(19650218ull);
+
+            natural i = 1;
+            natural j = 0;
+            for (natural k = max(N, seed_count); k > 0; k--) {
+                state[i] = (state[i] ^ ((state[i - 1] ^ (state[i - 1] >> 62)) * 3935559000370003845ull)) + seeds[j] + j;
+                i++;
+                j++;
+                if (i >= N) {
+                    state[0] = state[N - 1];
+                    i = 1;
+                }
+                if (j >= seed_count) {
+                    j = 0;
+                }
+            }
+            for (natural k = N - 1; k > 0; k--) {
+                state[i] = (state[i] ^ ((state[i - 1] ^ (state[i - 1] >> 62)) * 2862933555777941757ull)) - i;
+                i++;
+                if (i >= N) {
+                    state[0] = state[N - 1];
+                    i = 1;
+                }
+            }
+            state[N] = (state[N] ^ ((state[N - 1] ^ (state[N - 1] >> 62)) * 2862933555777941757ull)) - N;
+            state[0] = (state[0] | (1ull << 63));
+            state_i = 0;
+            state_c = 1;
+        }
+
+        word64 twist1(const natural i1, const natural i2) const {
+            return (state[i1] & 0xffffffff80000000ull) | (state[i2] & 0x7fffffffull);
+        }
+
+        void twist2(const word64 l1, const natural i1) const {
+            state[N] = (l1 >> 1) ^ (((l1 & 1ull) != 0ull) ? 0x5c32e06df730fc42ull : 0ull) ^ state[i1] ^ (state[N] ^ (state[N] << 23));
+        }
+
+        word64 twist3(const word64 l1, const natural i1, const natural i2) const {
+            state[i1] = l1 ^ (state[N] ^ (state[N] >> 33));
+            return state[i1] ^ (state[i1] << 16) ^ (state[i2] & 0x6aede6fd97b338ecull);
+        }
+
+        mutable std::valarray<word64> state;
+        mutable natural state_i;
+        mutable natural state_c;
+
+        static const natural L = 19;
+        static const natural M = 81;
+        static const natural N = 311;
+    };
+
+    /**
+     * The MELG19937-64 with 2,496 bytes of state and 64-bit output.
+     */
+    typedef Melg<64> Melg19937_64;
+
 
     /**
      * The Mersenne twister algorithm to generate [0,1] uniformly distributed
@@ -156,7 +344,7 @@ namespace especia {
          */
         explicit Mersenne_Twister(const word64 seed = 9600629759793949339ull) : words(n) { // NOLINT
             const word64 seeds[] = {seed & 0x00000000ffffffffull, seed & 0xffffffff00000000ull};
-          
+
             reset(2, seeds);
         }
 
@@ -183,10 +371,10 @@ namespace especia {
         real operator()() const {
             using std::numeric_limits;
             // the effective maximum mantissa value for a real number
-            const real max_real_mant =
+            const real max_real_mantissa =
                 numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - (w < numeric_limits<real>::digits ? w : numeric_limits<real>::digits));
             
-            return (w < numeric_limits<real>::digits ? rand() : rand() >> (w - numeric_limits<real>::digits)) * (1.0 / max_real_mant);
+            return (w < numeric_limits<real>::digits ? rand() : rand() >> (w - numeric_limits<real>::digits)) * (1.0 / max_real_mantissa);
         }
 
         /**
@@ -218,7 +406,7 @@ namespace especia {
 
             return y;
         }
-      
+
     private:
         /**
          * Resets this algorithm.
@@ -312,8 +500,6 @@ namespace especia {
      */
     typedef Mersenne_Twister<64, 312, 156, 31, 0xB5026F5AA96619E9ull, 29, 0x5555555555555555ull, 17, 0x71D67FFFEDA60000ull,
             37, 0xFFF7EEE000000000ull, 43, 6364136223846793005ull, 3935559000370003845ull, 2862933555777941757ull> Mt19937_64;
-
-
 }
 
 #endif // ESPECIA_RANDOM_H
