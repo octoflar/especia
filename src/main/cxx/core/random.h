@@ -31,79 +31,6 @@
 namespace especia {
 
     /**
-     * PCG algorithm  to generate [0,1] uniformly distributed random deviates. Based on
-     * Melissa E. O'Neill (2014) and <https://www.pcg-random.org>.
-     *
-     * Further reading:
-     *
-     * Melissa E. O'Neill (2014).
-     *   *PCG: A Family of Simple Fast Space-Efficient Statistically Good Algorithms for Random Number Generation.*
-     *   <https://www.cs.hmc.edu/tr/hmc-cs-2014-0905.pdf>.
-     *
-     * @tparam mult The multiplier.
-     */
-    template<word64 mult>
-    class Pcg {
-    public:
-        /**
-         * Constructs a new instance of this functor.
-         *
-         * @param[in] seed The seed.
-         * @param[in] selector The sequence selector.
-         */
-        explicit Pcg(const word64 seed = 9600629759793949339ull, const word64 selector = 7863035247680335341ul) : inc((selector << 1) | 1ull) {
-            state = 0ull;
-            rand();
-            state += seed;
-            rand();
-        }
-
-        /**
-         * The destructor.
-         */
-        ~Pcg() = default;
-
-        /**
-         * Returns a new real-valued  random number in the interval  [0, 1].
-         *
-         * @return a real-valued random number in [0, 1].
-         */
-        real operator()() const {
-            return rand() / real(0xfffffffful);
-        }
-
-        /**
-         * Returns a new random word.
-         *
-         * @return a random word.
-         */
-        word32 rand() const {
-            const word64 saved = state;
-            state = saved * mult + inc;
-            const word32 s = (((saved >> 18) ^ saved) >> 27);
-            const word32 r = saved >> 59;
-            return ((s >> r) | (s << ((-r) & 31ul)));
-        }
-
-    private:
-        /**
-         * The increment.
-         */
-        const word64 inc;
-
-        /**
-         * The state.
-         */
-        mutable word64 state;
-    };
-
-    /**
-     * The PCG-XSH-RR with 64-bit state and 32-bit output.
-     */
-    typedef Pcg<6364136223846793005ull> Pcg_32;
-
-
-    /**
      * A maximally equidistributed F2-linear generator (MELG). This MELG is formally
      * designated 'MELG19937-64'. It has a state of 2,496 bytes and yields a 64-bit
      * output word.
@@ -168,40 +95,40 @@ namespace especia {
         word64 rand() const {
             word64 next = 0ull;
 
-            switch (state_c) {
+            switch (cycle) {
                 case 1:
-                    next = twist1(state_i, state_i + 1);
-                    twist2(next, state_i + M);
-                    next = twist3(next, state_i, state_i + L);
-                    state_i++;
-                    if (state_i == N - M) {
-                        state_c = 2;
+                    next = twist1(index, index + 1);
+                    twist2(next, index + M);
+                    next = twist3(next, index, index + L);
+                    index++;
+                    if (index == N - M) {
+                        cycle = 2;
                     }
                     break;
                 case 2:
-                    next = twist1(state_i, state_i + 1);
-                    twist2(next, state_i + M - N);
-                    next = twist3(next, state_i, state_i + L);
-                    state_i++;
-                    if (state_i == N - L) {
-                        state_c = 3;
+                    next = twist1(index, index + 1);
+                    twist2(next, index + M - N);
+                    next = twist3(next, index, index + L);
+                    index++;
+                    if (index == N - L) {
+                        cycle = 3;
                     }
                     break;
                 case 3:
-                    next = twist1(state_i, state_i + 1);
-                    twist2(next, state_i + M - N);
-                    next = twist3(next, state_i, state_i - (N - L));
-                    state_i++;
-                    if (state_i == N - 1) {
-                        state_c = 4;
+                    next = twist1(index, index + 1);
+                    twist2(next, index + M - N);
+                    next = twist3(next, index, index - (N - L));
+                    index++;
+                    if (index == N - 1) {
+                        cycle = 4;
                     }
                     break;
                 case 4:
                     next = twist1(N - 1, 0);
                     twist2(next, M - 1);
-                    next = twist3(next, N - 1, state_i - (N - L));
-                    state_i = 0;
-                    state_c = 1;
+                    next = twist3(next, N - 1, index - (N - L));
+                    index = 0;
+                    cycle = 1;
                     break;
             }
 
@@ -217,12 +144,12 @@ namespace especia {
         void reset(const word64 seed) {
             state[0] = seed;
 
-            for (state_i = 1; state_i < N + 1; state_i++) {
-                state[state_i] = (state[state_i - 1] ^ (state[state_i - 1] >> 62)) * 6364136223846793005ull + state_i;
+            for (index = 1; index < N + 1; index++) {
+                state[index] = (state[index - 1] ^ (state[index - 1] >> 62)) * 6364136223846793005ull + index;
             }
 
-            state_i = 0;
-            state_c = 1;
+            index = 0;
+            cycle = 1;
         }
 
         /**
@@ -260,26 +187,26 @@ namespace especia {
             }
             state[N] = (state[N] ^ ((state[N - 1] ^ (state[N - 1] >> 62)) * 2862933555777941757ull)) - N;
             state[0] = (state[0] | (1ull << 63));
-            state_i = 0;
-            state_c = 1;
+            index = 0;
+            cycle = 1;
         }
 
         word64 twist1(const natural i1, const natural i2) const {
             return (state[i1] & 0xffffffff80000000ull) | (state[i2] & 0x7fffffffull);
         }
 
-        void twist2(const word64 l1, const natural i1) const {
-            state[N] = (l1 >> 1) ^ (((l1 & 1ull) != 0ull) ? 0x5c32e06df730fc42ull : 0ull) ^ state[i1] ^ (state[N] ^ (state[N] << 23));
+        void twist2(const word64 word, const natural i1) const {
+            state[N] = (word >> 1) ^ (((word & 1ull) != 0ull) ? 0x5c32e06df730fc42ull : 0ull) ^ state[i1] ^ (state[N] ^ (state[N] << 23));
         }
 
-        word64 twist3(const word64 l1, const natural i1, const natural i2) const {
-            state[i1] = l1 ^ (state[N] ^ (state[N] >> 33));
+        word64 twist3(const word64 word, const natural i1, const natural i2) const {
+            state[i1] = word ^ (state[N] ^ (state[N] >> 33));
             return state[i1] ^ (state[i1] << 16) ^ (state[i2] & 0x6aede6fd97b338ecull);
         }
 
         mutable std::valarray<word64> state;
-        mutable natural state_i;
-        mutable natural state_c;
+        mutable natural index;
+        mutable natural cycle;
 
         static const natural L = 19;
         static const natural M = 81;
@@ -502,6 +429,80 @@ namespace especia {
      */
     typedef Mersenne_Twister<64, 312, 156, 31, 0xB5026F5AA96619E9ull, 29, 0x5555555555555555ull, 17, 0x71D67FFFEDA60000ull,
             37, 0xFFF7EEE000000000ull, 43, 6364136223846793005ull, 3935559000370003845ull, 2862933555777941757ull> Mt19937_64;
+
+
+    /**
+     * PCG algorithm  to generate [0,1] uniformly distributed random deviates. Based on
+     * Melissa E. O'Neill (2014) and <https://www.pcg-random.org>.
+     *
+     * Further reading:
+     *
+     * Melissa E. O'Neill (2014).
+     *   *PCG: A Family of Simple Fast Space-Efficient Statistically Good Algorithms for Random Number Generation.*
+     *   <https://www.cs.hmc.edu/tr/hmc-cs-2014-0905.pdf>.
+     *
+     * @tparam mult The multiplier.
+     */
+    template<word64 mult>
+    class Pcg {
+    public:
+        /**
+         * Constructs a new instance of this functor.
+         *
+         * @param[in] seed The seed.
+         * @param[in] selector The sequence selector.
+         */
+        explicit Pcg(const word64 seed = 9600629759793949339ull, const word64 selector = 7863035247680335341ul) : inc((selector << 1) | 1ull) {
+            state = 0ull;
+            rand();
+            state += seed;
+            rand();
+        }
+
+        /**
+         * The destructor.
+         */
+        ~Pcg() = default;
+
+        /**
+         * Returns a new real-valued  random number in the interval  [0, 1].
+         *
+         * @return a real-valued random number in [0, 1].
+         */
+        real operator()() const {
+            return rand() / real(0xfffffffful);
+        }
+
+        /**
+         * Returns a new random word.
+         *
+         * @return a random word.
+         */
+        word32 rand() const {
+            const word64 saved = state;
+            state = saved * mult + inc;
+            const word32 s = (((saved >> 18) ^ saved) >> 27);
+            const word32 r = saved >> 59;
+            return ((s >> r) | (s << ((-r) & 31ul)));
+        }
+
+    private:
+        /**
+         * The increment.
+         */
+        const word64 inc;
+
+        /**
+         * The state.
+         */
+        mutable word64 state;
+    };
+
+    /**
+     * The PCG-XSH-RR with 64-bit state and 32-bit output.
+     */
+    typedef Pcg<6364136223846793005ull> Pcg_32;
+
 }
 
 #endif // ESPECIA_RANDOM_H
