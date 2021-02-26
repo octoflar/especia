@@ -43,8 +43,11 @@ namespace especia {
      * <http://doi.acm.org/10.1145/3159444>, <http://arxiv.org/abs/1505.06582>
      *
      * @tparam w The the number of bits in a word.
-     */
-    template<natural w>
+     * @tparam mult1 A multiplier (used for initialisation).
+     * @tparam mult2 A multiplier (used for initialisation).
+     * @tparam mult3 A multiplier (used for initialisation).
+    */
+    template<natural w, word64 mult1, word64 mult2, word64 mult3>
     class Melg {
     public:
         /**
@@ -53,7 +56,7 @@ namespace especia {
          * @param[in] seed The seed.
          */
         explicit Melg(const word64 seed) : state(N + 1) { // NOLINT
-            const word64 seeds[] = {seed & 0x00000000ffffffffull, seed & 0xffffffff00000000ull};
+            const word64 seeds[] = {seed & 0x00000000FFFFFFFFull, seed & 0xFFFFFFFF00000000ull};
 
             reset(2, seeds);
         }
@@ -80,11 +83,11 @@ namespace especia {
          */
         real operator()() const {
             using std::numeric_limits;
-            // the effective maximum mantissa value for a real number
-            const real max_real_mantissa =
+            // the maximum mantissa value for a real number
+            const real max_mantissa =
                     numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - (w < numeric_limits<real>::digits ? w : numeric_limits<real>::digits));
 
-            return (w < numeric_limits<real>::digits ? rand() : rand() >> (w - numeric_limits<real>::digits)) * (1.0 / max_real_mantissa);
+            return (w < numeric_limits<real>::digits ? rand() : rand() >> (w - numeric_limits<real>::digits)) * (1.0 / max_mantissa);
         }
 
         /**
@@ -97,36 +100,36 @@ namespace especia {
 
             switch (cycle) {
                 case 1:
-                    next = twist1(index, index + 1);
-                    twist2(next, index + M);
-                    next = twist3(next, index, index + L);
+                    next = rock(index, index + 1);
+                    roll(next, index + M);
+                    next = twist(next, index, index + L);
                     index++;
                     if (index == N - M) {
                         cycle = 2;
                     }
                     break;
                 case 2:
-                    next = twist1(index, index + 1);
-                    twist2(next, index + M - N);
-                    next = twist3(next, index, index + L);
+                    next = rock(index, index + 1);
+                    roll(next, index + M - N);
+                    next = twist(next, index, index + L);
                     index++;
                     if (index == N - L) {
                         cycle = 3;
                     }
                     break;
                 case 3:
-                    next = twist1(index, index + 1);
-                    twist2(next, index + M - N);
-                    next = twist3(next, index, index - (N - L));
+                    next = rock(index, index + 1);
+                    roll(next, index + M - N);
+                    next = twist(next, index, index - (N - L));
                     index++;
                     if (index == N - 1) {
                         cycle = 4;
                     }
                     break;
                 case 4:
-                    next = twist1(N - 1, 0);
-                    twist2(next, M - 1);
-                    next = twist3(next, N - 1, index - (N - L));
+                    next = rock(N - 1, 0);
+                    roll(next, M - 1);
+                    next = twist(next, N - 1, index - (N - L));
                     index = 0;
                     cycle = 1;
                     break;
@@ -145,7 +148,7 @@ namespace especia {
             state[0] = seed;
 
             for (index = 1; index < N + 1; index++) {
-                state[index] = (state[index - 1] ^ (state[index - 1] >> 62)) * 6364136223846793005ull + index;
+                state[index] = (state[index - 1] ^ (state[index - 1] >> (w - 2))) * mult1 + index;
             }
 
             index = 0;
@@ -166,7 +169,7 @@ namespace especia {
             natural i = 1;
             natural j = 0;
             for (natural k = max(N, seed_count); k > 0; k--) {
-                state[i] = (state[i] ^ ((state[i - 1] ^ (state[i - 1] >> 62)) * 3935559000370003845ull)) + seeds[j] + j;
+                state[i] = (state[i] ^ ((state[i - 1] ^ (state[i - 1] >> (w - 2))) * mult2)) + seeds[j] + j;
                 i++;
                 j++;
                 if (i >= N) {
@@ -178,30 +181,30 @@ namespace especia {
                 }
             }
             for (natural k = N - 1; k > 0; k--) {
-                state[i] = (state[i] ^ ((state[i - 1] ^ (state[i - 1] >> 62)) * 2862933555777941757ull)) - i;
+                state[i] = (state[i] ^ ((state[i - 1] ^ (state[i - 1] >> (w - 2))) * mult3)) - i;
                 i++;
                 if (i >= N) {
                     state[0] = state[N - 1];
                     i = 1;
                 }
             }
-            state[N] = (state[N] ^ ((state[N - 1] ^ (state[N - 1] >> 62)) * 2862933555777941757ull)) - N;
-            state[0] = (state[0] | (1ull << 63));
+            state[N] = (state[N] ^ ((state[N - 1] ^ (state[N - 1] >> (w - 2))) * mult3)) - N;
+            state[0] = (state[0] | (1ull << (w - 1)));
             index = 0;
             cycle = 1;
         }
 
-        word64 twist1(const natural i1, const natural i2) const {
-            return (state[i1] & 0xffffffff80000000ull) | (state[i2] & 0x7fffffffull);
+        word64 rock(const natural i, const natural k) const {
+            return (state[i] & 0xFFFFFFFF80000000ull) | (state[k] & 0x7FFFFFFFull);
         }
 
-        void twist2(const word64 word, const natural i1) const {
-            state[N] = (word >> 1) ^ (((word & 1ull) != 0ull) ? 0x5c32e06df730fc42ull : 0ull) ^ state[i1] ^ (state[N] ^ (state[N] << 23));
+        void roll(const word64 word, const natural i) const {
+            state[N] = (word >> 1) ^ (((word & 1ull) != 0ull) ? 0x5C32E06DF730FC42ull : 0ull) ^ state[i] ^ (state[N] ^ (state[N] << 23));
         }
 
-        word64 twist3(const word64 word, const natural i1, const natural i2) const {
-            state[i1] = word ^ (state[N] ^ (state[N] >> 33));
-            return state[i1] ^ (state[i1] << 16) ^ (state[i2] & 0x6aede6fd97b338ecull);
+        word64 twist(const word64 word, const natural i, const natural k) const {
+            state[i] = word ^ (state[N] ^ (state[N] >> 33));
+            return state[i] ^ (state[i] << 16) ^ (state[k] & 0x6AEDE6FD97B338ECull);
         }
 
         mutable std::valarray<word64> state;
@@ -216,7 +219,7 @@ namespace especia {
     /**
      * The MELG19937-64 with 2,496 bytes of state and 64-bit output.
      */
-    typedef Melg<64> Melg19937_64;
+    typedef Melg<64, 6364136223846793005ull, 3935559000370003845ull, 2862933555777941757ull> Melg19937_64;
 
 
     /**
@@ -251,9 +254,9 @@ namespace especia {
      * @tparam t The parameter t.
      * @tparam c The parameter c.
      * @tparam l The parameter l.
-     * @tparam mult1 The first multiplier (used for initialisation).
-     * @tparam mult2 The second multiplier (used for initialisation).
-     * @tparam mult3 The third multiplier (used for initialisation).
+     * @tparam mult1 A multiplier (used for initialisation).
+     * @tparam mult2 A multiplier (used for initialisation).
+     * @tparam mult3 A multiplier (used for initialisation).
      */
     template<natural w, natural n, natural m, natural r,
             word64 a,
@@ -272,7 +275,7 @@ namespace especia {
          * @param[in] seed The seed.
          */
         explicit Mersenne_Twister(const word64 seed = 9600629759793949339ull) : words(n) { // NOLINT
-            const word64 seeds[] = {seed & 0x00000000ffffffffull, seed & 0xffffffff00000000ull};
+            const word64 seeds[] = {seed & 0x00000000FFFFFFFFull, seed & 0xFFFFFFFF00000000ull};
 
             reset(2, seeds);
         }
@@ -299,11 +302,11 @@ namespace especia {
          */
         real operator()() const {
             using std::numeric_limits;
-            // the effective maximum mantissa value for a real number
-            const real max_real_mantissa =
+            // the maximum mantissa value for a real number
+            const real max_mantissa =
                 numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - (w < numeric_limits<real>::digits ? w : numeric_limits<real>::digits));
-            
-            return (w < numeric_limits<real>::digits ? rand() : rand() >> (w - numeric_limits<real>::digits)) * (1.0 / max_real_mantissa);
+
+            return (w < numeric_limits<real>::digits ? rand() : rand() >> (w - numeric_limits<real>::digits)) * (1.0 / max_mantissa);
         }
 
         /**
@@ -345,10 +348,9 @@ namespace especia {
         void reset(const word64 seed) {
             using std::numeric_limits;
 
-            words[0] = seed &
-                       (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
+            words[0] = seed & (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
             for (natural k = 1; k < n; ++k) {
-                words[k] = (mult1 * (words[k - 1] ^ (words[k - 1] >> (w - 2))) + k) &
+                words[k] = ((words[k - 1] ^ (words[k - 1] >> (w - 2))) * mult1 + k) &
                            (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
             }
 
@@ -387,7 +389,7 @@ namespace especia {
                     i = 1;
                 }
             }
-            words[0] = (1ul << (w - 1));
+            words[0] = (1ull << (w - 1));
 
             i = n;
         }
@@ -411,18 +413,18 @@ namespace especia {
     /**
      * The MT-1121A-32.
      */
-    typedef Mersenne_Twister<32, 351, 175, 19, 0xe4bd75f5ull, 11, 0xffffffffull, 7, 0x655e5280ull,
-            15, 0xffd58000ull, 17, 1812433253ull, 1664525ull, 1566083941ull> Mt11213a_32;
+    typedef Mersenne_Twister<32, 351, 175, 19, 0xE4BD75F5ull, 11, 0xFFFFFFFFull, 7, 0x655E5280ull,
+            15, 0xFFD58000ull, 17, 1812433253ull, 1664525ull, 1566083941ull> Mt11213a_32;
     /**
      * The MT-1121B-32.
      */
-    typedef Mersenne_Twister<32, 351, 175, 19, 0xccab8ee7ull, 11, 0xffffffffull, 7, 0x31b6ab00ull,
-            15, 0xffe50000ull, 17, 1812433253ull, 1664525ull, 1566083941ull> Mt11213b_32;
+    typedef Mersenne_Twister<32, 351, 175, 19, 0xCCAB8EE7ull, 11, 0xFFFFFFFFull, 7, 0x31B6AB00ull,
+            15, 0xFFE50000ull, 17, 1812433253ull, 1664525ull, 1566083941ull> Mt11213b_32;
     /**
      * The MT-19937-32.
      */
-    typedef Mersenne_Twister<32, 624, 397, 31, 0x9908b0dfull, 11, 0xffffffffull, 7, 0x9d2c5680ull,
-            15, 0xefc60000ull, 18, 1812433253ul, 1664525ull, 1566083941ull> Mt19937_32;
+    typedef Mersenne_Twister<32, 624, 397, 31, 0x9908B0DFull, 11, 0xFFFFFFFFull, 7, 0x9D2C5680ull,
+            15, 0xEFC60000ull, 18, 1812433253ull, 1664525ull, 1566083941ull> Mt19937_32;
 
     /**
      * The MT-19937-64.
@@ -441,7 +443,7 @@ namespace especia {
      *   *PCG: A Family of Simple Fast Space-Efficient Statistically Good Algorithms for Random Number Generation.*
      *   <https://www.cs.hmc.edu/tr/hmc-cs-2014-0905.pdf>.
      *
-     * @tparam mult The multiplier.
+     * @tparam m The multiplier.
      */
     template<word64 mult>
     class Pcg {
@@ -470,7 +472,7 @@ namespace especia {
          * @return a real-valued random number in [0, 1].
          */
         real operator()() const {
-            return rand() / real(0xfffffffful);
+            return rand() / real(0xFFFFFFFFul);
         }
 
         /**
