@@ -190,6 +190,7 @@ namespace especia {
             }
             state[N] = (state[N] ^ ((state[N - 1] ^ (state[N - 1] >> (w - 2))) * mult3)) - N;
             state[0] = (state[0] | (1ull << (w - 1)));
+
             index = 0;
             cycle = 1;
         }
