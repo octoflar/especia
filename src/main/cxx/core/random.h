@@ -274,7 +274,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        explicit Mersenne_Twister(const word64 seed = 9600629759793949339ull) : words(n) { // NOLINT
+        explicit Mersenne_Twister(const word64 seed = 9600629759793949339ull) : state(n) { // NOLINT
             const word64 seeds[] = {seed & 0x00000000FFFFFFFFull, seed & 0xFFFFFFFF00000000ull};
 
             reset(2, seeds);
@@ -286,7 +286,7 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        Mersenne_Twister(const natural seed_count, const word64 seeds[]) : words(n) { // NOLINT
+        Mersenne_Twister(const natural seed_count, const word64 seeds[]) : state(n) { // NOLINT
             reset(seed_count, seeds);
         }
 
@@ -315,7 +315,7 @@ namespace especia {
          * @return a random word.
          */
         word64 rand() const {
-            if (i == n) {
+            if (index == n) {
                 for (natural k = 0; k < n - m; ++k) {
                     twist(k + m, k, k + 1);
                 }
@@ -325,18 +325,18 @@ namespace especia {
                 }
 
                 twist(m - 1, n - 1, 0);
-                i = 0;
+                index = 0;
             }
 
-            word64 y = words[i];
-            ++i;
+            word64 next = state[index];
+            ++index;
 
-            y ^= (y >> u) & d;
-            y ^= (y << s) & b;
-            y ^= (y << t) & c;
-            y ^= (y >> l);
+            next ^= (next >> u) & d;
+            next ^= (next << s) & b;
+            next ^= (next << t) & c;
+            next ^= (next >> l);
 
-            return y;
+            return next;
         }
 
     private:
@@ -348,13 +348,13 @@ namespace especia {
         void reset(const word64 seed) {
             using std::numeric_limits;
 
-            words[0] = seed & (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
+            state[0] = seed & (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
             for (natural k = 1; k < n; ++k) {
-                words[k] = ((words[k - 1] ^ (words[k - 1] >> (w - 2))) * mult1 + k) &
+                state[k] = ((state[k - 1] ^ (state[k - 1] >> (w - 2))) * mult1 + k) &
                            (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
             }
 
-            i = n;
+            index = n;
         }
 
         /**
@@ -368,46 +368,46 @@ namespace especia {
             using std::numeric_limits;
 
             reset(19650218ull);
-            i = 1;
+            index = 1;
 
             for (natural j = 0, k = max(n, seed_count); k > 0; --k) {
-                words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (w - 2))) * mult2)) + seeds[j] + j) &
+                state[index] = ((state[index] ^ ((state[index - 1] ^ (state[index - 1] >> (w - 2))) * mult2)) + seeds[j] + j) &
                            (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
-                if (++i >= n) {
-                    words[0] = words[n - 1];
-                    i = 1;
+                if (++index >= n) {
+                    state[0] = state[n - 1];
+                    index = 1;
                 }
                 if (++j >= seed_count) {
                     j = 0;
                 }
             }
             for (natural k = n - 1; k > 0; --k) {
-                words[i] = ((words[i] ^ ((words[i - 1] ^ (words[i - 1] >> (w - 2))) * mult3)) - i) &
+                state[index] = ((state[index] ^ ((state[index - 1] ^ (state[index - 1] >> (w - 2))) * mult3)) - index) &
                            (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
-                if (++i >= n) {
-                    words[0] = words[n - 1];
-                    i = 1;
+                if (++index >= n) {
+                    state[0] = state[n - 1];
+                    index = 1;
                 }
             }
-            words[0] = (1ull << (w - 1));
+            state[0] = (1ull << (w - 1));
 
-            i = n;
+            index = n;
         }
 
         void twist(const natural i, const natural j, const natural k) const {
             using std::numeric_limits;
 
-            words[j] = words[i] ^ (((words[j] & ((numeric_limits<word64>::max()
+            state[j] = state[i] ^ (((state[j] & ((numeric_limits<word64>::max()
                     << (numeric_limits<word64>::digits - w + r))
-                    >> (numeric_limits<word64>::digits - w))) | (words[k] & (numeric_limits<word64>::max()
+                    >> (numeric_limits<word64>::digits - w))) | (state[k] & (numeric_limits<word64>::max()
                     >> (numeric_limits<word64>::digits - r)))) >> 1);
-            if ((words[k] & 1ull) == 1ull) {
-                words[j] ^= a;
+            if ((state[k] & 1ull) == 1ull) {
+                state[j] ^= a;
             }
         }
 
-        mutable std::valarray<word64> words;
-        mutable natural i = 0;
+        mutable std::valarray<word64> state;
+        mutable natural index = 0;
     };
 
     /**
