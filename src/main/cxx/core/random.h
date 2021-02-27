@@ -353,7 +353,6 @@ namespace especia {
                 state[k] = ((state[k - 1] ^ (state[k - 1] >> (w - 2))) * mult1 + k) &
                            (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
             }
-
             index = n;
         }
 
@@ -368,29 +367,28 @@ namespace especia {
             using std::numeric_limits;
 
             reset(19650218ull);
-            index = 1;
 
+            natural i = 1;
             for (natural j = 0, k = max(n, seed_count); k > 0; --k) {
-                state[index] = ((state[index] ^ ((state[index - 1] ^ (state[index - 1] >> (w - 2))) * mult2)) + seeds[j] + j) &
+                state[i] = ((state[i] ^ ((state[i - 1] ^ (state[i - 1] >> (w - 2))) * mult2)) + seeds[j] + j) &
                            (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
-                if (++index >= n) {
+                if (++i >= n) {
                     state[0] = state[n - 1];
-                    index = 1;
+                    i = 1;
                 }
                 if (++j >= seed_count) {
                     j = 0;
                 }
             }
             for (natural k = n - 1; k > 0; --k) {
-                state[index] = ((state[index] ^ ((state[index - 1] ^ (state[index - 1] >> (w - 2))) * mult3)) - index) &
+                state[i] = ((state[i] ^ ((state[i - 1] ^ (state[i - 1] >> (w - 2))) * mult3)) - i) &
                            (numeric_limits<word64>::max() >> (numeric_limits<word64>::digits - w));
-                if (++index >= n) {
+                if (++i >= n) {
                     state[0] = state[n - 1];
-                    index = 1;
+                    i = 1;
                 }
             }
             state[0] = (1ull << (w - 1));
-
             index = n;
         }
 
