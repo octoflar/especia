@@ -1,5 +1,4 @@
-#!/usr/bin/env sh
-# Runs an Especia result HTML and searches for expected values, if specified
+#!/usr/bin/env bash
 # Copyright (c) 2021 Ralf Quast
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,22 +19,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# usage: erun {result file} {target file} [values]
+# usage: update-copyright [FILE]...
 set -e
 
-source=$1
-target=$2
+if [ $# -lt 1 ]; then
+    echo "usage: $0 [FILE]..."
+    exit 1
+fi
 
-ecom=$(dirname "$0")/ecom
-emod=$(dirname "$0")/emod
-elog=$(dirname "$0")/elog
-# shellcheck disable=SC2094
-# shellcheck disable=SC2091
-${emod} < "${source}" | $(${ecom} < "${source}") | tee "${target}" | ${elog}
+bindir=$(dirname "$0")
 
-shift
-shift
-for value in "$@"
-do
-    grep --quiet --fixed-strings "<td><strong>""${value}""</strong></td>" "${target}"
+for filename in "$@"; do
+    sed -f "${bindir}"/update-copyright.sed -i .backup "${filename}"
+done
+
+for filename in "$@"; do
+    rm -f "${filename}".backup
 done

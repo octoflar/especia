@@ -1,6 +1,6 @@
 /// @file dataio.h
 /// Data input and output procedures.
-/// Copyright (c) 2020 Ralf Quast
+/// Copyright (c) 2021 Ralf Quast
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
