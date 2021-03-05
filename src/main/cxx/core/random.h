@@ -31,9 +31,7 @@
 namespace especia {
 
     /**
-     * A maximally equidistributed F2-linear generator (MELG). This MELG is formally
-     * designated 'MELG19937-64'. It has a state of 2,496 bytes and yields a 64-bit
-     * output word.
+     * A maximally equidistributed F2-linear generator (MELG).
      *
      * Further reading:
      *
@@ -43,11 +41,14 @@ namespace especia {
      * <http://doi.acm.org/10.1145/3159444>, <http://arxiv.org/abs/1505.06582>
      *
      * @tparam w The the number of bits in a word.
+     * @tparam n The parameter n.
+     * @tparam m The parameter m.
+     * @tparam l The parameter l.
      * @tparam mult1 A multiplier (used for initialisation).
      * @tparam mult2 A multiplier (used for initialisation).
      * @tparam mult3 A multiplier (used for initialisation).
     */
-    template<natural w, word64 mult1, word64 mult2, word64 mult3>
+    template<natural w, natural n, natural m, natural l, word64 mult1, word64 mult2, word64 mult3>
     class Melg {
     public:
         /**
@@ -55,7 +56,7 @@ namespace especia {
          *
          * @param[in] seed The seed.
          */
-        explicit Melg(const word64 seed) : state(N + 1) { // NOLINT
+        explicit Melg(const word64 seed) : state(n + 1) { // NOLINT
             const word64 seeds[] = {seed & 0x00000000FFFFFFFFull, seed & 0xFFFFFFFF00000000ull};
 
             reset(2, seeds);
@@ -67,7 +68,7 @@ namespace especia {
          * @param[in] seed_count The number of seeds.
          * @param[in] seeds The seeds.
          */
-        Melg(const natural seed_count, const word64 seeds[]) : state(N + 1) { // NOLINT
+        Melg(const natural seed_count, const word64 seeds[]) : state(n + 1) { // NOLINT
             reset(seed_count, seeds);
         }
 
@@ -101,35 +102,35 @@ namespace especia {
             switch (cycle) {
                 case 1:
                     next = rock(index, index + 1);
-                    roll(next, index + M);
-                    next = twist(next, index, index + L);
+                    roll(next, index + m);
+                    next = twist(next, index, index + l);
                     index++;
-                    if (index == N - M) {
+                    if (index == n - m) {
                         cycle = 2;
                     }
                     break;
                 case 2:
                     next = rock(index, index + 1);
-                    roll(next, index + M - N);
-                    next = twist(next, index, index + L);
+                    roll(next, index + m - n);
+                    next = twist(next, index, index + l);
                     index++;
-                    if (index == N - L) {
+                    if (index == n - l) {
                         cycle = 3;
                     }
                     break;
                 case 3:
                     next = rock(index, index + 1);
-                    roll(next, index + M - N);
-                    next = twist(next, index, index - (N - L));
+                    roll(next, index + m - n);
+                    next = twist(next, index, index - (n - l));
                     index++;
-                    if (index == N - 1) {
+                    if (index == n - 1) {
                         cycle = 4;
                     }
                     break;
                 case 4:
-                    next = rock(N - 1, 0);
-                    roll(next, M - 1);
-                    next = twist(next, N - 1, index - (N - L));
+                    next = rock(n - 1, 0);
+                    roll(next, m - 1);
+                    next = twist(next, n - 1, index - (n - l));
                     index = 0;
                     cycle = 1;
                     break;
@@ -147,7 +148,7 @@ namespace especia {
         void reset(const word64 seed) {
             state[0] = seed;
 
-            for (index = 1; index < N + 1; index++) {
+            for (index = 1; index < n + 1; index++) {
                 state[index] = (state[index - 1] ^ (state[index - 1] >> (w - 2))) * mult1 + index;
             }
 
@@ -168,27 +169,27 @@ namespace especia {
 
             natural i = 1;
             natural j = 0;
-            for (natural k = max(N, seed_count); k > 0; k--) {
+            for (natural k = max(n, seed_count); k > 0; k--) {
                 state[i] = (state[i] ^ ((state[i - 1] ^ (state[i - 1] >> (w - 2))) * mult2)) + seeds[j] + j;
                 i++;
                 j++;
-                if (i >= N) {
-                    state[0] = state[N - 1];
+                if (i >= n) {
+                    state[0] = state[n - 1];
                     i = 1;
                 }
                 if (j >= seed_count) {
                     j = 0;
                 }
             }
-            for (natural k = N - 1; k > 0; k--) {
+            for (natural k = n - 1; k > 0; k--) {
                 state[i] = (state[i] ^ ((state[i - 1] ^ (state[i - 1] >> (w - 2))) * mult3)) - i;
                 i++;
-                if (i >= N) {
-                    state[0] = state[N - 1];
+                if (i >= n) {
+                    state[0] = state[n - 1];
                     i = 1;
                 }
             }
-            state[N] = (state[N] ^ ((state[N - 1] ^ (state[N - 1] >> (w - 2))) * mult3)) - N;
+            state[n] = (state[n] ^ ((state[n - 1] ^ (state[n - 1] >> (w - 2))) * mult3)) - n;
             state[0] = (state[0] | (1ull << (w - 1)));
 
             index = 0;
@@ -200,27 +201,23 @@ namespace especia {
         }
 
         void roll(const word64 word, const natural i) const {
-            state[N] = (word >> 1) ^ (((word & 1ull) != 0ull) ? 0x5C32E06DF730FC42ull : 0ull) ^ state[i] ^ (state[N] ^ (state[N] << 23));
+            state[n] = (word >> 1) ^ (((word & 1ull) != 0ull) ? 0x5C32E06DF730FC42ull : 0ull) ^ state[i] ^ (state[n] ^ (state[n] << 23));
         }
 
         word64 twist(const word64 word, const natural i, const natural k) const {
-            state[i] = word ^ (state[N] ^ (state[N] >> 33));
+            state[i] = word ^ (state[n] ^ (state[n] >> 33));
             return state[i] ^ (state[i] << 16) ^ (state[k] & 0x6AEDE6FD97B338ECull);
         }
 
         mutable std::valarray<word64> state;
         mutable natural index;
         mutable natural cycle;
-
-        static const natural L = 19;
-        static const natural M = 81;
-        static const natural N = 311;
     };
 
     /**
      * The MELG19937-64 with 2,496 bytes of state and 64-bit output.
      */
-    typedef Melg<64, 6364136223846793005ull, 3935559000370003845ull, 2862933555777941757ull> Melg19937_64;
+    typedef Melg<64, 311, 81, 19, 6364136223846793005ull, 3935559000370003845ull, 2862933555777941757ull> Melg19937_64;
 
 
     /**
@@ -235,7 +232,7 @@ namespace especia {
      *
      * Further reading:
      *
-     * M. Matsumoto, T. Nishimura (1998).
+     * m. Matsumoto, T. Nishimura (1998).
      *   *Mersenne Twister: A 623-dimensionally equidistributed uniform pseudorandom number generator.*
      *   ACM Transactions on Modeling and Computer Simulation, 8, 3, ISSN 1049-3301.
      *
