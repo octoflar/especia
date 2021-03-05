@@ -48,6 +48,8 @@ include_directories(${CMAKE_BINARY_DIR})
 
 configure_file(${MAIN}/cxx-filtered/config.h config.h @ONLY)
 configure_file(${MAIN}/scripts/erun erun COPYONLY)
+configure_file(${MAIN}/scripts-filtered/update-copyright update-copyright @ONLY)
+configure_file(${MAIN}/scripts-filtered/update-copyright.sed update-copyright.sed @ONLY)
 
 configure_file(${TEST}/resources/especid_test.html resources/especid_test.html COPYONLY)
 configure_file(${TEST}/resources/especiv_test.html resources/especiv_test.html COPYONLY)

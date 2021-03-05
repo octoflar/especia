@@ -27,10 +27,8 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-bindir=$(dirname "$0")
-
 for filename in "$@"; do
-    sed -f "${bindir}"/update-copyright.sed -i .backup "${filename}"
+    sed -f "@CMAKE_BINARY_DIR@"/update-copyright.sed -i .backup "${filename}"
 done
 
 for filename in "$@"; do
