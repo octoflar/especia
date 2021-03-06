@@ -1,4 +1,4 @@
-[Evolution strategies applied to the problem of line profile decomposition in QSO spectra](https://zenodo.org/record/4587244/files/fit.gif "This animation illustrates the decomposition of an ensemble of absorption lines into individual model components by means of an evolution strategy with covariance matrix adaption. Even after random initialisation, the evolution strategy eventually finds the optimal parametric model (blue line) for the noisy spectroscopic data (red dots).")
+[![Evolution strategies applied to the problem of line profile decomposition in QSO spectra](https://zenodo.org/record/4587244/files/fit.gif "This animation illustrates the decomposition of an ensemble of absorption lines into individual model components by means of an evolution strategy with covariance matrix adaption. Even after random initialisation, the evolution strategy eventually finds the optimal parametric model (blue line) for the noisy spectroscopic data (red dots).")]
 
 # Synopsis
 
