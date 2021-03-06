@@ -1,5 +1,4 @@
-
-<img src="https://zenodo.org/record/4587314/files/fit.gif" alt="Evolution strategies applied to the problem of line profile decomposition in QSO spectra" longdesc="https://doi.org/10.5281/zenodo">
+<a href="https://doi.org/10.5281/zenodo"><img src="https://zenodo.org/record/4587314/files/fit.gif" alt="Evolution strategies applied to the problem of line profile decomposition in QSO spectra"></a>
 
 # Synopsis
 
@@ -63,4 +62,4 @@ Zenodo. [DOI 10.5281/zenodo.784203](https://doi.org/10.5281/zenodo.784203).
 This software is developed with CLion. I very much appreciate [JetBrains](https://jb.gg/OpenSource)
 for supporting this project with an Open Source license for the JetBrains All Products Pack.
 
-<img height="200" src="assets/img/jb4-crimson.png" alt="JetBrains logo" longdesc="https://jb.gg/OpenSource">
+<a href="https://jb.gg/OpenSource"><img height="200" src="assets/img/jb4-crimson.png" alt="JetBrains logo"></a>
