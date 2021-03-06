@@ -62,4 +62,4 @@ Zenodo. [DOI 10.5281/zenodo.784203](https://doi.org/10.5281/zenodo.784203).
 Especia is developed with CLion. I very much appreciate [JetBrains](https://jb.gg/OpenSource)
 for supporting this project with an Open Source license for the JetBrains All Products Pack.
 
-<a href="https://jb.gg/OpenSource"><img height="240" src="assets/img/jb4-crimson.png" alt="JetBrains logo"></a>
+<a href="https://jb.gg/OpenSource"><img style="max-width:240px; object-fit:contain" src="assets/img/jb4-crimson.png" alt="JetBrains logo"></a>
