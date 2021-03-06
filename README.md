@@ -68,4 +68,6 @@ Zenodo. [DOI 10.5281/zenodo.784203](https://doi.org/10.5281/zenodo.784203).
 This software is developed with CLion. I very much appreciate [JetBrains](https://jb.gg/OpenSource) 
 for supporting this project with an Open Source license for the JetBrains All Products Pack.
 
-
+<div style="background-color:#ec7b75">
+<img src="assets/img/jetbrains-variant-4.png" width="215" height="120" alt="JetBrains Logo Variant 4">
+</div>
