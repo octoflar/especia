@@ -23,9 +23,10 @@ before you clone the [source code reposirory](https://github.com/octoflar/especi
 or download a [release version](https://github.com/octoflar/especia/releases).
 
 Building Especia requires [CMake](https://cmake.org) and a compiler that implements
-[C++11](https://en.wikipedia.org/wiki/C%2B%2B11). For additional prerequisites consult
-the [build instructions](https://github.com/octoflar/especia/wiki/Build-instructions). The software runs on various
-variants of macOS (including Big Sur on Intel and M1 machines) and Linux.
+[C++11](https://en.wikipedia.org/wiki/C%2B%2B11). For additional information on
+prerequisites consult the [build instructions](https://github.com/octoflar/especia/wiki/Build-instructions).
+Especia runs on various variants of macOS (including Big Sur on Intel and M1 machines)
+and Linux.
 
 To build and test the Especia software `cd` into the project root directory and type:
 
