@@ -7,11 +7,11 @@ Due to the use of evolution strategies with covariance matrix adaption, the inve
 competitive and capable of calculating the optimal spectral decomposition without requiring any particular
 initialisation.
 
+[![Animation](https://zenodo.org/record/4587314/files/fit.gif "Evolution strategies applied to the problem of line profile decomposition in QSO spectra")](https://doi.org/10.5281/zenodo.785424)
+
 Additional highlights are the joint modelling and optimisation of the background continuum, and an accurate
 semi-analytic convolution of the absorption term with the instrumental function. The method is explained in detail by
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
-
-[![Animation](https://zenodo.org/record/4587314/files/fit.gif "Evolution strategies applied to the problem of line profile decomposition in QSO spectra")](https://doi.org/10.5281/zenodo.785424)
 
 # Getting started [![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia)
 
