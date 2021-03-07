@@ -1,6 +1,6 @@
 # Acknowledgements
 
-Especia is developed with CLion. I very much appreciate [JetBrains](https://jb.gg/OpenSource)
+Especia is developed using [CLion](https://www.jetbrains.com/clion/). I very much appreciate [JetBrains](https://jb.gg/OpenSource)
 for supporting this project with an Open Source license for the JetBrains All Products Pack.
 
 The beginnings of this software have been developed as part of research funded by the Verbundforschung
