@@ -5,5 +5,11 @@
 
 body {
   // add custom styles here, e.g,
-  // background-color: white;
+  // background-color: #cdcdcd;
+}
+
+img[src*="#logo"] {
+  min-height: 200px;
+  max-height: 240px;
+  object-fit: scale-down;
 }
