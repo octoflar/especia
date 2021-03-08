@@ -1,4 +1,4 @@
-[![Animation](https://zenodo.org/record/4587314/files/fit.gif#cover "Evolution strategies applied to the problem of line profile decomposition in QSO spectra")](https://doi.org/10.5281/zenodo.785424)
+[![Animation](https://zenodo.org/record/4587314/files/fit.gif "Evolution strategies applied to the problem of line profile decomposition in QSO spectra")](https://doi.org/10.5281/zenodo.785424)
 
 The Evolutionary spectrum inversion and analysis (Especia) file set provides ISO C++ code for the inverse modelling and
 analysis of intergalactic and interstellar absorption line regions seen in QSO spectra.
@@ -61,4 +61,4 @@ Zenodo. [DOI 10.5281/zenodo.784203](https://doi.org/10.5281/zenodo.784203).
 Especia is developed using [CLion](https://www.jetbrains.com/clion/). I very much appreciate [JetBrains](https://jb.gg/OpenSource)
 for supporting this project with an Open Source license for the JetBrains All Products Pack.
 
-[![Logo](assets/img/jb4-crimson.png#logo "JetBrains logo")](https://jb.gg/OpenSource)
+[![Logo](assets/img/jb4-crimson.png "JetBrains logo")](https://jb.gg/OpenSource)
