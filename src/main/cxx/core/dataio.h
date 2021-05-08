@@ -1,5 +1,5 @@
-//! @file dataio.h
-//! Data input and output procedures.
+/// @file dataio.h
+/// Data input and output procedures.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

@@ -1,5 +1,5 @@
-//! @file exitcodes.h
-//! Application error exit codes.
+/// @file exitcodes.h
+/// Application error exit codes.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

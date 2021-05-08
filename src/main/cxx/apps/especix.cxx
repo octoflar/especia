@@ -1,5 +1,5 @@
-//! @file especix.cxx
-//! Especia for intergalactic metal and damped H I, He I, II lines (high accuracy).
+/// @file especix.cxx
+/// Especia for intergalactic metal and damped H I, He I, II lines (high accuracy).
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

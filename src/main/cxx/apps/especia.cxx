@@ -1,5 +1,5 @@
-//! @file especia.cxx
-//! Especia for inferring the variation of the fine-structure constant.
+/// @file especia.cxx
+/// Especia for inferring the variation of the fine-structure constant.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

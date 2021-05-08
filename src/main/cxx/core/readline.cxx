@@ -1,5 +1,5 @@
-//! @file readline.cxx
-//! Data input procedures.
+/// @file readline.cxx
+/// Data input procedures.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

@@ -1,5 +1,5 @@
-//! @file eeet.cxx
-//! Utility to merge separated spectral flux and uncertainty data
+/// @file eeet.cxx
+/// Utility to merge separated spectral flux and uncertainty data
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

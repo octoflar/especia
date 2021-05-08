@@ -1,5 +1,5 @@
-//! @file optimizer.cxx
-//! CMA-ES classes for nonlinear function optimization.
+/// @file optimizer.cxx
+/// CMA-ES classes for nonlinear function optimization.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

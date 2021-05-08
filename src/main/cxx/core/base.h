@@ -1,5 +1,5 @@
-//! @file base.h
-//! Base types, mathematical and physical constants and functions.
+/// @file base.h
+/// Base types, mathematical and physical constants and functions.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

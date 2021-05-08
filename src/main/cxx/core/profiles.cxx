@@ -1,5 +1,5 @@
-//! @file profiles.cxx
-//! Profile functions.
+/// @file profiles.cxx
+/// Profile functions.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

@@ -1,5 +1,5 @@
-//! @file decompose.h
-//! Symmetric eigenproblem solvers calling LAPACK routines.
+/// @file decompose.h
+/// Symmetric eigenproblem solvers calling LAPACK routines.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

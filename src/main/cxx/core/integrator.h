@@ -1,5 +1,5 @@
-//! @file integrator.h
-//! Numerical integration.
+/// @file integrator.h
+/// Numerical integration.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

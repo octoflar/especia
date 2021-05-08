@@ -1,5 +1,5 @@
-//! @file profiles.h
-//! Profile funtions.
+/// @file profiles.h
+/// Profile funtions.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

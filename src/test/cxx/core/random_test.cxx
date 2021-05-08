@@ -1,5 +1,5 @@
-//! @file random_test.cxx
-//! Unit tests
+/// @file random_test.cxx
+/// Unit tests
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

@@ -1,5 +1,5 @@
-//! @file ecom.cxx
-//! Program to extract the command line from an Especia result HTML file
+/// @file ecom.cxx
+/// Program to extract the command line from an Especia result HTML file
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

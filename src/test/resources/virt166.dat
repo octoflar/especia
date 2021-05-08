@@ -1,25 +1,8 @@
-# Simulated data (C I 1561 toward HE 0515-4414)
-# Copyright (c) 2021 Ralf Quast
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-#
-# Created by Robert Baade, University of Hamburg, Germany.
+## @brief Simulated data (C I 1561 toward HE 0515-4414)
+## @author Robert Baade, University of Hamburg, Germany
+## @author Ralf Quast
+## @date 2021
+## @copyright MIT License
    3562.01249999699        1.01880519880429       1.879716291706537E-002
    3562.02499999699        1.01636012255930       1.872609588419409E-002
    3562.03749999699        1.02199691174804       1.877350379768808E-002

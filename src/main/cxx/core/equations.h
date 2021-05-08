@@ -1,5 +1,5 @@
-//! @file equations.h
-//! Equations from scientific literature.
+/// @file equations.h
+/// Equations from scientific literature.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

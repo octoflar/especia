@@ -1,5 +1,5 @@
-//! @file vactoair.cxx
-//! Utility to convert photon wavelength from vacuum to air
+/// @file vactoair.cxx
+/// Utility to convert photon wavelength from vacuum to air
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

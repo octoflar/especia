@@ -1,5 +1,5 @@
-//! @file emes.cxx
-//! Program to extract messages from an Especia result HTML file
+/// @file emes.cxx
+/// Program to extract messages from an Especia result HTML file
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

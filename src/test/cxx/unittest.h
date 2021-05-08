@@ -1,5 +1,5 @@
-//! @file unittest.h
-//! Simple unit testing framework
+/// @file unittest.h
+/// Simple unit testing framework
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

@@ -1,5 +1,5 @@
-//! @file emod.cxx
-//! Program to extract the model definition from an Especia result HTML file
+/// @file emod.cxx
+/// Program to extract the model definition from an Especia result HTML file
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

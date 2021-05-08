@@ -1,5 +1,5 @@
-//! @file random.h
-//! Function-like class templates to generate random numbers.
+/// @file random.h
+/// Function-like class templates to generate random numbers.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

@@ -1,5 +1,5 @@
-//! @file config.h
-//! Configuration constants.
+/// @file config.h
+/// Configuration constants.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

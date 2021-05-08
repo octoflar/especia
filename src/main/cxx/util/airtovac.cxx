@@ -1,5 +1,5 @@
-//! @file airtovac.cxx
-//! Utility to convert photon wavelength from air to vacuum
+/// @file airtovac.cxx
+/// Utility to convert photon wavelength from air to vacuum
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

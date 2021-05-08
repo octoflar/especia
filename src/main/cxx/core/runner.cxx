@@ -1,5 +1,5 @@
-//! @file runner.h
-//! The model runner.
+/// @file runner.h
+/// The model runner.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

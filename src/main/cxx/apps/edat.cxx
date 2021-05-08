@@ -1,5 +1,5 @@
-//! @file edat.cxx
-//! Program to extract the spectroscopic data from an Especia result HTML file
+/// @file edat.cxx
+/// Program to extract the spectroscopic data from an Especia result HTML file
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

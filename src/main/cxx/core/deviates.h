@@ -1,5 +1,5 @@
-//! @file deviates.h
-//! Function-like class templates for generating various random deviates.
+/// @file deviates.h
+/// Function-like class templates for generating various random deviates.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

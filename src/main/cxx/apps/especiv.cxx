@@ -1,5 +1,5 @@
-//! @file especiv.cxx
-//! Especia for intergalactic metal and damped H I, He I, II lines.
+/// @file especiv.cxx
+/// Especia for intergalactic metal and damped H I, He I, II lines.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

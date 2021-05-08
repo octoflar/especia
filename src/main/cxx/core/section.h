@@ -1,5 +1,5 @@
-//! @file section.h
-//! Class for modeling spectroscopic data sections.
+/// @file section.h
+/// Class for modeling spectroscopic data sections.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

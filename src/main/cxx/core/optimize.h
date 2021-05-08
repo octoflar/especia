@@ -1,5 +1,5 @@
-//! @file optimize.h
-//! CMA-ES function templates for nonlinear function optimization.
+/// @file optimize.h
+/// CMA-ES function templates for nonlinear function optimization.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

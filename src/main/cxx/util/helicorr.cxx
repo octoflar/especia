@@ -1,5 +1,5 @@
-//! @file helicorr.cxx
-//! Utility to apply a heliocentric (or barycentric) velocity correction
+/// @file helicorr.cxx
+/// Utility to apply a heliocentric (or barycentric) velocity correction
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License

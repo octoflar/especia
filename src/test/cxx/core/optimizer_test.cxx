@@ -1,5 +1,5 @@
-//! @file optimizer_test.cxx
-//! Unit tests
+/// @file optimizer_test.cxx
+/// Unit tests
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License
@@ -62,7 +62,7 @@ private:
         return real(1.0E+06) * sq(x[0]) + y;
     }
 
-    //! [The Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function)
+    /// [The Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function)
     static real rosenbrock(const real x[], natural n) {
         using especia::sq;
 

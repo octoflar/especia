@@ -1,5 +1,5 @@
-//! @file model.h
-//! Parametric model for fitting absorption line regions.
+/// @file model.h
+/// Parametric model for fitting absorption line regions.
 /// @author Ralf Quast
 /// @date 2021
 /// @copyright MIT License
