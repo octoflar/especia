@@ -100,7 +100,7 @@ namespace especia {
     ///
     /// @tparam T The number type.
     ///
-    /// @param[in] x The dimension of the vector.
+    /// @param[in] n The dimension of the vector.
     /// @param[in] x The vector.
     /// @return the L-2 norm of the vector.
     template<class T = real>
