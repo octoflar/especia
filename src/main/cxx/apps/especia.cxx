@@ -15,24 +15,15 @@ using namespace std;
 /// Flavor of Especia to infer the variation of the fine-structure constant.
 ///
 /// @param argc The number of command line arguments.
-/// @param argv The command line arguments:
-/// @parblock
-/// @c argv[0] The program name.
-///
-/// @c argv[1] The random seed.
-///
-/// @c argv[2] The parent number.
-///
-/// @c argv[3] The population size.
-///
-/// @c argv[4] The initial global step size.
-///
-/// @c argv[5] The accuracy goal.
-///
-/// @c argv[6] The stop generation number.
-///
-/// @c argv[7] The trace modulus.
-/// @endparblock
+/// @param argc The number of command line arguments.
+/// @param argv[0] The program name.
+/// @param argv[1] The random seed.
+/// @param argv[2] The parent number.
+/// @param argv[3] The population size.
+/// @param argv[4] The initial global step size.
+/// @param argv[5] The accuracy goal.
+/// @param argv[6] The stop generation number.
+/// @param argv[7] The trace modulus.
 /// @return an exit code
 ///
 /// @remark Usage: especia {seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]

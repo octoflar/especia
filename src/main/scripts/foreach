@@ -4,7 +4,7 @@
 ## @author Ralf Quast
 ## @date 2021
 ## @copyright MIT License
-## @attention usage: foreach {command} [file]...
+## @remark usage: foreach {command} [file]...
 set -e
 
 if [ $# -lt 1 ]; then

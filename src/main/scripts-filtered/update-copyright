@@ -4,7 +4,7 @@
 ## @author Ralf Quast
 ## @date 2021
 ## @copyright MIT License
-## @attention usage: update-copyright [file]...
+## @remark usage: update-copyright [file]...
 set -e
 
 if [ $# -lt 1 ]; then

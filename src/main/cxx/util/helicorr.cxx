@@ -28,16 +28,11 @@ void write_usage_message(ostream &os, const string &pname) {
 /// spectroscopic data.
 ///
 /// @param argc The number of command line arguments supplied.
-/// @param argv The command line arguments:
-/// @parblock
-/// @c argv[0] The program name.
-///
-/// @c argv[1] The velocity of the observer relative to the heliocenter (or
+/// @param argv[0] The program name.
+/// @param argv[1] The velocity of the observer relative to the heliocenter (or
 /// barycenter) of the solar system (m s-1) projected along the line of sight
 /// toward the observed object.
-///
-/// @c argv[2] The number of lines to skip at the beginning (optional, default = 0).
-/// @endparblock
+/// @param argv[2] The number of lines to skip at the beginning (optional, default = 0).
 /// @return an exit code.
 ///
 /// @remark Usage: helicorr {velocity (m s-1)} [lines to skip] < {source file} [> {target file}]

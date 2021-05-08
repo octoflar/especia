@@ -31,12 +31,8 @@ using especia::real;
 ///  Journal of the Optical Society of America, 43, 5, 339.
 ///
 /// @param argc The number of command line arguments supplied.
-/// @param argv The command line arguments:
-/// @parblock
-/// @c argv[0] The program name.
-///
-/// @c argv[1] The number of lines to skip at the beginning (optional, default = 0).
-/// @endparblock
+/// @param argv[0] The program name.
+/// @param argv[1] The number of lines to skip at the beginning (optional, default = 0).
 /// @return an exit code.
 ///
 /// @remark Usage: vactoair [lines to skip] < {source file} [> {target file}]
