@@ -20,22 +20,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# usage: erun {result file} {target file} [values]
+# usage: erun {resultFile} {targetFile} [value]...
 set -e
 
-source=$1
-target=$2
+if [ $# -lt 2 ]; then
+    echo "usage: $0 {resultFile} {targetFile} [value]..."
+    exit 1
+fi
+
+resultFile="$1"
+targetFile="$2"
 
 ecom=$(dirname "$0")/ecom
 emod=$(dirname "$0")/emod
 elog=$(dirname "$0")/elog
 # shellcheck disable=SC2094
 # shellcheck disable=SC2091
-${emod} < "${source}" | $(${ecom} < "${source}") | tee "${target}" | ${elog}
+${emod} < "${resultFile}" | $(${ecom} < "${resultFile}") | tee "${targetFile}" | ${elog}
 
 shift
 shift
-for value in "$@"
+for value in "${@}"
 do
-    grep --quiet --fixed-strings "<td><strong>""${value}""</strong></td>" "${target}"
+    grep --quiet --fixed-strings "<td><strong>""${value}""</strong></td>" "${targetFile}"
 done
