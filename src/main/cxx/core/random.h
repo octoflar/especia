@@ -37,7 +37,7 @@ namespace especia {
         ///
         /// @param[in] seed The seed.
         explicit Melg(const word64 seed) : state(n + 1) { // NOLINT
-            const word64 seeds[] = {seed & 0x00000000FFFFFFFFull, seed & 0xFFFFFFFF00000000ull};
+            const word64 seeds[] = {seed & 0x00000000FFFFFFFFULL, seed & 0xFFFFFFFF00000000ULL};
 
             reset(2, seeds);
         }
@@ -69,7 +69,7 @@ namespace especia {
         ///
         /// @return a random word.
         word64 rand() const {
-            word64 next = 0ull;
+            word64 next = 0ULL;
 
             switch (cycle) {
                 case 1:
@@ -133,7 +133,7 @@ namespace especia {
         void reset(const natural seed_count, const word64 seeds[]) {
             using std::max;
 
-            reset(19650218ull);
+            reset(19650218ULL);
 
             natural i = 1;
             natural j = 0;
@@ -158,23 +158,23 @@ namespace especia {
                 }
             }
             state[n] = (state[n] ^ ((state[n - 1] ^ (state[n - 1] >> (w - 2))) * mult3)) - n;
-            state[0] = (state[0] | (1ull << (w - 1)));
+            state[0] = (state[0] | (1ULL << (w - 1)));
 
             index = 0;
             cycle = 1;
         }
 
         word64 rock(const natural i, const natural k) const {
-            return (state[i] & 0xFFFFFFFF80000000ull) | (state[k] & 0x7FFFFFFFull);
+            return (state[i] & 0xFFFFFFFF80000000ULL) | (state[k] & 0x7FFFFFFFULL);
         }
 
         void roll(const word64 word, const natural i) const {
-            state[n] = (word >> 1) ^ (((word & 1ull) != 0ull) ? 0x5C32E06DF730FC42ull : 0ull) ^ state[i] ^ (state[n] ^ (state[n] << 23));
+            state[n] = (word >> 1) ^ (((word & 1ULL) != 0ULL) ? 0x5C32E06DF730FC42ULL : 0ULL) ^ state[i] ^ (state[n] ^ (state[n] << 23));
         }
 
         word64 twist(const word64 word, const natural i, const natural k) const {
             state[i] = word ^ (state[n] ^ (state[n] >> 33));
-            return state[i] ^ (state[i] << 16) ^ (state[k] & 0x6AEDE6FD97B338ECull);
+            return state[i] ^ (state[i] << 16) ^ (state[k] & 0x6AEDE6FD97B338ECULL);
         }
 
         mutable std::valarray<word64> state;
@@ -183,7 +183,7 @@ namespace especia {
     };
 
     /// The MELG19937-64 with 2,496 bytes of state and 64-bit output.
-    typedef Melg<64, 311, 81, 19, 6364136223846793005ull, 3935559000370003845ull, 2862933555777941757ull> Melg19937_64;
+    typedef Melg<64, 311, 81, 19, 6364136223846793005ULL, 3935559000370003845ULL, 2862933555777941757ULL> Melg19937_64;
 
 
     /// The Mersenne twister algorithm to generate [0,1] uniformly distributed
@@ -234,8 +234,8 @@ namespace especia {
         /// Constructs a new instance of this functor.
         ///
         /// @param[in] seed The seed.
-        explicit Mersenne_Twister(const word64 seed = 9600629759793949339ull) : state(n) { // NOLINT
-            const word64 seeds[] = {seed & 0x00000000FFFFFFFFull, seed & 0xFFFFFFFF00000000ull};
+        explicit Mersenne_Twister(const word64 seed = 9600629759793949339ULL) : state(n) { // NOLINT
+            const word64 seeds[] = {seed & 0x00000000FFFFFFFFULL, seed & 0xFFFFFFFF00000000ULL};
 
             reset(2, seeds);
         }
@@ -314,7 +314,7 @@ namespace especia {
             using std::max;
             using std::numeric_limits;
 
-            reset(19650218ull);
+            reset(19650218ULL);
 
             natural i = 1;
             for (natural j = 0, k = max(n, seed_count); k > 0; --k) {
@@ -336,7 +336,7 @@ namespace especia {
                     i = 1;
                 }
             }
-            state[0] = (1ull << (w - 1));
+            state[0] = (1ULL << (w - 1));
             index = n;
         }
 
@@ -347,7 +347,7 @@ namespace especia {
                     << (numeric_limits<word64>::digits - w + r))
                     >> (numeric_limits<word64>::digits - w))) | (state[k] & (numeric_limits<word64>::max()
                     >> (numeric_limits<word64>::digits - r)))) >> 1);
-            if ((state[k] & 1ull) == 1ull) {
+            if ((state[k] & 1ULL) == 1ULL) {
                 state[j] ^= a;
             }
         }
@@ -357,18 +357,18 @@ namespace especia {
     };
 
     /// The MT-1121A-32.
-    typedef Mersenne_Twister<32, 351, 175, 19, 0xE4BD75F5ull, 11, 0xFFFFFFFFull, 7, 0x655E5280ull,
-            15, 0xFFD58000ull, 17, 1812433253ull, 1664525ull, 1566083941ull> Mt11213a_32;
+    typedef Mersenne_Twister<32, 351, 175, 19, 0xE4BD75F5ULL, 11, 0xFFFFFFFFULL, 7, 0x655E5280ULL,
+            15, 0xFFD58000ULL, 17, 1812433253ULL, 1664525ULL, 1566083941ULL> Mt11213a_32;
     /// The MT-1121B-32.
-    typedef Mersenne_Twister<32, 351, 175, 19, 0xCCAB8EE7ull, 11, 0xFFFFFFFFull, 7, 0x31B6AB00ull,
-            15, 0xFFE50000ull, 17, 1812433253ull, 1664525ull, 1566083941ull> Mt11213b_32;
+    typedef Mersenne_Twister<32, 351, 175, 19, 0xCCAB8EE7ULL, 11, 0xFFFFFFFFULL, 7, 0x31B6AB00ULL,
+            15, 0xFFE50000ULL, 17, 1812433253ULL, 1664525ULL, 1566083941ULL> Mt11213b_32;
     /// The MT-19937-32.
-    typedef Mersenne_Twister<32, 624, 397, 31, 0x9908B0DFull, 11, 0xFFFFFFFFull, 7, 0x9D2C5680ull,
-            15, 0xEFC60000ull, 18, 1812433253ull, 1664525ull, 1566083941ull> Mt19937_32;
+    typedef Mersenne_Twister<32, 624, 397, 31, 0x9908B0DFULL, 11, 0xFFFFFFFFULL, 7, 0x9D2C5680ULL,
+            15, 0xEFC60000ULL, 18, 1812433253ULL, 1664525ULL, 1566083941ULL> Mt19937_32;
 
     /// The MT-19937-64.
-    typedef Mersenne_Twister<64, 312, 156, 31, 0xB5026F5AA96619E9ull, 29, 0x5555555555555555ull, 17, 0x71D67FFFEDA60000ull,
-            37, 0xFFF7EEE000000000ull, 43, 6364136223846793005ull, 3935559000370003845ull, 2862933555777941757ull> Mt19937_64;
+    typedef Mersenne_Twister<64, 312, 156, 31, 0xB5026F5AA96619E9ULL, 29, 0x5555555555555555ULL, 17, 0x71D67FFFEDA60000ULL,
+            37, 0xFFF7EEE000000000ULL, 43, 6364136223846793005ULL, 3935559000370003845ULL, 2862933555777941757ULL> Mt19937_64;
 
 
     /// PCG algorithm  to generate [0,1] uniformly distributed random deviates. Based on
@@ -388,8 +388,8 @@ namespace especia {
         ///
         /// @param[in] seed The seed.
         /// @param[in] selector The sequence selector.
-        explicit Pcg(const word64 seed = 9600629759793949339ull, const word64 selector = 7863035247680335341ul) : inc((selector << 1) | 1ull) {
-            state = 0ull;
+        explicit Pcg(const word64 seed = 9600629759793949339ULL, const word64 selector = 7863035247680335341UL) : inc((selector << 1) | 1ULL) {
+            state = 0ULL;
             rand();
             state += seed;
             rand();
@@ -402,7 +402,7 @@ namespace especia {
         ///
         /// @return a real-valued random number in [0, 1].
         real operator()() const {
-            return rand() / real(0xFFFFFFFFul);
+            return rand() / real(0xFFFFFFFFUL);
         }
 
         /// Returns a new random word.
@@ -413,7 +413,7 @@ namespace especia {
             state = saved * mult + inc;
             const word32 s = (((saved >> 18) ^ saved) >> 27);
             const word32 r = saved >> 59;
-            return ((s >> r) | (s << ((-r) & 31ul)));
+            return ((s >> r) | (s << ((-r) & 31UL)));
         }
 
     private:
@@ -425,7 +425,7 @@ namespace especia {
     };
 
     /// The PCG-XSH-RR with 64-bit state and 32-bit output.
-    typedef Pcg<6364136223846793005ull> Pcg_32;
+    typedef Pcg<6364136223846793005ULL> Pcg_32;
 
 }
 

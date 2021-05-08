@@ -12,19 +12,19 @@
 
 namespace especia {
 
-   /// A class template to generate random normal deviates.
-   ///
-   /// The algorithm uses the polar method (e.g. Knuth, 1998,
-   /// Sec. 3.4.1, Algorithm P) to generate standard normally distributed random
-   /// deviates.
-   ///
-   /// Further reading:
-   ///
-   /// D. Knuth (1998).
-   ///  *The art of computer programming 2. Seminumerical algorithms.*
-   ///  Addison Wesley Longman, ISBN 0-201-89684-2.
-   ///
-   /// @tparam U The strategy to generate random uniform deviates.
+    /// A class template to generate random normal deviates.
+    ///
+    /// The algorithm uses the polar method (e.g. Knuth, 1998,
+    /// Sec. 3.4.1, Algorithm P) to generate standard normally distributed random
+    /// deviates.
+    ///
+    /// Further reading:
+    ///
+    /// D. Knuth (1998).
+    ///  *The art of computer programming 2. Seminumerical algorithms.*
+    ///  Addison Wesley Longman, ISBN 0-201-89684-2.
+    ///
+    /// @tparam U The strategy to generate random uniform deviates.
     template<class U>
     class Normal_Deviate {
     public:
