@@ -31,21 +31,15 @@
 #include <utility>
 
 
-/**
- * The base class to be inherited by all unit-level tests.
- */
+/// The base class to be inherited by all unit-level tests.
 class Unit_Test {
 public:
-    /**
-     * The destructor.
-     */
+    /// The destructor.
     virtual ~Unit_Test() = default;
 
-    /**
-     * Runs the testsuite.
-     *
-     * @return an exit code.
-     */
+    /// Runs the testsuite.
+    ///
+    /// @return an exit code.
     int run_testsuite() {
         using std::endl;
         using std::exception;
@@ -65,87 +59,63 @@ public:
     }
 
 protected:
-    /**
-     * The type of exception thrown when an assertion fails.
-     */
+    /// The type of exception thrown when an assertion fails.
     class Assertion_Error : public std::exception {
     public:
-        /**
-         * The constructor.
-         *
-         * @param what A description of the failed assertion.
-         */
+        /// The constructor.
+        ///
+        /// @param what A description of the failed assertion.
         explicit Assertion_Error(std::string what) : exception(), what_happened(std::move(what)) {
         }
 
-        /**
-         * The destructor.
-         */
+        /// The destructor.
         ~Assertion_Error() override = default;
 
-        /**
-         * Returns a description of the failed assertion.
-         *
-         * @return the description of the failed assertion.
-         */
+        /// Returns a description of the failed assertion.
+        ///
+        /// @return the description of the failed assertion.
         const char* what() const noexcept override {
             return what_happened.c_str();
         }
 
     private:
-        /**
-         * The description of the failed assertion.
-         */
+        /// The description of the failed assertion.
         std::string what_happened;
     };
 
-    /**
-     * The constructor.
-     */
+    /// The constructor.
     Unit_Test() = default;
 
-    /**
-     * Method called before any test case will be executed.
-     */
+    /// Method called before any test case will be executed.
     virtual void before_all() {
 
     }
 
-    /**
-     * Method called after all test cases have been executed.
-     */
+    /// Method called after all test cases have been executed.
     virtual void after_all() {
 
     }
 
-    /**
-     * Method called before each test case.
-     */
+    /// Method called before each test case.
     virtual void before() {
 
     }
 
-    /**
-     * Method called after each test case.
-     */
+    /// Method called after each test case.
     virtual void after() {
 
     }
 
-    /**
-     * Runs all test cases.
-     */
+    /// Runs all test cases.
     virtual void run_all() = 0;
 
-    /**
-     * Runs a test case.
-     *
-     * @tparam C The test class.
-     * @tparam T The test case type.
-     *
-     * @param c A pointer to the test class.
-     * @param t A pointer to the test case.
-     */
+    /// Runs a test case.
+    ///
+    /// @tparam C The test class.
+    /// @tparam T The test case type.
+    ///
+    /// @param c A pointer to the test class.
+    /// @param t A pointer to the test case.
     template<class C, class T>
     void run(C c, T t) {
         before();
@@ -153,17 +123,15 @@ protected:
         after();
     }
 
-    /**
-     * Asserts equality of two values.
-     *
-     * @tparam E The expected type.
-     * @tparam A The actual type.
-     *
-     * @param expected The expected value.
-     * @param actual The actual value.
-     * @param name The assertion name.
-     * @throw an @c Assertion_Error if requested.
-     */
+    /// Asserts equality of two values.
+    ///
+    /// @tparam E The expected type.
+    /// @tparam A The actual type.
+    ///
+    /// @param expected The expected value.
+    /// @param actual The actual value.
+    /// @param name The assertion name.
+    /// @throw an @c Assertion_Error if requested.
     template<class E, class A>
     void assert_equals(const E &expected, const A &actual, const std::string &name = "unnamed assertion") const {
         using std::cerr;
@@ -181,18 +149,16 @@ protected:
         }
     }
 
-    /**
-     * Asserts equality of two values with some (absolute) tolerance.
-     *
-     * @tparam E The expected type.
-     * @tparam A The actual type.
-     *
-     * @param expected The expected value.
-     * @param actual The actual value.
-     * @param tolerance The (absolute) tolerance.
-     * @param name The assertion name.
-     * @throw an @c Assertion_Error if requested.
-     */
+    /// Asserts equality of two values with some (absolute) tolerance.
+    ///
+    /// @tparam E The expected type.
+    /// @tparam A The actual type.
+    ///
+    /// @param expected The expected value.
+    /// @param actual The actual value.
+    /// @param tolerance The (absolute) tolerance.
+    /// @param name The assertion name.
+    /// @throw an @c Assertion_Error if requested.
     template<class E, class A>
     void assert_equals(const E &expected, const A &actual, const E &tolerance,
                        const std::string &name = "unnamed assertion") const {
@@ -211,35 +177,29 @@ protected:
         }
     }
 
-    /**
-     * Asserts @c false.
-     *
-     * @param actual The actual value.
-     * @param name The assertion name.
-     * @throw an @c Assertion_Error if requested.
-     */
+    /// Asserts @c false.
+    ///
+    /// @param actual The actual value.
+    /// @param name The assertion name.
+    /// @throw an @c Assertion_Error if requested.
     void assert_false(const bool actual, const std::string &name = "unnamed assertion") const {
         assert_equals(false, actual, name);
     }
 
-    /**
-     * Asserts @c true.
-     *
-     * @param actual The actual value.
-     * @param name The assertion name.
-     * @throw an @c Assertion_Error if requested.
-     */
+    /// Asserts @c true.
+    ///
+    /// @param actual The actual value.
+    /// @param name The assertion name.
+    /// @throw an @c Assertion_Error if requested.
     void assert_true(const bool actual, const std::string &name = "unnamed assertion") const {
         assert_equals(true, actual, name);
     }
 
 private:
-    /**
-     * Handles a failed assertion.
-     *
-     * @param what A description of the failed assertion.
-     * @throw an @c Assertion_Error if requested.
-     */
+    /// Handles a failed assertion.
+    ///
+    /// @param what A description of the failed assertion.
+    /// @throw an @c Assertion_Error if requested.
     void handle_failed(const std::string &what) const {
         using std::endl;
 
@@ -251,11 +211,9 @@ private:
         }
     }
 
-    /**
-     * Handles a passed assertion.
-     *
-     * @param name The name of the passed assertion.
-     */
+    /// Handles a passed assertion.
+    ///
+    /// @param name The name of the passed assertion.
     void handle_passed(const std::string &name) const {
         using std::endl;
 
@@ -264,29 +222,19 @@ private:
         }
     }
 
-    /**
-     * Issue a message when an assertion failed?
-     */
+    /// Issue a message when an assertion failed?
     bool message_on_failed = false;
 
-    /**
-     * Issue a message when an assertion passed?
-     */
+    /// Issue a message when an assertion passed?
     bool message_on_passed = true;
 
-    /**
-     * Throw an exception when an assertion failed?
-     */
+    /// Throw an exception when an assertion failed?
     bool throw_on_failed = true;
 
-    /**
-     * The output stream for error messages.
-     */
+    /// The output stream for error messages.
     std::ostream &err = std::cerr;
 
-    /**
-     * The output stream for other messages.
-     */
+    /// The output stream for other messages.
     std::ostream &out = std::cout;
 };
 

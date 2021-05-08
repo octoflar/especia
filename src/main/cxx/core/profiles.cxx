@@ -37,46 +37,38 @@ using especia::sqrt_of_ln_two;
 using especia::sqrt_of_pi;
 
 
-/**
- * The Gaussian.
- *
- * @param[in] x The abscissa value (arbitrary unit).
- * @param[in] gamma The width (arbitrary unit).
- * @return the value of the Gaussian at @c x.
- */
+/// The Gaussian.
+///
+/// @param[in] x The abscissa value (arbitrary unit).
+/// @param[in] gamma The width (arbitrary unit).
+/// @return the value of the Gaussian at @c x.
 static real f_g(const real &x, const real &gamma) {
     return (1.0 / (sqrt_of_pi * gamma)) * exp(-sq(x / gamma));
 }
 
-/**
- * The Lorentzian.
- *
- * @param[in] x The abscissa value (arbitrary unit).
- * @param[in] gamma The width (arbitrary unit).
- * @return the value of the Lorentzian at @c x.
- */
+/// The Lorentzian.
+///
+/// @param[in] x The abscissa value (arbitrary unit).
+/// @param[in] gamma The width (arbitrary unit).
+/// @return the value of the Lorentzian at @c x.
 static real f_l(const real &x, const real &gamma) {
     return 1.0 / ((pi * gamma) * (1.0 + sq(x / gamma)));
 }
 
-/**
- * The irrational function used in the extended pseudo-Voigt approximation.
- *
- * @param[in] x The abscissa value (arbitrary unit).
- * @param[in] gamma The width (arbitrary unit).
- * @return the value of the function at @c x.
- */
+/// The irrational function used in the extended pseudo-Voigt approximation.
+///
+/// @param[in] x The abscissa value (arbitrary unit).
+/// @param[in] gamma The width (arbitrary unit).
+/// @return the value of the function at @c x.
 static real f_i(const real &x, const real &gamma) {
     return 1.0 / ((2.0 * gamma) * pow(1.0 + sq(x / gamma), 1.5));
 }
 
-/**
- * The squared hyperbolic secant function used in the extended pseudo-Voigt approximation.
- *
- * @param[in] x The abscissa value (arbitrary unit).
- * @param[in] gamma The width (arbitrary unit).
- * @return the value of the function at @c x.
- */
+/// The squared hyperbolic secant function used in the extended pseudo-Voigt approximation.
+///
+/// @param[in] x The abscissa value (arbitrary unit).
+/// @param[in] gamma The width (arbitrary unit).
+/// @return the value of the function at @c x.
 static real f_p(const real &x, const real &gamma) {
     return 1.0 / (2.0 * gamma * sq(cosh(x / gamma)));
 }

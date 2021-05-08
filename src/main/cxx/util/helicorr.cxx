@@ -33,35 +33,31 @@ using especia::natural;
 using especia::real;
 
 
-/**
- * Writes the usage message to an output stream.
- *
- * @param os The ouput stream.
- * @param pname The program name.
- */
+/// Writes the usage message to an output stream.
+///
+/// @param os The ouput stream.
+/// @param pname The program name.
 void write_usage_message(ostream &os, const string &pname) {
     os << "usage: " << pname << " {velocity (m s-1)} [skip] < {source data file} [> {target data file}]" << endl;
 }
 
-/**
- * Utility to apply the heliocentric (or barycentric) velocity correction to
- * spectroscopic data.
- *
- * @param argc The number of command line arguments supplied.
- * @param argv The command line arguments:
- * @parblock
- * @c argv[0] The program name.
- *
- * @c argv[1] The velocity of the observer relative to the heliocenter (or
- * barycenter) of the solar system (m s-1) projected along the line of sight
- * toward the observed object.
- *
- * @c argv[2] The number of lines to skip at the beginning (optional, default = 0).
- * @endparblock
- * @return an exit code.
- *
- * @remark Usage: helicorr {velocity (m s-1)} [lines to skip] < {source file} [> {target file}]
- */
+/// Utility to apply the heliocentric (or barycentric) velocity correction to
+/// spectroscopic data.
+///
+/// @param argc The number of command line arguments supplied.
+/// @param argv The command line arguments:
+/// @parblock
+/// @c argv[0] The program name.
+///
+/// @c argv[1] The velocity of the observer relative to the heliocenter (or
+/// barycenter) of the solar system (m s-1) projected along the line of sight
+/// toward the observed object.
+///
+/// @c argv[2] The number of lines to skip at the beginning (optional, default = 0).
+/// @endparblock
+/// @return an exit code.
+///
+/// @remark Usage: helicorr {velocity (m s-1)} [lines to skip] < {source file} [> {target file}]
 int main(int argc, char *argv[]) {
     const string program_name(argv[0]);
 

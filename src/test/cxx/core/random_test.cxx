@@ -65,7 +65,7 @@ private:
         assert_equals(4228976476ull, mt.rand(), "test MT-19937-32 (4)");
         assert_equals(3344332714ull, mt.rand(), "test MT-19937-32 (5)");
     }
-  
+
     void test_mt19937_64() {
         using especia::word64;
 
@@ -82,7 +82,7 @@ private:
 
     void test_pcg() {
         const Pcg_32 pcg(42ull, 54ull);
-      
+
         assert_equals(0xa15c02b7ul, pcg.rand(), "test PCG-XSH-RR-64-32 (0)");
         assert_equals(0x7b47f409ul, pcg.rand(), "test PCG-XSH-RR-64-32 (1)");
         assert_equals(0xba1d3330ul, pcg.rand(), "test PCG-XSH-RR-64-32 (2)");
@@ -90,8 +90,8 @@ private:
         assert_equals(0xbfa4784bul, pcg.rand(), "test PCG-XSH-RR-64-32 (4)");
         assert_equals(0xcbed606eul, pcg.rand(), "test PCG-XSH-RR-64-32 (5)");
     }
-  
-    
+
+
     void run_all() override {
         run(this, &Rng_Test::test_melg19937_64);
         run(this, &Rng_Test::test_mt19937_32);

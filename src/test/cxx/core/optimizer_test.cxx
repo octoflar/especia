@@ -115,7 +115,7 @@ private:
     void after() override {
         builder.with_defaults();
     }
-  
+
     void test_minimize_sphere() {
         const valarray<real> x(real(1), 10);
         const valarray<real> d(real(1), 10);

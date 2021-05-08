@@ -41,14 +41,10 @@ using especia::integer;
 #define LAPACK_NAME_R_TYPE(x) LAPACK_NAME_DOUBLE(x)
 
 extern "C" {
-/**
- * Interface to LAPACK routine @c [DS]LAMCH.
- */
+/// Interface to LAPACK routine @c [DS]LAMCH.
 real LAPACK_NAME_R_TYPE(lamch)(const char &cmach);
 
-/**
- * Interface to LAPACK routine @c [DS]SYEVD.
- */
+/// Interface to LAPACK routine @c [DS]SYEVD.
 void LAPACK_NAME_R_TYPE(syevd)(const char &job,
                                const char &uplo,
                                const integer &n,
@@ -61,9 +57,7 @@ void LAPACK_NAME_R_TYPE(syevd)(const char &job,
                                const integer &liwork,
                                integer &info);
 
-/**
- * Interface to LAPACK routine @c [DS]SYEVR.
- */
+/// Interface to LAPACK routine @c [DS]SYEVR.
 void LAPACK_NAME_R_TYPE(syevr)(const char &job,
                                const char &range,
                                const char &uplo,
@@ -86,9 +80,7 @@ void LAPACK_NAME_R_TYPE(syevr)(const char &job,
                                const integer &liwork,
                                integer &info);
 
-/**
- * Interface to LAPACK routine @c [DS]SYEVX.
- */
+/// Interface to LAPACK routine @c [DS]SYEVX.
 void LAPACK_NAME_R_TYPE(syevx)(const char &job,
                                const char &range,
                                const char &uplo,
@@ -111,39 +103,25 @@ void LAPACK_NAME_R_TYPE(syevx)(const char &job,
                                integer &info);
 }
 
-/**
- * The LAPACK job parameter (here: compute eigenvalues and eigenvectors).
- */
+/// The LAPACK job parameter (here: compute eigenvalues and eigenvectors).
 static const char job = 'V';
 
-/**
- * The LAPACK range parameter (here: compute all eigenvalues and eigenvectors).
- */
+/// The LAPACK range parameter (here: compute all eigenvalues and eigenvectors).
 static const char range = 'A';
 
-/**
- * The LAPACK matrix store parameter (here: use the upper triangular part)
- */
+/// The LAPACK matrix store parameter (here: use the upper triangular part)
 static const char uplo = 'U';
 
-/**
- * The LAPACK lower range limit (here: not used).
- */
+/// The LAPACK lower range limit (here: not used).
 static const real vl = 0.0;
 
-/**
- * The LAPACK upper range limit (here: not used).
- */
+/// The LAPACK upper range limit (here: not used).
 static const real vu = 0.0;
 
-/**
- * The LAPACK lower range index (here: not used).
- */
+/// The LAPACK lower range index (here: not used).
 static const integer il = 0;
 
-/**
- * The LAPACK upper range index (here: not used).
- */
+/// The LAPACK upper range index (here: not used).
 static const integer iu = 0;
 
 

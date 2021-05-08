@@ -33,32 +33,30 @@ using especia::natural;
 using especia::real;
 
 
-/**
- * Utility to convert photon wavelength (Angstrom) in spectroscopic data from air
- * to vacuum.
- *
- * Further reading:
- *
- * B. Edlen (1966).
- *   *The refractive index of air.*
- *   Metrologia, 2, 2, 71-80.
- *   http://dx.doi.org/10.1088/0026-1394/2/2/002
- *
- * B. Edlen (1953).
- *   *The dispersion of standard air.*
- *   Journal of the Optical Society of America, 43, 5, 339.
- *
- * @param argc The number of command line arguments supplied.
- * @param argv The command line arguments:
- * @parblock
- * @c argv[0] The program name.
- *
- * @c argv[1] The number of lines to skip at the beginning (optional, default = 0).
- * @endparblock
- * @return an exit code.
- *
- * @remark Usage: airtovac [lines to skip] < {source file} [> {target file}]
- */
+/// Utility to convert photon wavelength (Angstrom) in spectroscopic data from air
+/// to vacuum.
+///
+/// Further reading:
+///
+/// B. Edlen (1966).
+///  *The refractive index of air.*
+///  Metrologia, 2, 2, 71-80.
+///  http://dx.doi.org/10.1088/0026-1394/2/2/002
+///
+/// B. Edlen (1953).
+///  *The dispersion of standard air.*
+///  Journal of the Optical Society of America, 43, 5, 339.
+///
+/// @param argc The number of command line arguments supplied.
+/// @param argv The command line arguments:
+/// @parblock
+/// @c argv[0] The program name.
+///
+/// @c argv[1] The number of lines to skip at the beginning (optional, default = 0).
+/// @endparblock
+/// @return an exit code.
+///
+/// @remark Usage: airtovac [lines to skip] < {source file} [> {target file}]
 int main(int argc, char *argv[]) {
     using especia::Equations;
 

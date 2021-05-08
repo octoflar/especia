@@ -24,14 +24,12 @@
 
 using namespace std;
 
-/**
- * Extracts the command from Especia result HTML. Reads from standard
- * input and writes to standard output.
- *
- * @return an exit code.
- *
- * @remark Usage: ecom < {result file} [> {target file}]
- */
+/// Extracts the command from Especia result HTML. Reads from standard
+/// input and writes to standard output.
+///
+/// @return an exit code.
+///
+/// @remark Usage: ecom < {result file} [> {target file}]
 int main() {
     bool found = false;
     string s;

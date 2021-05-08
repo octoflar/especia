@@ -24,14 +24,12 @@
 
 using namespace std;
 
-/**
- * Extracts the section data from Especia result HTML. Reads from standard
- * input and writes to standard output.
- *
- * @return an exit code.
- *
- * @remark Usage: edat < {result file} [> {target file}]
- */
+/// Extracts the section data from Especia result HTML. Reads from standard
+/// input and writes to standard output.
+///
+/// @return an exit code.
+///
+/// @remark Usage: edat < {result file} [> {target file}]
 int main() {
     bool found = false;
     string s;

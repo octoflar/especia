@@ -24,14 +24,12 @@
 
 using namespace std;
 
-/**
- * Extracts the log data from Especia result HTML. Reads from standard
- * input and writes to standard output.
- *
- * @return an exit code.
- *
- * @remark Usage: elog < {result file} [> {target file}]
- */
+/// Extracts the log data from Especia result HTML. Reads from standard
+/// input and writes to standard output.
+///
+/// @return an exit code.
+///
+/// @remark Usage: elog < {result file} [> {target file}]
 int main() {
     bool found = false;
     string s;

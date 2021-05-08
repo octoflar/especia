@@ -24,14 +24,12 @@
 
 using namespace std;
 
-/**
- * Extracts status messages from Especia result HTML. Reads from standard
- * input and writes to standard output.
- *
- * @return an exit code.
- *
- * @remark Usage: emes < {result file} [> {target file}]
- */
+/// Extracts status messages from Especia result HTML. Reads from standard
+/// input and writes to standard output.
+///
+/// @return an exit code.
+///
+/// @remark Usage: emes < {result file} [> {target file}]
 int main() {
     bool found = false;
     string s;

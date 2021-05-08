@@ -31,58 +31,48 @@
 
 namespace especia {
 
-    /**
-     * A maximally equidistributed F2-linear generator (MELG).
-     *
-     * Further reading:
-     *
-     * S. Harase and T. Kimoto (2018).
-     * Implementing 64-bit maximally equidistributed F2-linear generators with Mersenne prime period.
-     * ACM Transactions on Mathematical Software, 44, 3, 30.
-     * <http://doi.acm.org/10.1145/3159444>, <http://arxiv.org/abs/1505.06582>
-     *
-     * @tparam w The the number of bits in a word.
-     * @tparam n The parameter n.
-     * @tparam m The parameter m.
-     * @tparam l The parameter l.
-     * @tparam mult1 A multiplier (used for initialisation).
-     * @tparam mult2 A multiplier (used for initialisation).
-     * @tparam mult3 A multiplier (used for initialisation).
-    */
+    /// A maximally equidistributed F2-linear generator (MELG).
+    ///
+    /// Further reading:
+    ///
+    /// S. Harase and T. Kimoto (2018).
+    /// Implementing 64-bit maximally equidistributed F2-linear generators with Mersenne prime period.
+    /// ACM Transactions on Mathematical Software, 44, 3, 30.
+    /// <http://doi.acm.org/10.1145/3159444>, <http://arxiv.org/abs/1505.06582>
+    ///
+    /// @tparam w The the number of bits in a word.
+    /// @tparam n The parameter n.
+    /// @tparam m The parameter m.
+    /// @tparam l The parameter l.
+    /// @tparam mult1 A multiplier (used for initialisation).
+    /// @tparam mult2 A multiplier (used for initialisation).
+    /// @tparam mult3 A multiplier (used for initialisation).
     template<natural w, natural n, natural m, natural l, word64 mult1, word64 mult2, word64 mult3>
     class Melg {
     public:
-        /**
-         * Constructs a new instance of this functor.
-         *
-         * @param[in] seed The seed.
-         */
+        /// Constructs a new instance of this functor.
+        ///
+        /// @param[in] seed The seed.
         explicit Melg(const word64 seed) : state(n + 1) { // NOLINT
             const word64 seeds[] = {seed & 0x00000000FFFFFFFFull, seed & 0xFFFFFFFF00000000ull};
 
             reset(2, seeds);
         }
 
-        /**
-         * Constructs a new instance of this functor.
-         *
-         * @param[in] seed_count The number of seeds.
-         * @param[in] seeds The seeds.
-         */
+        /// Constructs a new instance of this functor.
+        ///
+        /// @param[in] seed_count The number of seeds.
+        /// @param[in] seeds The seeds.
         Melg(const natural seed_count, const word64 seeds[]) : state(n + 1) { // NOLINT
             reset(seed_count, seeds);
         }
 
-        /**
-         * The destructor.
-         */
+        /// The destructor.
         ~Melg() = default;
 
-        /**
-         * Returns a new real-valued  random number in the interval  [0, 1].
-         *
-         * @return a real-valued random number in [0, 1].
-         */
+        /// Returns a new real-valued  random number in the interval  [0, 1].
+        ///
+        /// @return a real-valued random number in [0, 1].
         real operator()() const {
             using std::numeric_limits;
             // the maximum mantissa value for a real number
@@ -92,11 +82,9 @@ namespace especia {
             return (w < numeric_limits<real>::digits ? rand() : rand() >> (w - numeric_limits<real>::digits)) * (1.0 / max_mantissa);
         }
 
-        /**
-         * Returns a new  random word.
-         *
-         * @return a random word.
-         */
+        /// Returns a new  random word.
+        ///
+        /// @return a random word.
         word64 rand() const {
             word64 next = 0ull;
 
@@ -141,11 +129,9 @@ namespace especia {
         }
 
     private:
-        /**
-         * Resets this algorithm.
-         *
-         * @param[in] seed The seed.
-         */
+        /// Resets this algorithm.
+        ///
+        /// @param[in] seed The seed.
         void reset(const word64 seed) {
             state[0] = seed;
 
@@ -157,12 +143,10 @@ namespace especia {
             cycle = 1;
         }
 
-        /**
-         * Resets this algorithm.
-         *
-         * @param[in] seed_count The number of seeds.
-         * @param[in] seeds The seeds.
-         */
+        /// Resets this algorithm.
+        ///
+        /// @param[in] seed_count The number of seeds.
+        /// @param[in] seeds The seeds.
         void reset(const natural seed_count, const word64 seeds[]) {
             using std::max;
 
@@ -215,48 +199,44 @@ namespace especia {
         mutable natural cycle;
     };
 
-    /**
-     * The MELG19937-64 with 2,496 bytes of state and 64-bit output.
-     */
+    /// The MELG19937-64 with 2,496 bytes of state and 64-bit output.
     typedef Melg<64, 311, 81, 19, 6364136223846793005ull, 3935559000370003845ull, 2862933555777941757ull> Melg19937_64;
 
 
-    /**
-     * The Mersenne twister algorithm to generate [0,1] uniformly distributed
-     * random deviates.
-     *
-     * This functor template is based on the 2002/01/26 version coded by Takuji
-     * Nishimura and Makoto Matsumoto(Matsumoto and Nishimura, 1998).
-     *
-     * The notation of template parameters follows Matsumoto and
-     * Nishimura (1998, Table 2).
-     *
-     * Further reading:
-     *
-     * m. Matsumoto, T. Nishimura (1998).
-     *   *Mersenne Twister: A 623-dimensionally equidistributed uniform pseudorandom number generator.*
-     *   ACM Transactions on Modeling and Computer Simulation, 8, 3, ISSN 1049-3301.
-     *
-     * D. Knuth (1998).
-     *   *The art of computer programming 2. Seminumerical algorithms*.
-     *   Addison Wesley Longman, ISBN 0-201-89684-2.
-     *
-     * @tparam w The number of bits in a word.
-     * @tparam n The parameter n.
-     * @tparam m The parameter m.
-     * @tparam r The parameter r.
-     * @tparam a The parameter a.
-     * @tparam u The parameter u.
-     * @tparam d The parameter d.
-     * @tparam s The parameter s.
-     * @tparam b The parameter b.
-     * @tparam t The parameter t.
-     * @tparam c The parameter c.
-     * @tparam l The parameter l.
-     * @tparam mult1 A multiplier (used for initialisation).
-     * @tparam mult2 A multiplier (used for initialisation).
-     * @tparam mult3 A multiplier (used for initialisation).
-     */
+    /// The Mersenne twister algorithm to generate [0,1] uniformly distributed
+    /// random deviates.
+    ///
+    /// This functor template is based on the 2002/01/26 version coded by Takuji
+    /// Nishimura and Makoto Matsumoto(Matsumoto and Nishimura, 1998).
+    ///
+    /// The notation of template parameters follows Matsumoto and
+    /// Nishimura (1998, Table 2).
+    ///
+    /// Further reading:
+    ///
+    /// m. Matsumoto, T. Nishimura (1998).
+    ///  *Mersenne Twister: A 623-dimensionally equidistributed uniform pseudorandom number generator.*
+    ///  ACM Transactions on Modeling and Computer Simulation, 8, 3, ISSN 1049-3301.
+    ///
+    /// D. Knuth (1998).
+    ///  *The art of computer programming 2. Seminumerical algorithms*.
+    ///  Addison Wesley Longman, ISBN 0-201-89684-2.
+    ///
+    /// @tparam w The number of bits in a word.
+    /// @tparam n The parameter n.
+    /// @tparam m The parameter m.
+    /// @tparam r The parameter r.
+    /// @tparam a The parameter a.
+    /// @tparam u The parameter u.
+    /// @tparam d The parameter d.
+    /// @tparam s The parameter s.
+    /// @tparam b The parameter b.
+    /// @tparam t The parameter t.
+    /// @tparam c The parameter c.
+    /// @tparam l The parameter l.
+    /// @tparam mult1 A multiplier (used for initialisation).
+    /// @tparam mult2 A multiplier (used for initialisation).
+    /// @tparam mult3 A multiplier (used for initialisation).
     template<natural w, natural n, natural m, natural r,
             word64 a,
             natural u, word64 d,
@@ -268,37 +248,29 @@ namespace especia {
             word64 mult3>
     class Mersenne_Twister {
     public:
-        /**
-         * Constructs a new instance of this functor.
-         *
-         * @param[in] seed The seed.
-         */
+        /// Constructs a new instance of this functor.
+        ///
+        /// @param[in] seed The seed.
         explicit Mersenne_Twister(const word64 seed = 9600629759793949339ull) : state(n) { // NOLINT
             const word64 seeds[] = {seed & 0x00000000FFFFFFFFull, seed & 0xFFFFFFFF00000000ull};
 
             reset(2, seeds);
         }
 
-        /**
-         * Constructs a new instance of this functor.
-         *
-         * @param[in] seed_count The number of seeds.
-         * @param[in] seeds The seeds.
-         */
+        /// Constructs a new instance of this functor.
+        ///
+        /// @param[in] seed_count The number of seeds.
+        /// @param[in] seeds The seeds.
         Mersenne_Twister(const natural seed_count, const word64 seeds[]) : state(n) { // NOLINT
             reset(seed_count, seeds);
         }
 
-        /**
-         * The destructor.
-         */
+        /// The destructor.
         ~Mersenne_Twister() = default;
 
-        /**
-         * Returns a new real-valued  random number in the interval  [0, 1].
-         *
-         * @return a real-valued random number in [0, 1].
-         */
+        /// Returns a new real-valued  random number in the interval  [0, 1].
+        ///
+        /// @return a real-valued random number in [0, 1].
         real operator()() const {
             using std::numeric_limits;
             // the maximum mantissa value for a real number
@@ -308,11 +280,9 @@ namespace especia {
             return (w < numeric_limits<real>::digits ? rand() : rand() >> (w - numeric_limits<real>::digits)) * (1.0 / max_mantissa);
         }
 
-        /**
-         * Returns a new  random word.
-         *
-         * @return a random word.
-         */
+        /// Returns a new  random word.
+        ///
+        /// @return a random word.
         word64 rand() const {
             if (index == n) {
                 for (natural k = 0; k < n - m; ++k) {
@@ -339,11 +309,9 @@ namespace especia {
         }
 
     private:
-        /**
-         * Resets this algorithm.
-         *
-         * @param[in] seed The seed.
-         */
+        /// Resets this algorithm.
+        ///
+        /// @param[in] seed The seed.
         void reset(const word64 seed) {
             using std::numeric_limits;
 
@@ -355,12 +323,10 @@ namespace especia {
             index = n;
         }
 
-        /**
-         * Resets this algorithm.
-         *
-         * @param[in] seed_count The number of seeds.
-         * @param[in] seeds The seeds.
-         */
+        /// Resets this algorithm.
+        ///
+        /// @param[in] seed_count The number of seeds.
+        /// @param[in] seeds The seeds.
         void reset(const natural seed_count, const word64 seeds[]) {
             using std::max;
             using std::numeric_limits;
@@ -407,50 +373,38 @@ namespace especia {
         mutable natural index = 0;
     };
 
-    /**
-     * The MT-1121A-32.
-     */
+    /// The MT-1121A-32.
     typedef Mersenne_Twister<32, 351, 175, 19, 0xE4BD75F5ull, 11, 0xFFFFFFFFull, 7, 0x655E5280ull,
             15, 0xFFD58000ull, 17, 1812433253ull, 1664525ull, 1566083941ull> Mt11213a_32;
-    /**
-     * The MT-1121B-32.
-     */
+    /// The MT-1121B-32.
     typedef Mersenne_Twister<32, 351, 175, 19, 0xCCAB8EE7ull, 11, 0xFFFFFFFFull, 7, 0x31B6AB00ull,
             15, 0xFFE50000ull, 17, 1812433253ull, 1664525ull, 1566083941ull> Mt11213b_32;
-    /**
-     * The MT-19937-32.
-     */
+    /// The MT-19937-32.
     typedef Mersenne_Twister<32, 624, 397, 31, 0x9908B0DFull, 11, 0xFFFFFFFFull, 7, 0x9D2C5680ull,
             15, 0xEFC60000ull, 18, 1812433253ull, 1664525ull, 1566083941ull> Mt19937_32;
 
-    /**
-     * The MT-19937-64.
-     */
+    /// The MT-19937-64.
     typedef Mersenne_Twister<64, 312, 156, 31, 0xB5026F5AA96619E9ull, 29, 0x5555555555555555ull, 17, 0x71D67FFFEDA60000ull,
             37, 0xFFF7EEE000000000ull, 43, 6364136223846793005ull, 3935559000370003845ull, 2862933555777941757ull> Mt19937_64;
 
 
-    /**
-     * PCG algorithm  to generate [0,1] uniformly distributed random deviates. Based on
-     * Melissa E. O'Neill (2014) and <https://www.pcg-random.org>.
-     *
-     * Further reading:
-     *
-     * Melissa E. O'Neill (2014).
-     *   *PCG: A Family of Simple Fast Space-Efficient Statistically Good Algorithms for Random Number Generation.*
-     *   <https://www.cs.hmc.edu/tr/hmc-cs-2014-0905.pdf>.
-     *
-     * @tparam m The multiplier.
-     */
+    /// PCG algorithm  to generate [0,1] uniformly distributed random deviates. Based on
+    /// Melissa E. O'Neill (2014) and <https://www.pcg-random.org>.
+    ///
+    /// Further reading:
+    ///
+    /// Melissa E. O'Neill (2014).
+    ///  *PCG: A Family of Simple Fast Space-Efficient Statistically Good Algorithms for Random Number Generation.*
+    ///  <https://www.cs.hmc.edu/tr/hmc-cs-2014-0905.pdf>.
+    ///
+    /// @tparam m The multiplier.
     template<word64 mult>
     class Pcg {
     public:
-        /**
-         * Constructs a new instance of this functor.
-         *
-         * @param[in] seed The seed.
-         * @param[in] selector The sequence selector.
-         */
+        /// Constructs a new instance of this functor.
+        ///
+        /// @param[in] seed The seed.
+        /// @param[in] selector The sequence selector.
         explicit Pcg(const word64 seed = 9600629759793949339ull, const word64 selector = 7863035247680335341ul) : inc((selector << 1) | 1ull) {
             state = 0ull;
             rand();
@@ -458,25 +412,19 @@ namespace especia {
             rand();
         }
 
-        /**
-         * The destructor.
-         */
+        /// The destructor.
         ~Pcg() = default;
 
-        /**
-         * Returns a new real-valued  random number in the interval  [0, 1].
-         *
-         * @return a real-valued random number in [0, 1].
-         */
+        /// Returns a new real-valued  random number in the interval  [0, 1].
+        ///
+        /// @return a real-valued random number in [0, 1].
         real operator()() const {
             return rand() / real(0xFFFFFFFFul);
         }
 
-        /**
-         * Returns a new random word.
-         *
-         * @return a random word.
-         */
+        /// Returns a new random word.
+        ///
+        /// @return a random word.
         word32 rand() const {
             const word64 saved = state;
             state = saved * mult + inc;
@@ -486,20 +434,14 @@ namespace especia {
         }
 
     private:
-        /**
-         * The increment.
-         */
+        /// The increment.
         const word64 inc;
 
-        /**
-         * The state.
-         */
+        /// The state.
         mutable word64 state;
     };
 
-    /**
-     * The PCG-XSH-RR with 64-bit state and 32-bit output.
-     */
+    /// The PCG-XSH-RR with 64-bit state and 32-bit output.
     typedef Pcg<6364136223846793005ull> Pcg_32;
 
 }

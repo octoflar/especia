@@ -35,141 +35,113 @@
 
 namespace especia {
 
-    /**
-     * Carries out an optimization run.
-     */
+    /// Carries out an optimization run.
     class Runner {
     public:
 
-        /**
-         * Constructs a new runner from the command line arguments supplied.
-         *
-         * @param argc The number of command line arguments.
-         * @param argv The command line arguments:
-         * @parblock
-         * @c argv[0] The program name.
-         *
-         * @c argv[1] The random seed.
-         *
-         * @c argv[2] The parent number.
-         *
-         * @c argv[3] The population size.
-         *
-         * @c argv[4] The initial global step size.
-         *
-         * @c argv[5] The accuracy goal.
-         *
-         * @c argv[6] The stop generation number.
-         *
-         * @c argv[7] The trace modulus.
-         * @endparblock
-         */
+        /// Constructs a new runner from the command line arguments supplied.
+        ///
+        /// @param argc The number of command line arguments.
+        /// @param argv The command line arguments:
+        /// @parblock
+        /// @c argv[0] The program name.
+        ///
+        /// @c argv[1] The random seed.
+        ///
+        /// @c argv[2] The parent number.
+        ///
+        /// @c argv[3] The population size.
+        ///
+        /// @c argv[4] The initial global step size.
+        ///
+        /// @c argv[5] The accuracy goal.
+        ///
+        /// @c argv[6] The stop generation number.
+        ///
+        /// @c argv[7] The trace modulus.
+        /// @endparblock
         Runner(int argc, char *argv[]);
 
-        /**
-         * The destructor.
-         */
+        /// The destructor.
         ~Runner();
 
-        /**
-         * Returns the command line arguments.
-         *
-         * @return the command line arguments.
-         */
+        /// Returns the command line arguments.
+        ///
+        /// @return the command line arguments.
         const std::vector<std::string> &get_args() const {
             return args;
         }
 
-        /**
-         * Returns the number of command line arguments.
-         *
-         * @return the number of command line arguments.
-         */
+        /// Returns the number of command line arguments.
+        ///
+        /// @return the number of command line arguments.
         size_t get_arg_count() const {
             return args.size();
         }
 
-        /**
-         * Returns the program name.
-         *
-         * @return the program name.
-         */
+        /// Returns the program name.
+        ///
+        /// @return the program name.
         std::string get_program_name() const {
             return std::string(args[0]);
         }
 
-        /**
-         * Parses the accuracy goal.
-         *
-         * @return the accuracy goal.
-         */
+        /// Parses the accuracy goal.
+        ///
+        /// @return the accuracy goal.
         real parse_accuracy_goal() const {
             return convert<real>(args[5]);
         }
 
-        /**
-         * Parses the initial global step size.
-         *
-         * @return the initial global step size.
-         */
+        /// Parses the initial global step size.
+        ///
+        /// @return the initial global step size.
         real parse_global_step_size() const {
             return convert<real>(args[4]);
         }
 
-        /**
-         * Parses the parent number.
-         *
-         * @return the parent number.
-         */
+        /// Parses the parent number.
+        ///
+        /// @return the parent number.
         natural parse_parent_number() const {
             return convert<natural>(args[2]);
         }
 
-        /**
-         * Parses the population size.
-         *
-         * @return the population size.
-         */
+        /// Parses the population size.
+        ///
+        /// @return the population size.
         natural parse_population_size() const {
             return convert<natural>(args[3]);
         }
 
-        /**
-         * Parses the random seed.
-         *
-         * @return the random seed.
-         */
+        /// Parses the random seed.
+        ///
+        /// @return the random seed.
         word64 parse_random_seed() const {
             return convert<word64>(args[1]);
         }
 
-        /**
-         * Parses the stop generation.
-         *
-         * @return the stop generation.
-         */
+        /// Parses the stop generation.
+        ///
+        /// @return the stop generation.
         natural parse_stop_generation() const {
             return convert<natural>(args[6]);
         }
 
-        /**
-         * Parses the trace modulus.
-         *
-         * @return the trace modulus.
-         */
+        /// Parses the trace modulus.
+        ///
+        /// @return the trace modulus.
         natural parse_trace_modulus() const {
             return convert<natural>(args[7]);
         }
 
-        /**
-         * Runs the model supplied as argument.
-         *
-         * @tparam M The model type.
-         *
-         * @return an exit code
-         * @throw invalid_argument when an invalid argument was supplied.
-         * @throw runtime_error when a runtime error occurred.
-         */
+        /// Runs the model supplied as argument.
+        ///
+        /// @tparam M The model type.
+        ///
+        /// @return an exit code
+        /// @throw invalid_argument when an invalid argument was supplied.
+        /// @throw runtime_error when a runtime error occurred.
         template<class M>
         int run() {
             using std::cin;
@@ -252,49 +224,39 @@ namespace especia {
         }
 
     private:
-        /**
-         * Traces optimizer state information to an output stream.
-         *
-         * @tparam T The number type.
-         */
+        /// Traces optimizer state information to an output stream.
+        ///
+        /// @tparam T The number type.
         template<class T = real>
         class Tracer {
         public:
-            /**
-             * The constructor.
-             *
-             * @param[in] output_stream The output stream.
-             * @param[in] modulus The trace modulus.
-             * @param[in] precision The precision of numeric output.
-             * @param[in] width The width of the numeric output fields.
-             */
+            /// The constructor.
+            ///
+            /// @param[in] output_stream The output stream.
+            /// @param[in] modulus The trace modulus.
+            /// @param[in] precision The precision of numeric output.
+            /// @param[in] width The width of the numeric output fields.
             Tracer(std::ostream &output_stream, natural modulus, natural precision = 4, natural width = 12)
                     : os(output_stream), m(modulus), p(precision), w(width) {
             }
 
-            /**
-             * The destructor.
-             */
+            /// The destructor.
             ~Tracer() = default;
 
-            /**
-             * Tests if tracing is enabled.
-             *
-             * @param[in] g The generation number.
-             * @return @true if tracing is enabled, otherwise @c false.
-             */
+            /// Tests if tracing is enabled.
+            ///
+            /// @param[in] g The generation number.
+            /// @return @true if tracing is enabled, otherwise @c false.
             bool is_tracing(natural g) const {
                 return m > 0 and g % m == 0;
             }
 
-            /**
-             * Traces state information to an output stream..
-             *
-             * @param[in] g The generation number.
-             * @param[in] y The value of the objective function.
-             * @param[in] min_step The minimum step size.
-             * @param[in] max_step The maximum step size.
-             */
+            /// Traces state information to an output stream..
+            ///
+            /// @param[in] g The generation number.
+            /// @param[in] y The value of the objective function.
+            /// @param[in] min_step The minimum step size.
+            /// @param[in] max_step The maximum step size.
             void trace(natural g, T y, T min_step, T max_step) const {
                 using std::endl;
                 using std::ios_base;
@@ -329,9 +291,7 @@ namespace especia {
 
         void write_usage_message(std::ostream &os) const;
 
-        /**
-         * The command line arguments.
-         */
+        /// The command line arguments.
         std::vector<std::string> args;
     };
 

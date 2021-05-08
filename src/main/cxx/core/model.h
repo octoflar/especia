@@ -42,45 +42,35 @@
 
 namespace especia {
 
-    /**
-     *
-     * @todo - the whole class needs a cleanup.
-     */
+    ///
+    /// @todo - the whole class needs a cleanup.
     template<class Function>
     class Model {
     public:
 
-        /**
-         * A bounded constraint.
-         *
-         * @tparam T The number type.
-         */
+        /// A bounded constraint.
+        ///
+        /// @tparam T The number type.
         template<class T = real>
         class Bounded_Constraint {
         public:
-            /**
-             * Constructs a new strict-bound prior constraint.
-             *
-             * @param[in] lower_bounds The lower bounds.
-             * @param[in] upper_bounds The upper bounds.
-             * @param[in] n The number of bounds.
-             */
+            /// Constructs a new strict-bound prior constraint.
+            ///
+            /// @param[in] lower_bounds The lower bounds.
+            /// @param[in] upper_bounds The upper bounds.
+            /// @param[in] n The number of bounds.
             Bounded_Constraint(const T lower_bounds[], const T upper_bounds[], natural n)
                     : a(lower_bounds, n), b(upper_bounds, n) {
             }
 
-            /**
-             * The destructor.
-             */
+            /// The destructor.
             ~Bounded_Constraint() = default;
 
-            /**
-             * Tests if a given parameter vector violates the constraint.
-             *
-             * @param[in] x The parameter vector.
-             * @param[in] n The number of parameters to test.
-             * @return @c true, if the parameter vector violates the constraint.
-             */
+            /// Tests if a given parameter vector violates the constraint.
+            ///
+            /// @param[in] x The parameter vector.
+            /// @param[in] n The number of parameters to test.
+            /// @return @c true, if the parameter vector violates the constraint.
             bool is_violated(const T x[], natural n) const {
                 for (natural i = 0; i < n; ++i) {
                     if (x[i] < a[i] || x[i] > b[i]) {
@@ -90,13 +80,11 @@ namespace especia {
                 return false;
             }
 
-            /**
-             * Computes the cost associated with the constraint.
-             *
-             * @param[in] x The parameter vector.
-             * @param[in] n The number of parameters to take account of.
-             * @return always zero.
-             */
+            /// Computes the cost associated with the constraint.
+            ///
+            /// @param[in] x The parameter vector.
+            /// @param[in] n The number of parameters to take account of.
+            /// @return always zero.
             T cost(const T x[], natural n) const {
                 return T(0);
             }

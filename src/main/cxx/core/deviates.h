@@ -29,50 +29,40 @@
 
 namespace especia {
 
-   /**
-    * A class template to generate random normal deviates.
-    *
-    * The algorithm uses the polar method (e.g. Knuth, 1998,
-    * Sec. 3.4.1, Algorithm P) to generate standard normally distributed random
-    * deviates.
-    *
-    * Further reading:
-    *
-    * D. Knuth (1998).
-    *   *The art of computer programming 2. Seminumerical algorithms.*
-    *   Addison Wesley Longman, ISBN 0-201-89684-2.
-    *
-    * @tparam U The strategy to generate random uniform deviates.
-    */
+   /// A class template to generate random normal deviates.
+   ///
+   /// The algorithm uses the polar method (e.g. Knuth, 1998,
+   /// Sec. 3.4.1, Algorithm P) to generate standard normally distributed random
+   /// deviates.
+   ///
+   /// Further reading:
+   ///
+   /// D. Knuth (1998).
+   ///  *The art of computer programming 2. Seminumerical algorithms.*
+   ///  Addison Wesley Longman, ISBN 0-201-89684-2.
+   ///
+   /// @tparam U The strategy to generate random uniform deviates.
     template<class U>
     class Normal_Deviate {
     public:
-        /**
-         * Constructs a new instance of this class from a seed.
-         *
-         * @param[in] seed The seed.
-         */
+        /// Constructs a new instance of this class from a seed.
+        ///
+        /// @param[in] seed The seed.
         explicit Normal_Deviate(word64 seed = 9600629759793949339ull) : uniform_deviate(seed) {
         }
 
-        /**
-         * Constructs a new instance of this class from a uniform deviate.
-         *
-         * @param[in] u The instance of this class to be copied.
-         */
+        /// Constructs a new instance of this class from a uniform deviate.
+        ///
+        /// @param[in] u The instance of this class to be copied.
         explicit Normal_Deviate(const U &u) : uniform_deviate(u) {
         }
 
-        /**
-         * The destructor.
-         */
+        /// The destructor.
         ~Normal_Deviate() = default;
 
-        /**
-         * Returns a normal random number.
-         *
-         * @return a normal random number.
-         */
+        /// Returns a normal random number.
+        ///
+        /// @return a normal random number.
         real operator()() const {
             using std::log;
             using std::sqrt;

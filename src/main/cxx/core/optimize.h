@@ -34,37 +34,29 @@
 
 namespace especia {
 
-    /**
-     * An indirect comparing of indexes.
-     *
-     * @tparam T The base value type.
-     * @tparam Compare The strategy to compare base values directly.
-     */
+    /// An indirect comparing of indexes.
+    ///
+    /// @tparam T The base value type.
+    /// @tparam Compare The strategy to compare base values directly.
     template<class T, class Compare>
     class Index_Compare {
     public:
-        /**
-         * Constructs a new index comparing.
-         *
-         * @param[in] v The base values.
-         * @param[in] c The direct base value comparing.
-         */
+        /// Constructs a new index comparing.
+        ///
+        /// @param[in] v The base values.
+        /// @param[in] c The direct base value comparing.
         Index_Compare(const std::valarray<T> &v, const Compare &c)
                 : values(v), compare(c) {
         }
 
-        /**
-         * The destructor.
-         */
+        /// The destructor.
         ~Index_Compare() = default;
 
-        /**
-         * The index comparing operator.
-         *
-         * @param[in] i An index into the set of base values.
-         * @param[in] j An index into the set of base values.
-         * @return the result of comparing the indexed base values directly.
-         */
+        /// The index comparing operator.
+        ///
+        /// @param[in] i An index into the set of base values.
+        /// @param[in] j An index into the set of base values.
+        /// @return the result of comparing the indexed base values directly.
         bool operator()(const natural &i, const natural &j) const {
             return compare(values[i], values[j]);
         }
@@ -74,58 +66,56 @@ namespace especia {
         const Compare &compare;
     };
 
-    /**
-     * Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear function optimization.
-     * Based on Hansen (2014, http://cma.gforge.inria.fr/purecmaes.m).
-     *
-     * Further reading:
-     *
-     * N. Hansen, S. D. Müller, P. Koumoutsakos (2003).
-     *   *Reducing the Increasing the Time Complexity of the Derandomized Evolution
-     *      Strategy with Covariance Matrix Adaption (CMA-ES).*
-     *   Evolutionary Computation, 11, 1, ISSN 1063-6560.
-     *
-     *  N. Hansen, A. Ostermeier (2001).
-     *    *Completely Derandomized Self-Adaption in Evolution Strategies.*
-     *    Evolutionary Computation, 9, 159, ISSN 1063-6560.
-     *
-     * @tparam F The function type.
-     * @tparam Constraint The constraint type.
-     * @tparam Deviate The strategy to generate random normal deviates.
-     * @tparam Decompose The strategy to perform the symmetric eigenvalue decomposition.
-     * @tparam Compare The strategy to compare fitness.
-     * @tparam Tracing The tracer type.
-     *
-     * @param[in] f The model function.
-     * @param[in] constraint The prior constraint on the parameter values.
-     * @param[in] n The number of parameters.
-     * @param[in] parent_number The number of parents per generation.
-     * @param[in] population_size The number of individuals per generation. Twice the parent number, at least
-     * @param[in] w The recombination weights.
-     * @param[in] step_size_damping The step size damping.
-     * @param[in] cs The step size cumulation rate.
-     * @param[in] cc The distribution cumulation rate.
-     * @param[in] ccov The rank-1 covariance matrix adaption rate.
-     * @param[in] acov The rank-µ covariance matrix adaption rate.
-     * @param[in] update_modulus The covariance matrix update modulus.
-     * @param[in] accuracy_goal The accuracy goal.
-     * @param[in] stop_generation The stop generation.
-     * @param[in,out] g The generation number.
-     * @param[in,out] xw The parameter values.
-     * @param[in,out] step_size The global step size.
-     * @param[in,out] d The local step sizes.
-     * @param[in,out] B The rotation matrix (in column-major layout).
-     * @param[in,out] C The covariance matrix (upper triangular part only, in column-major layout).
-     * @param[in,out] ps The step size cumulation path.
-     * @param[in,out] pc The distribution cumulation path.
-     * @param[out] yw The fitness at @c xw.
-     * @param[out] optimized Set to @c true when the optimization has converged.
-     * @param[out] underflow Set to @c true when the mutation variance is too small.
-     * @param[in] deviate The random number generator.
-     * @param[in] decompose The eigenvalue decomposition.
-     * @param[in] compare The comparator to compare fitness.
-     * @param[in] tracer The tracer.
-     */
+    /// Evolution strategy with covariance matrix adaption (CMA-ES) for nonlinear function optimization.
+    /// Based on Hansen (2014, http://cma.gforge.inria.fr/purecmaes.m).
+    ///
+    /// Further reading:
+    ///
+    /// N. Hansen, S. D. Müller, P. Koumoutsakos (2003).
+    ///  *Reducing the Increasing the Time Complexity of the Derandomized Evolution
+    ///     Strategy with Covariance Matrix Adaption (CMA-ES).*
+    ///  Evolutionary Computation, 11, 1, ISSN 1063-6560.
+    ///
+    /// N. Hansen, A. Ostermeier (2001).
+    ///   *Completely Derandomized Self-Adaption in Evolution Strategies.*
+    ///   Evolutionary Computation, 9, 159, ISSN 1063-6560.
+    ///
+    /// @tparam F The function type.
+    /// @tparam Constraint The constraint type.
+    /// @tparam Deviate The strategy to generate random normal deviates.
+    /// @tparam Decompose The strategy to perform the symmetric eigenvalue decomposition.
+    /// @tparam Compare The strategy to compare fitness.
+    /// @tparam Tracing The tracer type.
+    ///
+    /// @param[in] f The model function.
+    /// @param[in] constraint The prior constraint on the parameter values.
+    /// @param[in] n The number of parameters.
+    /// @param[in] parent_number The number of parents per generation.
+    /// @param[in] population_size The number of individuals per generation. Twice the parent number, at least
+    /// @param[in] w The recombination weights.
+    /// @param[in] step_size_damping The step size damping.
+    /// @param[in] cs The step size cumulation rate.
+    /// @param[in] cc The distribution cumulation rate.
+    /// @param[in] ccov The rank-1 covariance matrix adaption rate.
+    /// @param[in] acov The rank-µ covariance matrix adaption rate.
+    /// @param[in] update_modulus The covariance matrix update modulus.
+    /// @param[in] accuracy_goal The accuracy goal.
+    /// @param[in] stop_generation The stop generation.
+    /// @param[in,out] g The generation number.
+    /// @param[in,out] xw The parameter values.
+    /// @param[in,out] step_size The global step size.
+    /// @param[in,out] d The local step sizes.
+    /// @param[in,out] B The rotation matrix (in column-major layout).
+    /// @param[in,out] C The covariance matrix (upper triangular part only, in column-major layout).
+    /// @param[in,out] ps The step size cumulation path.
+    /// @param[in,out] pc The distribution cumulation path.
+    /// @param[out] yw The fitness at @c xw.
+    /// @param[out] optimized Set to @c true when the optimization has converged.
+    /// @param[out] underflow Set to @c true when the mutation variance is too small.
+    /// @param[in] deviate The random number generator.
+    /// @param[in] decompose The eigenvalue decomposition.
+    /// @param[in] compare The comparator to compare fitness.
+    /// @param[in] tracer The tracer.
     template<class F, class Constraint, class Deviate, class Decompose, class Compare, class Tracing>
     void optimize(const F &f,
                   const Constraint &constraint,
@@ -294,26 +284,24 @@ namespace especia {
         yw = f(xw, n) + constraint.cost(xw, n);
     }
 
-    /**
-     * Yields the paramater standard uncertainties.
-     *
-     * Computes the standard variance along ellipsoid principal axes from the curvature of a
-     * parabola through three points around the minimum. The global step size is rescaled to
-     * approximate the standard covariance matrix.
-     *
-     * @tparam F The function type.
-     * @tparam Constraint The constraint type.
-     *
-     * @param[in] f The objective function.
-     * @param[in] constraint The constraint on parameter values.
-     * @param[in] n The number of parameter values.
-     * @param[in] x The parameter values.
-     * @param[in] d The local step sizes
-     * @param[in] B The rotation matrix (in column-major layout).
-     * @param[in] C The covariance matrix (upper triangular part only, in column-major layout).
-     * @param[in] s The global step size.
-     * @param[out] z The parameter uncertainties.
-     */
+    /// Yields the paramater standard uncertainties.
+    ///
+    /// Computes the standard variance along ellipsoid principal axes from the curvature of a
+    /// parabola through three points around the minimum. The global step size is rescaled to
+    /// approximate the standard covariance matrix.
+    ///
+    /// @tparam F The function type.
+    /// @tparam Constraint The constraint type.
+    ///
+    /// @param[in] f The objective function.
+    /// @param[in] constraint The constraint on parameter values.
+    /// @param[in] n The number of parameter values.
+    /// @param[in] x The parameter values.
+    /// @param[in] d The local step sizes
+    /// @param[in] B The rotation matrix (in column-major layout).
+    /// @param[in] C The covariance matrix (upper triangular part only, in column-major layout).
+    /// @param[in] s The global step size.
+    /// @param[out] z The parameter uncertainties.
     template<class F, class Constraint>
     void postopti(const F &f, const Constraint &constraint, natural n,
                   const real x[],
@@ -332,12 +320,12 @@ namespace especia {
         const real zx = f(&x[0], n) + constraint.cost(&x[0], n);
         // The rescaled global step sizes
         valarray<real> g(s, n);
-        
+
         for (natural j = 0; j < n; ++j) {
             real a = 0.0;
             real b = 0.0;
             real c = g[j];
-            
+
             do {
                 // Compute two steps along a principal axis in opposite directions
                 valarray<real> p(x, n);
@@ -380,7 +368,7 @@ namespace especia {
         }
         // Take the geometric mean to rescale the covariance matrix
         const real h = exp(g.apply(log).sum() / real(n));
-        
+
         for (natural i = 0, ii = 0; i < n; ++i, ii += n + 1) {
             z[i] = h * sqrt(C[ii]);
         }

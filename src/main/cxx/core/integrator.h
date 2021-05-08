@@ -32,77 +32,59 @@
 
 namespace especia {
 
-    /**
-     * Numerical integration by means of recursive monotone stable quadrature
-     * formulas.
-     *
-     * Further reading:
-     *
-     * Favati, P.; Lotti, G.; and Romani, F. (1991).
-     *   *Interpolary Integration Formulas for Optimal Composition.*
-     *   ACM Trans. Math. Software 17, 207-217.
-     *   https://doi.org/10.1145/108556.108571
-     * Favati, P.; Lotti, G.; and Romani, F. (1991).
-     *   *Algorithm 691: Improving QUADPACK Automatic Integration Routines.*
-     *   ACM Trans. Math. Software 17, 218-232.
-     *   https://doi.org/10.1145/108556.108580
-     *
-     * @tparam T The number type used for quadrature calculations. The quadrature weight
-     * and abscissa values are defined with a precision of 48 decimal digits.
-     */
+    /// Numerical integration by means of recursive monotone stable quadrature
+    /// formulas.
+    ///
+    /// Further reading:
+    ///
+    /// Favati, P.; Lotti, G.; and Romani, F. (1991).
+    ///  *Interpolary Integration Formulas for Optimal Composition.*
+    ///  ACM Trans. Math. Software 17, 207-217.
+    ///  https://doi.org/10.1145/108556.108571
+    /// Favati, P.; Lotti, G.; and Romani, F. (1991).
+    ///  *Algorithm 691: Improving QUADPACK Automatic Integration Routines.*
+    ///  ACM Trans. Math. Software 17, 218-232.
+    ///  https://doi.org/10.1145/108556.108580
+    ///
+    /// @tparam T The number type used for quadrature calculations. The quadrature weight
+    /// and abscissa values are defined with a precision of 48 decimal digits.
     template<class T = real>
     class Integrator {
     public:
 
-        /**
-         * The recursive monotone stable quadrature formulas.
-         */
+        /// The recursive monotone stable quadrature formulas.
         enum Formula {
-            /**
-             * The formula for integration with 13 quadrature points.
-             */
+            /// The formula for integration with 13 quadrature points.
             Q13,
-            /**
-             * The formula for integration with 19 quadrature points.
-             */
+            /// The formula for integration with 19 quadrature points.
             Q19,
-            /**
-             * The formula for integration with 27 quadrature points.
-             */
+            /// The formula for integration with 27 quadrature points.
             Q27,
-            /**
-             * The formula for integration with 41 quadrature points.
-             */
+            /// The formula for integration with 41 quadrature points.
             Q41
         };
 
-        /**
-         * Constructs a new integrator, based on the formulas supplied as argument.
-         *
-         * @param[in] p The formula with less quadrature points.
-         * @param[in] q The formula with more quadrature points.
-         */
+        /// Constructs a new integrator, based on the formulas supplied as argument.
+        ///
+        /// @param[in] p The formula with less quadrature points.
+        /// @param[in] q The formula with more quadrature points.
         explicit Integrator(Formula p = Q19, Formula q = Q27) : p(p), q(q) {
         }
 
-        /**
-         * The destructor.
-         */
+        /// The destructor.
         ~Integrator() = default;
 
-        /**
-         * Computes the integral of a function, with the limits supplied as argument, i.e.
-         * @f[ \int_{a}^{b} f(x) dx @f].
-         *
-         * @tparam F The integrand type.
-         *
-         * @param[in] f The integrand.
-         * @param[in] a The lower limit of integration.
-         * @param[in] b The upper limit of integration.
-         * @param[in] accuracy_goal The (absolute) accuracy goal.
-         * @param[in] max_iteration The maximum number of iterations.
-         * @return the value of the integral.
-         */
+        /// Computes the integral of a function, with the limits supplied as argument, i.e.
+        /// @f[ \int_{a}^{b} f(x) dx @f].
+        ///
+        /// @tparam F The integrand type.
+        ///
+        /// @param[in] f The integrand.
+        /// @param[in] a The lower limit of integration.
+        /// @param[in] b The upper limit of integration.
+        /// @param[in] accuracy_goal The (absolute) accuracy goal.
+        /// @param[in] max_iteration The maximum number of iterations.
+        /// @return the value of the integral.
         template<class F>
         T integrate(const F &f, T a, T b, T accuracy_goal = T(1.0E-6), natural max_iteration = 100) const {
             Integrator::Partition<F, Integrator::Part<F>> partition(f, a, b, p, q);
@@ -117,23 +99,21 @@ namespace especia {
             return partition.result();
         }
 
-        /**
-         * Computes the value of the positive-infinite integral of a function, i.e.
-         * @f[ \int_{0}^{\infty} f(x) dx @f].
-         *
-         * Makes the variable transformation @f$ u = \exp(-x) @f$ and computes
-         * @f[ \int_{0}^{1} \frac{f(-\log(u))}{u} du @f].
-         *
-         * @tparam F The integrand type.
-         *
-         * @param[in] f The integrand.
-         * @param[in] accuracy_goal The (absolute) accuracy goal.
-         * @param[in] max_iteration The maximum number of iterations.
-         * @return the value of the positive-infinite integral.
-         *
-         * @attention The integrand must converge rapidly (faster than @f$ 1/x @f$) to zero at infinity, i.e.
-         * @f[ \lim_{x\to\infty} \frac{f(x)}{x} = 0 @f].
-         */
+        /// Computes the value of the positive-infinite integral of a function, i.e.
+        /// @f[ \int_{0}^{\infty} f(x) dx @f].
+        ///
+        /// Makes the variable transformation @f$ u = \exp(-x) @f$ and computes
+        /// @f[ \int_{0}^{1} \frac{f(-\log(u))}{u} du @f].
+        ///
+        /// @tparam F The integrand type.
+        ///
+        /// @param[in] f The integrand.
+        /// @param[in] accuracy_goal The (absolute) accuracy goal.
+        /// @param[in] max_iteration The maximum number of iterations.
+        /// @return the value of the positive-infinite integral.
+        ///
+        /// @attention The integrand must converge rapidly (faster than @f$ 1/x @f$) to zero at infinity, i.e.
+        /// @f[ \lim_{x\to\infty} \frac{f(x)}{x} = 0 @f].
         template<class F>
         T integrate_positive_infinite(const F &f, T accuracy_goal = T(1.0E-6), natural max_iteration = 100) const {
             using std::log;
@@ -142,39 +122,35 @@ namespace especia {
                              T(0.0), T(1.0), accuracy_goal, max_iteration);
         }
 
-        /**
-         * Computes the value of the negative-infinite integral of a function, i.e.
-         * @f[ \int_{-\infty}^{0} f(x) dx @f].
-         *
-         * @tparam F The integrand type.
-         *
-         * @param[in] f The integrand.
-         * @param[in] accuracy_goal The (absolute) accuracy goal.
-         * @param[in] max_iteration The maximum number of iterations.
-         * @return the value of the negative-infinite integral.
-         *
-         * @attention The integrand must converge rapidly (faster than @f$ 1/x @f$) to zero at infinity, i.e.
-         * @f[ \lim_{x\to -\infty} \frac{f(x)}{x} = 0 @f].
-         */
+        /// Computes the value of the negative-infinite integral of a function, i.e.
+        /// @f[ \int_{-\infty}^{0} f(x) dx @f].
+        ///
+        /// @tparam F The integrand type.
+        ///
+        /// @param[in] f The integrand.
+        /// @param[in] accuracy_goal The (absolute) accuracy goal.
+        /// @param[in] max_iteration The maximum number of iterations.
+        /// @return the value of the negative-infinite integral.
+        ///
+        /// @attention The integrand must converge rapidly (faster than @f$ 1/x @f$) to zero at infinity, i.e.
+        /// @f[ \lim_{x\to -\infty} \frac{f(x)}{x} = 0 @f].
         template<class F>
         T integrate_negative_infinite(const F &f, T accuracy_goal = T(1.0E-6), natural max_iteration = 100) const {
             return integrate_positive_infinite([&f](T x) -> T { return f(-x); }, accuracy_goal, max_iteration);
         }
 
-        /**
-         * Computes the value of the infinite integral of a function, i.e.
-         * @f[ \int_{-\infty}^{\infty} f(x) dx @f].
-         *
-         * @tparam F The integrand type.
-         *
-         * @param[in] f The integrand.
-         * @param[in] accuracy_goal The (absolute) accuracy goal.
-         * @param[in] max_iteration The maximum number of iterations.
-         * @return the value of the infinite integral.
-         *
-         * @attention The integrand must converge rapidly (faster than @f$ 1/x @f$) to zero at infinity, i.e.
-         * @f[ \lim_{x\to\pm\infty} \frac{f(x)}{x} = 0 @f].
-         */
+        /// Computes the value of the infinite integral of a function, i.e.
+        /// @f[ \int_{-\infty}^{\infty} f(x) dx @f].
+        ///
+        /// @tparam F The integrand type.
+        ///
+        /// @param[in] f The integrand.
+        /// @param[in] accuracy_goal The (absolute) accuracy goal.
+        /// @param[in] max_iteration The maximum number of iterations.
+        /// @return the value of the infinite integral.
+        ///
+        /// @attention The integrand must converge rapidly (faster than @f$ 1/x @f$) to zero at infinity, i.e.
+        /// @f[ \lim_{x\to\pm\infty} \frac{f(x)}{x} = 0 @f].
         template<class F>
         T integrate_infinite(const F &f, T accuracy_goal = T(1.0E-6), natural max_iteration = 100) const {
             return integrate_positive_infinite(f, accuracy_goal, max_iteration)
@@ -182,56 +158,44 @@ namespace especia {
         }
 
     private:
-        /**
-         * A part of a numerical integral.
-         *
-         * @tparam F The integrand type.
-         */
+        /// A part of a numerical integral.
+        ///
+        /// @tparam F The integrand type.
         template<class F>
         class Part {
         public:
-            /**
-             * The constructor.
-             *
-             * @param f The integrand.
-             * @param a The lower limit of integration.
-             * @param b The upper limit of integration.
-             * @param p The formula with less quadrature points.
-             * @param q The formula with more quadrature points.
-             */
+            /// The constructor.
+            ///
+            /// @param f The integrand.
+            /// @param a The lower limit of integration.
+            /// @param b The upper limit of integration.
+            /// @param p The formula with less quadrature points.
+            /// @param q The formula with more quadrature points.
             Part(const F &f, T a, T b, Formula p, Formula q)
                     : f(f), a(a), b(b), p(p), q(q), c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yu(21) {
                 evaluate();
             }
 
-            /**
-             * The destructor.
-             */
+            /// The destructor.
             ~Part() = default;
 
-            /**
-             * Returns the absolute error of the integration result of this part.
-             *
-             * @return the absolute error of the integration result.
-             */
+            /// Returns the absolute error of the integration result of this part.
+            ///
+            /// @return the absolute error of the integration result.
             T absolute_error() const {
                 return err;
             }
 
-            /**
-             * Returns the integration result of this part.
-             *
-             * @return the integration result.
-             */
+            /// Returns the integration result of this part.
+            ///
+            /// @return the integration result.
             T result() const {
                 return res;
             }
 
-            /**
-             * Creates a new part from the lower half of this part.
-             *
-             * @return the lower half part.
-             */
+            /// Creates a new part from the lower half of this part.
+            ///
+            /// @return the lower half part.
             Part *new_lower_part() const {
                 auto *part = new Part(this, a, c);
 
@@ -279,11 +243,9 @@ namespace especia {
                 return part;
             }
 
-            /**
-             * Creates a new part from the upper half of this part.
-             *
-             * @return the upper half part.
-             */
+            /// Creates a new part from the upper half of this part.
+            ///
+            /// @return the upper half part.
             Part *new_upper_part() const {
                 auto *part = new Part(this, c, b);
 
@@ -332,22 +294,18 @@ namespace especia {
             }
 
         private:
-            /**
-             * Constructs a new part from a parent part.
-             *
-             * @param parent The parent part.
-             * @param a The lower limit of integration.
-             * @param b The upper limit of integration.
-             */
+            /// Constructs a new part from a parent part.
+            ///
+            /// @param parent The parent part.
+            /// @param a The lower limit of integration.
+            /// @param b The upper limit of integration.
             Part(const Part *parent, T a, T b)
                     : f(parent->f), a(a), b(b), p(parent->p), q(parent->q),
                       c(T(0.5) * (a + b)), h(T(0.5) * (b - a)), yl(21), yu(21) {
                 // do not evaluate
             }
 
-            /**
-             * Evaluates the integration result of this part and its absolute error.
-             */
+            /// Evaluates the integration result of this part and its absolute error.
             void evaluate() {
                 using std::abs;
 
@@ -355,12 +313,10 @@ namespace especia {
                 err = abs(res - evaluate(p));
             }
 
-            /**
-             * Evaluates the integration result of this part using the quadrature formula supplied as argument.
-             *
-             * @param q The quadrature formula.
-             * @return the result.
-             */
+            /// Evaluates the integration result of this part using the quadrature formula supplied as argument.
+            ///
+            /// @param q The quadrature formula.
+            /// @return the result.
             T evaluate(Formula q) {
                 const natural m = Integrator::mw[q];
                 const natural n = Integrator::nw[q];
@@ -388,110 +344,76 @@ namespace especia {
                 return result * h;
             }
 
-            /**
-             * The integrand.
-             */
+            /// The integrand.
             const F &f;
 
-            /**
-             * The lower limit of integration.
-             */
+            /// The lower limit of integration.
             const T a;
 
-            /**
-             * The upper limit of integration.
-             */
+            /// The upper limit of integration.
             const T b;
 
-            /**
-             * The selected formula with less quadrature points.
-             */
+            /// The selected formula with less quadrature points.
             const Formula p;
 
-            /**
-             * The selected formula with more quadrature points.
-             */
+            /// The selected formula with more quadrature points.
             const Formula q;
 
-            /**
-             * The center of the interval of integration.
-             */
+            /// The center of the interval of integration.
             const T c;
 
-            /**
-             * The width of the interval of integration.
-             */
+            /// The width of the interval of integration.
             const T h;
 
-            /**
-             * The integrand values for the lower half interval of integration.
-             */
+            /// The integrand values for the lower half interval of integration.
             std::valarray<T> yl;
 
-            /**
-             * The integrand values for the upper half interval of integration.
-             */
+            /// The integrand values for the upper half interval of integration.
             std::valarray<T> yu;
 
-            /**
-             * The number of evaluated integrand values for the lower half interval.
-             */
+            /// The number of evaluated integrand values for the lower half interval.
             natural nl = 0;
 
-            /**
-             * The number of evaluated integrand values for the upper half interval.
-             */
+            /// The number of evaluated integrand values for the upper half interval.
             natural nu = 0;
 
-            /**
-             * The absolute error of the integration result.
-             */
+            /// The absolute error of the integration result.
             T err = T(0.0);
 
-            /**
-             * The integration result.
-             */
+            /// The integration result.
             T res = T(0.0);
         };
 
-        /**
-         * Compares the absolute error of two parts of a numerical integration.
-         *
-         * @tparam P The part type.
-         */
+        /// Compares the absolute error of two parts of a numerical integration.
+        ///
+        /// @tparam P The part type.
         template<class P>
         class Part_Compare {
         public:
-            /**
-             * Compares the absolute error of two parts of a numerical integration.
-             *
-             * @param p The first part.
-             * @param q The other part.
-             * @return @c true, if the absolute error of the first part is less than that of the other part.
-             */
+            /// Compares the absolute error of two parts of a numerical integration.
+            ///
+            /// @param p The first part.
+            /// @param q The other part.
+            /// @return @c true, if the absolute error of the first part is less than that of the other part.
             bool operator()(const P *p, const P *q) const {
                 return p->absolute_error() < q->absolute_error();
             }
         };
 
-        /**
-         * A partition of a numerical integral into a complete set of disjoint parts.
-         *
-         * @tparam F The integrand type.
-         * @tparam P The part type.
-         */
+        /// A partition of a numerical integral into a complete set of disjoint parts.
+        ///
+        /// @tparam F The integrand type.
+        /// @tparam P The part type.
         template<class F, class P>
         class Partition {
         public:
-            /**
-             * The constructor.
-             *
-             * @param f The integrand.
-             * @param a The lower limit of integration.
-             * @param b The upper limit of integration.
-             * @param p The formula with less quadrature points.
-             * @param q The formula with more quadrature points.
-             */
+            /// The constructor.
+            ///
+            /// @param f The integrand.
+            /// @param a The lower limit of integration.
+            /// @param b The upper limit of integration.
+            /// @param p The formula with less quadrature points.
+            /// @param q The formula with more quadrature points.
             Partition(const F &f, T a, T b, Formula p, Formula q) : part_compare(Part_Compare<P>()) {
                 using std::make_heap;
                 using std::push_heap;
@@ -501,20 +423,16 @@ namespace especia {
                 add_part(part);
             }
 
-            /**
-             * The destructor.
-             */
+            /// The destructor.
             ~Partition() { // NOLINT
                 for (auto part : parts) {
                     delete part;
                 }
             }
 
-            /**
-             * Returns the absolute error of the integration result for this partition.
-             *
-             * @return the absolute error of the integration result.
-             */
+            /// Returns the absolute error of the integration result for this partition.
+            ///
+            /// @return the absolute error of the integration result.
             T absolute_error() const {
                 T err = T(0.0);
 
@@ -525,11 +443,9 @@ namespace especia {
                 return err;
             }
 
-            /**
-             * Returns the integration result for this partition.
-             *
-             * @return the integration result.
-             */
+            /// Returns the integration result for this partition.
+            ///
+            /// @return the integration result.
             T result() const {
                 T res = T(0.0);
 
@@ -540,9 +456,7 @@ namespace especia {
                 return res;
             }
 
-            /**
-             * Refines this partition.
-             */
+            /// Refines this partition.
             void refine() {
                 P *popped = pop_part();
                 add_part(popped->new_lower_part());
@@ -552,11 +466,9 @@ namespace especia {
             }
 
         private:
-            /**
-             * Removes the part with the largest absolute error of integration from the partition.
-             *
-             * @return the part with the largest absolute error.
-             */
+            /// Removes the part with the largest absolute error of integration from the partition.
+            ///
+            /// @return the part with the largest absolute error.
             P *pop_part() {
                 using std::pop_heap;
 
@@ -567,11 +479,9 @@ namespace especia {
                 return popped;
             }
 
-            /**
-             * Adds a new part to the partition.
-             *
-             * @param part The part.
-             */
+            /// Adds a new part to the partition.
+            ///
+            /// @param part The part.
             void add_part(P *part) {
                 using std::push_heap;
 
@@ -579,45 +489,29 @@ namespace especia {
                 push_heap(parts.begin(), parts.end(), part_compare);
             }
 
-            /**
-             * Compares the absolute error of integration of two parts.
-             */
+            /// Compares the absolute error of integration of two parts.
             const Part_Compare<P> part_compare;
 
-            /**
-             * The parts of this partition.
-             */
+            /// The parts of this partition.
             std::vector<P *> parts{};
         };
 
-        /**
-         * The selected quadrature formula with less points.
-         */
+        /// The selected quadrature formula with less points.
         const Formula p;
 
-        /**
-         * The selected quadrature formula with more points.
-         */
+        /// The selected quadrature formula with more points.
         const Formula q;
 
-        /**
-         * The quadrature abscissa values.
-         */
+        /// The quadrature abscissa values.
         static const T xi[];
 
-        /**
-         * The quadrature weights.
-         */
+        /// The quadrature weights.
         static const T wi[];
 
-        /**
-         * The start indices into the quadrature weights.
-         */
+        /// The start indices into the quadrature weights.
         static const natural mw[];
 
-        /**
-         * The number of quadrature weights.
-         */
+        /// The number of quadrature weights.
         static const natural nw[];
     };
 

@@ -31,34 +31,30 @@ using namespace std;
 using especia::natural;
 using especia::real;
 
-/**
- * Writes the usage message to an output stream.
- *
- * @param os The output stream.
- * @param program_name The program name.
- */
+/// Writes the usage message to an output stream.
+///
+/// @param os The output stream.
+/// @param program_name The program name.
 void write_usage_message(ostream &os, const string &program_name) {
     os << "usage: " << program_name << " {flux file} {uncertainty file} [lines to skip] [> {target file}]" << endl;
 }
 
-/**
- * Utility to merge separate spectral flux and uncertainty data files.
- *
- * @param argc The number of command line arguments supplied.
- * @param argv The command line arguments:
- * @parblock
- * @c argv[0] The program name.
- *
- * @c argv[1] The path name of the flux data file.
- *
- * @c argv[2] The path name of the flux uncertainty data file.
- *
- * @c argv[3] The number of lines to skip at the beginning (optional, default = 0).
- * @endparblock
- * @return an exit code.
- *
- * @remark Usage: eeet {flux file} {uncertainty file} [lines to skip] [> {target file}]
- */
+/// Utility to merge separate spectral flux and uncertainty data files.
+///
+/// @param argc The number of command line arguments supplied.
+/// @param argv The command line arguments:
+/// @parblock
+/// @c argv[0] The program name.
+///
+/// @c argv[1] The path name of the flux data file.
+///
+/// @c argv[2] The path name of the flux uncertainty data file.
+///
+/// @c argv[3] The number of lines to skip at the beginning (optional, default = 0).
+/// @endparblock
+/// @return an exit code.
+///
+/// @remark Usage: eeet {flux file} {uncertainty file} [lines to skip] [> {target file}]
 int main(int argc, char *argv[]) {
     const string program_name(argv[0]);
 

@@ -32,18 +32,16 @@
 
 namespace especia {
 
-    /**
-     * Reads a vector of data from an input stream.
-     *
-     * @tparam A The data type.
-     *
-     * @param is The input stream.
-     * @param a The data vector.
-     * @param n The number of data elements to read.
-     * @param append If @c true, the data read are append to the data vector @c a.
-     *
-     * @return the input stream.
-     */
+    /// Reads a vector of data from an input stream.
+    ///
+    /// @tparam A The data type.
+    ///
+    /// @param is The input stream.
+    /// @param a The data vector.
+    /// @param n The number of data elements to read.
+    /// @param append If @c true, the data read are append to the data vector @c a.
+    ///
+    /// @return the input stream.
     template<class A>
     std::istream &read(std::istream &is, std::vector<A> &a, size_t n, bool append = false) {
         using namespace std;
@@ -68,22 +66,20 @@ namespace especia {
         return is;
     }
 
-    /**
-     * Reads two vectors of data from an input stream.
-     *
-     * The procedure expects that the data for vectors @c a and @c b are alternating.
-     *
-     * @tparam A A data type.
-     * @tparam B A data type.
-     *
-     * @param is The input stream.
-     * @param a A data vector.
-     * @param b A data vector.
-     * @param n The number of data elements to read for each data vector.
-     * @param append If @c true, the data read are append to the data vectors.
-     *
-     * @return the input stream.
-     */
+    /// Reads two vectors of data from an input stream.
+    ///
+    /// The procedure expects that the data for vectors @c a and @c b are alternating.
+    ///
+    /// @tparam A A data type.
+    /// @tparam B A data type.
+    ///
+    /// @param is The input stream.
+    /// @param a A data vector.
+    /// @param b A data vector.
+    /// @param n The number of data elements to read for each data vector.
+    /// @param append If @c true, the data read are append to the data vectors.
+    ///
+    /// @return the input stream.
     template<class A, class B>
     std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b, size_t n, bool append = false) {
         using namespace std;
@@ -116,24 +112,22 @@ namespace especia {
         return is;
     }
 
-    /**
-     * Reads three vectors of data from an input stream.
-     *
-     * The procedure expects that the data for vectors @c a, @c b, and @c c are alternating.
-     *
-     * @tparam A A data type.
-     * @tparam B A data type.
-     * @tparam C A data type.
-     *
-     * @param is The input stream.
-     * @param a A data vector.
-     * @param b A data vector.
-     * @param c A data vector.
-     * @param n The number of data elements to read for each data vector.
-     * @param append If @c true, the data read are append to the data vectors.
-     *
-     * @return the input stream.
-     */
+    /// Reads three vectors of data from an input stream.
+    ///
+    /// The procedure expects that the data for vectors @c a, @c b, and @c c are alternating.
+    ///
+    /// @tparam A A data type.
+    /// @tparam B A data type.
+    /// @tparam C A data type.
+    ///
+    /// @param is The input stream.
+    /// @param a A data vector.
+    /// @param b A data vector.
+    /// @param c A data vector.
+    /// @param n The number of data elements to read for each data vector.
+    /// @param append If @c true, the data read are append to the data vectors.
+    ///
+    /// @return the input stream.
     template<class A, class B, class C>
     std::istream &
     read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, size_t n, bool append = false) {
@@ -174,26 +168,24 @@ namespace especia {
     }
 
 
-    /**
-     * Reads four vectors of data from an input stream.
-     *
-     * The procedure expects that the data for vectors @c a, @c b, c, and @c d are alternating.
-     *
-     * @tparam A A data type.
-     * @tparam B A data type.
-     * @tparam C A data type.
-     * @tparam D A data type.
-     *
-     * @param is The input stream.
-     * @param a A data vector.
-     * @param b A data vector.
-     * @param c A data vector.
-     * @param d A data vector.
-     * @param n The number of data elements to read for each data vector.
-     * @param append If @c true, the data read are append to the data vectors.
-     *
-     * @return the input stream.
-     */
+    /// Reads four vectors of data from an input stream.
+    ///
+    /// The procedure expects that the data for vectors @c a, @c b, c, and @c d are alternating.
+    ///
+    /// @tparam A A data type.
+    /// @tparam B A data type.
+    /// @tparam C A data type.
+    /// @tparam D A data type.
+    ///
+    /// @param is The input stream.
+    /// @param a A data vector.
+    /// @param b A data vector.
+    /// @param c A data vector.
+    /// @param d A data vector.
+    /// @param n The number of data elements to read for each data vector.
+    /// @param append If @c true, the data read are append to the data vectors.
+    ///
+    /// @return the input stream.
     template<class A, class B, class C, class D>
     std::istream &
     read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, std::vector<D> &d, size_t n,
@@ -240,28 +232,26 @@ namespace especia {
         return is;
     }
 
-    /**
-     * Reads five vectors of data from an input stream.
-     *
-     * The procedure expects that the data for vectors @c a, @c b, c, d and @c e are alternating.
-     *
-     * @tparam A A data type.
-     * @tparam B A data type.
-     * @tparam C A data type.
-     * @tparam D A data type.
-     * @tparam E A data type.
-     *
-     * @param is The input stream.
-     * @param a A data vector.
-     * @param b A data vector.
-     * @param c A data vector.
-     * @param d A data vector.
-     * @param e A data vector.
-     * @param n The number of data elements to read for each data vector.
-     * @param append If @c true, the data read are append to the data vectors.
-     *
-     * @return the input stream.
-     */
+    /// Reads five vectors of data from an input stream.
+    ///
+    /// The procedure expects that the data for vectors @c a, @c b, c, d and @c e are alternating.
+    ///
+    /// @tparam A A data type.
+    /// @tparam B A data type.
+    /// @tparam C A data type.
+    /// @tparam D A data type.
+    /// @tparam E A data type.
+    ///
+    /// @param is The input stream.
+    /// @param a A data vector.
+    /// @param b A data vector.
+    /// @param c A data vector.
+    /// @param d A data vector.
+    /// @param e A data vector.
+    /// @param n The number of data elements to read for each data vector.
+    /// @param append If @c true, the data read are append to the data vectors.
+    ///
+    /// @return the input stream.
     template<class A, class B, class C, class D, class E>
     std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b,
                        std::vector<C> &c, std::vector<D> &d, std::vector<E> &e, size_t n,
@@ -314,28 +304,26 @@ namespace especia {
         return is;
     }
 
-    /**
-     * Reads four vectors of data and a single vector of text from an input stream.
-     *
-     * The procedure expects that the data are alternating and text consists of a single word.
-     *
-     * @tparam A A data type.
-     * @tparam B A data type.
-     * @tparam C A data type.
-     * @tparam D A data type.
-     *
-     * @param is The input stream.
-     * @param a A data vector.
-     * @param b A data vector.
-     * @param c A data vector.
-     * @param d A data vector.
-     * @param s A text vector.
-     * @param n The number of data elements to read for each vector.
-     * @param eol The character marking the end of text (or end of line).
-     * @param append If @c true, the data read are append to the vectors.
-     *
-     * @return the input stream.
-     */
+    /// Reads four vectors of data and a single vector of text from an input stream.
+    ///
+    /// The procedure expects that the data are alternating and text consists of a single word.
+    ///
+    /// @tparam A A data type.
+    /// @tparam B A data type.
+    /// @tparam C A data type.
+    /// @tparam D A data type.
+    ///
+    /// @param is The input stream.
+    /// @param a A data vector.
+    /// @param b A data vector.
+    /// @param c A data vector.
+    /// @param d A data vector.
+    /// @param s A text vector.
+    /// @param n The number of data elements to read for each vector.
+    /// @param eol The character marking the end of text (or end of line).
+    /// @param append If @c true, the data read are append to the vectors.
+    ///
+    /// @return the input stream.
     template<class A, class B, class C, class D>
     std::istream &read(std::istream &is, std::vector<A> &a, std::vector<B> &b, std::vector<C> &c, std::vector<D> &d,
                        std::vector<std::string> &s, size_t n, char eol = '\n',
@@ -394,16 +382,14 @@ namespace especia {
         return is;
     }
 
-    /**
-     * Reads a line of text from an input stream.
-     *
-     * @param is The input stream.
-     * @param s The line of text.
-     * @param comment_mark The character that marks the begin of comment. If set, empty lines are ignored, too.
-     * @param eol The character that marks the end of line.
-     *
-     * @return the input stream.
-     */
+    /// Reads a line of text from an input stream.
+    ///
+    /// @param is The input stream.
+    /// @param s The line of text.
+    /// @param comment_mark The character that marks the begin of comment. If set, empty lines are ignored, too.
+    /// @param eol The character that marks the end of line.
+    ///
+    /// @return the input stream.
     std::istream &readline(std::istream &is, std::string &s, char comment_mark = '\0', char eol = '\n');
 
 }

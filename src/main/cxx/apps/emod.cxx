@@ -24,14 +24,12 @@
 
 using namespace std;
 
-/**
- * Extracts the model definition from Especia result HTML. Reads from standard
- * input and writes to standard output.
- *
- * @return an exit code.
- *
- * @remark Usage: emod < {result file} [> {target file}]
- */
+/// Extracts the model definition from Especia result HTML. Reads from standard
+/// input and writes to standard output.
+///
+/// @return an exit code.
+///
+/// @remark Usage: emod < {result file} [> {target file}]
 int main() {
     bool found = false;
     string s;
