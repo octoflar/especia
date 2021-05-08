@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 ## @file update-copyright
 ## Updates copyright notices
 ## @author Ralf Quast
@@ -12,10 +12,12 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-for filename in "$@"; do
+for filename in "$@"
+do
     sed -f "@CMAKE_BINARY_DIR@"/update-copyright.sed -i .backup "${filename}"
 done
 
-for filename in "$@"; do
+for filename in "$@"
+do
     rm -f "${filename}".backup
 done

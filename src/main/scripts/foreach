@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 ## @file foreach
 ## Applies a given command to each file supplied as argument.
 ## @author Ralf Quast
@@ -14,8 +14,16 @@ fi
 
 command="${1}"
 
-for sourceFile in "${@:2}"; do
-    targetFile="$(basename "$sourceFile").new"
+shift
+for sourceFile in "${@}"
+do
+    cp "${sourceFile}" "${sourceFile}.backup"
+    targetFile="$(basename "$sourceFile")"
     ${command} "${sourceFile}" "${targetFile}"
     mv "${targetFile}" "${sourceFile}"
+done
+
+for sourceFile in "${@}"
+do
+    rm -f "${sourceFile}.backup"
 done
