@@ -83,7 +83,7 @@ add_executable(edat ${MAIN}/cxx/apps/edat.cxx)
 add_executable(elog ${MAIN}/cxx/apps/elog.cxx)
 add_executable(emod ${MAIN}/cxx/apps/emod.cxx)
 add_executable(emes ${MAIN}/cxx/apps/emes.cxx)
-add_executable(eeet ${MAIN}/cxx/apps/eeet.cxx
+add_executable(ezip ${MAIN}/cxx/apps/ezip.cxx
         ${MAIN}/cxx/core/dataio.cxx
         ${MAIN}/cxx/core/dataio.h
         ${MAIN}/cxx/core/exitcodes.h)
@@ -155,7 +155,7 @@ add_custom_target(tar
         VERBATIM)
 
 
-install(TARGETS especia especid especiv especix ecom edat elog emod emes eeet
+install(TARGETS especia especid especiv especix ecom edat elog emod emes ezip
         RUNTIME
         DESTINATION bin
         CONFIGURATIONS Release)
