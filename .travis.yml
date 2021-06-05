@@ -18,6 +18,10 @@ matrix:
       env:
         - TEST="integrationtests"
       osx_image: xcode12.5
+    - os: osx
+      env:
+        - TEST="performancetests"
+      osx_image: xcode12.5
     - os: linux
       env:
         - TEST="unittests"
@@ -26,5 +30,10 @@ matrix:
     - os: linux
       env:
         - TEST="integrationtests"
+      dist: focal
+      sudo: required
+    - os: linux
+      env:
+        - TEST="performancetests"
       dist: focal
       sudo: required
