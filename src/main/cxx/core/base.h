@@ -39,7 +39,8 @@ namespace especia {
         typedef void (&type)(const T &, T &, T &);
 
     private:
-        C1() = default; // private constructor prevents instantiation
+        /// The private constructor prevents instantiation.
+        C1() = default;
     };
 
     /// Pi. <https://www.wolframalpha.com/input/?i=pi+to+49+digits>
