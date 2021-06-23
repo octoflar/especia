@@ -96,7 +96,7 @@ namespace especia {
         /// B. Edlén (1966).
         ///  *The refractive index of air.*
         ///  Metrologia, 2, 2, 71-80.
-        ///  http://dx.doi.org/10.1088/0026-1394/2/2/002
+        ///  <http://dx.doi.org/10.1088/0026-1394/2/2/002>
         ///
         /// @param[in] x The wavenumber in vacuum (nm-1).
         /// @return the wavenumber in air (nm-1).
@@ -113,7 +113,7 @@ namespace especia {
         /// B. Edlén (1966).
         ///  *The refractive index of air.*
         ///  Metrologia, 2, 2, 71-80.
-        ///  http://dx.doi.org/10.1088/0026-1394/2/2/002
+        ///  <http://dx.doi.org/10.1088/0026-1394/2/2/002>
         ///
         /// @param[in] x The wavenumber in vacuum (nm-1).
         /// @param[out] y The wavenumber in air (nm-1).
