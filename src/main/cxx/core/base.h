@@ -24,7 +24,7 @@ namespace especia {
     /// The type of real numbers (denoted in maths as set R).
     typedef double real;
 
-    /// The type of binary numbers wit 32 binary digits.
+    /// The type of binary numbers with 32 binary digits.
     typedef uint32_t word32;
 
     /// The type of binary numbers with 64 binary digits.
