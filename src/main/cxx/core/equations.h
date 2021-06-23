@@ -123,7 +123,8 @@ namespace especia {
         static void edlen66(const real &x, real &y, real &z);
 
     private:
-        Equations() = default; // private constructor prevents instantiation
+        /// The private constructor prevents instantiation.
+        Equations() = default;
     };
 
 }
