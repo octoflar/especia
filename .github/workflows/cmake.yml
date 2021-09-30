@@ -34,7 +34,7 @@ jobs:
         working-directory: ${{github.workspace}}/build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-        run: ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --label-exclude performance
+        run: ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:2 --label-exclude performance
 
   build-linux:
     # The CMake configure and build commands are platform agnostic and should work equally
@@ -64,4 +64,4 @@ jobs:
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --label-exclude performance
+      run: ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:2 --label-exclude performance
