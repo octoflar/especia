@@ -19,13 +19,11 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        cc: [ cc, gcc-11 ]
-        cxx: [ c++, g++-11 ]
-        exclude:
-          - cc: cc
-            cxx: g++-11
-          - cc: gcc-11
-            cxx: c++
+        cxx: [ c++ ]
+        cc: [ cc ]
+        include:
+          - cxx: g++11
+            cc: gcc-11
 
     steps:
       - uses: actions/checkout@v2
