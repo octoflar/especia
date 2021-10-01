@@ -22,7 +22,7 @@ jobs:
         cxx: [ c++ ]
         cc: [ cc ]
         include:
-          - cxx: g++11
+          - cxx: g++-11
             cc: gcc-11
 
     steps:
