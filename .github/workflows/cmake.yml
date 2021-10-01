@@ -44,6 +44,7 @@ jobs:
         run: |
           ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --label-regex unit
           ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --label-regex integration
+          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:2 --label-regex performance
 
   build-linux:
     # The CMake configure and build commands are platform agnostic and should work equally
