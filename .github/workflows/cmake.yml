@@ -84,5 +84,5 @@ jobs:
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
           ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --label-regex unit
-          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --label-regex integration
-          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --label-regex performance
+          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:0 --label-regex integration
+          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:0 --label-regex performance
