@@ -19,7 +19,7 @@ jobs:
     runs-on: ${{matrix.os}}
     strategy:
       matrix:
-        os: [ macos-latest, macos-11 ]
+        os: [ macos-latest ]
         cxx: [ c++ ]
         cc: [ cc ]
         include:
