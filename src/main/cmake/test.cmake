@@ -2,21 +2,13 @@
 ## @date 2021
 ## @copyright MIT License
 
-function(add_performance_test NAME EXPECTED_VALUES)
+function(add_property_test NAME EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
-    set_tests_properties(${NAME} PROPERTIES LABELS performance TIMEOUT 3600)
+    set_tests_properties(${NAME} PROPERTIES LABELS property TIMEOUT 3600)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
 
-add_custom_target(performancetests ctest --verbose --label-regex performance)
-
-function(add_integration_test NAME EXPECTED_VALUES)
-    add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
-    set_tests_properties(${NAME} PROPERTIES LABELS integration TIMEOUT 300)
-    add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
-endfunction()
-
-add_custom_target(integrationtests ctest --verbose --label-regex integration)
+add_custom_target(propertytests ctest --verbose --label-regex property)
 
 function(add_unit_test NAME)
     add_executable(${NAME}
