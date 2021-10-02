@@ -4,7 +4,7 @@
 
 function(add_property_test NAME EXPECTED_VALUES)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
-    set_tests_properties(${NAME} PROPERTIES LABELS property TIMEOUT 3600)
+    set_tests_properties(${NAME} PROPERTIES LABELS property TIMEOUT 600)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
 
