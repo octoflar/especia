@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        veclib: [ intel-mkl, liblapack ]
+        veclib: [ intel-mkl, liblapack3 ]
 
     steps:
       - uses: actions/checkout@v2
