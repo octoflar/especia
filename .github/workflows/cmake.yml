@@ -37,22 +37,19 @@ jobs:
         # Build your program with the given configuration
         run: cmake --build ${{github.workspace}}/build --parallel --config ${{env.BUILD_TYPE}}
 
-      - name: Run quick tests
+      - name: Test
         working-directory: ${{github.workspace}}/build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
-          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --label-regex unit --tests-regex especid
+          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 -I 1,6
 
-      - name: Run extra tests
+      - name: Test extra
         working-directory: ${{github.workspace}}/build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
-          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --tests-regex especiv
-          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --tests-regex especix
-          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --tests-regex especia
-          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --tests-regex doublet
+          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 -I 7,10
 
   build-linux:
     # The CMake configure and build commands are platform agnostic and should work equally
@@ -77,9 +74,9 @@ jobs:
         # Build your program with the given configuration
         run: cmake --build ${{github.workspace}}/build --parallel --config ${{env.BUILD_TYPE}}
 
-      - name: Run quick tests
+      - name: Test
         working-directory: ${{github.workspace}}/build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
-          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 --label-regex unit --tests-regex especid
+          ctest -C ${{env.BUILD_TYPE}} --repeat until-pass:1 -I 1,6
