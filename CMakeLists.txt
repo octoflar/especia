@@ -71,13 +71,13 @@ set(CORE_SOURCES
         ${MAIN}/cxx/core/section.h)
 
 add_executable(especia ${MAIN}/cxx/apps/especia.cxx ${CORE_SOURCES})
-target_link_libraries(especia ${VECLIB})
+target_link_libraries(especia ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
 add_executable(especid ${MAIN}/cxx/apps/especid.cxx ${CORE_SOURCES})
-target_link_libraries(especid ${VECLIB})
+target_link_libraries(especid ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
 add_executable(especiv ${MAIN}/cxx/apps/especiv.cxx ${CORE_SOURCES})
-target_link_libraries(especiv ${VECLIB})
+target_link_libraries(especiv ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
 add_executable(especix ${MAIN}/cxx/apps/especix.cxx ${CORE_SOURCES})
-target_link_libraries(especix ${VECLIB})
+target_link_libraries(especix ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
 add_executable(ecom ${MAIN}/cxx/apps/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/apps/edat.cxx)
 add_executable(elog ${MAIN}/cxx/apps/elog.cxx)
@@ -108,7 +108,7 @@ add_unit_test(optimizer_test
         ${MAIN}/cxx/core/optimizer.cxx
         ${TEST}/cxx/core/optimizer_test.cxx
         ${MAIN}/cxx/core/random.h)
-target_link_libraries(optimizer_test ${VECLIB})
+target_link_libraries(optimizer_test ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
 add_unit_test(profiles_test
         ${MAIN}/cxx/core/base.h
         ${MAIN}/cxx/core/integrator.h
