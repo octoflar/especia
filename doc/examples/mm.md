@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    azafran 5489 20 40 2.0 0.0001 20000 10 < mm.md
+    azafran 3141 20 40 2.0 0.0001 20000 10 < mm.md
     
 Consult the Especia wiki on [using the software](https://github.com/octoflar/especia/wiki/Using-the-software)
 for further help.
