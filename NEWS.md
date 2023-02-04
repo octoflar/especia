@@ -6,7 +6,7 @@ In addition, Version 2023.1 provides several new features and enhancements:
 
 * Especia flavours have been renamed `azafran` for many-multiplet decomposition
   to test the hypothetical variation of the fine-structure constant, `curcuma`
-  for Doppler profile decomposition of metal absorption lines, `oregana` for
+  for Doppler profile decomposition of metal absorption lines, `oregano` for
   Voigt profile decomposition using the pseudo-Voigt approximation, and `pimiento`
   for Voigt profile decomposition using the extended pseudo-Voigt approximation.
 * Especia now uses 64-bit instead of 32-bit seeds to initialize the random
