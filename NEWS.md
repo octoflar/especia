@@ -1,9 +1,14 @@
-# New in 2021.1
+# New in 2023.1
 
 The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
-In addition, Version 2021.1 provides several new features and enhancements:
+In addition, Version 2023.1 provides several new features and enhancements:
 
+* Especia flavours have been renamed `azafran` for many-multiplet decomposition
+  to test the hypothetical variation of the fine-structure constant, `curcuma`
+  for Doppler profile decomposition of metal absorption lines, `oregana` for
+  Voigt profile decomposition using the pseudo-Voigt approximation, and `pimiento`
+  for Voigt profile decomposition using the extended pseudo-Voigt approximation.
 * Especia now uses 64-bit instead of 32-bit seeds to initialize the random
   number generator.
 * MELG and PCG random number generators are included with the source code, 

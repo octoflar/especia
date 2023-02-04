@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    especiv 9600629759793949339 200 400 2.0 0.0001 10000 10 < hi.md
+    oregano 5489 200 400 2.0 0.0001 10000 10 < hi.md
     
 Consult the Especia wiki on [using the software](https://github.com/octoflar/especia/wiki/Using-the-software)
 for further help.

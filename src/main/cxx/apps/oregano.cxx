@@ -1,7 +1,7 @@
-/// @file especiv.cxx
+/// @file oregano.cxx
 /// Especia for intergalactic metal and damped H I, He I, II lines.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2023
 /// @copyright MIT License
 #include <exception>
 #include <iostream>
@@ -12,7 +12,7 @@
 using namespace std;
 
 
-/// Flavor of Especia to analyse intergalactic metal and damped H I, He I, II lines.
+/// Especia to analyse intergalactic metal and damped H I, He I, II lines.
 ///
 /// @param argc The number of command line arguments.
 /// @param argc The number of command line arguments.
@@ -26,7 +26,7 @@ using namespace std;
 /// @param argv[7] The trace modulus.
 /// @return an exit code
 ///
-/// @remark Usage: especiv {seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]
+/// @remark Usage: oregano {seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]
 ///
 /// @attention A usage message is written to standard output, if no command line arguments (excluding the
 /// program name) are supplied. In this case the returned exit code is zero.

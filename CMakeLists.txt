@@ -1,5 +1,5 @@
 ## @author Ralf Quast
-## @date 2021
+## @date 2023
 ## @copyright MIT License
 
 cmake_minimum_required(VERSION 3.2.2)
@@ -9,7 +9,7 @@ include(src/main/cmake/test.cmake)
 include(src/main/cmake/veclib.cmake)
 include(src/main/cmake/openmp.cmake)
 
-project(especia VERSION 2021.1 LANGUAGES C CXX)
+project(especia VERSION 2023.1 LANGUAGES C CXX)
 project_version_tag(snapshot)
 project_title("Evolutionary spectrum inversion and analysis (Especia)")
 project_doi("https://doi.org/10.5281/zenodo.785071")
@@ -35,12 +35,10 @@ configure_file(${MAIN}/scripts/erun erun COPYONLY)
 configure_file(${MAIN}/scripts-filtered/update-copyright update-copyright @ONLY)
 configure_file(${MAIN}/scripts-filtered/update-copyright.sed update-copyright.sed @ONLY)
 
-configure_file(${TEST}/resources/especid_test.html resources/especid_test.html COPYONLY)
-configure_file(${TEST}/resources/especiv_test.html resources/especiv_test.html COPYONLY)
-configure_file(${TEST}/resources/especix_test.html resources/especix_test.html COPYONLY)
-configure_file(${TEST}/resources/especia_test.html resources/especia_test.html COPYONLY)
-configure_file(${TEST}/resources/doublet_test.html resources/doublet_test.html COPYONLY)
-configure_file(${TEST}/resources/spec000.dat resources/spec000.dat COPYONLY)
+configure_file(${TEST}/resources/curcuma_test.html resources/curcuma_test.html COPYONLY)
+configure_file(${TEST}/resources/oregano_test.html resources/oregano_test.html COPYONLY)
+configure_file(${TEST}/resources/pimiento_test.html resources/pimiento_test.html COPYONLY)
+configure_file(${TEST}/resources/azafran_test.html resources/azafran_test.html COPYONLY)
 configure_file(${TEST}/resources/stis121.dat resources/stis121.dat COPYONLY)
 configure_file(${TEST}/resources/uves346.dat resources/uves346.dat COPYONLY)
 configure_file(${TEST}/resources/uves580.dat resources/uves580.dat COPYONLY)
@@ -70,14 +68,14 @@ set(CORE_SOURCES
         ${MAIN}/cxx/core/section.cxx
         ${MAIN}/cxx/core/section.h)
 
-add_executable(especia ${MAIN}/cxx/apps/especia.cxx ${CORE_SOURCES})
-target_link_libraries(especia ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
-add_executable(especid ${MAIN}/cxx/apps/especid.cxx ${CORE_SOURCES})
-target_link_libraries(especid ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
-add_executable(especiv ${MAIN}/cxx/apps/especiv.cxx ${CORE_SOURCES})
-target_link_libraries(especiv ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
-add_executable(especix ${MAIN}/cxx/apps/especix.cxx ${CORE_SOURCES})
-target_link_libraries(especix ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
+add_executable(azafran ${MAIN}/cxx/apps/azafran.cxx ${CORE_SOURCES})
+target_link_libraries(azafran ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
+add_executable(curcuma ${MAIN}/cxx/apps/curcuma.cxx ${CORE_SOURCES})
+target_link_libraries(curcuma ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
+add_executable(oregano ${MAIN}/cxx/apps/oregano.cxx ${CORE_SOURCES})
+target_link_libraries(oregano ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
+add_executable(pimiento ${MAIN}/cxx/apps/pimiento.cxx ${CORE_SOURCES})
+target_link_libraries(pimiento ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
 add_executable(ecom ${MAIN}/cxx/apps/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/apps/edat.cxx)
 add_executable(elog ${MAIN}/cxx/apps/elog.cxx)
@@ -120,11 +118,10 @@ add_unit_test(random_test
         ${MAIN}/cxx/core/random.h
         ${TEST}/cxx/core/random_test.cxx)
 
-add_property_test(especid_test 159.77 171.89)
-add_property_test(especiv_test 251.04)
-add_property_test(especix_test 251.46)
-add_property_test(especia_test 103.91 258.67 213.20 223.51 238.06 196.48)
-add_property_test(doublet_test 13.89)
+add_flavour_test(curcuma_test 159.77 171.89)
+add_flavour_test(oregano_test 251.04)
+add_flavour_test(pimiento_test 251.46)
+add_flavour_test(azafran_test 103.91 258.67 213.20 223.51 238.06 196.48)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
         ${MAIN}/cxx/core/base.h
@@ -155,7 +152,7 @@ add_custom_target(tar
         VERBATIM)
 
 
-install(TARGETS especia especid especiv especix ecom edat elog emod emes ezip
+install(TARGETS azafran curcuma oregano pimiento ecom edat elog emod emes ezip
         RUNTIME
         DESTINATION bin
         CONFIGURATIONS Release)

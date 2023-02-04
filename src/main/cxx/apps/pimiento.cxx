@@ -1,7 +1,7 @@
-/// @file especid.cxx
-/// Especia for intergalactic metal and non-damped H I, He I, II lines.
+/// @file pimiento.cxx
+/// Especia for intergalactic metal and damped H I, He I, II lines (high accuracy).
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2023
 /// @copyright MIT License
 #include <exception>
 #include <iostream>
@@ -12,8 +12,10 @@
 using namespace std;
 
 
-/// Flavor of Especia to analyse intergalactic metal lines.
+/// Especia to analyse intergalactic metal and damped H I, He I, II lines
+/// with high accuracy.
 ///
+/// @param argc The number of command line arguments.
 /// @param argc The number of command line arguments.
 /// @param argv[0] The program name.
 /// @param argv[1] The random seed.
@@ -25,12 +27,12 @@ using namespace std;
 /// @param argv[7] The trace modulus.
 /// @return an exit code
 ///
-/// @remark Usage: especid {seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]
+/// @remark Usage: pimiento {seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]
 ///
 /// @attention A usage message is written to standard output, if no command line arguments (excluding the
 /// program name) are supplied. In this case the returned exit code is zero.
 int main(int argc, char *argv[]) {
-    typedef especia::Model<especia::Intergalactic_Doppler> Model;
+    typedef especia::Model<especia::Intergalactic_Voigt<especia::Extended_Pseudo_Voigt>> Model;
 
     try {
         return especia::Runner(argc, argv).run<Model>();
