@@ -39,8 +39,6 @@ configure_file(${TEST}/resources/curcuma_test.html resources/curcuma_test.html C
 configure_file(${TEST}/resources/oregano_test.html resources/oregano_test.html COPYONLY)
 configure_file(${TEST}/resources/pimiento_test.html resources/pimiento_test.html COPYONLY)
 configure_file(${TEST}/resources/azafran_test.html resources/azafran_test.html COPYONLY)
-configure_file(${TEST}/resources/doublet_test.html resources/doublet_test.html COPYONLY)
-configure_file(${TEST}/resources/spec000.dat resources/spec000.dat COPYONLY)
 configure_file(${TEST}/resources/stis121.dat resources/stis121.dat COPYONLY)
 configure_file(${TEST}/resources/uves346.dat resources/uves346.dat COPYONLY)
 configure_file(${TEST}/resources/uves580.dat resources/uves580.dat COPYONLY)
