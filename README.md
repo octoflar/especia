@@ -55,10 +55,3 @@ Zenodo. [DOI&nbsp;10.5281/zenodo.785424](https://doi.org/10.5281/zenodo.785424).
 
 Quast, Ralf (2017). *Covariance matrix adaption in evolution strategies.*
 Zenodo. [DOI&nbsp;10.5281/zenodo.784203](https://doi.org/10.5281/zenodo.784203).
-
-# Thanks!
-
-Especia is developed using [CLion](https://www.jetbrains.com/clion/). I very much appreciate [JetBrains](https://jb.gg/OpenSource)
-for supporting this project with an Open Source license for the JetBrains All Products Pack.
-
-[![Logo](assets/img/jb-logo-mauve.png "JetBrains logo")](https://jb.gg/OpenSource)
