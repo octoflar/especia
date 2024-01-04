@@ -19,7 +19,7 @@ out whether this software is of interest to you.
 
 If you already have some understanding of these matters, you may want to consult the
 [especia wiki](https://github.com/octoflar/especia/wiki)
-before you clone the [source code reposirory](https://github.com/octoflar/especia)
+before you clone the [source code repository](https://github.com/octoflar/especia)
 or download a [release version](https://github.com/octoflar/especia/releases).
 
 Building Especia requires [CMake](https://cmake.org) and a compiler that implements
