@@ -1,4 +1,4 @@
-[![Graphical abstract](assets/img/fit.png "Evolution strategies applied to the problem of line profile decomposition in QSO spectra (click to view an animated image)")](https://github.com/octoflar/especia/wiki)
+[![Graphical abstract](assets/img/fit.png "Evolution strategies applied to the problem of line profile decomposition in QSO spectra")](https://github.com/octoflar/especia/wiki)
 
 The Evolutionary spectrum inversion and analysis (Especia) file set provides ISO C++ code for the inverse modelling and
 analysis of intergalactic and interstellar absorption line regions seen in QSO spectra.
