@@ -11,7 +11,9 @@ Additional highlights are the joint modelling and optimisation of the background
 semi-analytic convolution of the absorption term with the instrumental function. The method is explained in detail by
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
 
-[![CMake](https://github.com/octoflar/especia/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/cmake.yml) [![CodeQL](https://github.com/octoflar/especia/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/codeql-analysis.yml)
+[![CMake](https://github.com/octoflar/especia/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/cmake.yml)
+[![CodeQL](https://github.com/octoflar/especia/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/codeql-analysis.yml)
+[![codecov](https://codecov.io/gh/octoflar/especia/graph/badge.svg?token=KDHIB58MBZ)](https://codecov.io/gh/octoflar/especia)
 
 # Getting started
 
