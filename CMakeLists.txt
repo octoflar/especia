@@ -39,6 +39,8 @@ configure_file(${TEST}/resources/curcuma_test.html resources/curcuma_test.html C
 configure_file(${TEST}/resources/oregano_test.html resources/oregano_test.html COPYONLY)
 configure_file(${TEST}/resources/mascada_test.html resources/mascada_test.html COPYONLY)
 configure_file(${TEST}/resources/azafran_test.html resources/azafran_test.html COPYONLY)
+configure_file(${TEST}/resources/doublet_test.html resources/doublet_test.html COPYONLY)
+configure_file(${TEST}/resources/spec000.dat resources/spec000.dat COPYONLY)
 configure_file(${TEST}/resources/stis121.dat resources/stis121.dat COPYONLY)
 configure_file(${TEST}/resources/uves346.dat resources/uves346.dat COPYONLY)
 configure_file(${TEST}/resources/uves580.dat resources/uves580.dat COPYONLY)
@@ -131,6 +133,7 @@ add_unit_test(random_test
         ${TEST}/cxx/core/random_test.cxx)
 
 add_flavour_test(curcuma_test 159.77 171.89)
+add_flavour_test(doublet_test  14.61)
 add_flavour_test(oregano_test 251.04)
 add_flavour_test(mascada_test 251.46)
 add_flavour_test(azafran_test 103.91 258.67 213.20 223.51 238.06 196.48)
