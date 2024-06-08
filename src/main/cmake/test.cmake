@@ -3,11 +3,9 @@
 ## @copyright MIT License
 
 function(add_flavour_test NAME EXPECTED_VALUES)
-    target_compile_options(${NAME} PRIVATE $<$<CONFIG:Debug>:--coverage>)
-    target_link_options(${NAME} PRIVATE $<$<CONFIG:Debug>:--coverage>)
-    add_test(NAME ${NAME}_test COMMAND ./erun resources/${NAME}_test.html ${NAME}_test.html ${EXPECTED_VALUES} ${ARGN})
-    set_tests_properties(${NAME}_test PROPERTIES LABELS flavour TIMEOUT 900)
-    add_custom_target(${NAME}_test ctest --verbose --tests-regex ${NAME}_test)
+    add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
+    set_tests_properties(${NAME} PROPERTIES LABELS flavour TIMEOUT 900)
+    add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
 
 add_custom_target(flavourtests ctest --verbose --label-regex flavour)
