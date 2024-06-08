@@ -2,7 +2,7 @@
 ## @date 2023
 ## @copyright MIT License
 
-cmake_minimum_required(VERSION 3.2.2)
+cmake_minimum_required(VERSION 3.5)
 include(src/main/cmake/project.cmake)
 include(src/main/cmake/unix.cmake)
 include(src/main/cmake/test.cmake)
