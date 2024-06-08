@@ -12,7 +12,7 @@ semi-analytic convolution of the absorption term with the instrumental function.
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
 
 [![CMake](https://github.com/octoflar/especia/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/cmake.yml)
-[![CodeQL](https://github.com/octoflar/especia/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/octoflar/especia/actions/workflows/codeql.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/codeql.yml)
 [![codecov](https://codecov.io/gh/octoflar/especia/graph/badge.svg?token=KDHIB58MBZ)](https://codecov.io/gh/octoflar/especia)
 
 # Getting started
