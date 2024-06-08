@@ -37,7 +37,7 @@ configure_file(${MAIN}/scripts-filtered/update-copyright.sed update-copyright.se
 
 configure_file(${TEST}/resources/curcuma_test.html resources/curcuma_test.html COPYONLY)
 configure_file(${TEST}/resources/oregano_test.html resources/oregano_test.html COPYONLY)
-configure_file(${TEST}/resources/pimiento_test.html resources/pimiento_test.html COPYONLY)
+configure_file(${TEST}/resources/mascada_test.html resources/mascada_test.html COPYONLY)
 configure_file(${TEST}/resources/azafran_test.html resources/azafran_test.html COPYONLY)
 configure_file(${TEST}/resources/stis121.dat resources/stis121.dat COPYONLY)
 configure_file(${TEST}/resources/uves346.dat resources/uves346.dat COPYONLY)
@@ -74,8 +74,8 @@ add_executable(curcuma ${MAIN}/cxx/apps/curcuma.cxx ${CORE_SOURCES})
 target_link_libraries(curcuma ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
 add_executable(oregano ${MAIN}/cxx/apps/oregano.cxx ${CORE_SOURCES})
 target_link_libraries(oregano ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
-add_executable(pimiento ${MAIN}/cxx/apps/pimiento.cxx ${CORE_SOURCES})
-target_link_libraries(pimiento ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
+add_executable(mascada ${MAIN}/cxx/apps/mascada.cxx ${CORE_SOURCES})
+target_link_libraries(mascada ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
 add_executable(ecom ${MAIN}/cxx/apps/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/apps/edat.cxx)
 add_executable(elog ${MAIN}/cxx/apps/elog.cxx)
@@ -120,7 +120,7 @@ add_unit_test(random_test
 
 add_flavour_test(curcuma_test 159.77 171.89)
 add_flavour_test(oregano_test 251.04)
-add_flavour_test(pimiento_test 251.46)
+add_flavour_test(mascada_test 251.46)
 add_flavour_test(azafran_test 103.91 258.67 213.20 223.51 238.06 196.48)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
@@ -152,7 +152,7 @@ add_custom_target(tar
         VERBATIM)
 
 
-install(TARGETS azafran curcuma oregano pimiento ecom edat elog emod emes ezip
+install(TARGETS azafran curcuma oregano mascada ecom edat elog emod emes ezip
         RUNTIME
         DESTINATION bin
         CONFIGURATIONS Release)
