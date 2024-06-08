@@ -14,8 +14,8 @@ function(add_unit_test NAME)
     add_executable(${NAME}
             ${ARGN}
             ${TEST}/cxx/unittest.h)
-    target_compile_options(${NAME} PRIVATE --coverage)
-    target_link_options(${NAME} PRIVATE --coverage)
+    target_compile_options(${NAME} PRIVATE $<$<CONFIG:Debug>:--coverage>)
+    target_link_options(${NAME} PRIVATE $<$<CONFIG:Debug>:--coverage>)
     add_test(NAME ${NAME} COMMAND ${NAME})
     set_tests_properties(${NAME} PROPERTIES LABELS unit TIMEOUT 10)
 endfunction()
