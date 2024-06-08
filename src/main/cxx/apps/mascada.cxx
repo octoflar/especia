@@ -1,4 +1,4 @@
-/// @file pimiento.cxx
+/// @file mascada.cxx
 /// Especia for intergalactic metal and damped H I, He I, II lines (high accuracy).
 /// @author Ralf Quast
 /// @date 2023
@@ -27,7 +27,7 @@ using namespace std;
 /// @param argv[7] The trace modulus.
 /// @return an exit code
 ///
-/// @remark Usage: pimiento {seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]
+/// @remark Usage: mascada {seed} {parents} {population} {step} {accuracy} {stop} {trace} < {model file} [> {result file}]
 ///
 /// @attention A usage message is written to standard output, if no command line arguments (excluding the
 /// program name) are supplied. In this case the returned exit code is zero.
