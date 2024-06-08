@@ -1,8 +1,8 @@
-# New in 2023.1
+# New in 2024.1
 
 The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
-In addition, Version 2023.1 provides several new features and enhancements:
+In addition, Version 2024.1 provides several new features and enhancements:
 
 * Especia flavours have been renamed `azafran` for many-multiplet decomposition
   to test the hypothetical variation of the fine-structure constant, `curcuma`
