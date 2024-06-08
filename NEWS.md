@@ -4,6 +4,7 @@ The main programs were renamed and a few utility programs were added.
 The source code, documentation, and ancillary files were revised.
 In addition, Version 2024.1 provides several new features and enhancements:
 
+* Code test coverage report is generated.
 * Especia flavours have been renamed `azafran` for many-multiplet decomposition
   to test the hypothetical variation of the fine-structure constant, `curcuma`
   for Doppler profile decomposition of metal absorption lines, `oregano` for
