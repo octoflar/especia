@@ -70,12 +70,24 @@ set(CORE_SOURCES
 
 add_executable(azafran ${MAIN}/cxx/apps/azafran.cxx ${CORE_SOURCES})
 target_link_libraries(azafran ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
+target_compile_options(azafran PRIVATE $<$<CONFIG:Debug>:--coverage>)
+target_link_options(azafran PRIVATE $<$<CONFIG:Debug>:--coverage>)
+
 add_executable(curcuma ${MAIN}/cxx/apps/curcuma.cxx ${CORE_SOURCES})
 target_link_libraries(curcuma ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
+target_compile_options(curcuma PRIVATE $<$<CONFIG:Debug>:--coverage>)
+target_link_options(curcuma PRIVATE $<$<CONFIG:Debug>:--coverage>)
+
 add_executable(oregano ${MAIN}/cxx/apps/oregano.cxx ${CORE_SOURCES})
 target_link_libraries(oregano ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
+target_compile_options(oregano PRIVATE $<$<CONFIG:Debug>:--coverage>)
+target_link_options(oregano PRIVATE $<$<CONFIG:Debug>:--coverage>)
+
 add_executable(mascada ${MAIN}/cxx/apps/mascada.cxx ${CORE_SOURCES})
 target_link_libraries(mascada ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
+target_compile_options(mascada PRIVATE $<$<CONFIG:Debug>:--coverage>)
+target_link_options(mascada PRIVATE $<$<CONFIG:Debug>:--coverage>)
+
 add_executable(ecom ${MAIN}/cxx/apps/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/apps/edat.cxx)
 add_executable(elog ${MAIN}/cxx/apps/elog.cxx)
@@ -118,10 +130,10 @@ add_unit_test(random_test
         ${MAIN}/cxx/core/random.h
         ${TEST}/cxx/core/random_test.cxx)
 
-add_flavour_test(curcuma 159.77 171.89)
-add_flavour_test(oregano 251.04)
-add_flavour_test(mascada 251.46)
-add_flavour_test(azafran 103.91 258.67 213.20 223.51 238.06 196.48)
+add_flavour_test(curcuma_test 159.77 171.89)
+add_flavour_test(oregano_test 251.04)
+add_flavour_test(mascada_test 251.46)
+add_flavour_test(azafran_test 103.91 258.67 213.20 223.51 238.06 196.48)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
         ${MAIN}/cxx/core/base.h
