@@ -72,23 +72,12 @@ set(CORE_SOURCES
 
 add_executable(azafran ${MAIN}/cxx/apps/azafran.cxx ${CORE_SOURCES})
 target_link_libraries(azafran ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
-target_compile_options(azafran PRIVATE $<$<CONFIG:Debug>:--coverage>)
-target_link_options(azafran PRIVATE $<$<CONFIG:Debug>:--coverage>)
-
 add_executable(curcuma ${MAIN}/cxx/apps/curcuma.cxx ${CORE_SOURCES})
 target_link_libraries(curcuma ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
-target_compile_options(curcuma PRIVATE $<$<CONFIG:Debug>:--coverage>)
-target_link_options(curcuma PRIVATE $<$<CONFIG:Debug>:--coverage>)
-
 add_executable(oregano ${MAIN}/cxx/apps/oregano.cxx ${CORE_SOURCES})
 target_link_libraries(oregano ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
-target_compile_options(oregano PRIVATE $<$<CONFIG:Debug>:--coverage>)
-target_link_options(oregano PRIVATE $<$<CONFIG:Debug>:--coverage>)
-
 add_executable(mascada ${MAIN}/cxx/apps/mascada.cxx ${CORE_SOURCES})
 target_link_libraries(mascada ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
-target_compile_options(mascada PRIVATE $<$<CONFIG:Debug>:--coverage>)
-target_link_options(mascada PRIVATE $<$<CONFIG:Debug>:--coverage>)
 
 add_executable(ecom ${MAIN}/cxx/apps/ecom.cxx)
 add_executable(edat ${MAIN}/cxx/apps/edat.cxx)
