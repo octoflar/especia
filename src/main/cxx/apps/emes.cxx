@@ -13,21 +13,28 @@ using namespace std;
 /// @return an exit code.
 ///
 /// @remark Usage: emes < {result file} [> {target file}]
-int main() {
-    bool found = false;
-    string s;
+int
+main ()
+{
+  bool found = false;
+  string s;
 
-    while (getline(cin, s)) {
-        if (found and not (s == "</message>"
-                           // for compatibility with former versions
-                           or s == "</mesg>")) {
-            cout << s << endl;
-        } else {
-            found = (s == "<message>"
-                     // for compatibility with former versions
-                     or s == "<mesg>");
+  while (getline (cin, s))
+    {
+      if (found
+          and not(s == "</message>"
+                  // for compatibility with former versions
+                  or s == "</mesg>"))
+        {
+          cout << s << endl;
+        }
+      else
+        {
+          found = (s == "<message>"
+                   // for compatibility with former versions
+                   or s == "<mesg>");
         }
     }
 
-    return 0;
+  return 0;
 }

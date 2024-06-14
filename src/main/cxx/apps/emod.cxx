@@ -13,21 +13,28 @@ using namespace std;
 /// @return an exit code.
 ///
 /// @remark Usage: emod < {result file} [> {target file}]
-int main() {
-    bool found = false;
-    string s;
+int
+main ()
+{
+  bool found = false;
+  string s;
 
-    while (getline(cin, s)) {
-        if (found and not (s == "</model>"
-                           // for compatibility with former versions
-                           or s == "</job>" or s == "</input>")) {
-            cout << s << endl;
-        } else {
-            found = (s == "<model>"
-                     // for compatibility with former versions
-                     or s == "<job>" or s == "<input>");
+  while (getline (cin, s))
+    {
+      if (found
+          and not(s == "</model>"
+                  // for compatibility with former versions
+                  or s == "</job>" or s == "</input>"))
+        {
+          cout << s << endl;
+        }
+      else
+        {
+          found = (s == "<model>"
+                   // for compatibility with former versions
+                   or s == "<job>" or s == "<input>");
         }
     }
 
-    return 0;
+  return 0;
 }

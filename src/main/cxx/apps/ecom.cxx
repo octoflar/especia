@@ -13,16 +13,22 @@ using namespace std;
 /// @return an exit code.
 ///
 /// @remark Usage: ecom < {result file} [> {target file}]
-int main() {
-    bool found = false;
-    string s;
+int
+main ()
+{
+  bool found = false;
+  string s;
 
-    while (getline(cin, s)) {
-        if (found and s != "</command>") {
-            cout << s << endl;
-        } else {
-            found = (s == "<command>");
+  while (getline (cin, s))
+    {
+      if (found and s != "</command>")
+        {
+          cout << s << endl;
+        }
+      else
+        {
+          found = (s == "<command>");
         }
     }
-    return 0;
+  return 0;
 }

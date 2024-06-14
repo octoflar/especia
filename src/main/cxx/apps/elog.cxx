@@ -13,17 +13,23 @@ using namespace std;
 /// @return an exit code.
 ///
 /// @remark Usage: elog < {result file} [> {target file}]
-int main() {
-    bool found = false;
-    string s;
+int
+main ()
+{
+  bool found = false;
+  string s;
 
-    while (getline(cin, s)) {
-        if (found and s != "</log>") {
-            cout << s << endl;
-        } else {
-            found = (s == "<log>");
+  while (getline (cin, s))
+    {
+      if (found and s != "</log>")
+        {
+          cout << s << endl;
+        }
+      else
+        {
+          found = (s == "<log>");
         }
     }
 
-    return 0;
+  return 0;
 }
