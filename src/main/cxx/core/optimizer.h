@@ -727,35 +727,27 @@ private:
     Result result (n, x, d, s);
 
     optimize (
-        f, constraint, n, 
-        config.get_parent_number (),
-        config.get_population_size (), 
-        config.get_weights_pointer (),
+        f, constraint, n, config.get_parent_number (),
+        config.get_population_size (), config.get_weights_pointer (),
         config.get_step_size_damping (),
         config.get_step_size_cumulation_rate (),
         config.get_distribution_cumulation_rate (),
         config.get_rank_1_covariance_matrix_adaption_rate (),
         config.get_rank_m_covariance_matrix_adaption_rate (),
-        config.get_covariance_update_modulus (),
-        config.get_accuracy_goal (),
-        config.get_stop_generation (), 
-        result.__generation_number (),
-        result.get_parameter_values_pointer (), 
-        result.__global_step_size (),
+        config.get_covariance_update_modulus (), config.get_accuracy_goal (),
+        config.get_stop_generation (), result.__generation_number (),
+        result.get_parameter_values_pointer (), result.__global_step_size (),
         result.get_local_step_sizes_pointer (),
         result.get_rotation_matrix_pointer (),
         result.get_covariance_matrix_pointer (),
         result.get_step_size_cumulation_path_pointer (),
         result.get_distribution_cumulation_path_pointer (),
-        result.__fitness (), 
-        result.__optimized (), 
-        result.__underflow (),
+        result.__fitness (), result.__optimized (), result.__underflow (),
         deviate, decompose, compare, tracer);
 
     if (result.__optimized ())
       {
-        postopti (f, constraint, n, 
-                  result.get_parameter_values_pointer (),
+        postopti (f, constraint, n, result.get_parameter_values_pointer (),
                   result.get_local_step_sizes_pointer (),
                   result.get_rotation_matrix_pointer (),
                   result.get_covariance_matrix_pointer (),
