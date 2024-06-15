@@ -2,16 +2,16 @@
 ## @date 2021
 ## @copyright MIT License
 
-function(add_feature_test NAME EXPECTED_VALUES)
-    add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
+function(add_feature_test NAME)
+    add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${ARGN})
     set_tests_properties(${NAME} PROPERTIES LABELS feature TIMEOUT 10)
     add_custom_target(${NAME} ctest --output-on-failure --tests-regex ${NAME})
 endfunction()
 
 add_custom_target(featuretests ctest --output-on-failure --label-regex feature)
 
-function(add_flavour_test NAME EXPECTED_VALUES)
-    add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${EXPECTED_VALUES} ${ARGN})
+function(add_flavour_test NAME)
+    add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${ARGN})
     set_tests_properties(${NAME} PROPERTIES LABELS flavour TIMEOUT 900)
     add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
 endfunction()
