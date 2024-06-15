@@ -24,7 +24,7 @@ SOFTWARE.
 
 To optimize this model type, for instance:
 
-    curcuma 729927 10 20 3.0 0.0001 1000 10 < na.md
+    curcuma 729927 10 20 1.0 0.0001 1000 10 < na.md
 
 Consult the Especia wiki on [using the software](https://github.com/octoflar/especia/wiki/Using-the-software)
 for further help.
@@ -77,4 +77,3 @@ for further explanation.
 ## Thanks
 
 Based on a test case provided by Martin Wendt, AIP, Germany.
-
