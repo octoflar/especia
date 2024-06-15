@@ -26,8 +26,9 @@
 namespace especia
 {
 
+/// The spectrum model.
 ///
-/// @todo - the whole class needs a cleanup.
+/// @tparam Function The type of profile function.
 template <class Function> class Model
 {
 public:
@@ -85,6 +86,16 @@ public:
     const std::valarray<T> b;
   };
 
+  /// Initializes the model by reading a model definition from in input stream.
+  ///
+  /// @param is The input stream.
+  /// @param os The output stream used for reporting.
+  /// @param[in] comment_mark The character to mark a comment.
+  /// @param[in] begin_of_section The character to mark the biginning of a
+  /// model section.
+  /// @param[in] end_of_section The character to mark the end of a model
+  /// section.
+  /// @return the input stream.
   std::istream &
   get (std::istream &is, std::ostream &os, char comment_mark = '%',
        char begin_of_section = '{', char end_of_section = '}')
@@ -129,7 +140,7 @@ public:
     os << "<!--\n";
     os << "<model>\n";
 
-    // Read all lines and write them to standard output.
+    // Read all lines and write them to the output stream.
     while (readline (is, line))
       {
         ss << line << endl;
@@ -420,6 +431,10 @@ public:
     return is;
   }
 
+  /// Writes the model to an output stream.
+  ///
+  /// @param os The output stream.
+  /// @return the output stream.
   std::ostream &
   put (std::ostream &os) const
   {
@@ -584,12 +599,22 @@ public:
     return os;
   }
 
+  /// Computes the value of the cost function for given (extrinsic) model
+  /// parameter values.
+  ///
+  /// @param[in] x The (extrinsic) model parameter values.
+  /// @param[in] n The number of (extrinsic) model parameters.
+  /// @return the value of the cost function.
   real
   operator() (const real x[], natural n) const
   {
     return cost (x, n);
   }
 
+  /// Sets new model parameters values and uncertainties.
+  ///
+  /// @param[in] x The (extrinsic) model parameter values.
+  /// @param[in] u The (extrinsic) model parameter uncertainties.
   void
   set (const real x[], const real u[])
   {
@@ -612,6 +637,12 @@ public:
       }
   }
 
+  /// Computes the value of the cost function for given (extrinsic) model
+  /// parameter values.
+  ///
+  /// @param[in] x The (extrinsic) model parameter values.
+  /// @param[in] n The number of (extrinsic) model parameters.
+  /// @return the value of the cost function.
   real
   cost (const real x[], natural n) const
   {
@@ -635,12 +666,18 @@ public:
     return d;
   }
 
+  /// Returns the number of (extrinsic) model parameters.
+  ///
+  /// @return the number of (extrinsic) model parameters.
   natural
   get_parameter_count () const
   {
     return ind.max () + 1;
   }
 
+  /// Returns the initial (extrinsic) parameter values.
+  ///
+  /// @return the initial (extrinsic) parameter values.
   std::valarray<real>
   get_initial_parameter_values () const
   {
@@ -657,6 +694,11 @@ public:
     return x;
   }
 
+  /// Returns the initial step sizes associated with (extrinsic) parameter
+  /// values.
+  ///
+  /// @return the initial step sizes associated with (extrinsic) parameter
+  /// values.
   std::valarray<real>
   get_initial_local_step_sizes () const
   {
@@ -673,6 +715,11 @@ public:
     return z;
   }
 
+  /// Returns the bound constraints associated with (extrinsic) model
+  /// parameters.
+  ///
+  /// @return the bound constraints associated with (extrinsic) model
+  /// parameters.
   Bounded_Constraint<real>
   get_constraint () const
   {
@@ -731,18 +778,29 @@ private:
     return os;
   }
 
+  /// The container of model sections.
   std::vector<especia::Section> sections;
 
+  /// The index of the first model parameter of each section.
   std::valarray<natural> isc;
+  /// The polynomial degree of the continuum approximation in each section.
   std::valarray<natural> nle;
+  /// The number of spectral lines in each section.
   std::valarray<natural> nli;
 
+  /// The intrinsic model parameters.
   std::valarray<real> val;
+  /// The uncertainty associated with intrinsic model parameters.
   std::valarray<real> unc;
+  /// The lower bounds of intrinsic model parameters.
   std::valarray<real> lo;
+  /// The upper bounds of intrinsic model parameters.
   std::valarray<real> up;
 
+  /// The mask is @c true when a parameter is optimized, @false when it is
+  /// considered constant.
   std::valarray<bool> msk;
+  /// The index maps from extrinsic to intrinsic model parameterss.
   std::valarray<natural> ind;
 
   std::map<std::string, natural> section_name_map;
