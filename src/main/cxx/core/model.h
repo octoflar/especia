@@ -26,7 +26,7 @@
 namespace especia
 {
 
-/// The spectrum model.
+/// The parametric model for fitting absorption line regions.
 ///
 /// @tparam Function The type of profile function.
 template <class Function> class Model
