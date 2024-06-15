@@ -116,3 +116,4 @@ jobs:
         run: |
           ctest -C ${{env.BUILD_TYPE}} --output-on-failure --tests-regex curcuma --repeat until-pass:1
           ctest -C ${{env.BUILD_TYPE}} --output-on-failure --tests-regex oregano --repeat until-pass:1
+          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --tests-regex mascada --repeat until-pass:1
