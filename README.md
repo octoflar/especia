@@ -45,8 +45,7 @@ Typing `make install` will complete the build and move the executable files into
 # Release versions
 
 Release versions YYYY.N are numbered by the year of the release followed by a single-digit number, which enumerates the
-release within the release year. For example, version 2016.1 denotes the first release of the year 2016. The latest
-release version is [2016.1](https://github.com/octoflar/especia/releases/tag/2016.1).
+release within the release year. For example, version 2024.1 denotes the first release of the year 2024.
 
 # Further reading
 
