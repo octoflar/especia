@@ -1,5 +1,5 @@
 ## @author Ralf Quast
-## @date 2023
+## @date 2024
 ## @copyright MIT License
 
 cmake_minimum_required(VERSION 3.5.0)
