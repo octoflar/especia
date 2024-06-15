@@ -126,7 +126,7 @@ add_flavour_test(oregano_test 251.04)
 add_flavour_test(mascada_test 251.46)
 add_flavour_test(azafran_test 103.91 258.67 213.20 223.51 238.06 196.48)
 
-add_feature_test(doublet_test 13.89|14.06)
+add_feature_test(doublet_test 13.89|14.06|14.61)
 
 add_executable(airtovac EXCLUDE_FROM_ALL ${MAIN}/cxx/util/airtovac.cxx
         ${MAIN}/cxx/core/base.h
