@@ -393,7 +393,7 @@ public:
         copy (nli.begin (), nli.end (), &(this->nli[0]));
 
         this->val.resize (n);
-        this->err.resize (n);
+        this->unc.resize (n);
 
         copy (val.begin (), val.end (), &(this->val[0]));
 
@@ -521,9 +521,9 @@ public:
         const real z = val[j + 2];
         const real v = val[j + 3];
         const real w = x * (1.0 + z) * (1.0 + v / c);
-        const real dx = err[j];
-        const real dz = err[j + 2];
-        const real dv = err[j + 3];
+        const real dx = unc[j];
+        const real dz = unc[j + 2];
+        const real dv = unc[j + 3];
         const real dw
             = dx
               + x * sqrt (sq ((1.0 + v / c) * dz) + sq ((1.0 + z) * dv / c));
@@ -591,18 +591,18 @@ public:
   }
 
   void
-  set (const real x[], const real z[])
+  set (const real x[], const real u[])
   {
     for (natural i = 0; i < val.size (); ++i)
       {
         if (msk[i])
           {
             val[i] = x[ind[i]];
-            err[i] = z[ind[i]];
+            unc[i] = u[ind[i]];
           }
         else
           {
-            err[i] = 0.0;
+            unc[i] = 0.0;
           }
       }
     for (natural i = 0; i < sections.size (); ++i)
@@ -724,7 +724,7 @@ private:
 
     os << val[parameter_index];
     if (msk[parameter_index])
-      os << " &plusmn; " << err[parameter_index];
+      os << " &plusmn; " << unc[parameter_index];
 
     os.flags (fmt);
 
@@ -738,7 +738,7 @@ private:
   std::valarray<natural> nli;
 
   std::valarray<real> val;
-  std::valarray<real> err;
+  std::valarray<real> unc;
   std::valarray<real> lo;
   std::valarray<real> up;
 
