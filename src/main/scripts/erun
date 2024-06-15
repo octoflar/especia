@@ -26,5 +26,5 @@ shift
 shift
 for value in "${@}"
 do
-    grep --quiet --fixed-strings "<td><strong>${value}</strong></td>" "${targetFile}"
+    grep --extended-regexp --quiet "<td><strong>${value}</strong></td>" "${targetFile}"
 done
