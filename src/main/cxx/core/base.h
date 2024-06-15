@@ -1,7 +1,7 @@
 /// @file base.h
 /// Base types, mathematical and physical constants and functions.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #ifndef ESPECIA_BASE_H
 #define ESPECIA_BASE_H

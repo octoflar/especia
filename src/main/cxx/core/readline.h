@@ -1,7 +1,7 @@
 /// @file readline.h
 /// Data input procedures.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #ifndef ESPECIA_READLINE_H
 #define ESPECIA_READLINE_H

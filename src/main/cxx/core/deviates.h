@@ -1,7 +1,7 @@
 /// @file deviates.h
 /// Function-like class templates for generating various random deviates.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #ifndef ESPECIA_DEVIATES_H
 #define ESPECIA_DEVIATES_H

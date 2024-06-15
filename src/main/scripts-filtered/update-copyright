@@ -2,7 +2,7 @@
 ## @file update-copyright
 ## Updates copyright notices
 ## @author Ralf Quast
-## @date 2021
+## @date 2024
 ## @copyright MIT License
 ## @remark usage: update-copyright [file]...
 set -e

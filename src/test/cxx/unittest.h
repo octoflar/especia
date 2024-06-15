@@ -1,7 +1,7 @@
 /// @file unittest.h
 /// Simple unit testing framework
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #ifndef ESPECIA_UNITTEST_H_H
 #define ESPECIA_UNITTEST_H_H

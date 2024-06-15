@@ -1,7 +1,7 @@
 /// @file optimizer_test.cxx
 /// Unit tests
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #include "../../../main/cxx/core/base.h"
 #include "../../../main/cxx/core/optimizer.h"

@@ -1,7 +1,7 @@
 /// @file section.cxx
 /// Class for modeling spectroscopic data sections.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #include <algorithm>
 #include <cctype>

@@ -1,5 +1,5 @@
 ## @author Ralf Quast
-## @date 2021
+## @date 2024
 ## @copyright MIT License
 
 function(project_doi DOI)

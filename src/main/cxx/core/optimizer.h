@@ -1,7 +1,7 @@
 /// @file optimizer.h
 /// CMA-ES classes for nonlinear function optimization.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #ifndef ESPECIA_OPTIMIZER_H
 #define ESPECIA_OPTIMIZER_H

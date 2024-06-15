@@ -1,7 +1,7 @@
 /// @file runner.h
 /// The model runner.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #ifndef ESPECIA_RUNNER_H
 #define ESPECIA_RUNNER_H

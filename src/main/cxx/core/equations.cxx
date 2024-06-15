@@ -1,7 +1,7 @@
 /// @file equations.cxx
 /// Equations from scientific literature.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #include "equations.h"
 

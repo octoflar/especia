@@ -1,7 +1,7 @@
 /// @file integrator.h
 /// Numerical integration.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #ifndef INTEGRATOR_H
 #define INTEGRATOR_H

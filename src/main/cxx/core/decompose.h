@@ -1,7 +1,7 @@
 /// @file decompose.h
 /// Symmetric eigenproblem solvers calling LAPACK routines.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #ifndef ESPECIA_SYMEIG_H
 #define ESPECIA_SYMEIG_H

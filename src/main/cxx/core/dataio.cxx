@@ -1,7 +1,7 @@
 /// @file dataio.cxx
 /// Data input and output procedures.
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #include <algorithm>
 #include <iomanip>

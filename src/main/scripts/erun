@@ -2,7 +2,7 @@
 ## @file erun
 ## Runs an Especia result HTML and searches for expected values, if specified
 ## @author Ralf Quast
-## @date 2021
+## @date 2024
 ## @copyright MIT License
 ## @remark usage: erun {resultFile} {targetFile} [value]...
 set -e

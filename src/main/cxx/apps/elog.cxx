@@ -1,7 +1,7 @@
 /// @file elog.cxx
 /// Program to extract the log data from an Especia result HTML file
 /// @author Ralf Quast
-/// @date 2021
+/// @date 2024
 /// @copyright MIT License
 #include <iostream>
 
