@@ -144,8 +144,7 @@ public:
   /// @tparam M The model type.
   ///
   /// @return an exit code
-  /// @throw invalid_argument when an invalid argument was supplied.
-  /// @throw runtime_error when a runtime error occurred.
+  /// @throw invalid_argument if an invalid argument was supplied.
   template <class M>
   int
   run ()

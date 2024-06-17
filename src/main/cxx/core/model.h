@@ -97,7 +97,7 @@ public:
   /// @param[in] end_of_section The character to mark the end of a model
   /// section.
   /// @return the model parsed.
-  /// @throw runtime_error when the model definition could not be parsed.
+  /// @throw runtime_error if the model definition could not be parsed.
   static Model<Function>
   parse (std::istream &is, std::ostream &os, char comment_mark = '%',
          char begin_of_section = '{', char end_of_section = '}')
