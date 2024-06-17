@@ -1,3 +1,7 @@
+# New in 2024.2
+
+Version 2024.2 provides a minor revision of sources and resources.
+
 # New in 2024.1
 
 The main programs were renamed and a few utility programs were added.
