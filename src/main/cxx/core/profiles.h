@@ -174,7 +174,7 @@ public:
   parameter_count ()
   {
     return n;
-  };
+  }
 
 private:
   /// The modified rest wavelength (Angstrom).
@@ -262,7 +262,7 @@ public:
   parameter_count ()
   {
     return n;
-  };
+  }
 
 private:
   /// The redshift factor due to cosmology and proper motion.
@@ -360,7 +360,7 @@ public:
   parameter_count ()
   {
     return n;
-  };
+  }
 
 private:
   /// The redshift factor due to cosmology and proper motion.
