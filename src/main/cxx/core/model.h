@@ -410,7 +410,7 @@ public:
   /// @param[in] x The model parameter values.
   /// @param[in] u The model parameter uncertainties.
   void
-  reset (const real x[], const real u[])
+  set (const real x[], const real u[])
   {
     for (natural i = 0; i < val.size (); ++i)
       {
