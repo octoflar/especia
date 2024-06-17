@@ -11,7 +11,7 @@
 
 using namespace std;
 
-/// Especia to analyse intergalactic metal lines.
+/// Especia to analyse intergalactic metal and non-damped H I, He I, II lines.
 ///
 /// @param argc The number of command line arguments.
 /// @param argv[0] The program name.
