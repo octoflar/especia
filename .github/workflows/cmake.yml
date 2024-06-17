@@ -49,15 +49,12 @@ jobs:
         run: |
           ctest -C ${{env.BUILD_TYPE}} --output-on-failure --label-regex feature --repeat until-pass:1
 
-      - name: Flavour tests
+      - name: Flavour (end-to-end) tests
         working-directory: ${{github.workspace}}/build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
-          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --tests-regex curcuma --repeat until-pass:1
-          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --tests-regex oregano --repeat until-pass:1
-          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --tests-regex mascada --repeat until-pass:1
-
+          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --label-regex flavour --repeat until-pass:1
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
@@ -109,11 +106,9 @@ jobs:
         run: |
           ctest -C ${{env.BUILD_TYPE}} --output-on-failure --label-regex feature --repeat until-pass:1
 
-      - name: Flavour tests
+      - name: Flavour (end-to-end) tests
         working-directory: ${{github.workspace}}/build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
-          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --tests-regex curcuma --repeat until-pass:1
-          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --tests-regex oregano --repeat until-pass:1
-          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --tests-regex mascada --repeat until-pass:1
+          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --label-regex flavour --repeat until-pass:1
