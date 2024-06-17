@@ -154,7 +154,6 @@ public:
     using std::cout;
     using std::endl;
     using std::invalid_argument;
-    using std::runtime_error;
 
     if (get_arg_count () == 1)
       {
@@ -177,19 +176,7 @@ public:
     const natural stop_generation = parse_stop_generation ();
     const natural trace_modulus = parse_trace_modulus ();
 
-    M model;
-    model.get (cin, cout);
-
-    if (cin.fail ())
-      {
-        throw runtime_error ("especia::Runner::run() Error: an error occurred "
-                             "while reading the model definition");
-      }
-    if (not cin.eof ())
-      {
-        throw runtime_error ("especia::Runner::run() Error: an error occurred "
-                             "while reading the model definition");
-      }
+    M model = M::parse (cin, cout);
 
     const Optimizer optimizer
         = Optimizer::Builder ()
@@ -316,6 +303,6 @@ private:
   std::vector<std::string> args;
 };
 
-}
+} // namespace especia
 
 #endif // ESPECIA_RUNNER_H

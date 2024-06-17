@@ -13,6 +13,7 @@
 #include <iostream>
 #include <map>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <valarray>
 #include <vector>
@@ -86,10 +87,361 @@ public:
     const std::valarray<T> b;
   };
 
-  /// Initializes the model by reading a model definition from in input stream.
+  /// Parses a model definition from an input stream.
   ///
   /// @param is The input stream.
-  /// @param os The output stream used for reporting.
+  /// @param os The output stream used feedback reporting.
+  /// @param[in] comment_mark The character to mark a comment.
+  /// @param[in] begin_of_section The character to mark the biginning of a
+  /// model section.
+  /// @param[in] end_of_section The character to mark the end of a model
+  /// section.
+  /// @return the model parsed.
+  /// @throw runtime_error when the model definition could not be parsed.
+  static Model<Function>
+  parse (std::istream &is, std::ostream &os, char comment_mark = '%',
+         char begin_of_section = '{', char end_of_section = '}')
+  {
+    using std::runtime_error;
+
+    Model<Function> model;
+    model.get (is, os);
+
+    if (is.fail ())
+      {
+        throw runtime_error (
+            "especia::Model::parse() Error: an error occurred "
+            "while parsing the model definition");
+      }
+    if (not is.eof ())
+      {
+        throw runtime_error (
+            "especia::Model::parse() Error: an error occurred "
+            "while parsing the model definition");
+      }
+
+    return model;
+  }
+
+  /// Writes the model to an output stream.
+  ///
+  /// @param os The output stream.
+  /// @return the output stream.
+  std::ostream &
+  put (std::ostream &os) const
+  {
+    using namespace std;
+
+    typedef map<string, natural>::const_iterator id_index_map_ci;
+
+    const ios_base::fmtflags fmt = os.flags ();
+
+    os.setf (ios_base::fmtflags ());
+    os.setf (ios_base::fixed, ios_base::floatfield);
+    os.setf (ios_base::left, ios_base::adjustfield);
+
+    os << "<!DOCTYPE html>\n";
+    os << "<html>\n";
+    os << "<!--\n";
+    os << "<data>\n";
+    os << sections;
+    os << "</data>\n";
+    os << "-->\n";
+
+    os << "<head>\n";
+    os << "  <title>Parameter Table</title>\n";
+    os << "</head>\n";
+    os << "<body>\n";
+    os << "<table border=\"1\" cellspacing=\"2\" cellpadding=\"2\" "
+          "width=\"100%\">\n";
+    os << "  <thead align=\"center\" valign=\"middle\">\n";
+    os << "    <tr>\n";
+    os << "      <td>Section</td>\n";
+    os << "      <td>Start<br>Wavelength<br>(&Aring;)</td>\n";
+    os << "      <td>End<br>Wavelength<br>(&Aring;)</td>\n";
+    os << "      <td>Legendre Basis<br>Polynomials</td>\n";
+    os << "      <td>Resolution<br>(10<sup>3</sup>)</td>\n";
+    os << "      <td>Data Points</td>\n";
+    os << "      <td>Cost</td>\n";
+    os << "      <td>Cost per<br>Data Point</td>\n";
+    os << "    </tr>\n";
+    os << "  </thead>\n";
+    os << "  <tbody align=\"left\">\n";
+
+    for (auto i = section_name_map.begin (); i != section_name_map.end (); ++i)
+      {
+        const natural j = i->second;
+
+        const string id = i->first;
+        const size_t px = sections[j].valid_data_count ();
+        const real st = sections[j].cost ();
+
+        os.precision (2);
+
+        os << "    <tr>\n";
+        os << "      <td>" << id << "</td>\n";
+        os << "      <td>" << sections[j].lower_bound () << "</td>\n";
+        os << "      <td>" << sections[j].upper_bound () << "</td>\n";
+        os << "      <td>" << nle[j] << "</td>\n";
+        os << "      <td>";
+        put_parameter (os, ios_base::fixed, 2, isc[j]);
+        os << "</td>\n";
+        os << "      <td>" << px << "</td>\n";
+        os << "      <td><strong>" << st << "</strong></td>\n";
+        os << "      <td>" << st / px << "</td>\n";
+        os << "    </tr>\n";
+      }
+
+    os << "  </tbody>\n";
+    os << "</table>\n";
+    os << "<br>\n";
+    os << "<table border=\"1\" cellspacing=\"2\" cellpadding=\"2\" "
+          "width=\"100%\">\n";
+    os << "  <thead align=\"center\" valign=\"middle\">\n";
+    os << "    <tr>\n";
+    os << "      <td>Line</td>\n";
+    os << "      <td>Observed<br>Wavelength<br>(&Aring;)</td>\n";
+    os << "      <td>Rest<br>Wavelength<br>(&Aring;)</td>\n";
+    os << "      <td>Oscillator<br>Strength</td>\n";
+    os << "      <td>Redshift</td>\n";
+    os << "      <td>Radial<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
+    os << "      <td>Broadening<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
+    os << "      <td>Log. Column<br>Density<br>(cm<sup>-2</sup>)</td>\n";
+    os << "      <td>Equivalent<br>Width<br>(m&Aring;)</td>\n";
+    if (Function::parameter_count () == 8)
+      {
+        os << "      <td>&Delta;&alpha;/&alpha;<br>(10<sup>-6</sup>)</td>\n";
+      }
+    os << "    </tr>\n";
+    os << "  </thead>\n";
+    os << "  <tbody align=\"left\">\n";
+
+    const Equivalent_Width_Calculator<Integrator<real> > calculator;
+
+    for (auto i = profile_name_map.begin (); i != profile_name_map.end (); ++i)
+      {
+        const natural j = i->second;
+        const string id = i->first;
+
+        const real c = 1.0E-3 * speed_of_light;
+        const real x = val[j];
+        const real z = val[j + 2];
+        const real v = val[j + 3];
+        const real w = x * (1.0 + z) * (1.0 + v / c);
+        const real dx = unc[j];
+        const real dz = unc[j + 2];
+        const real dv = unc[j + 3];
+        const real dw
+            = dx
+              + x * sqrt (sq ((1.0 + v / c) * dz) + sq ((1.0 + z) * dv / c));
+        const real ew = calculator.calculate (Function (&val[j]), milli);
+
+        os.precision (4);
+
+        os << "    <tr>\n";
+        os << "      <td>" << id << "</td>\n";
+        os << "      <td>" << w << " &plusmn; " << dw << "</td>\n";
+        os << "      <td>";
+        put_parameter (os, ios_base::fixed, 4, j);
+        os << "</td>\n";
+        os << "      <td>";
+        put_parameter (os, ios_base::scientific, 3, j + 1);
+        os << "</td>\n";
+        os << "      <td>";
+        put_parameter (os, ios_base::fixed, 7, j + 2);
+        os << "</td>\n";
+        os << "      <td>";
+        put_parameter (os, ios_base::fixed, 3, j + 3);
+        os << "</td>\n";
+        os << "      <td>";
+        put_parameter (os, ios_base::fixed, 3, j + 4);
+        os << "</td>\n";
+        os << "      <td>";
+        put_parameter (os, ios_base::fixed, 3, j + 5);
+        os << "</td>\n";
+        os << "      <td>";
+        put_parameter (os, ios_base::fixed, 3, ew);
+        os << "</td>\n";
+        if (Function::parameter_count () == 8)
+          {
+            os << "      <td>";
+            put_parameter (os, ios_base::fixed, 3, j + 7);
+            os << "</td>\n";
+          }
+        os << "    </tr>\n";
+      }
+
+    os << "  </tbody>\n";
+    os << "</table>\n";
+
+    os << "<address>" << endl;
+    os << " Created by <cite>" << project_title << "</cite>. "
+       << project_doi_html << "<br>" << endl;
+    os << " " << project_long_name << "<br>" << endl;
+    os << " " << system_name << "<br>" << endl;
+    os << " " << cxx_compiler << " " << cxx_compiler_version << "<br>" << endl;
+    os << "</address>" << endl;
+
+    os << "</body>\n";
+    os << "</html>\n";
+
+    os.flush ();
+    os.flags (fmt);
+
+    return os;
+  }
+
+  /// Computes the value of the cost function for given (extrinsic) model
+  /// parameter values.
+  ///
+  /// @param[in] x The (extrinsic) model parameter values.
+  /// @param[in] n The number of (extrinsic) model parameters.
+  /// @return the value of the cost function.
+  real
+  operator() (const real x[], natural n) const
+  {
+    return cost (x, n);
+  }
+
+  /// Sets new model parameters values and uncertainties.
+  ///
+  /// @param[in] x The (extrinsic) model parameter values.
+  /// @param[in] u The (extrinsic) model parameter uncertainties.
+  void
+  set (const real x[], const real u[])
+  {
+    for (natural i = 0; i < val.size (); ++i)
+      {
+        if (msk[i])
+          {
+            val[i] = x[ind[i]];
+            unc[i] = u[ind[i]];
+          }
+        else
+          {
+            unc[i] = 0.0;
+          }
+      }
+    for (natural i = 0; i < sections.size (); ++i)
+      {
+        sections[i].apply (nle[i], val[isc[i]],
+                           Superposition<Function> (nli[i], &val[isc[i] + 1]));
+      }
+  }
+
+  /// Computes the value of the cost function for given (extrinsic) model
+  /// parameter values.
+  ///
+  /// @param[in] x The (extrinsic) model parameter values.
+  /// @param[in] n The number of (extrinsic) model parameters.
+  /// @return the value of the cost function.
+  real
+  cost (const real x[], natural n) const
+  {
+    using std::valarray;
+
+    valarray<real> y = val;
+    for (natural i = 0; i < y.size (); ++i)
+      {
+        if (msk[i])
+          {
+            y[i] = x[ind[i]];
+          }
+      }
+    real d = 0.0;
+    for (natural i = 0; i < sections.size (); ++i)
+      {
+        d += sections[i].cost (
+            Superposition<Function> (nli[i], &y[isc[i] + 1]), y[isc[i]],
+            nle[i]);
+      }
+    return d;
+  }
+
+  /// Returns the number of (extrinsic) model parameters.
+  ///
+  /// @return the number of (extrinsic) model parameters.
+  natural
+  get_parameter_count () const
+  {
+    return ind.max () + 1;
+  }
+
+  /// Returns the initial (extrinsic) parameter values.
+  ///
+  /// @return the initial (extrinsic) parameter values.
+  std::valarray<real>
+  get_initial_parameter_values () const
+  {
+    std::valarray<real> x (get_parameter_count ());
+
+    for (natural i = 0, j = 0; i < msk.size (); ++i)
+      {
+        if (msk[i] and ind[i] == j)
+          {
+            x[j++] = 0.5 * (lo[i] + up[i]);
+          }
+      }
+
+    return x;
+  }
+
+  /// Returns the initial step sizes associated with (extrinsic) parameter
+  /// values.
+  ///
+  /// @return the initial step sizes associated with (extrinsic) parameter
+  /// values.
+  std::valarray<real>
+  get_initial_local_step_sizes () const
+  {
+    std::valarray<real> z (get_parameter_count ());
+
+    for (natural i = 0, j = 0; i < msk.size (); ++i)
+      {
+        if (msk[i] and ind[i] == j)
+          {
+            z[j++] = 0.5 * (up[i] - lo[i]);
+          }
+      }
+
+    return z;
+  }
+
+  /// Returns the bound constraints associated with (extrinsic) model
+  /// parameters.
+  ///
+  /// @return the bound constraints associated with (extrinsic) model
+  /// parameters.
+  Bounded_Constraint<real>
+  get_constraint () const
+  {
+    std::valarray<real> a (get_parameter_count ());
+    std::valarray<real> b (get_parameter_count ());
+
+    for (natural i = 0, j = 0; i < msk.size (); ++i)
+      {
+        if (msk[i] and ind[i] == j)
+          {
+            a[j] = lo[i];
+            b[j] = up[i];
+            ++j;
+          }
+      }
+
+    return Bounded_Constraint<real> (&a[0], &b[0], get_parameter_count ());
+  }
+
+  /// The destructor.
+  ~Model () = default;
+
+private:
+  /// The constructor.
+  Model () = default;
+
+  /// Initializes the model by parsing a model definition from an input stream.
+  ///
+  /// @param is The input stream.
+  /// @param os The output stream used for feedback reporting.
   /// @param[in] comment_mark The character to mark a comment.
   /// @param[in] begin_of_section The character to mark the biginning of a
   /// model section.
@@ -431,315 +783,6 @@ public:
     return is;
   }
 
-  /// Writes the model to an output stream.
-  ///
-  /// @param os The output stream.
-  /// @return the output stream.
-  std::ostream &
-  put (std::ostream &os) const
-  {
-    using namespace std;
-
-    typedef map<string, natural>::const_iterator id_index_map_ci;
-
-    const ios_base::fmtflags fmt = os.flags ();
-
-    os.setf (ios_base::fmtflags ());
-    os.setf (ios_base::fixed, ios_base::floatfield);
-    os.setf (ios_base::left, ios_base::adjustfield);
-
-    os << "<!DOCTYPE html>\n";
-    os << "<html>\n";
-    os << "<!--\n";
-    os << "<data>\n";
-    os << sections;
-    os << "</data>\n";
-    os << "-->\n";
-
-    os << "<head>\n";
-    os << "  <title>Parameter Table</title>\n";
-    os << "</head>\n";
-    os << "<body>\n";
-    os << "<table border=\"1\" cellspacing=\"2\" cellpadding=\"2\" "
-          "width=\"100%\">\n";
-    os << "  <thead align=\"center\" valign=\"middle\">\n";
-    os << "    <tr>\n";
-    os << "      <td>Section</td>\n";
-    os << "      <td>Start<br>Wavelength<br>(&Aring;)</td>\n";
-    os << "      <td>End<br>Wavelength<br>(&Aring;)</td>\n";
-    os << "      <td>Legendre Basis<br>Polynomials</td>\n";
-    os << "      <td>Resolution<br>(10<sup>3</sup>)</td>\n";
-    os << "      <td>Data Points</td>\n";
-    os << "      <td>Cost</td>\n";
-    os << "      <td>Cost per<br>Data Point</td>\n";
-    os << "    </tr>\n";
-    os << "  </thead>\n";
-    os << "  <tbody align=\"left\">\n";
-
-    for (auto i = section_name_map.begin (); i != section_name_map.end (); ++i)
-      {
-        const natural j = i->second;
-
-        const string id = i->first;
-        const size_t px = sections[j].valid_data_count ();
-        const real st = sections[j].cost ();
-
-        os.precision (2);
-
-        os << "    <tr>\n";
-        os << "      <td>" << id << "</td>\n";
-        os << "      <td>" << sections[j].lower_bound () << "</td>\n";
-        os << "      <td>" << sections[j].upper_bound () << "</td>\n";
-        os << "      <td>" << nle[j] << "</td>\n";
-        os << "      <td>";
-        put_parameter (os, ios_base::fixed, 2, isc[j]);
-        os << "</td>\n";
-        os << "      <td>" << px << "</td>\n";
-        os << "      <td><strong>" << st << "</strong></td>\n";
-        os << "      <td>" << st / px << "</td>\n";
-        os << "    </tr>\n";
-      }
-
-    os << "  </tbody>\n";
-    os << "</table>\n";
-    os << "<br>\n";
-    os << "<table border=\"1\" cellspacing=\"2\" cellpadding=\"2\" "
-          "width=\"100%\">\n";
-    os << "  <thead align=\"center\" valign=\"middle\">\n";
-    os << "    <tr>\n";
-    os << "      <td>Line</td>\n";
-    os << "      <td>Observed<br>Wavelength<br>(&Aring;)</td>\n";
-    os << "      <td>Rest<br>Wavelength<br>(&Aring;)</td>\n";
-    os << "      <td>Oscillator<br>Strength</td>\n";
-    os << "      <td>Redshift</td>\n";
-    os << "      <td>Radial<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
-    os << "      <td>Broadening<br>Velocity<br>(km s<sup>-1</sup>)</td>\n";
-    os << "      <td>Log. Column<br>Density<br>(cm<sup>-2</sup>)</td>\n";
-    os << "      <td>Equivalent<br>Width<br>(m&Aring;)</td>\n";
-    if (Function::parameter_count () == 8)
-      {
-        os << "      <td>&Delta;&alpha;/&alpha;<br>(10<sup>-6</sup>)</td>\n";
-      }
-    os << "    </tr>\n";
-    os << "  </thead>\n";
-    os << "  <tbody align=\"left\">\n";
-
-    const Equivalent_Width_Calculator<Integrator<real> > calculator;
-
-    for (auto i = profile_name_map.begin (); i != profile_name_map.end (); ++i)
-      {
-        const natural j = i->second;
-        const string id = i->first;
-
-        const real c = 1.0E-3 * speed_of_light;
-        const real x = val[j];
-        const real z = val[j + 2];
-        const real v = val[j + 3];
-        const real w = x * (1.0 + z) * (1.0 + v / c);
-        const real dx = unc[j];
-        const real dz = unc[j + 2];
-        const real dv = unc[j + 3];
-        const real dw
-            = dx
-              + x * sqrt (sq ((1.0 + v / c) * dz) + sq ((1.0 + z) * dv / c));
-        const real ew = calculator.calculate (Function (&val[j]), milli);
-
-        os.precision (4);
-
-        os << "    <tr>\n";
-        os << "      <td>" << id << "</td>\n";
-        os << "      <td>" << w << " &plusmn; " << dw << "</td>\n";
-        os << "      <td>";
-        put_parameter (os, ios_base::fixed, 4, j);
-        os << "</td>\n";
-        os << "      <td>";
-        put_parameter (os, ios_base::scientific, 3, j + 1);
-        os << "</td>\n";
-        os << "      <td>";
-        put_parameter (os, ios_base::fixed, 7, j + 2);
-        os << "</td>\n";
-        os << "      <td>";
-        put_parameter (os, ios_base::fixed, 3, j + 3);
-        os << "</td>\n";
-        os << "      <td>";
-        put_parameter (os, ios_base::fixed, 3, j + 4);
-        os << "</td>\n";
-        os << "      <td>";
-        put_parameter (os, ios_base::fixed, 3, j + 5);
-        os << "</td>\n";
-        os << "      <td>";
-        put_parameter (os, ios_base::fixed, 3, ew);
-        os << "</td>\n";
-        if (Function::parameter_count () == 8)
-          {
-            os << "      <td>";
-            put_parameter (os, ios_base::fixed, 3, j + 7);
-            os << "</td>\n";
-          }
-        os << "    </tr>\n";
-      }
-
-    os << "  </tbody>\n";
-    os << "</table>\n";
-
-    os << "<address>" << endl;
-    os << " Created by <cite>" << project_title << "</cite>. "
-       << project_doi_html << "<br>" << endl;
-    os << " " << project_long_name << "<br>" << endl;
-    os << " " << system_name << "<br>" << endl;
-    os << " " << cxx_compiler << " " << cxx_compiler_version << "<br>" << endl;
-    os << "</address>" << endl;
-
-    os << "</body>\n";
-    os << "</html>\n";
-
-    os.flush ();
-    os.flags (fmt);
-
-    return os;
-  }
-
-  /// Computes the value of the cost function for given (extrinsic) model
-  /// parameter values.
-  ///
-  /// @param[in] x The (extrinsic) model parameter values.
-  /// @param[in] n The number of (extrinsic) model parameters.
-  /// @return the value of the cost function.
-  real
-  operator() (const real x[], natural n) const
-  {
-    return cost (x, n);
-  }
-
-  /// Sets new model parameters values and uncertainties.
-  ///
-  /// @param[in] x The (extrinsic) model parameter values.
-  /// @param[in] u The (extrinsic) model parameter uncertainties.
-  void
-  set (const real x[], const real u[])
-  {
-    for (natural i = 0; i < val.size (); ++i)
-      {
-        if (msk[i])
-          {
-            val[i] = x[ind[i]];
-            unc[i] = u[ind[i]];
-          }
-        else
-          {
-            unc[i] = 0.0;
-          }
-      }
-    for (natural i = 0; i < sections.size (); ++i)
-      {
-        sections[i].apply (nle[i], val[isc[i]],
-                           Superposition<Function> (nli[i], &val[isc[i] + 1]));
-      }
-  }
-
-  /// Computes the value of the cost function for given (extrinsic) model
-  /// parameter values.
-  ///
-  /// @param[in] x The (extrinsic) model parameter values.
-  /// @param[in] n The number of (extrinsic) model parameters.
-  /// @return the value of the cost function.
-  real
-  cost (const real x[], natural n) const
-  {
-    using std::valarray;
-
-    valarray<real> y = val;
-    for (natural i = 0; i < y.size (); ++i)
-      {
-        if (msk[i])
-          {
-            y[i] = x[ind[i]];
-          }
-      }
-    real d = 0.0;
-    for (natural i = 0; i < sections.size (); ++i)
-      {
-        d += sections[i].cost (
-            Superposition<Function> (nli[i], &y[isc[i] + 1]), y[isc[i]],
-            nle[i]);
-      }
-    return d;
-  }
-
-  /// Returns the number of (extrinsic) model parameters.
-  ///
-  /// @return the number of (extrinsic) model parameters.
-  natural
-  get_parameter_count () const
-  {
-    return ind.max () + 1;
-  }
-
-  /// Returns the initial (extrinsic) parameter values.
-  ///
-  /// @return the initial (extrinsic) parameter values.
-  std::valarray<real>
-  get_initial_parameter_values () const
-  {
-    std::valarray<real> x (get_parameter_count ());
-
-    for (natural i = 0, j = 0; i < msk.size (); ++i)
-      {
-        if (msk[i] and ind[i] == j)
-          {
-            x[j++] = 0.5 * (lo[i] + up[i]);
-          }
-      }
-
-    return x;
-  }
-
-  /// Returns the initial step sizes associated with (extrinsic) parameter
-  /// values.
-  ///
-  /// @return the initial step sizes associated with (extrinsic) parameter
-  /// values.
-  std::valarray<real>
-  get_initial_local_step_sizes () const
-  {
-    std::valarray<real> z (get_parameter_count ());
-
-    for (natural i = 0, j = 0; i < msk.size (); ++i)
-      {
-        if (msk[i] and ind[i] == j)
-          {
-            z[j++] = 0.5 * (up[i] - lo[i]);
-          }
-      }
-
-    return z;
-  }
-
-  /// Returns the bound constraints associated with (extrinsic) model
-  /// parameters.
-  ///
-  /// @return the bound constraints associated with (extrinsic) model
-  /// parameters.
-  Bounded_Constraint<real>
-  get_constraint () const
-  {
-    std::valarray<real> a (get_parameter_count ());
-    std::valarray<real> b (get_parameter_count ());
-
-    for (natural i = 0, j = 0; i < msk.size (); ++i)
-      {
-        if (msk[i] and ind[i] == j)
-          {
-            a[j] = lo[i];
-            b[j] = up[i];
-            ++j;
-          }
-      }
-
-    return Bounded_Constraint<real> (&a[0], &b[0], get_parameter_count ());
-  }
-
-private:
   std::ostream &
   put_parameter (std::ostream &os, std::ios_base::fmtflags f, natural p,
                  real parameter) const
@@ -807,6 +850,6 @@ private:
   std::map<std::string, natural> profile_name_map;
 };
 
-}
+} // namespace especia
 
 #endif // ESPECIA_MODEL_H
