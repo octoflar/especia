@@ -92,8 +92,8 @@ public:
   /// @param is The input stream.
   /// @param os The output stream used feedback reporting.
   /// @param[in] comment_mark The character to mark a comment.
-  /// @param[in] begin_of_section The character to mark the biginning of a
-  /// model section.
+  /// @param[in] begin_of_section The character to mark the biginning of
+  /// a model section.
   /// @param[in] end_of_section The character to mark the end of a model
   /// section.
   /// @return the model parsed.
@@ -121,6 +121,120 @@ public:
       }
 
     return model;
+  }
+
+  /// Computes the value of the cost function for given model
+  /// parameter values.
+  ///
+  /// @param[in] x The model parameter values.
+  /// @param[in] n The number of model parameters.
+  /// @return the value of the cost function.
+  real
+  operator() (const real x[], natural n) const
+  {
+    return cost (x, n);
+  }
+
+  /// Computes the value of the cost function for given model
+  /// parameter values.
+  ///
+  /// @param[in] x The model parameter values.
+  /// @param[in] n The number of model parameters.
+  /// @return the value of the cost function.
+  real
+  cost (const real x[], natural n) const
+  {
+    using std::valarray;
+
+    valarray<real> y = val;
+    for (natural i = 0; i < y.size (); ++i)
+      {
+        if (msk[i])
+          {
+            y[i] = x[ind[i]];
+          }
+      }
+    real d = 0.0;
+    for (natural i = 0; i < sections.size (); ++i)
+      {
+        d += sections[i].cost (
+            Superposition<Function> (nli[i], &y[isc[i] + 1]), y[isc[i]],
+            nle[i]);
+      }
+    return d;
+  }
+
+  /// Returns the number of model parameters.
+  ///
+  /// @return the number of model parameters.
+  natural
+  get_parameter_count () const
+  {
+    return ind.max () + 1;
+  }
+
+  /// Returns the initial model parameter values.
+  ///
+  /// @return the initial model parameter values.
+  std::valarray<real>
+  get_initial_parameter_values () const
+  {
+    std::valarray<real> x (get_parameter_count ());
+
+    for (natural i = 0, j = 0; i < msk.size (); ++i)
+      {
+        if (msk[i] and ind[i] == j)
+          {
+            x[j++] = 0.5 * (lo[i] + up[i]);
+          }
+      }
+
+    return x;
+  }
+
+  /// Returns the initial step sizes associated with model parameter
+  /// values.
+  ///
+  /// @return the initial step sizes associated with model parameter
+  /// values.
+  std::valarray<real>
+  get_initial_local_step_sizes () const
+  {
+    std::valarray<real> z (get_parameter_count ());
+
+    for (natural i = 0, j = 0; i < msk.size (); ++i)
+      {
+        if (msk[i] and ind[i] == j)
+          {
+            z[j++] = 0.5 * (up[i] - lo[i]);
+          }
+      }
+
+    return z;
+  }
+
+  /// Returns the bound constraints associated with model
+  /// parameters.
+  ///
+  /// @return the bound constraints associated with model
+  /// parameters.
+  Bounded_Constraint<real>
+  get_constraint () const
+  {
+    std::valarray<real> a (get_parameter_count ());
+    std::valarray<real> b (get_parameter_count ());
+
+    for (natural i = 0, j = 0; i < msk.size (); ++i)
+      {
+        if (msk[i] and ind[i] == j)
+          {
+            a[j] = lo[i];
+            b[j] = up[i];
+            ++j;
+          }
+      }
+
+    return Bounded_Constraint<real> (&a[0], &b[0], get_parameter_count ());
   }
 
   /// Writes the model to an output stream.
@@ -291,24 +405,12 @@ public:
     return os;
   }
 
-  /// Computes the value of the cost function for given (extrinsic) model
-  /// parameter values.
+  /// Resets model parameter values and uncertainties.
   ///
-  /// @param[in] x The (extrinsic) model parameter values.
-  /// @param[in] n The number of (extrinsic) model parameters.
-  /// @return the value of the cost function.
-  real
-  operator() (const real x[], natural n) const
-  {
-    return cost (x, n);
-  }
-
-  /// Sets new model parameters values and uncertainties.
-  ///
-  /// @param[in] x The (extrinsic) model parameter values.
-  /// @param[in] u The (extrinsic) model parameter uncertainties.
+  /// @param[in] x The model parameter values.
+  /// @param[in] u The model parameter uncertainties.
   void
-  set (const real x[], const real u[])
+  reset (const real x[], const real u[])
   {
     for (natural i = 0; i < val.size (); ++i)
       {
@@ -327,108 +429,6 @@ public:
         sections[i].apply (nle[i], val[isc[i]],
                            Superposition<Function> (nli[i], &val[isc[i] + 1]));
       }
-  }
-
-  /// Computes the value of the cost function for given (extrinsic) model
-  /// parameter values.
-  ///
-  /// @param[in] x The (extrinsic) model parameter values.
-  /// @param[in] n The number of (extrinsic) model parameters.
-  /// @return the value of the cost function.
-  real
-  cost (const real x[], natural n) const
-  {
-    using std::valarray;
-
-    valarray<real> y = val;
-    for (natural i = 0; i < y.size (); ++i)
-      {
-        if (msk[i])
-          {
-            y[i] = x[ind[i]];
-          }
-      }
-    real d = 0.0;
-    for (natural i = 0; i < sections.size (); ++i)
-      {
-        d += sections[i].cost (
-            Superposition<Function> (nli[i], &y[isc[i] + 1]), y[isc[i]],
-            nle[i]);
-      }
-    return d;
-  }
-
-  /// Returns the number of (extrinsic) model parameters.
-  ///
-  /// @return the number of (extrinsic) model parameters.
-  natural
-  get_parameter_count () const
-  {
-    return ind.max () + 1;
-  }
-
-  /// Returns the initial (extrinsic) parameter values.
-  ///
-  /// @return the initial (extrinsic) parameter values.
-  std::valarray<real>
-  get_initial_parameter_values () const
-  {
-    std::valarray<real> x (get_parameter_count ());
-
-    for (natural i = 0, j = 0; i < msk.size (); ++i)
-      {
-        if (msk[i] and ind[i] == j)
-          {
-            x[j++] = 0.5 * (lo[i] + up[i]);
-          }
-      }
-
-    return x;
-  }
-
-  /// Returns the initial step sizes associated with (extrinsic) parameter
-  /// values.
-  ///
-  /// @return the initial step sizes associated with (extrinsic) parameter
-  /// values.
-  std::valarray<real>
-  get_initial_local_step_sizes () const
-  {
-    std::valarray<real> z (get_parameter_count ());
-
-    for (natural i = 0, j = 0; i < msk.size (); ++i)
-      {
-        if (msk[i] and ind[i] == j)
-          {
-            z[j++] = 0.5 * (up[i] - lo[i]);
-          }
-      }
-
-    return z;
-  }
-
-  /// Returns the bound constraints associated with (extrinsic) model
-  /// parameters.
-  ///
-  /// @return the bound constraints associated with (extrinsic) model
-  /// parameters.
-  Bounded_Constraint<real>
-  get_constraint () const
-  {
-    std::valarray<real> a (get_parameter_count ());
-    std::valarray<real> b (get_parameter_count ());
-
-    for (natural i = 0, j = 0; i < msk.size (); ++i)
-      {
-        if (msk[i] and ind[i] == j)
-          {
-            a[j] = lo[i];
-            b[j] = up[i];
-            ++j;
-          }
-      }
-
-    return Bounded_Constraint<real> (&a[0], &b[0], get_parameter_count ());
   }
 
   /// The destructor.
@@ -492,7 +492,7 @@ private:
     os << "<!--\n";
     os << "<model>\n";
 
-    // Read all lines and write them to the output stream.
+    // Read all lines and copy them to the output stream.
     while (readline (is, line))
       {
         ss << line << endl;
@@ -635,7 +635,7 @@ private:
 
     if (!st.bad () and st.eof ())
       {
-        // Index independent parameters
+        // Index unique parameters
         for (natural i = 0, k = 0; i < msk.size (); ++i)
           if (msk[i] and ref[i].empty ())
             {
@@ -824,29 +824,33 @@ private:
   /// The container of model sections.
   std::vector<especia::Section> sections;
 
-  /// The index of the first model parameter of each section.
+  /// The index pointer to the first model parameter of each section.
   std::valarray<natural> isc;
-  /// The polynomial degree of the continuum approximation in each section.
+  /// The polynomial degree of the continuum approximation of each section.
   std::valarray<natural> nle;
-  /// The number of spectral lines in each section.
+  /// The number of spectral lines of each section.
   std::valarray<natural> nli;
 
-  /// The intrinsic model parameters.
+  /// The dereferenced model parameter values.
   std::valarray<real> val;
-  /// The uncertainty associated with intrinsic model parameters.
+  /// The dereferenced model parameter uncertainties.
   std::valarray<real> unc;
-  /// The lower bounds of intrinsic model parameters.
+  /// The lower bounds of dereferenced model parameters.
   std::valarray<real> lo;
-  /// The upper bounds of intrinsic model parameters.
+  /// The upper bounds of dereferenced model parameters.
   std::valarray<real> up;
 
-  /// The mask is @c true when a parameter is optimized, @false when it is
-  /// considered constant.
+  /// The mask is @c true when a unique model parameter is
+  /// optimized, @false when it is considered constant.
   std::valarray<bool> msk;
-  /// The index maps from extrinsic to intrinsic model parameterss.
+  /// The indexes map from unique to dereferenced model
+  /// parameters.
   std::valarray<natural> ind;
 
+  /// Maps section names to section indexes.
   std::map<std::string, natural> section_name_map;
+  /// Maps line profile names to line profile index pointers (pointing
+  /// to the first profile parameter).
   std::map<std::string, natural> profile_name_map;
 };
 
