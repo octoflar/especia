@@ -1,5 +1,5 @@
 /// @file oregano.cxx
-/// Especia for intergalactic metal and non-damped H I, He I, II lines.
+/// Especia for intergalactic metal and damped H I, He I, II lines.
 /// @author Ralf Quast
 /// @date 2023
 /// @copyright MIT License
@@ -11,7 +11,7 @@
 
 using namespace std;
 
-/// Especia to analyse intergalactic metal and non-damped H I, He I, II lines.
+/// Especia to analyse intergalactic metal and damped H I, He I, II lines.
 ///
 /// @param argc The number of command line arguments.
 /// @param argc The number of command line arguments.
