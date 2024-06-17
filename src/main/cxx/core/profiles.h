@@ -531,6 +531,6 @@ private:
   /// The strategy to integrate the line profile.
   const Integrate integrator;
 };
-}
+} // namespace especia
 
 #endif // ESPECIA_PROFILES_H

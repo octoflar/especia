@@ -432,6 +432,6 @@ read (std::istream &is, std::vector<A> &a, std::vector<B> &b,
 std::istream &readline (std::istream &is, std::string &s,
                         char comment_mark = '\0', char eol = '\n');
 
-}
+} // namespace especia
 
 #endif // ESPECIA_READLINE_H

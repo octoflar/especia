@@ -88,6 +88,6 @@ private:
   mutable real y = 0.0;
 };
 
-}
+} // namespace especia
 
 #endif // ESPECIA_DEVIATES_H

@@ -205,6 +205,6 @@ private:
 /// The default algorithm to solve symmetric eigenproblems.
 typedef R_Decompose Decompose;
 
-}
+} // namespace especia
 
 #endif // ESPECIA_SYMEIG_H

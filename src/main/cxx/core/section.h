@@ -410,6 +410,6 @@ std::istream &operator>> (std::istream &is, std::vector<Section> &sections);
 /// @return the output stream.
 std::ostream &operator<< (std::ostream &os,
                           const std::vector<Section> &sections);
-}
+} // namespace especia
 
 #endif // ESPECIA_SECTION_H

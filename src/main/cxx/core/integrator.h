@@ -653,6 +653,6 @@ const T Integrator<T>::wi[] = {
 template <class T> const natural Integrator<T>::mw[] = { 0, 7, 17, 31 };
 
 template <class T> const natural Integrator<T>::nw[] = { 7, 10, 14, 21 };
-}
+} // namespace especia
 
 #endif // INTEGRATOR_H

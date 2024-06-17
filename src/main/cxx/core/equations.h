@@ -154,6 +154,6 @@ private:
   Equations () = default;
 };
 
-}
+} // namespace especia
 
 #endif // ESPECIA_EQUATIONS_H

@@ -768,6 +768,6 @@ private:
   const Normal_Deviate<Melg19937_64> deviate;
 };
 
-}
+} // namespace especia
 
 #endif // ESPECIA_OPTIMIZER_H

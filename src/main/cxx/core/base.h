@@ -194,6 +194,6 @@ sq (const T &x)
   return x * x;
 }
 
-}
+} // namespace especia
 
 #endif // ESPECIA_BASE_H

@@ -399,6 +399,6 @@ postopti (const F &f, const Constraint &constraint, natural n, const real x[],
     }
 }
 
-}
+} // namespace especia
 
 #endif // ESPECIA_OPTIMIZE_H

@@ -531,6 +531,6 @@ private:
 /// The PCG-XSH-RR with 64-bit state and 32-bit output.
 typedef Pcg<6364136223846793005ULL> Pcg_32;
 
-}
+} // namespace especia
 
 #endif // ESPECIA_RANDOM_H

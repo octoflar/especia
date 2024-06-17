@@ -34,6 +34,6 @@ private:
   Exit_Codes () = default; // private constructor prevents instantiation
 };
 
-}
+} // namespace especia
 
 #endif // ESPECIA_EXITCODES_H

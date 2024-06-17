@@ -51,6 +51,6 @@ std::istream &get (std::istream &is, std::valarray<real> &x,
 std::ostream &put (std::ostream &os, const std::valarray<real> &x,
                    const std::valarray<real> &y, const std::valarray<real> &z);
 
-}
+} // namespace especia
 
 #endif // ESPECIA_DATAIO_H

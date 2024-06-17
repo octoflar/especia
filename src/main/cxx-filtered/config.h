@@ -45,6 +45,6 @@ const std::string cxx_compiler = "@CMAKE_CXX_COMPILER_ID@"; // NOLINT
 /// The version of the C++ compiler used to compile the project.
 const std::string cxx_compiler_version
     = "@CMAKE_CXX_COMPILER_VERSION@"; // NOLINT
-}
+} // namespace especia
 
 #endif // ESPECIA_CONFIG_H
