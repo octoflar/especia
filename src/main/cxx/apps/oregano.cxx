@@ -1,5 +1,5 @@
 /// @file oregano.cxx
-/// Especia for intergalactic metal and damped H I, He I, II lines.
+/// Especia for intergalactic metal and non-damped H I, He I, II lines.
 /// @author Ralf Quast
 /// @date 2023
 /// @copyright MIT License
