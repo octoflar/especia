@@ -46,12 +46,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Upload coverage reports to Codacy
-        working-directory: ${{github.workspace}}/build
-        run: |
-          export CODACY_PROJECT_TOKEN=e20e7c2f483d4497a3f54c9c2f3ebf2c
-          bash <(curl -Ls https://coverage.codacy.com/get.sh)
-    
   build-linux:
     # The CMake configure and build commands are platform agnostic and should work equally
     # well on Windows or Mac.  You can convert this to a matrix build if you need
