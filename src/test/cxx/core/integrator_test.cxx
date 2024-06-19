@@ -15,72 +15,28 @@ private:
   void
   test_integrate_constant ()
   {
-    double result = integrator.integrate (
+    const double result = integrator.integrate (
         [] (double x) -> double { return 1.0; }, 0.0, 1.0, 1.0E-12);
 
-    assert_equals (1.0, result, 1.0E-12, "integrate constant (default)");
-
-    const Integrator<double> q13 (Integrator<double>::Formula::Q13,
-                                  Integrator<double>::Formula::Q19);
-    result = q13.integrate ([] (double x) -> double { return 1.0; }, 0.0, 1.0,
-                            1.0E-12);
-
-    assert_equals (1.0, result, 1.0E-12, "integrate constant (Q13, Q19)");
-
-    const Integrator<double> q27 (Integrator<double>::Formula::Q27,
-                                  Integrator<double>::Formula::Q41);
-    result = q27.integrate ([] (double x) -> double { return 1.0; }, 0.0, 1.0,
-                            1.0E-12);
-
-    assert_equals (1.0, result, 1.0E-12, "integrate constant (Q27, Q41)");
+    assert_equals (1.0, result, 1.0E-12, "integrate constant");
   }
 
   void
   test_integrate_identity ()
   {
-    double result = integrator.integrate (
+    const double result = integrator.integrate (
         [] (double x) -> double { return x; }, 0.0, 1.0, 1.0E-12);
 
-    assert_equals (0.5, result, 1.0E-12, "integrate identity (default)");
-
-    const Integrator<double> q13 (Integrator<double>::Formula::Q13,
-                                  Integrator<double>::Formula::Q19);
-    result = q13.integrate ([] (double x) -> double { return x; }, 0.0, 1.0,
-                            1.0E-12);
-
-    assert_equals (0.5, result, 1.0E-12, "integrate identity (Q27, Q41)");
-
-    const Integrator<double> q27 (Integrator<double>::Formula::Q27,
-                                  Integrator<double>::Formula::Q41);
-    result = q27.integrate ([] (double x) -> double { return x; }, 0.0, 1.0,
-                            1.0E-12);
-
-    assert_equals (0.5, result, 1.0E-12, "integrate identity (Q27, Q41)");
+    assert_equals (0.5, result, 1.0E-12, "integrate identity");
   }
 
   void
   test_integrate_parabola ()
   {
-    double result = integrator.integrate (
+    const double result = integrator.integrate (
         [] (double x) -> double { return x * x; }, 0.0, 1.0, 1.0E-12);
 
-    assert_equals (1.0 / 3.0, result, 1.0E-12, "integrate parabola (default)");
-
-    const Integrator<double> q13 (Integrator<double>::Formula::Q13,
-                                  Integrator<double>::Formula::Q19);
-    result = q13.integrate ([] (double x) -> double { return x * x; }, 0.0,
-                            1.0, 1.0E-12);
-
-    assert_equals (1.0 / 3.0, result, 1.0E-12,
-                   "integrate parabola (Q13, Q19)");
-
-    const Integrator<double> q27 (Integrator<double>::Formula::Q27,
-                                  Integrator<double>::Formula::Q41);
-    result = q27.integrate ([] (double x) -> double { return x * x; }, 0.0,
-                            1.0, 1.0E-12);
-
-    assert_equals (1.0 / 3.0, result, 1.0E-12,
-                   "integrate parabola (Q27, Q41)");
+    assert_equals (1.0 / 3.0, result, 1.0E-12, "integrate parabola");
   }
 
   void
@@ -126,10 +82,26 @@ private:
     using especia::sq;
     using std::exp;
 
-    const double result = integrator.integrate (
+    double result = integrator.integrate (
         [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); }, 0.0,
         4.0);
+    // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+0,+4%7D%5D>
+    assert_equals (0.642572, result, 0.5E-06,
+                   "integrate absorption (default)");
 
+    const Integrator<double> q13 (Integrator<double>::Formula::Q13,
+                                  Integrator<double>::Formula::Q19);
+    result = q13.integrate (
+        [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); }, 0.0,
+        4.0);
+    // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+0,+4%7D%5D>
+    assert_equals (0.642572, result, 0.5E-06, "integrate absorption");
+
+    const Integrator<double> q27 (Integrator<double>::Formula::Q27,
+                                  Integrator<double>::Formula::Q41);
+    result = q27.integrate (
+        [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); }, 0.0,
+        4.0);
     // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+0,+4%7D%5D>
     assert_equals (0.642572, result, 0.5E-06, "integrate absorption");
   }
