@@ -39,8 +39,7 @@ jobs:
         working-directory: ${{github.workspace}}/build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-        run: |
-          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --repeat until-pass:1
+        run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure --repeat until-pass:1
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
@@ -50,6 +49,7 @@ jobs:
       - name: Upload coverage reports to Codacy
         working-directory: ${{github.workspace}}/build
         run: |
+          export CODACY_PROJECT_TOKEN=e20e7c2f483d4497a3f54c9c2f3ebf2c
           bash <(curl -Ls https://coverage.codacy.com/get.sh)
     
   build-linux:
@@ -87,5 +87,4 @@ jobs:
         working-directory: ${{github.workspace}}/build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-        run: |
-          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --repeat until-pass:1
+        run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure --repeat until-pass:1
