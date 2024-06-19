@@ -19,7 +19,7 @@ private:
     using std::cos;
 
     const double result = integrator.integrate (
-        [] (double x) -> double { return 1.0; }, 0.0, 1.0);
+        [] (double x) -> double { return 1.0; }, 0.0, 1.0, 1.0E-10);
 
     assert_equals (1.0, result, 1.0E-10, "integrate constant");
   }
@@ -31,7 +31,7 @@ private:
     using std::cos;
 
     const double result = integrator.integrate (
-        [] (double x) -> double { return x; }, 0.0, 1.0);
+        [] (double x) -> double { return x; }, 0.0, 1.0, 1.0E-10);
 
     assert_equals (0.5, result, 1.0E-10, "integrate identity");
   }
