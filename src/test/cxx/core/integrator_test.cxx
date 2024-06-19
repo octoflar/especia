@@ -31,6 +31,15 @@ private:
   }
 
   void
+  test_integrate_parabola ()
+  {
+    const double result = integrator.integrate (
+        [] (double x) -> double { return x * x; }, 0.0, 1.0, 1.0E-12);
+
+    assert_equals (1.0 / 3.0, result, 1.0E-12, "integrate parabola");
+  }
+
+  void
   test_integrate_cos ()
   {
     using especia::pi;
@@ -128,6 +137,7 @@ private:
   {
     run (this, &Integrator_Test::test_integrate_constant);
     run (this, &Integrator_Test::test_integrate_identity);
+    run (this, &Integrator_Test::test_integrate_parabola);
     run (this, &Integrator_Test::test_integrate_cos);
     run (this, &Integrator_Test::test_integrate_sin);
     run (this, &Integrator_Test::test_integrate_sin_sq);
