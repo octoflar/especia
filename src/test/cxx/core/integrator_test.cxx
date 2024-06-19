@@ -15,28 +15,72 @@ private:
   void
   test_integrate_constant ()
   {
-    const double result = integrator.integrate (
+    double result = integrator.integrate (
         [] (double x) -> double { return 1.0; }, 0.0, 1.0, 1.0E-12);
 
-    assert_equals (1.0, result, 1.0E-12, "integrate constant");
+    assert_equals (1.0, result, 1.0E-12, "integrate constant (default)");
+
+    const Integrator<double> q13 (Integrator<double>::Formula::Q13,
+                                  Integrator<double>::Formula::Q19);
+    result = q13.integrate ([] (double x) -> double { return 1.0; }, 0.0, 1.0,
+                            1.0E-12);
+
+    assert_equals (1.0, result, 1.0E-12, "integrate constant (Q13, Q19)");
+
+    const Integrator<double> q27 (Integrator<double>::Formula::Q27,
+                                  Integrator<double>::Formula::Q41);
+    result = q27.integrate ([] (double x) -> double { return 1.0; }, 0.0, 1.0,
+                            1.0E-12);
+
+    assert_equals (1.0, result, 1.0E-12, "integrate constant (Q27, Q41)");
   }
 
   void
   test_integrate_identity ()
   {
-    const double result = integrator.integrate (
+    double result = integrator.integrate (
         [] (double x) -> double { return x; }, 0.0, 1.0, 1.0E-12);
 
-    assert_equals (0.5, result, 1.0E-12, "integrate identity");
+    assert_equals (0.5, result, 1.0E-12, "integrate identity (default)");
+
+    const Integrator<double> q13 (Integrator<double>::Formula::Q13,
+                                  Integrator<double>::Formula::Q19);
+    result = q13.integrate ([] (double x) -> double { return x; }, 0.0, 1.0,
+                            1.0E-12);
+
+    assert_equals (0.5, result, 1.0E-12, "integrate identity (Q27, Q41)");
+
+    const Integrator<double> q27 (Integrator<double>::Formula::Q27,
+                                  Integrator<double>::Formula::Q41);
+    result = q27.integrate ([] (double x) -> double { return x; }, 0.0, 1.0,
+                            1.0E-12);
+
+    assert_equals (0.5, result, 1.0E-12, "integrate identity (Q27, Q41)");
   }
 
   void
   test_integrate_parabola ()
   {
-    const double result = integrator.integrate (
+    double result = integrator.integrate (
         [] (double x) -> double { return x * x; }, 0.0, 1.0, 1.0E-12);
 
-    assert_equals (1.0 / 3.0, result, 1.0E-12, "integrate parabola");
+    assert_equals (1.0 / 3.0, result, 1.0E-12, "integrate parabola (default)");
+
+    const Integrator<double> q13 (Integrator<double>::Formula::Q13,
+                                  Integrator<double>::Formula::Q19);
+    result = q13.integrate ([] (double x) -> double { return x * x; }, 0.0,
+                            1.0, 1.0E-12);
+
+    assert_equals (1.0 / 3.0, result, 1.0E-12,
+                   "integrate parabola (Q13, Q19)");
+
+    const Integrator<double> q27 (Integrator<double>::Formula::Q27,
+                                  Integrator<double>::Formula::Q41);
+    result = q27.integrate ([] (double x) -> double { return x * x; }, 0.0,
+                            1.0, 1.0E-12);
+
+    assert_equals (1.0 / 3.0, result, 1.0E-12,
+                   "integrate parabola (Q27, Q41)");
   }
 
   void
@@ -147,7 +191,7 @@ private:
     run (this, &Integrator_Test::test_integrate_absorption_infinite);
   }
 
-  Integrator<double> integrator;
+  const Integrator<double> integrator;
 };
 
 int
