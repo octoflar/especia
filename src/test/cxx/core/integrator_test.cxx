@@ -36,7 +36,7 @@ private:
     assert_equals (0.5, result, 0.5E-06, "integrate identity");
   }
 
-void
+  void
   test_integrate_cos ()
   {
     using especia::pi;
