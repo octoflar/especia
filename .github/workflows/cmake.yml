@@ -46,6 +46,11 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload coverage reports to Codacy
+        working-directory: ${{github.workspace}}/build
+        run: |
+          bash <(curl -Ls https://coverage.codacy.com/get.sh)
     
   build-linux:
     # The CMake configure and build commands are platform agnostic and should work equally
