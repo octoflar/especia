@@ -13,6 +13,30 @@ class Integrator_Test : public Unit_Test
 {
 private:
   void
+  test_integrate_constant ()
+  {
+    using especia::pi;
+    using std::cos;
+
+    const double result = integrator.integrate (
+        [] (double x) -> double { return 1.0; }, 0.0, 1.0);
+
+    assert_equals (1.0, result, 0.5E-06, "integrate constant");
+  }
+
+  void
+  test_integrate_identity ()
+  {
+    using especia::pi;
+    using std::cos;
+
+    const double result = integrator.integrate (
+        [] (double x) -> double { return x; }, 0.0, 1.0);
+
+    assert_equals (0.5, result, 0.5E-06, "integrate identity");
+  }
+
+void
   test_integrate_cos ()
   {
     using especia::pi;
@@ -108,6 +132,8 @@ private:
   void
   run_all () override
   {
+    run (this, &Integrator_Test::test_integrate_constant);
+    run (this, &Integrator_Test::test_integrate_identity);
     run (this, &Integrator_Test::test_integrate_cos);
     run (this, &Integrator_Test::test_integrate_sin);
     run (this, &Integrator_Test::test_integrate_sin_sq);
