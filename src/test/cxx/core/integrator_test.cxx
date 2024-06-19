@@ -95,7 +95,8 @@ private:
         [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); }, 0.0,
         4.0);
     // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+0,+4%7D%5D>
-    assert_equals (0.642572, result, 0.5E-06, "integrate absorption");
+    assert_equals (0.642572, result, 0.5E-06,
+                   "integrate absorption (Q13, Q19)");
 
     const Integrator<double> q27 (Integrator<double>::Formula::Q27,
                                   Integrator<double>::Formula::Q41);
@@ -103,7 +104,8 @@ private:
         [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); }, 0.0,
         4.0);
     // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+0,+4%7D%5D>
-    assert_equals (0.642572, result, 0.5E-06, "integrate absorption");
+    assert_equals (0.642572, result, 0.5E-06,
+                   "integrate absorption (Q27, Q41)");
   }
 
   void
@@ -112,12 +114,29 @@ private:
     using especia::sq;
     using std::exp;
 
-    const double result = integrator.integrate_positive_infinite (
+    double result = integrator.integrate_positive_infinite (
         [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); });
-
     // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+0,+Infinity%7D%5D>
     assert_equals (0.642572, result, 0.5E-06,
-                   "integrate absorption (positive-infinite)");
+                   "integrate absorption (positive-infinite, default)");
+
+    const Integrator<double> q13 (Integrator<double>::Formula::Q13,
+                                  Integrator<double>::Formula::Q19);
+    result = q13.integrate_positive_infinite (
+        [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); }, 0.0,
+        4.0);
+    // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+0,+Infinity%7D%5D>
+    assert_equals (0.642572, result, 0.5E-06,
+                   "integrate absorption (positive-infinite, Q13, Q19)");
+
+    const Integrator<double> q27 (Integrator<double>::Formula::Q27,
+                                  Integrator<double>::Formula::Q41);
+    result = q27.integrate_positive_infinite (
+        [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); }, 0.0,
+        4.0);
+    // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+0,+Infinity%7D%5D>
+    assert_equals (0.642572, result, 0.5E-06,
+                   "integrate absorption (positive-infinite, Q27, Q41)");
   }
 
   void
@@ -126,12 +145,29 @@ private:
     using especia::sq;
     using std::exp;
 
-    const double result = integrator.integrate_negative_infinite (
+    double result = integrator.integrate_negative_infinite (
         [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); });
-
     // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+-Infinity,+0%7D%5D>
     assert_equals (0.642572, result, 0.5E-06,
-                   "integrate absorption (negative-infinite)");
+                   "integrate absorption (negative-infinite, default)");
+
+    const Integrator<double> q13 (Integrator<double>::Formula::Q13,
+                                  Integrator<double>::Formula::Q19);
+    result = q13.integrate_negative_infinite (
+        [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); }, 0.0,
+        4.0);
+    // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+-Infinity,+0%7D%5D>
+    assert_equals (0.642572, result, 0.5E-06,
+                   "integrate absorption (negative-infinite, Q13, Q19)");
+
+    const Integrator<double> q27 (Integrator<double>::Formula::Q27,
+                                  Integrator<double>::Formula::Q41);
+    result = q27.integrate_negative_infinite (
+        [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); }, 0.0,
+        4.0);
+    // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+-Infinity,+0%7D%5D>
+    assert_equals (0.642572, result, 0.5E-06,
+                   "integrate absorption (negative-infinite, Q27, Q41)");
   }
 
   void
@@ -142,7 +178,6 @@ private:
 
     const double result = integrator.integrate_infinite (
         [] (double x) -> double { return 1.0 - exp (-exp (-sq (x))); });
-
     // <https://www.wolframalpha.com/input/?i=integrate%5B1-Exp%5B-Exp%5B-x%5E2%5D%5D,%7Bx,+-Infinity,+Infinity%7D%5D>
     assert_equals (1.285145, result, 0.5E-06,
                    "integrate absorption (infinite)");
