@@ -12,9 +12,14 @@ using especia::Integrator;
 class Integrator_Test : public Unit_Test
 {
 public:
-  Integrator_Test(Integrator<double>::Formula p, Integrator<double>::Formula q) : integrator(p, q){ }
-  ~Integrator_Test() = default; 
-  
+  Integrator_Test (Integrator<double>::Formula p,
+                   Integrator<double>::Formula q)
+      : integrator (p, q)
+  {
+  }
+
+  ~Integrator_Test () = default;
+
 private:
   void
   test_integrate_constant ()
@@ -153,10 +158,15 @@ private:
 int
 main ()
 {
-  return Integrator_Test (Integrator<double>::Formula::Q13, Integrator<double>::Formula::Q19).run_testsuite () 
-    or Integrator_Test (Integrator<double>::Formula::Q13, Integrator<double>::Formula::Q27).run_testsuite ()
-    or Integrator_Test (Integrator<double>::Formula::Q13, Integrator<double>::Formula::Q41).run_testsuite ()
-    or Integrator_Test (Integrator<double>::Formula::Q19, Integrator<double>::Formula::Q27).run_testsuite ()
-    or Integrator_Test (Integrator<double>::Formula::Q19, Integrator<double>::Formula::Q41).run_testsuite ()
-    or Integrator_Test (Integrator<double>::Formula::Q27, Integrator<double>::Formula::Q41).run_testsuite ();
+  const Integrator<double>::Formula Q13 = Integrator<double>::Formula::Q13;
+  const Integrator<double>::Formula Q19 = Integrator<double>::Formula::Q19;
+  const Integrator<double>::Formula Q27 = Integrator<double>::Formula::Q27;
+  const Integrator<double>::Formula Q41 = Integrator<double>::Formula::Q41;
+
+  return Integrator_Test (Q13, Q19).run_testsuite ()
+         or Integrator_Test (Q13, Q27).run_testsuite ()
+         or Integrator_Test (Q13, Q41).run_testsuite ()
+         or Integrator_Test (Q19, Q27).run_testsuite ()
+         or Integrator_Test (Q19, Q41).run_testsuite ()
+         or Integrator_Test (Q27, Q41).run_testsuite ();
 }
