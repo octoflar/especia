@@ -157,10 +157,10 @@ private:
 int
 main ()
 {
-  const Integrator<>::Formula Q13 = Integrator<>::Formula::Q13;
-  const Integrator<>::Formula Q19 = Integrator<>::Formula::Q19;
-  const Integrator<>::Formula Q27 = Integrator<>::Formula::Q27;
-  const Integrator<>::Formula Q41 = Integrator<>::Formula::Q41;
+  const auto Q13 = Integrator<>::Formula::Q13;
+  const auto Q19 = Integrator<>::Formula::Q19;
+  const auto Q27 = Integrator<>::Formula::Q27;
+  const auto Q41 = Integrator<>::Formula::Q41;
 
   return Integrator_Test (Q13, Q19).run_testsuite ()
          or Integrator_Test (Q13, Q27).run_testsuite ()
