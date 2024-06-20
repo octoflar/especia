@@ -12,8 +12,7 @@ using especia::Integrator;
 class Integrator_Test : public Unit_Test
 {
 public:
-  Integrator_Test (Integrator<double>::Formula p,
-                   Integrator<double>::Formula q)
+  Integrator_Test (Integrator<>::Formula p, Integrator<>::Formula q)
       : integrator (p, q)
   {
   }
@@ -158,10 +157,10 @@ private:
 int
 main ()
 {
-  const Integrator<double>::Formula Q13 = Integrator<double>::Formula::Q13;
-  const Integrator<double>::Formula Q19 = Integrator<double>::Formula::Q19;
-  const Integrator<double>::Formula Q27 = Integrator<double>::Formula::Q27;
-  const Integrator<double>::Formula Q41 = Integrator<double>::Formula::Q41;
+  const Integrator<>::Formula Q13 = Integrator<>::Formula::Q13;
+  const Integrator<>::Formula Q19 = Integrator<>::Formula::Q19;
+  const Integrator<>::Formula Q27 = Integrator<>::Formula::Q27;
+  const Integrator<>::Formula Q41 = Integrator<>::Formula::Q41;
 
   return Integrator_Test (Q13, Q19).run_testsuite ()
          or Integrator_Test (Q13, Q27).run_testsuite ()
