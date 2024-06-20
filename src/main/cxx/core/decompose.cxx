@@ -107,11 +107,11 @@ especia::D_Decompose::lapack_do (real Z[], real w[]) const
     }
   else if (info > 0)
     {
-      throw runtime_error (message_int_err); // GCOV_EXCL_LINE
+      throw runtime_error (message_int_err); // LCOV_EXCL_LINE
     }
   else
     {
-      throw invalid_argument (message_ill_arg); // GCOV_EXCL_LINE
+      throw invalid_argument (message_ill_arg); // LCOV_EXCL_LINE
     }
 }
 
