@@ -11,6 +11,10 @@ using especia::Integrator;
 
 class Integrator_Test : public Unit_Test
 {
+public:
+  Integrator_Test(Integrator<double>::Formula p, Integrator<double>::Formula q) : integrator(p, q){ }
+  ~Integrator_Test() = default; 
+  
 private:
   void
   test_integrate_constant ()
@@ -143,12 +147,11 @@ private:
     run (this, &Integrator_Test::test_integrate_absorption_infinite);
   }
 
-  const Integrator<double> integrator
-      = Integrator<> (Integrator<>::Formula::Q13, Integrator<>::Formula::Q41);
+  const Integrator<double> integrator;
 };
 
 int
 main ()
 {
-  return Integrator_Test ().run_testsuite ();
+  return Integrator_Test (Integrator<double>::Formula::Q27, Integrator<double>::Formula::Q41).run_testsuite () and Integrator_Test (Integrator<double>::Formula::Q13, Integrator<double>::Formula::Q19).run_testsuite ();
 }
