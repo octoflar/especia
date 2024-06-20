@@ -26,7 +26,7 @@ private:
     const double result = integrator.integrate (
         [] (double x) -> double { return 1.0; }, 0.0, 1.0, 1.0E-12);
 
-    assert_equals (1.0, result, 1.0E-12, "integrate constant");
+    assert_equals (1.0, result, 0.5E-12, "integrate constant");
   }
 
   void
@@ -35,7 +35,7 @@ private:
     const double result = integrator.integrate (
         [] (double x) -> double { return x; }, 0.0, 1.0, 1.0E-12);
 
-    assert_equals (0.5, result, 1.0E-12, "integrate identity");
+    assert_equals (0.5, result, 0.5E-12, "integrate identity");
   }
 
   void
@@ -44,7 +44,7 @@ private:
     const double result = integrator.integrate (
         [] (double x) -> double { return x * x; }, 0.0, 1.0, 1.0E-12);
 
-    assert_equals (1.0 / 3.0, result, 1.0E-12, "integrate parabola");
+    assert_equals (1.0 / 3.0, result, 0.5E-12, "integrate parabola");
   }
 
   void
