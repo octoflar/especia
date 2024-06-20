@@ -153,5 +153,10 @@ private:
 int
 main ()
 {
-  return Integrator_Test (Integrator<double>::Formula::Q27, Integrator<double>::Formula::Q41).run_testsuite () and Integrator_Test (Integrator<double>::Formula::Q13, Integrator<double>::Formula::Q19).run_testsuite ();
+  return Integrator_Test (Integrator<double>::Formula::Q13, Integrator<double>::Formula::Q19).run_testsuite () 
+    or Integrator_Test (Integrator<double>::Formula::Q13, Integrator<double>::Formula::Q27).run_testsuite ()
+    or Integrator_Test (Integrator<double>::Formula::Q13, Integrator<double>::Formula::Q41).run_testsuite ()
+    or Integrator_Test (Integrator<double>::Formula::Q19, Integrator<double>::Formula::Q27).run_testsuite ()
+    or Integrator_Test (Integrator<double>::Formula::Q19, Integrator<double>::Formula::Q41).run_testsuite ()
+    or Integrator_Test (Integrator<double>::Formula::Q27, Integrator<double>::Formula::Q41).run_testsuite ();
 }
