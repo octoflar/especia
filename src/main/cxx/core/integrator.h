@@ -531,7 +531,8 @@ private:
     {
       using std::pop_heap;
 
-      pop_heap (parts.begin (), parts.end (), part_compare); // move largest to the end
+      pop_heap (parts.begin (), parts.end (),
+                part_compare); // move largest to the end
       P *popped = parts.back ();
       parts.pop_back (); // remove largest
 
