@@ -1,10 +1,28 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
 cff-version: 1.2.0
-message: "If you use this software, please cite it using these metadata."
+title: Especia - Evolutionary spectrum inversion and analysis
+message: >-
+  If you use this software, please cite it using these
+  metadata.
+type: software
 authors:
   - family-names: Quast
     given-names: Ralf
-    orcid: "https://orcid.org/0000-0002-6857-6503"
-title: Especia - Evolutionary spectrum inversion and analysis
-repository-code: "https://github.com/octoflar/especia"
-url: "https://octoflar.github.io/especia"
+    orcid: 'https://orcid.org/0000-0002-6857-6503'
+repository-code: 'https://github.com/octoflar/especia'
+url: 'https://octoflar.github.io/especia'
+abstract: >-
+  The Evolutionary spectrum inversion and analysis (Especia)
+  file set provides ISO C++ code for the inverse modelling
+  and analysis of intergalactic and interstellar absorption
+  line regions seen in QSO spectra.
+keywords:
+  - astronomy
+  - astrophysics
+  - cosmology
+  - intergalactic medium
+  - spectroscopy
+  - evolution strategies
 license: MIT
