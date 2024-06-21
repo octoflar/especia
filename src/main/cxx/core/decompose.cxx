@@ -98,7 +98,7 @@ especia::D_Decompose::lapack_do (real Z[], real w[]) const
 {
   integer info = 0;
 
-  LAPACK_NAME_R_TYPE (syevd)
+  LAPACK_NAME_R_TYPE (syevd) // LCOV_EXCL_LINE
   (job, uplo, n, &Z[0], n, w, &work[0], lwork, &iwork[0], liwork, info);
 
   if (info == 0)
@@ -122,7 +122,7 @@ especia::D_Decompose::lapack_inquire (integer n, integer &lwork,
   integer info;
   real work;
 
-  LAPACK_NAME_R_TYPE (syevd)
+  LAPACK_NAME_R_TYPE (syevd) // LCOV_EXCL_LINE
   (job, uplo, n, nullptr, n, nullptr, &work, -1, &liwork, -1, info);
 
   if (info == 0)
@@ -170,7 +170,7 @@ especia::R_Decompose::lapack_do (real Z[], real w[]) const
   integer m = 0;
   integer info = 0;
 
-  LAPACK_NAME_R_TYPE (syevr)
+  LAPACK_NAME_R_TYPE (syevr) // LCOV_EXCL_LINE
   (job, range, uplo, n, &awork[0], n, vl, vu, il, iu, abstol, m, w, Z, n,
    &isupp[0], &work[0], lwork, &iwork[0], liwork, info);
 
@@ -196,7 +196,7 @@ especia::R_Decompose::lapack_inquire (integer n, integer &lwork,
   integer m;
   real work;
 
-  LAPACK_NAME_R_TYPE (syevr)
+  LAPACK_NAME_R_TYPE (syevr) // LCOV_EXCL_LINE
   (job, range, uplo, n, nullptr, n, vl, vu, il, iu, abstol, m, nullptr,
    nullptr, n, nullptr, &work, -1, &liwork, -1, info);
 
@@ -245,7 +245,7 @@ especia::X_Decompose::lapack_do (real Z[], real w[]) const
   integer m = 0;
   integer info = 0;
 
-  LAPACK_NAME_R_TYPE (syevx)
+  LAPACK_NAME_R_TYPE (syevx) // LCOV_EXCL_LINE
   (job, range, uplo, n, &awork[0], n, vl, vu, il, iu, abstol, m, w, Z, n,
    &work[0], lwork, &iwork[0], &ifail[0], info);
 
@@ -270,7 +270,7 @@ especia::X_Decompose::lapack_inquire (integer n, integer &lwork)
   integer m;
   real work;
 
-  LAPACK_NAME_R_TYPE (syevx)
+  LAPACK_NAME_R_TYPE (syevx) // LCOV_EXCL_LINE
   (job, range, uplo, n, nullptr, n, vl, vu, il, iu, abstol, m, nullptr,
    nullptr, n, &work, -1, nullptr, nullptr, info);
 
