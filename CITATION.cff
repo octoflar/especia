@@ -10,15 +10,15 @@ type: software
 authors:
   - family-names: Quast
     given-names: Ralf
-    orcid: 'https://orcid.org/0000-0002-6857-6503'
+    orcid: "https://orcid.org/0000-0002-6857-6503"
 identifiers:
   - type: doi
     value: 10.5281/zenodo.785071
     description: >-
       This DOI represents all versions of the software, and
       will always resolve to the latest one.
-repository-code: 'https://github.com/octoflar/especia'
-url: 'https://octoflar.github.io/especia'
+repository-code: "https://github.com/octoflar/especia"
+url: "https://octoflar.github.io/especia"
 abstract: >-
   The Evolutionary spectrum inversion and analysis (Especia)
   file set provides ISO C++ code for the inverse modelling
