@@ -12,6 +12,10 @@ using especia::Integrator;
 class Integrator_Test : public Unit_Test
 {
 public:
+  /// Tests the default integrator.
+  Integrator_Test () : integrator () {}
+
+  /// Tests a custom integrator.
   Integrator_Test (Integrator<>::Formula p, Integrator<>::Formula q)
       : integrator (p, q)
   {
@@ -162,7 +166,8 @@ main ()
   const auto Q27 = Integrator<>::Formula::Q27;
   const auto Q41 = Integrator<>::Formula::Q41;
 
-  return Integrator_Test (Q13, Q19).run_testsuite ()
+  return Integrator_Test().run_testsuite () // test the default first
+         or Integrator_Test (Q13, Q19).run_testsuite ()
          or Integrator_Test (Q13, Q27).run_testsuite ()
          or Integrator_Test (Q13, Q41).run_testsuite ()
          or Integrator_Test (Q19, Q27).run_testsuite ()
