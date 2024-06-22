@@ -86,7 +86,7 @@ jobs:
         run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure --repeat until-pass:1
 
       - name: Upload coverage reports to Codecov
-        if: ${{env.BUILD_TYPE}} == 'Debug'
+        if: ${{env.BUILD_TYPE == 'Debug'}}
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
