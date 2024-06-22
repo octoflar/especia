@@ -142,8 +142,8 @@ protected:
     using std::endl;
     using std::stringstream;
 
-    if (actual == expected)
-      { // NaN safe
+    if (actual == expected) // NaN safe
+      {
         handle_passed (name);
       }
     else
@@ -174,8 +174,8 @@ protected:
     using std::abs;
     using std::stringstream;
 
-    if (abs (actual - expected) <= tolerance)
-      { // NaN safe
+    if (abs (actual - expected) <= tolerance) // NaN safe
+      {
         handle_passed (name);
       }
     else
