@@ -43,8 +43,11 @@ read (std::istream &is, std::vector<A> &a, size_t n, bool append = false)
         {
           ta.push_back (aa);
         }
+      else
+        {
+          break;
+        }
     }
-
   if (is)
     {
       if (append)
@@ -97,8 +100,11 @@ read (std::istream &is, std::vector<A> &a, std::vector<B> &b, size_t n,
           ta.push_back (aa);
           tb.push_back (bb);
         }
+      else
+        {
+          break;
+        }      
     }
-
   if (is)
     {
       if (append)
@@ -159,8 +165,11 @@ read (std::istream &is, std::vector<A> &a, std::vector<B> &b,
           tb.push_back (bb);
           tc.push_back (cc);
         }
+      else
+        {
+          break;
+        }
     }
-
   if (is)
     {
       if (append)
@@ -229,8 +238,11 @@ read (std::istream &is, std::vector<A> &a, std::vector<B> &b,
           tc.push_back (cc);
           td.push_back (dd);
         }
+      else
+        {
+          break;
+        }
     }
-
   if (is)
     {
       if (append)
@@ -308,8 +320,11 @@ read (std::istream &is, std::vector<A> &a, std::vector<B> &b,
           td.push_back (dd);
           te.push_back (ee);
         }
+      else
+        {
+          break;
+        }
     }
-
   if (is)
     {
       if (append)
@@ -388,13 +403,19 @@ read (std::istream &is, std::vector<A> &a, std::vector<B> &b,
 
           ist >> ss;
           if (!ist)
-            ss.erase ();
+            {
+              ss.erase ();
+            }
 
           ta.push_back (aa);
           tb.push_back (bb);
           tc.push_back (cc);
           td.push_back (dd);
           ts.push_back (ss);
+        }
+      else
+        {
+          break;
         }
     }
 
