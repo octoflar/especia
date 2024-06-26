@@ -18,23 +18,23 @@ function(project_url URL)
     set(PROJECT_URL ${URL} PARENT_SCOPE)
 endfunction()
 
-function(project_version_tag TAG)
-    if (${TAG} STREQUAL GIT_HASH)
+function(project_revision REV)
+    if (${REV} STREQUAL GIT)
         find_program(GIT git)
         if (GIT)
             execute_process(COMMAND ${GIT} rev-parse --short HEAD
-                    OUTPUT_VARIABLE GIT_HASH
+                    OUTPUT_VARIABLE REV
                     OUTPUT_STRIP_TRAILING_WHITESPACE
                     RESULT_VARIABLE STATUS
                     ERROR_QUIET)
             if (${STATUS} EQUAL 0)
-                set(PROJECT_VERSION_TAG ${GIT_HASH} PARENT_SCOPE)
+                set(PROJECT_REVISION ${REV} PARENT_SCOPE)
             else ()
-                set(PROJECT_VERSION_TAG "" PARENT_SCOPE)
+                set(PROJECT_REVISION "" PARENT_SCOPE)
             endif ()
         endif ()
     else ()
-        set(PROJECT_VERSION_TAG ${TAG} PARENT_SCOPE)
+        set(PROJECT_REVISION ${REV} PARENT_SCOPE)
     endif ()
 endfunction()
 
