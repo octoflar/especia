@@ -20,8 +20,8 @@ const std::string project_title = "@PROJECT_TITLE@"; // NOLINT
 /// The project version.
 const std::string project_version = "@PROJECT_VERSION@"; // NOLINT
 
-/// The project version control tag.
-const std::string project_version_tag = "@PROJECT_VERSION_TAG@"; // NOLINT
+/// The project version control identifier.
+const std::string project_revision = "@PROJECT_REVISION@"; // NOLINT
 
 /// The project digital object identifier (DOI).
 const std::string project_doi = "@PROJECT_DOI@"; // NOLINT
