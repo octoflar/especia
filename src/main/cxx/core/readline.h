@@ -103,7 +103,7 @@ read (std::istream &is, std::vector<A> &a, std::vector<B> &b, size_t n,
       else
         {
           break;
-        }      
+        }
     }
   if (is)
     {

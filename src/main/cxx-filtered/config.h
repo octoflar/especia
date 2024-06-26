@@ -34,7 +34,9 @@ const std::string project_url = "@PROJECT_URL@"; // NOLINT
 
 /// The project name, version, and revision.
 const std::string project_long_name
-    = project_revision.empty() ? "@PROJECT_NAME@-@PROJECT_VERSION@" : "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_REVISION@"; // NOLINT
+    = project_revision.empty ()
+          ? "@PROJECT_NAME@-@PROJECT_VERSION@"
+          : "@PROJECT_NAME@-@PROJECT_VERSION@ @PROJECT_REVISION@"; // NOLINT
 
 /// The composite name of the operating system the project is compiled for.
 const std::string system_name = "@CMAKE_SYSTEM@"; // NOLINT
