@@ -10,10 +10,10 @@ include(src/main/cmake/veclib.cmake)
 include(src/main/cmake/openmp.cmake)
 
 project(especia VERSION 2024.3 LANGUAGES C CXX)
-project_revision(GIT)
 project_title("Evolutionary spectrum inversion and analysis (Especia)")
-project_doi("https://doi.org/10.5281/zenodo.785071")
-project_doi_html("<a href=\\\"https://doi.org/10.5281/zenodo.785071\\\">doi.org/10.5281/zenodo.785071</a>")
+project_doi("10.5281/zenodo.785071")
+project_doi_html("<a href=\\\"https://zenodo.org/doi/10.5281/zenodo.785071\\\">10.5281/zenodo.785071</a>")
+project_rev(GIT)
 project_url("https://github.com/octoflar/especia")
 project_install_prefix($ENV{HOME})
 

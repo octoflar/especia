@@ -18,7 +18,7 @@ function(project_url URL)
     set(PROJECT_URL ${URL} PARENT_SCOPE)
 endfunction()
 
-function(project_revision REV)
+function(project_rev REV)
     if (${REV} STREQUAL GIT)
         find_program(GIT git)
         if (GIT)
