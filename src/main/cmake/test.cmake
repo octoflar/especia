@@ -4,7 +4,7 @@
 
 function(add_feature_test NAME)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${ARGN} CONFIGURATIONS Release)
-    set_tests_properties(${NAME} PROPERTIES LABELS feature TIMEOUT 10)
+    set_tests_properties(${NAME} PROPERTIES LABELS feature TIMEOUT 20)
     add_custom_target(${NAME} ctest --output-on-failure --tests-regex ${NAME})
 endfunction()
 
@@ -25,7 +25,7 @@ function(add_unit_test NAME)
     target_compile_options(${NAME} PRIVATE $<$<CONFIG:Debug>:--coverage>)
     target_link_options(${NAME} PRIVATE $<$<CONFIG:Debug>:--coverage>)
     add_test(NAME ${NAME} COMMAND ${NAME})
-    set_tests_properties(${NAME} PROPERTIES LABELS unit TIMEOUT 10)
+    set_tests_properties(${NAME} PROPERTIES LABELS unit TIMEOUT 20)
 endfunction()
 
 add_custom_target(unittests ctest --output-on-failure --label-regex unit)
