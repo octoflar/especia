@@ -245,7 +245,7 @@ typedef Melg<64, 311, 81, 19, 6364136223846793005ULL, 3935559000370003845ULL,
 ///
 /// Further reading:
 ///
-/// m. Matsumoto, T. Nishimura (1998).
+/// M. Matsumoto, T. Nishimura (1998).
 ///  *Mersenne Twister: A 623-dimensionally equidistributed uniform
 ///  pseudorandom number generator.* ACM Transactions on Modeling and Computer
 ///  Simulation, 8, 3, ISSN 1049-3301.
