@@ -23,7 +23,8 @@ namespace especia
 /// Implementing 64-bit maximally equidistributed F2-linear generators with
 /// Mersenne prime period. ACM Transactions on Mathematical Software, 44,
 /// 3, 30. <http://doi.acm.org/10.1145/3159444>,
-/// <http://arxiv.org/abs/1505.06582>
+/// <http://arxiv.org/abs/1505.06582>,
+/// <https://github.com/sharase/melg-64>
 ///
 /// @tparam w The the number of bits in a word.
 /// @tparam n The parameter n.
