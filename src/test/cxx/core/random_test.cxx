@@ -85,12 +85,12 @@ private:
   {
     const Pcg_32 pcg (42ULL, 54ULL);
 
-    assert_equals (0xa15c02b7ul, pcg.rand (), "test PCG-XSH-RR-64-32 (0)");
-    assert_equals (0x7b47f409ul, pcg.rand (), "test PCG-XSH-RR-64-32 (1)");
-    assert_equals (0xba1d3330ul, pcg.rand (), "test PCG-XSH-RR-64-32 (2)");
-    assert_equals (0x83d2f293ul, pcg.rand (), "test PCG-XSH-RR-64-32 (3)");
-    assert_equals (0xbfa4784bul, pcg.rand (), "test PCG-XSH-RR-64-32 (4)");
-    assert_equals (0xcbed606eul, pcg.rand (), "test PCG-XSH-RR-64-32 (5)");
+    assert_equals (0xa15c02b7UL, pcg.rand (), "test PCG-XSH-RR-64-32 (0)");
+    assert_equals (0x7b47f409UL, pcg.rand (), "test PCG-XSH-RR-64-32 (1)");
+    assert_equals (0xba1d3330UL, pcg.rand (), "test PCG-XSH-RR-64-32 (2)");
+    assert_equals (0x83d2f293UL, pcg.rand (), "test PCG-XSH-RR-64-32 (3)");
+    assert_equals (0xbfa4784bUL, pcg.rand (), "test PCG-XSH-RR-64-32 (4)");
+    assert_equals (0xcbed606eUL, pcg.rand (), "test PCG-XSH-RR-64-32 (5)");
   }
 
   void
