@@ -23,6 +23,7 @@ private:
     const word64 seeds[] = { 0x12345ULL, 0x23456ULL, 0x34567ULL, 0x45678ULL };
     const Melg19937_64 melg (4, seeds);
 
+    // <https://github.com/sharase/melg-64>
     assert_equals (16675511042081433281ULL, melg.rand (),
                    "test MELG-19937-64 (0)");
     assert_equals (8489326016911908102ULL, melg.rand (),
