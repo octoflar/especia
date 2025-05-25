@@ -1,4 +1,4 @@
-[![Graphical abstract](https://zenodo.org/record/4587314/files/fit.gif "Evolution strategies applied to the problem of line profile decomposition in QSO spectra")](https://doi.org/10.5281/zenodo.785424)
+[![Graphical abstract](assets/img/fit.gif "Evolution strategies applied to the problem of line profile decomposition in QSO spectra")](https://doi.org/10.5281/zenodo.785424)
 
 The Evolutionary spectrum inversion and analysis (Especia) file set provides ISO C++ code for the inverse modelling and
 analysis of intergalactic and interstellar absorption line regions seen in QSO spectra.
@@ -11,7 +11,11 @@ Additional highlights are the joint modelling and optimisation of the background
 semi-analytic convolution of the absorption term with the instrumental function. The method is explained in detail by
 [Quast et al. (2005)](http://dx.doi.org/10.1051/0004-6361:20041601).
 
-# Getting started [![Build Status](https://travis-ci.org/octoflar/especia.svg?branch=master)](https://travis-ci.org/octoflar/especia)
+[![CMake](https://github.com/octoflar/especia/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/cmake.yml)
+[![CodeQL](https://github.com/octoflar/especia/actions/workflows/codeql.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/codeql.yml)
+[![codecov](https://codecov.io/gh/octoflar/especia/graph/badge.svg?token=KDHIB58MBZ)](https://codecov.io/gh/octoflar/especia)
+
+# Getting started
 
 Especia enables you to analyse spectroscopic data. Though it has been developed for the analysis of astrophysical
 spectra, it is, in principle, applicable to spectroscopy in general. Read the notes and articles listed below to find
@@ -19,7 +23,7 @@ out whether this software is of interest to you.
 
 If you already have some understanding of these matters, you may want to consult the
 [especia wiki](https://github.com/octoflar/especia/wiki)
-before you clone the [source code reposirory](https://github.com/octoflar/especia)
+before you clone the [source code repository](https://github.com/octoflar/especia)
 or download a [release version](https://github.com/octoflar/especia/releases).
 
 Building Especia requires [CMake](https://cmake.org) and a compiler that implements
@@ -41,20 +45,20 @@ Typing `make install` will complete the build and move the executable files into
 # Release versions
 
 Release versions YYYY.N are numbered by the year of the release followed by a single-digit number, which enumerates the
-release within the release year. For example, version 2016.1 denotes the first release of the year 2016. The latest
-release version is [2016.1](https://github.com/octoflar/especia/releases/tag/2016.1).
+release within the release year. For example, version 2024.1 denotes the first release of the year 2024.
+The latest release version is [2024.2](https://github.com/octoflar/especia/releases/tag/2024.2)
 
 # Further reading
 
 Quast, Ralf; Baade, Robert; Reimers, Dieter (2005). *Evolution strategies applied to the problem of line profile
 decomposition in QSO spectra.*
-Astronomy and Astrophysics 431 (3) 1167. [DOI 10.1051/0004-6361:20041601](http://doi.org/10.1051/0004-6361:20041601).
+Astronomy and Astrophysics 431 (3) 1167. [DOI&nbsp;10.1051/0004-6361:20041601](http://doi.org/10.1051/0004-6361:20041601).
 
 Quast, Ralf (2017). *Evolution strategies applied to the problem of line profile decomposition in QSO spectra.*
-Zenodo. [DOI 10.5281/zenodo.785424](https://doi.org/10.5281/zenodo.785424).
+Zenodo. [DOI&nbsp;10.5281/zenodo.785424](https://doi.org/10.5281/zenodo.785424).
 
 Quast, Ralf (2017). *Covariance matrix adaption in evolution strategies.*
-Zenodo. [DOI 10.5281/zenodo.784203](https://doi.org/10.5281/zenodo.784203).
+Zenodo. [DOI&nbsp;10.5281/zenodo.784203](https://doi.org/10.5281/zenodo.784203).
 
 # Thanks!
 
