@@ -63,7 +63,7 @@ jobs:
       BUILD_TYPE: ${{ matrix.kind }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install Intel MKL
         run: |
