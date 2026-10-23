@@ -3,8 +3,6 @@
 /// @author Ralf Quast
 /// @date 2024
 /// @copyright MIT License
-#define ACCELERATE_NEW_LAPACK 1
-#define ACCELERATE_LAPACK_ILP64 0 
 #include <algorithm>
 
 #include "decompose.h"
