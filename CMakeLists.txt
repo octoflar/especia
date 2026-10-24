@@ -75,8 +75,6 @@ target_link_libraries(azafran ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
 
 add_executable(curcuma ${MAIN}/cxx/apps/curcuma.cxx ${CORE_SOURCES})
 target_link_libraries(curcuma ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
-target_link_options(curcuma PRIVATE $<$<CONFIG:Debug>:--coverage>)
-target_compile_options(curcuma PRIVATE $<$<CONFIG:Debug>:--coverage>)
 
 add_executable(oregano ${MAIN}/cxx/apps/oregano.cxx ${CORE_SOURCES})
 target_link_libraries(oregano ${VECLIB} ${CMAKE_THREAD_LIBS_INIT})
