@@ -5,7 +5,7 @@
 function(add_feature_test NAME)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${ARGN} CONFIGURATIONS Release)
     set_tests_properties(${NAME} PROPERTIES LABELS feature TIMEOUT 20)
-    add_custom_target(${NAME} ctest --output-on-failure --tests-regex ${NAME})
+    add_custom_target(${NAME} ctest -C Release --output-on-failure --tests-regex ${NAME})
 endfunction()
 
 add_custom_target(featuretests ctest --output-on-failure --label-regex feature)
@@ -13,7 +13,7 @@ add_custom_target(featuretests ctest --output-on-failure --label-regex feature)
 function(add_flavour_test NAME)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${ARGN} CONFIGURATIONS Release)
     set_tests_properties(${NAME} PROPERTIES LABELS flavour TIMEOUT 900)
-    add_custom_target(${NAME} ctest --verbose --tests-regex ${NAME})
+    add_custom_target(${NAME} ctest -C Release --verbose --tests-regex ${NAME})
 endfunction()
 
 add_custom_target(flavourtests ctest --verbose --label-regex flavour)
