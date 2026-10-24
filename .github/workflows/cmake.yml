@@ -41,8 +41,8 @@ jobs:
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
           ctest --output-on-failure --repeat until-pass:1
-          ctest --output-on-failure --repeat until-pass:1 -C Release -R curcuma_test
-          ctest --output-on-failure --repeat until-pass:1 -C Release -R azafran_test
+          ctest --output-on-failure --repeat until-pass:1 -C ${{env.BUILD_TYPE}} -R curcuma_test
+          ctest --output-on-failure --repeat until-pass:1 -C ${{env.BUILD_TYPE}} -R azafran_test
 
       - name: Upload coverage reports to Codecov
         if: ${{env.BUILD_TYPE == 'Debug'}}
@@ -88,8 +88,8 @@ jobs:
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
           ctest --output-on-failure --repeat until-pass:1
-          ctest --output-on-failure --repeat until-pass:1 -C Release -R curcuma_test
-          ctest --output-on-failure --repeat until-pass:1 -C Release -R azafran_test
+          ctest --output-on-failure --repeat until-pass:1 -C ${{env.BUILD_TYPE}} -R curcuma_test
+          ctest --output-on-failure --repeat until-pass:1 -C ${{env.BUILD_TYPE}} -R azafran_test
 
       - name: Upload coverage reports to Codecov
         if: ${{env.BUILD_TYPE == 'Debug'}}
