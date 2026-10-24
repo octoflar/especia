@@ -16,7 +16,7 @@ function(add_flavour_test NAME)
     add_custom_target(${NAME} ctest -C Release --verbose --tests-regex ${NAME})
 endfunction()
 
-add_custom_target(flavourtests ctest --verbose --label-regex flavour)
+add_custom_target(flavourtests ctest -C Release --verbose --label-regex flavour)
 
 function(add_unit_test NAME)
     add_executable(${NAME}
