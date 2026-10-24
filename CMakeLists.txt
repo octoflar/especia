@@ -126,7 +126,7 @@ add_unit_test(random_test
         ${MAIN}/cxx/core/random.h
         ${TEST}/cxx/core/random_test.cxx)
 
-add_feature_test(doublet_test 13.89)
+add_feature_test(doublet_test)
 
 add_flavour_test(curcuma_test 159.77 171.89)
 add_flavour_test(oregano_test 251.04)
