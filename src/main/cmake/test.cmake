@@ -5,7 +5,7 @@
 function(add_feature_test NAME)
     add_test(NAME ${NAME} COMMAND ./erun resources/${NAME}.html ${NAME}.html ${ARGN})
     set_tests_properties(${NAME} PROPERTIES LABELS feature TIMEOUT 20)
-    add_custom_target(${NAME} ctest -C Release --output-on-failure --tests-regex ${NAME})
+    add_custom_target(${NAME} ctest --output-on-failure --tests-regex ${NAME})
 endfunction()
 
 add_custom_target(featuretests ctest --output-on-failure --label-regex feature)
