@@ -14,6 +14,7 @@ semi-analytic convolution of the absorption term with the instrumental function.
 [![CodeQL Advanced](https://github.com/octoflar/especia/actions/workflows/codeql.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/codeql.yml)
 [![CMake](https://github.com/octoflar/especia/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/especia/actions/workflows/cmake.yml)
 [![codecov](https://codecov.io/gh/octoflar/especia/graph/badge.svg?token=KDHIB58MBZ)](https://codecov.io/gh/octoflar/especia)
+![code style: GNU](https://img.shields.io/badge/code_style-GNU-blue)
 
 # Getting started
 
